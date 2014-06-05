@@ -245,27 +245,25 @@ Route::group(array('prefix' =&gt; 'api/v1', 'before' =&gt; 'auth.basic'), functi
 
 <p>Algumas coisas estão acontecendo aqui:</p>
 
-=========================================================================================
-
 <ol>
-<li>This is going to respond to requests made to <code>http://example.com/api/v1/url</code>.</li>
-<li>This allows us to add extra routes, if we need to expand our API. For instance, if you add a user end-point, such as <code>/api/v1/user</code>.<br /></li>
-<li>There is also a naming mechanism in place for versioning our API. This gives us the opportunity to roll out new API versions without breaking older versions - We can simply create a <strong>v2</strong> route group, and point it to a new controller!</li>
+<li>Essa rota responderá a requisições feitas ao ponto de acesso <code>http://example.com/api/v1/url</code>.</li>
+<li>Isso permite que adicionemos rotas extras, se precisarmos expandir nossa API. Por exemplo, você pode adicionar um ponto de acesso aos usuários, como <code>/api/v1/user</code>.<br /></li>
+<li>Também há uma mecanismo de nomeação de rotas para o versionamento da API, permitindo que lancemos novas versões de nossa API sem quebrar a comaptibilidade com versões anteriores &ndash; basta criarmos um agrupamento de rotas chamado <strong>v2</strong> e apontá-lo para um novo controlador!</li>
 </ol>
 
-<p>Note: You may want to consider more advanced API versioning techniques, such as using an <code>Accept</code> header or subdomain which can help you point different API versions separate code bases.</p>
+<p>Nota: Talvez você possa querer usar técnicas mais avançadas de versionamento de APIs, como através do uso do cabeçalho HTTP <code>Accept</code> ou através de um subdomínio os quais podem ajudar você a ter diferentes conjuntos de código para cada uma das versões da API em questão.</p>
 
-<h3>Add the Functionality</h3>
+<h3>Adicionando Funcionalidade</h3>
 
-<p>Edit the new <code>app/controllers/UrlController.php</code> file:</p>
+<p>Edite o arquivo <code>app/controllers/UrlController.php</code> recém-criado:</p>
 
-<pre class="brush: php">// Edit this:
+<pre class="brush: php">// Edite isso:
 public function index()
 {
   return 'Hello, API';
 }</pre>
 
-<p>Let's test it:</p>
+<p>Vamos testá-lo:</p>
 
 <pre class="brush: php">$ curl -i localhost/l4api/public/index.php/api/v1/url
 HTTP/1.1 401 Unauthorized
@@ -284,14 +282,14 @@ Content-Type: text/html; charset=UTF-8
 
 Hello, API</pre>
 
-<p>We now have a resourceful controller with authentication working, and are ready to add functionality.</p>
+<p>Agora, temos um novo controlador inteligente com sistema de autenticação básica funcionando, pronto para adicionarmos funcionalidades.</p>
 
-<h3>Create a URL</h3>
+<h3>Salvando uma nova URL</h3>
 
-<p>Edit <code>app/controllers/UrlController.php</code>:</p>
+<p>Edite o arquivo <code>app/controllers/UrlController.php</code>:</p>
 
 <pre class="brush: php">/**
- * Store a newly created resource in storage.
+ * Salva um novo recurso - nova url - na base de dados
  *
  * @return Response
  */
@@ -302,8 +300,8 @@ public function store()
   $url-&gt;description = Request::get('description');
   $url-&gt;user_id = Auth::user()-&gt;id;
 
-  // Validation and Filtering is sorely needed!!
-  // Seriously, I'm a bad person for leaving that out.
+  // Filtragem e validação é extremamento necessário!!
+  // sério, sou um cara mal pode deixá-la de fora.
 
   $url-&gt;save();
 
@@ -314,33 +312,33 @@ public function store()
   );
 }</pre>
 
-<p>It's time to test this with another curl request. This one will send a POST request, which will correspond to the <code>store()</code> method created above.</p>
+<p>É hora de testar, usando outra requisição curl. Dessa vez, enviaremos uma requisição do tipo POST, que corresponderá ao método <code>store()</code> criado logo acima.</p>
 
-<pre class="brush: bash">$ curl -i --user firstuser:first_password -d 'url=http://google.com&amp;description=A Search Engine' localhost/l4api/public/index.php/api/v1/url
+<pre class="brush: bash">$ curl -i --user firstuser:first_password -d 'url=http://google.com&amp;description=Um mecanismo de busca' localhost/l4api/public/index.php/api/v1/url
 HTTP/1.1 201 Created
 Date: Tue, 21 May 2013 19:10:52 GMT
 Content-Type: application/json
 
 {"error":false,"message":"URL created"}</pre>
 
-<p>Cool! Let's create a few more, for both of our users.</p>
+<p>Ótimo! Vamos salvar algumas outras URL para os nossos dois usuários.</p>
 
-<pre class="brush: bash">$ curl --user firstuser:first_password -d 'url=http://fideloper.com&amp;description=A Great Blog' localhost/l4api/public/index.php/api/v1/url
+<pre class="brush: bash">$ curl --user firstuser:first_password -d 'url=http://fideloper.com&amp;description=Um otimo blog' localhost/l4api/public/index.php/api/v1/url
 
-$ curl --user seconduser:second_password -d 'url=http://digitalsurgeons.com&amp;description=A Marketing Agency' localhost/l4api/public/index.php/api/v1/url
+$ curl --user seconduser:second_password -d 'url=http://digitalsurgeons.com&amp;description=Agencia de Marketing' localhost/l4api/public/index.php/api/v1/url
 
-$ curl --user seconduser:second_password -d 'url=http://www.poppstrong.com/&amp;description=I feel for him' localhost/l4api/public/index.php/api/v1/url</pre>
+$ curl --user seconduser:second_password -d 'url=http://www.poppstrong.com/&amp;description=Tenho pena dele' localhost/l4api/public/index.php/api/v1/url</pre>
 
-<p>Next, let's create methods for retrieving URLs.</p>
+<p>Agora, criaremos os métodos que retornarão as URLs salvas.</p>
 
 <pre class="brush: php">/**
- * Display a listing of the resource.
+ * Mostra uma lista de recursos.
  *
  * @return Response
  */
 public function index()
 {
-  //Formerly: return 'Hello, API';
+  // Antes: return 'Hello, API';
 
   $urls = Url::where('user_id', Auth::user()-&gt;id)-&gt;get();
 
@@ -352,14 +350,14 @@ public function index()
 }
 
 /**
- * Display the specified resource.
+ * Mostra um recurso em específico
  *
  * @param  int  $id
  * @return Response
  */
 public function show($id)
 {
-  // Make sure current user owns the requested resource
+  // Garanta que o usuário atual é dono do recurso requisitado
   $url = Url::where('user_id', Auth::user()-&gt;id)
           -&gt;where('id', $id)
           -&gt;take(1)
@@ -372,7 +370,7 @@ public function show($id)
   );
 }</pre>
 
-<p>Let's test them out:</p>
+<p>Vamos testá-los:</p>
 
 <pre class="brush: bash">$ curl --user firstuser:first_password localhost/l4api/public/index.php/api/v1/url
 {
@@ -380,7 +378,7 @@ public function show($id)
   "urls": [
      {
           "created_at": "2013-02-01 02:39:10",
-          "description": "A Search Engine",
+          "description": "Um mecanismo de busca",
           "id": "2",
           "updated_at": "2013-02-01 02:39:10",
           "url": "http://google.com",
@@ -388,7 +386,7 @@ public function show($id)
       },
       {
           "created_at": "2013-02-01 02:44:34",
-          "description": "A Great Blog",
+          "description": "Um otimo blog",
           "id": "3",
           "updated_at": "2013-02-01 02:44:34",
           "url": "http://fideloper.com",
@@ -403,7 +401,7 @@ $ curl --user firstuser:first_password localhost/l4api/public/index.php/api/v1/u
   "urls": [
       {
           "created_at": "2013-02-01 02:39:10",
-          "description": "A Search Engine",
+          "description": "Um mecanismo de busca",
           "id": "2",
           "updated_at": "2013-02-01 02:39:10",
           "url": "http://google.com",
@@ -412,10 +410,10 @@ $ curl --user firstuser:first_password localhost/l4api/public/index.php/api/v1/u
   ]
 }</pre>
 
-<p>Almost done. Let's now allow users to delete a url.</p>
+<p>Quase pronto. Agora, precisamos permitir aos usuários apagar uma das URLs salvas.</p>
 
 <pre class="brush: php">/**
- * Remove the specified resource from storage.
+ * Remove o recurso requisitado da base de dados.
  *
  * @param  int  $id
  * @return Response
@@ -428,24 +426,24 @@ public function destroy($id)
 
   return Response::json(array(
       'error' =&gt; false,
-      'message' =&gt; 'url deleted'),
+      'message' =&gt; 'url apagada'),
       200
       );
 }</pre>
 
-<p>Now, we can delete a URL by using a DELETE request:</p>
+<p>Agora podemos apagar um URL ao fazer uma requisição do tipo DELETE:</p>
 
 <pre class="brush: bash">$ curl -i -X DELETE --user firstuser:first_password localhost/l4api/public/index.php/api/v1/url/1
 HTTP/1.1 200 OK
 Date: Tue, 21 May 2013 19:24:19 GMT
 Content-Type: application/json
 
-{"error":false,"message":"url deleted"}</pre>
+{"error":false,"message":"url apagada"}</pre>
 
-<p>Lastly, let's allow users to update a url.</p>
+<p>Por último, temos de permitir que os usuários atualizem as URLs.</p>
 
 <pre class="brush: php">/**
- * Update the specified resource in storage.
+ * Atualiza um recurso especificado na base de dados.
  *
  * @param  int  $id
  * @return Response
@@ -468,7 +466,7 @@ public function update($id)
 
   return Response::json(array(
       'error' =&gt; false,
-      'message' =&gt; 'url updated'),
+      'message' =&gt; 'url atualizada'),
       200
   );
 }</pre>
@@ -480,7 +478,7 @@ HTTP/1.1 200 OK
 Date: Tue, 21 May 2013 19:34:21 GMT
 Content-Type: application/json
 
-{"error":false,"message":"url updated"}
+{"error":false,"message":"url atualizada"}
 
 // View our changes
 $ curl --user seconduser:second_password localhost/l4api/public/index.php/api/v1/url/4
@@ -489,7 +487,7 @@ $ curl --user seconduser:second_password localhost/l4api/public/index.php/api/v1
   "urls": [
       {
           "created_at": "2013-02-01 02:44:34",
-          "description": "I feel for him",
+          "description": "Tenho pena dele",
           "id": "3",
           "updated_at": "2013-02-02 18:44:18",
           "url": "http://yahoo.com",
@@ -498,22 +496,22 @@ $ curl --user seconduser:second_password localhost/l4api/public/index.php/api/v1
   ]
 }</pre>
 
-<h2>And That's It</h2>
+<h2>Isso é tudo!</h2>
 
-<p>We now have the beginnings of a fully-functioning API. I hope that you've learned a lot about how to get an API underway with Laravel 4.</p>
+<p>Agora, temos o começo de uma API totalmente funcional. Espero que você tenha aprendido bastante sobre o funcionamento e criação de uma API com o Laravel 4.</p>
 
-<p>To recap, we achieved the following in this lesson:</p>
+<p>Para recapitular, nós fomos capazes de realizar as seguintes tarefas, seguinda esse tutorial:</p>
 
 <ol>
-<li>Install Laravel</li>
-<li>Create the database, using migrations and seeding</li>
-<li>Use Eloquent ORM models</li>
-<li>Authenticate with Basic Auth</li>
-<li>Set up Routes, including versioning the API</li>
-<li>Create the API functionality using Resourceful Controllers</li>
+<li>Instalar o Laravel</li>
+<li>Criar uma base de dados, usando migrações (<em>migrations</em>) e semeadores (<em>seeders</em>)</li>
+<li>Usar modelos baseados no ORM Eloquent</li>
+<li>Autenticar usuários com Autenticação HTTP básica</li>
+<li>Criar rotas, incluindo versionamento da API</li>
+<li>Criar as funcionalidades da API usando Controladores Inteligentes (<em>Resourceful Controllers</em>)</li>
 </ol>
 
-<h3>The Next Steps</h3>
+<h3>Os próximos passos</h3>
 
 <p>If you'd like to push your API up a notch, you might consider any of the following as a next step.</p>
 
