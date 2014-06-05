@@ -1,16 +1,16 @@
 <h1>Laravel 4: Começando com API RESTful</h1>
 
-<p>APIs RESTful dão difíceis! Há muitos aspectos quando se quer planejar e criar uma que seja bem sucedida. Por exemplo, alguns dos tópicos que você acabará lidando, incluem auntenticação, hipermídia/HATEOS, versionamento, limitação de uso e negociação de conteúdo. Ao invés de lidar com todos esses conceitos de uma vez, vamos focar nos conceitos básicos do REST. Criaremos alguns pontos de acesso JSON protegidos por um sistema básico de autenticação, e aprenderemos alguns truques do Laravel 4, no caminho.</p>
+<p>APIs RESTful são difíceis! Há muitos aspectos quando se quer planejar e criar uma que seja bem sucedida. Por exemplo, alguns dos tópicos que você acabará lidando, incluem auntenticação, hipermídia/HATEOS, versionamento, limitação de uso e negociação de conteúdo. Ao invés de lidar com todos esses conceitos de uma vez, vamos focar nos conceitos básicos do REST. Criaremos alguns pontos de acesso JSON protegidos por um sistema básico de autenticação, e aprenderemos alguns truques do Laravel 4 no caminho.</p>
 
 <h2>A Aplicação</h2>
 
-<p>Criaremos uma API para uma simples app de administração e leitura de artigos da internet. Os usuários serão capazes de criar, ler, atualizar e deleter URLs (links) que eles salvaram para ler depois. Pronto para começar?</p>
+<p>Criaremos uma API para uma simples app de administração e leitura de artigos da internet. Os usuários serão capazes de criar, ler, atualizar e apagar URLs (links) que eles salvaram para ler depois. Pronto para começar?</p>
 
 <h3>Instale o Laravel 4</h3>
 
-<p>Crie uma nova<a href="http://four.laravel.com/#install-laravel" title="install laravel">instalação do Laravel 4</a>. Se você sabe usar a linha de comando, use esse <a href="http://fideloper.com/laravel-4-uber-quick-start-with-auth-guide?utm_source=nettuts&amp;utm_medium=article&amp;utm_content=api&amp;utm_campaign=guest_author" title="laravel quick start">guia básico</a>. Se não, nós temos um <a href="http://net.tutsplus.com/tutorials/php/how-to-setup-laravel-4/" title="install laravel video">tutorial em vídeo, aqui no Nettuts+</a> que cobre todo o processo.</p>
+<p>Crie uma nova <a href="http://four.laravel.com/#install-laravel" title="install laravel">instalação do Laravel 4</a>. Se você sabe usar a linha de comando, use esse <a href="http://fideloper.com/laravel-4-uber-quick-start-with-auth-guide?utm_source=nettuts&amp;utm_medium=article&amp;utm_content=api&amp;utm_campaign=guest_author" title="laravel quick start">guia básico</a>. Se não, nós temos um <a href="http://net.tutsplus.com/tutorials/php/how-to-setup-laravel-4/" title="install laravel video">tutorial em vídeo, aqui no Nettuts+</a> que cobre todo o processo.</p>
 
-<p>Nós, primeiro, criaremos uma chave de criptografia para criptografia segura de senhas. Você pode fazer isso, facilmente, executando o comando a seguir, na linha de comando, tendo como diretório base o diretório raiz do seu projeto:</p>
+<p>Nós, primeiro, criaremos uma chave de criptografia para segurar as senhas. Você pode fazer isso, facilmente, executando o comando a seguir, na linha de comando, tendo como diretório base o diretório raiz do seu projeto:</p>
 
 <pre class="brush: bash">$ php artisan key:generate</pre>
 
@@ -29,7 +29,7 @@
 
 'key' =&gt; md5('altere esse texto para o que será sua chave de criptografia'),</pre>
 
-<p>Usando a função <code>md5()</code>, ao invés de uma cadeia de caracteres fixa, criará sua chave de criptografia. O método a linha de comando é mais aconselhável</p>
+<p>Usando a função <code>md5()</code>, ao invés de uma cadeia de caracteres fixa, criará sua chave de criptografia. O método da linha de comando é mais aconselhável</p>
 
 <h3>Base de Dados</h3>
 
@@ -67,7 +67,7 @@
 <pre class="brush: bash">$ php artisan migrate:make create_users_table --table=users --create
 $ php artisan migrate:make create_urls_table --table=urls --create</pre>
 
-<p>Esses comandos criar os arquivos necessários que usaremos para criar nossas tabelas no banco de dados. Nosso trabalho, agora, é preenchê-los com as colunas corretas das tabelas.</p>
+<p>Esses comandos criarão os arquivos necessários que usaremos para gerar nossas tabelas no banco de dados. Nosso trabalho, agora, é preenchê-los com as colunas corretas das tabelas.</p>
 
 <p>Edite o arquivo <code>app/database/migrations/SOME_DATE_create_users_table.php</code> e adicione o método <code>up()</code>:</p>
 
@@ -82,7 +82,7 @@ $ php artisan migrate:make create_urls_table --table=urls --create</pre>
   });
 }</pre>
 
-<p>No código acima, estamos criando os campos username (que deve ser único), password, bem como os campos *timestamps* (campos de criação e alteração do registro da tabela). Salve o arquivo e, agora, edite o arquivo <code>app/database/migrations/SOME_DATE_create_urls_table.php</code> (<em>SOME_DATE</em> está no formato YYYY_MM_DD_HMS), e adicione o método <code>up()</code>, como o abaixo:</p>
+<p>No código acima, estamos criando os campos username (que deve ser único), password, bem como os campos <em>timestamps</em> (campos de criação e alteração do registro da tabela). Salve o arquivo e, então, edite o <code>app/database/migrations/SOME_DATE_create_urls_table.php</code> (<em>SOME_DATE</em> está no formato YYYY_MM_DD_HMS), e adicione o método <code>up()</code>, como o abaixo:</p>
 
 <pre class="brush: php">public function up()
 {
@@ -125,7 +125,7 @@ class UserTableSeeder extends Seeder {
 
 }</pre>
 
-<p>depois disso, garanta que a classe semeadora seja executada quando a base de dados for semeada. Edite o arquivo <code>app/database/seeds/DatabaseSeeder.php</code>:</p>
+<p>Depois disso, garanta que a classe semeadora seja executada quando a base de dados tiver de ser semeada. Edite o arquivo <code>app/database/seeds/DatabaseSeeder.php</code>:</p>
 
 <pre class="brush: php">public function run()
 {
@@ -137,7 +137,7 @@ class UserTableSeeder extends Seeder {
 
 <h3>Execute as Migrações</h3>
 
-<p>São os comandos a seguir que permitiram os códigos acima criar as duas tabelas e inserir os usuários de exemplo.</p>
+<p>São os comandos a seguir que permitirão os códigos acima criar as duas tabelas e inserir os usuários de exemplo.</p>
 
 <pre class="brush: php">// Cria as duas tabelas
 $ php artisan migrate
@@ -147,9 +147,9 @@ $ php artisan db:seed</pre>
 
 <h2>Modelos</h2>
 
-<p>O Laravel 4 continua a usar o excelente ORM, Eloquent. Por conta disso, lidar com as chamadas à base de dados será moleza. Nós utilizaremos um modelo por tabela.</p>
+<p>O Laravel 4 continua a usar o excelente ORM Eloquent. Por conta disso, lidar com as chamadas à base de dados será moleza. Nós utilizaremos um modelo por tabela.</p>
 
-<p>Por sorte, o Laravel vem com um modelo User já preparado. A nós, somente resta a criação do modelo para nossa tabela urls.</p>
+<p>Por sorte, o Laravel vem com um modelo User já pronto. A nós, somente resta a criação do modelo para nossa tabela urls.</p>
 
 <p>Crie e edite o arquivo <code>app/models/Url.php</code>.</p>
 
@@ -181,7 +181,7 @@ class Url extends Eloquent {
 
 <h3>Rotas</h3>
 
-<p>Vamos testar a aplicação. Crie uma rota chamada <code>testauth</code>, e faça com que o filtro <code>auth.basic</code> seja executando logo antes dela.</p>
+<p>Vamos testar a aplicação. Crie uma rota chamada <code>testauth</code>, e faça com que o filtro <code>auth.basic</code> seja executado logo antes dela.</p>
 
 <p>Edite o arquivo <code>app/routes.php</code>:</p>
 
@@ -190,7 +190,7 @@ class Url extends Eloquent {
   return View::make('hello');
 }));</pre>
 
-<p>Podemos verificar se está funcionando, fazendo uma requisição curl. Da sua linha de comando, faça uma requisição para o endereço local da sua aplicação Laravel. No meu caso, se parece com isso (Sua URL, provavelmente, será diferente!):</p>
+<p>Podemos verificar se está funcionando, ao fazer uma requisição curl. Da sua linha de comando, faça uma requisição para o endereço local da sua aplicação Laravel. No meu caso, se parece com isso (Sua URL, provavelmente, será diferente!):</p>
 
 <pre class="brush: php">$ curl -i localhost/l4api/public/index.php/authtest
 HTTP/1.1 401 Unauthorized
@@ -243,7 +243,7 @@ Route::group(array('prefix' =&gt; 'api/v1', 'before' =&gt; 'auth.basic'), functi
   Route::resource('url', 'UrlController');
 });</pre>
 
-<p>Algumas coisas estão acontecendo aqui:</p>
+<p>Eis o que está acontecendo:</p>
 
 <ol>
 <li>Essa rota responderá a requisições feitas ao ponto de acesso <code>http://example.com/api/v1/url</code>.</li>
@@ -251,7 +251,7 @@ Route::group(array('prefix' =&gt; 'api/v1', 'before' =&gt; 'auth.basic'), functi
 <li>Também há uma mecanismo de nomeação de rotas para o versionamento da API, permitindo que lancemos novas versões de nossa API sem quebrar a comaptibilidade com versões anteriores &ndash; basta criarmos um agrupamento de rotas chamado <strong>v2</strong> e apontá-lo para um novo controlador!</li>
 </ol>
 
-<p>Nota: Talvez você possa querer usar técnicas mais avançadas de versionamento de APIs, como através do uso do cabeçalho HTTP <code>Accept</code> ou através de um subdomínio os quais podem ajudar você a ter diferentes conjuntos de código para cada uma das versões da API em questão.</p>
+<p>Nota: Talvez você possa querer usar técnicas mais avançadas de versionamento de APIs, como através do uso do cabeçalho HTTP <code>Accept</code> ou através de um subdomínio, os quais podem ajudar você a ter diferentes conjuntos de código para cada uma das versões da API em questão.</p>
 
 <h3>Adicionando Funcionalidade</h3>
 
@@ -301,7 +301,7 @@ public function store()
   $url-&gt;user_id = Auth::user()-&gt;id;
 
   // Filtragem e validação é extremamento necessário!!
-  // sério, sou um cara mal pode deixá-la de fora.
+  // sério, sou um cara mal por deixá-las de fora.
 
   $url-&gt;save();
 
@@ -410,7 +410,7 @@ $ curl --user firstuser:first_password localhost/l4api/public/index.php/api/v1/u
   ]
 }</pre>
 
-<p>Quase pronto. Agora, precisamos permitir aos usuários apagar uma das URLs salvas.</p>
+<p>Quase pronto. Agora, precisamos permitir os usuários apagar uma das URLs salvas.</p>
 
 <pre class="brush: php">/**
  * Remove o recurso requisitado da base de dados.
@@ -431,7 +431,7 @@ public function destroy($id)
       );
 }</pre>
 
-<p>Agora podemos apagar um URL ao fazer uma requisição do tipo DELETE:</p>
+<p>Agora podemos apagar uma URL ao fazer uma requisição do tipo DELETE:</p>
 
 <pre class="brush: bash">$ curl -i -X DELETE --user firstuser:first_password localhost/l4api/public/index.php/api/v1/url/1
 HTTP/1.1 200 OK
@@ -471,7 +471,7 @@ public function update($id)
   );
 }</pre>
 
-<p>To test URL updates, run:</p>
+<p>Para testar se conseguimos atualizar as URL, execute:</p>
 
 <pre class="brush: bash">$ curl -i -X PUT --user seconduser:second_password -d 'url=http://yahoo.com' localhost/l4api/public/index.php/api/v1/url/4
 HTTP/1.1 200 OK
@@ -513,14 +513,14 @@ $ curl --user seconduser:second_password localhost/l4api/public/index.php/api/v1
 
 <h3>Os próximos passos</h3>
 
-<p>If you'd like to push your API up a notch, you might consider any of the following as a next step.</p>
+<p>Se você quer ter uma API profissional, talvez queira dar uma olhada nas indicações a seguir.</p>
 
 <ol>
-<li>Validation (Hint: Laravel has a <a href="http://four.laravel.com/docs/validation">Validation library</a>).</li>
-<li>API-request error handling – It's still possible to receive HTML response on API requests (Hint: <a href="http://fideloper.com/laravel4-error-handling" title="laravel error handling">Laravel Error Handling</a>, plus Content Negotiation.)</li>
-<li>Content Negotiation - listening for the Accept header. (Hint: <a href="http://four.laravel.com/docs/requests#request-information" title="Laravel request class">Laravel's Request Class</a> will give you the request headers).</li>
-<li>Check out the <a href="http://groups.google.com/group/api-craft/">API Craft Google Group</a></li>
-<li>Learn about the <a href="http://fideloper.com/quick-caching-explanation?utm_source=nettuts&amp;utm_medium=article&amp;utm_content=api&amp;utm_campaign=guest_author" title="http cache">different types caching</a> and how Validation Caching can improve your API</li>
-<li><a href="leanpub.com/laravel-testing-decoded">Unit test your code</a></li>
-<li>Check out <a href="http://apigee.com/about/api-best-practices">Apigee's great API resources</a></li>
+<li>Validação (dica: Laravel tem uma <a href="http://four.laravel.com/docs/validation">biblioteca de Validação</a>).</li>
+<li>Tratamento de erros em requisições a API – É possível receber respostas HTML em requisições a APIs (Dica: <a href="http://fideloper.com/laravel4-error-handling" title="laravel error handling">Tratamento de Error no Laravel</a> e Negociação de Conteúdo)</li>
+<li>Negociação de Conteúdo - ouvindo ao cabeçalho HTTP <em>Accept</em>. (Dica: <a href="http://four.laravel.com/docs/requests#request-information" title="Laravel request class">A classe Request do Laravel</a> possibilita acesso aos cabeçalhos da requisição).</li>
+<li>Dê uma olhada no grupo <a href="http://groups.google.com/group/api-craft/">API Craft Google Group</a></li>
+<li>Aprenda sobre os <a href="http://fideloper.com/quick-caching-explanation?utm_source=nettuts&amp;utm_medium=article&amp;utm_content=api&amp;utm_campaign=guest_author" title="http cache">diferentes tipos de <em>caching</em></a> e como o <em>caching</em> de validação pode aprimorar sua API.</li>
+<li><a href="leanpub.com/laravel-testing-decoded">Realize testes unitários para sua App</a></li>
+<li>Confira a <a href="http://apigee.com/about/api-best-practices">ótima seleção da Apigee sobre APIs</a></li>
 </ol>
