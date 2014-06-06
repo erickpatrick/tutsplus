@@ -91,8 +91,8 @@ tabs.click(function() {&#13;
    .load('someHref', function() {} ); // exemplo&#13;
 });</pre>
 
-<h3>Filtering</h3>
-<p>Another (slightly less optimized) option would be to use filtering.</p>
+<h3>Filtros</h3>
+<p>Outra opção (um pouco menos otimizada), seria o uso de filtros.</p>
 
 <pre class="brush: js">&#13;
 var tabs = $('.tabs li');&#13;
@@ -101,15 +101,15 @@ tabs.click(function() {&#13;
  tabs.removeClass('active')&#13;
      .filter(this)&#13;
      .addClass('active')&#13;
-     .load('someHref', function() {} ); // example&#13;
+     .load('someHref', function() {} ); // exemplo&#13;
 });</pre>
 
-<p>The difference in this case, is that, rather than referencing <code>$(this)</code>, we’re using the <code>filter()</code> method to reduce the collection of list items down to only the one that was clicked.</p>
+<p>A diferença, nesse caso, é que, ao invés de referênciar a <code>$(this)</code>, estamos usando o método <code>filter()</code> para reduzir a coleção dos elementos da lista para, somente, aquele o qual foi clicado.</p>
 
-<h2>What You Should Take Away</h2>
+<h2>O Que Você Deve Lembrar</h2>
 
-<p>Yes, the world will not end if you reference <code>$('.tabs)</code> several times within a function. JavaScript engines are super fast these days. If you were to test the performance of doing so thousands of times, the difference in execution might be a couple hundred milliseconds. But still, the question remains: why would you?</p>
+<p>Sim, o mundo não vai acabar se você referenciar <code>$('.tabs)</code> várias vezes dentro de uma mesma função. Os motores JavaScript são bem rápidos, hoje em dia. Se você verificar a performance de continuar fazendo isso, executando milhares de vezes, a diferença seria só de algumas sentenas de milisegundos. Mas, a pergunta que fica é: Por que você continuaria a codificar assim?</p>
 
-<p>Sometimes, when we use massive abstractions like jQuery, it’s easy forget that <code>$('.tabs')</code> is an actual function that runs a good bit of code. It should also be noted that these concepts apply to JavaScript in general - not just jQuery. </p>
+<p>Algumas vezes, uando usamos abstrações gigantescas como a jQuery, é muito fácil esquecer que <code>$('.tabs')</code> é, na verdade, uma função que executa uma boa quantidade de código, por trás dos panos. Vale lembrar que esse conceito vale para o JavaScript como um todo, não só para o jQuery.</p>
 
-<p>Use the <code>caching</code> techniques described above to write cleaner code…for yourself.</p>
+<p>Use as técnicas de <code>caching</code>, descritas acima, para criar códigos melhores... para você mesmo.</p>
