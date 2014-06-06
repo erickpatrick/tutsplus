@@ -25,7 +25,7 @@ return false;&#13;
 
 <p>Imagine a DOM como uma piscina. Você lembra quando era criança e mergulhava até o fundo da piscina, procurando por moedas, enquanto seus pais agiam como se estivessem prestando atenção? Esse será nossa comparação com o mundo real.</p>
 
-<p>Toda vez que você usa <code>$('.algumaClasse')</code>, a jQuery pula na piscina (DOM), e procura pelas moedas (ou nodos). Então, quando você a referencia múltiplas vezes em uma mesma função, acontecerão vários mergulhos na piscina. Ou, para acabar com a comparação com o mundo real, é um desperdício e desnecessário. Por que fazer chamada ao jQuery se você não precisa? Você deveria usar uma técnica que chamamos de “caching.”</p>
+<p>Toda vez que você usa <code>$('.algumaClasse')</code>, a jQuery pula na piscina (DOM), e procura pelas moedas (ou nodos). Então, quando você a referencia múltiplas vezes em uma mesma função, acontecerão vários mergulhos na piscina. Ou, para acabar com a comparação com o mundo real, é um desperdício e desnecessário. Por que fazer chamada ao jQuery se você não precisa? Você deveria usar uma técnica que chamamos de “caching” (em português, armazenar).</p>
 
 <pre class="brush: js">$('.nav a').click(function(e) {&#13;
  var anchor = $(this);&#13;
@@ -43,44 +43,44 @@ return false;&#13;
 &#13;
 });</pre>
 
-<p>This is much cleaner. While modern browser engines are incredibly fast these days, and will make up for your poor coding as best as possible, you should still strive to write efficient code, and keep from wasting all that energy jumping in the pool. Now, technically, if you pass jQuery a DOM node, like <code>this</code>, it doesn't re-query the DOM. It simply returns a jQuery object. </p>
+<p>Assim está muito melhor. Embora os modernos motores dos navegadores sejam incrivelmente rápidos hoje em dia, sendo capazes de compensar pela suas más práticas de programação o máximo possível, você deveria, ainda assim, buscar escrever código eficiente e evitar gastar toda esse energia pulando na piscina. Agora, tecnicamente, se você passar para o jQuery um nodo da DOM, como o <code>this</code>, ele não vai na DOM novamente. Ele, simplesmente, retorna um objeto jQuery. </p>
 
 <blockquote><p>
-Just because the performance difference between the two will honestly be negligible, we write clean code for ourselves.</p>
+Só porque a diferença de performance entre as duas será desprezível, não quer dizer que devemos escrever código de qualquer jeito.</p>
 </blockquote>
 
-<h2>Example 2</h2>
+<h2>Exemplo 2</h2>
 
-<p> Let’s consider a slightly more complicated example: tabs.</p>
+<p>Consideremos um exemplo um pouco mais complicado: abas (do inglês, <em>tabs</em>).</p>
 
 <pre class="brush: js">$('.tabs li').css('position', 'relative');&#13;
 &#13;
 $('.tabs li').click(function() {&#13;
  $('.tabs li').removeClass('active');&#13;
  $(this).addClass('active');&#13;
- $(this).load('someHref', function() {} ); // example&#13;
+ $(this).load('someHref', function() {} ); // exemplo&#13;
  $(this).css('top', '1px');&#13;
 });</pre>
 
-<p>This code is all over the place. It’s ugly, and inefficient. Fix number one is to get rid of all that CSS. You’d only place styling in your JavaScript if the values were created dynamically. For example, if you need to calculate the precise location an element should be on the screen, you could use <code>.css('left', calculatedValue)</code>. In this case, it can all be exported to an external stylesheet. That leaves us with:</p>
+<p>Encontramos esse tipo de código por todos os lugares. Ele é feio e ineficiente. O primeiro ajuste é remover esse CSS daí. Você só deve colocar estilos CSS em seu código se ele tiver de ser criado dinamicamente. Por exemplo, se você precisa calcula a localização precisa que um elemento deveria estar na janela, você poderia usar <code>.css('left', valorCalculado)</code>. Nesse caso, porém, o valor pode ser colocado em um folha de estilo externa. O que nos deixa com:</p>
 
 <pre class="brush: js">$('.tabs li').click(function() {&#13;
  $('.tabs li').removeClass('active');&#13;
- $(this).load('someHref', function() {} ); // example&#13;
+ $(this).load('someHref', function() {} ); // exemplo&#13;
  $(this).addClass('active');&#13;
 });</pre>
 
-<p>Next, again, why do we keep querying the DOM for <code>.tabs li</code> and <code>$(this)</code>? Stop jumping in the pool. Let's “cache” the location of <code>.tabs li</code>.</p>
+<p>E, de novo, por que continuamos indo até a DOM, em busca de <code>.tabs li</code> e <code>$(this)</code>? Para de pular na piscina. Vamos armazenar o nodo <code>.tabs li</code>.</p>
 
 <pre class="brush: js">var tabs = $('.tabs li');&#13;
 &#13;
 tabs.click(function() {&#13;
  tabs.removeClass('active');&#13;
- $(this).load('someHref', function() {} ); // example&#13;
+ $(this).load('someHref', function() {} ); // exemplo&#13;
  $(this).addClass('active');&#13;
 });</pre>
 
-<p>Better, but we’re still calling <code>$(this)</code> twice, which isn’t a huge deal. But, from my experiences, if you don’t nip it in the bud early, this number quickly increases.</p>
+<p>Bem melhor, mas ainda estamos chamando <code>$(this)</code> duas vezes, o que não é tão problemático. Mas, pelas minhas experiências, se você não se preocupar com isso desde o começo, esse número aumenta bem rápido.</p>
 
 <pre class="brush: js">var tabs = $('.tabs li');&#13;
 &#13;
@@ -88,7 +88,7 @@ tabs.click(function() {&#13;
  var tab = $(this);&#13;
  tabs.removeClass('active');&#13;
  tab.addClass('active')&#13;
-   .load('someHref', function() {} ); // example&#13;
+   .load('someHref', function() {} ); // exemplo&#13;
 });</pre>
 
 <h3>Filtering</h3>
