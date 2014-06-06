@@ -1,0 +1,115 @@
+<h1>Quick Tip - jQuery Newbs: Stop Jumping in the Pool</h1>
+
+<p>Despite the fact that jQuery has been available for years now, there is still one frequent mistake that I see more than anything else.</p>
+
+<h2>Example #1 </h2>
+
+<p>Consider the following bit of code:</p>
+
+<pre class="brush: js">$('.nav a').click(function() {&#13;
+$(this).hide();&#13;
+$(this).css('color', 'red');&#13;
+$(this).show();&#13;
+&#13;
+alert('something else');&#13;
+&#13;
+$(this).hide();&#13;
+&#13;
+return false;&#13;
+});</pre>
+
+<p>The code above is overly complicated for a variety of reasons. Don’t worry over what the code actually does (it’s gibberish). Instead, I want you to look at all of those references to <code>$(this)</code>.</p>
+
+<blockquote class="pullquote"><p>Think of the DOM as a pool. </p>
+</blockquote>
+
+<p>Think of the DOM as a pool. Remember when you were a kid, and would dive into the pool for coins, while your parents acted like they were watching? That will be our real-world comparision.</p>
+
+<p>Every time you use <code>$('.someClass')</code>, jQuery jumps into the pool (DOM), and searches for that coin (or nodes). So, when you reference it multiple times within a function, that’s a lot of diving. Or, to cut the real-world comparison, it’s wasteful and unncessary. Why call upon jQuery if you don’t require it? You should perform what we call “caching.”</p>
+
+<pre class="brush: js">$('.nav a').click(function(e) {&#13;
+ var anchor = $(this);&#13;
+&#13;
+ anchor&#13;
+    .hide()&#13;
+   .css('color', 'red')&#13;
+   .show();&#13;
+&#13;
+ alert('something else');&#13;
+&#13;
+ anchor.hide();&#13;
+&#13;
+ e.preventDefault();&#13;
+&#13;
+});</pre>
+
+<p>This is much cleaner. While modern browser engines are incredibly fast these days, and will make up for your poor coding as best as possible, you should still strive to write efficient code, and keep from wasting all that energy jumping in the pool. Now, technically, if you pass jQuery a DOM node, like <code>this</code>, it doesn't re-query the DOM. It simply returns a jQuery object. </p>
+
+<blockquote><p>
+Just because the performance difference between the two will honestly be negligible, we write clean code for ourselves.</p>
+</blockquote>
+
+<h2>Example 2</h2>
+
+<p> Let’s consider a slightly more complicated example: tabs.</p>
+
+<pre class="brush: js">$('.tabs li').css('position', 'relative');&#13;
+&#13;
+$('.tabs li').click(function() {&#13;
+ $('.tabs li').removeClass('active');&#13;
+ $(this).addClass('active');&#13;
+ $(this).load('someHref', function() {} ); // example&#13;
+ $(this).css('top', '1px');&#13;
+});</pre>
+
+<p>This code is all over the place. It’s ugly, and inefficient. Fix number one is to get rid of all that CSS. You’d only place styling in your JavaScript if the values were created dynamically. For example, if you need to calculate the precise location an element should be on the screen, you could use <code>.css('left', calculatedValue)</code>. In this case, it can all be exported to an external stylesheet. That leaves us with:</p>
+
+<pre class="brush: js">$('.tabs li').click(function() {&#13;
+ $('.tabs li').removeClass('active');&#13;
+ $(this).load('someHref', function() {} ); // example&#13;
+ $(this).addClass('active');&#13;
+});</pre>
+
+<p>Next, again, why do we keep querying the DOM for <code>.tabs li</code> and <code>$(this)</code>? Stop jumping in the pool. Let's “cache” the location of <code>.tabs li</code>.</p>
+
+<pre class="brush: js">var tabs = $('.tabs li');&#13;
+&#13;
+tabs.click(function() {&#13;
+ tabs.removeClass('active');&#13;
+ $(this).load('someHref', function() {} ); // example&#13;
+ $(this).addClass('active');&#13;
+});</pre>
+
+<p>Better, but we’re still calling <code>$(this)</code> twice, which isn’t a huge deal. But, from my experiences, if you don’t nip it in the bud early, this number quickly increases.</p>
+
+<pre class="brush: js">var tabs = $('.tabs li');&#13;
+&#13;
+tabs.click(function() {&#13;
+ var tab = $(this);&#13;
+ tabs.removeClass('active');&#13;
+ tab.addClass('active')&#13;
+   .load('someHref', function() {} ); // example&#13;
+});</pre>
+
+<h3>Filtering</h3>
+<p>Another (slightly less optimized) option would be to use filtering.</p>
+
+<pre class="brush: js">&#13;
+var tabs = $('.tabs li');&#13;
+&#13;
+tabs.click(function() {&#13;
+ tabs.removeClass('active')&#13;
+     .filter(this)&#13;
+     .addClass('active')&#13;
+     .load('someHref', function() {} ); // example&#13;
+});</pre>
+
+<p>The difference in this case, is that, rather than referencing <code>$(this)</code>, we’re using the <code>filter()</code> method to reduce the collection of list items down to only the one that was clicked.</p>
+
+<h2>What You Should Take Away</h2>
+
+<p>Yes, the world will not end if you reference <code>$('.tabs)</code> several times within a function. JavaScript engines are super fast these days. If you were to test the performance of doing so thousands of times, the difference in execution might be a couple hundred milliseconds. But still, the question remains: why would you?</p>
+
+<p>Sometimes, when we use massive abstractions like jQuery, it’s easy forget that <code>$('.tabs')</code> is an actual function that runs a good bit of code. It should also be noted that these concepts apply to JavaScript in general - not just jQuery. </p>
+
+<p>Use the <code>caching</code> techniques described above to write cleaner code…for yourself.</p>
