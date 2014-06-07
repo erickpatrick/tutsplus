@@ -1,19 +1,19 @@
-<h1>Testing Laravel Controllers</h1>
+<h1>Testando Controladores no Laravel</h1>
 
-<p>Testing controllers isn't the easiest thing in the world. Well, let me rephrase that: testing them is a cinch; what's difficult, at least at first, is determining <em>what</em> to test.</p>
+<p>Testar controladores não é das tarefas mais fáceis. Bem, deixe-me reformular essa frase: Testar controladores é fácil, o problema, pelo menos inicialmente, é <em>o que se deve</em> testar</p>
 
-<p>Should a controller test verify text on the page? Should it touch the database? Should it ensure that variables exist in the view? If this is your first hay-ride, these things can be confusing! Let me help.</p>
+<p>Um teste de controlador deve verificar textos em uma página? Ele deveria comunicar-se com a base de dados? Deve garantir que certas variáveis existem nas visões? Se essa é sua primeira vez com testes, todos esses pontos podem ser bem confusos! Deixe-me ajudá-lo.</p>
 
 
 <blockquote>
-<p>Controller tests should verify responses, ensure that the correct database access methods are triggered, and assert that the appropriate instance variables are sent to the view.</p>
+<p>Testes de controladores devem verificar respostas enviadas; garantir que a chamada aos corretos métodos de acesso às bases de dados; e confirmar que as variáveis de instância corretas foram enviadas para a visão.</p>
 </blockquote>
 
-<p>The process of testing a controller can be divided into three pieces.</p>
+<p>O processo de testar um controlador pode ser dividido em três partes:</p>
 
-<ul><li><strong>Isolate:</strong> Mock all dependencies (perhaps excluding the <code>View</code>).</li>
-<li><strong>Call:</strong> Trigger the desired controller method.</li>
-<li><strong>Ensure:</strong> Perform assertions, verifying that the stage has been set properly.</li>
+<ul><li><strong>Isolamento:</strong> Simule todas as dependências (exceto, talvez a classe <code>View</code>).</li>
+<li><strong>Chamada:</strong> Chame o método desejado do controlador.</li>
+<li><strong>Garantia:</strong> Execute as declarações de teste, verificando se tudo foi feito corretamente.</li>
 </ul>
 
 <h2>The Hello World of Controller Testing</h2>
@@ -314,7 +314,7 @@ public function testIndex()
 $this-&gt;mock
   -&gt;shouldReceive('all')
   -&gt;once();</pre>
-  
+
 <p>Unfortunately, if you choose to forego coding to an interface, and instead inject the <code>Post</code> model into the controller, a bit of trickery has to be used in order to get around Eloquent's use of statics, which can clash with Mockery. This is why we hijack both the <code>Post</code> and <code>Eloquent</code> classes within the test's constructor, before the official versions have been loaded. This way, we have a clean slate to declare any expectations. The downside, of course, is that we can't default to any existing methods, through the use of Mockery methods, like <code>makePartial()</code>.</p>
 
 <h3>The IoC Container</h3>
@@ -475,7 +475,7 @@ public function store()
 Validator::shouldReceive('make')
   -&gt;once()
   -&gt;andReturn(Mockery::mock(['fails' =&gt; 'true']));</pre>
-  
+
 <p>From time to time, you'll find that a method that needs to be mocked should return an object, itself. Luckily, with Mockery, this is a piece of cake: we only need to create an anonymous mock, and pass an array, which signals the method name and response value, respectively. As such:</p>
 
 <pre class="brush: php">
