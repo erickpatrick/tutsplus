@@ -646,15 +646,15 @@ App::bind(
 
 <h2>Estrutura</h2>
 
-<p>So far in this lesson, our organization has been a bit lacking. IoC bindings in the <code>routes.php</code> file? All repositories grouped together in one directory? Sure, that may work in the beginning, but, very quickly, it'll become apparent that this doesn't scale.</p>
+<p>Até agora, nessa lição, não temos estruturado muito bem nosso projeto. Ligações de injeção de dependência no arquivo <code>routes.php</code>? Todos os respositórios agrupados em um único diretório? Claro, isso pode funcionar no começo, mas, rapidamente, será perceptível que isso não é escalável.</p>
 
-<p>In the final section of this article, we'll PSR-ify our code, and leverage service providers to register any applicable bindings.</p>
+<p>Na parte final desse artigo, nós tornaremos nosso código compatível com PSR, e lançaremos mão de provedores de serviço para registrar quaisquer ligações necessárias em nossa aplicação.</p>
 
 <blockquote>
-<p>PSR-0 defines the mandatory requirements that must be adhered to for autoloader interoperability.</p>
+<p>PSR-0 define o requerimentos obrigatórios para que haja interoperabilidade de autocarregamento de arquivos.</p>
 </blockquote>
 
-<p>A PSR-0 loader may be registered with Composer, via the <code>psr-0</code> object.</p>
+<p>Um carregador PSR-0 pode ser registrado com o Composer, através do objeto <code>psr-0</code>.</p>
 
 <pre class="brush: js">
 // composer.json
@@ -665,7 +665,7 @@ App::bind(
   }
 }</pre>
 
-<p>The syntax can be confusing at first. It certainly was for me. An easy way to decipher <code>"Way": "app/lib/"</code> is to think to yourself, "<em>The base folder for the <code>Way</code> namespace is located in <code>app/lib</code>.</em>" Of course, replace my last name with the name of your project. The directory structure to match this would be:</p>
+<p>A sintaxe é meiot confusa, no início. Para mim, com certeza foi. Uma maneira simples de entender a linha <code>"Way": "app/lib/"</code> é pensar mais ou menos assim: "<em>O diretório raiz para o <strong>namespace</strong> <code>Way</code> está localizado em <code>app/lib</code></em>". Claro, substitua meu sobrenome pelo nome do seu projeto. A esturtura de diretórios que combinará com o que indicamos, será:</p>
 
 <ul>
 <li>app/
@@ -674,7 +674,7 @@ App::bind(
 </ul></li>
 </ul>
 
-<p>Next, rather than grouping all repositories into a <code>repositories</code> directory, a more elegant approach might be to categorize them into multiple directories, like so:</p>
+<p>Assim, ao invés de agrupar todos os repositórios em um único diretório <code>repositories</code>, uma abordagem mais elegante seria de categorizá-los em vários diretórios. Dessa forma:</p>
 
 <ul><li>app/
 <ul><li>lib/</li>
