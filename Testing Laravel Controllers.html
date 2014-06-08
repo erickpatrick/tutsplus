@@ -485,13 +485,13 @@ Mockery::mock(['fails' =&gt; 'true'])</pre>
 
 <h2>Respositórios</h2>
 
-<p>To allow for optimal flexibility, rather than creating a direct link between your controller and an ORM, like Eloquent, it's better to code to an interface. The considerable advantage to this approach is that, should you perhaps need to swap out Eloquent for, say, Mongo or Redis, doing so literally requires the modification of a single line. Even better, the controller doesn't ever need to be touched.</p>
+<p>Para permitir flexibilidade total, ao invés de criarmos um link direto entre o controlador e um ORM, como o Eloquent, é melhor codificarmos usando interfaces. A vantagem em seguir essa abordagem é que, se precisar substituir o Eloquent por, digamos, Mongo ou Redis, poderá fazê-lo através da alteração de uma única linha de código. E o que é melhor: o controlador não precisa ser alterado.</p>
 
 <blockquote>
-<p>Repositories represent the data access layer of your application.</p>
+<p>Repositórios representando a camada de acesso aos dados da sua aplicação.</p>
 </blockquote>
 
-<p>What might an interface for managing the database layer of a <code>Post</code> look like? This should get you started.</p>
+<p>Como será que é uma interface para administrar a camada de base de dados de um<code>Post</code>? O código a seguir deve dar uma ideia.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -508,7 +508,7 @@ interface PostRepositoryInterface {
 
 }</pre>
 
-<p>This can certainly be extended, but we've added the bare minimum methods for the demo: <code>all</code>, <code>find</code>, and <code>create</code>. Notice that the repository interfaces are being stored within <code>app/repositories</code>. Because this folder is not autoloaded by default, we need to update the <code>composer.json</code> file for the application to reference it.</p>
+<p>Obviamente, podemos adicionar outras coisas, mas nós adicionamos o mínimo necessário para nossa demonstração: <code>all</code>, <code>find</code>, and <code>create</code>. Perceba que as interfaces de repositórios estão salvas no diretório <code>app/repositories</code>. Como esse diretório não é carregado automaticamente, precisamos atualizar nosso arquivo <code>composer.json</code> para que a aplicação possa referenciá-lo.</p>
 
 <pre class="brush: js">
 // composer.json
@@ -521,10 +521,10 @@ interface PostRepositoryInterface {
 }</pre>
 
 <blockquote>
-<p>When a new class is added to this directory, don't forget to <code>composer dump-autoload -o</code>. The <code>-o</code>, (<em>optimize</em>) flag is optional, but should always be used, as a best practice.</p>
+<p>Quando uma nova classe for adicionada a esse diretório, não esqueça de executar <code>composer dump-autoload -o</code>. O parâmetro <code>-o</code>, (<em>optimize</em>) é opcional, mas sempre deve ser utilizado, uma vez que é uma boa prática.</p>
 </blockquote>
 
-<p>If you attempt to inject this interface into your controller, Laravel will snap at you. Go ahead; try it out and see. Here's the modified <code>PostController</code>, which has been updated to inject an interface, rather than the <code>Post</code> Eloquent model.</p>
+<p>Se você tentar injetar essa interface em seu controlador, o Laravel reclamará com você, lançando um erro. Vá em frente, tente por conta própria e veja. Eis uma versão modificada do <code>PostController</code>, atualizada para injetar a interface ao invés de um modelo Eloquent do tipo <code>Post</code>.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -551,7 +551,7 @@ class PostsController extends BaseController {
 
 }</pre>
 
-<p>If you run the server and view the output, you'll be met with the dreaded (but beautiful) Whoops error page, declaring that "<em>PostRepositoryInterface is not instantiable.</em>"</p>
+<p>Se você executar o servidor e visualizar o resultado, se deparará com a temida (mas, bonita) página de erro "Whoops", informando que "<em>PostRepositoryInterface is not instantiable.</em>" (em português: "PostRepositoryInterface não é instanciável").</p>
 
 <figure class="tutorial_image"><img src="http://cdn.tutsplus.com/net/uploads/2013/04/instantiable.jpg" data-original-url="http://cdn.tutsplus.com/net.tutsplus.com/uploads/2013/04/instantiable.jpg" alt="Not Instantiable" /><br /></figure>
 
