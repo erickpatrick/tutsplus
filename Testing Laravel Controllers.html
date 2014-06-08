@@ -207,36 +207,36 @@ public function testIndex()
 
 <p>Essa seção dependerá bastante da biblioteca Mockery. Por favor, revise esse capítulo do <a href="http://leanpub.com/laravel-testing-decoded">meu livro</a>, se você ainda não a conhece.</p>
 
-<h3>Required Refactoring</h3>
+<h3>Refatoração Necessária</h3>
 
-<p>Unfortunately, so far, we've structured the code in a way that makes it virtually impossible to test.</p>
+<p>Infelizmente, até agora, nós estruturamos nosso código de uma forma que, virtualmente, é impossível de testar.</p>
 
 <pre class="brush: php">
 # app/routes.php
 
 Route::get('posts', function()
 {
-  // Ouch. We can't test this!!
+  // Oh, não! Não podemos testar isso!!
   $posts = Post::all();
 
   return View::make('posts.index')
       -&gt;with('posts', $posts);
 });</pre>
 
-<p>This is precisely why it's considered bad practice to nest Eloquent calls into your controllers. Don't confuse Laravel's facades, which are testable and can be swapped out with mocks (<code>Queue::shouldReceive()</code>), with your Eloquent models. The solution is to inject the database layer into the controller through the constructor. This requires some refactoring.</p>
+<p>É, exatamente, por isso que é considerado má prática inserir chamadas ao Eloquent em seus controladores. Não confunda com as <em>facade</em> do Laravel, que são testáveis e podem ser substituídas por simulacros (<code>Queue::shouldReceive()</code>), com seus modelos Eloquent. A solução é injetar a camada da base de dados no controlador através do método construtor. Isso requer refatoração.</p>
 
 <blockquote>
-<p><strong>Warning:</strong> Storing logic within route callbacks is useful for small projects and APIs, but they make testing incredibly difficult. For applications of any considerable size, use controllers.</p>
+<p><strong>Atenção:</strong> Manter a lógica de um projeto dentro das rotas é útil qual ele é pequeno ou quando se quer criar uma API, mas isso torna a testabilidade do projeto incrivelmente difícil. Para aplicações de tamanhos consideráveis, use controladores.</p>
 </blockquote>
 
-<p>Let's register a new resource by replacing   the <code>posts</code> route with:</p>
+<p>Registremos um novo recurso, substituindo a rota <code>posts</code> com:</p>
 
 <pre class="brush: php">
 # app/routes.php
 
 Route::resource('posts', 'PostsController');</pre>
 
-<p>...and create the necessary resourceful controller with Artisan.</p>
+<p>...e criemos o controlador inteligente utilizando o Artisan.</p>
 
 <pre class="brush: bash">
 $ php artisan controller:make PostsController
