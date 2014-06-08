@@ -72,9 +72,9 @@ public function __call($method, $args)
   throw new BadMethodCallException;
 }</pre>
 
-<p>Now, you're free to write <code>$this-&gt;get('posts')</code> and achieve the exact same result as the previous two examples. As noted above, however, let's stick with the framework's base functionality for simplicity's sake.</p>
+<p>Agora, você já pode escrever algo como <code>$this-&gt;get('posts')</code> e obter o mesmo resultado dos dois exemplos anteriores. Mas, como disse, vamos continuar só com as funcionalidades básicas da framework, para não complicar as coisas.</p>
 
-<p>To make the test pass, we only need to prepare the proper route.</p>
+<p>Para fazer o teste passar, só precisamos criar a rota apropriada.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -83,18 +83,18 @@ public function __call($method, $args)
 
 Route::get('posts', function()
 {
-  return 'all posts';
+  return 'todos os posts';
 });</pre>
 
-<p>Running <code>phpunit</code> again will return us to green.</p>
+<p>Executar, novamente, <code>phpunit</code> fará com que voltemos ao estado verde.</p>
 
-<h2>Laravel's Helper Assertions</h2>
+<h2>As Declarações Auxiliares do Laravel</h2>
 
-<p>A test that you'll find yourself writing repeatedly is one that ensures that a controller passes a particular variable to a view. For example, the <code>index</code> method of <code>PostsController</code> should pass a <code>$posts</code> variable to its associated view, right? That way, the view can filter through all posts, and display them on the page. This is an important test to write!</p>
+<p>Um teste que você criará bastante, é aquele que garante que o controlador passou uma variável em particular para a visão. Por exemplo, o método <code>index</code> de <code>PostsController</code> deve passar uma variável <code>$posts</code> à sua visão correspondente, certo? Dessa forma, a visão pode percorrer por todos os posts e mostrá-los na página. Esse é um teste importante de se escrever!</p>
 
-<p>If it's that common a task, then, once again, wouldn't it make sense for Laravel to provide a helper assertion to accomplish this very thing? Of course it would. And, of course, Laravel does!</p>
+<p>E, se isso é tão comum, mais uma vez, não faria sentido o Laravel provê declarações auxiliares para que possamos realizar essa tarefa? Claro que faria. E, claro, o Laravel provê!</p>
 
-<p><code>Illuminate\Foundation\Testing\TestCase</code> includes a number of methods that will drastically reduce the amount of code needed to perform basic assertions. This list includes:</p>
+<p>A classe <code>Illuminate\Foundation\Testing\TestCase</code> inclui uma série de métodos que reduzem, drasticamente, a quantidade de código necessária para realizar essas declarações de testes, básicas. A lista inclui:</p>
 
 <ul>
 <li><code>assertViewHas</code></li>
