@@ -383,50 +383,50 @@ public function testStore()
   $this-&gt;assertRedirectedToRoute('posts.index');
 }</pre>
 
-<h2>Paths</h2>
+<h2>Caminhos</h2>
 
-<p>One thing that we haven't considered in this test is validation. There should be two separate paths through the <code>store</code> method, dependent upon whether the validation passes:</p>
+<p>Algo que não consideramos nesse teste foi a validação. Devemos ter dois caminhos diferentes, como resultado do método <code>store</code>, dependendo se a validação de dados passa ou não:</p>
 
 <ol>
-<li>Redirect back to the "Create Post" form, and display the form validation errors.<br /></li>
-<li>Redirect to the collection, or the named route, <code>posts.index</code>.<br /></li>
+<li>Redirecione de volta para o formulário de "criação de post" e mostre os erros de validação.<br /></li>
+<li>Redirecione para a coleção ou para a rota nomeada <code>posts.index</code>.<br /></li>
 </ol>
 
 <blockquote>
-<p>As a best practice, each test should represent but one path through your code.</p>
+<p>As melhores práticas indicam que cada teste deve prepresentar somente um caminho em seu código.</p>
 </blockquote>
 
-<p>This first path will be for failed validation.</p>
+<p>O primeiro caminho será para erro na validação.</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
 
 public function testStoreFails()
 {
-  // Set stage for a failed validation
+  // Prepara para a validação falhar
   Input::replace(['title' =&gt; '']);
 
   $this-&gt;app-&gt;instance('Post', $this-&gt;mock);
 
   $this-&gt;call('POST', 'posts');
 
-  // Failed validation should reload the create form
+  // Erro na validação deve recarregar o formulário de criação de post
   $this-&gt;assertRedirectedToRoute('posts.create');
 
-  // The errors should be sent to the view
+  // Os erros devem ser enviados para a visão
   $this-&gt;assertSessionHasErrors(['title']);
 }</pre>
 
-<p>The code snippet above explicitly declares which errors should exist. Alternatively, you may omit the argument to <code>assertSessionHasErrors</code>, in which case it will merely verify that a message bag has been flashed (in translation, your Redirection includes <code>withErrors($errors)</code>).</p>
+<p>O código acima declara, explicitamente, quais erros devem existir. Alternativamente, você pode emitir o argumento de <code>assertSessionHasErrors</code>, e, nesse caso, ele verificará se uma mensagem de erro foi enviada junto (traduzindo, se seu redirecionamento com Redirection inclui a chamada ao método <code>withErrors($errors)</code>).</p>
 
-<p>Now for the test that handles successful validation.</p>
+<p>Agora, o teste que lida com validação correta.</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
 
 public function testStoreSuccess()
 {
-  // Set stage for successful validation
+  // Prepara para a validação ocorrer corretamente
   Input::replace(['title' =&gt; 'Foo Title']);&lt;/p&gt;
 
   $this-&gt;mock
@@ -437,11 +437,11 @@ public function testStoreSuccess()
 
   $this-&gt;call('POST', 'posts');
 
-  // Should redirect to collection, with a success flash message
+  // Deve redirecionar para a coleção com uma mensagem de sucesso
   $this-&gt;assertRedirectedToRoute('posts.index', ['flash']);
 }</pre>
 
-<p>The production code for these two tests might look like:</p>
+<p>O código produção de um possível aplicativo que valide esses dois testes seria mais ou menos assim:</p>
 
 <pre class="brush: php">
 # app/controllers/PostsController.php
@@ -450,8 +450,8 @@ public function store()
 {
   $input = Input::all();
 
-  // We'll run validation in the controller for convenience
-  // You should export this to the model, or a service
+  // Nós executaremos a validação no controlador por conveniência
+  // Você deveria exportar isso para um modelo ou serviço
   $v = Validator::make($input, ['title' =&gt; 'required']);
 
   if ($v-&gt;fails())
@@ -464,10 +464,10 @@ public function store()
   $this-&gt;post-&gt;create($input);
 
   return Redirect::route('posts.index')
-      -&gt;with('flash', 'Your post has been created!');
+      -&gt;with('flash', 'Seu post foi criado');
 }</pre>
 
-<p>Notice how the <code>Validator</code> is nested directly in the controller? Generally, I'd recommend that you abstract this away to a service. That way, you can test your validation in isolation from any controllers or  routes. Nonetheless, let's leave things as they are for simplicity's sake. One thing to keep in mind is that we aren't mocking the <code>Validator</code>, though you certainly could do so. Because this class is a facade, it can easily be swapped out with a mocked version, via the Facade's <code>shouldReceive</code> method, without us needing to worry about injecting an instance through the constructor. Win!</p>
+<p>Você percebeu como o <code>Validator</code> foi colocado dentro do controlador? Geralmente, recomendamos que você abstraia esse trecho em um serviço. Dessa forma, você pode testar a validação de forma isolada, longe dos controladores e rotas. No entanto, deixemos as coisas como estão, para facilitar. Algo que você tem de ter em mente é que não estamos simulando a classe <code>Validator</code>, embora você, certamente, possa faze-lo. Como essa classe é uma <em>facade</em>, ela pode, facilmente, ser substituida por uma versão simulada, através do método <code>shouldReceive</code> da classe Facade, sem nos preocuparmos em injetar uma instância através do construtor. Vitória!</p>
 
 <pre class="brush: php">
 # app/controllers/PostsController.php
