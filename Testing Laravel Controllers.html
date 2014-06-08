@@ -319,16 +319,16 @@ $this-&gt;mock
 
 <h3>O Recipente de Inversão de Controle</h3>
 
-<p>Laravel's IoC container drastically eases the process of injecting dependencies into your classes. Each time a controller is requested, it is resolved out of the IoC container. As such, when we need to declare that a mock version of <code>Post</code> should be used for testing, we only need to provide Laravel with the instance of <code>Post</code> that should be used.</p>
+<p>O recipiente de Inversão de Controle (<em>IoC Container</em>) do Laravel facilita o processo de injeção de dependencias em suas classes. Cada vez que um controlador é requisitado, ele é resolvido direto desse recipiente. Dessa forma, quando nós precisarmos declarar que uma versão simulada de <code>Post</code> dever ser usada nos testes, nós só precisamos prover ao Laravel a instância de <code>Post</code> que deverá ser usada.</p>
 
 <pre class="brush: php">
 $this-&gt;app-&gt;instance('Post', $this-&gt;mock);</pre>
 
 <blockquote>
-<p>Think of this code as saying, "<em>Hey Laravel, when you need an instance of <code>Post</code>, I want you to use my mocked version.</em>" Because the app extends the <code>Container</code>, we have access to all IoC methods directly off of it.</p>
+<p>Imagine esse código como, "<em>Ei, Laravel, quando precisar de uma instância de <code>Post</code>, eu quero que você use essa minha versão simulada.</em>" Uma vez que a app estende a classe <code>Container</code>, temos acesso a todos os métodos do recipiente de inversão de controle, diretamente dela.</p>
 </blockquote>
 
-<p>Upon instantiation of the controller, Laravel leverages the power of PHP reflection to read the typehint and inject the dependency for you. That's right; you don't have to write a single binding to allow for this; it's automated!</p>
+<p>Durante a instanciação do controlador, o Laravel faz uso das capacidade reflexivas do PHP para ler a indução de tipo usada e injetar a dependência correta para você. É isso. Você não precisa escrever uma linha de código sequer para que isso aconteça. Tudo é automatizado!</p>
 
 <h2>Redirections</h2>
 
