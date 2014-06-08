@@ -476,14 +476,14 @@ Validator::shouldReceive('make')
   -&gt;once()
   -&gt;andReturn(Mockery::mock(['fails' =&gt; 'true']));</pre>
 
-<p>From time to time, you'll find that a method that needs to be mocked should return an object, itself. Luckily, with Mockery, this is a piece of cake: we only need to create an anonymous mock, and pass an array, which signals the method name and response value, respectively. As such:</p>
+<p>De tempos em tempos, você descobrirá ue um método que precisa ser simulado deve retornar um objeto: o próprio objeto. Felizmente, com Mockery, isso é muito fácil: só precisamos criar uma simulação anônima e passar um array, contendo o nome do método e o valor de resposta, respectivamente. Dessa forma:</p>
 
 <pre class="brush: php">
 Mockery::mock(['fails' =&gt; 'true'])</pre>
 
-<p>will prepare an object, containing a <code>fails()</code> method that returns <code>true</code>.</p>
+<p>Isso preparará um objeto com um método <code>fails()</code> que retorna<code>true</code>.</p>
 
-<h2>Repositories</h2>
+<h2>Respositórios</h2>
 
 <p>To allow for optimal flexibility, rather than creating a direct link between your controller and an ORM, like Eloquent, it's better to code to an interface. The considerable advantage to this approach is that, should you perhaps need to swap out Eloquent for, say, Mongo or Redis, doing so literally requires the modification of a single line. Even better, the controller doesn't ever need to be touched.</p>
 
