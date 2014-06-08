@@ -555,9 +555,9 @@ class PostsController extends BaseController {
 
 <figure class="tutorial_image"><img src="http://cdn.tutsplus.com/net/uploads/2013/04/instantiable.jpg" data-original-url="http://cdn.tutsplus.com/net.tutsplus.com/uploads/2013/04/instantiable.jpg" alt="Not Instantiable" /><br /></figure>
 
-<p>If you think about it, of course the framework is squawking! Laravel is smart, but it's not a mind reader. It needs to be told which implementation of the interface should be used within the controller.</p>
+<p>Se você parar para analisar, ficará claro o porque da framework reclamar. Laravel é inteligente, mas não lê mentes. Ela precisa saber qual a implementação da interface ela precisa usar em seu controlador.</p>
 
-<p>For now, let's add this binding to <code>app/routes.php</code>. Later, we'll instead make use of service providers to store this sort of logic.</p>
+<p>Por hora, adicionaremos essa ligação no arquivo<code>app/routes.php</code>. Futuramente, lançaremos mão dos provedores de serviços para guardar esse tipo de código.</p>
 
 <pre class="brush: php">
 # app/routes.php
@@ -567,9 +567,9 @@ App::bind(
   'Repositories\EloquentPostRepository'
 );</pre>
 
-<p>Verbalize this function call as, "<em>Laravel, baby, when you need an instance of <code>PostRepositoryInterface</code>, I want you to use <code>EloquentPostRepository</code>.</em>"</p>
+<p>Essa chamada de método pode ser verbalizada como:, "<em>Laravel, querido, quando precisar de uma instância de <code>PostRepositoryInterface</code>, quero que use a <code>EloquentPostRepository</code>.</em>"</p>
 
-<p><code>app/repositories/EloquentPostRepository</code> will simply be a wrapper around Eloquent that implements <code>PostRepositoryInterface</code>. This way, we're not restricting the API (and every other implementation) to Eloquent's interpretation; we can name the methods however we wish.</p>
+<p><code>app/repositories/EloquentPostRepository</code> será um invólucro usando o Eloquent que implementará a <code>PostRepositoryInterface</code>. Dessa forma, não estamos restringindo a API (ou qualquer outra implementação) ao uso da versão da Eloquent. Podemos nomear os métodos como quisermos.</p>
 
 <pre class="brush: php">
 &lt;?php namespace Repositories;
@@ -599,10 +599,10 @@ public function create($input)
 }</pre>
 
 <blockquote>
-<p>Some might argue that the <code>Post</code> model should be injected into this implementation for testability purposes. If you agree, simply inject it through the constructor, per usual.</p>
+<p>Alguns argumentam que o modelo <code>Post</code> deveria ser injetado nessa implementação para os propósitos dos testes. Se você concordar com isso, simplesmente injete-o através do construtor, como normalmente.</p>
 </blockquote>
 
-<p>That's all it should take! Refresh the browser, and things should be back to normal. Only, now, your application is far better structured, and the controller is no longer linked to Eloquent.</p>
+<p>E é isso tudo que precisa ser feito! Atualize seu navegador e veja como tudo voltou ao normal. A diferença é que, agora, sua aplicação está muito melhor estruturada e os controladores não estão mais ligados ao Eloquent..</p>
 
 <p>Let's imagine that, a few months from now, your boss informs you that you need to swap Eloquent out with Redis. Well, because you've structured your application in this future-proof way, you only need to create the new <code>app/repositories/RedisPostRepository</code> implementation:</p>
 
