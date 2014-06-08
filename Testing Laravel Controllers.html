@@ -688,7 +688,7 @@ App::bind(
 </ul></li>
 </ul>
 
-<p>It's vital that we adhere to this naming and folder convention, if we want the autoloading to work as expected. The only remaining thing to do is update the namespaces for <code>PostRepositoryInterface</code> and <code>EloquentPostRepository</code>.</p>
+<p>É vital que adiramos a essa nomenclatura e convenção de diretórios, caso queiramos que a função de autocarregamento funcione como esperado. A única coisa faltando é atualizar o <em>namespace</em> de <code>PostRepositoryInterface</code> e <code>EloquentPostRepository</code>.</p>
 
 <pre class="brush: php">
 &lt;?php namespace Way\Storage\Post;
@@ -705,7 +705,7 @@ interface PostRepositoryInterface {
 
 }</pre>
 
-<p>And for the implementation:</p>
+<p>E para a implementação:</p>
 
 <pre class="brush: php">
 &lt;?php namespace Way\Storage\Post;
@@ -733,13 +733,13 @@ class EloquentPostRepository implements PostRepositoryInterface {
 
 }</pre>
 
-<p>There we go; that's much cleaner. But what about those pesky bindings? The routes file may be a convenient place to experiment, but it makes little sense to store them there permanently. Instead, we'll use service providers.</p>
+<p>E é isso. Muito mais claro. MAs estão faltando as ligações, não? O arquivo de rotas pode até ser um lugar conveniente para experimentar as coisas, mas não faz sentido manter essas ligações permanentemente por lá. Ao invés disso, usaremos provedores de serviços.</p>
 
 <blockquote>
-<p>Service providers are nothing more than bootstrap classes that can be used to do anything you wish: register a binding, hook into an event, import a routes file, etc.</p>
+<p>Provedores de serviço, nada mais são que classes de inicialização que podem ser usada para fazer qualquer coisa que quisermos: registrar uma ligação, riar um gancho para um evento, importar um arquivo de rotas, etc.</p>
 </blockquote>
 
-<p>A service provider's <code>register()</code> will be triggered automatically by Laravel.</p>
+<p>O método <code>register()</code> de um provedor de serviço será chamado automaticamente pelo Laravel:</p>
 
 <pre class="brush: php">
 &lt;?php namespace Way\Storage;
@@ -750,7 +750,7 @@ use Illuminate\Support\ServiceProvider;
 
 class StorageServiceProvider extends ServiceProvider {
 
-  // Triggered automatically by Laravel
+  // Chamado, automaticamente, pelo Laravel
   public function register()
   {
       $this-&gt;app-&gt;bind(
@@ -761,7 +761,7 @@ class StorageServiceProvider extends ServiceProvider {
 
 }</pre>
 
-<p>To make this file known to Laravel, you only need to include it in <code>app/config/app.php</code>, within the <code>providers</code> array.</p>
+<p>Para fazer com que o Laravel saiba desse arquivo, precisamos incluí-lo em outro arquivo, o <code>app/config/app.php</code>, na array <code>providers</code>.</p>
 
 <pre class="brush: php">
 # app/config/app.php
@@ -773,11 +773,11 @@ class StorageServiceProvider extends ServiceProvider {
   'Way\Storage\StorageServiceProvider'
 )</pre>
 
-<p>Good; now we have a dedicated file for registering new bindings.</p>
+<p>Ótimo, agora temos um arquivo dedicado para registrarmos novas ligações.</p>
 
-<h3>Updating the Tests</h3>
+<h3>Atualizando os Testes</h3>
 
-<p>With our new structure in place, rather than mocking the Eloquent model, itself, we can instead mock <code>PostRepositoryInterface</code>. Here's an example of one such test:</p>
+<p>Com a nossa estrutura, ao invés de simular o modelo Eloquent, poderemos simular a <code>PostRepositoryInterface</code>. Abaixo segue como ficará um teste com essa nova estrutura:</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
@@ -794,7 +794,7 @@ public function testIndex()
   $this-&gt;assertViewHas('posts');
 }</pre>
 
-<p>However, we can improve this. It stands to reason that every method within <code>PostsControllerTest</code> will require a mocked version of the repository. As such, it's better to extract some of this prep work into its own method, like so:</p>
+<p>Contudo, podemos aprimorar ainda mais. É um tanto claro que todo método de  <code>PostsControllerTest</code> precisará de uma versão simulada do repositório. Assim, é melhor extrairmos essa preparação para seu próprio método, dessa forma:</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
@@ -824,7 +824,7 @@ public function testIndex()
   $this-&gt;assertViewHas('posts');
 }</pre>
 
-<p>Not bad, ay?</p>
+<p>Nada mal, hein?</p>
 
 <p>Now, if you want to be super-fly, and are willing to add a touch of test logic to your production code, you could even perform your mocking within the Eloquent model! This would allow for:</p>
 
