@@ -330,9 +330,9 @@ $this-&gt;app-&gt;instance('Post', $this-&gt;mock);</pre>
 
 <p>Durante a instanciação do controlador, o Laravel faz uso das capacidade reflexivas do PHP para ler a indução de tipo usada e injetar a dependência correta para você. É isso. Você não precisa escrever uma linha de código sequer para que isso aconteça. Tudo é automatizado!</p>
 
-<h2>Redirections</h2>
+<h2>Redirecionamentos</h2>
 
-<p>Another common expectation that you'll find yourself writing is one that ensures that the user is redirected to the proper location, perhaps upon adding a new post to the database. How might we accomplish this?</p>
+<p>Outro teste que você criará bastante é aquele que garante que o usuário é redirecionado para a localização correta, como quando depois de adicionar um novo post. Como podemos fazer isso?</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
@@ -351,18 +351,18 @@ public function testStore()
 
 }</pre>
 
-<p>Assuming that we're following a restful flavor, to add a new post, we'd <code>POST</code> to the collection, or <code>posts</code> (don't confuse the <code>POST</code> request method with the resource name, which just happens to have the same name).</p>
+<p>Assumindo que estamos seguindo o padrão restful, para adicionar um novo post, nós devemos fazer uma requisição <code>POST</code> para a coleção ou para <code>posts</code> (não confunda o método de requisição <code>POST</code> com o nome do recurso, que, nesse caso, são iguais).</p>
 
 <pre class="brush: php">
 $this-&gt;call('POST', 'posts');</pre>
 
-<p>Then, we only need to leverage another of Laravel's helper assertions, <code>assertRedirectedToRoute</code>.</p>
+<p>Então, só precisamos usar outro método auxiliar do Laravel, o <code>assertRedirectedToRoute</code>.</p>
 
 <blockquote>
-<p><strong>Tip:</strong> When a resource is registered with Laravel (<code>Route::resource()</code>), the framework will automatically register the necessary named routes. Run <code>php artisan routes</code> if you ever forget what these names are.</p>
+<p><strong>dica:</strong> Quando um recurso é registrado no Laravel (usando <code>Route::resource()</code>), a framework registrará, automaticamente, as rotas nomeadas necessárias. Execute <code>php artisan routes</code> se você, alguma vez, esquecer quais~os nomes dessas rotas.</p>
 </blockquote>
 
-<p>You might prefer to also ensure that the <code>$_POST</code> superglobal is passed to the <code>create</code> method. Even though we aren't physically submitting a form, we can still allow for this, via the <code>Input::replace()</code> method, which allows us to "stub" this array. Here's the modified test, which uses Mockery's <code>with()</code> method to verify the arguments passed to the method referenced by <code>shouldReceive</code>.</p>
+<p>Talvez você também queria garantir que a variável superglobal <code>$_POST</code> é enviada para o método <code>create</code>. Embora não estejamos enviando um formulário de verdade, ainda assim podemos permitir isso, através do método <code>Input::replace()</code>, que nos permite preencher preencher esse array. Segue o teste modificado, que usa o método <code>with()</code> da Mockery para verificar os argumentos passados para o método referenciado por <code>shouldReceive</code>.</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
