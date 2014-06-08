@@ -826,14 +826,14 @@ public function testIndex()
 
 <p>Nada mal, hein?</p>
 
-<p>Now, if you want to be super-fly, and are willing to add a touch of test logic to your production code, you could even perform your mocking within the Eloquent model! This would allow for:</p>
+<p>Agora, se você quer seguir a moda e adicionar testes ao seu código de produção, você pode, até mesmo, criar suas simulações dentro de um modelo do Eloquent! Isso permitirá fazer algo como isso:</p>
 
 <pre class="brush: php">
 Post::shouldReceive('all')-&gt;once();</pre>
 
-<p>Behind the scenes, this would mock <code>PostRepositoryInterface</code>, and update the IoC binding. You can't get much more readable than that!</p>
+<p>Por baixo dos panos, isso simulará a <code>PostRepositoryInterface</code> e atualizará a ligação da inversão de controle. Você não conseguirá ser mais legível que isso!</p>
 
-<p>Allowing for this syntax only requires you to update the <code>Post</code> model, or, better, a <code>BaseModel</code> that all of the Eloquent models extend. Here's an example of the former:</p>
+<p>Para usar essa sintaxe, você só precisa atualizar o modelo <code>Post</code>, ou melhor, o modelo <code>BaseModel</code> que todos os modelos Eloquent estendem. Eis um exemplo:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -855,7 +855,7 @@ class Post extends Eloquent {
 
 }</pre>
 
-<p>If you can manage the inner "<em>Should I be embedding test logic into production code</em>" battle, you'll find that this allows for significantly more readable tests.</p>
+<p>Se você consegue administrar a batalha interna de "<em>adicionar ou não adicionar lógica de testes em código de produção</em>", você perceberá que ela permite testes muito mais legíveis.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -901,8 +901,8 @@ class PostsControllerTest extends TestCase {
 
 }</pre>
 
-<p>It feels good, doesn't it? Hopefully, this article hasn't been too overwhelming. The key is to learn how to organize your repositories in such a way to make them as easy as possible to mock and inject into your controllers. As a result of that effort, your tests will be lightning fast!</p>
+<p>Isso está bom, não está? Espero que esse artigo não tenha sobrecarregado demais você. A chave é aprender a organizar seus repositórios de tal maneira que facilite a simulação e injeção delas em seus controladores. Como resultado desse esforço, seus testes serão ultra rápidos!</p>
 
 <blockquote>
-<p>This article is an excerpt from book, <a href="https://leanpub.com/laravel-testing-decoded">Laravel Testing Decoded</a>.</p>
+<p>Esse artigo extrato do livro <a href="https://leanpub.com/laravel-testing-decoded">Laravel Testing Decoded</a>.</p>
 </blockquote>
