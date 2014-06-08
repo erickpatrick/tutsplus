@@ -191,21 +191,21 @@ public function testIndex()
   $this-&gt;assertInstanceOf('Illuminate\Database\Eloquent\Collection', $posts);
 }</pre>
 
-<p>With this modification, we've declared that the controller <strong>must</strong> pass <code>$posts</code> - an instance of <code>Illuminate\Database\Eloquent\Collection</code> - to the view. Excellent.</p>
+<p>Com essa modificação, declaramos que o controlador <strong>deve</strong> enviar a variável <code>$posts</code> - uma instância da classe <code>Illuminate\Database\Eloquent\Collection</code> - para a visão. Excelente.</p>
 
-<h2>Mocking the Database</h2>
+<h2>Simulando a Base de Dados</h2>
 
-<p>There's one glaring problem with our tests so far. Did you catch it?</p>
+<p>Há um problema bastante evidente com os nossos testes, até agora. Você percebeu?</p>
 
 <blockquote>
-<p>For each test, a SQL query is being executed on the database. Though this is useful for certain kinds of testing (acceptance, integration), for basic controller testing, it will only serve to decrease performance.</p>
+<p>Para cada teste, uma consulta SQL tem sido executada e acessado a base de dados. Embora isso seja útil em alguns tipos de testes (testes de aceitação e integração), para testes básicos dos controladores, isso só servirá para diminuir a performance.</p>
 </blockquote>
 
-<p>I've drilled this into your skull multiple times at this point. We're not interested in testing Eloquent's ability to fetch records from a database. It has its own tests. Taylor knows it works! Let's not waste time and processing power repeating those same tests.</p>
+<p>Eu já devo ter encravado isso no seu cérebro de tanto falar (nota: esse texto faz parte do livro <em>Laravel Testing Decoded</em>, do próprio Jeffrey Way). Não estamos interessados em testar as capacidades do Eloquente em buscar os registros da base de dados. Ele tem seus próprios testes. Taylor (Otwell, criador da framework) sabe que ele funciona! Não percamos tempo nem poder de processamento repetindo todos esses testes.</p>
 
-<p>Instead, it's best to mock the database, and merely verify that the appropriate methods are called with the correct arguments. Or, in other words, we want to ensure that <code>Post::all()</code> never fires and hits the database. We know that works, so it doesn't require testing.</p>
+<p>Ao invés disso, é melhor simular a base de dados e verificar se os métodos apropriados são chamados com seus respectivos argumentos necessários. Ou, em outras palavras, nós queremos garantir que a chamada <code>Post::all()</code> nunca seja disparada de verdade nem acessa a base de dados. Nós sabemos que ela funciona, logo não precisa de testes.</p>
 
-<p>This section will depend heavily on the Mockery library. Please review that chapter <a href="http://leanpub.com/laravel-testing-decoded">from my book</a>, if you're not yet familiar with it.</p>
+<p>Essa seção dependerá bastante da biblioteca Mockery. Por favor, revise esse capítulo do <a href="http://leanpub.com/laravel-testing-decoded">meu livro</a>, se você ainda não a conhece.</p>
 
 <h3>Required Refactoring</h3>
 
