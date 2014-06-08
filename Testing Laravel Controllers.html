@@ -160,7 +160,7 @@ Route::get('posts', function()
   return View::make('posts.index', ['posts', $posts]);
 });</pre>
 
-<p>One thing to keep in mind is that, as the code currently stands, it only ensures that the variable, <code>$posts</code>, is passed to the view. It doesn't inspect its value. The <code>assertViewHas</code> optionally accepts a second argument to verify the value of the variable, as well as its existence.</p>
+<p>Uma coisa a se ter em mente é que, com o código que temos até agora, a única garantia que temos é que uma variável <code>$posts</code> é enviada para a visão. Ele não inspeciona o valor dessa variável. O método de teste <code>assertViewHas</code>, opcionalmente, aceita um segundo parâmetro contendo o valro esperado da variável, para, assim como atestar a existência da variável, poder verificar o valor dela.</p>
 
 <pre class="brush: php">
 
@@ -173,7 +173,7 @@ public function testIndex()
   $this-&gt;assertViewHas('posts', 'foo');
 }</pre>
 
-<p>With this modified code, unles the view has a variable, <code>$posts</code>, that is equal to <code>foo</code>, the test will fail. In this situation, though, it's likely that we'd rather not specify a value, but instead declare that the value be an instance of Laravel's <code>Illuminate\Database\Eloquent\Collection</code> class. How might we accomplish that? PHPUnit provides a helpful <code>assertInstanceOf</code> assertion to fill this very need!</p>
+<p>Com essa modificação no código, a menos que a variável tenha uma variável <code>$posts</code> com valor igual a <code>foo</code>, o teste falhará. Nessa situação, porém, é melhor não especificarmos um valor em si, mas declararmos que o valor será uma instância da classe <code>Illuminate\Database\Eloquent\Collection</code> do Laravel. Como podemos fazer isso? O PHPUnit nos fornece um método útil, chamado <code>assertInstanceOf</code>.</p>
 
 <pre class="brush: php">
 
@@ -185,7 +185,7 @@ public function testIndex()
 
   $this-&gt;assertViewHas('posts');
 
-  // getData() returns all vars attached to the response.
+  // getData() retorna todas as variáveis associadas à resposta.
   $posts = $response-&gt;original-&gt;getData()['posts'];
 
   $this-&gt;assertInstanceOf('Illuminate\Database\Eloquent\Collection', $posts);
