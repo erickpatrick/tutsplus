@@ -242,7 +242,7 @@ Route::resource('posts', 'PostsController');</pre>
 $ php artisan controller:make PostsController
 Controller created successfully!</pre>
 
-<p>Now, rather than referencing the <code>Post</code> model directly, we'll inject it into the controller's constructor. Here's a condensed example that omits all restful methods except the one that we're currently interested in testing.</p>
+<p>Agora, ao invés de referencia o modelo <code>Post</code> diretamente, poderemos injetá-lo através do construtor do controlador. Eis um exemplo condensado, omitindo todos os métodos restful, exceto aquele que estamos interessados em testar.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -269,10 +269,10 @@ public function index()
 }</pre>
 
 <blockquote>
-<p>Please note that it's a better idea to typehint an interface, rather than reference the Eloquent model, itself. But, one thing at a time! Let's work up to that.</p>
+<p>Por favor, lembre-se que é melhor induzir o tipo de uma interface ao invés de referenciar diretamente um modelo do Eloquente. Mas, cada coisa a seu tempo, não é?</p>
 </blockquote>
 
-<p>This is a significantly better way to structure the code. Because the model is now injected, we have the ability to swap it out with a mocked version for testing. Here's an example of doing just that:</p>
+<p>Essa é uma maneira muito melhor de estruturar seu código. Uma vez o modelo sendo injetado, como o está agora, temos a capacidade de substituí-lo por uma versão simulada para testes. Veja um exemplo de como fazer isso:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -283,7 +283,7 @@ class PostsControllerTest extends TestCase {
 
 public function __construct()
 {
-    // We have no interest in testing Eloquent
+    // Nós não temos qualquer interesse em testar o Eloquent
     $this-&gt;mock = Mockery::mock('Eloquent', 'Post');
 }
 
@@ -308,16 +308,16 @@ public function testIndex()
 
 }</pre>
 
-<p>The key benfit to this restructuring is that, now, the database will never needlessly be hit. Instead, using Mockery, we merely verify that the <code>all</code> method is triggered on the model.</p>
+<p>O principal benefício nessa reestruturação é que, agora, nucna mais será acessa desnecessariamente. Ao invés disso, ao usar a Mockery, simplesmente, verificamos se o método <code>all</code> foi chamado no modelo.</p>
 
 <pre class="brush: php">
 $this-&gt;mock
   -&gt;shouldReceive('all')
   -&gt;once();</pre>
 
-<p>Unfortunately, if you choose to forego coding to an interface, and instead inject the <code>Post</code> model into the controller, a bit of trickery has to be used in order to get around Eloquent's use of statics, which can clash with Mockery. This is why we hijack both the <code>Post</code> and <code>Eloquent</code> classes within the test's constructor, before the official versions have been loaded. This way, we have a clean slate to declare any expectations. The downside, of course, is that we can't default to any existing methods, through the use of Mockery methods, like <code>makePartial()</code>.</p>
+<p>Infelizmente, se você prefere não codificar usando interfaces e preferir injetar, diretamente, o modelo <code>Post</code> no seu controlador, é preciso usar algumas artimanhas para lidar com o uso de métodos estáticos do Eloquent, os quais podem chocar com a Mockery. É por isso que criamos versões falsas, tanto da classe/modelo <code>Post</code> quanto da classe <code>Eloquent</code> no construtor de nossos testes, antes que as versões verdadeiras sejam carregadas. Dessa forma, temos caminho limpo para declarar qualquer expectativa. O lado ruim, claro, é que não podemos usar lançar mãos de qualquer método existente, através dos métodos da Mockery, como o <code>makePartial()</code>.</p>
 
-<h3>The IoC Container</h3>
+<h3>O Recipente de Inversão de Controle</h3>
 
 <p>Laravel's IoC container drastically eases the process of injecting dependencies into your classes. Each time a controller is requested, it is resolved out of the IoC container. As such, when we need to declare that a mock version of <code>Post</code> should be used for testing, we only need to provide Laravel with the instance of <code>Post</code> that should be used.</p>
 
