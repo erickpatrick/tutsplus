@@ -104,7 +104,7 @@ Route::get('posts', function()
 <li><code>assertRedirectedToAction</code></li>
 <li><code>assertSessionHas</code></li>
 <li><code>assertSessionHasErrors</code></li>
-</ul><p>The following examples calls <code>GET /posts</code> and verifies that its views receives the variable, <code>$posts</code>.</p>
+</ul><p>O exemplo a seguir fazem uma requisição <code>GET /posts</code> e verificam se a visão recebe a variável <code>$posts</code>.</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
@@ -117,19 +117,19 @@ public function testIndex()
 }</pre>
 
 <blockquote>
-<p><strong>Tip:</strong> When it comes to formatting, I prefer to provide a line break between a test's assertion and the code that prepares the stage.</p>
+<p><strong>Dica:</strong> Quando se trata de formatação dos testes, prefiro adicionar uma linha em branco entre a declaração do teste e o código que prepara o ambiente para o teste.</p>
 </blockquote>
 
-<p><code>assertViewHas</code> is simply a bit of sugar that inspects the response object - which is returned from <code>$this-&gt;call()</code> - and verifies that the data associated with the view contains a <code>posts</code> variable.</p>
+<p><code>assertViewHas</code> é uma espécie de "açúcar sintático" (atalho, se preferi) que inspeciona o objeto resposta - o retorno da chamada a <code>$this-&gt;call()</code> - e verifica se os dados associados à visão contem a variável <code>posts</code>.</p>
 
-<p>When inspecting the response object, you have two core choices.</p>
+<p>Quando estiver inspecionando o objeto resposta, você tem duas alternativas.</p>
 
 <ul>
-<li><code>$response-&gt;getOriginalContent()</code>: Fetch the original content, or the returned <code>View</code>. Optionally, you may access the <code>original</code> property directly, rather than calling the <code>getOriginalContent</code> method.</li>
-<li><code>$response-&gt;getContent()</code>: Fetch the rendered output. If a <code>View</code> instance is returned from the route, then <code>getContent()</code> will be equal to the HTML output. This can be helpful for DOM verifications, such as "<em>the view must contain this string.</em>"</li>
+<li><code>$response-&gt;getOriginalContent()</code>: Busca o conteúdo original ou a <code>View</code> retornada. Opcionalmente, você pode acessar a propriedade <code>original</code> diretamente, ao invés de chamar o método <code>getOriginalContent</code>.</li>
+<li><code>$response-&gt;getContent()</code>: Busca o resultado renderizado. Se uma instância de <code>View</code> é retornada de uma rota, então <code>getContent()</code> será igual ao HTML resultante. Isso pode ser útil em verificações em relação a DOM, como: "<em>a visão deve conter essa string.</em>"</li>
 </ul>
 
-<p>Let's assume that the <code>posts</code> route consists of:</p>
+<p>Assumamos que a rota <code>posts</code> seja da seguinte forma:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -141,13 +141,13 @@ Route::get('posts', function()
   return View::make('posts.index');
 });</pre>
 
-<p>Should we run <code>phpunit</code>, it will squawk with a helpful <em>next step</em> message:</p>
+<p>Se executarmos o <code>phpunit</code>, ele reclamará e apontará o que devemos fazer:</p>
 
 <pre class="brush: bash">
 1) PostsControllerTest::testIndex
 Failed asserting that an array has the key 'posts'.</pre>
 
-<p>To make it green, we simply fetch the posts and pass it to the view.</p>
+<p>O <code>phpunit</code> apontou que não conseguiu encontrar qualquer variável chamada 'posts'. Para fazer com que o teste fique verde, temos que buscar os posts e enviá-los para a visão.</p>
 
 <pre class="brush: php">
 
