@@ -16,9 +16,9 @@
 <li><strong>Garantia:</strong> Execute as declarações de teste, verificando se tudo foi feito corretamente.</li>
 </ul>
 
-<h2>The Hello World of Controller Testing</h2>
+<h2>O "Hello World" dos Testes de Controladores</h2>
 
-<p>The best way to learn these things is through examples. Here's the "<em>hello world</em>" of controller testing in Laravel.</p>
+<p>A melhor maneira de aprender algo é através de exemplos. Eis o equivalente a um "<em>hello world</em>" para testes de controladores no Laravel.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -34,7 +34,7 @@ public function testIndex()
 
 }</pre>
 
-<p>Laravel leverages a handful of Symfony's components to ease the process of testing routes and views, including HttpKernel, DomCrawler, and BrowserKit. This is why it's paramount that your PHPUnit tests inherit from, not <code>PHPUnit\_Framework\_TestCase</code>, but <code>TestCase</code>. Don't worry, Laravel still extends the former, but it helps setup the Laravel app for testing, as well as provides a variety of helper assertion methods that you are encouraged to use. More on that shortly.</p>
+<p>O Laravel lança mão de vários componentes do Symfony para facilitar o processo de testar rotas e visões, incluindo o HttpKernel, DomCrawler e BrowserKit. É por isso que é importante seus testes com PHPUnit estendam a classe <code>TestCase</code>, não a classe <code>PHPUnit\_Framework\_TestCase</code>. Não se preocupe, a classe que o Laravel provê estende a classe original do PHPUnit. Além disso, ajuda a preparar sua aplicação em Laravel para os testes, além de prover uma variedade de métodos que auxiliarão em seus testes e que seria bom você utilizá-los. Nós falaremos mais sobre eles daqui a pouco.</p>
 
 <p>In the code snippet above, we make a <code>GET</code> request to <code>/posts</code>, or <code>localhost:8000/posts</code>. Assuming that this line is added to a fresh installation of Laravel, Symfony will throw a <code>NotFoundHttpException</code>. If working along, try it out by running <code>phpunit</code> from the command line.</p>
 
