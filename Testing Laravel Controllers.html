@@ -602,9 +602,9 @@ public function create($input)
 <p>Alguns argumentam que o modelo <code>Post</code> deveria ser injetado nessa implementação para os propósitos dos testes. Se você concordar com isso, simplesmente injete-o através do construtor, como normalmente.</p>
 </blockquote>
 
-<p>E é isso tudo que precisa ser feito! Atualize seu navegador e veja como tudo voltou ao normal. A diferença é que, agora, sua aplicação está muito melhor estruturada e os controladores não estão mais ligados ao Eloquent..</p>
+<p>E é isso tudo que precisa ser feito! Atualize seu navegador e veja como tudo voltou ao normal. A diferença é que, agora, sua aplicação está muito melhor estruturada e os controladores não estão mais ligados ao Eloquent.</p>
 
-<p>Let's imagine that, a few months from now, your boss informs you that you need to swap Eloquent out with Redis. Well, because you've structured your application in this future-proof way, you only need to create the new <code>app/repositories/RedisPostRepository</code> implementation:</p>
+<p>Imaginemos que, daqui alguns meses, seu chefe diga para trocar sua implementação com Eloquent por uma que implemente com Redis. Bem, já que você estruturou sua aplicação de uma maneira à prova de mudanças, você só precisa criar a nova implementação <code>app/repositories/RedisPostRepository</code>:</p>
 
 <pre class="brush: php">
 &lt;?php namespace Repositories;
@@ -617,22 +617,22 @@ class RedisPostRepository implements PostRepositoryInterface {
 
 public function all()
 {
-    // return all with Redis
+    // Retorne tudo usando Redis
 }
 
 public function find($id)
 {
-    // return find one with Redis
+    // Retorne um item usando Redis
 }
 
 public function create($input)
 {
-    // return create with Redis
+    // Retorne a resposta do método crete usando Redis
 }
 
 }</pre>
 
-<p>And update the binding:</p>
+<p>E atualizar a ligação:</p>
 
 <pre class="brush: php">
 # app/routes.php
@@ -642,9 +642,9 @@ App::bind(
   'Repositories\RedisPostRepository'
 );</pre>
 
-<p>Instantly, you're now leveraging Redis in your controller. Notice how <code>app/controllers/PostsController.php</code> was never touched? That's the beauty of it!</p>
+<p>Instantanemanete, você estará usando Redis em seu controlador. Percebeu como o controlador <code>app/controllers/PostsController.php</code> não foi modificado? Aí que está a beleza da coisa toda!</p>
 
-<h2>Structure</h2>
+<h2>Estrutura</h2>
 
 <p>So far in this lesson, our organization has been a bit lacking. IoC bindings in the <code>routes.php</code> file? All repositories grouped together in one directory? Sure, that may work in the beginning, but, very quickly, it'll become apparent that this doesn't scale.</p>
 
