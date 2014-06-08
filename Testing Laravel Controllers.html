@@ -36,16 +36,16 @@ public function testIndex()
 
 <p>O Laravel lança mão de vários componentes do Symfony para facilitar o processo de testar rotas e visões, incluindo o HttpKernel, DomCrawler e BrowserKit. É por isso que é importante seus testes com PHPUnit estendam a classe <code>TestCase</code>, não a classe <code>PHPUnit\_Framework\_TestCase</code>. Não se preocupe, a classe que o Laravel provê estende a classe original do PHPUnit. Além disso, ajuda a preparar sua aplicação em Laravel para os testes, além de prover uma variedade de métodos que auxiliarão em seus testes e que seria bom você utilizá-los. Nós falaremos mais sobre eles daqui a pouco.</p>
 
-<p>In the code snippet above, we make a <code>GET</code> request to <code>/posts</code>, or <code>localhost:8000/posts</code>. Assuming that this line is added to a fresh installation of Laravel, Symfony will throw a <code>NotFoundHttpException</code>. If working along, try it out by running <code>phpunit</code> from the command line.</p>
+<p>No trecho de código acima, nós fazemos uma requisição <code>GET</code> para posts <code>/posts</code> ou <code>localhost:8000/posts</code>. Assumindo que esse código é adicionado a uma instalação recém criada do Laravel, o Symfony lançará uma exceção do tipo <code>NotFoundHttpException</code>. Se estiver codificando junto, vá até a linha de comando e execute o comando <code>phpunit</code>.</p>
 
 <pre class="brush: bash">
 $ phpunit
 1) PostsControllerTest::testIndex
 Symfony\Component\HttpKernel\Exception\NotFoundHttpException:</pre>
 
-<p>In <em>human-speak</em>, this essentially translates to, "<em>Hey, I tried to call that route, but you don't have anything registered, fool!</em>"</p>
+<p>Traduzindo para algo que <em>humanos</em> entendam, isso, essencialmente, está dizendo: "<em>Ei, tentei chamar aquela rota, mas você não registro algo, ainda, bobo!</em>"</p>
 
-<p>As you can imagine, this type of request is common enough to the point that it makes sense to provide a helper method, such as <code>$this-&gt;call()</code>. In fact, Laravel does that very thing! This means that the previous example can be refactored, like so:</p>
+<p>Como pode imaginar, esse tipo de requisição é tão comum, que faz sentido ter um método auxiliar. Algo como <code>$this-&gt;call()</code>. Para falar a verdade, o Laravel faz isso! Isso significa que o exemplo anterior pode ser refatorado, dessa forma:</p>
 
 <pre class="brush: php">
 #app/tests/controllers/PostsControllerTest.php
@@ -55,9 +55,9 @@ public function testIndex()
   $this-&gt;call('GET', 'posts');
 }</pre>
 
-<h3>Overloading is Your Friend</h3>
+<h3>A Sobrecarga é sua Amiga</h3>
 
-<p>Though we'll stick with the base functionality in this chapter, in my personal projects, I take things a step further by allowing for such methods as <code>$this-&gt;get()</code>, <code>$this-&gt;post()</code>, etc. Thanks to PHP overloading, this only requires the addition of a single method, which you could add to <code>app/tests/TestCase.php</code>.</p>
+<p>Embora nós iremos nos ater à funcionalidade básica nesse capítulo, em meus projetos pessoais, vou além e permito a existência de métodos como <code>$this-&gt;get()</code>, <code>$this-&gt;post()</code>, etc. Graças à sobrecarga do PHP, isso só requer a adição de um único método, o qual você pode adicionar a <code>app/tests/TestCase.php</code>.</p>
 
 <pre class="brush: php">
 # app/tests/TestCase.php
