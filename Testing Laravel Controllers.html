@@ -1,19 +1,19 @@
 <h1>Testando Controladores no Laravel</h1>
 
-<p>Testar controladores não é das tarefas mais fáceis. Bem, deixe-me reformular essa frase: Testar controladores é fácil, o problema, pelo menos inicialmente, é <em>o que se deve</em> testar</p>
+<p>Testar controladores não é uma das tarefas mais fáceis. Bem, deixe-me reformular essa frase: Testar controladores é fácil, o problema, pelo menos inicialmente, é <em>o que se deve</em> testar</p>
 
 <p>Um teste de controlador deve verificar textos em uma página? Ele deveria comunicar-se com a base de dados? Deve garantir que certas variáveis existem nas visões? Se essa é sua primeira vez com testes, todos esses pontos podem ser bem confusos! Deixe-me ajudá-lo.</p>
 
 
 <blockquote>
-<p>Testes de controladores devem verificar respostas enviadas; garantir que a chamada aos corretos métodos de acesso às bases de dados; e confirmar que as variáveis de instância corretas foram enviadas para a visão.</p>
+<p>Testes de controladores devem verificar respostas retornadas; garantir a chamada ao métodos corretos de acesso às bases de dados; e confirmar que as variáveis de instância corretas foram enviadas para a visão.</p>
 </blockquote>
 
 <p>O processo de testar um controlador pode ser dividido em três partes:</p>
 
 <ul><li><strong>Isolamento:</strong> Simule todas as dependências (exceto, talvez a classe <code>View</code>).</li>
 <li><strong>Chamada:</strong> Chame o método desejado do controlador.</li>
-<li><strong>Garantia:</strong> Execute as declarações de teste, verificando se tudo foi feito corretamente.</li>
+<li><strong>Garantia:</strong> Execute os métodos de teste, verificando se tudo foi feito corretamente.</li>
 </ul>
 
 <h2>O "Hello World" dos Testes de Controladores</h2>
@@ -34,16 +34,16 @@ public function testIndex()
 
 }</pre>
 
-<p>O Laravel lança mão de vários componentes do Symfony para facilitar o processo de testar rotas e visões, incluindo o HttpKernel, DomCrawler e BrowserKit. É por isso que é importante seus testes com PHPUnit estendam a classe <code>TestCase</code>, não a classe <code>PHPUnit\_Framework\_TestCase</code>. Não se preocupe, a classe que o Laravel provê estende a classe original do PHPUnit. Além disso, ajuda a preparar sua aplicação em Laravel para os testes, além de prover uma variedade de métodos que auxiliarão em seus testes e que seria bom você utilizá-los. Nós falaremos mais sobre eles daqui a pouco.</p>
+<p>O Laravel lança mão de vários componentes do Symfony para facilitar o processo de testar rotas e visões, incluindo o HttpKernel, DomCrawler e BrowserKit. É por isso que é importante seus testes com PHPUnit estendam a classe <code>TestCase</code>, não a classe <code>PHPUnit\_Framework\_TestCase</code>. Não se preocupe, a classe que o Laravel provê estende a classe original do PHPUnit. Além disso, ela ajuda a preparar sua aplicação em Laravel para os testes que você criará, além de prover uma variedade de métodos que auxiliarão em seus testes e que seria bom você utilizá-los. Nós falaremos mais sobre eles daqui a pouco.</p>
 
-<p>No trecho de código acima, nós fazemos uma requisição <code>GET</code> para posts <code>/posts</code> ou <code>localhost:8000/posts</code>. Assumindo que esse código é adicionado a uma instalação recém criada do Laravel, o Symfony lançará uma exceção do tipo <code>NotFoundHttpException</code>. Se estiver codificando junto, vá até a linha de comando e execute o comando <code>phpunit</code>.</p>
+<p>No trecho de código acima, nós fazemos uma requisição <code>GET</code> para <code>/posts</code> ou <code>localhost:8000/posts</code>. Assumindo que esse código é adicionado a uma instalação recém criada do Laravel, o Symfony lançará uma exceção do tipo <code>NotFoundHttpException</code>. Se estiver testando os códigos, vá até a linha de comando e execute o comando <code>phpunit</code>.</p>
 
 <pre class="brush: bash">
 $ phpunit
 1) PostsControllerTest::testIndex
 Symfony\Component\HttpKernel\Exception\NotFoundHttpException:</pre>
 
-<p>Traduzindo para algo que <em>humanos</em> entendam, isso, essencialmente, está dizendo: "<em>Ei, tentei chamar aquela rota, mas você não registro algo, ainda, bobo!</em>"</p>
+<p>Traduzindo para algo que <em>humanos</em> entendam, isso, essencialmente, está dizendo: "<em>Ei, tentei chamar aquela rota, mas você não registrou algo, ainda, bobo!</em>"</p>
 
 <p>Como pode imaginar, esse tipo de requisição é tão comum, que faz sentido ter um método auxiliar. Algo como <code>$this-&gt;call()</code>. Para falar a verdade, o Laravel faz isso! Isso significa que o exemplo anterior pode ser refatorado, dessa forma:</p>
 
@@ -57,7 +57,7 @@ public function testIndex()
 
 <h3>A Sobrecarga é sua Amiga</h3>
 
-<p>Embora nós iremos nos ater à funcionalidade básica nesse capítulo, em meus projetos pessoais, vou além e permito a existência de métodos como <code>$this-&gt;get()</code>, <code>$this-&gt;post()</code>, etc. Graças à sobrecarga do PHP, isso só requer a adição de um único método, o qual você pode adicionar a <code>app/tests/TestCase.php</code>.</p>
+<p>Embora nós nos atermos à funcionalidade básica nesse capítulo, em meus projetos pessoais vou além e permito a existência de métodos como <code>$this-&gt;get()</code>, <code>$this-&gt;post()</code>, etc. Graças à sobrecarga do PHP, isso só requer a adição de um único método, o qual você pode adicionar a <code>app/tests/TestCase.php</code>.</p>
 
 <pre class="brush: php">
 # app/tests/TestCase.php
@@ -88,13 +88,13 @@ Route::get('posts', function()
 
 <p>Executar, novamente, <code>phpunit</code> fará com que voltemos ao estado verde.</p>
 
-<h2>As Declarações Auxiliares do Laravel</h2>
+<h2>Os Métodos Auxiliares do Laravel</h2>
 
-<p>Um teste que você criará bastante, é aquele que garante que o controlador passou uma variável em particular para a visão. Por exemplo, o método <code>index</code> de <code>PostsController</code> deve passar uma variável <code>$posts</code> à sua visão correspondente, certo? Dessa forma, a visão pode percorrer por todos os posts e mostrá-los na página. Esse é um teste importante de se escrever!</p>
+<p>Um teste que você criará bastante será o que garante que o controlador passou uma variável em particular para a visão. Por exemplo, o método <code>index</code> de <code>PostsController</code> deve passar uma variável <code>$posts</code> à sua visão correspondente, certo? Dessa forma, a visão pode percorrer por todos os posts e mostrá-los na página. Esse é um teste importante de se escrever!</p>
 
-<p>E, se isso é tão comum, mais uma vez, não faria sentido o Laravel provê declarações auxiliares para que possamos realizar essa tarefa? Claro que faria. E, claro, o Laravel provê!</p>
+<p>E, se isso é tão comum, mais uma vez, não faria sentido o Laravel prover métodos auxiliares para que possamos realizar essa tarefa? Claro que faria. E, claro, o Laravel provê!</p>
 
-<p>A classe <code>Illuminate\Foundation\Testing\TestCase</code> inclui uma série de métodos que reduzem, drasticamente, a quantidade de código necessária para realizar essas declarações de testes, básicas. A lista inclui:</p>
+<p>A classe <code>Illuminate\Foundation\Testing\TestCase</code> inclui uma série de métodos que reduzem, drasticamente, a quantidade de código necessária para executar esses métodos de testes básicas. A lista inclui:</p>
 
 <ul>
 <li><code>assertViewHas</code></li>
@@ -104,7 +104,7 @@ Route::get('posts', function()
 <li><code>assertRedirectedToAction</code></li>
 <li><code>assertSessionHas</code></li>
 <li><code>assertSessionHasErrors</code></li>
-</ul><p>O exemplo a seguir fazem uma requisição <code>GET /posts</code> e verificam se a visão recebe a variável <code>$posts</code>.</p>
+</ul><p>O exemplo a seguir faz uma requisição <code>GET /posts</code> e verifica se a visão recebe a variável <code>$posts</code>.</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
@@ -120,13 +120,13 @@ public function testIndex()
 <p><strong>Dica:</strong> Quando se trata de formatação dos testes, prefiro adicionar uma linha em branco entre a declaração do teste e o código que prepara o ambiente para o teste.</p>
 </blockquote>
 
-<p><code>assertViewHas</code> é uma espécie de "açúcar sintático" (atalho, se preferi) que inspeciona o objeto resposta - o retorno da chamada a <code>$this-&gt;call()</code> - e verifica se os dados associados à visão contem a variável <code>posts</code>.</p>
+<p><code>assertViewHas</code> é uma espécie de "açúcar sintático" (atalho, se preferir) que inspeciona o objeto resposta - o retorno da chamada a <code>$this-&gt;call()</code> - e verifica se os dados associados à visão contem a variável <code>posts</code>.</p>
 
 <p>Quando estiver inspecionando o objeto resposta, você tem duas alternativas.</p>
 
 <ul>
-<li><code>$response-&gt;getOriginalContent()</code>: Busca o conteúdo original ou a <code>View</code> retornada. Opcionalmente, você pode acessar a propriedade <code>original</code> diretamente, ao invés de chamar o método <code>getOriginalContent</code>.</li>
-<li><code>$response-&gt;getContent()</code>: Busca o resultado renderizado. Se uma instância de <code>View</code> é retornada de uma rota, então <code>getContent()</code> será igual ao HTML resultante. Isso pode ser útil em verificações em relação a DOM, como: "<em>a visão deve conter essa string.</em>"</li>
+<li><code>$response-&gt;getOriginalContent()</code>: Buscar o conteúdo original ou a <code>View</code> retornada. Opcionalmente, você pode acessar a propriedade <code>original</code> diretamente, ao invés de chamar o método <code>getOriginalContent</code>.</li>
+<li><code>$response-&gt;getContent()</code>: Buscar o resultado renderizado. Se uma instância de <code>View</code> é retornada de uma rota, então <code>getContent()</code> será igual ao HTML resultante. Isso pode ser útil em verificações em relação a DOM, como: "<em>a visão deve conter essa string.</em>"</li>
 </ul>
 
 <p>Assumamos que a rota <code>posts</code> seja da seguinte forma:</p>
@@ -160,7 +160,7 @@ Route::get('posts', function()
   return View::make('posts.index', ['posts', $posts]);
 });</pre>
 
-<p>Uma coisa a se ter em mente é que, com o código que temos até agora, a única garantia que temos é que uma variável <code>$posts</code> é enviada para a visão. Ele não inspeciona o valor dessa variável. O método de teste <code>assertViewHas</code>, opcionalmente, aceita um segundo parâmetro contendo o valro esperado da variável, para, assim como atestar a existência da variável, poder verificar o valor dela.</p>
+<p>Uma coisa a se ter em mente é que, com o código que temos até agora, a única garantia que temos é que uma variável <code>$posts</code> é enviada para a visão. Ele não inspeciona o valor dessa variável. O método de teste <code>assertViewHas</code>, opcionalmente, aceita um segundo parâmetro contendo o valor esperado da variável, para, além de atestar a existência da variável, poder verificar o valor dela.</p>
 
 <pre class="brush: php">
 
@@ -201,9 +201,9 @@ public function testIndex()
 <p>Para cada teste, uma consulta SQL tem sido executada e acessado a base de dados. Embora isso seja útil em alguns tipos de testes (testes de aceitação e integração), para testes básicos dos controladores, isso só servirá para diminuir a performance.</p>
 </blockquote>
 
-<p>Eu já devo ter encravado isso no seu cérebro de tanto falar (nota: esse texto faz parte do livro <em>Laravel Testing Decoded</em>, do próprio Jeffrey Way). Não estamos interessados em testar as capacidades do Eloquente em buscar os registros da base de dados. Ele tem seus próprios testes. Taylor (Otwell, criador da framework) sabe que ele funciona! Não percamos tempo nem poder de processamento repetindo todos esses testes.</p>
+<p>Eu já devo ter encravado isso no seu cérebro de tanto falar (nota: esse texto faz parte do livro <em>Laravel Testing Decoded</em>, do próprio Jeffrey Way). Não estamos interessados em testar as capacidades do Eloquent em buscar os registros da base de dados. Ele tem seus próprios testes. Taylor (Otwell, criador da framework) sabe que ele funciona! Não percamos tempo nem poder de processamento repetindo todos esses testes.</p>
 
-<p>Ao invés disso, é melhor simular a base de dados e verificar se os métodos apropriados são chamados com seus respectivos argumentos necessários. Ou, em outras palavras, nós queremos garantir que a chamada <code>Post::all()</code> nunca seja disparada de verdade nem acessa a base de dados. Nós sabemos que ela funciona, logo não precisa de testes.</p>
+<p>Ao invés disso, é melhor simular a base de dados e verificar se os métodos apropriados são chamados com seus respectivos argumentos necessários. Ou, em outras palavras, nós queremos garantir que a chamada <code>Post::all()</code> nunca seja disparada de verdade nem que acesse a base de dados. Nós sabemos que ela funciona, logo não precisa de testes.</p>
 
 <p>Essa seção dependerá bastante da biblioteca Mockery. Por favor, revise esse capítulo do <a href="http://leanpub.com/laravel-testing-decoded">meu livro</a>, se você ainda não a conhece.</p>
 
@@ -226,7 +226,7 @@ Route::get('posts', function()
 <p>É, exatamente, por isso que é considerado má prática inserir chamadas ao Eloquent em seus controladores. Não confunda com as <em>facade</em> do Laravel, que são testáveis e podem ser substituídas por simulacros (<code>Queue::shouldReceive()</code>), com seus modelos Eloquent. A solução é injetar a camada da base de dados no controlador através do método construtor. Isso requer refatoração.</p>
 
 <blockquote>
-<p><strong>Atenção:</strong> Manter a lógica de um projeto dentro das rotas é útil qual ele é pequeno ou quando se quer criar uma API, mas isso torna a testabilidade do projeto incrivelmente difícil. Para aplicações de tamanhos consideráveis, use controladores.</p>
+<p><strong>Atenção:</strong> Manter a lógica de um projeto dentro das rotas é útil quando ele é pequeno ou quando se quer criar uma API, mas isso torna a testabilidade do projeto incrivelmente difícil. Para aplicações de tamanhos consideráveis, use controladores.</p>
 </blockquote>
 
 <p>Registremos um novo recurso, substituindo a rota <code>posts</code> com:</p>
@@ -242,7 +242,7 @@ Route::resource('posts', 'PostsController');</pre>
 $ php artisan controller:make PostsController
 Controller created successfully!</pre>
 
-<p>Agora, ao invés de referencia o modelo <code>Post</code> diretamente, poderemos injetá-lo através do construtor do controlador. Eis um exemplo condensado, omitindo todos os métodos restful, exceto aquele que estamos interessados em testar.</p>
+<p>Agora, ao invés de referenciar o modelo <code>Post</code> diretamente, poderemos injetá-lo através do construtor do controlador. Eis um exemplo condensado, omitindo todos os métodos restful, exceto aquele que estamos interessados em testar.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -269,10 +269,10 @@ public function index()
 }</pre>
 
 <blockquote>
-<p>Por favor, lembre-se que é melhor induzir o tipo de uma interface ao invés de referenciar diretamente um modelo do Eloquente. Mas, cada coisa a seu tempo, não é?</p>
+<p>Por favor, lembre-se que é melhor induzir o tipo de uma interface ao invés de referenciar diretamente um modelo do Eloquent. Mas, cada coisa a seu tempo, não é?</p>
 </blockquote>
 
-<p>Essa é uma maneira muito melhor de estruturar seu código. Uma vez o modelo sendo injetado, como o está agora, temos a capacidade de substituí-lo por uma versão simulada para testes. Veja um exemplo de como fazer isso:</p>
+<p>Essa é uma maneira muito melhor de estruturar seu código. Uma vez o modelo sendo injetado, como estamos fazendo agora, temos a capacidade de substituí-lo por uma versão simulada para testes. Veja um exemplo de como fazer isso:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -308,14 +308,14 @@ public function testIndex()
 
 }</pre>
 
-<p>O principal benefício nessa reestruturação é que, agora, nucna mais será acessa desnecessariamente. Ao invés disso, ao usar a Mockery, simplesmente, verificamos se o método <code>all</code> foi chamado no modelo.</p>
+<p>O principal benefício nessa reestruturação é que, agora, a base de dados nunca mais será acessada desnecessariamente. Ao invés disso, ao usar a Mockery, simplesmente, verificamos se o método <code>all</code> foi chamado no modelo.</p>
 
 <pre class="brush: php">
 $this-&gt;mock
   -&gt;shouldReceive('all')
   -&gt;once();</pre>
 
-<p>Infelizmente, se você prefere não codificar usando interfaces e preferir injetar, diretamente, o modelo <code>Post</code> no seu controlador, é preciso usar algumas artimanhas para lidar com o uso de métodos estáticos do Eloquent, os quais podem chocar com a Mockery. É por isso que criamos versões falsas, tanto da classe/modelo <code>Post</code> quanto da classe <code>Eloquent</code> no construtor de nossos testes, antes que as versões verdadeiras sejam carregadas. Dessa forma, temos caminho limpo para declarar qualquer expectativa. O lado ruim, claro, é que não podemos usar lançar mãos de qualquer método existente, através dos métodos da Mockery, como o <code>makePartial()</code>.</p>
+<p>Infelizmente, se você prefere não codificar usando interfaces e preferir injetar, diretamente, o modelo <code>Post</code> no seu controlador, é preciso usar algumas artimanhas para lidar com o uso de métodos estáticos do Eloquent, os quais podem chocar com a Mockery. É por isso que criamos versões falsas, tanto da classe/modelo <code>Post</code> quanto da classe <code>Eloquent</code> no construtor de nossos testes, antes que as versões verdadeiras sejam carregadas. Dessa forma, temos caminho limpo para declarar qualquer expectativa. O lado ruim, claro, é que não podemos lançar mão de qualquer método existente, através dos métodos da Mockery, como o <code>makePartial()</code>.</p>
 
 <h3>O Recipente de Inversão de Controle</h3>
 
@@ -359,10 +359,10 @@ $this-&gt;call('POST', 'posts');</pre>
 <p>Então, só precisamos usar outro método auxiliar do Laravel, o <code>assertRedirectedToRoute</code>.</p>
 
 <blockquote>
-<p><strong>dica:</strong> Quando um recurso é registrado no Laravel (usando <code>Route::resource()</code>), a framework registrará, automaticamente, as rotas nomeadas necessárias. Execute <code>php artisan routes</code> se você, alguma vez, esquecer quais~os nomes dessas rotas.</p>
+<p><strong>Dica:</strong> Quando um recurso é registrado no Laravel (usando <code>Route::resource()</code>), a framework registrará, automaticamente, as rotas nomeadas necessárias. Execute <code>php artisan routes</code> se você, alguma vez, esquecer quais os nomes dessas rotas.</p>
 </blockquote>
 
-<p>Talvez você também queria garantir que a variável superglobal <code>$_POST</code> é enviada para o método <code>create</code>. Embora não estejamos enviando um formulário de verdade, ainda assim podemos permitir isso, através do método <code>Input::replace()</code>, que nos permite preencher preencher esse array. Segue o teste modificado, que usa o método <code>with()</code> da Mockery para verificar os argumentos passados para o método referenciado por <code>shouldReceive</code>.</p>
+<p>Talvez você também queira garantir que a variável superglobal <code>$_POST</code> é enviada para o método <code>create</code>. Embora não estejamos enviando um formulário de verdade, ainda assim podemos permitir isso, através do método <code>Input::replace()</code>, que nos permite preencher esse array. Segue o teste modificado, que usa o método <code>with()</code> da Mockery para verificar os argumentos passados para o método referenciado por <code>shouldReceive</code>.</p>
 
 <pre class="brush: php">
 # app/tests/controllers/PostsControllerTest.php
@@ -393,7 +393,7 @@ public function testStore()
 </ol>
 
 <blockquote>
-<p>As melhores práticas indicam que cada teste deve prepresentar somente um caminho em seu código.</p>
+<p>As melhores práticas indicam que cada teste deve representar somente um caminho em seu código.</p>
 </blockquote>
 
 <p>O primeiro caminho será para erro na validação.</p>
@@ -417,7 +417,7 @@ public function testStoreFails()
   $this-&gt;assertSessionHasErrors(['title']);
 }</pre>
 
-<p>O código acima declara, explicitamente, quais erros devem existir. Alternativamente, você pode emitir o argumento de <code>assertSessionHasErrors</code>, e, nesse caso, ele verificará se uma mensagem de erro foi enviada junto (traduzindo, se seu redirecionamento com Redirection inclui a chamada ao método <code>withErrors($errors)</code>).</p>
+<p>O código acima declara, explicitamente, quais erros devem existir. Alternativamente, você pode omitir o argumento de <code>assertSessionHasErrors</code>, e, nesse caso, ele verificará se uma mensagem de erro foi enviada junto (traduzindo, se seu redirecionamento com <code>Redirection</code> inclui a chamada ao método <code>withErrors($errors)</code>).</p>
 
 <p>Agora, o teste que lida com validação correta.</p>
 
@@ -476,7 +476,7 @@ Validator::shouldReceive('make')
   -&gt;once()
   -&gt;andReturn(Mockery::mock(['fails' =&gt; 'true']));</pre>
 
-<p>De tempos em tempos, você descobrirá ue um método que precisa ser simulado deve retornar um objeto: o próprio objeto. Felizmente, com Mockery, isso é muito fácil: só precisamos criar uma simulação anônima e passar um array, contendo o nome do método e o valor de resposta, respectivamente. Dessa forma:</p>
+<p>De tempos em tempos, você descobrirá que um método que precisa ser simulado deve retornar um objeto: ele próprio. Felizmente, com Mockery, isso é muito fácil: só precisamos criar uma simulação anônima e passar um array, contendo o nome do método e o valor de resposta, respectivamente. Dessa forma:</p>
 
 <pre class="brush: php">
 Mockery::mock(['fails' =&gt; 'true'])</pre>
@@ -488,10 +488,10 @@ Mockery::mock(['fails' =&gt; 'true'])</pre>
 <p>Para permitir flexibilidade total, ao invés de criarmos um link direto entre o controlador e um ORM, como o Eloquent, é melhor codificarmos usando interfaces. A vantagem em seguir essa abordagem é que, se precisar substituir o Eloquent por, digamos, Mongo ou Redis, poderá fazê-lo através da alteração de uma única linha de código. E o que é melhor: o controlador não precisa ser alterado.</p>
 
 <blockquote>
-<p>Repositórios representando a camada de acesso aos dados da sua aplicação.</p>
+<p>Repositórios representam a camada de acesso aos dados da sua aplicação.</p>
 </blockquote>
 
-<p>Como será que é uma interface para administrar a camada de base de dados de um<code>Post</code>? O código a seguir deve dar uma ideia.</p>
+<p>Como será que é uma interface para administrar a camada de base de dados de um <code>Post</code>? O código a seguir deve dar uma ideia.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -508,7 +508,7 @@ interface PostRepositoryInterface {
 
 }</pre>
 
-<p>Obviamente, podemos adicionar outras coisas, mas nós adicionamos o mínimo necessário para nossa demonstração: <code>all</code>, <code>find</code>, and <code>create</code>. Perceba que as interfaces de repositórios estão salvas no diretório <code>app/repositories</code>. Como esse diretório não é carregado automaticamente, precisamos atualizar nosso arquivo <code>composer.json</code> para que a aplicação possa referenciá-lo.</p>
+<p>Obviamente, podemos adicionar outras coisas, mas nós adicionamos o mínimo necessário para nossa demonstração: <code>all</code>, <code>find</code> e <code>create</code>. Perceba que as interfaces de repositórios estão salvas no diretório <code>app/repositories</code>. Como esse diretório não é carregado automaticamente, precisamos atualizar nosso arquivo <code>composer.json</code> para que a aplicação possa referenciá-lo.</p>
 
 <pre class="brush: js">
 // composer.json
@@ -521,10 +521,10 @@ interface PostRepositoryInterface {
 }</pre>
 
 <blockquote>
-<p>Quando uma nova classe for adicionada a esse diretório, não esqueça de executar <code>composer dump-autoload -o</code>. O parâmetro <code>-o</code>, (<em>optimize</em>) é opcional, mas sempre deve ser utilizado, uma vez que é uma boa prática.</p>
+<p>Quando uma nova classe for adicionada a esse diretório, não esqueça de executar <code>composer dump-autoload -o</code>. O parâmetro <code>-o</code> (<em>optimize</em>) é opcional, mas sempre deve ser utilizado, uma vez que é uma boa prática.</p>
 </blockquote>
 
-<p>Se você tentar injetar essa interface em seu controlador, o Laravel reclamará com você, lançando um erro. Vá em frente, tente por conta própria e veja. Eis uma versão modificada do <code>PostController</code>, atualizada para injetar a interface ao invés de um modelo Eloquent do tipo <code>Post</code>.</p>
+<p>Se você tentar injetar essa interface em seu controlador, o Laravel reclamará com você, lançando uma exceção. Vá em frente, tente por conta própria e veja. Eis uma versão modificada do <code>PostController</code> atualizada para injetar a interface ao invés de um modelo Eloquent do tipo <code>Post</code>.</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -557,7 +557,7 @@ class PostsController extends BaseController {
 
 <p>Se você parar para analisar, ficará claro o porque da framework reclamar. Laravel é inteligente, mas não lê mentes. Ela precisa saber qual a implementação da interface ela precisa usar em seu controlador.</p>
 
-<p>Por hora, adicionaremos essa ligação no arquivo<code>app/routes.php</code>. Futuramente, lançaremos mão dos provedores de serviços para guardar esse tipo de código.</p>
+<p>Por hora, adicionaremos essa ligação no arquivo <code>app/routes.php</code>. Futuramente, lançaremos mão dos provedores de serviços para guardar esse tipo de código.</p>
 
 <pre class="brush: php">
 # app/routes.php
@@ -567,7 +567,7 @@ App::bind(
   'Repositories\EloquentPostRepository'
 );</pre>
 
-<p>Essa chamada de método pode ser verbalizada como:, "<em>Laravel, querido, quando precisar de uma instância de <code>PostRepositoryInterface</code>, quero que use a <code>EloquentPostRepository</code>.</em>"</p>
+<p>Essa chamada de método pode ser verbalizada como: "<em>Laravel, querido, quando precisar de uma instância de <code>PostRepositoryInterface</code>, quero que use a <code>EloquentPostRepository</code>.</em>"</p>
 
 <p><code>app/repositories/EloquentPostRepository</code> será um invólucro usando o Eloquent que implementará a <code>PostRepositoryInterface</code>. Dessa forma, não estamos restringindo a API (ou qualquer outra implementação) ao uso da versão da Eloquent. Podemos nomear os métodos como quisermos.</p>
 
@@ -665,7 +665,7 @@ App::bind(
   }
 }</pre>
 
-<p>A sintaxe é meiot confusa, no início. Para mim, com certeza foi. Uma maneira simples de entender a linha <code>"Way": "app/lib/"</code> é pensar mais ou menos assim: "<em>O diretório raiz para o <strong>namespace</strong> <code>Way</code> está localizado em <code>app/lib</code></em>". Claro, substitua meu sobrenome pelo nome do seu projeto. A esturtura de diretórios que combinará com o que indicamos, será:</p>
+<p>A sintaxe é meio confusa no início. Para mim, com certeza, foi. Uma maneira simples de entender a linha <code>"Way": "app/lib/"</code> é pensar mais ou menos assim: "<em>O diretório raiz para o <strong>namespace</strong> <code>Way</code> está localizado em <code>app/lib</code></em>". Claro, substitua meu sobrenome pelo nome do seu projeto. A esturtura de diretórios que combinará com o que indicamos, será:</p>
 
 <ul>
 <li>app/
@@ -674,7 +674,7 @@ App::bind(
 </ul></li>
 </ul>
 
-<p>Assim, ao invés de agrupar todos os repositórios em um único diretório <code>repositories</code>, uma abordagem mais elegante seria de categorizá-los em vários diretórios. Dessa forma:</p>
+<p>Assim, ao invés de agrupar todos os repositórios em um único diretório <code>repositories</code>, uma abordagem mais elegante seria categorizá-los em vários diretórios. Dessa forma:</p>
 
 <ul><li>app/
 <ul><li>lib/</li>
@@ -733,10 +733,10 @@ class EloquentPostRepository implements PostRepositoryInterface {
 
 }</pre>
 
-<p>E é isso. Muito mais claro. MAs estão faltando as ligações, não? O arquivo de rotas pode até ser um lugar conveniente para experimentar as coisas, mas não faz sentido manter essas ligações permanentemente por lá. Ao invés disso, usaremos provedores de serviços.</p>
+<p>E é isso. Muito mais claro. Mas estão faltando as ligações, não? O arquivo de rotas pode até ser um lugar conveniente para experimentar as coisas, mas não faz sentido manter essas ligações permanentemente por lá. Ao invés disso, usaremos provedores de serviços.</p>
 
 <blockquote>
-<p>Provedores de serviço, nada mais são que classes de inicialização que podem ser usada para fazer qualquer coisa que quisermos: registrar uma ligação, riar um gancho para um evento, importar um arquivo de rotas, etc.</p>
+<p>Provedores de serviço, nada mais são que classes de inicialização que podem ser usadas para fazer qualquer coisa que quisermos: registrar uma ligação, criar um gancho para um evento, importar um arquivo de rotas, etc.</p>
 </blockquote>
 
 <p>O método <code>register()</code> de um provedor de serviço será chamado automaticamente pelo Laravel:</p>
@@ -904,5 +904,5 @@ class PostsControllerTest extends TestCase {
 <p>Isso está bom, não está? Espero que esse artigo não tenha sobrecarregado demais você. A chave é aprender a organizar seus repositórios de tal maneira que facilite a simulação e injeção delas em seus controladores. Como resultado desse esforço, seus testes serão ultra rápidos!</p>
 
 <blockquote>
-<p>Esse artigo extrato do livro <a href="https://leanpub.com/laravel-testing-decoded">Laravel Testing Decoded</a>.</p>
+<p>Esse artigo é um extrato do livro <a href="https://leanpub.com/laravel-testing-decoded">Laravel Testing Decoded</a>.</p>
 </blockquote>
