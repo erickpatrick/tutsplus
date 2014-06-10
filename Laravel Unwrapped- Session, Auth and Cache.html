@@ -590,21 +590,21 @@ $this-&gt;registerCommands();
       protected $connection;
 
       /**
-       * The mongo connection instance
+       * A instância da conexão com o MongoDB
        *
        * @param  \MongoConnection
        */
       protected $collection;
 
       /**
-       * The Mongo config array
+       * A array de configuração do Mongo DB
        *
        * @var array
        */
       protected $config;
 
       /**
-       * Create a new Mongo cache store.
+       * Criar a nova "loja" de cache com Mongo.
        *
        * @param  array $config
        *     - $config['host']       Mongodb host
@@ -632,7 +632,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Retrieve an item from the cache by key.
+       * Retorna um item do cache usando uma chave.
        *
        * @param  string  $key
        * @return mixed
@@ -649,7 +649,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Return the whole object instead of just the cache_data
+       * Retorna todo o objeto, ao invés de retorna somente os dados
        * 
        * @param  string  $key
        * @return array|null
@@ -673,7 +673,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Store an item in the cache for a given number of minutes.
+       * Salva um item na loja por um dado número de minutos.
        *
        * @param  string  $key
        * @param  mixed   $value
@@ -703,7 +703,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Increment the value of an item in the cache.
+       * Incrementa o valor de um item no cache.
        *
        * @param  string  $key
        * @param  mixed   $value
@@ -744,7 +744,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Decrement the value of an item in the cache.
+       * Decrementa o valor de um item no cache.
        *
        * @param  string  $key
        * @param  mixed   $value
@@ -785,7 +785,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Store an item in the cache indefinitely.
+       * Salva um item no cache, indefinidamente.
        *
        * @param  string  $key
        * @param  mixed   $value
@@ -797,7 +797,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Remove an item from the cache.
+       * Apaga um item do cache.
        *
        * @param  string  $key
        * @return void
@@ -810,7 +810,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Remove all items from the cache.
+       * Apaga todos os itens do cache.
        *
        * @return void
        */
@@ -820,7 +820,7 @@ $this-&gt;registerCommands();
       }
 
       /**
-       * Get the expiration time based on the given minutes.
+       * Retorna o tempo de expiração de um item.
        *
        * @param  int  $minutes
        * @return int
@@ -843,7 +843,7 @@ $this-&gt;registerCommands();
       }
   }</pre>
 
-<p>We'll also need to add the Mongo callback again to the manager:</p>
+<p>Nós também adicionaremos a callback do Mongo, novamente, no <em>manager</em>:</p>
 
 <pre class="brush: php">/**
    * Register the service provider.
@@ -884,14 +884,14 @@ $this-&gt;app-&gt;bindShared('memcached.connector', function()
 $this-&gt;registerCommands();
 	}</pre>
 
-<p>Lastly, we'll need to update the <code>cache.php</code> config file:</p>
+<p>Por último, precisamos atualizar o arquivo de configuração <code>cache.php</code>:</p>
 
 <pre class="brush: php">'driver' =&gt; 'mongo',
   ...
   ...
   ...
   /**
-* Mongo DB settings
+* Configuração do MongoDB
 */
 	'mongo' =&gt; array(
 'host' =&gt; '127.0.0.1',
@@ -901,9 +901,9 @@ $this-&gt;registerCommands();
 'collection' =&gt; 'laravel_cache_collection'
 	)</pre>
 
-<p>Now, attempt to use the <code>Cache::put()</code> and <code>Cache::get()</code> methods. If done correctly, we should be able to use MongoDB to cache the data!</p>
+<p>Agora, tente usar os métodos <code>Cache::put()</code> e <code>Cache::get()</code>. Se tiver feito tudo certo, você foi capaz de guardar e recuperar dados de um sistema de cache que usa MongoDB!</p>
 
-<h2>Conclusion</h2>
+<h2>Conclusão</h2>
 
 <p>In this tutorial, we learned about the following:</p>
 
