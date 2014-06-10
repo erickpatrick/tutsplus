@@ -4,13 +4,13 @@
 
 <h2>Introdução</h2>
 
-<p>Algo que muitos programadores deixam de aproveitar do Laravel é a sua componentização. Desde sua conversão à utilização de componentes que lançam mão do composer, Laravel 4 tornou-se um sistema bastante modular, semelhante à verbosidade de frameworks mais maduras, como a Symfony. Ela usa o grupo de componentes chamado de <code class="inline">Illuminate</code>, que, na minha opinião, não é a framework em si, mas uma compilação de bibliotecas que uma framework pode chegar a usar. A framework Laravel, de verdade, é representada pela aplicação base do Laravel (encontrada no <a href="https://github.com/laravel/laravel" target="_self">repositório do GitHub</a> chamado <code>laravel/laravel</code>), que faz uso desses componente para construir uma aplicação web.</p>
+<p>Algo que muitos programadores deixam de aproveitar do Laravel é a sua componentização. Desde sua conversão à utilização de componentes que lançam utilizam o Composer, Laravel 4 tornou-se um sistema bastante modular, semelhante às frameworks mais maduras, como a Symfony. Ela usa o grupo de componentes chamado de <code class="inline">Illuminate</code>, que, na minha opinião, não é a framework em si, mas uma compilação de bibliotecas que uma framework pode chegar a usar. A framework Laravel, de verdade, é representada pela aplicação base do Laravel (encontrada no <a href="https://github.com/laravel/laravel" target="_self">repositório do GitHub</a> chamado <code>laravel/laravel</code>), que faz uso desses componente para construir uma aplicação web.</p>
 
 <p>Nesse tutorial, nós nos aprofundaremos em alguns dos componentes desse grupo, aprendendo como eles funcionam, como eles são utilizados pela framework e como estender a funcionalidade deles.</p>
 
 <h2>O Componente Session</h2>
 
-<p>O componente Session do Laravel lida com as sessões das aplicações web. Ela faz uso de um sistema de drivers chamado Laravel Manager, que age tanto como uma fábrica (to padrão Factory) quanto um envólucro para qualquer driver atribuído no arquivo de configuração. Até o momento da escrita desse post, o componente Session tem os seguintes drivers:</p>
+<p>O componente Session do Laravel lida com as sessões das aplicações web. Ele faz uso de um sistema de drivers chamado Laravel Manager, que age tanto como uma fábrica (do padrão de programação Factory) quanto um envólucro para qualquer driver atribuído no arquivo de configuração. Até o momento da escrita desse post, o componente Session tem os seguintes drivers:</p>
 
 <ul><li><code class="inline">file </code>- driver baseado em arquivo, onde os dados da sessão são salvos em um arquivo criptografado.</li>
 <li><code class="inline">cookie </code>- driver baseados em cookies, onde os dados da sessão são salvos de forma criptografada nos cookies (do navegador) do usuário.</li>
@@ -23,13 +23,13 @@
 
 <p>A maioria dos usuários de Laravel não percebem mas, grande parte de como o Laravel funciona se deve aos seus provedores de serviço. Os provedores de serviços são, em essência, arquivos inicializadores de cada componente e eles são tão abstraídos que os usuários podem utilizá-los para inicializar qualquer componente, de qualquer forma.</p>
 
-<p>Uma explicação grosseira de como isso funciona segue abaixo::</p>
+<p>Uma explicação grosseira de como isso funciona segue abaixo:</p>
 
 <ol><li>O componente Application do Laravel é inicializado. Esse é o driver principal de toda a framework, responsável por lidar com as Requisições HTTP, executar os provedores de serviços, e agir como recipiente de dependências para a framework.</li>
-<li>Uma ver que um provedor de serviço é executado, o método <code>register</code> dele é chamado. Isso permite instanciar qualquer componente que quisermos.
+<li>Uma vez que um provedor de serviço é executado, o método <code>register</code> dele é chamado. Isso permite instanciar qualquer componente que quisermos.
 
 <ul><li>Tenha em mente que todos os provedores de serviço tem acesso à aplicação principal do Laravel (via <code>$this-&gt;app</code>), o que permite que os provedores de serviços tenham acesso a instâncias de classes criadas de dentro do recipiente de depedência.</li></ul></li>
-<li>Uma vez que essas dependências são carregadas, nós estamos livres para chamá-las ao chamar o recipiente, por exemplo, pelo sistema Facade do Laravel, através do <code>App::make</code>.</li>
+<li>Uma vez que essas dependências são carregadas, nós estamos livres para chamar o recipiente, por exemplo, pelo sistema Facade do Laravel, através do <code>App::make</code>.</li>
 </ol><p>Voltando ao componente Sessions, daremos uma rápida olhada no <code class="inline">SessionServiceProivider</code>:</p>
 
 <pre class="brush: php"> /**
@@ -120,7 +120,7 @@ return $this-&gt;buildSession(new FileSessionHandler($this-&gt;app['files'], $pa
 
 <h3>Criando Nossa Própria Manipuladora de Sessão</h3>
 
-<p>Vamos criar nossa própria classe manipuladora de sessão, usando MongoDB. Primeiro, precisaremos criar a classe <code>MongoSessionHandler</code> em uma instalação recém criada do Laravel (Nós pegaremos muitos códigos emprestados da classe<code>Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler</code>):</p>
+<p>Vamos criar nossa própria classe manipuladora de sessão, usando MongoDB. Primeiro, precisaremos criar a classe <code>MongoSessionHandler</code> em uma instalação recém criada do Laravel (Nós pegaremos muitos códigos emprestados da classe <code>Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler</code>):</p>
 
 <pre class="brush: php">&lt;?php namespace Illuminate\Session;
 
@@ -302,7 +302,7 @@ $this-&gt;setupMongoDriver();
 $this-&gt;registerSessionDriver();
 	}</pre>
 
-<p>Depois disso, precisamos definir a configuração do Mongo DB. Abra o arquivo <code>app/config/session.php</code> e definas as seguintes configurações:</p>
+<p>Depois disso, precisamos definir a configuração do Mongo DB. Abra o arquivo <code>app/config/session.php</code> e defina as seguintes configurações:</p>
 
 <pre class="brush: php">/**
    * Configurações do Mongo DB
@@ -323,7 +323,7 @@ $this-&gt;registerSessionDriver();
 
 <h2>O Componente Auth</h2>
 
-<p>O componente Auth do Laravel é responsável por manipular a autenticação dos usuários na framework e, também, é responsável por administrar as senhas. O que o componente do Laravel fez foi criar uma abstração de um típico sistema de administração de usuários, usavél na maioria das aplicações web, o que ajuda aos programadores a, facilmente, implementar um sistemade login. Da mesma forma que o componente Session, ele também faz uso do Laravel Manager. Atualmente, o componente Auth tem drivers para:</p>
+<p>O componente Auth do Laravel é responsável por manipular a autenticação dos usuários na framework e, também, é responsável por administrar as senhas. O que o componente do Laravel fez, foi criar uma abstração de um típico sistema de administração de usuários, usavél na maioria das aplicações web, o que ajuda aos programadores a, facilmente, implementar um sistemade login. Da mesma forma que o componente Session, ele também faz uso do Laravel Manager. Atualmente, o componente Auth tem drivers para:</p>
 
 <ul><li><code class="inline">eloquent</code> - esse driver faz uso do ORM embutido no Laravel, o <code class="inline">Eloquent</code>. Ele também lança mão de uma classe <code>User.php</code> pré-existente, que fica no diretório <code>models</code>.</li>
 <li><code class="inline">database</code> - Essa daqui usa qualquer conexão de base de dados que estiver configurada por padrão. Ela faz uso da classe <code>GenericUser</code> para acessar os dados dos usuários.</li>
@@ -347,7 +347,7 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
 });
 	}</pre>
 
-<p>Nós podemos ver que, basicamente, ele criar uma classe <code>AuthManager</code> que envolve qualquer driver que estamos usando, além de agir como uma fábrica para esse driver. Dentro da classe <code>AuthManager</code>, ela, novamente, criar o driver apropriado, envolta na classe <code>Guard</code>, que age da mesma forma que a classe <code>Store</code> para a <code>Session</code>.</p>
+<p>Nós podemos ver que, basicamente, ele cria uma classe <code>AuthManager</code> que envolve qualquer driver que estamos usando, além de agir como uma fábrica para esse driver. Dentro da classe <code>AuthManager</code>, ela, novamente, cria o driver apropriado, envolta na classe <code>Guard</code>, que age da mesma forma que a classe <code>Store</code> para a <code>Session</code>.</p>
 
 <h3>Criando Nosso Próprio Manipulador de Autenticação</h3>
 
@@ -464,7 +464,7 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
       }
   }</pre>
 
-<p>É importante atentar que não estamos comparado em relação a uma senha criptografada, uma vez que esse código foi criado para facilitar a criação de dados fictícios e poder testá-la depois. No código de produção, você precisará criptgrafar as senhas. Verifique a classe <code>Illuminate\Auth\DatabaseUserProvider</code> para um ótimo exemplo de como fazer isso.</p>
+<p>É importante atentar que não estamos temos métodos de comparação com senhas criptografadas, uma vez que esse código foi criado para facilitar a criação de dados fictícios e poder testá-la depois. No código de produção, você precisará criptgrafar as senhas. Verifique a classe <code>Illuminate\Auth\DatabaseUserProvider</code> para um ótimo exemplo de como fazer isso.</p>
 
 <p>Depois, precisamos registrar a callback do nosso driver customizado junto ao <code>AuthManager</code>. Para fazer isso, precisamos atualizar o método <code class="inline">register</code> do provedor de serviços:</p>
 
@@ -540,7 +540,7 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
 <ul><li><code class="inline">apc</code></li>
 <li><code class="inline">memcached</code></li>
 <li><code class="inline">redis</code></li>
-<li><code class="inline">file</code> - cache baseado em arquivos. Os dados são savos no diretórios <code>app/storage/cache</code>.</li>
+<li><code class="inline">file</code> - cache baseado em arquivos. Os dados são salvos no diretórios <code>app/storage/cache</code>.</li>
 <li><code class="inline">database</code> - cache salvos na base de dados. Os dados são salvos em registros na base de dados. O <em>schema</em> da base de dados para isso é descrito na <a href="http://laravel.com/docs/cache" target="_self">Documentação do Laravel</a>.</li>
 <li><code class="inline">array</code> - dados são "guardados" em um array. Lembre-se que o cache baseado em <code>array</code> não persiste os dados e é apagado a cada carregamento.</li>
 </ul><p>Como, novamente, segue a mesma implementação dos componente anteriores, você pode assumir que o processo de criar o provedor de serviços é bem semelhante:</p>
@@ -570,7 +570,7 @@ $this-&gt;app-&gt;bindShared('memcached.connector', function()
 $this-&gt;registerCommands();
 	}</pre>
 
-<p>O método <code>register()</code> cria um <code>CacheManager</code>, que serve como envólucro e fábrica para os drivers. Dentro <em>manager</em>, ele envolve o drive em relação à classe <code>Repository</code>, de forma semelhante às classes <code>Store</code> e <code>Guard</code>.</p>
+<p>O método <code>register()</code> cria um <code>CacheManager</code>, que serve como envólucro e fábrica para os drivers. Dentro do <em>manager</em>, ele envolve o driver em relação à classe <code>Repository</code>, de forma semelhante às classes <code>Store</code> e <code>Guard</code>.</p>
 
 <h3>Criando Nosso Próprio Manipulador de Cache</h3>
 
@@ -908,9 +908,9 @@ $this-&gt;registerCommands();
 <p>Nesse tutorial aprendemos:</p>
 
 <ul><li>Sobre o sistema de componentes do Laravel, chamado <code>Illuminate</code>, que é usado pela framework Laravel.</li>
-<li>Sobre os provedores de serviços do Laravel Service Providers e um pouco sobre como eles funcionam.</li>
-<li>Sobre o sistema Manager do LAravel, que age tanto como envólucro quanto uma fábrica para os drivers.</li>
-<li>Sobre os componentes Session, Auth e Cache components e como criar novos drivers para cada um deles.</li>
+<li>Sobre os provedores de serviços do Laravel e um pouco sobre como eles funcionam.</li>
+<li>Sobre o sistema Manager do Laravel, que age tanto como envólucro quanto uma fábrica para os drivers.</li>
+<li>Sobre os componentes Session, Auth e Cache e como criar novos drivers para cada um deles.</li>
 <li>As bibliotecas Store, Guard e Repository que utilizam esses drivers.</li>
 </ul>
 
