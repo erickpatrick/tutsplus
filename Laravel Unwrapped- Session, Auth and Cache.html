@@ -131,27 +131,27 @@ return $this-&gt;buildSession(new FileSessionHandler($this-&gt;app['files'], $pa
   class MongoSessionHandler implements \SessionHandlerInterface
   {
       /**
-       * Mongo db config
+       * Configuração do Mongo DB
        *
        * @var array
        */
       protected $config;
 
       /**
-       * Mongo db connection
+       * Conexão do Mongo DB
        * 
        * @var \Mongo
        */
       protected $connection;
 
       /**
-       * Mongodb collection
+       * Coleção do Mongo DB
        * 
        * @var \MongoCollection
        */
       protected $collection;
       /**
-       * Create a new Mongo driven handler instance.
+       * Cria uma nova instância do Manipulador do driver do Mongo DB.
        *
        * @param  array $config
        *  - $config['host']       Mongodb host
@@ -260,12 +260,12 @@ return $this-&gt;buildSession(new FileSessionHandler($this-&gt;app['files'], $pa
   }
 </pre>
 
-<p>You should save this in the <code>vendor/laravel/framework/src/Illuminate/Session</code> folder. For the purposes of this project, we'll put it here, but ideally this file should be within its own library namespace. </p>
+<p>Você deve salvar esse arquivo no diretório <code>vendor/laravel/framework/src/Illuminate/Session</code>. Para os propósitos desse projeto, nós colocaremos nesse diretório, porém, idealmente, ele deve ficar localizado dentro de um diretório usando seu próprio namespace. </p>
 
-<p>Next, we need to make sure that the <code>Manager</code> class can call this driver. We can do this by utilizing the <code>Manager::extend</code> method. Open <code>vendor/laravel/framework/src/Illuminate/Session/SessionServiceProvider.php</code> and add the following code. Ideally, we should be extending the service provider, but that is outside the scope of this tutorial.</p>
+<p>Feito isso, precisamos garantir que a classe <code>Manager</code> pode invocar o driver. Nós podemos fazer isso utilizando o método <code>Manager::extend</code>. Abra o arquivo <code>vendor/laravel/framework/src/Illuminate/Session/SessionServiceProvider.php</code> e adicione o código a seguir. Idealmente, deveríamos estender o provedor de serviços, porém, essa parte está além do escopo desse tutorial.</p>
 
 <pre class="brush: php">/**
-   * Setup the Mongo Driver callback
+   * Prepara a callback do Mongo Driver
 *
 * @return  void
 */
@@ -284,7 +284,7 @@ $manager-&gt;extend('mongo', function($app) {
 });
 	}</pre>
 
-<p>Make sure to update the <code>register()</code> method to call this method:</p>
+<p>Atualize o método <code>register()</code> para que ele invoce esse método:</p>
 
 <pre class="brush: php">/**
    * Register the service provider.
@@ -302,10 +302,10 @@ $this-&gt;setupMongoDriver();
 $this-&gt;registerSessionDriver();
 	}</pre>
 
-<p>Next, we need to define the Mongo DB configuration. Open <code>app/config/session.php</code> and define the following configuration settings:</p>
+<p>Depois disso, precisamos definir a configuração do Mongo DB. Abra o arquivo <code>app/config/session.php</code> e definas as seguintes configurações:</p>
 
 <pre class="brush: php">/**
-   * Mongo DB settings
+   * Configurações do Mongo DB
 */
 	'mongo' =&gt; array(
 'host' =&gt; '127.0.0.1',
@@ -315,11 +315,11 @@ $this-&gt;registerSessionDriver();
 'collection' =&gt; 'laravel_session_collection'
 	)</pre>
 
-<p>While we're on this file, we should also update the <code class="inline">driver </code>configuration up top:</p>
+<p>Já que estamos nesse arquivo, também devemos atualizar a configuração do driver na parte superior <code class="inline">driver </code>:</p>
 
 <pre class="brush: php">'driver' =&gt; 'mongo'</pre>
 
-<p>Now, try and access the main page (usually, <code>localhost/somefolder/public</code>). If this page loads without showing the <code class="inline">WHOOPS</code> page, then congratulations, we've successfully created a brand new session driver! Test it out by setting some dummy data on the session, via <code>Session::set()</code> and then echoing it back via <code>Session::get()</code>.</p>
+<p>Agora, tente acessar a página inicial (geralmente, <code>localhost/diretorio_instalacao_laravel/public</code>). Se a página carregar sem mostrar a página <code class="inline">WHOOPS</code> (página de erros), então, parabéns, nós fomos bem sucedidos em criar um driver de sessão novinho em folha! Teste-o, adicionando alguns dados fictícios na sessão, através do método <code>Session::set()</code> e, então, recupere-o através do <code>Session::get()</code> para mostrá-lo na página.</p>
 
 <h2>The Auth Component</h2>
 
