@@ -116,11 +116,11 @@ $path = $this-&gt;app['config']['session.files'];
 return $this-&gt;buildSession(new FileSessionHandler($this-&gt;app['files'], $path));
 	}</pre>
 
-<p>The driver class is then injected into a <code>Store</code> class, which is responsible for calling the actual session methods. This lets us actually separate the implementation of the <code>SessionHandlerInterface</code> from the SPL into the drivers, the <code>Store</code> class facilitates it.</p>
+<p>A classe correta do driver é, então, injetada na classe <code>Store</code>, que é responsável por invocar os métodos verdadeiros para manipulação da sessão. Isso permite que separemos a implementação da classe <code>SessionHandlerInterface</code> da SPL (Standard PHP Library), a classe <code>Store</code> facilita isso.</p>
 
-<h3>Creating Our Own Session Handler</h3>
+<h3>Criando Nossa Própria Manipuladora de Sessão</h3>
 
-<p>Let's create our own Session Handler, a MongoDB Session handler. First off, we'll need to create a <code>MongoSessionHandler</code> inside a newly installed Laravel project instance. (We'll be borrowing heavily from <code>Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler</code>).:</p>
+<p>Vamos criar nossa própria classe manipuladora de sessão, usando MongoDB. Primeiro, precisaremos criar a classe <code>MongoSessionHandler</code> em uma instalação recém criada do Laravel (Nós pegaremos muitos códigos emprestados da classe<code>Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler</code>):</p>
 
 <pre class="brush: php">&lt;?php namespace Illuminate\Session;
 
