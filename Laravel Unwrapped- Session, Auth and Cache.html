@@ -6,20 +6,20 @@
 
 <p>Algo que muitos programadores deixam de aproveitar do Laravel é a sua componentização. Desde sua conversão à utilização de componentes que lançam mão do composer, Laravel 4 tornou-se um sistema bastante modular, semelhante à verbosidade de frameworks mais maduras, como a Symfony. Ela usa o grupo de componentes chamado de <code class="inline">Illuminate</code>, que, na minha opinião, não é a framework em si, mas uma compilação de bibliotecas que uma framework pode chegar a usar. A framework Laravel, de verdade, é representada pela aplicação base do Laravel (encontrada no <a href="https://github.com/laravel/laravel" target="_self">repositório do GitHub</a> chamado <code>laravel/laravel</code>), que faz uso desses componente para construir uma aplicação web.</p>
 
-<p>In this tutorial, we'll be diving into a group of these components, learning how they work, how they're used by the framework, and how we can extend their functionality.</p>
+<p>Nesse tutorial, nós nos aprofundaremos em alguns dos componentes desse grupo, aprendendo como eles funcionam, como eles são utilizados pela framework e como estender a funcionalidade deles.</p>
 
-<h2>The Session Component</h2>
+<h2>O Componente Session</h2>
 
-<p>The Laravel Session component handles sessions for the web application. It makes use of a driver-based system called the Laravel Manager, which acts as both a factory and a wrapper for whichever driver is set in the configuration file. As of this writing, the Session component has drivers for:</p>
+<p>O componente Session do Laravel lida com as sessões das aplicações web. Ela faz uso de um sistema de drivers chamado Laravel Manager, que age tanto como uma fábrica como um envólucro para qualquer driver atribuído no arquivo de configuração. Até o momento da escrita desse post, o componente Session tem os seguintes drivers:</p>
 
-<ul><li><code class="inline">file </code>- a file-based session driver where session data is saved in an encrypted file.</li>
-<li><code class="inline">cookie </code>- a cookie-based session driver where session data is encrypted in the user's cookies.</li>
-<li><code class="inline">database </code>- session data is saved in whichever database is configured for the application.</li>
-<li><code class="inline">apc </code>- session data is saved in APC.</li>
-<li><code class="inline">memcached </code>- session data is saved in Memcached.</li>
-<li><code class="inline">redis </code>- session data is saved in Redis.</li>
-<li><code class="inline">array </code>- session data is saved in a PHP array. Take note that the array session driver does not support persistence and is usually only used in console commands.</li>
-</ul><h3>Service Providers</h3>
+<ul><li><code class="inline">file </code>- driver baseado em arquivo, onde os dados da sessão são salvos em um arquivo criptografado.</li>
+<li><code class="inline">cookie </code>- driver baseados em cookies, onde os dados da sessão são salvos de forma criptografada nos cookies (do navegador) do usuário.</li>
+<li><code class="inline">database </code>- os dados da sessão são salvos na base de dados configurada para a aplicação.</li>
+<li><code class="inline">apc </code>- os dados da sessão são salvos no APC (Alternative PHP Cache).</li>
+<li><code class="inline">memcached </code>- os dados da sessão são salvas no Memcached.</li>
+<li><code class="inline">redis </code>- os dados da sessão são salvo no Redis.</li>
+<li><code class="inline">array </code>- os dados da sessão são salvos em uma array do PHP. Atente que o driver de sessão baseado em array não dá suporte a persistência de dados e, geralmente, é usado somente em linha de comando.</li>
+</ul><h3>Provedores de Serviço</h3>
 
 <p>Most Laravel users don't realize but a big part of how Laravel works, is within its service providers. They are essentially bootstrap files for each component and they are abstracted enough so users can bootstrap any components, in any way.</p>
 
