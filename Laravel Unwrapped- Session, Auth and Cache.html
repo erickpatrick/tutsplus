@@ -10,7 +10,7 @@
 
 <h2>O Componente Session</h2>
 
-<p>O componente Session do Laravel lida com as sessões das aplicações web. Ela faz uso de um sistema de drivers chamado Laravel Manager, que age tanto como uma fábrica como um envólucro para qualquer driver atribuído no arquivo de configuração. Até o momento da escrita desse post, o componente Session tem os seguintes drivers:</p>
+<p>O componente Session do Laravel lida com as sessões das aplicações web. Ela faz uso de um sistema de drivers chamado Laravel Manager, que age tanto como uma fábrica (to padrão Factory) quanto um envólucro para qualquer driver atribuído no arquivo de configuração. Até o momento da escrita desse post, o componente Session tem os seguintes drivers:</p>
 
 <ul><li><code class="inline">file </code>- driver baseado em arquivo, onde os dados da sessão são salvos em um arquivo criptografado.</li>
 <li><code class="inline">cookie </code>- driver baseados em cookies, onde os dados da sessão são salvos de forma criptografada nos cookies (do navegador) do usuário.</li>
@@ -321,13 +321,13 @@ $this-&gt;registerSessionDriver();
 
 <p>Agora, tente acessar a página inicial (geralmente, <code>localhost/diretorio_instalacao_laravel/public</code>). Se a página carregar sem mostrar a página <code class="inline">WHOOPS</code> (página de erros), então, parabéns, nós fomos bem sucedidos em criar um driver de sessão novinho em folha! Teste-o, adicionando alguns dados fictícios na sessão, através do método <code>Session::set()</code> e, então, recupere-o através do <code>Session::get()</code> para mostrá-lo na página.</p>
 
-<h2>The Auth Component</h2>
+<h2>O Componente Auth</h2>
 
-<p>The Laravel Auth component handles user authentication for the framework, as well as password management. What the Laravel component has done here is to create an abstract interpretation of the typical user-management system which is usable in most web applications, which in turn helps the programmer easily implement a login system. Like the Session component, it also makes use of the Laravel Manager. Currently, the Auth component has drivers for:</p>
+<p>O componente Auth do Laravel é responsável por manipular a autenticação dos usuários na framework e, também, é responsável por administrar as senhas. O que o componente do Laravel fez foi criar uma abstração de um típico sistema de administração de usuários, usavél na maioria das aplicações web, o que ajuda aos programadores a, facilmente, implementar um sistemade login. Da mesma forma que o componente Session, ele também faz uso do Laravel Manager. Atualmente, o componente Auth tem drivers para:</p>
 
-<ul><li><code class="inline">eloquent</code> - this makes use of Laravel's built-in ORM called <code class="inline">Eloquent</code>. It also utilizes the pre-made <code>User.php</code> class inside the <code>models</code> folder.</li>
-<li><code class="inline">database</code> - this uses whichever database connection is configured by default. It makes use of a <code>GenericUser</code> class for accessing the user data.</li>
-</ul><p>Since this follows the same implementation as the <code>Session</code> component, the service provider is very similar to what we've seen on top:</p>
+<ul><li><code class="inline">eloquent</code> - esse driver faz uso do ORM embutido no Laravel, o <code class="inline">Eloquent</code>. Ele também lança mão de uma classe <code>User.php</code> pré-existente, que fica no diretório <code>models</code>.</li>
+<li><code class="inline">database</code> - Essa daqui usa qualquer conexão de base de dados que estiver configurada por padrão. Ela faz uso da classe <code>GenericUser</code> para acessar os dados dos usuários.</li>
+</ul><p>Já que aqui também seguiremos a mesma implementação do componente <code>Session</code>, o provedor de serviços é bem semelhante ao que vimos mais acima:</p>
 
 <pre class="brush: php">/**
    * Register the service provider.
@@ -347,11 +347,11 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
 });
 	}</pre>
 
-<p>Here, we can see that it basically creates an <code>AuthManager</code> class that wraps around whichever driver we're using, as well as acting as a factory for it. Inside the <code>AuthManager</code>, it again creates the appropriate driver, wrapped around a <code>Guard</code> class, which acts the same way as the <code>Store</code> class from <code>Session</code>.</p>
+<p>Nós podemos ver que, basicamente, ele criar uma classe <code>AuthManager</code> que envolve qualquer driver que estamos usando, além de agir como uma fábrica para esse driver. Dentro da classe <code>AuthManager</code>, ela, novamente, criar o driver apropriado, envolta na classe <code>Guard</code>, que age da mesma forma que a classe <code>Store</code> para a <code>Session</code>.</p>
 
-<h3>Creating Our Own Auth Handler</h3>
+<h3>Criando Nosso Próprio Manipulador de Autenticação</h3>
 
-<p>Like before, let's start by creating a <code>MongoUserProvider</code>:</p>
+<p>Da mesma forma que antes, vamos criar uma classe <code>MongoUserProvider</code>:</p>
 
 <pre class="brush: php">&lt;?php namespace Illuminate\Auth;
 
@@ -361,21 +361,21 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
   class MongoUserProvider implements UserProviderInterface {
 
       /**
-       * The mongo instance
+       * Uma instância do MongoDB
        *
        * @param  \Mongo
        */
       protected $connection;
 
       /**
-       * The mongo connection instance
+       * A instância da conexão com o MongoDB
        *
        * @param  \MongoConnection
        */
       protected $collection;
 
       /**
-       * The Mongo config array
+       * A array de configuração do Mongo
        *
        * @var array
        */
@@ -410,7 +410,7 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
       }
 
       /**
-       * Retrieve a user by their unique identifier.
+       * Retorna um usuário a partir do seu identificador único.
        *
        * @param  mixed  $identifier
        * @return \Illuminate\Auth\UserInterface|null
@@ -427,7 +427,7 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
       }
 
       /**
-       * Retrieve a user by the given credentials.
+       * Retorna um usuário a partir de credenciais apresentadas.
        *
        * @param  array  $credentials
        * @return \Illuminate\Auth\UserInterface|null
@@ -448,7 +448,7 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
       }
 
       /**
-       * Validate a user against the given credentials.
+       * Valida um usuário em relação credenciais apresentadas.
        *
        * @param  \Illuminate\Auth\UserInterface  $user
        * @param  array  $credentials
@@ -464,9 +464,9 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
       }
   }</pre>
 
-<p>It's important to take note here that I'm not checking against a hashed password, this was done for simplicity's sake to make it easier on our part to create dummy data and test this later. In production code, you need to make sure to hash the password. Check out the <code>Illuminate\Auth\DatabaseUserProvider</code> class for a great example on how to do this.</p>
+<p>É importante atentar que não estamos comparado em relação a uma senha criptografada, uma vez que esse código foi criado para facilitar a criação de dados fictícios e poder testá-la depois. No código de produção, você precisará criptgrafar as senhas. Verifique a classe <code>Illuminate\Auth\DatabaseUserProvider</code> para um ótimo exemplo de como fazer isso.</p>
 
-<p>Afterwards, we need to register our custom driver callback on the <code>AuthManager</code>. To do so, we need to update the service provider's <code class="inline">register</code> method:</p>
+<p>Depois, precisamos registrar a callback do nosso driver customizado junto ao <code>AuthManager</code>. Para fazer isso, precisamos atualizar o método <code class="inline">register</code> do provedor de serviços:</p>
 
 <pre class="brush: php">/**
    * Register the service provider.
@@ -500,14 +500,14 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
 });
 	}</pre>
 
-<p>Lastly, we also need to update the <code>auth.php</code> configuration file to make use of the Mongo driver, as well as provide it the proper Mongo configuration values:</p>
+<p>Por último, também precisamos atualizar o arquivo de configuração <code>auth.php</code> para usar o driver do Mongo, assim como prover os valores de configuração do Mongo:</p>
 
 <pre class="brush: php">'driver' =&gt; 'mongo',
   ...
   ...
   ...
   /**
-   * Mongo DB settings
+   * Configurações do Mongo DB
 */
 	'mongo' =&gt; array(
 'host' =&gt; '127.0.0.1',
@@ -517,7 +517,7 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
 'collection' =&gt; 'laravel_auth_collection'
 	)</pre>
 
-<p>Testing this is a little trickier, to do so, use the Mongo DB CLI to insert a new user into the collection:</p>
+<p>Testar isso é um pouco complicado, mas, para fazê-lo, lançaremos mão da linha de comando do Mongo DB para inserir um novo usuário na coleção:</p>
 
 <pre class="brush: bash">mongo
 
@@ -527,23 +527,23 @@ $this-&gt;app-&gt;bindShared('auth', function($app)
   &gt; db.laravel_auth_collection.find()
   &gt; { "_id" : ObjectId("530c609f2caac8c3a8e4814f"), "id" 1, "email" : "nikko@emailtest.com", "password" : "test_password" }</pre>
 
-<p>Now, test it out by trying an <code>Auth::validate</code> method call:</p>
+<p>Agora, testaremos o método <code>Auth::validate</code>:</p>
 
 <pre class="brush: php">var_dump(Auth::validate(array('email' =&gt; 'nikko@emailtest.com', 'password' =&gt; 'test_password')));</pre>
 
-<p>This should dump a <code>bool(true)</code>. If it does, then we've successfully created our own Auth driver!</p>
+<p>Isso deveria retornar um <code>bool(true)</code>. Se ele retornar, então acabamos de criar nosso próprio driver de auntenticação!</p>
 
-<h2>The Cache Component</h2>
+<h2>O Componente Cache</h2>
 
-<p>The Laravel Cache component handles caching mechanisms for use in the framework. Like both of the components that we've discussed, it also makes use of the Laravel Manager (Are you noticing a pattern?). The Cache component has drivers for:</p>
+<p>O componente de Cache do Laravel manipula o mecanismo de cache para usarmos na framework. Da mesma forma que discutimos para os outros componentes, ele também faz uso do Laravel Manager (você percebeu algum padrão?). O componente Cache tem drivers para:</p>
 
 <ul><li><code class="inline">apc</code></li>
 <li><code class="inline">memcached</code></li>
 <li><code class="inline">redis</code></li>
-<li><code class="inline">file</code> - a file-based cache. Data is saved into the <code>app/storage/cache</code> path.</li>
-<li><code class="inline">database</code> - database-based cache. Data is saved into rows into the database. The database schema is described in the <a href="http://laravel.com/docs/cache" target="_self">Laravel Documentation</a>.</li>
-<li><code class="inline">array</code> - data is "cached" in an array. Keep in mind that the <code>array</code> cache is not persistent and is cleared on every page load.</li>
-</ul><p>Since this follows the same implementation as both components that we've discussed, you can safely assume that the service provider is fairly similar:</p>
+<li><code class="inline">file</code> - cache baseado em arquivos. Os dados são savos no diretórios <code>app/storage/cache</code>.</li>
+<li><code class="inline">database</code> - cache salvos na base de dados. Os dados são salvos em registros na base de dados. O <em>schema</em> da base de dados para isso é descrito na <a href="http://laravel.com/docs/cache" target="_self">Documentação do Laravel</a>.</li>
+<li><code class="inline">array</code> - dados são "guardados" em um array. Lembre-se que o cache baseado em <code>array</code> não persiste os dados e é apagado a cada carregamento.</li>
+</ul><p>Como, novamente, segue a mesma implementação dos componente anteriores, você pode assumir que o processo de criar o provedor de serviços é bem semelhante:</p>
 
 <pre class="brush: php">/**
    * Register the service provider.
@@ -570,11 +570,11 @@ $this-&gt;app-&gt;bindShared('memcached.connector', function()
 $this-&gt;registerCommands();
 	}</pre>
 
-<p>The <code>register()</code> method here creates a <code>CacheManager</code>, that again acts as a wrapper and factory for the drivers. Within the manager, it wraps the driver around a <code>Repository</code> class, similar to the <code>Store</code> and <code>Guard</code> classes.</p>
+<p>O método <code>register()</code> cria um <code>CacheManager</code>, que serve como envólucro e fábrica para os drivers. Dentro <em>manager</em>, ele envolve o drive em relação à classe <code>Repository</code>, de forma semelhante às classes <code>Store</code> e <code>Guard</code>.</p>
 
-<h3>Creating Our Own Cache Handler</h3>
+<h3>Criando Nosso Próprio Manipulador de Cache</h3>
 
-<p>Create the <code>MongoStore</code>, which should extend the <code>Illuminate\Cache\StoreInterface</code>:</p>
+<p>Crie a classe <code>MongoStore</code>, que estenderá a classe <code>Illuminate\Cache\StoreInterface</code>:</p>
 
 <pre class="brush: php">&lt;?php namespace Illuminate\Cache;
 
@@ -583,7 +583,7 @@ $this-&gt;registerCommands();
   class MongoStore implements StoreInterface
   {
       /**
-       * The mongo instance
+       * A instância do Mongo DB
        *
        * @param  \Mongo
        */
