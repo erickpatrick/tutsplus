@@ -28,9 +28,9 @@
 <ol><li>O componente Application do Laravel é inicializado. Esse é o driver principal de toda a framework, responsável por lidar com as Requisições HTTP, executar os provedores de serviços, e agir como recipiente de dependências para a framework.</li>
 <li>Uma ver que um provedor de serviço é executado, o método <code>register</code> dele é chamado. Isso permite instanciar qualquer componente que quisermos.
 
-<ul><li>Keep in mind that all service providers have access to the main Laravel application (via <code>$this-&gt;app</code>), which would let service providers push instances of the resolved classes into the dependency container.</li></ul></li>
-<li>Once these dependencies are loaded, we should be free to use them by calling on the container, for example, via Laravel's Facade system, <code>App::make</code>.</li>
-</ol><p>Going back to Sessions, let's take a quick look at the <code class="inline">SessionServiceProivider</code>:</p>
+<ul><li>Tenha em mente que todos os provedores de serviço tem acesso à aplicação principal do Laravel (via <code>$this-&gt;app</code>), o que permite que os provedores de serviços tenham acesso a instâncias de classes criadas de dentro do recipiente de depedência.</li></ul></li>
+<li>Uma vez que essas dependências são carregadas, nós estamos livres para chamá-las ao chamar o recipiente, por exemplo, pelo sistema Facade do Laravel, através do <code>App::make</code>.</li>
+</ol><p>Voltando ao componente Sessions, daremos uma rápida olhada no <code class="inline">SessionServiceProivider</code>:</p>
 
 <pre class="brush: php"> /**
    * Register the session manager instance.
@@ -63,7 +63,7 @@ $this-&gt;app-&gt;bindShared('session.store', function($app)
 });
 	}</pre>
 
-<p>These two methods are called by the <code>register()</code> function. The first one, <code>registerSessionManager()</code>, is called to initially register the <code>SessionManager</code>. This class extends the <code>Manager</code> that I mentioned on top. The second one, <code>registerSessionDriver()</code> registers a session handler for the manager, based on what we have configured. This eventually calls this method in the <code>Illuminate\Support\Manager</code> class:</p>
+<p>Esses dois métodos são chamados pela função <code>register()</code>. O primeiro, <code>registerSessionManager()</code>, é chamado para registrar inicialmente o <code>SessionManager</code>. Essa classe estende a classe <code>Manager</code> que mencionei mais acima. O segundo, <code>registerSessionDriver()</code>, registrar um manipulador de registros para o manager, baseado nas configurações que instituimos no início. Isso, eventualmente, invoca esse método da classe <code>Illuminate\Support\Manager</code>:</p>
 
 <pre class="brush: php">/**
    * Create a new driver instance.
@@ -92,7 +92,7 @@ elseif (method_exists($this, $method))
 throw new \InvalidArgumentException("Driver [$driver] not supported.");
 	}</pre>
 
-<p>From here, we can see that based on the name of the driver, from the configuration file, a specific method is called. So, if we have it configured to use the <code>file</code> session handler, it will call this method in the <code>SessionManager</code> class:</p>
+<p>Aqui, podemos ver que, baseado no nome do driver, escolhido no arquivo de configuração, um método específico é chamado. Então, se tivermos configurados o sistema para usar o manipulador de sessão do tipo <code>file</code>, ele invocará esse método na classe <code>SessionManager</code>:</p>
 
 <pre class="brush: php">/**
    * Create an instance of the file session driver.
