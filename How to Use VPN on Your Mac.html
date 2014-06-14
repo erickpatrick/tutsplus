@@ -1,0 +1,162 @@
+<h1>Como Usar VPN em Seu Mac</h1>
+
+<p>Uma conexão VPN permite você conectar-se de forma segura a uma rede segura pela Internet que, em qualquer outra tentativa, você não seria capaz. Seu Mac já vem de fábrica com suporte para administrar conexões VPN e, nesse guia, nós aprenderemos a configurar, administrar e conectar-se usando VPN. Para finalizar, nós aprenderemos como configurar seu próprio servidor VPN.</p>
+
+<h2>O Que é Uma VPN?</h2>
+
+<p>VPN é a sigla para <em>Virtual Private Network</em>, que, em português significa <em>Rede Privada Virtual</em>. Se você tem arquivos em um servidor no seu trabalho, provavelmente, ele não pode ser acessado publicamente (acessível pela Internet) e, sem sombra de dúvidas, terá um <em>firewall</em> para protegê-lo. Operar uma VPN é muito mais seguro que, simplesmente, liberar portas no <em>firewall</em>, o que pode se tornar uma brecha de segurança. Uma vez que, mais e mais trabalhadores tem feito seus serviços de casa ou em suas viagens, as empresas tem requerido uma maneira de permitir que esses empregados acessarem os recursos que eles precisam e, ainda assim, manter um alto grau de segurança.</p>
+
+<p>Enter VPN, a way of securely connecting to a private network over the Internet. Using a VPN connection, it is just like you’re at the office. Imagine being at home and you realize there’s something you need from a server or internal website at the office. A VPN connection is just like having a <em>really</em> long ethernet cable that you plug into your Mac that’s connected to your work’s network. </p>
+
+<h2>Uses for a VPN</h2>
+
+<h3>Remotely Connecting to a Network at Work</h3>
+
+<p>As we briefly touched upon, when you’re at work you’ll be able to access any file servers that are there. When you’re on the road or at home, you won’t be able to. With a VPN connection, it’s as though you’re on the same network. When it’s connected, you’ll be able to access any of the file servers using their normal IP address. </p>
+
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-diagram-1.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-diagram-1.png" alt="With a VPN connection you can establish a secure connection to an otherwise private (and inaccessible) network" width="600" height="600" class="size-full wp-image-46056" /><figcaption>With a VPN connection, you can establish a secure connection to an otherwise private (and inaccessible) network</figcaption><figure>
+
+<h3>Encrypting Your Web Browsing</h3>
+
+<p>As a VPN connection is secure, any data going across it is encrypted. When you’re at a coffee shop and you’re browsing the web, your traffic could potentially be monitored. Most VPN software (such as OS X) includes an option to have all your Internet traffic - not just when you’re accessing the VPN destination - to pass over a VPN connection, thus encrypting all your web browsing and increasing the security of anything you do online. </p>
+
+<h3>Be Somewhere Else in the World</h3>
+
+<p>As you can pass your Internet traffic over the VPN connection, to most websites you will look like you’re accessing it from wherever the VPN server is. Confused? Let’s clear that up!</p>
+
+<p>Let’s say you’re in London on a trip and stuck in a hotel room for a few hours. If you try and access a site that is only available in the US (such as Hulu), then you’ll be greeted with a message explaining that. If your VPN server is located in the US and you connect and make sure your Internet traffic passes through the VPN connection, then you’ll be able to access the site. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-diagram-2.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-diagram-2.png" alt="With a VPN connection you can take on the network connection of the VPN server and browse the web as though you’re in a different country" width="600" height="600" class="size-full wp-image-46057" /><figcaption>With a VPN connection, you can take on the network connection of the VPN server and browse the web as though you’re in a different country</figcaption><figure>
+
+<p>The reason for this is that when you’re connected via VPN, you’re effectively <em>on that network</em>. You’ll have a local IP address on that network that’s assigned to your VPN connection and your Internet traffic effectively starts from where the VPN server is. As a result, to most sites, your location is actually wherever the VPN server is. I’ll explain this with an example.</p>
+
+<p>There are plenty of speed test websites out there, one of the most popular ones is <a href="http://www.speedtest.net">Speedtest.net</a>. If I run a speed test from my current location, I get feedback of my broadband speed and the closest testing server I connected to (in this case it was Skipton, UK). </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-speedtest-uk.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-speedtest-uk.png" alt="The speed test shows the nearest testing server as well as ISP information" width="600" height="135" class="alignnone size-full wp-image-46067" /><figcaption>The speed test shows the nearest testing server as well as ISP information</figcaption><figure>
+
+<p>Now, when I connect via a VPN to a US server, ensure that all Internet traffic is sent via the VPN and run the test again, the site assumes that my closest server is in Miami! This is because it’s the <em>VPN server</em> the speed test is basing it from. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-speedtest-us.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-speedtest-us.png" alt="When using a VPN connection, the speed test believes I am located near Miami" width="600" height="135" class="alignnone size-full wp-image-46068" /><figcaption>When using a VPN connection, the speed test believes I am located near Miami</figcaption><figure>
+
+<p>Depending on the VPN server and your connection, you’ll notice that the speed drops dramatically. </p>
+
+<div class="tip-shortcode">
+<p><strong>Tip:</strong> For users in restricted countries such as China where many sites we take for granted (Twitter and Facebook) are blocked, some users “circumvent” this restriction by using services such as VPN.</p>
+</div>
+
+<h2>Set up a VPN Connection</h2>
+
+<p>There are a few things things you need to have before setting up a VPN connection:</p>
+
+<h3>VPN Server Address</h3>
+
+<p>This is the IP address that we need of the VPN server. It can also be a fully qualified domain name (FQDN) such as <em>vpn.mycompany.com</em>, depending on how it’s been configured. </p>
+
+<h3>Username and Password</h3>
+
+<p>All VPN connections have a username and password. These are usually set up for you by your IT administrator. </p>
+
+<h3>Connection Type</h3>
+
+<p>There are two types of VPN connections, L2TP and PPTP. Both allow a secure connection, though L2TP is generally found to be the better of the two. This is because, in addition to a username and password, L2TP connections can require a <em>shared secret</em>. This is like a secret passphrase that any VPN users will need to add to their connection. </p>
+
+<h2>How to Connect Your Mac via VPN</h2>
+
+<p>To set up a VPN connection on your Mac, you need the following details. </p>
+
+<ol>
+<li>Server IP address or fully qualified domain name</li>
+<li>Username and password</li>
+<li>Connection type (L2TP or PPTP)</li>
+</ol>
+
+<p>For the purposes of this tutorial, I’ll be using dummy information. While there are “free” VPN services out there we could use, I take the safety and security of your Mac (and mine) very seriously! If you would like to know more about commercial VPN services, I’ll be exploring these later. </p>
+
+<p>All VPN settings can be entered into <em>System Preferences</em>, under the <em>Network</em> preference pane. </p>
+
+<p><strong>Step 1:</strong> Open <em>System Preferences</em> and then select <em>Network</em></p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-syspref.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-syspref.png" alt="Step 1: Open System Preferences and then select Network" width="600" height="518" class="alignnone size-full wp-image-46069" /><figcaption>Step 1: Open System Preferences and then select Network</figcaption><figure>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-networkprefs.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-networkprefs.png" alt="Network Preferences" /><figcaption>Network Preferences</figcaption><figure>
+
+<p><strong>Step 2:</strong> Click + and then select <em>VPN</em> under the interface option. Specify either <em>PPTP</em> or <em>L2TP</em>.</p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-add.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-add.png" alt="Step 2: Click + and then select VPN under the interface option. Specify either PPTP or L2TP" /><figcaption>Step 2: Click + and then select VPN under the interface option. Specify either PPTP or L2TP</figcaption><figure>
+
+<p><strong>Step 3:</strong> Select <em>Configuration</em> and then <em>Add Configuration</em>. Name it “Server 1”. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-new-config.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-new-config.png" alt="Step 3: Select Configuration and then Add Configuration. Name it " server="" /><figcaption>Step 3: Select Configuration and then Add Configuration. Name it "Server 1”</figcaption><figure>
+
+<div class="tip-shortcode">
+<p><strong>Tip:</strong> In the steps above, I asked you to add a configuration named “Server 1”. This step is actually optional and you can in fact just enter it under the <em>default</em> configuration. The reason for adding a configuration is that some users find they have multiple VPN settings. OS X can manage multiple VPN settings using the <em>configuration</em> option. For example, you may have a VPN profile (another name for a your VPN settings) for an office in the US and one in Australia.</p>
+</div>
+
+<p><strong>Step 4:</strong> Enter the VPN server’s IP address (or FQDN) and user name. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-settings-done.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-settings-done.png" alt="Step 4: Enter the VPN server’s IP address (or FQDN) and user name. " /><figcaption>Step 4: Enter the VPN server’s IP address (or FQDN) and user name. </figcaption><figure>
+
+<p><strong>Step 5:</strong> Select <em>Authentication Settings…</em> and then enter the password. Note: If you selected <em>L2TP</em> as the VPN type then this is panel is where you’d also enter the <em>shared secret</em>. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-password.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-password.png" alt="Step 5: Select Authentication Settings and then enter the password." /><figcaption>Step 5: Select Authentication Settings and then enter the password.</figcaption><figure>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-l2tp.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-l2tp.png" alt="Note: If you selected L2TP as the VPN type then this is panel is where you’d also enter the shared secret" /><figcaption>Note: If you selected L2TP as the VPN type then this is panel is where you’d also enter the shared secret</figcaption><figure>
+
+<p><strong>Step 6:</strong> Make sure <em>Show VPN status in menu bar</em> is selected, then click <em>Apply</em>.</p>
+
+<p>That’s it, you’re ready to go! On your menu bar, you’ll see a new icon that looks like a luggage tag. Click this and then select <em>Connect VPN</em>. Once it’s connected, you’ll see a timer starting. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-menu.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-menu.png" alt="When a VPN connection is established, you will see a timer on the menu bar" /><figcaption>When a VPN connection is established, you will see a timer on the menu bar</figcaption><figure>
+
+<p>Now we’ve established a VPN connection, go back to System Preferences and you’ll see some connection information, including your VPN’s IP address. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-connected.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-connected.png" alt="System Preferences will also display connection details such as IP address and time connected" /><figcaption>System Preferences will also display connection details such as IP address and time connected</figcaption><figure>
+
+<h3>Sending All Traffic Over VPN</h3>
+
+<p>By default, your Mac will only pass necessary traffic via VPN, such as accessing a file server or other machines or sites that are on the same network as the VPN server. This is because most VPN connections can be quite slow, so your Mac doesn’t want to slow your Internet experience down needlessly. However, we can override this. </p>
+
+<p>Go back in <em>System Preferences</em> and select <em>Advanced…</em>. </p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-send-traffic.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-send-traffic.png" alt="Go back in System Preferences and select Advanced. " /><figcaption>Go back in System Preferences and select Advanced.</figcaption><figure>
+
+<p>Straight away, we see an option to <em>Send all traffic over VPN connection</em>. Ticking this and then saving the changes will mean your Mac will pass <strong>all</strong> network traffic over the VPN. It is generally not recommended since it can make your Internet connection appear very slow and you may also find accessing servers and printers on the network you’re physically on is stopped. </p>
+
+<p>For all the data to be passed over the VPN once the option is enabled, we need to set the <em>service order</em>. This is the order that your Mac passes data over the network. We must have the VPN as the first service in the list. To do this, select the drop down cog menu and select <em>Set Service Order...</em> From here, you can drag the services into the required order, making sure the VPN is at the top.</p>
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-service-order.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-service-order.png" alt="Set the VPN to be the highest in the list of services" width="600" height="532" class="alignnone size-full wp-image-46093" /><figcaption>Set the VPN to be the highest in the list of services</figcaption><figure>
+
+<p>However, this is necessary if you need to access a site as we discussed earlier that’s only available in the country where your VPN server is located. Going back to our earlier example, if you were in the UK and you needed to access a US only site, enabling this option will allow you access to that site. </p>
+
+<h2>Getting a VPN Account</h2>
+
+<p>For many users, you’ll probably have a VPN profile from your employer’s IT department. If you’re wanting a VPN for personal use, there are many services that offer a VPN account for a low monthly cost. </p>
+
+<p>One such company is <a href="http://www.strongvpn.com">Strong VPN</a>, which offers VPN accounts from $7 to $30 month, depending on the features you require. They offer VPN accounts in many countries around the world and their price plans vary depending on the service you require and the length of time you pay for (it’s cheaper to pay annually than monthly overall). </p>
+
+<div class="tip-shortcode">
+<p><strong>Tip:</strong> Be careful when selecting a VPN provider. While the traffic is encrypted, make sure you go for a company with a good reputation rather than one that looks a little too good to be true!</p>
+</div>
+
+<h2>Roll Your Own VPN Server</h2>
+
+<p>You can use OS X Server, but if you’ve got a spare Mac that can run Leopard or above, you add VPN server functionality to the standard version of OS X using a nifty little app called <a href="http://macserve.org.uk/projects/ivpn/">iVPN</a> (trial available, £14.99). </p>
+
+
+<figure><img src="http://cdn.tutsplus.com/mac/authors/jordan-merrick/vpn-ivpn.png" data-original-url="http://cdn.tutsplus.com/mac.tutsplus.com/authors/jordan-merrick/vpn-ivpn.png" alt="iVPN has an extremely simple setup that you can easily customise and manage accounts on. " /><figcaption>iVPN has an extremely simple setup that you can easily customise and manage accounts on. </figcaption><figure>
+
+<p>You’ll need to know what your router’s IP address is (known as an external or WAN IP address). If it’s static, then it won’t change and you can use this as the VPN server address. If it’s dynamic (which changes) then I recommend using a service such as <a href="http://dyndns.org">Dynamic DNS</a> (DDNS) if your router supports it. You are provided with a generic domain name such as <em>myname.dyndns.org</em> and it is assigned to your external IP address. With Dynamic DNS, your router will automatically update the domain name whenever your IP address changes so you will always be able to connect.  </p>
+
+<p>Before using iVPN, make sure the Mac you want to use it on is set up with a static IP address and make sure you set up port forwarding. The ports you need to forward to the Mac is as follows:</p>
+
+<ul>
+<li>TCP - 1701 and 1723</li>
+<li>UDP 500</li>
+</ul>
+
+<p>Now you can connect to your home network via VPN wherever you are. Your Internet access will be secure and if you have a Time Capsule or network storage, you can access them as well!</p>
+
+<h2>Wrapping Up</h2>
+
+<p>In this guide, we’ve touched on the uses for a VPN, how to establish a connection and even how to set up a new  server. Do you use a VPN connection for work or home? Do you use a commercial VPN provider? Let us know in the comments! </p>
