@@ -168,16 +168,16 @@ echo $obj-&gt;prop1;
 
 ?&gt;</pre>
 
-<p><strong>Note</strong> — OOP allows objects to reference themselves using <code>$this</code>. When working within a method, use <code>$this</code> in the same way you would use the object name outside the class.</p>
+<p><strong>Nota</strong> — POO permite que os objetos referenciem-se usando <code>$this</code>. Quando estiver dentro de um método, use <code>$this</code> da mesma forma que você usaria o nome do objeto fora da classe.</p>
 
-<p>To use these methods, call them just like regular functions, but first, reference the object they belong to. Read the property from <code>MyClass</code>, change its value, and read it out again by making the modifications below:</p>
+<p>Para usar os métodos, execute-os da mesma forma que faria com funções normais, mas, antes, referencia o objeto ao qual eles pertencem. Para ler o valor da propriedade <code>$prop1</code> da classe <code>MyClass</code>, depois altera-lo e, por fim, le-lo novamente, faça as seguintes alterações no código:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function setProperty($newval)
   {
@@ -192,23 +192,23 @@ class MyClass
 
 $obj = new MyClass;
 
-echo $obj-&gt;getProperty(); // Get the property value
+echo $obj-&gt;getProperty(); // Lê o valor da propriedade
 
-$obj-&gt;setProperty("I'm a new property value!"); // Set a new one
+$obj-&gt;setProperty("Sou um novo valor da propriedade!"); // Atribui um novo valor
 
-echo $obj-&gt;getProperty(); // Read it out again to show the change
+echo $obj-&gt;getProperty(); // Lê o valor novamente para mostrar a mudança
 
 ?&gt;</pre>
 
-<p>Reload your browser, and you'll see the following:</p>
+<p>Atualize a página no seu navegador e você verá o resultado a seguir:</p>
 
 <pre class="brush: php">
-I'm a class property!
-I'm a new property value!</pre>
+Sou uma propriedade de classe!
+Sou um novo valor da propriedade!</pre>
 
 <blockquote>
-<p>"The power of OOP becomes apparent when using multiple instances of the<br />
-same class."</p>
+<p>"O poder da POO mostra-se ao usar múltiplas instâncias da<br />
+mesma classe."</p>
 
 </blockquote>
 
@@ -217,7 +217,7 @@ same class."</p>
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function setProperty($newval)
   {
@@ -234,27 +234,27 @@ class MyClass
 $obj = new MyClass;
 $obj2 = new MyClass;
 
-// Get the value of $prop1 from both objects
+// Mostra o valor de $prop1 de ambos os objetos
 echo $obj-&gt;getProperty();
 echo $obj2-&gt;getProperty();
 
-// Set new values for both objects
-$obj-&gt;setProperty("I'm a new property value!");
-$obj2-&gt;setProperty("I belong to the second instance!");
+// Atribui novos valores para ambos os objetos
+$obj-&gt;setProperty("Sou um novo valor de propriedade!");
+$obj2-&gt;setProperty("Pertenço à segunda instância!");
 
-// Output both objects' $prop1 value
+// Mostra o valor de $prop1 de ambos os objetos|
 echo $obj-&gt;getProperty();
 echo $obj2-&gt;getProperty();
 
 ?&gt;</pre>
 
-<p>When you load the results in your browser, they read as follows:</p>
+<p>Quando atualizar a página do seu navegador, verá o resultado a seguir:</p>
 
 <pre class="brush: php">
-I'm a class property!
-I'm a class property!
-I'm a new property value!
-I belong to the second instance!</pre>
+Sou uma propriedade de classe!
+Sou uma propriedade de classe!
+Sou um novo valor de propriedade!
+Pertenço à segunda instância!</pre>
 
 <p>As you can see, <strong>OOP keeps objects as separate entities</strong>, which makes for easy separation of different pieces of code into small, related bundles.</p>
 
