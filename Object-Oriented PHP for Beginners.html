@@ -1,0 +1,1385 @@
+<h1>Object-Oriented PHP for Beginners</h1>
+
+<p>For many PHP programmers, object-oriented programming is a frightening concept, full of complicated syntax and other roadblocks. As detailed in my book, <em><a href="http://www.amazon.com/gp/product/1430228474?ie=UTF8&amp;tag=ennudesi-20&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1430228474">Pro PHP and jQuery,</a></em> you'll learn the concepts behind <strong>object-oriented programming</strong> (OOP), a style of coding in which related actions are grouped into classes to aid in creating more-compact, effective code.</p>
+
+
+<h2>Understanding Object-Oriented Programming</h2>
+
+<p>
+Object-oriented programming is a style of coding that allows developers to group similar tasks into <strong>classes</strong>. This helps keep code following the tenet <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">"don't repeat yourself" (DRY)</a> and easy-to-maintain.</p>
+
+<blockquote class="pullquote pqRight">
+<p>"Object-oriented programming is a style of coding that allows developers to group similar tasks into <strong>classes</strong>."</p>
+
+</blockquote>
+
+<p>One of the major benefits of DRY programming is that, if a piece of information changes in your program, usually <strong>only one change is required to update the code.</strong> One of the biggest nightmares for developers is maintaining code where data is declared over and over again, meaning any changes to the program become an infinitely more frustrating game of <em>Where's Waldo?</em> as they hunt for duplicated data and functionality.</p>
+
+<p>OOP is intimidating to a lot of developers because it introduces new syntax and, at a glance, appears to be far more complex than simple procedural, or inline, code. However, upon closer inspection, OOP is actually a very straightforward and ultimately simpler approach to programming.</p>
+
+<h2>Understanding Objects and Classes</h2>
+
+<p>Before you can get too deep into the finer points of OOP, a basic understanding of the differences between <strong>objects</strong> and <strong>classes</strong> is necessary. This section will go over the building blocks of classes, their different capabilities, and some of their uses.</p>
+
+<h3>Recognizing the Differences Between Objects and Classes</h3>
+
+<figure>
+  <img src="http://s3.amazonaws.com/nettuts/734_oop/images/blueprint-houses.jpg" border="0" />
+  <figcaption>Photos by <a href="http://www.flickr.com/photos/instantjefferson/">Instant Jefferson</a> and <a href="http://www.flickr.com/photos/johnwardell/">John Wardell</a></figcaption>
+</figure>
+
+<blockquote>
+<p>Developers start talking about objects and classes, and they appear to be interchangeable terms. This is not the case, however.</p>
+</blockquote>
+
+<p>Right off the bat, there's confusion in OOP: seasoned developers start talking about objects and classes, and they appear to be interchangeable terms. This is not the case, however, though the difference can be tough to wrap your head around at first.</p>
+
+<p>A class, for example, is like <strong>a blueprint for a house</strong>. It defines the shape of the house on paper, with relationships between the different parts of the house clearly defined and planned out, even though the house doesn't exist.</p>
+
+<p>An object, then, is like <strong>the actual house</strong> built according to that blueprint. The data stored in the object is like the wood, wires, and concrete that compose the house: without being assembled according to the blueprint, it's just a pile of stuff. However, when it all comes together, it becomes an organized, useful house.</p>
+
+<p><strong>Classes form the structure of data and actions and use that information to build objects.</strong> More than one object can be built from the same class at the same time, each one independent of the others. Continuing with our construction analogy, it's similar to the way an entire subdivision can be built from the same blueprint: 150 different houses that all look the same but have different<br />
+families and decorations inside.</p>
+
+<h3>Structuring Classes</h3>
+
+<p>The syntax to create a class is pretty straightforward: declare a class using the <code>class</code> keyword, followed by the name of the class and a set of curly braces (<code>{}</code>):</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  // Class properties and methods go here
+}
+
+?&gt;</pre>
+
+<p>After creating the class, a new class can be instantiated and stored in a variable using the <code>new</code> keyword:</p>
+
+<pre class="brush: php">
+$obj = new MyClass;</pre>
+
+<p>To see the contents of the class, use <code>var_dump()</code>:</p>
+
+<pre class="brush: php">
+var_dump($obj);</pre>
+
+<p>Try out this process by putting all the preceding code in a new file called <code>test.php</code> in [your local] testing folder:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+	// Class properties and methods go here
+}
+
+$obj = new MyClass;
+
+var_dump($obj);
+
+?&gt;</pre>
+
+<p>Load the page in your browser at <code>http://localhost/test.php</code> and the following should display:</p>
+
+<pre class="brush: php">
+object(MyClass)#1 (0) { }</pre>
+
+<p><strong>In its simplest form, you've just completed your first OOP script.</strong></p>
+
+<h2>Defining Class Properties</h2>
+
+<p>To add data to a class, <strong>properties</strong>, or class-specific variables, are used. These work exactly like regular variables, except they're bound to the object and therefore can only be accessed using the object.</p>
+
+<p>To add a property to <code>MyClass</code>, add the following code to your script:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+}
+
+$obj = new MyClass;
+
+var_dump($obj);
+
+?&gt;</pre>
+
+<p>The keyword <code>public</code> determines the visibility of the property, which you'll learn about a little later in this chapter. Next, the property is named using standard variable syntax, and a value is assigned (though class properties do not need an initial value).</p>
+
+<p>To read this property and output it to the browser, reference the object from which to read and the property to be read:</p>
+
+<pre class="brush: php">
+echo $obj-&gt;prop1;</pre>
+
+<p>Because multiple instances of a class can exist, if the individual object is not referenced, the script would be unable to determine which object to read from. The use of the arrow (<code>-&gt;</code>) is an OOP construct that accesses the contained properties and methods of a given object.</p>
+
+<p>Modify the script in <code>test.php</code> to read out the property rather than dumping the whole class by modifying the code as shown:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+}
+
+$obj = new MyClass;
+
+echo $obj-&gt;prop1; // Output the property
+
+?&gt;</pre>
+
+<p>Reloading your browser now outputs the following:</p>
+
+<pre class="brush: php">
+I'm a class property!</pre>
+
+<h2>Defining Class Methods</h2>
+
+<p><strong>Methods</strong> are class-specific functions. Individual actions that an object will be able to perform are defined within the class as methods.</p>
+
+<p>For instance, to create methods that would set and get the value of the class property <code>$prop1</code>, add the following to your code:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+$obj = new MyClass;
+
+echo $obj-&gt;prop1;
+
+?&gt;</pre>
+
+<p><strong>Note</strong> — OOP allows objects to reference themselves using <code>$this</code>. When working within a method, use <code>$this</code> in the same way you would use the object name outside the class.</p>
+
+<p>To use these methods, call them just like regular functions, but first, reference the object they belong to. Read the property from <code>MyClass</code>, change its value, and read it out again by making the modifications below:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+$obj = new MyClass;
+
+echo $obj-&gt;getProperty(); // Get the property value
+
+$obj-&gt;setProperty("I'm a new property value!"); // Set a new one
+
+echo $obj-&gt;getProperty(); // Read it out again to show the change
+
+?&gt;</pre>
+
+<p>Reload your browser, and you'll see the following:</p>
+
+<pre class="brush: php">
+I'm a class property!
+I'm a new property value!</pre>
+
+<blockquote>
+<p>"The power of OOP becomes apparent when using multiple instances of the<br />
+same class."</p>
+
+</blockquote>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+// Create two objects
+$obj = new MyClass;
+$obj2 = new MyClass;
+
+// Get the value of $prop1 from both objects
+echo $obj-&gt;getProperty();
+echo $obj2-&gt;getProperty();
+
+// Set new values for both objects
+$obj-&gt;setProperty("I'm a new property value!");
+$obj2-&gt;setProperty("I belong to the second instance!");
+
+// Output both objects' $prop1 value
+echo $obj-&gt;getProperty();
+echo $obj2-&gt;getProperty();
+
+?&gt;</pre>
+
+<p>When you load the results in your browser, they read as follows:</p>
+
+<pre class="brush: php">
+I'm a class property!
+I'm a class property!
+I'm a new property value!
+I belong to the second instance!</pre>
+
+<p>As you can see, <strong>OOP keeps objects as separate entities</strong>, which makes for easy separation of different pieces of code into small, related bundles.</p>
+
+<h2>Magic Methods in OOP</h2>
+
+<p>To make the use of objects easier, PHP also provides a number of <strong>magic methods</strong>, or special methods that are called when certain common actions occur within objects. This allows developers to perform a number of useful tasks with relative ease.</p>
+
+<h3>Using Constructors and Destructors</h3>
+
+<p>When an object is instantiated, it's often desirable to set a few things right off the bat. To handle this, PHP provides the magic method <code>__construct()</code>, which is called automatically whenever a new object is<br />
+created.</p>
+
+<p>For the purpose of illustrating the concept of constructors, add a constructor to <code>MyClass</code> that will output a message whenever a new instance of the class is created:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$obj = new MyClass;
+
+// Get the value of $prop1
+echo $obj-&gt;getProperty();
+
+// Output a message at the end of the file
+echo "End of file.&lt;br /&gt;";
+
+?&gt;</pre>
+
+<p><strong>Note</strong> — <code>__CLASS__</code> returns the name of the class in which it is called; this is what is known as a <a href="http://us3.php.net/manual/en/language.constants.predefined.php">magic constant</a>. There are several available magic constants, which you can read more about in the PHP manual.</p>
+
+<p>Reloading the file in your browser will produce the following result:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+I'm a class property!
+End of file.</pre>
+
+<p>To call a function when the object is destroyed, the <code>__destruct()</code> magic method is available. This is useful for class cleanup (closing a database connection, for instance).</p>
+
+<p>Output a message when the object is destroyed by defining the magic method<br /><code>__destruct()</code> in <code>MyClass</code>:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$obj = new MyClass;
+
+// Get the value of $prop1
+echo $obj-&gt;getProperty();
+
+// Output a message at the end of the file
+echo "End of file.&lt;br /&gt;";
+
+?&gt;</pre>
+
+<p>With a destructor defined, reloading the test file results in the following output:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+I'm a class property!
+End of file.
+The class "MyClass" was destroyed.</pre>
+
+<blockquote>
+<p>"When the end of a file is reached, PHP automatically releases all resources."</p>
+
+</blockquote>
+
+<p>To explicitly trigger the destructor, you can destroy the object using the<br />
+function <code>unset()</code>:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$obj = new MyClass;
+
+// Get the value of $prop1
+echo $obj-&gt;getProperty();
+
+// Destroy the object
+unset($obj);
+
+// Output a message at the end of the file
+echo "End of file.&lt;br /&gt;";
+
+?&gt;</pre>
+
+<p>Now the result changes to the following when loaded in your browser:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+I'm a class property!
+The class "MyClass" was destroyed.
+End of file.</pre>
+
+<h3>Converting to a String</h3>
+
+<p>To avoid an error if a script attempts to output <code>MyClass</code> as a string, another magic method is used called <code>__toString()</code>.</p>
+
+<p>Without <code>__toString()</code>, <em>attempting to output the object as a string results in a fatal error</em>. Attempt to use <code>echo</code> to output the object without a magic method in place:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$obj = new MyClass;
+
+// Output the object as a string
+echo $obj;
+
+// Destroy the object
+unset($obj);
+
+// Output a message at the end of the file
+echo "End of file.&lt;br /&gt;";
+
+?&gt;</pre>
+
+<p>This results in the following:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+
+Catchable fatal error: Object of class MyClass could not be converted to string in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 40</pre>
+
+<p>To avoid this error, add a <code>__toString()</code> method:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$obj = new MyClass;
+
+// Output the object as a string
+echo $obj;
+
+// Destroy the object
+unset($obj);
+
+// Output a message at the end of the file
+echo "End of file.&lt;br /&gt;";
+
+?&gt;</pre>
+
+<p>In this case, attempting to convert the object to a string results in a call to the <code>getProperty()</code> method. Load the test script in your browser to see the result:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+Using the toString method: I'm a class property!
+The class "MyClass" was destroyed.
+End of file.</pre>
+
+<p><strong>Tip</strong> — In addition to the magic methods discussed in this section, several others are available. For a complete list of magic methods, see the  <a href="http://us2.php.net/manual/en/language.oop5.magic.php">PHP manual page</a>.</p>
+
+<h2>Using Class Inheritance</h2>
+
+<p><strong>Classes can inherit the methods and properties of another class</strong> using the <code>extends</code> keyword. For instance, to create a second class that extends <code>MyClass</code> and adds a method, you would add the following to your test file:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+class MyOtherClass extends MyClass
+{
+  public function newMethod()
+  {
+      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$newobj = new MyOtherClass;
+
+// Output the object as a string
+echo $newobj-&gt;newMethod();
+
+// Use a method from the parent class
+echo $newobj-&gt;getProperty();
+
+?&gt;</pre>
+
+<p>Upon reloading the test file in your browser, the following is output:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+From a new method in MyOtherClass.
+I'm a class property!
+The class "MyClass" was destroyed.</pre>
+
+<h3>Overwriting Inherited Properties and Methods</h3>
+
+<p>To change the behavior of an existing property or method in the new class, you can simply overwrite it by declaring it again in the new class:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+class MyOtherClass extends MyClass
+{
+  public function __construct()
+  {
+      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function newMethod()
+  {
+      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$newobj = new MyOtherClass;
+
+// Output the object as a string
+echo $newobj-&gt;newMethod();
+
+// Use a method from the parent class
+echo $newobj-&gt;getProperty();
+
+?&gt;</pre>
+
+<p>This changes the output in the browser to:</p>
+
+<pre class="brush: php">
+A new constructor in MyOtherClass.
+From a new method in MyOtherClass.
+I'm a class property!
+The class "MyClass" was destroyed.</pre>
+
+<h3>Preserving Original Method Functionality While Overwriting Methods</h3>
+
+<p>To add new functionality to an inherited method while keeping the original method intact, use the <code>parent</code> keyword with the <strong>scope resolution operator</strong> (<code>::</code>):</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  public function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+class MyOtherClass extends MyClass
+{
+  public function __construct()
+  {
+      parent::__construct(); // Call the parent class's constructor
+      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function newMethod()
+  {
+      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$newobj = new MyOtherClass;
+
+// Output the object as a string
+echo $newobj-&gt;newMethod();
+
+// Use a method from the parent class
+echo $newobj-&gt;getProperty();
+
+?&gt;</pre>
+
+<p>This outputs the result of both the parent constructor and the new class's constructor:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+A new constructor in MyOtherClass.
+From a new method in MyOtherClass.
+I'm a class property!
+The class "MyClass" was destroyed.</pre>
+
+<h2>Assigning the Visibility of Properties and Methods</h2>
+
+<p>For added control over objects, methods and properties are assigned visibility. This controls how and from where properties and methods can be accessed. There are three visibility keywords: <code>public</code>, <code>protected</code>, and <code>private</code>. In addition to its visibility, a method or property can be declared as <code>static</code>, which allows them to be accessed without an instantiation of the class.</p>
+
+<blockquote class="pullquote pqRight"><p>"For added control over objects, methods and properties are assigned visibility."</p>
+
+</blockquote>
+
+<p><strong>Note</strong> — Visibility is a new feature as of PHP 5. For information on <a href="http://us2.php.net/manual/en/language.oop5.php">OOP compatibility with PHP 4</a>, see the PHP manual page.</p>
+
+<h3>Public Properties and Methods</h3>
+
+<p>All the methods and properties you've used so far have been public. This means that they can be accessed anywhere, both within the class and externally.</p>
+
+<h3>Protected Properties and Methods</h3>
+
+<p>When a property or method is declared <code>protected</code>, <strong>it can only be accessed within the class itself or in descendant classes</strong> (classes that extend the class containing the protected method).</p>
+
+<p>Declare the <code>getProperty()</code> method as protected in <code>MyClass</code> and try to access it directly from outside the class:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  protected function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+class MyOtherClass extends MyClass
+{
+  public function __construct()
+  {
+      parent::__construct();
+echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function newMethod()
+  {
+      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+}
+
+// Create a new object
+$newobj = new MyOtherClass;
+
+// Attempt to call a protected method
+echo $newobj-&gt;getProperty();
+
+?&gt;</pre>
+
+<p>Upon attempting to run this script, the following error shows up:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+A new constructor in MyOtherClass.
+
+Fatal error: Call to protected method MyClass::getProperty() from context '' in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 55</pre>
+
+<p>Now, create a new method in <code>MyOtherClass</code> to call the <code>getProperty()</code> method:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  protected function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+class MyOtherClass extends MyClass
+{
+  public function __construct()
+  {
+      parent::__construct();
+echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function newMethod()
+  {
+      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function callProtected()
+  {
+      return $this-&gt;getProperty();
+  }
+}
+
+// Create a new object
+$newobj = new MyOtherClass;
+
+// Call the protected method from within a public method
+echo $newobj-&gt;callProtected();
+
+?&gt;</pre>
+
+<p>This generates the desired result:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+A new constructor in MyOtherClass.
+I'm a class property!
+The class "MyClass" was destroyed.</pre>
+
+<h3>Private Properties and Methods</h3>
+
+<p>A property or method declared <code>private</code> is accessible <strong>only from within the class that defines it</strong>. This means that <em>even if a new class extends the class that defines a private property,</em> that property or method will not be available at all within the child class.</p>
+
+<p>To demonstrate this, declare <code>getProperty()</code> as private in <code>MyClass</code>, and attempt to call <code>callProtected()</code> from<br /><code>MyOtherClass</code>:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  private function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+}
+
+class MyOtherClass extends MyClass
+{
+  public function __construct()
+  {
+      parent::__construct();
+      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function newMethod()
+  {
+      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function callProtected()
+  {
+      return $this-&gt;getProperty();
+  }
+}
+
+// Create a new object
+$newobj = new MyOtherClass;
+
+// Use a method from the parent class
+echo $newobj-&gt;callProtected();
+
+?&gt;</pre>
+
+<p>Reload your browser, and the following error appears:</p>
+
+<pre class="brush: php">
+The class "MyClass" was initiated!
+A new constructor in MyOtherClass.
+
+Fatal error: Call to private method MyClass::getProperty() from context 'MyOtherClass' in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 49</pre>
+
+<h3>Static Properties and Methods</h3>
+
+<p>A method or property declared <code>static</code> can be accessed without first instantiating the class; you simply supply the class name, scope resolution operator, and the property or method name.</p>
+
+<blockquote>
+<p>"One of the major benefits to using static properties is that they keep their stored values for the duration of the script."</p>
+
+</blockquote>
+
+<p>To demonstrate this, add a static property called <code>$count</code> and a static method called <code>plusOne()</code> to <code>MyClass</code>. Then set up a <code>do...while</code> loop to output the incremented value of <code>$count</code> as long as the value is less than 10:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class MyClass
+{
+  public $prop1 = "I'm a class property!";
+
+  public static $count = 0;
+
+  public function __construct()
+  {
+      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+  }
+
+  public function __destruct()
+  {
+      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+  }
+
+  public function __toString()
+  {
+      echo "Using the toString method: ";
+      return $this-&gt;getProperty();
+  }
+
+  public function setProperty($newval)
+  {
+      $this-&gt;prop1 = $newval;
+  }
+
+  private function getProperty()
+  {
+      return $this-&gt;prop1 . "&lt;br /&gt;";
+  }
+
+  public static function plusOne()
+  {
+      return "The count is " . ++self::$count . ".&lt;br /&gt;";
+  }
+}
+
+class MyOtherClass extends MyClass
+{
+  public function __construct()
+  {
+      parent::__construct();
+      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function newMethod()
+  {
+      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+  }
+
+  public function callProtected()
+  {
+      return $this-&gt;getProperty();
+  }
+}
+
+do
+{
+  // Call plusOne without instantiating MyClass
+  echo MyClass::plusOne();
+} while ( MyClass::$count &lt; 10 );
+
+?&gt;</pre>
+
+<p><strong>Note</strong> — When accessing static properties, the dollar sign<br />
+(<code>$</code>) comes <em>after the scope resolution operator.</em></p>
+
+<p>When you load this script in your browser, the following is output:</p>
+
+<pre class="brush: php">
+The count is 1.
+The count is 2.
+The count is 3.
+The count is 4.
+The count is 5.
+The count is 6.
+The count is 7.
+The count is 8.
+The count is 9.
+The count is 10.</pre>
+
+<h2>Commenting with DocBlocks</h2>
+
+<blockquote class="pullquote pqRight">
+<p>"The DocBlock commenting style is a widely<br />
+accepted method of documenting classes."</p>
+
+</blockquote>
+
+<p>While not an official part of OOP, the <a href="http://en.wikipedia.org/wiki/PHPDoc">DocBlock</a> commenting style is a widely accepted method of documenting classes. Aside from providing a standard for<br />
+developers to use when writing code, it has also been adopted by many of the most popular software development kits (SDKs), such as <a href="http://eclipse.org">Eclipse</a> and <a href="http://netbeans.org">NetBeans</a>, and will be used to generate code hints.</p>
+
+<p>A DocBlock is defined by using a block comment that starts with an additional asterisk:</p>
+
+<pre class="brush: php">
+/**
+ * This is a very basic DocBlock
+ */</pre>
+
+<p>The real power of DocBlocks comes with the ability to use <strong>tags</strong>, which start with an at symbol (<code>@</code>) immediately followed by the tag name and the value of the tag. <strong>DocBlock tags allow developers to define authors of a file, the license for a class, the property or method information, and other useful information.</strong></p>
+
+<p>The most common tags used follow:</p>
+
+<ul><li><strong>@author</strong>: The author of the current element (which might be a class, file, method, or any bit of code) are listed using this tag. Multiple author tags can be used in the same DocBlock if more than one author is credited. The format for the author name is <code>John Doe &lt;john.doe@email.com&gt;</code>.</li>
+<li><strong>@copyright</strong>: This signifies the copyright year and name of the copyright holder for the current element. The format is <code>2010 Copyright Holder</code>.</li>
+<li><strong>@license</strong>: This links to the license for the current element. The format for the license information is<br /><code>http://www.example.com/path/to/license.txt License Name</code>.</li>
+<li><strong>@var</strong>: This holds the type and description of a variable or class property. The format is <code>type element description</code>.</li>
+<li><strong>@param</strong>: This tag shows the type and description of a function or method parameter. The format is <code>type $element_name element description</code>.</li>
+<li><strong>@return</strong>: The type and description of the return value of a function or method are provided in this tag. The format is <code>type return element description</code>.</li>
+</ul>
+
+<p>A sample class commented with DocBlocks might look like this:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+/**
+ * A simple class
+ *
+ * This is the long description for this class,
+ * which can span as many lines as needed. It is
+ * not required, whereas the short description is
+ * necessary.
+ *
+ * It can also span multiple paragraphs if the
+ * description merits that much verbiage.
+ *
+ * @author Jason Lengstorf &lt;jason.lengstorf@ennuidesign.com&gt;
+ * @copyright 2010 Ennui Design
+ * @license http://www.php.net/license/3_01.txt PHP License 3.01
+ */
+class SimpleClass
+{
+  /**
+   * A public variable
+   *
+   * @var string stores data for the class
+   */
+  public $foo;
+
+  /**
+   * Sets $foo to a new value upon class instantiation
+   *
+   * @param string $val a value required for the class
+   * @return void
+   */
+  public function __construct($val)
+  {
+      $this-&gt;foo = $val;
+  }
+
+  /**
+   * Multiplies two integers
+   *
+   * Accepts a pair of integers and returns the
+   * product of the two.
+   *
+   * @param int $bat a number to be multiplied
+   * @param int $baz a number to be multiplied
+   * @return int the product of the two parameters
+   */
+  public function bar($bat, $baz)
+  {
+      return $bat * $baz;
+  }
+}
+
+?&gt;</pre>
+
+<p>Once you scan the preceding class, the benefits of DocBlock are apparent: everything is clearly defined so that the next developer can pick up the code and <em>never have to wonder what a snippet of code does or what it should contain.</em></p>
+
+<h2>Comparing Object-Oriented and Procedural Code</h2>
+
+<p>There's not really a right and wrong way to write code. That being said, <strong>this section outlines a strong argument for adopting an object-oriented approach in software development, especially in large applications.</strong></p>
+
+<h2>Reason 1: Ease of Implementation</h2>
+
+<blockquote class="pullquote pqRight">
+<p>"While it may be daunting at first, OOP actually provides an easier approach to dealing with data."</p>
+
+</blockquote>
+
+<p>While it may be daunting at first, OOP actually provides an easier approach to dealing with data. Because an object can store data internally, variables don't need to be passed from function to function to work properly.</p>
+
+<p>Also, because <em>multiple instances of the same class can exist simultaneously</em>, dealing with large data sets is infinitely easier. For instance, imagine you have two people's information being processed in a file. They need names, occupations, and ages.</p>
+
+<h3>The Procedural Approach</h3>
+
+<p>Here's the procedural approach to our example:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+function changeJob($person, $newjob)
+{
+  $person['job'] = $newjob; // Change the person's job
+  return $person;
+}
+
+function happyBirthday($person)
+{
+  ++$person['age']; // Add 1 to the person's age
+  return $person;
+}
+
+$person1 = array(
+  'name' =&gt; 'Tom',
+  'job' =&gt; 'Button-Pusher',
+  'age' =&gt; 34
+);
+
+$person2 = array(
+  'name' =&gt; 'John',
+  'job' =&gt; 'Lever-Puller',
+  'age' =&gt; 41
+);
+
+// Output the starting values for the people
+echo "&lt;pre&gt;Person 1: ", print_r($person1, TRUE), "&lt;/pre&gt;";
+echo "&lt;pre&gt;Person 2: ", print_r($person2, TRUE), "&lt;/pre&gt;";
+
+// Tom got a promotion and had a birthday
+$person1 = changeJob($person1, 'Box-Mover');
+$person1 = happyBirthday($person1);
+
+// John just had a birthday
+$person2 = happyBirthday($person2);
+
+// Output the new values for the people
+echo "&lt;pre&gt;Person 1: ", print_r($person1, TRUE), "&lt;/pre&gt;";
+echo "&lt;pre&gt;Person 2: ", print_r($person2, TRUE), "&lt;/pre&gt;";
+
+?&gt;</pre>
+
+<p>When executed, the code outputs the following:</p>
+
+<pre class="brush: php">
+Person 1: Array
+(
+  [name] =&gt; Tom
+  [job] =&gt; Button-Pusher
+  [age] =&gt; 34
+)
+Person 2: Array
+(
+  [name] =&gt; John
+  [job] =&gt; Lever-Puller
+  [age] =&gt; 41
+)
+Person 1: Array
+(
+  [name] =&gt; Tom
+  [job] =&gt; Box-Mover
+  [age] =&gt; 35
+)
+Person 2: Array
+(
+  [name] =&gt; John
+  [job] =&gt; Lever-Puller
+  [age] =&gt; 42
+)</pre>
+
+<p>While this code isn't necessarily bad, there's a lot to keep in mind while coding. <strong>The array of the affected person's attributes must be passed and returned from each function call</strong>, which leaves margin for error.</p>
+
+<p>To clean up this example, it would be desirable to <strong>leave as few things up to the developer as possible.</strong> Only absolutely essential information for the current operation should need to be passed to the functions.</p>
+
+<p><strong>This is where OOP steps in and helps you clean things up.</strong></p>
+
+<h3>The OOP Approach</h3>
+
+<p>Here's the OOP approach to our example:</p>
+
+<pre class="brush: php">
+&lt;?php
+
+class Person
+{
+  private $_name;
+  private $_job;
+  private $_age;
+
+  public function __construct($name, $job, $age)
+  {
+      $this-&gt;_name = $name;
+      $this-&gt;_job = $job;
+      $this-&gt;_age = $age;
+  }
+
+  public function changeJob($newjob)
+  {
+      $this-&gt;_job = $newjob;
+  }
+
+  public function happyBirthday()
+  {
+      ++$this-&gt;_age;
+  }
+}
+
+// Create two new people
+$person1 = new Person("Tom", "Button-Pusher", 34);
+$person2 = new Person("John", "Lever Puller", 41);
+
+// Output their starting point
+echo "&lt;pre&gt;Person 1: ", print_r($person1, TRUE), "&lt;/pre&gt;";
+echo "&lt;pre&gt;Person 2: ", print_r($person2, TRUE), "&lt;/pre&gt;";
+
+// Give Tom a promotion and a birthday
+$person1-&gt;changeJob("Box-Mover");
+$person1-&gt;happyBirthday();
+
+// John just gets a year older
+$person2-&gt;happyBirthday();
+
+// Output the ending values
+echo "&lt;pre&gt;Person 1: ", print_r($person1, TRUE), "&lt;/pre&gt;";
+echo "&lt;pre&gt;Person 2: ", print_r($person2, TRUE), "&lt;/pre&gt;";
+
+?&gt;</pre>
+
+<p>This outputs the following in the browser:</p>
+
+<pre class="brush: php">
+Person 1: Person Object
+(
+  [_name:private] =&gt; Tom
+  [_job:private] =&gt; Button-Pusher
+  [_age:private] =&gt; 34
+)
+
+Person 2: Person Object
+(
+  [_name:private] =&gt; John
+  [_job:private] =&gt; Lever Puller
+  [_age:private] =&gt; 41
+)
+
+Person 1: Person Object
+(
+  [_name:private] =&gt; Tom
+  [_job:private] =&gt; Box-Mover
+  [_age:private] =&gt; 35
+)
+
+Person 2: Person Object
+(
+  [_name:private] =&gt; John
+  [_job:private] =&gt; Lever Puller
+  [_age:private] =&gt; 42
+)</pre>
+
+<p>There's a little bit more setup involved to make the approach object oriented, but after the class is defined, creating and modifying people is a breeze; <strong>a person's information does not need to be passed or returned from methods, and only absolutely essential information is passed to each method.</strong></p>
+
+<blockquote class="pullquote pqRight">
+<p>"OOP will significantly reduce your workload if implemented properly."</p>
+
+</blockquote>
+
+<p>On the small scale, this difference may not seem like much, but as your applications grow in size, OOP will significantly reduce your workload if implemented properly.</p>
+
+<p><strong>Tip</strong> — <em>Not everything needs to be object oriented.</em> A quick function that handles something small in one place inside the application does not necessarily need to be wrapped in a class. Use your best judgment when deciding between object-oriented and procedural approaches.</p>
+
+<h2>Reason 2: Better Organization</h2>
+
+<p>Another benefit of OOP is how well it lends itself to being <strong>easily packaged and cataloged.</strong> Each class can generally be kept in its own separate file, and if a uniform naming convention is used, accessing the classes is extremely simple.</p>
+
+<p>Assume you've got an application with 150 classes that are called dynamically through a controller file at the root of your application filesystem. All 150 classes follow the naming convention <code>class.classname.inc.php</code> and reside in the <code>inc</code> folder of your application.</p>
+
+<p>The controller can implement PHP's <code>__autoload()</code> function to dynamically pull in only the classes it needs as they are called, rather than including all 150 in the controller file just in case or coming up with some clever way of including the files in your own code:</p>
+
+<pre class="brush: php">
+&lt;?php
+  function __autoload($class_name)
+  {
+      include_once 'inc/class.' . $class_name . '.inc.php';
+  }
+?&gt;</pre>
+
+<p>Having each class in a separate file also makes code more portable and easier to reuse in new applications without a bunch of copying and pasting.</p>
+
+<h2>Reason 3: Easier Maintenance</h2>
+
+<p>Due to the more compact nature of OOP when done correctly, <strong>changes in the code are usually much easier to spot</strong> and make than in a long spaghetti code procedural implementation.</p>
+
+<p>If a particular array of information gains a new attribute, a procedural piece of software may require (in a worst-case scenario) that the new attribute be added to each function that uses the array.</p>
+
+<p>An OOP application could potentially be updated as easily adding the new property and then adding the methods that deal with said property.</p>
+
+<p>A lot of the benefits covered in this section are the product of <strong>OOP in combination with DRY programming practices.</strong> It is definitely possible to create easy-to-maintain procedural code that doesn't cause nightmares, and it is equally possible to create awful object-oriented code. [<em>Pro PHP and  jQuery</em>] will attempt to demonstrate a combination of good coding habits in conjunction with OOP to generate clean code that's easy to read and maintain.</p>
+
+<h2>Summary</h2>
+
+<p>At this point, you should feel comfortable with the object-oriented programming style. Learning OOP is a great way to take your programming to that next level. When implemented properly, OOP will help you produce easy-to-read, easy-to-maintain, portable code that will save you (and the developers who work with you) hours of extra work. Are you stuck on something that wasn't covered in this article? Are you already using OOP and have some tips for beginners? Share them in the comments!</p>
+
+<p><strong>Author's Note</strong> — This tutorial was an excerpt from <a href="http://www.amazon.com/gp/product/1430228474?ie=UTF8&amp;tag=ennudesi-20&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1430228474">Pro PHP and jQuery</a> (Apress, 2010).</p>
