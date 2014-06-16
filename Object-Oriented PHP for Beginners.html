@@ -420,27 +420,27 @@ Sou uma propriedade de classe!
 A classe "MyClass" foi destruída.
 Fim do arquivo.</pre>
 
-<h3>Converting to a String</h3>
+<h3>Convertendo Em Uma String</h3>
 
-<p>To avoid an error if a script attempts to output <code>MyClass</code> as a string, another magic method is used called <code>__toString()</code>.</p>
+<p>Para evitar que aconteça um erro quando &ndash; e se &ndash; algum script tentar mostrar a classe MyClass como uma string, existe outro método mágico, chamado  <code>__toString()</code>.</p>
 
-<p>Without <code>__toString()</code>, <em>attempting to output the object as a string results in a fatal error</em>. Attempt to use <code>echo</code> to output the object without a magic method in place:</p>
+<p>Sem o método <code>__toString()</code>, <em>tentar mostrar um objeto como uma string resulta em um erro fatal</em>. Tente mostrar um objeto, usando <code>echo</code>, sem o método mágico:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi isntanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function setProperty($newval)
@@ -454,49 +454,49 @@ class MyClass
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $obj = new MyClass;
 
-// Output the object as a string
+// Mostra o objeto como uma string
 echo $obj;
 
-// Destroy the object
+// Destrói o objeto
 unset($obj);
 
-// Output a message at the end of the file
-echo "End of file.&lt;br /&gt;";
+// Mostra uma mensagem ao final do arquivo
+echo "Fim do arquivo.&lt;br /&gt;";
 
 ?&gt;</pre>
 
-<p>This results in the following:</p>
+<p>O resultado é esse:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
+A classe "MyClass" foi instanciada!
 
 Catchable fatal error: Object of class MyClass could not be converted to string in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 40</pre>
 
-<p>To avoid this error, add a <code>__toString()</code> method:</p>
+<p>Para evitar esse erro, adicione o método <code>__toString()</code> method:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi isntanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -511,27 +511,27 @@ class MyClass
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $obj = new MyClass;
 
-// Output the object as a string
+// Mostra o objeto como uma string
 echo $obj;
 
-// Destroy the object
+// Destrói o objeto
 unset($obj);
 
-// Output a message at the end of the file
-echo "End of file.&lt;br /&gt;";
+// Mostra uma mensagem ao final do arquivo
+echo "Fim do arquivo.&lt;br /&gt;";
 
 ?&gt;</pre>
 
-<p>In this case, attempting to convert the object to a string results in a call to the <code>getProperty()</code> method. Load the test script in your browser to see the result:</p>
+<p>Nesse caso, tentar converter o objeto em string resulta numa chamada ao método <code>getProperty()</code>. Execute o código, recarregando a página no seu navegador, e veja o resultado:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-Using the toString method: I'm a class property!
-The class "MyClass" was destroyed.
-End of file.</pre>
+A classe "MyClass" foi iniciada!
+Usando o método toString: Sou uma propriedade de classe!
+A classe "MyClass" foi destruída.
+Fim do arquivo.</pre>
 
 <p><strong>Tip</strong> — In addition to the magic methods discussed in this section, several others are available. For a complete list of magic methods, see the  <a href="http://us2.php.net/manual/en/language.oop5.magic.php">PHP manual page</a>.</p>
 
