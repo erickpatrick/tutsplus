@@ -256,29 +256,29 @@ Sou uma propriedade de classe!
 Sou um novo valor de propriedade!
 Pertenço à segunda instância!</pre>
 
-<p>As you can see, <strong>OOP keeps objects as separate entities</strong>, which makes for easy separation of different pieces of code into small, related bundles.</p>
+<p>Como pode ver, <strong>POO mantém os objetos como entidades diferentes</strong>, o que torna fácil a separação de diferentes partes de código em pedaços pequenos e relacionados.</p>
 
-<h2>Magic Methods in OOP</h2>
+<h2>Métodos Mágicos em POO</h2>
 
-<p>To make the use of objects easier, PHP also provides a number of <strong>magic methods</strong>, or special methods that are called when certain common actions occur within objects. This allows developers to perform a number of useful tasks with relative ease.</p>
+<p>Para facilitar o uso dos objetos, o PHP provê uma série de <strong>métodos mágicos</strong>, métodos especiais chamados quando certas ações comuns ocorrem com objetos. Isso permite executar várias tarefas úteis com certa facilidade.</p>
 
-<h3>Using Constructors and Destructors</h3>
+<h3>Usando Construtores e Destruidores</h3>
 
-<p>When an object is instantiated, it's often desirable to set a few things right off the bat. To handle this, PHP provides the magic method <code>__construct()</code>, which is called automatically whenever a new object is<br />
-created.</p>
+<p>Quando um ojeto é isntanciado, é desejável que algumas coisas ocorram de cara. Para lidar com isso, o PHP provê o método <code>__construct()</code>, que é chamado automaticamente quando um novo objeto é<br />
+criado.</p>
 
-<p>For the purpose of illustrating the concept of constructors, add a constructor to <code>MyClass</code> that will output a message whenever a new instance of the class is created:</p>
+<p>Para ilustrar os conceitos dos construtores, adicione um construtor à classe <code>MyClass</code> que mostre uma mensagem todoa vez que uma nova instância for criada:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function setProperty($newval)
@@ -292,18 +292,18 @@ class MyClass
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $obj = new MyClass;
 
-// Get the value of $prop1
+// Mostra o valor de $prop1
 echo $obj-&gt;getProperty();
 
-// Output a message at the end of the file
+// Mostra uma mensagem ao final do arquivo
 echo "End of file.&lt;br /&gt;";
 
 ?&gt;</pre>
 
-<p><strong>Note</strong> — <code>__CLASS__</code> returns the name of the class in which it is called; this is what is known as a <a href="http://us3.php.net/manual/en/language.constants.predefined.php">magic constant</a>. There are several available magic constants, which you can read more about in the PHP manual.</p>
+<p><strong>Nota</strong> — <code>__CLASS__</code> retorna o nome da classe na qual foi usado; isso é o que chamaos de <a href="http://us3.php.net/manual/en/language.constants.predefined.php">constante mágica</a>. Há inúmeras constantes mágicas disponíveis e você pode ler mais sobre elas no <a href="http://us3.php.net/manual/en/language.constants.predefined.php">manual do PHP</a>.</p>
 
 <p>Reloading the file in your browser will produce the following result:</p>
 
