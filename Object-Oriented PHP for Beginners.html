@@ -108,28 +108,28 @@ var_dump($obj);
 
 ?&gt;</pre>
 
-<p>The keyword <code>public</code> determines the visibility of the property, which you'll learn about a little later in this chapter. Next, the property is named using standard variable syntax, and a value is assigned (though class properties do not need an initial value).</p>
+<p>A palavra chave <code>public</code> determina a visibilidade da propriedade, a qual você aprenderá mais sobre, no próximo capítulo. Depois disso, a propriedade é nomeada usando os padrões básicos de nomeação de variáves, e, então, um valor é atribuído (embora propriedades de classe não necessitem de valores iniciais).</p>
 
-<p>To read this property and output it to the browser, reference the object from which to read and the property to be read:</p>
+<p>Para ver o valor da propriedade e mostrá-la no navegador, referencie o objeto o qual será feita a leitura, bem como a propriedade a ser lida, dessa forma:</p>
 
 <pre class="brush: php">
 echo $obj-&gt;prop1;</pre>
 
-<p>Because multiple instances of a class can exist, if the individual object is not referenced, the script would be unable to determine which object to read from. The use of the arrow (<code>-&gt;</code>) is an OOP construct that accesses the contained properties and methods of a given object.</p>
+<p>Já que múltiplas instâncias de uma mesma classe podem existir, se um objeto em específico não for referenciado, o código não será capaz de determinar de qual objeto ler a propriedade. O uso da flecha (<code>-&gt;</code>) é um construto da POO no PHP que permite acessar as propriedades e métodos de um dado objeto.</p>
 
-<p>Modify the script in <code>test.php</code> to read out the property rather than dumping the whole class by modifying the code as shown:</p>
+<p>Modifique o código do arquivo <code>test.php</code> para ler a propriedade ao invés de mostrar todo o conteúdo da classe, dessa forma:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou um propriedade de classe!";
 }
 
 $obj = new MyClass;
 
-echo $obj-&gt;prop1; // Output the property
+echo $obj-&gt;prop1; // Mostra a saída/conteúdo da propriedade
 
 ?&gt;</pre>
 
