@@ -81,25 +81,25 @@ var_dump($obj);
 
 ?&gt;</pre>
 
-<p>Load the page in your browser at <code>http://localhost/test.php</code> and the following should display:</p>
+<p>Carregue a página no seu navegador, usando o endereço <code>http://localhost/test.php</code> (ou o endereço indicado pelo seu servidor local) e o resultado a seguir deve aparecer:</p>
 
 <pre class="brush: php">
 object(MyClass)#1 (0) { }</pre>
 
-<p><strong>In its simplest form, you've just completed your first OOP script.</strong></p>
+<p><strong>De uma forma bem simplória, você acabou de criar seu primeiro código em POO.</strong></p>
 
-<h2>Defining Class Properties</h2>
+<h2>Definindo as Propriedades da Classe</h2>
 
-<p>To add data to a class, <strong>properties</strong>, or class-specific variables, are used. These work exactly like regular variables, except they're bound to the object and therefore can only be accessed using the object.</p>
+<p>Para adicionar dados à classe, usamos as <strong>propriedades</strong>, que são variáveis específicas à classe. Elas funcionam de forma parecida às variáveis normais, exceto que elas estão ligadas ao objeto e só podem ser acessadas usando o objeto.</p>
 
-<p>To add a property to <code>MyClass</code>, add the following code to your script:</p>
+<p>Para adicionar uma propriedade a <code>MyClass</code>, adicione o seguinte trecho de código ao seu script:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou um propriedade de classe!";
 }
 
 $obj = new MyClass;
