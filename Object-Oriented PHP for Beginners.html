@@ -17,40 +17,40 @@ Programação orientada a objetos é um estilo de programação que permite os d
 
 <p>POO é intimidadora para uma grande quantidade de programadores porque ela introduz uma nova sintaxe e, a primeira vista, parece ser bem mais complexa que a simples programação procedural. Entretanto, se analisar bem, POO é bem direta e fundamentalmente uma abordagem mais simples para programação.</p>
 
-<h2>Understanding Objects and Classes</h2>
+<h2>Compreendendo Objetos e Classes</h2>
 
-<p>Before you can get too deep into the finer points of OOP, a basic understanding of the differences between <strong>objects</strong> and <strong>classes</strong> is necessary. This section will go over the building blocks of classes, their different capabilities, and some of their uses.</p>
+<p>Antes de lidar diretamente com as partes mais interessante da POO, um entendimento básico das diferenças entre <strong>objetos</strong> e <strong>classes</strong> é necessário. Essa seção falará sobre a base das classes, suas diferentes capacidades e alguns de seus usos.</p>
 
-<h3>Recognizing the Differences Between Objects and Classes</h3>
+<h3>Reconhecendo as Diferenças Entre Objetos e Classes</h3>
 
 <figure>
   <img src="http://s3.amazonaws.com/nettuts/734_oop/images/blueprint-houses.jpg" border="0" />
-  <figcaption>Photos by <a href="http://www.flickr.com/photos/instantjefferson/">Instant Jefferson</a> and <a href="http://www.flickr.com/photos/johnwardell/">John Wardell</a></figcaption>
+  <figcaption>Fotos por <a href="http://www.flickr.com/photos/instantjefferson/">Instant Jefferson</a> e <a href="http://www.flickr.com/photos/johnwardell/">John Wardell</a></figcaption>
 </figure>
 
 <blockquote>
-<p>Developers start talking about objects and classes, and they appear to be interchangeable terms. This is not the case, however.</p>
+<p>Quando programadores de longa data falam sobre objetos e classes, esses termos parecem permutáveis. Porém, não é bem assim.</p>
 </blockquote>
 
-<p>Right off the bat, there's confusion in OOP: seasoned developers start talking about objects and classes, and they appear to be interchangeable terms. This is not the case, however, though the difference can be tough to wrap your head around at first.</p>
+<p>Logo de cara, há uma grande confusão na POO: quando programadores de longa data falam sobre objetos e classes, esses termos parecem permutáveis. Porém, não é bem assim, muito embora a diferença entre eles seja um pouco complicada de perceber, no início.</p>
 
-<p>A class, for example, is like <strong>a blueprint for a house</strong>. It defines the shape of the house on paper, with relationships between the different parts of the house clearly defined and planned out, even though the house doesn't exist.</p>
+<p>Uma classe, por exemplo, é como uma <strong>planta baixa para uma casa</strong>. Ela define a forma da casa no papel, com as relações entre as diferentes partes da casa, claramente, definidas e planejadas, mesmo a casa ainda não existindo.</p>
 
-<p>An object, then, is like <strong>the actual house</strong> built according to that blueprint. The data stored in the object is like the wood, wires, and concrete that compose the house: without being assembled according to the blueprint, it's just a pile of stuff. However, when it all comes together, it becomes an organized, useful house.</p>
+<p>Um objeto, por outro lado, <strong>seria a casa de verdade</strong>, construída de acordo com a planta baixa. Os dados guardados no objeto são como a madeira, fios e concreto que compoem a casa: sem a ordem criada pela planta baixa, são só um monte de materiais. Entretanto, quando tudo é colocado seguido uma ordem, eles viram uma casa organizada e útil.</p>
 
-<p><strong>Classes form the structure of data and actions and use that information to build objects.</strong> More than one object can be built from the same class at the same time, each one independent of the others. Continuing with our construction analogy, it's similar to the way an entire subdivision can be built from the same blueprint: 150 different houses that all look the same but have different<br />
-families and decorations inside.</p>
+<p><strong>As classes servem de estrutura para os dados e ações, e usam essa informaçao para construir objetos.</strong> Mais de um objeto pode ser construido de uma mesma classe, ao mesmo tempo, cada um independente dos outros. Continuando a nossa analogia à construção, é parecida com a maneira que um condomínio de casa pode ser construído, usando a mesma planta baixa: 150 casas diferentes, todas bastante parecidas umas às outras, porém, contem <br />
+famílias e decorações diferentes, por dentro.</p>
 
-<h3>Structuring Classes</h3>
+<h3>Estruturando Classes</h3>
 
-<p>The syntax to create a class is pretty straightforward: declare a class using the <code>class</code> keyword, followed by the name of the class and a set of curly braces (<code>{}</code>):</p>
+<p>A sintaxe para criar uma classe é bem direta: declare-a usando a palavra chave <code>class</code>, seguida do nome da classe e um par de chaves (<code>{}</code>):</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  // Class properties and methods go here
+  // As propriedades e métodos da Classe vem aqui
 }
 
 ?&gt;</pre>
