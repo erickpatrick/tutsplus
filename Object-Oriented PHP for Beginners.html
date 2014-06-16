@@ -299,38 +299,38 @@ $obj = new MyClass;
 echo $obj-&gt;getProperty();
 
 // Mostra uma mensagem ao final do arquivo
-echo "End of file.&lt;br /&gt;";
+echo "Fim do arquivo.&lt;br /&gt;";
 
 ?&gt;</pre>
 
 <p><strong>Nota</strong> — <code>__CLASS__</code> retorna o nome da classe na qual foi usado; isso é o que chamaos de <a href="http://us3.php.net/manual/en/language.constants.predefined.php">constante mágica</a>. Há inúmeras constantes mágicas disponíveis e você pode ler mais sobre elas no <a href="http://us3.php.net/manual/en/language.constants.predefined.php">manual do PHP</a>.</p>
 
-<p>Reloading the file in your browser will produce the following result:</p>
+<p>Atualize a página no seu navegador e terá os resultados a seguir:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-I'm a class property!
-End of file.</pre>
+A classe "MyClass" foi instanciada!
+Sou uma propriedade de classe!
+Fim do arquivo.</pre>
 
-<p>To call a function when the object is destroyed, the <code>__destruct()</code> magic method is available. This is useful for class cleanup (closing a database connection, for instance).</p>
+<p>Para chamar uma função quando um objeto for destruído, o método mágico <code>__destruct()</code> está disponível. Ele é útil para finalizar as tarefas da classe (encerrar uma conexão com a base de dados, por exemplo).</p>
 
-<p>Output a message when the object is destroyed by defining the magic method<br /><code>__destruct()</code> in <code>MyClass</code>:</p>
+<p>Mostre uma mensagem quando um objeto for destruído usando o método mágico<br /><code>__destruct()</code> na class <code>MyClass</code>:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function setProperty($newval)
@@ -344,48 +344,47 @@ class MyClass
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $obj = new MyClass;
 
-// Get the value of $prop1
+// Mostra o valor de $prop1
 echo $obj-&gt;getProperty();
 
-// Output a message at the end of the file
-echo "End of file.&lt;br /&gt;";
+// Mostra uma mensagem ao final do arquivo
+echo "Fim do arquivo.&lt;br /&gt;";
 
 ?&gt;</pre>
 
-<p>With a destructor defined, reloading the test file results in the following output:</p>
+<p>Com um método destruidor definido, atualize a página no seu navegador e verá o resultado a seguir:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-I'm a class property!
-End of file.
-The class "MyClass" was destroyed.</pre>
+A classe "MyClass" foi instanciada!
+Sou uma propriedade de classe!
+Fim do arquivo.
+A classe "MyClass" foi destruída.</pre>
 
 <blockquote>
-<p>"When the end of a file is reached, PHP automatically releases all resources."</p>
+<p>"Quando o fim do arquivo é alcançado, o PHP libera, automaticamente, todos os recursos."</p>
 
 </blockquote>
 
-<p>To explicitly trigger the destructor, you can destroy the object using the<br />
-function <code>unset()</code>:</p>
+<p>Para executar, explicitamente o método destruído, você pode destruir o objeto usando a função<br/> <code>unset()</code>:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi isntanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function setProperty($newval)
@@ -399,27 +398,27 @@ class MyClass
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $obj = new MyClass;
 
-// Get the value of $prop1
+// Mostra o valor de $prop1
 echo $obj-&gt;getProperty();
 
-// Destroy the object
+// Destrói o objeto
 unset($obj);
 
-// Output a message at the end of the file
-echo "End of file.&lt;br /&gt;";
+// Mostra uma mensagem ao final do arquivo
+echo "Fim do arquivo.&lt;br /&gt;";
 
 ?&gt;</pre>
 
-<p>Now the result changes to the following when loaded in your browser:</p>
+<p>Os resultados das mudanças aparecerão assim que você atualizar a página no seu navegador:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-I'm a class property!
-The class "MyClass" was destroyed.
-End of file.</pre>
+A classe "MyClass" foi iniciada!
+Sou uma propriedade de classe!
+A classe "MyClass" foi destruída.
+Fim do arquivo.</pre>
 
 <h3>Converting to a String</h3>
 
