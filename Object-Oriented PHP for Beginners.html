@@ -899,9 +899,9 @@ A classe "MyClass" foi destruída.</pre>
 
 <h3>Métodos e Propriedades Privadas</h3>
 
-<p>A property or method declared <code>private</code> is accessible <strong>only from within the class that defines it</strong>. This means that <em>even if a new class extends the class that defines a private property,</em> that property or method will not be available at all within the child class.</p>
+<p>Uma propriedade ou método declarado com <code>private</code> é acessível <strong>somente dentro da classe que os define</strong>. Isso significa que <em>mesmo que se uma classe estender a classe que define uma propriedade privada,</em> aquela propriedade (ou método) não será acessível na classe filha.</p>
 
-<p>To demonstrate this, declare <code>getProperty()</code> as private in <code>MyClass</code>, and attempt to call <code>callProtected()</code> from<br /><code>MyOtherClass</code>:</p>
+<p>Para demonstrar isso, declare <code>getProperty()</code> como privada dentro da classe <code>MyClass</code>, e tente invocar <code>callProtected()</code> da classe<br /><code>MyOtherClass</code>:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -964,11 +964,11 @@ echo $newobj-&gt;callProtected();
 
 ?&gt;</pre>
 
-<p>Reload your browser, and the following error appears:</p>
+<p>Atualize a página no seu navegador e verá o erro a seguir aparecer:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-A new constructor in MyOtherClass.
+A classe "MyClass" foi iniciada!
+Um novo construtor em MyOtherClass.
 
 Fatal error: Call to private method MyClass::getProperty() from context 'MyOtherClass' in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 49</pre>
 
