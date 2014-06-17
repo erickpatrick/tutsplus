@@ -1337,24 +1337,24 @@ Person 2: Person Object
   [_age:private] =&gt; 42
 )</pre>
 
-<p>There's a little bit more setup involved to make the approach object oriented, but after the class is defined, creating and modifying people is a breeze; <strong>a person's information does not need to be passed or returned from methods, and only absolutely essential information is passed to each method.</strong></p>
+<p>É necessário um pouco mais de preparação na abordagem orientada a objetos, mas, uma vez definida a classe, criar e modificar pessos é fácil; <strong>a informação de uma pessoa não precisa ser passada ou retornada para os métodos e só a informação essencial é passada para cada método.</strong></p>
 
 <blockquote class="pullquote pqRight">
-<p>"OOP will significantly reduce your workload if implemented properly."</p>
+<p>"POO reduzirá significantemente a carga de trabalho se implementada corretamente."</p>
 
 </blockquote>
 
-<p>On the small scale, this difference may not seem like much, but as your applications grow in size, OOP will significantly reduce your workload if implemented properly.</p>
+<p>A primeira vista, a diferença pode não parecer tanta, mas, de acordo com que sua aplicação cresce, POO reduzirá significanetemente a carga de trabalho se implementada corretamente.</p>
 
-<p><strong>Tip</strong> — <em>Not everything needs to be object oriented.</em> A quick function that handles something small in one place inside the application does not necessarily need to be wrapped in a class. Use your best judgment when deciding between object-oriented and procedural approaches.</p>
+<p><strong>Dica</strong> — <em>Nem tudo precisa ser implementado em orientação a objetos.</em> Uma função rápida, que lida com algo pequeno em um único lugar dentro da aplicação, não precisa, necessariamente, estar envolta em uma classe. Use seu melhor julgamento quando precisar decidir entre as abordagens orientada a objetos ou procedural.</p>
 
-<h2>Reason 2: Better Organization</h2>
+<h2>Razão 2: Melhor Organização</h2>
 
-<p>Another benefit of OOP is how well it lends itself to being <strong>easily packaged and cataloged.</strong> Each class can generally be kept in its own separate file, and if a uniform naming convention is used, accessing the classes is extremely simple.</p>
+<p>Outro benefício da POO é a <strong>facilidade de empacotamento e catalogar.</strong> Cada classe, geralmente, é mantida em sozinha em seu próprio arquivo e, se uma conveção de nomenclatura for usado, acessar as classes é extremamente fácil.</p>
 
-<p>Assume you've got an application with 150 classes that are called dynamically through a controller file at the root of your application filesystem. All 150 classes follow the naming convention <code>class.classname.inc.php</code> and reside in the <code>inc</code> folder of your application.</p>
+<p>Assuma que você tem uma aplicação com 150 classes que são invocadas dinamicamente através de um arquivo controlador na pasta raiz da sua aplicação. Todas as 150 classes foram nomeadas como <code>class._nome_da_classe_.inc.php</code> e ficar dentro de um diretório chamado <code>inc</code> da sua aplicação.</p>
 
-<p>The controller can implement PHP's <code>__autoload()</code> function to dynamically pull in only the classes it needs as they are called, rather than including all 150 in the controller file just in case or coming up with some clever way of including the files in your own code:</p>
+<p>O controldor implementa a função <code>__autoload()</code> do PHP para carregar dinamicamente as classes que ele precisa executar, ao invés de incluir todas as 150 classes dentro do controlador ou, até mesmo, usar uma maneira "mais esperta" de incluir esses arquivos no seu código:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -1364,9 +1364,9 @@ Person 2: Person Object
   }
 ?&gt;</pre>
 
-<p>Having each class in a separate file also makes code more portable and easier to reuse in new applications without a bunch of copying and pasting.</p>
+<p>Ao termos cada classe separada em seu próprio arquivo torna-as mais portáteis e fáceis de reusar em novas aplicações sem precisar copiar e colar para todos os lados.</p>
 
-<h2>Reason 3: Easier Maintenance</h2>
+<h2>Razão 3: Manutenção Mais Fácil</h2>
 
 <p>Due to the more compact nature of OOP when done correctly, <strong>changes in the code are usually much easier to spot</strong> and make than in a long spaghetti code procedural implementation.</p>
 
