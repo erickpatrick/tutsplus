@@ -1086,51 +1086,50 @@ desenvolvedores ao escreverem seus códigos, ele também foi adotado pela maiori
  * Esse é um DocBlock bem básico
  */</pre>
 
-<p>The real power of DocBlocks comes with the ability to use <strong>tags</strong>, which start with an at symbol (<code>@</code>) immediately followed by the tag name and the value of the tag. <strong>DocBlock tags allow developers to define authors of a file, the license for a class, the property or method information, and other useful information.</strong></p>
+<p>O verdadeiro poder do DocBlocks vem com a possibilidade de usarmos as <strong>tags</strong>, que começam com o símbolo (<code>@</code>) e são, imediatamente, seguidos dos nome e valor da tag. <strong>As tags do DocBlock permitem aos desenvolvedores definirem os autores de um arquivo, a licença que a classe usa, informações das propriedades e métodos e outras informações úteis.</strong></p>
 
-<p>The most common tags used follow:</p>
+<p>As tags mais usadas são:</p>
 
-<ul><li><strong>@author</strong>: The author of the current element (which might be a class, file, method, or any bit of code) are listed using this tag. Multiple author tags can be used in the same DocBlock if more than one author is credited. The format for the author name is <code>John Doe &lt;john.doe@email.com&gt;</code>.</li>
-<li><strong>@copyright</strong>: This signifies the copyright year and name of the copyright holder for the current element. The format is <code>2010 Copyright Holder</code>.</li>
-<li><strong>@license</strong>: This links to the license for the current element. The format for the license information is<br /><code>http://www.example.com/path/to/license.txt License Name</code>.</li>
-<li><strong>@var</strong>: This holds the type and description of a variable or class property. The format is <code>type element description</code>.</li>
-<li><strong>@param</strong>: This tag shows the type and description of a function or method parameter. The format is <code>type $element_name element description</code>.</li>
-<li><strong>@return</strong>: The type and description of the return value of a function or method are provided in this tag. The format is <code>type return element description</code>.</li>
+<ul><li><strong>@author</strong>: Os autores do elemento atual (o qual pode ser uma classe, arquivo, método ou qualquer trecho de código) são listados usando essa tag. Múltiplas tags para autores podem ser usadas no mesmo  DocBlock se precisar creditar mais de um autor. O formato para o nome do autor é <code>Erick Patrick &lt;erick.patrick@email.com&gt;</code>.</li>
+<li><strong>@copyright</strong>: Isso indica o ano e o nome de quem tem os direitos sobre o elemento atual. O formato é <code>2010 Nome da pessoa</code>.</li>
+<li><strong>@license</strong>: Ligamos à licença usada no elemento atual. O formato para a informação da licença é<br /><code>http://www.example.com/path/to/license.txt Nome da licença</code>.</li>
+<li><strong>@var</strong>: Isso indica o tipo e a descrição de uma variável ou de uma propriedade de classse. O formato é <code>tipo do elemento descrição</code>.</li>
+<li><strong>@param</strong>: Essa tag mostra o tipo e descrição de um parâmetro de uma função ou método. O formato é <code>tipo $nome_do_elemento descrição do elemento</code>.</li>
+<li><strong>@return</strong>: O tipo e descrição do valor retornado por uma função ou método. O formato é <code>tipo descrição do valor retornado</code>.</li>
 </ul>
 
-<p>A sample class commented with DocBlocks might look like this:</p>
+<p>Uma classe exemplo, comentada com DocBlocks parece-se com isso:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 /**
- * A simple class
+ * A classe simples
  *
- * This is the long description for this class,
- * which can span as many lines as needed. It is
- * not required, whereas the short description is
- * necessary.
+ * Essa é uma descrição longa para essa classe,
+ * que pode tomar quantoas linhas quanto precisar. Ela não
+ * é necessária, enquanto a versão curta é necessária.
  *
- * It can also span multiple paragraphs if the
- * description merits that much verbiage.
+ * Essa descrição também pode tomar vários parágrafos, se a
+ * descrição precisar ser tão verbosa.
  *
- * @author Jason Lengstorf &lt;jason.lengstorf@ennuidesign.com&gt;
- * @copyright 2010 Ennui Design
+ * @author Erick Patrick &lt;tutsplus@erickpatrick.net&gt;
+ * @copyright 2014 Erick Patrick
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 class SimpleClass
 {
   /**
-   * A public variable
+   * Uma variável pública
    *
-   * @var string stores data for the class
+   * @var string guarda dados para a classe
    */
   public $foo;
 
   /**
-   * Sets $foo to a new value upon class instantiation
+   * Atribui um novo valor a $foo durante a instanciação da classe
    *
-   * @param string $val a value required for the class
+   * @param string $val é o valor requerido pela classe
    * @return void
    */
   public function __construct($val)
@@ -1139,14 +1138,14 @@ class SimpleClass
   }
 
   /**
-   * Multiplies two integers
+   * Multiplica dois inteiros
    *
-   * Accepts a pair of integers and returns the
-   * product of the two.
+   * Aceita um par de números inteiros e retorna
+   * o produto dos dois.
    *
-   * @param int $bat a number to be multiplied
-   * @param int $baz a number to be multiplied
-   * @return int the product of the two parameters
+   * @param int $bat um número a ser multiplicado
+   * @param int $baz um número a ser multiplicado
+   * @return int o produto dos dois parâmetros
    */
   public function bar($bat, $baz)
   {
