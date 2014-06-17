@@ -1,21 +1,21 @@
 <h1>PHP Orientado a Objetos para Iniciantes</h1>
 
-<p>Para muitos programadores PHP, orientação a objetos é um conceito amedrontador, cheio de sintaxes complicadas e paradas. Com o mesmo detalhamento do meu livro, <em><a href="http://www.amazon.com/gp/product/1430228474?ie=UTF8&amp;tag=ennudesi-20&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1430228474">Pro PHP and jQuery,</a></em> você aprenderá os conceitos pro trás da <strong>programação orientada a objetos</strong> (POO), um estilo de codigicação onde as ações relacionadas são agrupadas em classes para ajudar na criação de códigos mais compactos e efetivos.</p>
+<p>Para muitos programadores PHP, orientação a objetos é um conceito amedrontador, cheio de sintaxes complicadas e pontos de paradas. Com o mesmo detalhamento do meu livro, <em><a href="http://www.amazon.com/gp/product/1430228474?ie=UTF8&amp;tag=ennudesi-20&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1430228474">Pro PHP and jQuery,</a></em> neste artigo você aprenderá os conceitos por trás da <strong>programação orientada a objetos</strong> (POO), um estilo de codificação onde ações relacionadas são agrupadas em classes para ajudar na criação de códigos mais compactos e efetivos.</p>
 
 
 <h2>Compreendendo a Programação Orientada a Objetos</h2>
 
 <p>
-Programação orientada a objetos é um estilo de programação que permite os desenvolvedores agrupar tarefas semelhantes em <strong>classes</strong>. Isso ajuda a nos mantermos dentro do princípio <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">"don't repeat yourself" (DRY)</a> (em português, <em>não se repita</em>) and e facilta a manutenção do mesmo.</p>
+Programação orientada a objetos é um estilo de programação que permite os desenvolvedores agruparem tarefas semelhantes em <strong>classes</strong>. Isso ajuda a mantermo-nos dentro do princípio <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">"don't repeat yourself" (DRY)</a> (em português, <em>não se repita</em>), além de faciltar a manutenção do código.</p>
 
 <blockquote class="pullquote pqRight">
-<p>"Programação orientada a objetos é um estilo de programação que permite os desenvolvedores agrupar tarefas semelhantes em <strong>classes</strong>."</p>
+<p>"Programação orientada a objetos é um estilo de programação que permite os desenvolvedores agruparem tarefas semelhantes em <strong>classes</strong>."</p>
 
 </blockquote>
 
-<p>Um dos maiors benefícios da programação DRY programming é que, se alguma informação é alterada em seu programa, geralmente, <strong>só uma mudança é necessária para atualizar o código</strong>. Um dos maiores problemas para os desenvolvedores é ter de manter códigos onde os dados são declarados e redeclarados, acarretando num jogo de pique esconde, em busca de funcionalidade e dados duplicados pelo código.</p>
+<p>Um dos maiors benefícios da programação DRY é que, se alguma informação é alterada em seu programa, geralmente, <strong>só uma mudança é necessária para atualizar o código</strong>. Um dos maiores problemas para os desenvolvedores é ter de manter códigos onde os dados são declarados e redeclarados, acabando num jogo de pique esconde, em busca de funcionalidades e dados duplicados pelo código.</p>
 
-<p>POO é intimidadora para uma grande quantidade de programadores porque ela introduz uma nova sintaxe e, a primeira vista, parece ser bem mais complexa que a simples programação procedural. Entretanto, se analisar bem, POO é bem direta e fundamentalmente uma abordagem mais simples para programação.</p>
+<p>POO é intimidadora para uma grande quantidade de programadores porque ela introduz uma nova sintaxe e, a primeira vista, parece ser bem mais complexa que a simples programação procedural. Entretanto, se analisar bem, POO é bem direta e, fundamentalmente, uma abordagem mais simples para programação.</p>
 
 <h2>Compreendendo Objetos e Classes</h2>
 
@@ -29,17 +29,17 @@ Programação orientada a objetos é um estilo de programação que permite os d
 </figure>
 
 <blockquote>
-<p>Quando programadores de longa data falam sobre objetos e classes, esses termos parecem permutáveis. Porém, não é bem assim.</p>
+<p>Quando programadores de longa data falam sobre objetos e classes, esses termos parecem permutáveis entre si. Porém, não é bem assim.</p>
 </blockquote>
 
-<p>Logo de cara, há uma grande confusão na POO: quando programadores de longa data falam sobre objetos e classes, esses termos parecem permutáveis. Porém, não é bem assim, muito embora a diferença entre eles seja um pouco complicada de perceber, no início.</p>
+<p>Logo de cara, há uma grande confusão na POO: quando programadores de longa data falam sobre objetos e classes, esses termos parecem permutáveis entre si. Porém, não é bem assim, mmesmo que a diferença entre eles seja um pouco complicada de perceber, no início.</p>
 
-<p>Uma classe, por exemplo, é como uma <strong>planta baixa para uma casa</strong>. Ela define a forma da casa no papel, com as relações entre as diferentes partes da casa, claramente, definidas e planejadas, mesmo a casa ainda não existindo.</p>
+<p>Uma classe, por exemplo, é como uma <strong>planta baixa para uma casa</strong>. Ela define a forma da casa no papel, com as relações entre as diferentes partes da casa, claramente definidas e planejadas, mesmo a casa ainda não existindo.</p>
 
-<p>Um objeto, por outro lado, <strong>seria a casa de verdade</strong>, construída de acordo com a planta baixa. Os dados guardados no objeto são como a madeira, fios e concreto que compoem a casa: sem a ordem criada pela planta baixa, são só um monte de materiais. Entretanto, quando tudo é colocado seguido uma ordem, eles viram uma casa organizada e útil.</p>
+<p>Um objeto, por outro lado, <strong>seria a casa de verdade</strong>, construída de acordo com a planta baixa. Os dados guardados no objeto são como a madeira, fios e concreto que compoem a casa: sem a ordem criada pela planta baixa, são só um monte de materiais. Entretanto, quando tudo é colocado seguindo uma ordem, eles viram uma casa organizada de verdade e útil.</p>
 
-<p><strong>As classes servem de estrutura para os dados e ações, e usam essa informaçao para construir objetos.</strong> Mais de um objeto pode ser construido de uma mesma classe, ao mesmo tempo, cada um independente dos outros. Continuando a nossa analogia à construção, é parecida com a maneira que um condomínio de casa pode ser construído, usando a mesma planta baixa: 150 casas diferentes, todas bastante parecidas umas às outras, porém, contem <br />
-famílias e decorações diferentes, por dentro.</p>
+<p><strong>As classes servem de estrutura para os dados e ações, e usam essa informação para construir objetos.</strong> Mais de um objeto pode ser construido de uma mesma classe, ao mesmo tempo, cada um independente dos outros. Continuando a nossa analogia de classes e objetos em relação a construção, é parecida com a maneira que um condomínio de casas pode ser construído, usando a mesma planta baixa: 150 casas diferentes, todas bastante parecidas umas às outras, porém, contem <br />
+famílias e decorações diferentes por dentro.</p>
 
 <h3>Estruturando Classes</h3>
 
@@ -55,7 +55,7 @@ class MyClass
 
 ?&gt;</pre>
 
-<p>Após criar a classe, a classe pode ser instanciada e guardada em alguma variável usando a palavra chave <code>new</code>:</p>
+<p>Após criar a classe, ela pode ser instanciada e guardada em alguma variável usando a palavra chave <code>new</code>:</p>
 
 <pre class="brush: php">
 $obj = new MyClass;</pre>
@@ -108,7 +108,7 @@ var_dump($obj);
 
 ?&gt;</pre>
 
-<p>A palavra chave <code>public</code> determina a visibilidade da propriedade, a qual você aprenderá mais sobre, no próximo capítulo. Depois disso, a propriedade é nomeada usando os padrões básicos de nomeação de variáves, e, então, um valor é atribuído (embora propriedades de classe não necessitem de valores iniciais).</p>
+<p>A palavra chave <code>public</code> determina a visibilidade da propriedade, a qual você aprenderá mais sobre, nas próximas seções. Depois disso, a propriedade é nomeada usando os padrões básicos de nomeação de variáves, e, então, um valor é atribuído (embora propriedades de classe não necessitem de valores iniciais).</p>
 
 <p>Para ver o valor da propriedade e mostrá-la no navegador, referencie o objeto o qual será feita a leitura, bem como a propriedade a ser lida, dessa forma:</p>
 
@@ -170,7 +170,7 @@ echo $obj-&gt;prop1;
 
 <p><strong>Nota</strong> — POO permite que os objetos referenciem-se usando <code>$this</code>. Quando estiver dentro de um método, use <code>$this</code> da mesma forma que você usaria o nome do objeto fora da classe.</p>
 
-<p>Para usar os métodos, execute-os da mesma forma que faria com funções normais, mas, antes, referencia o objeto ao qual eles pertencem. Para ler o valor da propriedade <code>$prop1</code> da classe <code>MyClass</code>, depois altera-lo e, por fim, le-lo novamente, faça as seguintes alterações no código:</p>
+<p>Para usar os métodos, execute-os da mesma forma que faria com funções normais, mas, antes, referencie o objeto ao qual eles pertencem. Para ler o valor da propriedade <code>$prop1</code> da classe <code>MyClass</code>, depois altera-lo e, por fim, le-lo novamente, faça as seguintes alterações no código:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -242,7 +242,7 @@ echo $obj2-&gt;getProperty();
 $obj-&gt;setProperty("Sou um novo valor de propriedade!");
 $obj2-&gt;setProperty("Pertenço à segunda instância!");
 
-// Mostra o valor de $prop1 de ambos os objetos|
+// Mostra o valor de $prop1 de ambos os objetos
 echo $obj-&gt;getProperty();
 echo $obj2-&gt;getProperty();
 
@@ -264,7 +264,7 @@ Pertenço à segunda instância!</pre>
 
 <h3>Usando Construtores e Destruidores</h3>
 
-<p>Quando um ojeto é isntanciado, é desejável que algumas coisas ocorram de cara. Para lidar com isso, o PHP provê o método <code>__construct()</code>, que é chamado automaticamente quando um novo objeto é<br />
+<p>Quando um ojeto é instanciado, é desejável que algumas coisas ocorram de cara. Para lidar com isso, o PHP provê o método <code>__construct()</code>, que é chamado automaticamente quando um novo objeto é<br />
 criado.</p>
 
 <p>Para ilustrar os conceitos dos construtores, adicione um construtor à classe <code>MyClass</code> que mostre uma mensagem todoa vez que uma nova instância for criada:</p>
@@ -368,7 +368,7 @@ A classe "MyClass" foi destruída.</pre>
 
 </blockquote>
 
-<p>Para executar, explicitamente o método destruído, você pode destruir o objeto usando a função<br/> <code>unset()</code>:</p>
+<p>Para executar, explicitamente, o método destruidor, você pode destruir o objeto usando a função<br/> <code>unset()</code>:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -379,7 +379,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi isntanciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -415,14 +415,14 @@ echo "Fim do arquivo.&lt;br /&gt;";
 <p>Os resultados das mudanças aparecerão assim que você atualizar a página no seu navegador:</p>
 
 <pre class="brush: php">
-A classe "MyClass" foi iniciada!
+A classe "MyClass" foi instanciada!
 Sou uma propriedade de classe!
 A classe "MyClass" foi destruída.
 Fim do arquivo.</pre>
 
 <h3>Convertendo Em Uma String</h3>
 
-<p>Para evitar que aconteça um erro quando &ndash; e se &ndash; algum script tentar mostrar a classe MyClass como uma string, existe outro método mágico, chamado  <code>__toString()</code>.</p>
+<p>Para evitar que aconteça um erro quando &ndash; e se &ndash; algum script tentar mostrar a classe MyClass como uma string, existe outro método mágico, chamado <code>__toString()</code>.</p>
 
 <p>Sem o método <code>__toString()</code>, <em>tentar mostrar um objeto como uma string resulta em um erro fatal</em>. Tente mostrar um objeto, usando <code>echo</code>, sem o método mágico:</p>
 
@@ -435,7 +435,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi isntanciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -486,7 +486,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi isntanciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -528,16 +528,16 @@ echo "Fim do arquivo.&lt;br /&gt;";
 <p>Nesse caso, tentar converter o objeto em string resulta numa chamada ao método <code>getProperty()</code>. Execute o código, recarregando a página no seu navegador, e veja o resultado:</p>
 
 <pre class="brush: php">
-A classe "MyClass" foi iniciada!
+A classe "MyClass" foi instanciada!
 Usando o método toString: Sou uma propriedade de classe!
 A classe "MyClass" foi destruída.
 Fim do arquivo.</pre>
 
-<p><strong>Dica</strong> — Além dos métodos mágicos discutidos nessa seção, inúmeros outros estão disponíveis. Para uma lista compelta com todos os métodos mágicos, veja a <a href="http://us2.php.net/manual/en/language.oop5.magic.php">respectiva página do manual do PHP</a>.</p>
+<p><strong>Dica</strong> — Além dos métodos mágicos discutidos nessa seção, inúmeros outros estão disponíveis. Para uma lista completa, com todos os métodos mágicos, veja a <a href="http://us2.php.net/manual/en/language.oop5.magic.php">respectiva página do manual do PHP</a>.</p>
 
 <h2>Usando Herança de Classe</h2>
 
-<p><strong>Classes podem herdar métodos e propriedades de outra classe</strong> usando a palavra chave <code>extends</code>. Por exemplo, para criar uma segunda classe que estenda <code>MyClass</code> e adicione um método, você faria dessa forma:</p>
+<p><strong>Classes podem herdar métodos e propriedades de outra classe</strong> usando a palavra chave <code>extends</code>. Por exemplo, para criar uma segunda classe que estenda <code>MyClass</code> e adicione um outro método, você faria dessa forma:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -548,7 +548,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -595,7 +595,7 @@ echo $newobj-&gt;getProperty();
 <p>Após atualizar a página no seu navegador, você terá o seguinte resultado:</p>
 
 <pre class="brush: php">
-A classe "MyClass" foi iniciada!
+A classe "MyClass" foi instanciada!
 De um novo método na classe MyOtherClass.
 Sou uma propriedade de classe!
 A classe "MyClass" foi destruída.</pre>
@@ -613,7 +613,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -683,7 +683,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -733,10 +733,10 @@ echo $newobj-&gt;getProperty();
 
 ?&gt;</pre>
 
-<p>Dessa forma, será retornado tanto o que foi codificado no construtor pai quando no construtor da nova classe:</p>
+<p>Dessa forma, será retornado tanto o que foi codificado no construtor pai quando o do construtor da nova classe:</p>
 
 <pre class="brush: php">
-A classe "MyClass" foi iniciada!
+A classe "MyClass" foi instanciada!
 Um novo construtor em MyOtherClass.
 De um novo método na classe MyOtherClass.
 Sou uma propriedade de classe!
@@ -750,7 +750,7 @@ A classe "MyClass" foi destruída.</pre>
 
 </blockquote>
 
-<p><strong>Nota</strong> — Visibilidade é um novo recurso presente a partir do PHP 5. Para maiores informações sobre <a href="http://us2.php.net/manual/en/language.oop5.php">compatibilidade da POO com o PHP 4</a>, veja a respectiva página do manual do PHP.</p>
+<p><strong>Nota</strong> — Visibilidade é um novo recurso presente a partir do PHP 5. Para maiores informações sobre a <a href="http://us2.php.net/manual/en/language.oop5.php">compatibilidade da POO com o PHP 4</a>, veja a respectiva página do manual do PHP.</p>
 
 <h3>Métodos e Propriedades Públicas</h3>
 
@@ -771,7 +771,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -821,7 +821,7 @@ echo $newobj-&gt;getProperty();
 <p>Quando tentar executar esse código, o erro a seguir aparece:</p>
 
 <pre class="brush: php">
-A classe "MyClass" foi iniciada!
+A classe "MyClass" foi instanciada!
 Um novo construtor em MyOtherClass.
 
 Fatal error: Call to protected method MyClass::getProperty() from context '' in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 55</pre>
@@ -837,7 +837,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -892,14 +892,14 @@ echo $newobj-&gt;callProtected();
 <p>E, assim, temos o resultado desejado:</p>
 
 <pre class="brush: php">
-A classe "MyClass" foi iniciada!
+A classe "MyClass" foi instanciada!
 Um novo construtor em MyOtherClass.
 Sou uma propriedade de classe!
 A classe "MyClass" foi destruída.</pre>
 
 <h3>Métodos e Propriedades Privadas</h3>
 
-<p>Uma propriedade ou método declarado com <code>private</code> é acessível <strong>somente dentro da classe que os define</strong>. Isso significa que <em>mesmo que se uma classe estender a classe que define uma propriedade privada,</em> aquela propriedade (ou método) não será acessível na classe filha.</p>
+<p>Uma propriedade ou método declarado com <code>private</code> é acessível <strong>somente dentro da classe que os define</strong>. Isso significa que <em>mesmo se uma classe estender a classe que define uma propriedade privada,</em> aquela propriedade (ou método) não será acessível na classe filha.</p>
 
 <p>Para demonstrar isso, declare <code>getProperty()</code> como privada dentro da classe <code>MyClass</code>, e tente invocar <code>callProtected()</code> da classe<br /><code>MyOtherClass</code>:</p>
 
@@ -912,7 +912,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -967,7 +967,7 @@ echo $newobj-&gt;callProtected();
 <p>Atualize a página no seu navegador e verá o erro a seguir aparecer:</p>
 
 <pre class="brush: php">
-A classe "MyClass" foi iniciada!
+A classe "MyClass" foi instanciada!
 Um novo construtor em MyOtherClass.
 
 Fatal error: Call to private method MyClass::getProperty() from context 'MyOtherClass' in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 49</pre>
@@ -994,7 +994,7 @@ class MyClass
 
   public function __construct()
   {
-      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi instanciada!&lt;br /&gt;';
   }
 
   public function __destruct()
@@ -1072,12 +1072,12 @@ O valor é 10.</pre>
 
 <blockquote class="pullquote pqRight">
 <p>"O estilo de comentários DocBlock é um<br />
-método altamente aceito para documentar classes."</p>
+meio bem aceito para documentar classes."</p>
 
 </blockquote>
 
-<p>Enquanto não é uma parte oficial da POO, os comentários <a href="http://en.wikipedia.org/wiki/PHPDoc">DocBlock</a> são um método altamente aceito para documentar classes. Além de prover um padrão para os<br />
-desenvolvedores ao escreverem seus códigos, ele também foi adotado pela maioria dos kits de desenvolvimento de software (do inglês, <em>software development kits</em> - SDKs) populares, como o <a href="http://eclipse.org">Eclipse</a> e <a href="http://netbeans.org">NetBeans</a>, e serão usados para gerar dicas de códigos.</p>
+<p>Embora não seja uma parte oficial da POO, os comentários <a href="http://en.wikipedia.org/wiki/PHPDoc">DocBlock</a> são um meio bem aceito para documentar classes. Além de prover um padrão para os<br />
+desenvolvedores ao escreverem seus códigos, ele também foi adotado pela maioria dos kits de desenvolvimento de software (do inglês, <em>software development kits</em> - SDKs) populares, como o <a href="http://eclipse.org">Eclipse</a> e <a href="http://netbeans.org">NetBeans</a>, e serão usados para gerar dicas/indicações de códigos.</p>
 
 <p>Um DocBlock é definido como um bloco de comentário que começa com um asterisco adicional:</p>
 
@@ -1086,19 +1086,19 @@ desenvolvedores ao escreverem seus códigos, ele também foi adotado pela maiori
  * Esse é um DocBlock bem básico
  */</pre>
 
-<p>O verdadeiro poder do DocBlocks vem com a possibilidade de usarmos as <strong>tags</strong>, que começam com o símbolo (<code>@</code>) e são, imediatamente, seguidos dos nome e valor da tag. <strong>As tags do DocBlock permitem aos desenvolvedores definirem os autores de um arquivo, a licença que a classe usa, informações das propriedades e métodos e outras informações úteis.</strong></p>
+<p>O verdadeiro poder do DocBlocks vem com a possibilidade de usarmos as <strong>tags</strong>, que começam com o símbolo de localização (<code>@</code>) e são, imediatamente, seguidos dos nome e valor da tag. <strong>As tags do DocBlock permitem aos desenvolvedores definirem os autores de um arquivo, a licença que a classe usa, informações das propriedades e métodos e outras informações úteis.</strong></p>
 
 <p>As tags mais usadas são:</p>
 
 <ul><li><strong>@author</strong>: Os autores do elemento atual (o qual pode ser uma classe, arquivo, método ou qualquer trecho de código) são listados usando essa tag. Múltiplas tags para autores podem ser usadas no mesmo  DocBlock se precisar creditar mais de um autor. O formato para o nome do autor é <code>Erick Patrick &lt;erick.patrick@email.com&gt;</code>.</li>
 <li><strong>@copyright</strong>: Isso indica o ano e o nome de quem tem os direitos sobre o elemento atual. O formato é <code>2010 Nome da pessoa</code>.</li>
-<li><strong>@license</strong>: Ligamos à licença usada no elemento atual. O formato para a informação da licença é<br /><code>http://www.example.com/path/to/license.txt Nome da licença</code>.</li>
+<li><strong>@license</strong>: Indicamos a licença usada no elemento atual. O formato para a informação da licença é<br /><code>http://www.example.com/path/to/license.txt Nome da licença</code>.</li>
 <li><strong>@var</strong>: Isso indica o tipo e a descrição de uma variável ou de uma propriedade de classse. O formato é <code>tipo do elemento descrição</code>.</li>
 <li><strong>@param</strong>: Essa tag mostra o tipo e descrição de um parâmetro de uma função ou método. O formato é <code>tipo $nome_do_elemento descrição do elemento</code>.</li>
 <li><strong>@return</strong>: O tipo e descrição do valor retornado por uma função ou método. O formato é <code>tipo descrição do valor retornado</code>.</li>
 </ul>
 
-<p>Uma classe exemplo, comentada com DocBlocks parece-se com isso:</p>
+<p>Uma classe exemplo, comentada com DocBlocks, parece-se com isso:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -1107,8 +1107,8 @@ desenvolvedores ao escreverem seus códigos, ele também foi adotado pela maiori
  * A classe simples
  *
  * Essa é uma descrição longa para essa classe,
- * que pode tomar quantoas linhas quanto precisar. Ela não
- * é necessária, enquanto a versão curta é necessária.
+ * que pode tomar quantas linhas forem precisas. Não
+ * é necessária, porém a versão curta é necessária.
  *
  * Essa descrição também pode tomar vários parágrafos, se a
  * descrição precisar ser tão verbosa.
@@ -1155,20 +1155,20 @@ class SimpleClass
 
 ?&gt;</pre>
 
-<p>Uma vez que você dá uma rápida olha na classe acima, os benefícios do  DocBlock tornam-se visíveis: tudo está claramente definido, de forma que o próximo desenvolvedor pode pegar esse código e <em>nunca precisará imagina o que uma certa parte de código faz ou deveria receber.</em></p>
+<p>Uma vez que você dá uma rápida olha na classe acima, os benefícios do  DocBlock tornam-se visíveis: tudo está claramente definido, de forma que o próximo desenvolvedor possa pegar esse código e <em>nunca precisar imagina o que uma certa parte de código faz ou deveria receber.</em></p>
 
 <h2>Comparando Código Orientado a Objetos e Código Procedural</h2>
 
-<p>Não maneira certo ou errada de programar. Isso dito, <strong>essa seção mostrar bons argumentos para adotar a abordagem orientada a objetos no desenvolvimento de software, especialmente em aplicações de grande porte.</strong></p>
+<p>Não há maneira certo ou errada de programar. Isso dito, <strong>essa seção mostrar bons argumentos para adotar a abordagem orientada a objetos no desenvolvimento de software, especialmente em aplicações de grande porte.</strong></p>
 
 <h2>Razão 1: Facilidade de Implementação</h2>
 
 <blockquote class="pullquote pqRight">
-<p>"Embora, inicialmente, pareça complicada, POO prover uma abordagem mais fácil para lidar com dados."</p>
+<p>"Embora, inicialmente, pareça complicada, POO provê uma abordagem mais fácil para lidar com dados."</p>
 
 </blockquote>
 
-<p>Embora, inicialmente, pareça complicada, POO prover uma abordagem mais fácil para lidar com dados. Uma vez que objetos podem guardar dados internamento, variáveis não precisam ser passadas para funções para que elas funcionem corretamente.</p>
+<p>Embora, inicialmente, pareça complicada, POO provê uma abordagem mais fácil para lidar com dados. Uma vez que objetos podem guardar dados internamente, variáveis não precisam ser passadas para funções para que elas funcionem corretamente.</p>
 
 <p>E como <em>várias instâncias de uma mesma classe podem existir simultanemanete</em>, lidar com conjuntos de dados grandes se torna infinitamente mais fácil. Por exemplo, imagine que há informações de duas pessoas sendo processadas ao mesmo tempo em um arquivo. Elas precisam de nomes, ocupações e idades.</p>
 
@@ -1250,7 +1250,7 @@ Person 2: Array
 
 <p>Apesar disso não estar tão ruim, tem muita coisa a ser lembrada de uma só vez. <strong>O conjunto de atributos da pessoa que foi afetado tem de ser passado e retornado de cada invocação de função</strong>, e isso possibilita o aparecimento de erros.</p>
 
-<p>Para limpar esse exemplo, seria desejável <strong>deixe o mínimo com o programador quanto possível.</strong> Só a informação extremamente essencial para a operação atual é necessária ser passada para as funções.</p>
+<p>Para melhorar esse exemplo, seria desejável <strong>deixar o mínimo para o programador quanto possível.</strong> Só a informação extremamente essencial para a operação atual é necessária ser passada para as funções.</p>
 
 <p><strong>É aqui que a POO entra e ajuda você a ajustar as coisas.</strong></p>
 
@@ -1337,7 +1337,7 @@ Person 2: Person Object
   [_age:private] =&gt; 42
 )</pre>
 
-<p>É necessário um pouco mais de preparação na abordagem orientada a objetos, mas, uma vez definida a classe, criar e modificar pessos é fácil; <strong>a informação de uma pessoa não precisa ser passada ou retornada para os métodos e só a informação essencial é passada para cada método.</strong></p>
+<p>É necessário um pouco mais de preparação na abordagem orientada a objetos, mas, uma vez definida a classe, criar e modificar pessoas é fácil; <strong>a informação de uma pessoa não precisa ser passada ou retornada para os métodos e só a informação essencial é passada para cada método.</strong></p>
 
 <blockquote class="pullquote pqRight">
 <p>"POO reduzirá significantemente a carga de trabalho se implementada corretamente."</p>
@@ -1350,11 +1350,11 @@ Person 2: Person Object
 
 <h2>Razão 2: Melhor Organização</h2>
 
-<p>Outro benefício da POO é a <strong>facilidade de empacotamento e catalogar.</strong> Cada classe, geralmente, é mantida em sozinha em seu próprio arquivo e, se uma conveção de nomenclatura for usado, acessar as classes é extremamente fácil.</p>
+<p>Outro benefício da POO é a <strong>facilidade de empacotamento e catalogação.</strong> Cada classe, geralmente, é mantida sozinha em seu próprio arquivo e, se uma convenção de nomenclatura for usada, acessar as classes será extremamente fácil.</p>
 
 <p>Assuma que você tem uma aplicação com 150 classes que são invocadas dinamicamente através de um arquivo controlador na pasta raiz da sua aplicação. Todas as 150 classes foram nomeadas como <code>class._nome_da_classe_.inc.php</code> e ficar dentro de um diretório chamado <code>inc</code> da sua aplicação.</p>
 
-<p>O controldor implementa a função <code>__autoload()</code> do PHP para carregar dinamicamente as classes que ele precisa executar, ao invés de incluir todas as 150 classes dentro do controlador ou, até mesmo, usar uma maneira "mais esperta" de incluir esses arquivos no seu código:</p>
+<p>O controlador implementa a função <code>__autoload()</code> do PHP para carregar dinamicamente as classes que ele precisa executar, ao invés de incluir todas as 150 classes dentro do controlador ou, até mesmo, usar uma maneira "mais esperta" de incluir esses arquivos no seu código:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -1364,20 +1364,20 @@ Person 2: Person Object
   }
 ?&gt;</pre>
 
-<p>Ao termos cada classe separada em seu próprio arquivo torna-as mais portáteis e fáceis de reusar em novas aplicações sem precisar copiar e colar para todos os lados.</p>
+<p>Ao termos cada classe separada em seu próprio arquivo, tornamo-as mais portáteis e fáceis de reusar em novas aplicações, sem precisar copiar e colar para todos os lados.</p>
 
 <h2>Razão 3: Manutenção Mais Fácil</h2>
 
-<p>Devido à natureza compacta do PHP quando criado corretamente, <strong>mudanças no código, geralmente, são mais fáceis de perceber</strong> e alterar que em uma implementação procedural gigantesca e spaghetti.</p>
+<p>Devido a natureza compacta do PHP quando programado corretamente, <strong>mudanças no código, geralmente, são mais fáceis de perceber</strong> e alterar que em uma implementação procedural gigantesca e spaghetti.</p>
 
-<p>Se um conjunto particular de informação ganha um novo atributo, códigos procedurais podem requerer (no pior dos casos) que o novo atributo seja adicionado a cada funcção que usa o conjunto.</p>
+<p>Se um conjunto particular de informação ganha um novo atributo, códigos procedurais podem requerer (no pior dos casos) que o novo atributo seja adicionado a cada funcção que usa tal conjunto.</p>
 
 <p>Uma aplicação POO poderia, potencialmente, ser atualizada, bastando adicionar uma nova propriedade e os métodos relacionados que lidam com tal propriedade a uma classe.</p>
 
-<p>Vários benefícios cobertos nessa seção são produto da <strong>combinação de POO com práticas de programação DRY.</strong> Claro, é possível criar código procedural que seja fácil de manter e que não cause dores-de-cabeça, porém, é igualmente fácil criar código horroroso usando orientação a objetos. [<em>Pro PHP and  jQuery</em>] tentará mostrar a combinação de boas práticas de programação com POO para gerar códigos claros e fáceis de ler e manter.</p>
+<p>Vários benefícios cobertos nessa seção são produto da <strong>combinação de POO com práticas de programação DRY.</strong> Claro, é possível criar código procedural que seja fácil de manter e que não cause dores-de-cabeça, porém, é igualmente fácil criar código horroroso usando orientação a objetos. [<em>Pro PHP and jQuery</em>] tentará mostrar a combinação de boas práticas de programação com POO para gerar códigos claros e fáceis de ler e manter.</p>
 
 <h2>Resumo</h2>
 
-<p>A essa altura, espero que você se sinta confortável com o estilo de programação orientado a objetos. Aprender POO é uma ótima maneira de  elevar o seu nível de programação. Quando implementada corretamente, POO gera´código fácil de ler, manter e portátil, que salvará você (e os desenvolvedores que trabalham com vocÊ) horas de trabalho extra. Você está encucado com algo que não apresentado nesse artigo? Você já usa POO e tem algumas dicas para os iniciantes? Compartilhe nos comentários!</p>
+<p>A essa altura, espero que você se sinta confortável com o estilo de programação orientado a objetos. Aprender POO é uma ótima maneira de elevar o seu nível de programação. Quando implementada corretamente, POO gera código fácil de ler, manter e portátil, que salvará você (e os desenvolvedores que trabalham com você) horas de trabalho extra. Você está encucado com algo que não foi apresentado nesse artigo? Você já usa POO e tem algumas dicas para os iniciantes? Compartilhe nos comentários!</p>
 
-<p><strong>Nota do Autor</strong> — Esse tutorial extrato do livro <a href="http://www.amazon.com/gp/product/1430228474?ie=UTF8&amp;tag=ennudesi-20&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1430228474">Pro PHP and jQuery</a> (Apress, 2010).</p>
+<p><strong>Nota do Autor</strong> — Esse tutorial é um extrato do livro <a href="http://www.amazon.com/gp/product/1430228474?ie=UTF8&amp;tag=ennudesi-20&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1430228474">Pro PHP and jQuery</a> (Apress, 2010).</p>
