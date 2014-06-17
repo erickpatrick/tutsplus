@@ -600,16 +600,16 @@ De um novo método na classe MyOtherClass.
 Sou uma propriedade de classe!
 A classe "MyClass" foi destruída.</pre>
 
-<h3>Overwriting Inherited Properties and Methods</h3>
+<h3>Sobrescrevendo Métodos e Propriedades Herdadas</h3>
 
-<p>To change the behavior of an existing property or method in the new class, you can simply overwrite it by declaring it again in the new class:</p>
+<p>Para alterar uma propriedade ou o comportamento de um método existente na nova classe, você pode, simplesmente, sobrescreve-los, bastando redeclará-los na nova classe:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
@@ -642,7 +642,7 @@ class MyOtherClass extends MyClass
 {
   public function __construct()
   {
-      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
@@ -654,7 +654,7 @@ class MyOtherClass extends MyClass
 // Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Mostra o objeto como string
+// Usa o método da nova classe
 echo $newobj-&gt;newMethod();
 
 // Usa um método da classe pai
@@ -662,13 +662,13 @@ echo $newobj-&gt;getProperty();
 
 ?&gt;</pre>
 
-<p>This changes the output in the browser to:</p>
+<p>As mudanças no resultado serão:</p>
 
 <pre class="brush: php">
-A new constructor in MyOtherClass.
-From a new method in MyOtherClass.
-I'm a class property!
-The class "MyClass" was destroyed.</pre>
+Um novo construtor em MyOtherClass.
+De um novo método na classe MyOtherClass.
+Sou uma propriedade de classe!
+A classe "MyClass" foi destruída.</pre>
 
 <h3>Preserving Original Method Functionality While Overwriting Methods</h3>
 
@@ -679,7 +679,7 @@ The class "MyClass" was destroyed.</pre>
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
@@ -713,7 +713,7 @@ class MyOtherClass extends MyClass
   public function __construct()
   {
       parent::__construct(); // Call the parent class's constructor
-      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
@@ -737,10 +737,10 @@ echo $newobj-&gt;getProperty();
 
 <pre class="brush: php">
 The class "MyClass" was initiated!
-A new constructor in MyOtherClass.
-From a new method in MyOtherClass.
-I'm a class property!
-The class "MyClass" was destroyed.</pre>
+Um novo construtor em MyOtherClass.
+De um novo método na classe MyOtherClass.
+Sou uma propriedade de classe!
+A classe "MyClass" foi destruída.</pre>
 
 <h2>Assigning the Visibility of Properties and Methods</h2>
 
@@ -767,7 +767,7 @@ The class "MyClass" was destroyed.</pre>
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
@@ -801,7 +801,7 @@ class MyOtherClass extends MyClass
   public function __construct()
   {
       parent::__construct();
-echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
@@ -833,7 +833,7 @@ Fatal error: Call to protected method MyClass::getProperty() from context '' in 
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
@@ -867,7 +867,7 @@ class MyOtherClass extends MyClass
   public function __construct()
   {
       parent::__construct();
-echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
@@ -908,7 +908,7 @@ The class "MyClass" was destroyed.</pre>
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
@@ -942,7 +942,7 @@ class MyOtherClass extends MyClass
   public function __construct()
   {
       parent::__construct();
-      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
@@ -988,7 +988,7 @@ Fatal error: Call to private method MyClass::getProperty() from context 'MyOther
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public static $count = 0;
 
@@ -1029,7 +1029,7 @@ class MyOtherClass extends MyClass
   public function __construct()
   {
       parent::__construct();
-      echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
