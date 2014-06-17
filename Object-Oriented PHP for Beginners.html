@@ -537,28 +537,28 @@ Fim do arquivo.</pre>
 
 <h2>Usando Herança de Classe</h2>
 
-<p><strong>Classes can inherit the methods and properties of another class</strong> using the <code>extends</code> keyword. For instance, to create a second class that extends <code>MyClass</code> and adds a method, you would add the following to your test file:</p>
+<p><strong>Classes podem herdar métodos e propriedades de outra classe</strong> usando a palavra chave <code>extends</code>. Por exemplo, para criar uma segunda classe que estenda <code>MyClass</code> e adicione um método, você faria dessa forma:</p>
 
 <pre class="brush: php">
 &lt;?php
 
 class MyClass
 {
-  public $prop1 = "I'm a class property!";
+  public $prop1 = "Sou uma propriedade de classe!";
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -577,28 +577,28 @@ class MyOtherClass extends MyClass
 {
   public function newMethod()
   {
-      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "De um novo método na classe " . __CLASS__ . ".&lt;br /&gt;";
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Output the object as a string
+// Usa o método da nova classe
 echo $newobj-&gt;newMethod();
 
-// Use a method from the parent class
+// Usa um método da classe pai
 echo $newobj-&gt;getProperty();
 
 ?&gt;</pre>
 
-<p>Upon reloading the test file in your browser, the following is output:</p>
+<p>Após atualizar a página no seu navegador, você terá o seguinte resultado:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-From a new method in MyOtherClass.
-I'm a class property!
-The class "MyClass" was destroyed.</pre>
+A classe "MyClass" foi iniciada!
+De um novo método na classe MyOtherClass.
+Sou uma propriedade de classe!
+A classe "MyClass" foi destruída.</pre>
 
 <h3>Overwriting Inherited Properties and Methods</h3>
 
@@ -613,17 +613,17 @@ class MyClass
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -647,17 +647,17 @@ class MyOtherClass extends MyClass
 
   public function newMethod()
   {
-      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "De um novo método na classe " . __CLASS__ . ".&lt;br /&gt;";
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Output the object as a string
+// Mostra o objeto como string
 echo $newobj-&gt;newMethod();
 
-// Use a method from the parent class
+// Usa um método da classe pai
 echo $newobj-&gt;getProperty();
 
 ?&gt;</pre>
@@ -683,17 +683,17 @@ class MyClass
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -718,17 +718,17 @@ class MyOtherClass extends MyClass
 
   public function newMethod()
   {
-      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "De um novo método na classe " . __CLASS__ . ".&lt;br /&gt;";
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Output the object as a string
+// Mostra o objeto como string
 echo $newobj-&gt;newMethod();
 
-// Use a method from the parent class
+// Usa um método da classe pai
 echo $newobj-&gt;getProperty();
 
 ?&gt;</pre>
@@ -771,17 +771,17 @@ class MyClass
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -806,11 +806,11 @@ echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
 
   public function newMethod()
   {
-      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "De um novo método na classe " . __CLASS__ . ".&lt;br /&gt;";
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $newobj = new MyOtherClass;
 
 // Attempt to call a protected method
@@ -837,17 +837,17 @@ class MyClass
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -872,7 +872,7 @@ echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
 
   public function newMethod()
   {
-      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "De um novo método na classe " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function callProtected()
@@ -881,7 +881,7 @@ echo "A new constructor in " . __CLASS__ . ".&lt;br /&gt;";
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $newobj = new MyOtherClass;
 
 // Call the protected method from within a public method
@@ -912,17 +912,17 @@ class MyClass
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -947,7 +947,7 @@ class MyOtherClass extends MyClass
 
   public function newMethod()
   {
-      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "De um novo método na classe " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function callProtected()
@@ -956,10 +956,10 @@ class MyOtherClass extends MyClass
   }
 }
 
-// Create a new object
+// Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Use a method from the parent class
+// Usa um método da classe pai
 echo $newobj-&gt;callProtected();
 
 ?&gt;</pre>
@@ -994,17 +994,17 @@ class MyClass
 
   public function __construct()
   {
-      echo 'The class "', __CLASS__, '" was initiated!&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi iniciada!&lt;br /&gt;';
   }
 
   public function __destruct()
   {
-      echo 'The class "', __CLASS__, '" was destroyed.&lt;br /&gt;';
+      echo 'A classe "', __CLASS__, '" foi destruída.&lt;br /&gt;';
   }
 
   public function __toString()
   {
-      echo "Using the toString method: ";
+      echo "Usando o método toString: ";
       return $this-&gt;getProperty();
   }
 
@@ -1034,7 +1034,7 @@ class MyOtherClass extends MyClass
 
   public function newMethod()
   {
-      echo "From a new method in " . __CLASS__ . ".&lt;br /&gt;";
+      echo "De um novo método na classe " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function callProtected()
