@@ -670,9 +670,9 @@ De um novo método na classe MyOtherClass.
 Sou uma propriedade de classe!
 A classe "MyClass" foi destruída.</pre>
 
-<h3>Preserving Original Method Functionality While Overwriting Methods</h3>
+<h3>Preservando Funcionalidades Originais de um Método Enquanto Sobrescreve o Mesmo</h3>
 
-<p>To add new functionality to an inherited method while keeping the original method intact, use the <code>parent</code> keyword with the <strong>scope resolution operator</strong> (<code>::</code>):</p>
+<p>Para adicionar uma nova funcionalidade a um método e, ao mesmo tempo, manter a funcionalidade do método original intacta, use a palavra chave <code>parent</code> juntamente ao <strong>operador de resolução de escopo</strong> (<code>::</code>):</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -712,7 +712,7 @@ class MyOtherClass extends MyClass
 {
   public function __construct()
   {
-      parent::__construct(); // Call the parent class's constructor
+      parent::__construct(); // Invoca o construtor da classe pai
       echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
@@ -725,7 +725,7 @@ class MyOtherClass extends MyClass
 // Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Mostra o objeto como string
+// Usa o método da nova classe
 echo $newobj-&gt;newMethod();
 
 // Usa um método da classe pai
@@ -733,10 +733,10 @@ echo $newobj-&gt;getProperty();
 
 ?&gt;</pre>
 
-<p>This outputs the result of both the parent constructor and the new class's constructor:</p>
+<p>Dessa forma, será retornado tanto o que foi codificado no construtor pai quando no construtor da nova classe:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
+A classe "MyClass" foi iniciada!
 Um novo construtor em MyOtherClass.
 De um novo método na classe MyOtherClass.
 Sou uma propriedade de classe!
