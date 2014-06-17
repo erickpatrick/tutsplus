@@ -972,16 +972,16 @@ Um novo construtor em MyOtherClass.
 
 Fatal error: Call to private method MyClass::getProperty() from context 'MyOtherClass' in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 49</pre>
 
-<h3>Static Properties and Methods</h3>
+<h3>Métodos e Propriedades Estáticas</h3>
 
-<p>A method or property declared <code>static</code> can be accessed without first instantiating the class; you simply supply the class name, scope resolution operator, and the property or method name.</p>
+<p>Um método ou propriedade declarada com <code>static</code> podem ser acessados sem, primeiro, instanciar a classe; você pode, simplesmente, usar o nome da classe, o operador de resolução de escopo e o nome da propriedade ou do método.</p>
 
 <blockquote>
-<p>"One of the major benefits to using static properties is that they keep their stored values for the duration of the script."</p>
+<p>"Um dos maiores benefícios de se usar propriedades estáticas é que elas são capazes de manter os valores guardados dentro dela enquanto o arquivo for executado."</p>
 
 </blockquote>
 
-<p>To demonstrate this, add a static property called <code>$count</code> and a static method called <code>plusOne()</code> to <code>MyClass</code>. Then set up a <code>do...while</code> loop to output the incremented value of <code>$count</code> as long as the value is less than 10:</p>
+<p>Para demonstrar isso, adicione uma propriedade estática chamada <code>$count</code> e um método estático chamado <code>plusOne()</code> à classe <code>MyClass</code>. Depois, prepare um laço de repetição <code>do...while</code>para mostrar o valor incrementado da proprieade <code>$count</code> enquanto o valor dela for menor que 10:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -1020,7 +1020,7 @@ class MyClass
 
   public static function plusOne()
   {
-      return "The count is " . ++self::$count . ".&lt;br /&gt;";
+      return "O valor é " . ++self::$count . ".&lt;br /&gt;";
   }
 }
 
@@ -1045,7 +1045,7 @@ class MyOtherClass extends MyClass
 
 do
 {
-  // Call plusOne without instantiating MyClass
+  // Invoca o método plusOne sem instanciar a classe MyClass
   echo MyClass::plusOne();
 } while ( MyClass::$count &lt; 10 );
 
