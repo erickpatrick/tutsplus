@@ -752,15 +752,15 @@ A classe "MyClass" foi destruída.</pre>
 
 <p><strong>Nota</strong> — Visibilidade é um novo recurso presente a partir do PHP 5. Para maiores informações sobre <a href="http://us2.php.net/manual/en/language.oop5.php">compatibilidade da POO com o PHP 4</a>, veja a respectiva página do manual do PHP.</p>
 
-<h3>Public Properties and Methods</h3>
+<h3>Métodos e Propriedades Públicas</h3>
 
-<p>All the methods and properties you've used so far have been public. This means that they can be accessed anywhere, both within the class and externally.</p>
+<p>Todos os métodos e propriedades que usamos, até agora, eram públicos. Isso significa que eles podem ser acessados de qualquer lugar, tanto dentro quanto fora da classe.</p>
 
-<h3>Protected Properties and Methods</h3>
+<h3>Métodos e Propriedades Protegidas</h3>
 
-<p>When a property or method is declared <code>protected</code>, <strong>it can only be accessed within the class itself or in descendant classes</strong> (classes that extend the class containing the protected method).</p>
+<p>Quando uma propriedades ou método é declarada com <code>protected</code>, <strong>ela só pode ser acessada dentro dela própria ou por uma classe descendente</strong> (classes que estendem a classe que contem o método protegido).</p>
 
-<p>Declare the <code>getProperty()</code> method as protected in <code>MyClass</code> and try to access it directly from outside the class:</p>
+<p>Declare o método <code>getProperty()</code> como protegido, na classe <code>MyClass</code>, e tente acessá-lo diretamente fora da classe:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -801,7 +801,7 @@ class MyOtherClass extends MyClass
   public function __construct()
   {
       parent::__construct();
-echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
+      echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
@@ -813,20 +813,20 @@ echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
 // Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Attempt to call a protected method
+// Tentativa de invocar um método protegido fora da classe
 echo $newobj-&gt;getProperty();
 
 ?&gt;</pre>
 
-<p>Upon attempting to run this script, the following error shows up:</p>
+<p>Quando tentar executar esse código, o erro a seguir aparece:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-A new constructor in MyOtherClass.
+A classe "MyClass" foi iniciada!
+Um novo construtor em MyOtherClass.
 
 Fatal error: Call to protected method MyClass::getProperty() from context '' in /Applications/XAMPP/xamppfiles/htdocs/testing/test.php on line 55</pre>
 
-<p>Now, create a new method in <code>MyOtherClass</code> to call the <code>getProperty()</code> method:</p>
+<p>Agora, crie um método em <code>MyOtherClass</code> que invoque o método <code>getProperty()</code>:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -867,7 +867,7 @@ class MyOtherClass extends MyClass
   public function __construct()
   {
       parent::__construct();
-echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
+      echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
   }
 
   public function newMethod()
@@ -884,20 +884,20 @@ echo "Um novo construtor em " . __CLASS__ . ".&lt;br /&gt;";
 // Cria um novo objeto
 $newobj = new MyOtherClass;
 
-// Call the protected method from within a public method
+// Invoca o método protegido a partir de um método público
 echo $newobj-&gt;callProtected();
 
 ?&gt;</pre>
 
-<p>This generates the desired result:</p>
+<p>E, assim, temos o resultado desejado:</p>
 
 <pre class="brush: php">
-The class "MyClass" was initiated!
-A new constructor in MyOtherClass.
-I'm a class property!
-The class "MyClass" was destroyed.</pre>
+A classe "MyClass" foi iniciada!
+Um novo construtor em MyOtherClass.
+Sou uma propriedade de classe!
+A classe "MyClass" foi destruída.</pre>
 
-<h3>Private Properties and Methods</h3>
+<h3>Métodos e Propriedades Privadas</h3>
 
 <p>A property or method declared <code>private</code> is accessible <strong>only from within the class that defines it</strong>. This means that <em>even if a new class extends the class that defines a private property,</em> that property or method will not be available at all within the child class.</p>
 
