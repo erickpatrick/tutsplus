@@ -1256,7 +1256,7 @@ Person 2: Array
 
 <h3>A Abordagem POO</h3>
 
-<p>Here's the OOP approach to our example:</p>
+<p>Eis a abordagem POO para nosso exemplo:</p>
 
 <pre class="brush: php">
 &lt;?php
@@ -1285,28 +1285,28 @@ class Person
   }
 }
 
-// Create two new people
+// Cria duas novas pessoas
 $person1 = new Person("Tom", "Button-Pusher", 34);
 $person2 = new Person("John", "Lever Puller", 41);
 
-// Output their starting point
+// Mostra seus valores iniciais
 echo "&lt;pre&gt;Person 1: ", print_r($person1, TRUE), "&lt;/pre&gt;";
 echo "&lt;pre&gt;Person 2: ", print_r($person2, TRUE), "&lt;/pre&gt;";
 
-// Give Tom a promotion and a birthday
+// Tom foi promovido e fez aniversário
 $person1-&gt;changeJob("Box-Mover");
 $person1-&gt;happyBirthday();
 
-// John just gets a year older
+// John também fez aniversário
 $person2-&gt;happyBirthday();
 
-// Output the ending values
+// Mostra os valores finais
 echo "&lt;pre&gt;Person 1: ", print_r($person1, TRUE), "&lt;/pre&gt;";
 echo "&lt;pre&gt;Person 2: ", print_r($person2, TRUE), "&lt;/pre&gt;";
 
 ?&gt;</pre>
 
-<p>This outputs the following in the browser:</p>
+<p>O seguinte seria mostrado no navegador:</p>
 
 <pre class="brush: php">
 Person 1: Person Object
