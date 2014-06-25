@@ -332,7 +332,7 @@ a[data-filetype="image"] {
  color: red;
 }</pre>
 
-<p>Refer back to number eight; how do we compensate for all of the various image types: <code>png</code>, <code>jpeg,</code><code>jpg</code>, <code>gif</code>? Well, we could create multiple selectors, such as:</p>
+<p>Lembre-se do exemplo oito; como fazer para referenciar todos os tipos de imagens: <code>png</code>, <code>jpeg,</code><code>jpg</code> e <code>gif</code>? Bem, poderíamos criar múltiplos seletores, dessa forma:</p>
 
 <pre class="brush: css">
 a[href$=".jpg"],
@@ -342,12 +342,12 @@ a[href$=".gif"] {
  color: red;
 }</pre>
 
-<p>But, that's a pain in the butt, and is inefficient. Another possible solution is to use custom attributes. What if we added our own <code>data-filetype</code> attribute to each anchor that links to an image?</p>
+<p>Mas, isso é muito chato e ineficiente. Outra possível solução é usar atributos customizados. E se adicionarmos um atributo <code>data-filetype</code> a cada uma das âncoras que apontem para uma imagem?</p>
 
 <pre class="brush: html">
-&lt;a href="path/to/image.jpg" data-filetype="image"&gt; Image Link &lt;/a&gt;</pre>
+&lt;a href="path/to/image.jpg" data-filetype="image"&gt; Link para Imagem&lt;/a&gt;</pre>
 
-<p>Then, with that <em>hook</em> in place, we can use a standard attributes selector to target only those anchors. </p>
+<p>Então, com esse <em>gancho</em>, podemos usar os seletores de atributo padrão para selecionar somente essas âncoras. </p>
 
 <pre class="brush: css">
 a[data-filetype="image"] {
