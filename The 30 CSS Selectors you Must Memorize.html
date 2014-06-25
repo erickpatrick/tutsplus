@@ -375,22 +375,22 @@ a[data-info~="image"] {
  border: 1px solid black;
 }</pre>
 
-<p>Here's a special one that'll impress your friends. Not too many people know about this trick. The tilda (<code>~</code>) symbol allows us to target an attribute which has a spaced-separated list of values. </p>
+<p>Eis um seletor especial que impressionará seus amigos. Nem todo mundo sabe desse truque. O til (<code>~</code>) permite-nos selecionar um atributo que tem, em seus valores, uma lista separada por espaços. </p>
 
-<p>Going along with our custom attribute from number fifteen, above, we could create a <code>data-info</code> attribute, which can receive a space-separated list of anything we need to make note of. In this case, we'll make note of external links and links to images -- just for the example.</p>
+<p>Seguindo com o nosso atributo customizado do seletor quinze, poderíamos criar um atributo <code>data-info</code>, que pode receber uma lista de itens, separados por espaço, para podermos anotar o que quisermos. Nesse caso, nós tomaremos nota dos links externos e dos links para iamgens &ndash; só para exemplificar.</p>
 
 <pre class="brush: html">
-"&lt;a href="path/to/image.jpg" data-info="external image"&gt; Click Me, Fool &lt;/a&gt;</pre>
+"&lt;a href="path/to/image.jpg" data-info="external image"&gt; Clique em mim &lt;/a&gt;</pre>
 
-<p>With that markup in place, now we can target any tags that have either of those values, by using the ~ attributes selector trick.</p>
+<p>Com esse código, agora podemos selecionar qualquer tag que tenha qualquer um desses valores, usando o truque do seletor de atributos com o ~.</p>
 
 <pre class="brush: css">
-/* Target data-info attr that contains the value "external" */
+/* Selecionar o atributo data-info que contem o valor "external" */
 a[data-info~="external"] {
  color: red;
 }
 
-/* And which contain the value "image" */
+/* E aquele que contem o valor "image" */
 a[data-info~="image"] {
 border: 1px solid black;
 }</pre>
