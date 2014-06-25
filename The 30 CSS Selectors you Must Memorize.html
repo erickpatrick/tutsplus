@@ -164,25 +164,25 @@ div#container &gt; ul {
 border: 1px solid black;
 }</pre>
 
-<p>The difference between the standard <code>X Y</code> and <code>X &gt; Y</code> is that the latter will only select direct children. For example, consider the following markup.</p>
+<p>A diferença entre o seletor descendente <code>X Y</code> padrão e o seletor <code>X &gt; Y</code> é que o último somente seleciona filhos diretos. Por exemplo, considere o código HTML abaixo.</p>
 
 <pre class="brush: html">
  &lt;div id="container"&gt;
     &lt;ul&gt;
-       &lt;li&gt; List Item
+       &lt;li&gt; Item da lista
          &lt;ul&gt;
-            &lt;li&gt; Child &lt;/li&gt;
+            &lt;li&gt; Filho &lt;/li&gt;
          &lt;/ul&gt;
        &lt;/li&gt;
-       &lt;li&gt; List Item &lt;/li&gt;
-       &lt;li&gt; List Item &lt;/li&gt;
-       &lt;li&gt; List Item &lt;/li&gt;
+       &lt;li&gt; Item da lista &lt;/li&gt;
+       &lt;li&gt; Item da lista &lt;/li&gt;
+       &lt;li&gt; Item da lista &lt;/li&gt;
     &lt;/ul&gt;
  &lt;/div&gt;</pre>
 
-<p>A selector of <code>#container &gt; ul</code> will only target the <code>ul</code>s which are direct children of the <code>div</code> with an <code>identificador</code> of <code>container</code>. It will not target, for instance, the <code>ul</code> that is a child of the first <code>li</code>. </p>
+<p>Um seletor <code>#container &gt; ul</code> somente selecionará aquelas <code>ul</code>s que são filhas diretas de uma <code>div</code> com <code>identificador</code> nomeado como <code>container</code>. Ele não selecionará, por exemplo, a <code>ul</code> que é filha do primeiro <code>li</code>. </p>
 
-<p>For this reason, there are performance benefits in using the child combinator. In fact, it's recommended particularly when working with JavaScript-based CSS selector engines.</p>
+<p>Por esse motivo, há benefícios relacionados a performances ao usar o combinador de filhos. Na verdade, é recomendável utilizá-lo quando estiver trabalhando com motores de seleção de CSS criados em JavaScript.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/childcombinator.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/childcombinator.html">Visualizar Demonstração </a> </h5>
 
