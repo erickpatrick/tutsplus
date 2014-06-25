@@ -1,5 +1,6 @@
+<h1>Os 30 Seletores CSS Que Você Deve Memorizar</h1>
 
-<p>So you learned the base <code>id</code>, <code>class</code>, and <code>descendant</code> selectors - and then called it a day? If so, you're missing out on an enormous level of flexibility. While many of the selectors mentioned in this article are part of the CSS3 spec, and are, consequently, only available in modern browsers, you owe it to yourself to commit these to memory.</p>
+<p>Então, você aprender os seletores básicos: <code>id</code>, <code>classe</code>, e <code>descendente</code> - e achou que tinha aprendido tudo? Se acha que sim, então você está deixando de aproveitar uma gama de possibilidades. Enquanto a maioria dos seletores mencionados nesse artigo fazem parte da especificação do CSS3, e são, consequentemente, disponíveis apenas em navegadores modernos, você saber todos eles de cabeça.</p>
 
 <h2><span> 1. </span>*</h2>
 
@@ -9,22 +10,22 @@
  padding: 0;
 }</pre>
 
-<p>Let's knock the obvious ones out, for the beginners, before we move onto the more advanced selectors.</p>
+<p>Vamos falar primeiro dos mais óbvios, para os iniciantes, antes de começarmos a falar dos seletores mais avançados.</p>
 
-<p>The star symbol will target every single element on the page. Many developers will use this trick to zero out the <code>margin</code>s and <code>padding</code>. While this is certainly fine for quick tests, I'd advise you to never use this in production code. It adds too much <em>weight</em> on the browser, and is unnecessary.</p>
+<p>O asterísco (ou estrela) tem como alvo todos os elementos em uma página. Muitos desenvolvedores usam-no para zerar as as margens e o preenchimento (<code>margin</code>e <code>padding</code>, respectivamente). Embora isso funcione para testes rápidos, recomendo o não uso dessa técnica em produção. Ela deixa o navegador muito <em>pesado</em> (por ter de selecionar todo e cada elemento), além de ser desnecessário.</p>
 
-<p>The <code>*</code> can also be used with child selectors. </p>
+<p>O <code>*</code> também pode ser usado como um seletor filho. </p>
 
 <pre class="brush: css">
 #container * {
  border: 1px solid black;
 }</pre>
 
-<p>This will target every single element that is a child of the <code>#container</code> <code>div</code>. Again, try not to use this technique very much, if ever.</p>
+<p>Isso mirará todo elemento que for filho de uma <code>div</code> com id <code>#container</code>. Novamente, não use muito essa técnica em produção. De preferência, nunca.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/star.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/star.html">View Demo </a></h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/star.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/star.html">Visualizar Demonstração </a></h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE6+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -48,8 +49,8 @@
 
 <p><code>id</code> selectors are rigid and don't allow for reuse. If possible, first try to use a tag name, one of the new HTML5 elements, or even a pseudo-class.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/id.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/id.html">View Demo </a> </h5>
-<h3> Compatibility </h3>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/id.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/id.html">Visualizar Demonstração </a> </h5>
+<h3> Compatibilidade </h3>
 <ul><li>IE6+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -66,9 +67,9 @@ color: red;
 
 <p>This is a <code>class</code> selector. The difference between <code>id</code>s and <code>class</code>es is that, with the latter, you can target multiple elements. Use <code>class</code>es when you want your styling to apply to a group of elements. Alternatively, use <code>id</code>s to find a needle-in-a-haystack, and style only that specific element.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/class.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/class.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/class.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/class.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE6+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -89,9 +90,9 @@ text-decoration: none;
 <p><strong>Pro-tip</strong> - If your selector looks like <code>X Y Z A B.error</code>, you're doing it wrong. Always ask yourself if it's absolutely necessary to apply all of that <em>weight</em>.</p>
 </blockquote>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/descend.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/descend.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/descend.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/descend.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE6+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -107,9 +108,9 @@ ul { margin-left: 0; }</pre>
 
 <p>What if you want to target all elements on a page, according to their <code>type</code>, rather than an <code>id</code> or <code>class</code>name? Keep it simple, and use a type selector. If you need to target all unordered lists, use <code>ul {}</code>.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/tagName.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/tagName.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/tagName.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/tagName.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE6+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -127,9 +128,9 @@ a:visted { color: purple; }</pre>
 
 <p>Alternatively, we also have the <code>:visited</code> pseudo class, which, as you'd expected, allows us to apply specific styling to only the anchor tags on the page which <em>have</em> been clicked on, or <em>visited</em>.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/links.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/links.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/links.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/links.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -146,9 +147,9 @@ ul + p {
 
 <p>This is referred to as an adjacent selector. It will select <em>only</em> the element that is immediately preceded by the former element. In this case, only the first paragraph after each <code>ul</code> will have red text.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/adjacent.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/adjacent.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/adjacent.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/adjacent.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -183,9 +184,9 @@ border: 1px solid black;
 
 <p>For this reason, there are performance benefits in using the child combinator. In fact, it's recommended particularly when working with JavaScript-based CSS selector engines.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/childcombinator.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/childcombinator.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/childcombinator.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/childcombinator.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -202,9 +203,9 @@ ul ~ p {
 
 <p>This sibling combinator is similar to <code>X + Y</code>, however, it's less strict. While an adjacent selector (<code>ul + p</code>) will only select the first element that is <em>immediately</em> preceded by the former selector, this one is more generalized. It will select, referring to our example above, any <code>p</code> elements, as long as they follow a <code>ul</code>. </p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/generalcombinator.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/generalcombinator.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/generalcombinator.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/generalcombinator.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -221,9 +222,9 @@ a[title] {
 
 <p>Referred to as an <em>attributes selector</em>, in our example above, this will only select the anchor tags that have a <code>title</code> attribute. Anchor tags which do not will not receive this particular styling. But, what if you need to be more specific? Well...</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -246,9 +247,9 @@ color: #1f6053; /* nettuts green */
 
 <p>This works well, though, it's a bit rigid. What if the link does indeed direct to Nettuts+, but, maybe, the path is <em>nettuts.com</em> rather than the full url? In those cases we can use a bit of the regular expressions syntax.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes2.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes2.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes2.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes2.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -267,9 +268,9 @@ color: #1f6053; /* nettuts green */
 
 <p>Keep in mind that this is a broad statement. What if the anchor tag linked to some non-Envato site with the string <em>tuts</em> in the url? When you need to be more specific, use <code>^</code> and <code>&amp;</code>, to reference the beginning and end of a string, respectively.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes3.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes3.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes3.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes3.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -295,9 +296,9 @@ a[href^="http"] {
 
 <p>Now, what if we wanted to instead style all anchors which link to, say, a photo? In those cases, let's search for the <em>end</em> of the string.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes4.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes4.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes4.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes4.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -314,9 +315,9 @@ a[href$=".jpg"] {
 
 <p>Again, we use a regular expressions symbol, <code>$</code>, to refer to the end of a string. In this case, we're searching for all anchors which link to an image -- or at least a url that ends with <code>.jpg</code>. Keep in mind that this certainly won't work for <code>gifs</code> and <code>pngs</code>.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes5.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes5.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes5.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes5.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -353,9 +354,9 @@ a[data-filetype="image"] {
  color: red;
 }</pre>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes6.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes6.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes6.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes6.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -396,9 +397,9 @@ border: 1px solid black;
 
 <p>Pretty nifty, ay?</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes7.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes7.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes7.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes7.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -415,9 +416,9 @@ input[type=radio]:checked {
 
 <p>This pseudo class will only target a user interface element that has been <em>checked</em> - like a radio button, or checkbox. It's as simple as that.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/checked.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/checked.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/checked.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/checked.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -454,7 +455,7 @@ input[type=radio]:checked {
 <p>According to the CSS3 Selectors specification, you should technically use the pseudo element syntax of two colons <code>::</code>. However, to remain compatible, the user-agent will accept a single colon usage as well. In fact, at this point, it's smarter to use the single-colon version in your projects.</p>
 </blockquote>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE8+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -486,7 +487,7 @@ a:hover {
 <p><strong>Pro-tip</strong> - <code>border-bottom: 1px solid black;</code> looks better than <code>text-decoration: underline;</code>. </p>
 </blockquote>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE6+ (In IE6, :hover must be applied to an anchor element) </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -510,9 +511,9 @@ div:not(#container) {
 color: green;
 }</pre>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/not.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/not.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/not.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/not.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -560,12 +561,12 @@ p::first-line {
 <p>Similarly, the <code>::first-line</code> pseudo element will, as expected, style the first line of the element only. </p>
 
 <blockquote>
-<p>"For compatibility with existing style sheets, user agents must also accept the previous one-colon notation for pseudo-elements introduced in CSS levels 1 and 2 (namely, :first-line, :first-letter, :before and :after). This compatibility is not allowed for the new pseudo-elements introduced in this specification." - <a href="http://www.w3.org/TR/css3-selectors/">Source</a></p>
+<p>"For Compatibilidade with existing style sheets, user agents must also accept the previous one-colon notation for pseudo-elements introduced in CSS levels 1 and 2 (namely, :first-line, :first-letter, :before and :after). This Compatibilidade is not allowed for the new pseudo-elements introduced in this specification." - <a href="http://www.w3.org/TR/css3-selectors/">Source</a></p>
 </blockquote>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/pseudoElements.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/pseudoElements.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/pseudoElements.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/pseudoElements.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE6+ </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -586,9 +587,9 @@ li:nth-child(3) {
 
 <p>We can even use this to select a variable set of children. For example, we could do <code>li:nth-child(4n)</code> to select every fourth list item. </p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nth.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nth.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nth.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nth.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+ </li>
 <li>Firefox 3.5+ </li>
 <li>Chrome </li>
@@ -606,9 +607,9 @@ li:nth-last-child(2) {
 
 <p>This technique works almost identically from number sixteen above, however, the difference is that it begins at the end of the collection, and works its way back.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthLast.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nthLast.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthLast.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nthLast.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+ </li>
 <li>Firefox 3.5+ </li>
 <li>Chrome </li>
@@ -627,9 +628,9 @@ ul:nth-of-type(3) {
 
 <p>Imagine mark-up that contains five unordered lists. If you wanted to style only the third <code>ul</code>, and didn't have a unique <code>id</code> to hook into, you could use the <code>nth-of-type(n)</code> pseudo class. In the snippet above, only the third <code>ul</code> will have a border around it.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthOfType.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nthOfType.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthOfType.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nthOfType.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+ </li>
 <li>Firefox 3.5+ </li>
 <li>Chrome </li>
@@ -645,7 +646,7 @@ ul:nth-last-of-type(3) {
 
 <p>And yes, to remain consistent, we can also use <code>nth-last-of-type</code> to begin at the end of the selectors list, and work our way back to target the desired element.</p>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+ </li>
 <li>Firefox 3.5+ </li>
 <li>Chrome </li>
@@ -666,9 +667,9 @@ ul li:first-child {
 
 <p>Many designers apply classes of <code>first</code> and <code>last</code> to compensate for this. Instead, you can use these pseudo classes.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html" data-original-url="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html" data-original-url="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE7+  </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -738,9 +739,9 @@ li:last-child {
 <img src="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/fixed.png" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/fixed.png" alt="Fixed" /></figure>
 <p>There we go; that fixes it!</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html" data-original-url="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html" data-original-url="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+  </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -773,9 +774,9 @@ div p:only-child {
 
 <p>In this case, the second <code>div</code>'s paragraphs will not be targeted; only the first <code>div</code>. As soon as you apply more than one child to an element, the <code>only-child</code> pseudo class ceases to take effect.</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyChild.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/onlyChild.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyChild.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/onlyChild.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+  </li>
 <li>Firefox </li>
 <li>Chrome </li>
@@ -799,9 +800,9 @@ ul &gt; li:only-of-type {
  font-weight: bold;
 }</pre>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyOfType.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/onlyOfType.html">View Demo </a> </h5>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyOfType.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/onlyOfType.html">Visualizar Demonstração </a> </h5>
 
-<h3> Compatibility </h3>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+  </li>
 <li>Firefox 3.5+ </li>
 <li>Chrome </li>
@@ -862,8 +863,8 @@ ul:first-of-type li:nth-last-child(1) {
 
 <p>This time, we grab the first <code>ul</code> on the page, and then find the very first list item, but starting from the bottom! :)</p>
 
-<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstOfType.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/firstOfType.html">View Demo </a> </h5>
-<h3> Compatibility </h3>
+<h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstOfType.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/firstOfType.html">Visualizar Demonstração </a> </h5>
+<h3> Compatibilidade </h3>
 <ul><li>IE9+  </li>
 <li>Firefox 3.5+</li>
 <li>Chrome </li>
@@ -873,7 +874,7 @@ ul:first-of-type li:nth-last-child(1) {
 
 <h2>Conclusion </h2>
 
-<p>If you're compensating for older browsers, like Internet Explorer 6, you still need to be careful when using these newer selectors. But, please don't let that deter you from learning these. You'd be doing a huge disservice to yourself. Be sure to <a href="http://www.quirksmode.org/css/contents.html">refer here for a browser-compatibility list.</a> Alternatively, you can use <a href="http://code.google.com/p/ie7-js/">Dean Edward's excellent IE9.js script</a> to bring support for these selectors to older browsers.  </p>
+<p>If you're compensating for older browsers, like Internet Explorer 6, you still need to be careful when using these newer selectors. But, please don't let that deter you from learning these. You'd be doing a huge disservice to yourself. Be sure to <a href="http://www.quirksmode.org/css/contents.html">refer here for a browser-Compatibilidade list.</a> Alternatively, you can use <a href="http://code.google.com/p/ie7-js/">Dean Edward's excellent IE9.js script</a> to bring support for these selectors to older browsers.  </p>
 
 <p>Secondly, when working with JavaScript libraries, like the popular jQuery, always try to use these native CSS3 selectors over the library's custom methods/selectors, when possible. I<a href="http://jsperf.com/jquery-css3-not-vs-not">t'll make your code faster</a>, as the selector engine can use the browser's native parsing, rather than its own. </p>
 
