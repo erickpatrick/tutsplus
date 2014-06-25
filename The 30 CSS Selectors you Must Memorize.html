@@ -521,7 +521,7 @@ color: green;
 <li>Opera </li>
 </ul>
 
-<h2><span> 21. </span> X::pseudoElement</h2>
+<h2><span> 21. </span> X::pseudoElemento</h2>
 
 <pre class="brush: css">
 p::first-line {
@@ -529,13 +529,13 @@ p::first-line {
  font-size: 1.2em;
 }</pre>
 
-<p>We can use pseudo elements (designated by <code>::</code>) to style fragments of an element, such as the first line, or the first letter. Keep in mind that these must be applied to block level elements in order to take effect.</p>
+<p>Nós podemos usar pseudo-elementos (designados por <code>::</code>) para estilizar fragmentos de um elemento, como a primeira linha ou uma primeira letra. Lembre-se que essa regra precisa ser aplicada a elementos do tipo bloco para surtirem efeito.</p>
 
 <blockquote>
-<p>A pseudo-element is composed of two colons: <code>::</code></p>
+<p>Um pseudo-elemento é compost por dois "dois pontos": <code>::</code></p>
 </blockquote>
 
-<h4>Target the First Letter of a Paragraph</h4>
+<h4>Selecione a Primeira Letra de um Paraágrafo</h4>
 
 <pre class="brush: css">
 p::first-letter {
@@ -546,11 +546,11 @@ p::first-letter {
  padding-right: 2px;
 }</pre>
 
-<p>This snippet is an abstraction that will find all paragraphs on the page, and then sub-target only the first letter of that element. </p>
+<p>Esse trecho encontrará os parágrafos de uma página e, então, buscará só a primeira letra de cada um desses elementos para aplicar o estilo. </p>
 
-<p>This is most often used to create newspaper-like styling for the first-letter of an article.</p>
+<p>Isso é, geralmente, usado para criar estilos que remotem à estilização que jornais aplicam à primeira letra de um artigo.</p>
 
-<h4>Target the First Line of a Paragraph</h4>
+<h4>Selecione a Primeira Letra de um Parágrafo</h4>
 
 <pre class="brush: css">
 p::first-line {
@@ -558,10 +558,10 @@ p::first-line {
  font-size: 1.2em;
 }</pre>
 
-<p>Similarly, the <code>::first-line</code> pseudo element will, as expected, style the first line of the element only. </p>
+<p>De forma semelhante, o pseudo-elemento <code>::first-line</code> irá, como esperado, estilizar, somente, a primeira linha do elemento em questão. </p>
 
 <blockquote>
-<p>"For Compatibilidade with existing style sheets, user agents must also accept the previous one-colon notation for pseudo-elements introduced in CSS levels 1 and 2 (namely, :first-line, :first-letter, :before and :after). This Compatibilidade is not allowed for the new pseudo-elements introduced in this specification." - <a href="http://www.w3.org/TR/css3-selectors/">Source</a></p>
+<p>"Para manter a compatibilidade com as folhas de estilos existentes, os navegadores devem, também, aceitar a notação anterior, com um 'dois pontos', introduzida nas especificações CSS nível 1 e 2 (precisamente, :first-line, :first-letter, :before e :after). Essa compatibilidade não é permitida para os novos pseudo-elementos nesta especificação." - <a href="http://www.w3.org/TR/css3-selectors/">Fonte</a></p>
 </blockquote>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/pseudoElements.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/pseudoElements.html">Visualizar Demonstração </a> </h5>
