@@ -791,9 +791,9 @@ li:only-of-type {
  font-weight: bold;
 }</pre>
 
-<p>This structural pseudo class can be used in some clever ways. It will target elements that do not have any siblings within its parent container. As an example, let's target all <code>ul</code>s, which have only a single list item. </p>
+<p>Essa pseudo-classe estrutural pode ser usada de algumas formas bem interessantes. Ela selecionará elementos que não tem nenhum elemento irmão dentro do elemento pai. Como exemplo, selecionemos todas as <code>ul</code>s que tem somente um único <code>li</code>. </p>
 
-<p>First, ask yourself how you would accomplish this task? You could do <code>ul li</code>, but, this would target <em>all</em> list items. The only solution is to use <code>only-of-type</code>.</p>
+<p>Primeiro, pergunte-se como você resolveria isso. Você poderia usar o <code>ul li</code>, mas, ele selecionaria <em>todos</em> os itens da lista. A única solução é usar a pseudo-classe <code>only-of-type</code>.</p>
 
 <pre class="brush: css">
 ul &gt; li:only-of-type {
