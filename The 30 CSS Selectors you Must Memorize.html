@@ -812,56 +812,56 @@ ul &gt; li:only-of-type {
 
 <h2><span> 30. </span>X:first-of-type</h2>
 
-<p>The <code>first-of-type</code> pseudo class allows you to select the first siblings of its type. </p>
+<p>A pseudo-classe <code>first-of-type</code> permite que você selecione o primeiro irmão de um conjunto de elementos do mesmo tipo. </p>
 
-<h4>A Test</h4>
-<p>To better understand this, let's have a test. Copy the following mark-up into your code editor:</p>
+<h4>Um Teste</h4>
+<p>Para entender melhor, façamos um teste. Copie o código abaixo em seu editor de códigos:</p>
 
 <pre class="brush: html">
 &lt;div&gt;
- &lt;p&gt; My paragraph here. &lt;/p&gt;
+ &lt;p&gt; Meu parágrafo aqui. &lt;/p&gt;
  &lt;ul&gt;
-    &lt;li&gt; List Item 1 &lt;/li&gt;
-    &lt;li&gt; List Item 2 &lt;/li&gt;
+    &lt;li&gt; Item 1 da Lista &lt;/li&gt;
+    &lt;li&gt; Item 2 da Lista &lt;/li&gt;
  &lt;/ul&gt;
 
  &lt;ul&gt;
-    &lt;li&gt; List Item 3 &lt;/li&gt;
-    &lt;li&gt; List Item 4 &lt;/li&gt;
+    &lt;li&gt; Item 3 da Lista &lt;/li&gt;
+    &lt;li&gt; Item 4 da Lista &lt;/li&gt;
  &lt;/ul&gt;
 &lt;/div&gt;</pre>
 
-<p>Now, without reading further, try to figure out how to target only <em>"List Item 2"</em>. When you've figured it out (or given up), read on.</p>
+<p>Agora, sem continuar lendo, descubra como selecionar somente o <em>"Item 2 da Lista"</em>. Quando descobrir (ou desistir), continue a leitura.</p>
 
-<h4>Solution 1</h4>
-<p>There are a variety of ways to solve this test. We'll review a handful of them. Let's begin by using <code>first-of-type</code>. </p>
+<h4>Solução 1</h4>
+<p>Há várias maneira de resolver esse teste. Nós usaremos alguns deles. Primeiro, usando o <code>first-of-type</code>. </p>
 
 <pre class="brush: css">
 ul:first-of-type &gt; li:nth-child(2) {
  font-weight: bold;
 }</pre>
 
-<p>This snippet essentially says, "find the first unordered list on the page, then find only the immediate children, which are list items. Next, filter that down to only the second list item in that set.</p>
+<p>Esse trecho de código, essencialmente, diz "encontre a primeira lista não ordenada na página, então encontre somente os filhos imediatos dessa lista e que são "itens de lista". Depois, filtre esses itens e pegue somente o segundo.</p>
 
-<h4>Solution 2</h4>
-<p>Another option is to use the adjacent selector.</p>
+<h4>Solução 2</h4>
+<p>Outra opção seria usar o seletor adjacente.</p>
 
 <pre class="brush: css">
 p + ul li:last-child {
  font-weight: bold;
 }</pre>
 
-<p>In this scenario, we find the <code>ul</code> that immediately proceeds the <code>p</code> tag, and then find the very last child of the element.</p>
+<p>Nesse cenário, nós encontramos a <code>ul</code> que está, imediatamente, após um <code>p</code>, e, então, encontramos o último item desse elemento.</p>
 
-<h4>Solution 3</h4>
-<p>We can be as obnoxious or as playful as we want with these selectors. </p>
+<h4>Solução 3</h4>
+<p>Nós podemos ser bem desagradáveis ou brincalhões o quanto quisermos com esses seletores. </p>
 
 <pre class="brush: css">
 ul:first-of-type li:nth-last-child(1) {
  font-weight: bold;
 }</pre>
 
-<p>This time, we grab the first <code>ul</code> on the page, and then find the very first list item, but starting from the bottom! :)</p>
+<p>Dessa vez, nós pegamos o primeiro elemento <code>ul</code> da página e, então, encontramos o primeiro item da lista, na ordem reversa dos itens! :)</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstOfType.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/firstOfType.html">Visualizar Demonstração </a> </h5>
 <h3> Compatibilidade </h3>
