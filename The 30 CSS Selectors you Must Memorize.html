@@ -442,8 +442,8 @@ input[type=radio]:checked {
   height: 0;
   }
 
-.clearfix { 
- *display: inline-block; 
+.clearfix {
+ *display: inline-block;
  _height: 1%;
 }</pre>
 
@@ -661,11 +661,11 @@ ul li:first-child {
  border-top: none;
 }</pre>
 
-<p>This structural pseudo class allows us to target only the first child of the element's parent. You'll often use this to remove borders from the first and last list items. </p>
+<p>Essa pseudo-classe estrutural permite-nos selecionar o primeiro elemento do conjunto alvo. Você, geralmente, usará essa técnica para remover bordas dos primeiros e últimos elementos de listas. </p>
 
-<p>For example, let's say you have a list of rows, and each one has a <code>border-top</code> and a <code>border-bottom</code>. Well, with that arrangement, the first and last item in that set will look a bit odd. </p>
+<p>Por exemplo, digamos que você tem uma lista e cada item dessa lista tem <code>border-top</code> e <code>border-bottom</code>. Bem, com esse arranjo, o primeiro e último elementos parecerão um pouco estranhos. </p>
 
-<p>Many designers apply classes of <code>first</code> and <code>last</code> to compensate for this. Instead, you can use these pseudo classes.</p>
+<p>Muitos projetistas aplicam classes chamadas <code>primeira</code> e <code>última</code> para compensar isso. Para evitar isso, você pode usar essa pseudo-classe.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html" data-original-url="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html">Visualizar Demonstração </a> </h5>
 
@@ -828,7 +828,7 @@ ul &gt; li:only-of-type {
  &lt;ul&gt;
     &lt;li&gt; List Item 3 &lt;/li&gt;
     &lt;li&gt; List Item 4 &lt;/li&gt;
- &lt;/ul&gt;   
+ &lt;/ul&gt;
 &lt;/div&gt;</pre>
 
 <p>Now, without reading further, try to figure out how to target only <em>"List Item 2"</em>. When you've figured it out (or given up), read on.</p>
@@ -858,7 +858,7 @@ p + ul li:last-child {
 
 <pre class="brush: css">
 ul:first-of-type li:nth-last-child(1) {
- font-weight: bold;   
+ font-weight: bold;
 }</pre>
 
 <p>This time, we grab the first <code>ul</code> on the page, and then find the very first list item, but starting from the bottom! :)</p>
