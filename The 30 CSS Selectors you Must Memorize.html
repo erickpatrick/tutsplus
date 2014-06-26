@@ -1,6 +1,6 @@
 <h1>Os 30 Seletores CSS Que Você Deve Memorizar</h1>
 
-<p>Então, você aprender os seletores básicos: <code>identificador</code>, <code>classe</code>, e <code>descendente</code> - e achou que tinha aprendido tudo? Se acha que sim, então você está deixando de aproveitar uma gama de possibilidades. Enquanto a maioria dos seletores mencionados nesse artigo fazem parte da especificação do CSS3, e são, consequentemente, disponíveis apenas em navegadores modernos, você saber todos eles de cabeça.</p>
+<p>Então, você aprendeu os seletores básicos: <code>identificador</code>, <code>classe</code>, e <code>descendente</code> - e achou que tinha aprendido tudo? Se acha que sim, então você está deixando de aproveitar uma gama de possibilidades. Enquanto a maioria dos seletores mencionados nesse artigo fazem parte da especificação do CSS3, e estão, consequentemente, disponíveis apenas em navegadores modernos, você deve saber todos eles de cabeça.</p>
 
 <h2><span> 1. </span>*</h2>
 
@@ -12,7 +12,7 @@
 
 <p>Vamos falar primeiro dos mais óbvios, para os iniciantes, antes de começarmos a falar dos seletores mais avançados.</p>
 
-<p>O asterísco (ou estrela) tem como alvo todos os elementos em uma página. Muitos desenvolvedores usam-no para zerar as as margens e o preenchimento (<code>margin</code>e <code>padding</code>, respectivamente). Embora isso funcione para testes rápidos, recomendo o não uso dessa técnica em produção. Ela deixa o navegador muito <em>pesado</em> (por ter de selecionar todo e cada elemento), além de ser desnecessário.</p>
+<p>O asterísco (ou estrela) tem como alvo todos os elementos em uma página. Muitos desenvolvedores usam-no para zerar as margens e o preenchimento (<code>margin</code>e <code>padding</code>, respectivamente). Embora isso funcione para testes rápidos, recomendo não usar essa técnica em produção. Ela deixa o navegador muito <em>pesado</em> (por ter de selecionar todo e cada elemento), além de ser desnecessário.</p>
 
 <p>O <code>*</code> também pode ser usado como um seletor filho. </p>
 
@@ -21,7 +21,7 @@
  border: 1px solid black;
 }</pre>
 
-<p>Isso mirará todo elemento que for filho de uma <code>div</code> com id <code>#container</code>. Novamente, não use muito essa técnica em produção. De preferência, nunca.</p>
+<p>Isso mirará todo elemento que for filho de uma <code>div</code> com um <code>identificador</code> nomeado de <code>#container</code>. Novamente, não use muito essa técnica em produção. De preferência, nunca.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/star.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/star.html">Visualizar Demonstração </a></h5>
 
@@ -41,7 +41,7 @@
  margin: auto;
 }</pre>
 
-<p>Prefixar um seletor com o "jogo da velha" (ou cerquilha, caso prefira), permite mirar algum elemento com algum <code>identificador</code>. Ele é um dos seletores mais usados, contudo, seja cuidadoso ao usar seletores com <code>identificador</code>.</p>
+<p>Prefixar um seletor com o "jogo da velha" (ou cerquilha, caso prefira), permite mirar algum elemento com um <code>identificador</code>. Ele é um dos seletores mais usados, contudo, seja cuidadoso ao usar seletores com <code>identificador</code>.</p>
 
 <blockquote>
 <p>Faça-se a seguinte pergunta: Preciso, realmente, aplicar um <code>identificador</code> a esse elemento para poder selecioná-lo</p>
@@ -87,7 +87,7 @@ text-decoration: none;
 <p>O próximo seletor mais comum é o seletor de <code>descendência</code>.Quando precisar ser mais específico em seus seletores, use esse. Por exemplo, se, ao invés de mirar todas as tags de âncora (<code>a</code>), talvez você só precise selecionar aquelas que estão dentro de uma lista não ordenada? Esse seletor, o seletor descendente, é especificamente para isso. </p>
 
 <blockquote>
-<p><strong>Dica</strong> - Se seu seletor parecer com isso <code>X Y Z A B.error</code>, tem algo errado. Pergunte-se se, realmente, é necessário todo esse peso, toda essa <em>especificidade</em>.</p>
+<p><strong>Dica</strong> - Se seu seletor parecer com isso <code>X Y Z A B.error</code>, tenha certeza que há algo errado. Pergunte-se se, realmente, é necessário todo esse peso, toda essa <em>especificidade</em>.</p>
 </blockquote>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/descend.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/descend.html">Visualizar Demonstração </a> </h5>
@@ -106,7 +106,7 @@ text-decoration: none;
 a { color: red; }
 ul { margin-left: 0; }</pre>
 
-<p>E se você quiser selecionar todos os elementos da página, de acordo com o <code>tipo</code> deles, ao ivés do seu <code>identificador</code> ou <code>classe</code>? Faça o simples e use um seletor de tipo. Se você precisar selecionar todas as listas não ordenadas, use <code>ul {}</code>.</p>
+<p>E se você quiser selecionar todos os elementos da página, de acordo com o <code>tipo</code> deles, ao invés do seu <code>identificador</code> ou <code>classe</code>? Faça o simples e use um seletor de tipo. Se você precisar selecionar todas as listas não ordenadas, use <code>ul {}</code>.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/tagName.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/tagName.html">Visualizar Demonstração </a> </h5>
 
@@ -124,9 +124,9 @@ ul { margin-left: 0; }</pre>
 a:link { color: red; }
 a:visted { color: purple; }</pre>
 
-<p>We use the <code>:link</code> pseudo-class to target all anchors tags which have yet to be clicked on.</p>
+<p>Nós usamos a pseudo-classe <code>:link</code> para selecionar todas as âncoras que foram clicadas.</p>
 
-<p>Alternatively, we also have the <code>:visited</code> pseudo class, which, as you'd expected, allows us to apply specific styling to only the anchor tags on the page which <em>have</em> been clicked on, or <em>visited</em>.</p>
+<p>Alternativamente, nós também temos a pseudo-classe <code>:visited</code>, que, como esperado, permite-nos aplicar uma estilização específica somente às âncoras da página que <em>já foram</em> clicadas ou <em>visitadas</em>.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/links.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/links.html">Visualizar Demonstração </a> </h5>
 
@@ -145,7 +145,7 @@ ul + p {
  color: red;
 }</pre>
 
-<p>Isso é referenciado como seletor adjacente. Ele selecionará <em>somente</em> o elemento imediatamente após o primeiro elemento. No exemplo acima, selecionará só o primeiro parágrado após cada <code>ul</code> na página, e fará que ele tenha a cor vermelha.</p>
+<p>Esse é chamado de seletor adjacente. Ele selecionará <em>somente</em> o elemento imediatamente após o primeiro elemento. No exemplo acima, selecionará só o primeiro parágrado após cada <code>ul</code> na página, e fará que ele tenha a cor vermelha.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/adjacent.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/adjacent.html">Visualizar Demonstração </a> </h5>
 
@@ -220,7 +220,7 @@ a[title] {
  color: green;
 }</pre>
 
-<p>Chamado de <em>seletor de atributos</em>, no nosso exemplo acima, ele só selecionará aquelas âncoras com um atributo <code>title</code> attribute. As âncoras que não tiverem esse atributo, não receberão esse estilo em particular. Mas, e se precisarmos ser mais específicos? Bem...</p>
+<p>Chamado de <em>seletor de atributos</em>, no nosso exemplo acima, ele só selecionará aquelas âncoras com um atributo <code>title</code>. As âncoras que não tiverem esse atributo, não receberão esse estilo em particular. Mas, e se precisarmos ser mais específicos? Bem...</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes.html">Visualizar Demonstração </a> </h5>
 
@@ -239,7 +239,7 @@ a[href="http://net.tutsplus.com"] {
 color: #1f6053; /* nettuts green */
 }</pre>
 
-<p>O trecho acima estilizará todas as âncoras que apontem para o endereço <em>http://net.tutsplus.com</em>; eles serão estilizados com o nosso verde. Todas as outras âncoras não serão afetadas.</p>
+<p>O trecho acima estilizará todas as âncoras que apontem para o endereço <em>http://net.tutsplus.com</em>; eles serão estilizados com o verde do nosso site. Todas as outras âncoras não serão afetadas.</p>
 <blockquote>
 
 <p>Atente que estamos envolvendo o valor entre aspas. Lembre-se de fazer isso quando estiver trabalhando com motores de seleção CSS criados em JavaScript. Quando possível, sempre use os seletores CSS3 ao invés dos métodos não oficiais.</p>
@@ -266,7 +266,7 @@ color: #1f6053; /* nettuts green */
 
 <p>Aqui está; é isso o que precisamos. O asterísco designa que o valor utilizado no seletor deve aparecer em <em>algum lugar</em> do valor do atributo do elemento. Assim, esse novo seletor cobre <em>nettuts.com</em>, <em>net.tutsplus.com,</em> e até o <em>tutsplus.com</em>. </p>
 
-<p>Tenha em mente que ele é bem abrangente. E se a âncora apontar para alguma site que não seja da Envato, mas que tenha em sua URL a cadeia de caracteres <em>tuts</em>? Quando precisar ser mais específico, use <code>^</code> e <code>&amp;</code>, para referenciar o começo e o fim de uma cadeia de caracteres, respectivamente.</p>
+<p>Tenha em mente que ele é bem abrangente. E se a âncora apontar para algum site que não seja da Envato, mas que tenha em sua URL a cadeia de caracteres <em>tuts</em>? Quando precisar ser mais específico, use <code>^</code> e <code>&amp;</code>, para referenciar o começo e o fim de uma cadeia de caracteres, respectivamente.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes3.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes3.html">Visualizar Demonstração </a> </h5>
 
@@ -288,7 +288,7 @@ a[href^="http"] {
 
 <p>Você, alguma vez, já parou para pensar como alguns sites fazem para mostrar um pequeno ícone ao lado de alguns links que levam para outros sites? Tenho certeza que você já viu algo parecido antes; Eles são ótimos lembretes que o link em questão levará você para um site completamente diferente.</p>
 
-<p>Isso é bem fácil de fazer, usando o ácento circunflexo. Ele é, comumente, usado em expressões regulares para designar o começo de uma cadeia de caracteres. Se quisermos selecionar todas as âncoras que tem um atributo <code>href</code> que começam com <code>http</code>, nós poderíamos usar um trecho de código parecido com o que temos acima.</p>
+<p>Isso é bem fácil de fazer, usando o acento circunflexo. Ele é, comumente, usado em expressões regulares para designar o começo de uma cadeia de caracteres. Se quisermos selecionar todas as âncoras que tem um atributo <code>href</code> que começam com <code>http</code>, nós poderíamos usar um trecho de código parecido com o que temos acima.</p>
 
 <blockquote>
 <p>Atente que não estamos procurando por <code>http://</code>; isso é desnecessário e não leva em consideração as URLs que começam com <code>https://</code>. </p>
@@ -313,7 +313,7 @@ a[href$=".jpg"] {
  color: red;
 }</pre>
 
-<p>Again, we use a regular expressions symbol, <code>$</code>, to refer to the end of a string. In this case, we're searching for all anchors which link to an image -- or at least a url that ends with <code>.jpg</code>. Keep in mind that this certainly won't work for <code>gifs</code> and <code>pngs</code>.</p>
+<p>Nós usaremos um símbolo de expressão regular, o <code>$</code>, para referenciar o final da cadeia de caracteres. Nesse caso, nós buscaremos por todas as âncoras que apontem para uma imagem &ndash; ou, pelo menos, uma URL que termine com <code>.jpg</code>. Lembre-se que isso não funcionará com <code>gifs</code> e <code>pngs</code>.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes5.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes5.html">Visualizar Demonstração </a> </h5>
 
@@ -377,7 +377,7 @@ a[data-info~="image"] {
 
 <p>Eis um seletor especial que impressionará seus amigos. Nem todo mundo sabe desse truque. O til (<code>~</code>) permite-nos selecionar um atributo que tem, em seus valores, uma lista separada por espaços. </p>
 
-<p>Seguindo com o nosso atributo customizado do seletor quinze, poderíamos criar um atributo <code>data-info</code>, que pode receber uma lista de itens, separados por espaço, para podermos anotar o que quisermos. Nesse caso, nós tomaremos nota dos links externos e dos links para iamgens &ndash; só para exemplificar.</p>
+<p>Seguindo com o nosso atributo customizado do seletor quinze, poderíamos criar um atributo <code>data-info</code>, que pode receber uma lista de itens, separados por espaço, para podermos anotar o que quisermos. Nesse caso, nós tomaremos nota dos links externos e dos links para imagens &ndash; só para exemplificar.</p>
 
 <pre class="brush: html">
 "&lt;a href="path/to/image.jpg" data-info="external image"&gt; Clique em mim &lt;/a&gt;</pre>
@@ -385,7 +385,7 @@ a[data-info~="image"] {
 <p>Com esse código, agora podemos selecionar qualquer tag que tenha qualquer um desses valores, usando o truque do seletor de atributos com o ~.</p>
 
 <pre class="brush: css">
-/* Selecionar o atributo data-info que contem o valor "external" */
+/* Seleciona o atributo data-info que contem o valor "external" */
 a[data-info~="external"] {
  color: red;
 }
@@ -395,7 +395,7 @@ a[data-info~="image"] {
 border: 1px solid black;
 }</pre>
 
-<p>Pretty nifty, ay?</p>
+<p>Bem legal, hein?</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes7.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/attributes7.html">Visualizar Demonstração </a> </h5>
 
@@ -452,7 +452,7 @@ input[type=radio]:checked {
 <p>Para outros usos criativos dessa técnica, <a href="http://net.tutsplus.com/tutorials/html-css-techniques/quick-tip-getting-clever-with-css3-shadows/">veja meu guia rápido sobre como criar sombras</a>. </p>
 
 <blockquote>
-<p>De acordo com a especificação dos Seletores CSS3, você deveria, tecnicamente, usar a sintaxe dos pseudo-elementos de dois "dois pontos", <code>::</code>. Entretanto, para manter-se compatível, o navegador aceitar o uso com um único "dois pontos". Na verdade, é melhor você usar a versão com um único "dois pontos" em seus projetos.</p>
+<p>De acordo com a especificação dos Seletores CSS3, você deveria, tecnicamente, usar a sintaxe dos pseudo-elementos de dois "dois pontos", <code>::</code>. Entretanto, para manter-se compatível, o navegador aceita o uso com um único "dois pontos". Na verdade, é melhor você usar a versão com um único "dois pontos" em seus projetos.</p>
 </blockquote>
 
 <h3> Compatibilidade </h3>
@@ -502,9 +502,9 @@ div:not(#container) {
  color: blue;
 }</pre>
 
-<p>A pseudo-classe <code>negação</code> é, particularmente, útil. Digamos que você queira selecionar todas as divs, exceto por aquelas que contenham um <code>identificador</code> nomeado de <code>container</code>. O trecho acima lidar com essa tarefa, perfeitamente.</p>
+<p>A pseudo-classe <code>negação</code> é, particularmente, útil. Digamos que você queira selecionar todas as divs, exceto por aquelas que contenham um <code>identificador</code> nomeado de <code>container</code>. O trecho acima lida com essa tarefa, perfeitamente.</p>
 
-<p>Ou, se eu quisess selecionar todos os elementos (o que não é recomendado), exceto pelas tags de parágrafo, poderíamos fazer assim:</p>
+<p>Ou, se eu quisesse selecionar todos os elementos (o que não é recomendado), exceto pelas tags de parágrafo, poderíamos fazer assim:</p>
 
 <pre class="brush: css">
 *:not(p) {
@@ -532,7 +532,7 @@ p::first-line {
 <p>Nós podemos usar pseudo-elementos (designados por <code>::</code>) para estilizar fragmentos de um elemento, como a primeira linha ou uma primeira letra. Lembre-se que essa regra precisa ser aplicada a elementos do tipo bloco para surtirem efeito.</p>
 
 <blockquote>
-<p>Um pseudo-elemento é compost por dois "dois pontos": <code>::</code></p>
+<p>Um pseudo-elemento é composto por dois "dois pontos": <code>::</code></p>
 </blockquote>
 
 <h4>Selecione a Primeira Letra de um Paraágrafo</h4>
@@ -550,7 +550,7 @@ p::first-letter {
 
 <p>Isso é, geralmente, usado para criar estilos que remotem à estilização que jornais aplicam à primeira letra de um artigo.</p>
 
-<h4>Selecione a Primeira Letra de um Parágrafo</h4>
+<h4>Selecione a Primeira Linha de um Parágrafo</h4>
 
 <pre class="brush: css">
 p::first-line {
@@ -581,11 +581,11 @@ li:nth-child(3) {
  color: red;
 }</pre>
 
-<p>Você se lembra quando tinha de especificar um elemento específico de um conjunto de elementos? a pseudo-classe <code>nth-child</code> acaba com esse problema!</p>
+<p>Você se lembra quando tinha de indicar um elemento específico de um conjunto de elementos? a pseudo-classe <code>nth-child</code> acaba com esse problema!</p>
 
-<p>Atente que o <code>nth-child</code> aceita um inteiro como parâmetro, entretanto, a contagem não inicia em zero (como nas <code>arrays</code> e <code>strings</code> em programação). Se você deseja selecionar o segundo item de uma lista, faça assim <code>li:nth-child(2)</code>. </p>
+<p>Atente que o <code>nth-child</code> aceita um número inteiro como parâmetro, entretanto, a contagem não inicia em zero (como nas <code>arrays</code> e <code>strings</code> em programação). Se você deseja selecionar o segundo item de uma lista, faça assim <code>li:nth-child(2)</code>. </p>
 
-<p>Nós podemos, até mesmo, selecionar um número variáve de elementos filhos. Por exemplo, nós podemos fazer algo como <code>li:nth-child(4n)</code>, para selecionar todos os itens que estejam em uma posição que seja múltipla de quatro. </p>
+<p>Nós podemos, até mesmo, selecionar um número variável de elementos filhos. Por exemplo, nós podemos fazer algo como <code>li:nth-child(4n)</code>, para selecionar todos os itens que estejam em uma posição que seja múltipla de quatro. </p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nth.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nth.html">Visualizar Demonstração </a> </h5>
 
@@ -605,7 +605,7 @@ li:nth-last-child(2) {
 
 <p>E se tivéssemos uma enorme lista de itens em uma <code>ul</code> e só precisássemos acessar o terceiro item, começando a contagem a partir do último elemento? Ao invés de fazer algo como <code>li:nth-child(397)</code>, você pode usar a pseudo-classe <code>nth-last-child</code>.</p>
 
-<p>Essa técnica funciona quase igual à técnica dezesseis, acima, entretanto, a diferença é que ela começa do último elemento do conjunto e faz o caminho inverso até o primeiro elemento.</p>
+<p>Essa técnica funciona quase igual à técnica dezesseis, entretanto, a diferença é que ela começa do último elemento do conjunto e faz o caminho inverso até o primeiro elemento.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthLast.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/nthLast.html">Visualizar Demonstração </a> </h5>
 
@@ -624,7 +624,7 @@ ul:nth-of-type(3) {
  border: 1px solid black;
 }</pre>
 
-<p>Haverá vezes que, ao invés de selecionar um elemento <code>filho</code>, você precisará um certo elemento de um certo <code>tipo</code>. </p>
+<p>Haverá vezes que, ao invés de selecionar um elemento <code>filho</code>, você precisará de um certo elemento de um certo <code>tipo</code>. </p>
 
 <p>Imagine um código que contenha cinco listas não ordenadas. Se você quiser estilizar, somente, a terceira <code>ul</code> e não tem um <code>identificador</code> para usar, você pode usar a pseudo-classe <code>nth-of-type(n)</code>. No trecho acima, somente a terceira  <code>ul</code> terá uma borda.</p>
 
@@ -644,7 +644,7 @@ ul:nth-last-of-type(3) {
  border: 1px solid black;
 }</pre>
 
-<p>E, sim, para manter a consistência, nós também podemos usar a pseudo classe <code>nth-last-of-type</code> para iniciar a contagem dos seletores pelo fim da lista, e fazer o caminho inverso até o elemento desejado.</p>
+<p>E, sim, para manter a consistência, nós também podemos usar a pseudo-classe <code>nth-last-of-type</code> para iniciar a contagem dos seletores pelo fim da lista e fazer o caminho inverso até o elemento desejado.</p>
 
 <h3> Compatibilidade </h3>
 <ul><li>IE9+ </li>
@@ -665,7 +665,7 @@ ul li:first-child {
 
 <p>Por exemplo, digamos que você tem uma lista e cada item dessa lista tem <code>border-top</code> e <code>border-bottom</code>. Bem, com esse arranjo, o primeiro e último elementos parecerão um pouco estranhos. </p>
 
-<p>Muitos projetistas aplicam classes chamadas <code>primeira</code> e <code>última</code> para compensar isso. Para evitar isso, você pode usar essa pseudo-classe.</p>
+<p>Muitos projetistas aplicam classes chamadas <code>primeira</code> e <code>última</code> para compensar isso. Para evitar esse tipo de coisa, você pode usar essa pseudo-classe.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html" data-original-url="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html">Visualizar Demonstração </a> </h5>
 
@@ -687,7 +687,7 @@ ul &gt; li:last-child {
 <p>O seletor oposto ao <code>first-child</code>, o  <code>last-child</code>, selecionará o último item do conjunto alvo.</p>
 
 <h3>Exemplo</h3>
-<p>Vamos construir um exemplo simples para demonstrar um dos possíveis usos da dessas pseudo-classes. Criaremos uma lista estilizada. </p>
+<p>Vamos construir um exemplo simples para demonstrar um dos possíveis usos dessas pseudo-classes. Criaremos uma lista estilizada. </p>
 
 <h4>Markup</h4>
 <pre class="brush: html">
@@ -721,7 +721,7 @@ li {
 <img src="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/extraBorders.png" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/extraBorders.png" alt="Styled List" /></figure>
 
 <blockquote>
-<p>Para criar um ar de profundidade às suas listas, aplique uma cor à <code>border-bottom</code> a cada <code>li</code> que seja um ou dois tons <em>mais escuros</em> que a cor do plano de fundo do <code>li</code>. Depois, aplique uma cor à <code>border-top</code> que seja um ou dois tons <em>mais claros</em>. </p>
+<p>Para criar um ar de profundidade às suas listas, aplique uma cor à <code>border-bottom</code> a cada <code>li</code>, com um ou dois tons <em>mais escuros</em> que a cor do plano de fundo do <code>li</code>. Depois, aplique uma cor à <code>border-top</code> que seja um ou dois tons <em>mais claros</em>. </p>
 </blockquote>
 
 <p>O único problema, como mostrado na imagem acima, é que uma borda será aplicada à parte de cima e à parte de baixo da lista desordenada &ndash; o que é estranho. Vamos usar as pseudo-classes <code>:first-child</code> e <code>:last-child</code> para ajustar isso.</p>
@@ -758,7 +758,7 @@ div p:only-child {
  color: red;
 }</pre>
 
-<p>Francamente, você, provavelmente, não usará muito a pseudo-classe <code>only-child</code>. De qualquer modo, ele existe para o caso de você precisar.</p>
+<p>Francamente, você, provavelmente, não usará muito a pseudo-classe <code>only-child</code>. De qualquer modo, ela existe para o caso de você precisar.</p>
 
 <p>Ela permite que você selecione aqueles elementos que são os <em>únicos</em> filhos de um certo elemento. Levando em consideração o trecho acima, somente o parágrafo que for o único filho de uma <code>div</code> ficará colorido de vermelho.</p>
 
@@ -874,8 +874,8 @@ ul:first-of-type li:nth-last-child(1) {
 
 <h2>Conclusão </h2>
 
-<p>Se você tem de lidar com navegadores antigos, como o Internet Explorer 6, você ainda tem de tomar cuidado com esses novos seletores. Porém, não deixe isso deter seu aprendizado. Você estaria fazendo um disserviço a você mesmo. Tenha certeza <a href="http://www.quirksmode.org/css/contents.html">de visualizar a lista de compatibilidade com os navegadores.</a> Alternativamente, você pode usar <a href="http://code.google.com/p/ie7-js/">O excelente script IE9.js do Dean Edward</a>, para permitir que esses seletores sejam usados em navegadores.  </p>
+<p>Se você tem de lidar com navegadores antigos, como o Internet Explorer 6, você ainda tem de tomar cuidado com esses novos seletores. Porém, não deixe isso deter seu aprendizado. Você estaria fazendo um desserviço a você mesmo. Tenha certeza <a href="http://www.quirksmode.org/css/contents.html">de visualizar a lista de compatibilidade com os navegadores.</a> Alternativamente, você pode usar <a href="http://code.google.com/p/ie7-js/">o excelente script IE9.js do Dean Edward</a>, para permitir que esses seletores sejam usados em navegadores.  </p>
 
-<p>Segundo, quando for trabalhar com bibliotecas, como a popularlike jQuery, sempre usar os seletores nativos do CSS3 ao invés dos métodos/seletores customizados da biblioteca, sempre que possível. Isso <a href="http://jsperf.com/jquery-css3-not-vs-not">fará seu código mais performático</a>, uma vez que o motor de seleção poderão usar o analisador nativo do padrão, ao invés do seu próprio. </p>
+<p>Segundo, quando for trabalhar com bibliotecas, como a popular jQuery, sempre use os seletores nativos do CSS3 ao invés dos métodos/seletores customizados da biblioteca, sempre que possível. Isso <a href="http://jsperf.com/jquery-css3-not-vs-not">fará seu código mais performático</a>, uma vez que o motor de seleção poderão usará o analisador nativo do navegador, ao invés do seu próprio. </p>
 
 <p>Obrigado por ler! Espero que tenha aprendido uma ou dois truques!</p>
