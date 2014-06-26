@@ -758,21 +758,21 @@ div p:only-child {
  color: red;
 }</pre>
 
-<p>Truthfully, you probably won't find yourself using the <code>only-child</code> pseudo class too often. Nonetheless, it's available, should you need it.</p>
+<p>Francamente, você, provavelmente, não usará muito a pseudo-classe <code>only-child</code>. De qualquer modo, ele existe para o caso de você precisar.</p>
 
-<p>It allows you to target elements which are the <em>only</em> child of its parent. For example, referencing the snippet above, only the paragraph that is the only child of the <code>div</code> will be colored, red.</p>
+<p>Ela permite que você selecione aqueles elementos que são os <em>únicos</em> filhos de um certo elemento. Levando em consideração o trecho acima, somente o parágrafo que for o único filho de uma <code>div</code> ficará colorido de vermelho.</p>
 
-<p>Let's assume the following markup.</p>
+<p>Vamos assumir que seja esse o nosso HTML.</p>
 
 <pre class="brush: html">
-&lt;div&gt;&lt;p&gt; My paragraph here. &lt;/p&gt;&lt;/div&gt;
+&lt;div&gt;&lt;p&gt; Meu parágrafo aqui. &lt;/p&gt;&lt;/div&gt;
 
 &lt;div&gt;
- &lt;p&gt; Two paragraphs total. &lt;/p&gt;
- &lt;p&gt; Two paragraphs total. &lt;/p&gt;
+ &lt;p&gt; Dois parágrafos no total. &lt;/p&gt;
+ &lt;p&gt; Dois parágrafos no total. &lt;/p&gt;
 &lt;/div&gt;</pre>
 
-<p>In this case, the second <code>div</code>'s paragraphs will not be targeted; only the first <code>div</code>. As soon as you apply more than one child to an element, the <code>only-child</code> pseudo class ceases to take effect.</p>
+<p>Nesse caso, os parágrafos da segunda <code>div</code> não serão afetados; somente os da primeira <code>div</code>. Assim que você inserir mais de um elemento filho nessa <code>div</code>, a pseudo-classe <code>only-child</code> deixará de funcionar.</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyChild.html" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/selectors/onlyChild.html">Visualizar Demonstração </a> </h5>
 
