@@ -684,20 +684,20 @@ ul &gt; li:last-child {
  color: green;
 }</pre>
 
-<p>The opposite of <code>first-child</code>, <code>last-child</code> will target the last item of the element's parent.</p>
+<p>O seletor oposto ao <code>first-child</code>, o  <code>last-child</code>, selecionará o último item do conjunto alvo.</p>
 
-<h3>Example</h3>
-<p>Let's build a simple example to demonstrate one possible use of these classes. We'll create a styled list item. </p>
+<h3>Exemplo</h3>
+<p>Vamos construir um exemplo simples para demonstrar um dos possíveis usos da dessas pseudo-classes. Criaremos uma lista estilizada. </p>
 
 <h4>Markup</h4>
 <pre class="brush: html">
 &lt;ul&gt;
-   &lt;li&gt; List Item &lt;/li&gt;
-   &lt;li&gt; List Item &lt;/li&gt;
-   &lt;li&gt; List Item &lt;/li&gt;
+   &lt;li&gt; Item da Lista &lt;/li&gt;
+   &lt;li&gt; Item da Lista &lt;/li&gt;
+   &lt;li&gt; Item da Lista &lt;/li&gt;
 &lt;/ul&gt;</pre>
 
-<p>Nothing special here; just a simple list.</p>
+<p>Nada especial, aqui. Só uma lista simples.</p>
 
 <h4>CSS</h4>
 <pre class="brush: css">
@@ -715,16 +715,16 @@ li {
  border-top: 1px solid #3c3c3c;
 }</pre>
 
-<p>This styling will set a background, remove the browser-default padding on the <code>ul</code>, and apply borders to each <code>li</code> to provide a bit of depth.</p>
+<p>Esse estilo trabalhará o plano de fundo (<code>background</code>), removerá o preenchimento padrão (<code>padding</code>) que o navegador atribui à <code>ul</code> e aplica as bordas a cada elemento <code>li</code> para criar um ar de profundidade.</p>
 
 <figure>
 <img src="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/extraBorders.png" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/extraBorders.png" alt="Styled List" /></figure>
 
 <blockquote>
-<p>To add depth to your lists, apply a <code>border-bottom</code> to each <code>li</code> that is a shade or two darker than the <code>li</code>'s background color. Next, apply a <code>border-top</code> which is a couple shades <em>lighter</em>. </p>
+<p>Para criar um ar de profundidade às suas listas, aplique uma cor à <code>border-bottom</code> a cada <code>li</code> que seja um ou dois tons <em>mais escuros</em> que a cor do plano de fundo do <code>li</code>. Depois, aplique uma cor à <code>border-top</code> que seja um ou dois tons <em>mais claros</em>. </p>
 </blockquote>
 
-<p>The only problem, as shown in the image above, is that a border will be applied to the very top and bottom of the unordered list - which looks odd. Let's use the <code>:first-child</code> and <code>:last-child</code> pseudo classes to fix this.</p>
+<p>O único problema, como mostrado na imagem acima, é que uma borda será aplicada à parte de cima e à parte de baixo da lista desordenada &ndash; o que é estranho. Vamos usar as pseudo-classes <code>:first-child</code> e <code>:last-child</code> para ajustar isso.</p>
 
 <pre class="brush: css">
 li:first-child {
@@ -737,7 +737,7 @@ li:last-child {
 
 <figure>
 <img src="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/fixed.png" data-original-url="http://nettuts.s3.amazonaws.com/840_cssSelectors/fixed.png" alt="Fixed" /></figure>
-<p>There we go; that fixes it!</p>
+<p>E é isso. Resolvemos!</p>
 
 <h5> <a href="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html" data-original-url="http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html">Visualizar Demonstração </a> </h5>
 
@@ -749,7 +749,7 @@ li:last-child {
 <li>Opera </li>
 </ul>
 
-<p><em>Yep - IE8 supported <code>:first-child</code>, but not <code>:last-child</code>. Go figure. </em> </p>
+<p><em>SIM &ndash; o IE8 dá suporte ao <code>:first-child</code>, mas não ao <code>:last-child</code>. Vai entender. </em> </p>
 
 <h2><span> 28. </span>X:only-child</h2>
 
