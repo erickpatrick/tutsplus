@@ -5,12 +5,12 @@
 <h2>A Definição</h2>
 
 <blockquote>
-<p>A class should have only one reason to change.</p>
+<p>Uma classe só deveria ter um único motivo para mudar.</p>
 </blockquote>
 
-<p>Defined by <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> in his book <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> and later republished in the C# version of the book <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, it is one of the five SOLID agile principles. What it states is very simple, however achieving that simplicity can be very tricky. A class should have only one reason to change.</p>
+<p>Definido por <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> em seu livro <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> e, depois, republicado na versão com C# do mesmo livro, <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, é um dos princípios ágeis de programação, conhecidos como princípios SOLID. O que ele afirma é bem simples, porém, alcançar essa simplicidade pode ser bem problemático. Uma classe só deveria ter um único motivo para mudar.</p>
 
-<p>But why? Why is it so important to have only one reason for change?</p>
+<p>Mas, por que? Por que é tão importante ter apenas um único motivo para mudar?</p>
 
 <p>In statically typed and compiled languages, several reasons may lead to several, unwanted redeployments. If there are two different reasons to change, it is conceivable that two different teams may work on the same code for two different reasons. Each will have to deploy its solution, which in the case of a compiled language (like C++, C# or Java), may lead to incompatible modules with other teams or other parts of the application.</p>
 
