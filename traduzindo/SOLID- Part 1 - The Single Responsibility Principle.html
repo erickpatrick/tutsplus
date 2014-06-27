@@ -1,0 +1,288 @@
+<h1>SOLID: Part 1 - The Single Responsibility Principle</h1>
+
+<p>Single Responsibility (SRP), Open/Close, Liskov's Substitution, Interface Segregation, and Dependency Inversion. Five agile principles that should guide you every time you write code.</p>
+
+<h2>The Definition</h2>
+
+<blockquote>
+<p>A class should have only one reason to change.</p>
+</blockquote>
+
+<p>Defined by <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> in his book <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> and later republished in the C# version of the book <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, it is one of the five SOLID agile principles. What it states is very simple, however achieving that simplicity can be very tricky. A class should have only one reason to change.</p>
+
+<p>But why? Why is it so important to have only one reason for change?</p>
+
+<p>In statically typed and compiled languages, several reasons may lead to several, unwanted redeployments. If there are two different reasons to change, it is conceivable that two different teams may work on the same code for two different reasons. Each will have to deploy its solution, which in the case of a compiled language (like C++, C# or Java), may lead to incompatible modules with other teams or other parts of the application.</p>
+
+<p>Even though you may not use a compiled language, you may need to retest the same class or module for different reasons. This means more QA work, time, and effort.</p>
+
+
+<h2>The Audience</h2>
+
+<p>Determining the one single responsibility a class or module should have is much more complex than just looking at a checklist. For example, one clue to find our reasons for change is to analyze the audience for our class. The users of the application or system we develop who are served by a particular module will be the ones requesting changes to it. Those served will ask for change. Here are a couple of modules and their possible audiences.</p>
+
+<ul>
+<li><strong>Persistence Module</strong> - Audience include DBAs and software architects.</li>
+<li><strong>Reporting Module</strong> - Audience include clerks, accountants, and operations.</li>
+<li><strong>Payment Computation Module for a Payroll System</strong> - Audience may include lawyers, managers, and accountants.</li>
+<li><strong>Book Search Module for a Library Management System</strong> - Audience may include the librarian and/or the clients themselves.</li>
+</ul>
+
+<h2>Roles and Actors</h2>
+
+<p>Associating concrete persons to all of these roles may be difficult. In a small company a single person may need to satisfy several roles while in a large company there may be several persons allocated to a single role. So it seems much more reasonable to think about the roles. But roles by themselves are quite difficult to define. What is a role? How do we find it? It is much easier to imagine actors doing those roles and associating our audience with those actors.</p>
+
+<p>So if our audience defines reasons for change, the actors define the audience. This greatly helps us to reduce the concept of concrete persons like "John the architect" to Architecture, or "Mary the referent" to Operations.</p>
+
+<blockquote>
+<p>So a responsibility is a family of functions that serves one particular actor. (Robert C. Martin)</p>
+</blockquote>
+
+<h2>Source of Change</h2>
+
+<p>In the sense of this reasoning, actors become a source of change for the family of functions that serves them. As their needs change, that specific family of functions must also change to accommodate their needs.</p>
+
+<blockquote>
+<p>An actor for a responsibility is the single source of change for that responsibility. (Robert C. Martin)</p>
+</blockquote>
+
+<h2>Classic Examples</h2>
+
+<h3>Objects That Can "Print" Themselves</h3>
+
+<p>Let's say we have a <code>Book</code> class encapsulating the concept of a book and its functionalities.</p>
+
+<pre class="brush: php">class Book {
+
+	function getTitle() {
+		return "A Great Book";
+	}
+
+	function getAuthor() {
+		return "John Doe";
+	}
+
+	function turnPage() {
+		// pointer to next page
+	}
+
+	function printCurrentPage() {
+		echo "current page content";
+	}
+}</pre>
+
+<p>This may look like a reasonable class. We have book, it can provide its title, author and it can turn the page. Finally, it is also able to print the current page on the screen. But there is a little problem. If we think about the actors involved in operating the <code>Book</code> object, who might they be? We can easily think of two different actors here: Book Management (like the librarian) and Data Presentation Mechanism (like the way we want to deliver the content to the user - on-screen, graphical UI, text-only UI, maybe printing). These are two very different actors.</p>
+
+<p>Mixing business logic with presentation is bad because it is against the Single Responsibility Principle (SRP). Take a look at the following code:</p>
+
+<pre class="brush: php">class Book {
+
+	function getTitle() {
+		return "A Great Book";
+	}
+
+	function getAuthor() {
+		return "John Doe";
+	}
+
+	function turnPage() {
+		// pointer to next page
+	}
+
+	function getCurrentPage() {
+		return "current page content";
+	}
+
+}
+
+interface Printer {
+
+	function printPage($page);
+}
+
+class PlainTextPrinter implements Printer {
+
+	function printPage($page) {
+		echo $page;
+	}
+
+}
+
+class HtmlPrinter implements Printer {
+
+	function printPage($page) {
+		echo '&lt;div style="single-page"&gt;' . $page . '&lt;/div&gt;';
+	}
+
+}</pre>
+
+<p>Even this very basic example shows how separating presentation from business logic, and respecting SRP, gives great advantages in our design's flexibility.</p>
+
+<h3>Objects That Can "Save" Themselves</h3>
+
+<p>A similar example to the one above is when an object can save and retrieve itself from presentation.</p>
+
+<pre class="brush: php">class Book {
+
+	function getTitle() {
+		return "A Great Book";
+	}
+
+	function getAuthor() {
+		return "John Doe";
+	}
+
+	function turnPage() {
+		// pointer to next page
+	}
+
+	function getCurrentPage() {
+		return "current page content";
+	}
+
+	function save() {
+		$filename = '/documents/'. $this-&gt;getTitle(). ' - ' . $this-&gt;getAuthor();
+		file_put_contents($filename, serialize($this));
+	}
+
+}</pre>
+
+<p>We can, again identify several actors like Book Management System and Persistence. Whenever we want to change persistence, we need to change this class. Whenever we want to change how we get from one page to the next, we have to modify this class. There are several axis of change here.</p>
+
+<pre class="brush: php">class Book {
+
+	function getTitle() {
+		return "A Great Book";
+	}
+
+	function getAuthor() {
+		return "John Doe";
+	}
+
+	function turnPage() {
+		// pointer to next page
+	}
+
+	function getCurrentPage() {
+		return "current page content";
+	}
+
+}
+
+class SimpleFilePersistence {
+
+	function save(Book $book) {
+		$filename = '/documents/' . $book-&gt;getTitle() . ' - ' . $book-&gt;getAuthor();
+		file_put_contents($filename, serialize($book));
+	}
+
+}</pre>
+
+<p>Moving the persistence operation to another class will clearly separate the responsibilities and we will be free to exchange persistence methods without affecting our <code>Book</code> class. For example implementing a <code>DatabasePersistence</code> class would be trivial and our business logic built around operations with books will not change.</p>
+
+<h2>A Higher Level View</h2>
+
+<p>In my previous articles I frequently mentioned and presented the high level architectural schema that can be seen below.</p>
+
+<figure>
+<img width="600" alt="HighLevelDesign" src="http://cdn.tutsplus.com/net/uploads/2013/12/HighLevelDesign.png" height="388"><br>
+</figure>
+
+<p>If we analyze this schema, you can see how the Single Responsibility Principle is respected. Object creation is separated on the right in Factories and the main entry point of our application, one actor one responsibility. Persistence is also taken care of at the bottom. A separate module for the separate responsibility. Finally, on the left, we have presentation or the delivery mechanism if you wish, in the form of an MVC or any other type of UI. SRP respected again. All that remains is to figure out what to do inside of our business logic.</p>
+
+<h2>Software Design Considerations</h2>
+
+<p>When we think about the software that we need to write, we can analyze many different aspects. For example, several requirements affecting the same class may represent an axis of change. This axes of change may be a clue for a single responsibility. There is a high probability that groups of requirements that are affecting the same group of functions will have reasons to change or be specified in the first place.</p>
+
+<p>The primary value of software is ease of change. The secondary is functionality, in the sense of satisfying as much requirements as possible, meeting the user's needs. However, in order to achieve a high secondary value, a primary value is mandatory. To keep our primary value high, we must have a design that is easy to change, to extend, to accommodate new functionalities and to ensure that SRP is respected.</p>
+
+<p>We can reason in a step by step manner:</p>
+
+<ol>
+<li>High primary value leads in time to high secondary value.</li>
+<li>Secondary value means needs of the users.</li>
+<li>Needs of the users means needs of the actors.</li>
+<li>Needs of the actors determines the needs of changes of these actors.</li>
+<li>Needs of change of actors defines our responsibilities.</li>
+</ol>
+
+<p>So when we design our software we should:</p>
+
+<ol>
+<li>Find and define the actors.</li>
+<li>Identify the responsibilities that serve those actors.</li>
+<li>Group our functions and classes so that each has only one allocated responsibility.</li>
+</ol>
+
+<h2>A Less Obvious Example</h2>
+
+<pre class="brush: php">class Book {
+
+	function getTitle() {
+		return "A Great Book";
+	}
+
+	function getAuthor() {
+		return "John Doe";
+	}
+
+	function turnPage() {
+		// pointer to next page
+	}
+
+	function getCurrentPage() {
+		return "current page content";
+	}
+
+	function getLocation() {
+		// returns the position in the library
+		// ie. shelf number &amp; room number
+	}
+
+}</pre>
+
+<p>Now this may appear perfectly reasonable. We have no method dealing with persistence, or presentation. We have our <code>turnPage()</code> functionality and a few methods to provide different information about the book. However, we may have a problem. To find out, we might want to analyze our application. The function <code>getLocation()</code> may be the problem.</p>
+
+<p>All of the methods of the <code>Book</code> class are about business logic. So our perspective must be from the business's point of view. If our application is written to be used by real librarians who are searching for books and giving us a physical book, then SRP might be violated.</p>
+
+<p>We can reason that the actor operations are the ones interested in the methods <code>getTitle()</code>, <code>getAuthor()</code> and <code>getLocation()</code>. The clients may also have access to the application to select a book and read the first few pages to get an idea about the book and decide if they want it or not. So the actor readers may be interested in all the methods except <code>getLocations()</code>. An ordinary client doesn't care where the book is kept in the library. The book will be handed over to the client by the librarian. So, we do indeed have a violation of SRP.</p>
+
+<pre class="brush: php">class Book {
+
+	function getTitle() {
+		return "A Great Book";
+	}
+
+	function getAuthor() {
+		return "John Doe";
+	}
+
+	function turnPage() {
+		// pointer to next page
+	}
+
+	function getCurrentPage() {
+		return "current page content";
+	}
+
+}
+
+class BookLocator {
+
+	function locate(Book $book) {
+		// returns the position in the library
+		// ie. shelf number &amp; room number
+		$libraryMap-&gt;findBookBy($book-&gt;getTitle(), $book-&gt;getAuthor());
+	}
+
+}</pre>
+
+<p>Introducing the <code>BookLocator</code>, the librarian will be interested in the <code>BookLocator</code>. The client will be interested in the <code>Book</code> only. Of course, there are several ways to implement a <code>BookLocator</code>. It can use the author and title or a book object and get the required information from the <code>Book</code>. It always depends on our business. What is important is that if the library is changed, and the librarian will have to find books in a differently organized library, the <code>Book</code> object will not be affected. In the same way, if we decide to provide a pre-compiled summary to the readers instead of letting them browse the pages, that will not affect the librarian nor the process of finding the shelf the books sits on.</p>
+
+<p>However, if our business is to eliminate the librarian and create a self-service mechanism in our library, then we may consider that SRP is respected in our first example. The readers are our librarians also, they need to go and find the book themselves and then check it out at the automated system. This is also a possibility. What is important to remember here is that you must always consider your business carefully.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>The Single Responsibility Principle should always be considered when we write code. Class and module design is highly affected by it and it leads to a low coupled design with less and lighter dependencies. But as any coin, it has two faces. It is tempting to design from the beginning of our application with SRP in mind. It is also tempting to identify as many actors as we want or need. But this is actually dangerous - from a design point of view - to try and think of all the parties from the very beginning. Excessive SRP consideration can easily lead to premature optimization and instead of a better design, it may lead to a scattered one where the clear responsibilities of classes or modules may be hard to understand. </p>
+
+<p>So, whenever you observe that a class or module starts to change for different reasons, don't hesitate, take the necessary steps to respect SRP, however don't overdue it because premature optimization can easily trick you.</p>
