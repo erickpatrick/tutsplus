@@ -46,16 +46,16 @@
 <p>O ator de uma responsabilidade é a única fonte de mudança para aquela responsabilidade. (Robert C. Martin)</p>
 </blockquote>
 
-<h2>Classic Examples</h2>
+<h2>Exemplos Clássicos</h2>
 
-<h3>Objects That Can "Print" Themselves</h3>
+<h3>Objetos que Podem "Imprimir" a Si Mesmos</h3>
 
-<p>Let's say we have a <code>Book</code> class encapsulating the concept of a book and its functionalities.</p>
+<p>Digamos que temos uma classe <code>Book</code> encapsulando o coneito de um livro e suas funcionalidades.</p>
 
 <pre class="brush: php">class Book {
 
 	function getTitle() {
-		return "A Great Book";
+		return "Um ótimo livro";
 	}
 
 	function getAuthor() {
@@ -63,22 +63,22 @@
 	}
 
 	function turnPage() {
-		// pointer to next page
+		// ponteiro para a próxima página
 	}
 
 	function printCurrentPage() {
-		echo "current page content";
+		echo "conteúdo da página atual";
 	}
 }</pre>
 
-<p>This may look like a reasonable class. We have book, it can provide its title, author and it can turn the page. Finally, it is also able to print the current page on the screen. But there is a little problem. If we think about the actors involved in operating the <code>Book</code> object, who might they be? We can easily think of two different actors here: Book Management (like the librarian) and Data Presentation Mechanism (like the way we want to deliver the content to the user - on-screen, graphical UI, text-only UI, maybe printing). These are two very different actors.</p>
+<p>Essa classe parece bem razoável. Nós temos um livro, ele tem o seu título, autor e também pode passar as páginas. Finalmente, ele também é capaz de imprimir o conteúdo da página atual na tela. Mas, há um pequeno problema. Se pensarmos um pouco nos atores envolvidos na operação de um objeto do tipo <code>Book</code>, quem eles seriam? Nós podemos pensar, facilmente, em dois atores diferentes: Administração de Livros (como o bibliotecário) e o Mecanismo de Apresentação de Dados (como o método que desejamos enviar o conteúdo para o usuário - tela, interface gráfica, interface textual, talvez impressão). Eles são dois atores bem diferentes.</p>
 
-<p>Mixing business logic with presentation is bad because it is against the Single Responsibility Principle (SRP). Take a look at the following code:</p>
+<p>Misturar lógica de negócios com apresentação é ruim porque é contra O Princío da Responsabilidade Única. Veja o código a seguir:</p>
 
 <pre class="brush: php">class Book {
 
 	function getTitle() {
-		return "A Great Book";
+		return "Um ótimo livro";
 	}
 
 	function getAuthor() {
@@ -86,11 +86,11 @@
 	}
 
 	function turnPage() {
-		// pointer to next page
+		// ponteiro para a próxima página
 	}
 
 	function getCurrentPage() {
-		return "current page content";
+		return "conteúdo da página atual";
 	}
 
 }
@@ -125,7 +125,7 @@ class HtmlPrinter implements Printer {
 <pre class="brush: php">class Book {
 
 	function getTitle() {
-		return "A Great Book";
+		return "Um ótimo livro";
 	}
 
 	function getAuthor() {
@@ -133,11 +133,11 @@ class HtmlPrinter implements Printer {
 	}
 
 	function turnPage() {
-		// pointer to next page
+		// ponteiro para a próxima página
 	}
 
 	function getCurrentPage() {
-		return "current page content";
+		return "conteúdo da página atual";
 	}
 
 	function save() {
@@ -147,12 +147,12 @@ class HtmlPrinter implements Printer {
 
 }</pre>
 
-<p>We can, again identify several actors like Book Management System and Persistence. Whenever we want to change persistence, we need to change this class. Whenever we want to change how we get from one page to the next, we have to modify this class. There are several axis of change here.</p>
+<p>Nós podemos, novamente, identificar vários atores, como o Sistema de Administração de Livros e a Persitência de Dados. Toda vez que precisamos mudar a persistência, precisaremos mudar essa classe. Toda vez que precisamos mudar de página, precisaremos mudar essa classe. Há vários focos que permitem mudança.</p>
 
 <pre class="brush: php">class Book {
 
 	function getTitle() {
-		return "A Great Book";
+		return "Um ótimo livro";
 	}
 
 	function getAuthor() {
@@ -160,11 +160,11 @@ class HtmlPrinter implements Printer {
 	}
 
 	function turnPage() {
-		// pointer to next page
+		// ponteiro para a próxima página
 	}
 
 	function getCurrentPage() {
-		return "current page content";
+		return "conteúdo da página atual";
 	}
 
 }
@@ -178,7 +178,7 @@ class SimpleFilePersistence {
 
 }</pre>
 
-<p>Moving the persistence operation to another class will clearly separate the responsibilities and we will be free to exchange persistence methods without affecting our <code>Book</code> class. For example implementing a <code>DatabasePersistence</code> class would be trivial and our business logic built around operations with books will not change.</p>
+<p>Movendo a operação de persistência para outra classe, irá, claramente, separar as responsabilidades e estaremos livres para alterar os métodos de persistência sem afetar o código da nossa classe <code>Book</code>. Por exemplo, implementar uma classe <code>DatabasePersistence</code> seria bem simples e a nossa lógica de negócios, criada em relação às operações com os livros, não mudaria.</p>
 
 <h2>A Higher Level View</h2>
 
@@ -219,7 +219,7 @@ class SimpleFilePersistence {
 <pre class="brush: php">class Book {
 
 	function getTitle() {
-		return "A Great Book";
+		return "Um ótimo livro";
 	}
 
 	function getAuthor() {
@@ -227,11 +227,11 @@ class SimpleFilePersistence {
 	}
 
 	function turnPage() {
-		// pointer to next page
+		// ponteiro para a próxima página
 	}
 
 	function getCurrentPage() {
-		return "current page content";
+		return "conteúdo da página atual";
 	}
 
 	function getLocation() {
@@ -250,7 +250,7 @@ class SimpleFilePersistence {
 <pre class="brush: php">class Book {
 
 	function getTitle() {
-		return "A Great Book";
+		return "Um ótimo livro";
 	}
 
 	function getAuthor() {
@@ -258,11 +258,11 @@ class SimpleFilePersistence {
 	}
 
 	function turnPage() {
-		// pointer to next page
+		// ponteiro para a próxima página
 	}
 
 	function getCurrentPage() {
-		return "current page content";
+		return "conteúdo da página atual";
 	}
 
 }
