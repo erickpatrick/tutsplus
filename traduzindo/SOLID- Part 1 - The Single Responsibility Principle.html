@@ -180,15 +180,15 @@ class SimpleFilePersistence {
 
 <p>Movendo a operação de persistência para outra classe, irá, claramente, separar as responsabilidades e estaremos livres para alterar os métodos de persistência sem afetar o código da nossa classe <code>Book</code>. Por exemplo, implementar uma classe <code>DatabasePersistence</code> seria bem simples e a nossa lógica de negócios, criada em relação às operações com os livros, não mudaria.</p>
 
-<h2>A Higher Level View</h2>
+<h2>Uma Visão de Alto Nível</h2>
 
-<p>In my previous articles I frequently mentioned and presented the high level architectural schema that can be seen below.</p>
+<p>Em meus artigos anteriores, mencionei e apresentei, frequentemente, o esquema arquitetural de alta nível que pode ser visto abaixo.</p>
 
 <figure>
 <img width="600" alt="HighLevelDesign" src="http://cdn.tutsplus.com/net/uploads/2013/12/HighLevelDesign.png" height="388"><br>
 </figure>
 
-<p>If we analyze this schema, you can see how the Single Responsibility Principle is respected. Object creation is separated on the right in Factories and the main entry point of our application, one actor one responsibility. Persistence is also taken care of at the bottom. A separate module for the separate responsibility. Finally, on the left, we have presentation or the delivery mechanism if you wish, in the form of an MVC or any other type of UI. SRP respected again. All that remains is to figure out what to do inside of our business logic.</p>
+<p>Se analizarmos esse esquema, você pode ver como o Princípio da Responsabilidade Única é respeitado. A criação de objetos está separada na direta, em Fábricas (Factories) e no ponto de entrada principal (Main) de nossa aplicação, um ator uma responsabilidade. A persistência também é levada em conta, na parte de baixo. Um módulo separado para um responsabilidade diferente. Finalmente, na esqueda, nós temos a apresentação ou o mecanismo de entrega, se preferir, na padrão MVC ou qualquer outro tipo de interface de usuário. A SRP foi respeitada novamente. Só nos resta descobrir o que fazer na nossa lógica de negócio.</p>
 
 <h2>Software Design Considerations</h2>
 
