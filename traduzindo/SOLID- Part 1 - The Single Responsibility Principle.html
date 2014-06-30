@@ -1,6 +1,6 @@
 <h1>Princípios SOLID Parte 1 - O Princípio da Responsabilidade Única</h1>
 
-<p>Responsabilidade Única (SRP - Single Responsability), Aberto/Fechado (Open/Close), Substituição de Liskov (Liskov's Substitution), Segredação de Interface (Interface Segregation), e Inversão de Dependência (Dependency Inversion). Cinco princípios ágeis que deveriam guiar você todas as vezes que fosse programar.</p>
+<p>Responsabilidade Única (SRP - Single Responsability); Fechado para modificações aberto para expansão (Open/Close); Substituição de Liskov (Liskov's Substitution); Segregação de Interface (Interface Segregation); e Inversão de Dependência (Dependency Inversion). Cinco princípios ágeis que deveriam guiar você todas as vezes que fosse programar.</p>
 
 <h2>A Definição</h2>
 
@@ -8,39 +8,39 @@
 <p>Uma classe só deveria ter um único motivo para mudar.</p>
 </blockquote>
 
-<p>Definido por <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> em seu livro <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> e, depois, republicado na versão com C# do mesmo livro, <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, é um dos princípios ágeis de programação, conhecidos como princípios SOLID. O que ele afirma é bem simples, porém, alcançar essa simplicidade pode ser bem problemático. Uma classe só deveria ter um único motivo para mudar.</p>
+<p>Definido por <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> em seu livro <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> e, depois, republicado na versão C# do mesmo livro, <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, é um dos princípios ágeis de programação, conhecidos como princípios SOLID. O que ele afirma é bem simples, porém, alcançar essa simplicidade pode ser bem problemático. Uma classe só deveria ter um único motivo para mudar.</p>
 
 <p>Mas, por que? Por que é tão importante ter apenas um único motivo para mudar?</p>
 
-<p>Em linguagens compiladas e fortemente tipadas, há muitos motivos que podem levar a muitas reimplantações indesejadas. Se há dois motivos diferentes para uma mudança, é aceitável que duas equipes diferentes possam trabalhar no mesmo código por motivos diferentes. Cada uma terá de implantar sua solução, o que, no caso de linguagens compiladas (como C++, C# ou Java), pode causar imcompatibilidade de módulos com módulos criados por outras equipes ou de outras partes da aplicação.</p>
+<p>Em linguagens compiladas e fortemente tipadas, há muitos motivos que podem levar a muitas reimplantações indesejadas. Se há dois motivos diferentes para uma mudança, é aceitável que duas equipes diferentes possam trabalhar no mesmo código por motivos diferentes. Cada uma terá de implantar sua solução, o que, no caso de linguagens compiladas (como C++, C# ou Java), pode causar imcompatibilidade de módulos com módulos criados por outras equipes ou de outras partes dessa mesma aplicação.</p>
 
 <p>Mesmo que você não use uma linguagem compilada, talvez tenha de retestar uma mesma classe ou módulo por diferentes motivos. Isso implica em mais tempo, esforço, recursos e trabalho.</p>
 
 
 <h2>A Audiêcia</h2>
 
-<p>Determinar a única responsabilidade de uma classe ou módulo, é muito mais complexo que, simplesmente, verificar uma lista pré-determianda. Por exemplo, uma dica para encontrarmos as razões para mudanças é verificar o audiência da nossa classe. Os usuários da aplicação ou sistema que desenvolvemos é que requisitarão mudanças para ela. Aqueles que usam que pedirão mudanças. Eis alguns módulos e suas possíveis audiências.</p>
+<p>Determinar a única responsabilidade de uma classe ou módulo, é muito mais complexo que, simplesmente, verificar em uma lista pré-determianda. Por exemplo, uma dica para encontrarmos as razões para mudanças é verificar o audiência da nossa classe. Os usuários da aplicação ou sistema que desenvolvemos é que requisitarão mudanças para ela. Aqueles que usam que pedirão mudanças. Eis alguns módulos e suas possíveis audiências.</p>
 
 <ul>
 <li><strong>Módulo de Persistência</strong> - Pode incluir os DBAs e arquitetos de software;</li>
 <li><strong>Módulo de Relatório</strong> - Pode incluir os contadores, secretários e administradores;</li>
-<li><strong>Módulo de Computação de Pagamento para um Sistema de Pagamento</strong> - pode incluir os advogados, administradores e contadores;</li>
+<li><strong>Módulo de Computação de Pagamento para um Sistema de Pagamento</strong> - Pode incluir os advogados, administradores e contadores;</li>
 <li><strong>Módulo de Busca de Livros para um Sistema de Administração de Biblioteca</strong> - Pode incluir os bibliotecários e/ou os próprios clientes.</li>
 </ul>
 
 <h2>Atores e Papéis</h2>
 
-<p>Associar pessoas reais a todas os papéis pode ser difícil. Em uma pequena empresa, uma única pessoa pode ter de satisfazer vários papéis, enquanto em uma empresa maior, pode ter várias pessoas alocadas para um mesmo papel. Assim, faz bastante sentido pensar sobre esses papéis. Mas os papéis em si são um pouco difíceis de definir. O que é um papel? Como o encontramos? É muito mais fácil pensar em pessoas realizando determinados papéis e associa-los à nossa audiência.</p>
+<p>Associar pessoas reais a todas os papéis existentes pode ser difícil. Em uma pequena empresa, uma única pessoa pode ter de satisfazer vários papéis, enquanto em uma empresa maior, pode ter várias pessoas alocadas para um mesmo papel. Assim, faz bastante sentido pensar sobre esses papéis. Mas os papéis, em si, são um pouco difíceis de definir. O que é um papel? Como os encontramos? É muito mais fácil pensar em pessoas realizando determinados papéis e associa-los à nossa audiência.</p>
 
-<p>Assim, se nossa audiência define os motivos para as mudanças, os atores definem a audiência. Isso nos ajuda a reduzir os conceitos de pessoas como "John o arquiteto" em Arquitetura, ou "Maria a Diretora" em Gerência.</p>
+<p>Assim, se nossa audiência define os motivos para as mudanças, os atores definem a audiência. Isso nos ajuda a reduzir os conceitos de pessoas como "John o arquiteto" em Arquitetura, ou "Maria a administradora" em Administração.</p>
 
 <blockquote>
-<p>Então, uma responsabilidade é um conjunto de funções que serve um ator em particular. (Robert C. Martin)</p>
+<p>Então, uma responsabilidade é um conjunto de funções que serve a um ator em particular. (Robert C. Martin)</p>
 </blockquote>
 
 <h2>Fonte da Mudança</h2>
 
-<p>Seguindo esse raciocínio, os atores tornam-se a fonte da mudança para a família de funções que os servem. De acordo que suas necessidades mudam, aquela família de funções também deve mudar para adaptar-se às suas necessidades.</p>
+<p>Seguindo esse raciocínio, os atores tornam-se a fonte da mudança para a família de funções que os servem. De acordo com que suas necessidades mudam, aquela família de funções também deve mudar para adaptar-se às suas necessidades.</p>
 
 <blockquote>
 <p>O ator de uma responsabilidade é a única fonte de mudança para aquela responsabilidade. (Robert C. Martin)</p>
@@ -50,7 +50,7 @@
 
 <h3>Objetos que Podem "Imprimir" a Si Mesmos</h3>
 
-<p>Digamos que temos uma classe <code>Book</code> encapsulando o coneito de um livro e suas funcionalidades.</p>
+<p>Digamos que temos uma classe <code>Book</code> encapsulando o conceito de um livro e suas funcionalidades.</p>
 
 <pre class="brush: php">class Book {
 
@@ -71,9 +71,9 @@
 	}
 }</pre>
 
-<p>Essa classe parece bem razoável. Nós temos um livro, ele tem o seu título, autor e também pode passar as páginas. Finalmente, ele também é capaz de imprimir o conteúdo da página atual na tela. Mas, há um pequeno problema. Se pensarmos um pouco nos atores envolvidos na operação de um objeto do tipo <code>Book</code>, quem eles seriam? Nós podemos pensar, facilmente, em dois atores diferentes: Administração de Livros (como o bibliotecário) e o Mecanismo de Apresentação de Dados (como o método que desejamos enviar o conteúdo para o usuário - tela, interface gráfica, interface textual, talvez impressão). Eles são dois atores bem diferentes.</p>
+<p>Essa classe parece bem razoável. Nós temos um livro, ele tem o seu título, autor e também pode passar as páginas. Finalmente, ele também é capaz de imprimir o conteúdo da página atual na tela. Mas, há um pequeno problema. Se pensarmos um pouco nos atores envolvidos na operação de um objeto do tipo <code>Book</code>, quem eles seriam? Nós podemos pensar, facilmente, em dois atores diferentes: Administração de Livros (como o bibliotecário) e o Mecanismo de Apresentação de Dados (como o método que desejamos enviar o conteúdo para o usuário - seja através da tela, de uma interface gráfica, interface textual ou, talvez, impressão). Eles são dois atores bem diferentes.</p>
 
-<p>Misturar lógica de negócios com apresentação é ruim porque é contra O Princío da Responsabilidade Única. Veja o código a seguir:</p>
+<p>Misturar lógica de negócios com apresentação é ruim porque vai de encontro o O Princío da Responsabilidade Única. Veja o código a seguir:</p>
 
 <pre class="brush: php">class Book {
 
@@ -116,7 +116,7 @@ class HtmlPrinter implements Printer {
 
 }</pre>
 
-<p>Mesmo esse exemplo básico nos mostra como separar apresentação da lógica de negócios e, respeitar a SRP, nos trás uma grande vantagem: flexibilidade no projeto.</p>
+<p>Mesmo esse exemplo básico nos mostra como separar a apresentação da lógica de negócios e, respeitar a SRP, nos trás uma grande vantagem: flexibilidade no projeto.</p>
 
 <h3>Objetos que Podem "Salvar" a Si Próprios</h3>
 
@@ -182,36 +182,36 @@ class SimpleFilePersistence {
 
 <h2>Uma Visão de Alto Nível</h2>
 
-<p>Em meus artigos anteriores, mencionei e apresentei, frequentemente, o esquema arquitetural de alta nível que pode ser visto abaixo.</p>
+<p>Em meus artigos anteriores, mencionei e apresentei, mais de uma vez, o esquema arquitetural de alto nível que pode ser visto abaixo.</p>
 
 <figure>
 <img width="600" alt="HighLevelDesign" src="http://cdn.tutsplus.com/net/uploads/2013/12/HighLevelDesign.png" height="388"><br>
 </figure>
 
-<p>Se analizarmos esse esquema, você pode ver como o Princípio da Responsabilidade Única é respeitado. A criação de objetos está separada na direta, em Fábricas (Factories) e no ponto de entrada principal (Main) de nossa aplicação, um ator uma responsabilidade. A persistência também é levada em conta, na parte de baixo. Um módulo separado para um responsabilidade diferente. Finalmente, na esqueda, nós temos a apresentação ou o mecanismo de entrega, se preferir, na padrão MVC ou qualquer outro tipo de interface de usuário. A SRP foi respeitada novamente. Só nos resta descobrir o que fazer na nossa lógica de negócio.</p>
+<p>Se analizarmos esse esquema, você pode ver como o Princípio da Responsabilidade Única é respeitado. A criação de objetos está separada na direta, em Fábricas (Factories) e no ponto de entrada principal (Main) de nossa aplicação, um ator uma responsabilidade. A persistência também é levada em conta, na parte de baixo. Um módulo separado para um responsabilidade diferente. Finalmente, na esqueda, nós temos a apresentação ou o mecanismo de entrega, se assim preferir, no padrão MVC ou qualquer outro tipo de interface de usuário. A SRP foi respeitada novamente. Só nos resta descobrir o que fazer na nossa lógica de negócio.</p>
 
 <h2>Considerações de Projeto de Software</h2>
 
-<p>Quando pensamos sobre o aplicativo que precisamos codificar, podemos analisar diversos aspectos diferentes. Por exemplo, vários requerimentos que afetam uma mesma classe podem ser um foco de mudança. Esses focos de mudanças são dicas para a responsabilidade única. Há uma alta probabilidade que grupos de requerimentos que estão afetando o mesmo grupo de funções serão responsáveis por outras mudanças ou serem separados em um grupo próprio.</p>
+<p>Quando pensamos sobre o aplicativo que precisamos codificar, podemos analisar diversos aspectos diferentes. Por exemplo, vários requerimentos que afetam uma mesma classe podem ser um foco de mudança. Esses focos de mudanças são dicas para a responsabilidade única. Há uma alta probabilidade que grupos de requerimentos que estão afetando o mesmo grupo de funções serão responsáveis por outras mudanças ou que precisarão ser separados em um grupo próprio.</p>
 
-<p>O valor primário de um aplicativo é a facilidade de alteração, o secundário é a funcionalidade, no sentido de satisfazer tantos requerimentos quanto possível, atendendo as necessidades dos usuários. Entretanto, para alcançar um valor secundário bem positivo, o valor primário é obrigatório. Para mantermos nosso valor primário alto, devemos ter um projeto que seja fácil de alterar, estender e adicionar novas funcionalidades, além de garantir que a SRP seja respeitada.</p>
+<p>O valor primário de um aplicativo é a facilidade de alteração, o secundário é a funcionalidade, no sentido de satisfazer tantos requerimentos quanto possível, atendendo as necessidades dos usuários. Entretanto, para alcançar um valor secundário bastante positivo, o valor primário é obrigatório. Para mantermos nosso valor primário alto, devemos ter um projeto que seja fácil de alterar, estender e adicionar novas funcionalidades, além de garantir que a SRP seja respeitada.</p>
 
 <p>Nós podemos pensar em um passo-a-passo:</p>
 
 <ol>
-<li>Alto valor primário leva a um alto valor secundário.</li>
-<li>O valor secundário equivale às necessidades dos usuários.</li>
-<li>Necessidades dos usuários equivale às necessidades dos atores.</li>
-<li>Necessidades dos atores determina as necessidades de mudança desses atores.</li>
+<li>Alto valor primário leva a um alto valor secundário;</li>
+<li>O valor secundário equivale às necessidades dos usuários;</li>
+<li>Necessidades dos usuários equivale às necessidades dos atores;</li>
+<li>Necessidades dos atores determina as necessidades de mudança desses atores;</li>
 <li>Necessidades de mudanças dos atores definem nossas responsabilidades.</li>
 </ol>
 
-<p>Então, quando projetarmos nossos aplicativos, deveríamos:</p>
+<p>Então, quando formos projetar nossos aplicativos, deveríamos:</p>
 
 <ol>
-<li>Buscar e definir atores.</li>
-<li>Identificar a responsabilidade própria a esses atores.</li>
-<li>Agrupar nossas funções em classes para que cada uma tenha uma única responsabilidade.</li>
+<li>Buscar e definir atores;</li>
+<li>Identificar a responsabilidade própria a esses atores;</li>
+<li>Agrupar nossas funções em classes, para que cada uma tenha uma única responsabilidade.</li>
 </ol>
 
 <h2>Um Exemplo Menos Óbvio</h2>
@@ -241,11 +241,11 @@ class SimpleFilePersistence {
 
 }</pre>
 
-<p>Isso pode parecer estar certo. Não temos metodo álgum lidando com persistência ou apresentação. Nós temos nossa funcionalidade <code>turnPage()</code> e alguns outros métodos para prover informações diferentes sobre o livro. Porém, nós podemos ter um problema. Para descobrirmos, precisamos analisar nossa aplicação. A função <code>getLocation()</code> pode ser um problema.</p>
+<p>Isso parecer estar certo. Não temos metodo algum lidando com persistência ou apresentação. Nós temos nossa funcionalidade <code>turnPage()</code> e alguns outros métodos para prover informações diferentes sobre o livro. Porém, nós podemos ter um problema. Para descobrirmos, precisamos analisar nossa aplicação. A função <code>getLocation()</code> pode ser esse problema.</p>
 
-<p>Todos os métodos da classe <code>Book</code> estão relacionados à logica do negócio. Dessa forma, nossa perspectiva deve vir do ponto de vista do negócio. Se nossa aplicação for criada para ser usada por bibliotecário de verdade, que buscarão pelos livros físicos que pedirmos, então, a SRP pode ser violada.</p>
+<p>Todos os métodos da classe <code>Book</code> estão relacionados à logica do negócio. Dessa forma, nossa perspectiva deve vir do ponto de vista do negócio. Se nossa aplicação for criada para ser usada por bibliotecários de verdade, que buscarão pelos livros físicos que pedirmos, então, a SRP pode ser violada.</p>
 
-<p>Podemos pensar que o bibliotecário é aquele interessado nos métodos <code>getTitle()</code>, <code>getAuthor()</code> e <code>getLocation()</code>. Talvez o cliente também tenha acesso à aplicação para selecionar um livro e poder ler as primeiras páginas dele para ter uma ideia melhor sobre o livro e decidir se quer levá-lo ou não. Assim, os atores leitores podem estar interessados em todos os métodos, exceto o <code>getLocations()</code>. Um usuário comum não precisa saber onde o livro é mantido na biblioteca.An ordinary client doesn't care where the book is kept in the library. O livro será entregue ao usuário pelo bibliotecário. Então, precisamos, sim, violar a SRP.</p>
+<p>Podemos pensar que o bibliotecário é aquele interessado nos métodos <code>getTitle()</code>, <code>getAuthor()</code> e <code>getLocation()</code>. Talvez o cliente também tenha acesso à aplicação para selecionar um livro e poder ler as primeiras páginas dele para ter uma ideia melhor sobre o mesmo, e decidir se quer levá-lo ou não. Assim, os atores leitores podem estar interessados em todos os métodos, exceto o <code>getLocations()</code>. Um usuário comum não precisa saber onde o livro é mantido na biblioteca. O livro será entregue ao usuário pelo bibliotecário. Então, precisamos, sim, violar a SRP.</p>
 
 <pre class="brush: php">class Book {
 
@@ -277,12 +277,12 @@ class BookLocator {
 
 }</pre>
 
-<p>Criando a classe <code>BookLocator</code>, o bibliotecário ficará interessado na <code>BookLocator</code>. O cliente estará interessado, apenas, na classe <code>Book</code>. Claro, há inúmeras maneiras de implementar uma classe <code>BookLocator</code>. Ela pode usar o autor e título do livro, ou um objeto livro e obter as informações necessárias que a classe <code>Book</code> provê. Só depende do nosso negócio. O que é importante é que, se a biblioteca mudar e o bibliotecário tiver de encontrar os livros em uma biblioteva organizada de forma totalmente diferente, o objeto <code>Book</code> não será afetado. Da mesma forma, se decidirmos pre-compilar um sumário para os leitores, ao invés de permitir que eles leiam as primeiras páginas do livro, isso não afetará o bibliotecário nem o processo de encontrar as prateleiras nas quais os livros estão.</p>
+<p>Criando a classe <code>BookLocator</code>, o bibliotecário ficará interessado na <code>BookLocator</code>. O cliente estará interessado, apenas, na classe <code>Book</code>. Claro, há inúmeras maneiras de implementar uma classe <code>BookLocator</code>. Ela pode usar o autor e título do livro, ou um objeto livro e obter as informações necessárias que a classe <code>Book</code> provê. Só depende do nosso negócio. O que é importante é que, se a biblioteca mudar e o bibliotecário tiver de encontrar os livros em uma biblioteca organizada de forma totalmente diferente, o objeto <code>Book</code> não será afetado. Da mesma forma, se decidirmos pre-compilar um resumo para os leitores, ao invés de permitir que eles leiam as primeiras páginas do livro, isso não afetará o bibliotecário nem o processo de encontrar as prateleiras nas quais os livros estão.</p>
 
-<p>Porém, se nosso negócio tiver de eliminar o bibliotecário para criar um mecanismo onde o próprio cliente procura o livro na biblioteca, então, podemos voltar a considerar a forma como fizemos primeiro, onde a SRP é respeitada. Os leitores, agora, também são nossos bibliotecários, eles precisam saber onde os livros ficam para busca-los e locá-los no sistema automatizado. O que devemos sempre lembrar é que devemos pensar com cuidado em nosso negócio antes de tomar qualquer decisão.</p>
+<p>Porém, se nosso negócio tiver de eliminar o bibliotecário para criar um mecanismo onde o próprio cliente procura o livro na biblioteca, então, podemos voltar a considerar a forma como fizemos primeiro, onde a SRP é respeitada. Os leitores, agora, também são nossos bibliotecários, eles precisam saber onde os livros ficam, para busca-los e locá-los no sistema automatizado. O que devemos sempre lembrar é que devemos pensar com cuidado em nosso negócio antes de tomar qualquer decisão.</p>
 
 <h2>Pensamentos Finais</h2>
 
-<p>O Princípio da Responsabilidade Única deve sempre ser considerada quando for codificar seus aplicativos. Projetos de classes e módulos são bastante afetados pela SRP, o que leva a um projeto com baixo acoplamento, com dependências menores e em menos quantidade. Mas, como qualquer moeda, ela tem duas caras. É tentador codificarmos nossa aplicação, desde o começo, com a SRP em mente. Também é bastante tentador idenficar tanto atores quanto quisermos ou precisamos - para não esquecermos de qualquer grupo desde o começo. Aplicar a SRP ao pé da letra pode levar a uma otimização prematura ao invés de um projeto melhor, levando a um projeto difuso, onde as responsabilidade das classes e módulos sejam difíceis de identificar ou entender. </p>
+<p>O Princípio da Responsabilidade Única deve sempre ser considerado quando for codificar seus aplicativos. Projetos de classes e módulos são bastante afetados pela SRP, o que leva a um projeto com baixo acoplamento, com dependências menores e em menor quantidade. Mas, como qualquer moeda, ela tem duas caras. É tentador codificarmos nossa aplicação, desde o começo, com a SRP em mente. Também é bastante tentador idenficar tantos atores quanto quisermos ou precisamos - para não esquecermos de qualquer grupo de usuário desde o começo. Aplicar a SRP ao pé da letra pode levar a uma otimização prematura ao invés de um projeto melhor, gerando um projeto difuso, onde as responsabilidade das classes e módulos são difíceis de identificar ou entender. </p>
 
 <p>Assim, toda vez que perceber que um módulo ou classe começaram a mudar por inúmeras razões diferentes, não hesite, tome os passos necessários para respeitar a SRP, entretanto, não se deixe levar por ela, uma vez que otimizações prematuras podem enganar você.</p>
