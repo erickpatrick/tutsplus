@@ -23,7 +23,7 @@
 
 <ul>
 <li><strong>Módulo de Persistência</strong> - Pode incluir os DBAs e arquitetos de software;</li>
-<li><strong>Módulo de Relatório</strong> - Pode incluir os contadores, secretários e operadores;</li>
+<li><strong>Módulo de Relatório</strong> - Pode incluir os contadores, secretários e administradores;</li>
 <li><strong>Módulo de Computação de Pagamento para um Sistema de Pagamento</strong> - pode incluir os advogados, administradores e contadores;</li>
 <li><strong>Módulo de Busca de Livros para um Sistema de Administração de Biblioteca</strong> - Pode incluir os bibliotecários e/ou os próprios clientes.</li>
 </ul>
@@ -116,11 +116,11 @@ class HtmlPrinter implements Printer {
 
 }</pre>
 
-<p>Even this very basic example shows how separating presentation from business logic, and respecting SRP, gives great advantages in our design's flexibility.</p>
+<p>Mesmo esse exemplo básico nos mostra como separar apresentação da lógica de negócios e, respeitar a SRP, nos trás uma grande vantagem: flexibilidade no projeto.</p>
 
-<h3>Objects That Can "Save" Themselves</h3>
+<h3>Objetos que Podem "Salvar" a Si Próprios</h3>
 
-<p>A similar example to the one above is when an object can save and retrieve itself from presentation.</p>
+<p>Um exemplo parecido com o anterior é quando um objeto pode salvar e retornar a si próprio para a camada de apresentação.</p>
 
 <pre class="brush: php">class Book {
 
@@ -192,7 +192,7 @@ class SimpleFilePersistence {
 
 <h2>Considerações de Projeto de Software</h2>
 
-<p>Quando pensamos sobre o aplicativo que precisamos codificar, podemos analizar diversos aspectos diferentes. Por exemplo, vários requerimentos que afetam uma mesma classe podem ser um foco de mudança. Esses focos de mudanças são dicas para a responsabilidade única. Há uma alta probabilidade que grupos de requerimentos que estão afetando o mesmo grupo de funções serão responsáveis por outras mudanças ou serem separados em um grupo próprio.</p>
+<p>Quando pensamos sobre o aplicativo que precisamos codificar, podemos analisar diversos aspectos diferentes. Por exemplo, vários requerimentos que afetam uma mesma classe podem ser um foco de mudança. Esses focos de mudanças são dicas para a responsabilidade única. Há uma alta probabilidade que grupos de requerimentos que estão afetando o mesmo grupo de funções serão responsáveis por outras mudanças ou serem separados em um grupo próprio.</p>
 
 <p>O valor primário de um aplicativo é a facilidade de alteração, o secundário é a funcionalidade, no sentido de satisfazer tantos requerimentos quanto possível, atendendo as necessidades dos usuários. Entretanto, para alcançar um valor secundário bem positivo, o valor primário é obrigatório. Para mantermos nosso valor primário alto, devemos ter um projeto que seja fácil de alterar, estender e adicionar novas funcionalidades, além de garantir que a SRP seja respeitada.</p>
 
@@ -214,7 +214,7 @@ class SimpleFilePersistence {
 <li>Agrupar nossas funções em classes para que cada uma tenha uma única responsabilidade.</li>
 </ol>
 
-<h2>A Less Obvious Example</h2>
+<h2>Um Exemplo Menos Óbvio</h2>
 
 <pre class="brush: php">class Book {
 
@@ -235,17 +235,17 @@ class SimpleFilePersistence {
 	}
 
 	function getLocation() {
-		// returns the position in the library
-		// ie. shelf number &amp; room number
+		// retorna a posição na biblioteca
+		// ou seja, número da plateleira e sala
 	}
 
 }</pre>
 
-<p>Now this may appear perfectly reasonable. We have no method dealing with persistence, or presentation. We have our <code>turnPage()</code> functionality and a few methods to provide different information about the book. However, we may have a problem. To find out, we might want to analyze our application. The function <code>getLocation()</code> may be the problem.</p>
+<p>Isso pode parecer estar certo. Não temos metodo álgum lidando com persistência ou apresentação. Nós temos nossa funcionalidade <code>turnPage()</code> e alguns outros métodos para prover informações diferentes sobre o livro. Porém, nós podemos ter um problema. Para descobrirmos, precisamos analisar nossa aplicação. A função <code>getLocation()</code> pode ser um problema.</p>
 
-<p>All of the methods of the <code>Book</code> class are about business logic. So our perspective must be from the business's point of view. If our application is written to be used by real librarians who are searching for books and giving us a physical book, then SRP might be violated.</p>
+<p>Todos os métodos da classe <code>Book</code> estão relacionados à logica do negócio. Dessa forma, nossa perspectiva deve vir do ponto de vista do negócio. Se nossa aplicação for criada para ser usada por bibliotecário de verdade, que buscarão pelos livros físicos que pedirmos, então, a SRP pode ser violada.</p>
 
-<p>We can reason that the actor operations are the ones interested in the methods <code>getTitle()</code>, <code>getAuthor()</code> and <code>getLocation()</code>. The clients may also have access to the application to select a book and read the first few pages to get an idea about the book and decide if they want it or not. So the actor readers may be interested in all the methods except <code>getLocations()</code>. An ordinary client doesn't care where the book is kept in the library. The book will be handed over to the client by the librarian. So, we do indeed have a violation of SRP.</p>
+<p>Podemos pensar que o bibliotecário é aquele interessado nos métodos <code>getTitle()</code>, <code>getAuthor()</code> e <code>getLocation()</code>. Talvez o cliente também tenha acesso à aplicação para selecionar um livro e poder ler as primeiras páginas dele para ter uma ideia melhor sobre o livro e decidir se quer levá-lo ou não. Assim, os atores leitores podem estar interessados em todos os métodos, exceto o <code>getLocations()</code>. Um usuário comum não precisa saber onde o livro é mantido na biblioteca.An ordinary client doesn't care where the book is kept in the library. O livro será entregue ao usuário pelo bibliotecário. Então, precisamos, sim, violar a SRP.</p>
 
 <pre class="brush: php">class Book {
 
@@ -270,18 +270,18 @@ class SimpleFilePersistence {
 class BookLocator {
 
 	function locate(Book $book) {
-		// returns the position in the library
-		// ie. shelf number &amp; room number
+		// retorna a posição do livro na biblioteca
+		// número da prateleira e sala
 		$libraryMap-&gt;findBookBy($book-&gt;getTitle(), $book-&gt;getAuthor());
 	}
 
 }</pre>
 
-<p>Introducing the <code>BookLocator</code>, the librarian will be interested in the <code>BookLocator</code>. The client will be interested in the <code>Book</code> only. Of course, there are several ways to implement a <code>BookLocator</code>. It can use the author and title or a book object and get the required information from the <code>Book</code>. It always depends on our business. What is important is that if the library is changed, and the librarian will have to find books in a differently organized library, the <code>Book</code> object will not be affected. In the same way, if we decide to provide a pre-compiled summary to the readers instead of letting them browse the pages, that will not affect the librarian nor the process of finding the shelf the books sits on.</p>
+<p>Criando a classe <code>BookLocator</code>, o bibliotecário ficará interessado na <code>BookLocator</code>. O cliente estará interessado, apenas, na classe <code>Book</code>. Claro, há inúmeras maneiras de implementar uma classe <code>BookLocator</code>. Ela pode usar o autor e título do livro, ou um objeto livro e obter as informações necessárias que a classe <code>Book</code> provê. Só depende do nosso negócio. O que é importante é que, se a biblioteca mudar e o bibliotecário tiver de encontrar os livros em uma biblioteva organizada de forma totalmente diferente, o objeto <code>Book</code> não será afetado. Da mesma forma, se decidirmos pre-compilar um sumário para os leitores, ao invés de permitir que eles leiam as primeiras páginas do livro, isso não afetará o bibliotecário nem o processo de encontrar as prateleiras nas quais os livros estão.</p>
 
-<p>However, if our business is to eliminate the librarian and create a self-service mechanism in our library, then we may consider that SRP is respected in our first example. The readers are our librarians also, they need to go and find the book themselves and then check it out at the automated system. This is also a possibility. What is important to remember here is that you must always consider your business carefully.</p>
+<p>Porém, se nosso negócio tiver de eliminar o bibliotecário para criar um mecanismo onde o próprio cliente procura o livro na biblioteca, então, podemos voltar a considerar a forma como fizemos primeiro, onde a SRP é respeitada. Os leitores, agora, também são nossos bibliotecários, eles precisam saber onde os livros ficam para busca-los e locá-los no sistema automatizado. O que devemos sempre lembrar é que devemos pensar com cuidado em nosso negócio antes de tomar qualquer decisão.</p>
 
-<h2>Final Thoughts</h2>
+<h2>Pensamentos Finais</h2>
 
 <p>The Single Responsibility Principle should always be considered when we write code. Class and module design is highly affected by it and it leads to a low coupled design with less and lighter dependencies. But as any coin, it has two faces. It is tempting to design from the beginning of our application with SRP in mind. It is also tempting to identify as many actors as we want or need. But this is actually dangerous - from a design point of view - to try and think of all the parties from the very beginning. Excessive SRP consideration can easily lead to premature optimization and instead of a better design, it may lead to a scattered one where the clear responsibilities of classes or modules may be hard to understand. </p>
 
