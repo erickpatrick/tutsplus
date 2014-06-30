@@ -190,28 +190,28 @@ class SimpleFilePersistence {
 
 <p>Se analizarmos esse esquema, você pode ver como o Princípio da Responsabilidade Única é respeitado. A criação de objetos está separada na direta, em Fábricas (Factories) e no ponto de entrada principal (Main) de nossa aplicação, um ator uma responsabilidade. A persistência também é levada em conta, na parte de baixo. Um módulo separado para um responsabilidade diferente. Finalmente, na esqueda, nós temos a apresentação ou o mecanismo de entrega, se preferir, na padrão MVC ou qualquer outro tipo de interface de usuário. A SRP foi respeitada novamente. Só nos resta descobrir o que fazer na nossa lógica de negócio.</p>
 
-<h2>Software Design Considerations</h2>
+<h2>Considerações de Projeto de Software</h2>
 
-<p>When we think about the software that we need to write, we can analyze many different aspects. For example, several requirements affecting the same class may represent an axis of change. This axes of change may be a clue for a single responsibility. There is a high probability that groups of requirements that are affecting the same group of functions will have reasons to change or be specified in the first place.</p>
+<p>Quando pensamos sobre o aplicativo que precisamos codificar, podemos analizar diversos aspectos diferentes. Por exemplo, vários requerimentos que afetam uma mesma classe podem ser um foco de mudança. Esses focos de mudanças são dicas para a responsabilidade única. Há uma alta probabilidade que grupos de requerimentos que estão afetando o mesmo grupo de funções serão responsáveis por outras mudanças ou serem separados em um grupo próprio.</p>
 
-<p>The primary value of software is ease of change. The secondary is functionality, in the sense of satisfying as much requirements as possible, meeting the user's needs. However, in order to achieve a high secondary value, a primary value is mandatory. To keep our primary value high, we must have a design that is easy to change, to extend, to accommodate new functionalities and to ensure that SRP is respected.</p>
+<p>O valor primário de um aplicativo é a facilidade de alteração, o secundário é a funcionalidade, no sentido de satisfazer tantos requerimentos quanto possível, atendendo as necessidades dos usuários. Entretanto, para alcançar um valor secundário bem positivo, o valor primário é obrigatório. Para mantermos nosso valor primário alto, devemos ter um projeto que seja fácil de alterar, estender e adicionar novas funcionalidades, além de garantir que a SRP seja respeitada.</p>
 
-<p>We can reason in a step by step manner:</p>
+<p>Nós podemos pensar em um passo-a-passo:</p>
 
 <ol>
-<li>High primary value leads in time to high secondary value.</li>
-<li>Secondary value means needs of the users.</li>
-<li>Needs of the users means needs of the actors.</li>
-<li>Needs of the actors determines the needs of changes of these actors.</li>
-<li>Needs of change of actors defines our responsibilities.</li>
+<li>Alto valor primário leva a um alto valor secundário.</li>
+<li>O valor secundário equivale às necessidades dos usuários.</li>
+<li>Necessidades dos usuários equivale às necessidades dos atores.</li>
+<li>Necessidades dos atores determina as necessidades de mudança desses atores.</li>
+<li>Necessidades de mudanças dos atores definem nossas responsabilidades.</li>
 </ol>
 
-<p>So when we design our software we should:</p>
+<p>Então, quando projetarmos nossos aplicativos, deveríamos:</p>
 
 <ol>
-<li>Find and define the actors.</li>
-<li>Identify the responsibilities that serve those actors.</li>
-<li>Group our functions and classes so that each has only one allocated responsibility.</li>
+<li>Buscar e definir atores.</li>
+<li>Identificar a responsabilidade própria a esses atores.</li>
+<li>Agrupar nossas funções em classes para que cada uma tenha uma única responsabilidade.</li>
 </ol>
 
 <h2>A Less Obvious Example</h2>
