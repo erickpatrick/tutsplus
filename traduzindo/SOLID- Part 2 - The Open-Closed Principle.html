@@ -170,17 +170,17 @@ instance of Music given.</pre>
 
 <p>Enquanto o resultado final é igual em ambos os casos, significando uma falha no código, o primeiro produz uma mensagem legal. Esse, por outro lado, é bem obscuro. Não há como saber o que a variável é - uma cadeia de caracteres, em nosso caso - e quais propriedades não foram encontradas. É difícil de depurar e resolver o problema. Um programador precisa abrir a classe <code>Progress</code>, lê-la e entendê-la. O contrato, nesse caso, quando não especificamos explícitamente a indução de tipo, é definida pelo comportamento da classe <code>Progress</code>. É um contrato implícito, sabido somente pela classe <code>Progress</code>. Em nosso exemplo, ele é definido pelo acesso aos dois atributos, <code>sent</code> e <code>length</code>, no método <code>getAsPercent()</code>. Na vidade real, o contrato implícito pode ser bem complexo e difícil de descobrir só dando uma olhada na classe em questão.</p>
 
-<p>This solution is recommended only if none of the other suggestions below can easily be implemented or if they would inflict serious architectural changes that do not justify the effort.</p>
+<p>Essa solução só é recomendada se nenhuma das outras sugestões abaixo forem fáceis de implementar ou se elas causarem mudanças arquiteturais muito grandes, que não justificassem o esforço.</p>
 
-<h2>Solution 2: Use the Strategy Design Pattern</h2>
+<h2>Solução 2: Use o Padrão de Design <em>Strategy</em></h2>
 
-<p>This is the most common and probably the most appropriate solution to respect OCP. It is simple and effective.</p>
+<p>Essa é a solução mais comum e, provavelmente, a solução mais apropriada para respeitar a OCP. É simples e efetiva.</p>
 
 <figure>
 <img width="600" alt="strategy" src="http://cdn.tutsplus.com/net/uploads/2014/01/strategy.png" height="294"><br>
 </figure>
 
-<p>The Strategy Pattern simply introduces the use of an interface. An interface is a special type of entity in Object Oriented Programming (OOP) which defines a contract between a client and a server class. Both classes will adhere to the contract to ensure the expected behavior. There may be several, unrelated, server classes that respect the same contract thus being capable of serving the same client class.</p>
+<p>O padrão <em>Strategy</em>, simplesmente, introduz o uso de uma interface. Uma interface é um tipo especial de entidade da Programação Orientada a Objetos (POO), que define um contrato entre uma classe cliente e uma classe servidora. Ambas as classes aderirão ao contrato para garantir o comportamento esperado. Pode haver inúmeras classes servidoras não relacionadas que respeitam o mesmo contrato e, assim, sendo capazes de servir à mesma classe cliente.</p>
 
 <pre class="brush: php">interface Measurable {
 	function getLength();
