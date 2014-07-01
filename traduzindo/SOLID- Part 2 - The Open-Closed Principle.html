@@ -1,4 +1,4 @@
-<h1>SOLID: Part 2 - The Open/Closed Principle</h1>
+<h1>Princípios SOLID Parte 2 - Princípio do Aberto para Expensão, Fechado para Modificação</h1>
 
 <p><a href="http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074">Responsabilidade Única (SRP - Single Responsability)</a>, Aberto para Expansão, Fechado para Modificações (Open/Close); Substituição de Liskov (Liskov's Substitution); Segregação de Interface (Interface Segregation); e Inversão de Dependência (Dependency Inversion). Cinco princípios ágeis que deveriam guiar você todas as vezes que fosse programar.</p>
 
@@ -8,15 +8,15 @@
 	<p>Entidades de software (classes, módulos, funções, etc) devem ser abertas para expansão, porém, fechadas para modificações.</p>
 </blockquote>
 
-<p>O princípior do Aberto para Expansão, fechado para Modificação (The Open/Closed Principle - OCP), é creditado a <a href="http://en.wikipedia.org/wiki/Bertrand_Meyer">Bertrand Mayer</a>, programador francês, publicando, primeiramente, em seu livro <a href="http://www.amazon.com/Object-Oriented-Software-Construction-CD-ROM-Edition/dp/0136291554">Object-Oriented Software Construction</a>, de 1988.</p>
+<p>O princípio do Aberto para Expansão, fechado para Modificação (The Open/Closed Principle - OCP), é creditado a <a href="http://en.wikipedia.org/wiki/Bertrand_Meyer">Bertrand Mayer</a>, programador francês, publicado, primeiramente, em seu livro <a href="http://www.amazon.com/Object-Oriented-Software-Construction-CD-ROM-Edition/dp/0136291554">Object-Oriented Software Construction</a>, de 1988.</p>
 
-<p>Esse princípio cresceu em popularidade no começo dos anos 2000 quando ele passou a integrar os princípios SOLID, definido por <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> em seu livro <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> e, mais tarde, republicado na versão em C# do mesmo livro <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>.</p>
+<p>Esse princípio cresceu em popularidade no começo dos anos 2000, quando ele passou a integrar os princípios SOLID, definido por <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> em seu livro <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> e, mais tarde, republicado na versão em C# do mesmo livro <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>.</p>
 
-<p>Basicamente, o que estamos falando aqui é sobre projetar nossos módulos, classes e funções, de forma que, quando uma nova funcionalidade for necessária, nós não deveríamos modificar o código existente, mas criar novo código que será usado pelo código atual. Isso parece um pouco estranho, especialmente se você vem de linguagens como o Java, C, C++ ou C# onde isso se aplica, não só ao código fonte em si, mas, também, ao código compilado. Nós queremos criar novas funcionalidades de forma que não seja necessário reimplantar nossos binários, executáveis ou DLLs existentes.</p>
+<p>Basicamente, o que estamos falando aqui é sobre projetar nossos módulos, classes e funções, de forma que, quando uma nova funcionalidade for necessária, não precisemos modificar o código existente, mas criar novo código que será usado pelo código atual. Isso parece um pouco estranho, especialmente se você vem de linguagens como o Java, C, C++ ou C#, onde isso se aplica, não só ao código fonte em si, mas, também, ao código compilado. Nós queremos criar novas funcionalidades de forma que não seja necessário reimplantar nossos binários, executáveis ou DLLs existentes.</p>
 
 <h2>OCP no contexto dos Princípios SOLID</h2>
 
-<p>De acordo com que avançamos com esses tutoriais, podemos trabalhar os novos princípios nos contextos daqueles já discutidos. Nós já discutimos sobre o <a href="http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074">Princípio da Responsabilidade Única (SRP)</a>, que afirmou que um módulo deve ter, apenas, um único motivo para mudar. Se pensarmos no COP e no SRP, podemos observar que eles são complementares. Códigos projetados com o SRP em mente estarão bem próximos de seguir o OCP ou será bem fácil fazê-los respeitar esse princípio. Quando tempos código que tem, somente, uma razao para mudar, introduzir uma nova funcionalidade gerará uma segunda razão para mudança. Então, tanto o SRP quanto o OCP seriam violados. Da mesma forma, se tivermos código que só será alterado quando sua função principal muda e mantem-se inalterado quando novas funcionalidades são adicionadas, ele respeita o OCP e, muito provavelmente, respeitará o SRP também.</p>
+<p>De acordo com que avançamos com esses tutoriais, podemos trabalhar os novos princípios nos contextos daqueles já discutidos. Nós já discutimos sobre o <a href="http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074">Princípio da Responsabilidade Única (SRP)</a>, que afirmou que um módulo deve ter, apenas, um único motivo para mudar. Se pensarmos no COP e no SRP, podemos observar que eles são complementares. Códigos projetados com o SRP em mente estarão bem próximos de seguir o OCP ou serão bem fáceis de fazê-los respeitar esse princípio. Quando temos código onde há, somente, uma razão para mudar, introduzir uma nova funcionalidade gerará um segundo motivo para mudança. Então, tanto o SRP quanto o OCP seriam violados. Da mesma forma, se tivermos código que só será alterado quando sua função principal mudar, e mantem-se inalterado quando novas funcionalidades são adicionadas, ele respeita o OCP e, muito provavelmente, respeitará o SRP também.</p>
 
 <p>Isso não quer dizer que um código que segue o SRP sempre permitirá seguir o OCP ou vice e versa, mas, na maioria dos casos, se um deles é respeitado, conseguir respeitar o outro se torna bem simples.</p>
 
@@ -28,13 +28,13 @@
 <img width="600" alt="violate1" src="http://cdn.tutsplus.com/net/uploads/2014/01/violate1.png" height="109"><br>
 </figure>
 
-<p>A classe <code>User</code> usa a classe <code>Logic</code> diretamente. Se precisarmos implementar uma segunda classe <code>Logic</code>, de forma que permita usar ambas as classes, atual e nova, a classe <code>Logic</code> já existente precisará mudar. <code>User</code> é diretamente ligado à implementação de <code>Logic</code>, não há outra maneira de prover uma nova classe <code>Logic</code> sem afetar a atual. E, quando falamos de linguagens fortemente tipadas, é bem possível que a classe <code>User</code> também necessite de mudanças. Se estamos falando de linguagens compiladas, é quase certo que tanto o executável, ou biblioteca dinâmica, de <code>User</code> quanto de <code>Logic</code> precisarão ser recompilados e reimplantados em nossos clientes. Um processo que queremos evitar a todo custo.</p>
+<p>A classe <code>User</code> usa a classe <code>Logic</code> diretamente. Se precisarmos implementar uma segunda classe <code>Logic</code>, de forma que permita usar ambas as classes, atual e nova, a classe <code>Logic</code> já existente precisará mudar. <code>User</code> é diretamente ligado à implementação de <code>Logic</code>, não há outra maneira de prover uma nova classe <code>Logic</code> sem afetar a atual. E, quando falamos de linguagens fortemente tipadas, é bem possível que a classe <code>User</code> também necessite de mudanças. Se estamos falando de linguagens compiladas, é quase certo que tanto o executável, ou a biblioteca dinâmica (DLL), de <code>User</code> quanto de <code>Logic</code> precisarão ser recompilados e reimplantados em nossos clientes. Um processo que queremos evitar a todo custo.</p>
 
 <h2>Mostre-me o Código</h2>
 
-<p>Baseado somente no esquema acima, alguém pode deduzir que qualquer classe usando diretamente outra, na verdade, viola o OCP. E isso é verdade, estrutamente falando. Percebi que é bem interessante encontrar os limites, o momento que você cria a linha e decide que é mais difícil respeitar o OCP que modificar o código existente, ou que o custo arquitetural não justifica o custo da mudança do código existente.</p>
+<p>Baseado somente no esquema acima, alguém pode deduzir que qualquer classe usando diretamente outra, na verdade, viola o OCP. E isso é verdade, estritamente falando. Percebi que é bem interessante encontrar os limites, o momento que você cria a linha e decide que é mais difícil respeitar o OCP que modificar o código existente, ou que o custo arquitetural não justifica o custo da mudança do código existente.</p>
 
-<p>Vamos criar uma classe que provê o progresso de download de um arquivo, na forma de percentual, dentro de nossa aplicação. Nós termos duas classes principais, a classe <code>Progress</code> e a <code>File</code>, e, creio eu, que queiramos usá-las de acordo com o teste abaixo.</p>
+<p>Vamos criar uma classe que provê o progresso de download de um arquivo, na forma de percentual, dentro de nossa aplicação. Nós temos duas classes principais, a classe <code>Progress</code> e a <code>File</code>, e, creio eu, que queremos usá-las de acordo com o teste abaixo.</p>
 
 <pre class="brush: php">function testItCanGetTheProgressOfAFileAsAPercent() {
 	$file = new File();
@@ -69,7 +69,7 @@
 
 }</pre>
 
-<p>A classe <code>Progress</code> é bem simples e injeta uma classe <code>File</code> através de seu construtor. Para ficar claro, nós especificamos o tipo da variável nos parâmetros do construtor (injetamos uma variável daquele tipo em específico). Há um único método útil na classe <code>Progress</code>, o <code>getAsPercent()</code>, que pegará os valores que foram enviados e o tamanho do arquivo, contidos nas propriedades da classe <code>File</code>, e os transformará em percentual. Simples e funciona.</p>
+<p>A classe <code>Progress</code> é bem simples e injeta uma classe <code>File</code> através de seu construtor. Para ficar claro, nós induzimos o tipo nos parâmetros do construtor (injetamos uma variável daquele tipo em específico). Há um único método útil na classe <code>Progress</code>, o <code>getAsPercent()</code>, que pegará os valores que foram enviados bem como o tamanho do arquivo, contidos nas propriedades da classe <code>File</code>, e os transformará em percentual. Simples e funciona.</p>
 
 <pre class="brush: bash">Testing started at 5:39 PM ...
 PHPUnit 3.7.28 by Sebastian Bergmann.
@@ -81,13 +81,13 @@ OK (1 test, 1 assertion)</pre>
 
 <h2>Mudança de Requerimentos</h2>
 
-<p>Toda aplicação a qual se esperar crescer, com o tempo será adicionada novas funcionalidades. Uma das novas funcionalidades da nossa aplicação poderia ser o *streaming* de músicas, ao invés do download dos arquivos. O tamanho de um arquivo, sendo visto através da classe <code>File</code>, é representado em bytes e a duração da música em segundos. Nós queremos oferecer uma barra de progresso bem bacana, mas, será que podemos reusar aquela que já tempos?</p>
+<p>Toda aplicação que se espera que cresça, com o tempo terá novas funcionalidades adicionadas. Uma das novas funcionalidades da nossa aplicação poderia ser o *streaming* de músicas, ao invés do download dos arquivos. O tamanho de um arquivo, sendo visto através da classe <code>File</code>, é representado em bytes e a duração da música em segundos. Nós queremos oferecer uma barra de progresso bem bacana, mas, será que podemos reusar aquela que já temos?</p>
 
 <p>Não, não podemos. Nossa barra de progresso está atrelada à classe <code>File</code>. Ela só entende arquivos, embora ela pudesse ser usada com conteúdo musical também. Mas, para tornar isso possível, precisamos modificá-la, precisamos fazer com que a classe <code>Progress</code> tenha conhecimento tanto da classe <code>Music</code> quanto da <code>File</code>. Se nosso projeto respeitasse o OCP, não precisaríamos tocar na classe <code>File</code> ou na <code>Progress</code>. Nós, simplesmente, reusaríamos a classe <code>Progress</code> existente e a aplicaríamos para a classe <code>Music</code>.</p>
 
 <h2>Solução 1: Lançar Mão da Natureza Dinâmica do PHP</h2>
 
-<p>Linguagens fracamente tipadas tem a vantagem de descobrir os tipos dos objetos em tempo de execução. Isso permite que removamos a dica do tipo de objeto que esperamos receber no construtor da classe <code>Progress</code> e ainda permitir que o código funcione.</p>
+<p>Linguagens fracamente tipadas tem a vantagem de descobrir os tipos dos objetos em tempo de execução. Isso permite que removamos a indução de tipo do objeto que esperamos receber no construtor da classe <code>Progress</code> e ainda permite que o código funcione.</p>
 
 <pre class="brush: php">class Progress {
 
@@ -131,7 +131,7 @@ OK (1 test, 1 assertion)</pre>
 	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
 }</pre>
 
-<p>Então, basicamente, qualquer conteúdo mensurável pode ser usado com a classe <code>Progress</code>. Talvez devessemos demonstrar isso no código, alterando o nome da variável em nossa classe:</p>
+<p>Então, basicamente, qualquer conteúdo mensurável pode ser usado com a classe <code>Progress</code>. Talvez devêssemos demonstrar isso no código, alterando o nome da variável em nossa classe:</p>
 
 <pre class="brush: php">class Progress {
 
@@ -147,17 +147,17 @@ OK (1 test, 1 assertion)</pre>
 
 }</pre>
 
-<p>Certo, mas temos um problema enorme com essa abordagem. Quando especificamos (induzimos o tipo) a classe <code>File</code> nos parâmetros do construtor, nós sabiamos com o que nossa classe era capaz de lidar. Era tudo explícito e se qualquer outra coisa surgisse, um erro nos avisaria.</p>
+<p>Certo, mas temos um problema enorme com essa abordagem. Quando especificamos (induzimos o tipo da) a classe <code>File</code> nos parâmetros do construtor, nós sabiamos com o que nossa classe era capaz de lidar. Era tudo explícito e se qualquer outra coisa surgisse, um erro nos avisaria.</p>
 
 <pre class="brush: bash">Argument 1 passed to Progress::__construct()
 must be an instance of File,
 instance of Music given.</pre>
 
-<p>Mas, sem a indução de tipo, nós dependemos no fato de que, qualquer coisa que vier, deverá ter duas variáveis públicas, chamadas de "<code>length</code>" e "<code>sent</code>". De outro modo, nós teremos uma quebra de contrato.</p>
+<p>Mas, sem a indução de tipo, nós dependemos no fato de que, qualquer coisa que vier, deverá ter duas propriedades públicas, chamadas de "<code>length</code>" e "<code>sent</code>". De outro modo, nós teremos uma quebra de contrato.</p>
 
 <blockquote><p>Quebra de contrato: uma classe que sobrescreve um método da classe mãe, de forma que o contrato da classe mãe não é honrado pela classe filha. ~Source Wikipedia.</p>
 </blockquote>
-<p>Esse é um dos <em>sintomas</em> apresentados em mais detalhes no curso premium <a href="https://tutsplus.com/course/detecting-code-smells/">Detecting Code Smells</a>. Resumindo, nós não queremos acabar invocando métodos ou acessando atributos em objetos que não obedece nosso contrato. Quando tínhamos uma indução de tipos, o contrato era especificado por ele. Os campos emetodos da classe <code>File</code>. Agora, que temos nada, nós podemos enviar qualquer coisa, até mesmo uma cadeia de caracteres (<em>string</em>) e resultaria num erro grotesco.</p>
+<p>Esse é um dos <em>sintomas</em> apresentados em mais detalhes no curso <a href="https://tutsplus.com/course/detecting-code-smells/">Detecting Code Smells</a>. Resumindo, nós não queremos acabar invocando métodos ou acessando atributos em objetos que não obedecem nosso contrato. Quando tínhamos uma indução de tipos, o contrato era especificado por ele, os campos e métodos da classe <code>File</code>. Agora, que temos nada, nós podemos enviar qualquer coisa, até mesmo uma cadeia de caracteres (<code>string</code>) e resultaria num erro grotesco.</p>
 
 <pre class="brush: php">function testItFailsWithAParameterThatDoesNotRespectTheImplicitContract() {
 	$progress = new Progress('some string');
@@ -168,9 +168,9 @@ instance of Music given.</pre>
 
 <pre class="brush: bash">Tentando obter uma propriedade de um não-objeto.</pre>
 
-<p>Enquanto o resultado final é igual em ambos os casos, significando uma falha no código, o primeiro produz uma mensagem legal. Esse, por outro lado, é bem obscuro. Não há como saber o que a variável é - uma cadeia de caracteres, em nosso caso - e quais propriedades não foram encontradas. É difícil de depurar e resolver o problema. Um programador precisa abrir a classe <code>Progress</code>, lê-la e entendê-la. O contrato, nesse caso, quando não especificamos explícitamente a indução de tipo, é definida pelo comportamento da classe <code>Progress</code>. É um contrato implícito, sabido somente pela classe <code>Progress</code>. Em nosso exemplo, ele é definido pelo acesso aos dois atributos, <code>sent</code> e <code>length</code>, no método <code>getAsPercent()</code>. Na vidade real, o contrato implícito pode ser bem complexo e difícil de descobrir só dando uma olhada na classe em questão.</p>
+<p>Enquanto o resultado final é igual em ambos os casos, significando uma falha no código, o primeiro produz uma mensagem legal. Esse, por outro lado, é bem obscuro. Não há como saber o que a variável é - uma cadeia de caracteres, em nosso caso - e quais propriedades requisitadas não foram encontradas. É difícil de depurar e resolver o problema. Um programador precisa abrir a classe <code>Progress</code>, lê-la e entendê-la. O contrato, nesse caso, quando não especificamos explícitamente a indução de tipo, é definida pelo comportamento da classe <code>Progress</code>. É um contrato implícito, sabido somente pela classe <code>Progress</code>. Em nosso exemplo, ele é definido pelo acesso aos dois atributos, <code>sent</code> e <code>length</code>, no método <code>getAsPercent()</code>. Na vidade real, o contrato implícito pode ser bem complexo e difícil de descobrir só dando uma olhada na classe em questão.</p>
 
-<p>Essa solução só é recomendada se nenhuma das outras sugestões abaixo forem fáceis de implementar ou se elas causarem mudanças arquiteturais muito grandes, que não justificassem o esforço.</p>
+<p>Essa solução só é recomendada se nenhuma das outras sugestões abaixo forem fáceis de implementar ou se elas causarem mudanças arquiteturais muito grandes, que não justifiquem o esforço.</p>
 
 <h2>Solução 2: Use o Padrão de Projeto <em>Strategy</em></h2>
 
@@ -180,14 +180,14 @@ instance of Music given.</pre>
 <img width="600" alt="strategy" src="http://cdn.tutsplus.com/net/uploads/2014/01/strategy.png" height="294"><br>
 </figure>
 
-<p>O padrão <em>Strategy</em>, simplesmente, introduz o uso de uma interface. Uma interface é um tipo especial de entidade da Programação Orientada a Objetos (POO), que define um contrato entre uma classe cliente e uma classe servidora. Ambas as classes aderirão ao contrato para garantir o comportamento esperado. Pode haver inúmeras classes servidoras não relacionadas que respeitam o mesmo contrato e, assim, sendo capazes de servir à mesma classe cliente.</p>
+<p>O padrão <em>Strategy</em>, simplesmente, introduz o uso de uma interface. Uma interface é um tipo especial de entidade da Programação Orientada a Objetos (POO), que define um contrato entre uma classe cliente e uma classe servidora. Ambas as classes aderirão ao contrato para garantir o comportamento esperado. Pode haver inúmeras classes servidoras não relacionadas que respeitam o mesmo contrato e, dessa forma, capazes de servir à mesma classe cliente.</p>
 
 <pre class="brush: php">interface Measurable {
 	function getLength();
 	function getSent();
 }</pre>
 
-<p>Em uma interface, nós podemos definit nosso comportamento. É por isso que, ao invés de usar atributos públicos, passaremos a usar <code>getters</code> e <code>setters</code>. Adaptar as outras classes não será difícil, a essa altura. Nossa IDE é capaz de fazer a maior parte do trabalho "sujo".</p>
+<p>Em uma interface, nós podemos definir nosso comportamento. É por isso que, ao invés de usar atributos públicos, passaremos a usar <code>getters</code> e <code>setters</code>. Adaptar as outras classes não será difícil, a essa altura. Nossa IDE é capaz de fazer a maior parte do trabalho "sujo".</p>
 
 <pre class="brush: php">function testItCanGetTheProgressOfAFileAsAPercent() {
 	$file = new File();
@@ -199,7 +199,7 @@ instance of Music given.</pre>
 	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
 }</pre>
 
-<p>Como antes, começamos pelos nossos testes. Teremos de usar os <code>setters</code> para atribuir os valores aos atributos. Se eles, realmente, forem obrigatórios, é melhor definí-los na interface <code>Measurable</code>. Entretanto, tenha cuidado com o que coloca por lá. A interface está ali para definir um contrato entre a classe cliente <code>Progress</code> e as diferentes classes servidoras, como a <code>File</code> e <code>Music</code>. A classe <code>Progress</code> precisa atribuir os valores? Provavelmente, não. Então, os <code>setters</code>, muito provavelmente, não precisam ser definidos na interface. Tenha em mente que, se você os definisse por lá, você forçaria a todas as classes servidoras a implementá-los. Para algumas delas, até faz sentido te-los, mas, as outras, comportam-se totalmente diferente. E se quisermos usar nossa classe <code>Progress</code> para mostrar a temperatura de um forno? A classe <code>OvenTemperature</code> pode ser inicializada com os valores através do construtor ou obter essa informação a partir de uma terceira classe. Qualquer uma das formas funcionaria. Ter <code>setters</code> nessa classe seria estranho.</p>
+<p>Como antes, começamos pelos nossos testes. Teremos de usar os <code>setters</code> para atribuir os valores aos atributos. Se eles, realmente, forem obrigatórios, é melhor definí-los na interface <code>Measurable</code>. Entretanto, tenha cuidado com o que coloca por lá. A interface está ali para definir um contrato entre a classe cliente <code>Progress</code> e as diferentes classes servidoras, como a <code>File</code> e <code>Music</code>. A classe <code>Progress</code> precisa atribuir os valores? Provavelmente, não. Então, os <code>setters</code>, muito provavelmente, não precisam ser definidos na interface. Tenha em mente que, se você os definisse por lá, você forçaria a todas as classes servidoras a implementá-los. Para algumas delas, até faz sentido tê-los, mas, as outras, comportam-se totalmente diferente. E se quisermos usar nossa classe <code>Progress</code> para mostrar a temperatura de um forno? A classe <code>OvenTemperature</code> pode ser inicializada com os valores através do construtor ou obter essa informação a partir de uma terceira classe. Qualquer uma das formas funcionaria. Ter <code>setters</code> nessa classe seria estranho.</p>
 
 <pre class="brush: php">class File implements Measurable {
 
@@ -235,7 +235,7 @@ instance of Music given.</pre>
 
 }</pre>
 
-<p>The <code>File</code> class is modified slightly to accommodate the requirements above. It now implements the <code>Measurable</code> interface and has setters and getters for the fields we are interested in. <code>Music</code> is very similar, you can check its content in the attached source code. We are almost done.</p>
+<p>A classe <code>File</code> foi um pouco modificada para acomodar os requerimentos acima. Ela, agora, implementa a interface <code>Measurable</code>e tem <code>setters</code> e <code>getters</code> para os atributos que estamos interessados. A classe <code>Music</code> está bem parecida e você pode checar eu conteúdo no código fonte anexado. Estamos quase terminando.</p>
 
 <pre class="brush: php">class Progress {
 
@@ -251,14 +251,14 @@ instance of Music given.</pre>
 
 }</pre>
 
-<p>A classe <code>Progress</code> também precisa de uma pequena atualização. Agora, nós podemos especificar um tipo, usando uma indução de tipo, no construtor. O tipo esperado é o da classe <code>Measurable</code>. Agora, temos um contrato explícito. A classe <code>Progress</code>, agora, pode ficar "despreocupada" que os métodos acessados, sempre, estarão presentes porque eles estarão definidos na interface <code>Measurable</code>.As classes <code>File</code> e <code>Music</code> também podem ter certeza que proveem tudo que é requesitado pela <code>Progress</code>, simplesmente, implementando todos os métodos da interface. Um requerimento quando uma classe implementa uma interface.</p>
+<p>A classe <code>Progress</code> também precisa de uma pequena atualização. Agora, nós podemos especificar um tipo, usando uma indução de tipo, no construtor. O tipo esperado é o da classe <code>Measurable</code>. Agora, temos um contrato explícito. A classe <code>Progress</code>, agora, pode ficar "despreocupada" que os métodos acessados, sempre, estarão presentes, porque eles estarão definidos na interface <code>Measurable</code>. As classes <code>File</code> e <code>Music</code> também podem ter certeza que proveem tudo que é requesitado pela <code>Progress</code> ao, simplesmente, implementar todos os métodos da interface. Um requerimento que toda classe tem de realizar ao implementar uma interface.</p>
 
 <p>Esse padrão de projeto é melhor explicado no curso <a href="https://tutsplus.com/course/agile-design-patterns/">Agile Design Patterns</a>.</p>
 
 <h3>Uma Nota Sobre a Nomeação de Interface</h3>
-<p>Algumas pessoas tendem a nomear interfaces com uma letra maiúscula <code>I</code>, logo antes do nome da interface, ou com a palavra <code>Interface</code> ao final do nome dela, como, em <code>IFile</code> e <code>FileInterface</code>, respectivamente. Esse é um método de notação antigo, imposto por alguns padrões ultrapassados. Já faz muito tempo que não usamos a notação Húngara ou mesmo a especificação do tipo da variável ou objeto em seu nome para facilitar sua identificação. As IDEs identificam qualquer coisa em fração de segundos. Isso ajuda a nos concentrar no que realmente queremos abstrair.</p>
+<p>Algumas pessoas tendem a nomear interfaces com uma letra maiúscula <code>I</code>, logo antes do nome da interface, ou com a palavra <code>Interface</code> ao final do nome dela, como, em <code>IFile</code> e <code>FileInterface</code>, respectivamente. Esse é um método de notação antigo, imposto por alguns padrões ultrapassados. Já faz muito tempo que não usamos a notação Húngara ou mesmo a especificação do tipo da variável ou objeto em seu nome para facilitar a identificação. As IDEs identificam qualquer coisa em fração de segundos. Isso ajuda a nos concentrar no que realmente queremos abstrair.</p>
 
-<p>As interfaces pertencem a seus clientes. Quando quiser nomear alguma interface você deve pensar no cliente e esquecer sobre a implementação. Quando nomeamos nossa interface de <code>Measurable</code>, nós o fizemos pensando na classe <code>Progress</code>. Se eu fosse uma forma de progressão, o que eu deveria ser capaz de prover o percentual de progresso? A resposta simples, algo que possa ser medido. Logo, o nome <code>Measurable</code> (medível em inglês). </p>
+<p>As interfaces pertencem a seus clientes. Quando quiser nomear alguma interface você deve pensar no cliente e esquecer sobre a implementação. Quando nomeamos nossa interface de <code>Measurable</code>, nós o fizemos pensando na classe <code>Progress</code>. Se eu fosse uma forma de progressão, o que eu deveria ser capaz de fazer para prover o percentual de progresso? A resposta é simples: algo que possa ser medido. Logo, o nome <code>Measurable</code> (mensurável, em inglês). </p>
 
 <p>Outro motivo é que a implementação pode ser de vários domínios. Em nosso caso, há arquivos e músicas. Mas podemos reusar nossa classe <code>Progress</code> em um simulador de corridas. Neste caso, as classes medidas seriam Velocidade, Combustível, Tempo de Corrida, etc. Legal, não é?</p>
 
@@ -280,18 +280,18 @@ instance of Music given.</pre>
 <img width="600" alt="HighLevelDesign" src="http://cdn.tutsplus.com/net/uploads/2014/01/HighLevelDesign.png" height="388"><br>
 </figure>
 
-<p>Se a imagem acima representa arquitetura atual da nossa aplicação, adicionar um novo módulo com cinco classes (as que estão em azul), deveria afetar nosso projeto moderadamente (classes em vermelho).</p>
+<p>Levando em consideração que a imagem acima representa a arquitetura atual da nossa aplicação, adicionar um novo módulo com cinco classes (as que estão em azul), deve afetar nosso projeto de forma moderada (classes em vermelho).</p>
 
 <figure>
 <img width="600" alt="HighLevelDesignWithNewClasses" src="http://cdn.tutsplus.com/net/uploads/2014/01/HighLevelDesignWithNewClasses.png" height="410"><br>
 </figure>
 
-<p>Na maioria dos sistemas, você não pode esperar qualquer que não surja efeito em código já existente quando adicionar novas classes. Entretanto, respeitando o OCP, irá reduzir, consideravelmente, as classes e módulos que requerem mudanças constantes. </p>
+<p>Na maioria dos sistemas, você não pode esperar que não surja efeitos colaterais nos códigos já existentes quando adicionar novas classes. Entretanto, respeitando o OCP, irá reduzir, consideravelmente, as classes e módulos que requerem mudanças constantes. </p>
 
-<p>Assim como com qualquer outro princípio, tente não estabelecer tudo desde o começo. Se o fizer, é bem fácil que acabe com uma interface para cada uma de suas classes. Tal projeto será muito difícil de manter e compreender. Geralmente, a maneira mais segura de se fazer é pensar nas possibilidades e, se conseguir, determinar se haverá outros tipos de classes servidoras. Muitas vezes, você imagina facilmente uma nova funcionalidade ou acha outra nos documentos do projeto que gerará outra classe servidora. Nesses casos, adicione uma interface desde o começo. Se você não puder determinar, ou caso esteja em dúvida, omita-a. Deixe o próximo programador, ou mesmo você do futuro, adicionar uma interface quando for necessária uma segunda implementação.</p>
+<p>Assim como com qualquer outro princípio, tente não estabelecer tudo desde o começo. Se o fizer, é bem fácil que acabe com uma interface para cada uma de suas classes. Tal projeto será muito difícil de manter e compreender. Geralmente, a maneira mais segura de se fazer é pensar nas possibilidades e, se conseguir, determinar se haverá outros tipos de classes servidoras. Muitas vezes, você imagina facilmente uma nova funcionalidade ou acha outra nos documentos do projeto que gerará outra classe servidora. Nesses casos, adicione uma interface desde o começo. Se você não puder determinar, ou caso esteja em dúvida, omita-a. Deixe o próximo programador, ou mesmo o seu eu do futuro, adicionar uma interface quando for necessária uma segunda implementação.</p>
 
 <h2>Pensamentos Finais</h2>
 
-<p>Se você for disciplinado e adicionar uma interface tão logo uma classe servidora for necessária, as modificações serão poucas e fáceis. Lembre-se, se o código em questão muda uma vez, é bem provável que ele mudará de novo. Quando essa possibilidade tornar-se realidade, OCP salvará muito do seu tempo e esforço.</p>
+<p>Se você for disciplinado e adicionar uma interface tão logo uma segunda classe servidora for necessária, as modificações serão poucas e fáceis. Lembre-se, se o código em questão muda uma vez, é bem provável que ele mudará de novo. Quando essa possibilidade tornar-se realidade, OCP salvará muito do seu tempo e esforço.</p>
 
 <p>Obrigado pela leitura.</p>
