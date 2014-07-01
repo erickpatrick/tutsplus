@@ -270,23 +270,23 @@ instance of Music given.</pre>
 <img width="600" alt="template_method" src="http://cdn.tutsplus.com/net/uploads/2014/01/template_method.png" height="294"><br>
 </figure>
 
-<p>This design pattern is explained in greater detail in the <a href="https://tutsplus.com/course/agile-design-patterns/">Agile Design Patterns</a> course.</p>
+<p>Esse padrão de projeto é melhor explicado no curso <a href="https://tutsplus.com/course/agile-design-patterns/">Agile Design Patterns</a>.</p>
 
-<h2>A Higher Level View</h2>
+<h2>Uma Visão de Alto Nível</h2>
 
-<p>So, how is all of this affecting our high level architecture?</p>
+<p>Então, como que isso afeta nossa arquitetura no geral?</p>
 
 <figure>
 <img width="600" alt="HighLevelDesign" src="http://cdn.tutsplus.com/net/uploads/2014/01/HighLevelDesign.png" height="388"><br>
 </figure>
 
-<p>If the image above represents the current architecture of our application, adding a new module with five new classes (the blue ones) should affect our design in a moderate way (red class).</p>
+<p>Se a imagem acima representa arquitetura atual da nossa aplicação, adicionar um novo módulo com cinco classes (as que estão em azul), deveria afetar nosso projeto moderadamente (classes em vermelho).</p>
 
 <figure>
 <img width="600" alt="HighLevelDesignWithNewClasses" src="http://cdn.tutsplus.com/net/uploads/2014/01/HighLevelDesignWithNewClasses.png" height="410"><br>
 </figure>
 
-<p>In most systems you can't expect absolutely no effect on the existing code when new classes are introduced. However, respecting the Open/Closed Principle will considerably reduce the classes and modules that require constant change. </p>
+<p>Na maioria dos sistemas, você não pode esperar qualquer que não surja efeito em código já existente quando adicionar novas classes. Entretanto, respeitando o OCP, irá reduzir, consideravelmente, as classes e módulos que requerem mudanças constantes. </p>
 
 <p>As with any other principle, try not to think about everything from before. If you do so, you will end up with an interface for each of your classes. Such a design will be hard to maintain and understand. Usually the safest way to go is to think about the possibilities and if you can determine whether there will be other types of server classes. Many times you can easily imagine a new feature or you can find one on the project's backlog that will produce another server class. In those cases, add the interface from the beginning. If you can not determine, or if you are unsure - most of the time - simply omit it. Let the next programmer, or maybe even yourself, to add the interface when you need a second implementation.</p>
 
