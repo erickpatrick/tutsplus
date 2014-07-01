@@ -1,0 +1,297 @@
+<h1>SOLID: Part 2 - The Open/Closed Principle</h1>
+
+<p><a href="http://net.tutsplus.com/tutorials/php/solid-part-1-the-single-responsibility-principle/">Single Responsibility (SRP)</a>, Open/Closed (OCP), Liskov's Substitution, Interface Segregation, and Dependency Inversion. Five agile principles that should guide you every time you need to write code.</p>
+
+<h2>Definition</h2>
+
+<blockquote>
+	<p>Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.</p>
+</blockquote>
+
+<p>The Open/Closed Principle, OCP in short, is credited to <a href="http://en.wikipedia.org/wiki/Bertrand_Meyer">Bertrand Mayer</a>, a French programmer, who first published it in his book n <a href="http://www.amazon.com/Object-Oriented-Software-Construction-CD-ROM-Edition/dp/0136291554">Object-Oriented Software Construction</a> in 1988.</p>
+
+<p>The principle rose in popularity in the early 2000s when it became one of the SOLID principles defined by <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> in his book <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> and later republished in the C# version of the book <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>.</p>
+
+<p>What we are basically talking about here is to design our modules, classes and functions in a way that when a new functionality is needed, we should not modify our existing code but rather write new code that will be used by existing code. This sounds a little bit strange, especially if we are working in languages like Java, C, C++ or C# where it applies not only to the source code itself but to the binary also. We want to create new features in ways that will not require us to redeploy existing binaries, executables or DLLs.</p>
+
+<h2>OCP in the SOLID Context</h2>
+
+<p>As we progress with these tutorials, we can put each new principle in the context of the already discussed ones. We already discussed the <a href="http://net.tutsplus.com/tutorials/php/solid-part-1-the-single-responsibility-principle/">Single Responsibility (SRP)</a> that stated that a module should have only one reason to change. If we think about OCP and SRP, we can observe that they are complementary. Code specifically designed with SRP in mind will be close to OCP principles or easy to make it respect those principles. When we have code that has a single reason to change, introducing a new feature will create a secondary reason for that change. So both SRP and OCP would be violated. In the same way, if we have code that should only change when its main function changes and should remain unchanged when a new feature is added to it, thus respecting OCP, will mostly respect SRP also.</p>
+
+<p>This does not mean that SRP always leads to OCP or vice versa, but in most cases if one of them is respected, achieving the second one is quite simple.</p>
+
+<h2>The Obvious Example of OCP Violation</h2>
+
+<p>From a purely technical point of view, the Open/Closed Principle is very simple. A simple relationship between two classes, like the one below violates the OCP.</p>
+
+<figure>
+<img width="600" alt="violate1" src="http://cdn.tutsplus.com/net/uploads/2014/01/violate1.png" height="109"><br>
+</figure>
+
+<p>The <code>User</code> class uses the <code>Logic</code> class directly. If we need to implement a second <code>Logic</code> class in a way that will allow us to use both the current one and the new one, the existing <code>Logic</code> class will need to be changed. <code>User</code> is directly tied to the implementation of <code>Logic</code>, there is no way for us to provide a new <code>Logic</code> without affecting the current one. And when we are talking about statically typed languages, it is very possible that the <code>User</code> class will also require changes. If we are talking about compiled languages, most certainly both the <code>User</code> executable and the <code>Logic</code> executable or dynamic library will require recompilation and redeployment to our clients, a process we want to avoid whenever possible.</p>
+
+<h2>Show Me the Code</h2>
+
+<p>Based only on the schema above, one can deduce that any class directly using another class would actually violate the Open/Closed Principle. And that is right, strictly speaking. I found it quite interesting to find the limits, the moment when you draw the line and decide that it is more difficult to respect OCP than modify existing code, or the architectural cost does not justify the cost of changing existing code.</p>
+
+<p>Let's say we want to write a class that can provide progress as a percent for a file that is downloaded through our application. We will have two main classes, a <code>Progress</code> and a <code>File</code>, and I imagine we will want to use them like in the test below.</p>
+
+<pre class="brush: php">function testItCanGetTheProgressOfAFileAsAPercent() {
+	$file = new File();
+	$file-&gt;length = 200;
+	$file-&gt;sent = 100;
+
+	$progress = new Progress($file);
+
+	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
+}</pre>
+
+<p>In this test we are a user of <code>Progress</code>. We want to obtain a value as a percent, regardless of the actual file size. We use <code>File</code> as the source of information for our <code>Progress</code>. A file has a length in bytes and a field called <code>sent</code> representing the amount of data sent to the one doing the download. We do not care about how these values are updated in the application. We can assume there is some magical logic doing it for us, so in a test we can set them explicitly.</p>
+
+<pre class="brush: php">class File {
+	public $length;
+	public $sent;
+}</pre>
+
+<p>The <code>File</code> class is just a simple data object containing the two fields. Of course in real life, it would probably contain other information and behavior also, like file name, path, relative path, current directory, type, permissions and so on.</p>
+
+<pre class="brush: php">class Progress {
+
+	private $file;
+
+	function __construct(File $file) {
+		$this-&gt;file = $file;
+	}
+
+	function getAsPercent() {
+		return $this-&gt;file-&gt;sent * 100 / $this-&gt;file-&gt;length;
+	}
+
+}</pre>
+
+<p><code>Progress</code> is simply a class taking a <code>File</code> in its constructor. For clarity, we specified the type of the variable in the constructor's parameters. There is a single useful method on <code>Progress</code>, <code>getAsPercent()</code>, which will take the values sent and length from <code>File</code> and transform them into a percent. Simple, and it works.</p>
+
+<pre class="brush: bash">Testing started at 5:39 PM ...
+PHPUnit 3.7.28 by Sebastian Bergmann.
+.
+Time: 15 ms, Memory: 2.50Mb
+OK (1 test, 1 assertion)</pre>
+
+<p>This code seems to be right, however it violates the Open/Closed Principle. But why? And How?</p>
+
+<h2>Changing Requirements</h2>
+
+<p>Every application that is expected to evolve in time will need new features. One new feature for our application could be to allow streaming of music, instead of just downloading files. <code>File</code>'s length is represented in bytes, the music's duration in seconds. We want to offer a nice progress bar to our listeners, but can we reuse the one we already have?</p>
+
+<p>No, we can not. Our progress is bound to <code>File</code>. It understands only files, even though it could be applied to music content also. But in order to do that we have to modify it, we have to make <code>Progress</code> know about <code>Music</code> and <code>File</code>. If our design would respect OCP, we would not need to touch <code>File</code> or <code>Progress</code>. We could just simply reuse the existing <code>Progress</code> and apply it to <code>Music</code>.</p>
+
+<h2>Solution 1: Take Advantage of the Dynamic Nature of PHP</h2>
+
+<p>Dynamically typed languages have the advantages of guessing the types of objects at runtime. This allows us to remove the typehint from <code>Progress</code>' constructor and the code will still work.</p>
+
+<pre class="brush: php">class Progress {
+
+	private $file;
+
+	function __construct($file) {
+		$this-&gt;file = $file;
+	}
+
+	function getAsPercent() {
+		return $this-&gt;file-&gt;sent * 100 / $this-&gt;file-&gt;length;
+	}
+
+}</pre>
+
+<p>Now we can throw anything at <code>Progress</code>. And by anything, I mean literally anything:</p>
+
+<pre class="brush: php">class Music {
+
+	public $length;
+	public $sent;
+
+	public $artist;
+	public $album;
+	public $releaseDate;
+
+	function getAlbumCoverFile() {
+		return 'Images/Covers/' . $this-&gt;artist . '/' . $this-&gt;album . '.png';
+	}
+}</pre>
+
+<p>And a <code>Music</code> class like the one above will work just fine. We can test it easily with a very similar test to <code>File</code>.</p>
+
+<pre class="brush: php">function testItCanGetTheProgressOfAMusicStreamAsAPercent() {
+	$music = new Music();
+	$music-&gt;length = 200;
+	$music-&gt;sent = 100;
+
+	$progress = new Progress($music);
+
+	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
+}</pre>
+
+<p>So basically, any measurable content can be used with the <code>Progress</code> class. Maybe we should express this in code by changing the variable's name also:</p>
+
+<pre class="brush: php">class Progress {
+
+	private $measurableContent;
+
+	function __construct($measurableContent) {
+		$this-&gt;measurableContent = $measurableContent;
+	}
+
+	function getAsPercent() {
+		return $this-&gt;measurableContent-&gt;sent * 100 / $this-&gt;measurableContent-&gt;length;
+	}
+
+}</pre>
+
+<p>Good, but we have a huge problem with this approach. When we had <code>File</code> specified as a typehint, we were positive about what our class can handle. It was explicit and if something else came in, a nice error told us so.</p>
+
+<pre class="brush: bash">Argument 1 passed to Progress::__construct()
+must be an instance of File,
+instance of Music given.</pre>
+
+<p>But without the typehint, we must rely on the fact that whatever comes in will have two public variables of some exact names like "<code>length</code>" and "<code>sent</code>". Otherwise we will have a refused bequest.</p>
+
+<blockquote><p>Refused bequest: a class that overrides a method of a base class in such a way that the contract of the base class is not honored by the derived class. ~Source Wikipedia.</p>
+</blockquote>
+<p>This is one of the <em>code smells</em> presented in much more detail in the <a href="https://tutsplus.com/course/detecting-code-smells/">Detecting Code Smells</a> premium course. In short, we do not want to end up trying to call methods or access fields on objects that do not conform to our contract. When we had a typehint, the contract was specified by it. The fields and methods of the <code>File</code> class. Now that we have nothing, we can send in anything, even a string and it would result in an ugly error.</p>
+
+<pre class="brush: php">function testItFailsWithAParameterThatDoesNotRespectTheImplicitContract() {
+	$progress = new Progress('some string');
+	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
+}</pre>
+
+<p>A test like this, where we send in a simple string, will produce a refused bequest:</p>
+
+<pre class="brush: bash">Trying to get property of non-object.</pre>
+
+<p>While the end result is the same in both cases, meaning the code breaks, the first one produced a nice message. This one, however, is very obscure. There is no way of knowing what the variable is - a string in our case - and what properties were looked for and not found. It is difficult to debug and to solve the problem. A programmer needs to open the <code>Progress</code> class and read it and understand it. The contract, in this case, when we do not explicitly specify the typehint, is defined by the behavior of <code>Progress</code>. It is an implicit contract, known only to <code>Progress</code>. In our example, it is defined by the access to the two fields, <code>sent</code> and <code>length</code>, in the <code>getAsPercent()</code> method. In real life the implicit contract can be very complex and hard to discover by just looking for a few seconds at the class.</p>
+
+<p>This solution is recommended only if none of the other suggestions below can easily be implemented or if they would inflict serious architectural changes that do not justify the effort.</p>
+
+<h2>Solution 2: Use the Strategy Design Pattern</h2>
+
+<p>This is the most common and probably the most appropriate solution to respect OCP. It is simple and effective.</p>
+
+<figure>
+<img width="600" alt="strategy" src="http://cdn.tutsplus.com/net/uploads/2014/01/strategy.png" height="294"><br>
+</figure>
+
+<p>The Strategy Pattern simply introduces the use of an interface. An interface is a special type of entity in Object Oriented Programming (OOP) which defines a contract between a client and a server class. Both classes will adhere to the contract to ensure the expected behavior. There may be several, unrelated, server classes that respect the same contract thus being capable of serving the same client class.</p>
+
+<pre class="brush: php">interface Measurable {
+	function getLength();
+	function getSent();
+}</pre>
+
+<p>In an interface we can define only behavior. That is why instead of directly using public variables we will have to think about using getters and setters. Adapting the other classes will not be difficult at this point. Our IDE can do most of the job.</p>
+
+<pre class="brush: php">function testItCanGetTheProgressOfAFileAsAPercent() {
+	$file = new File();
+	$file-&gt;setLength(200);
+	$file-&gt;setSent(100);
+
+	$progress = new Progress($file);
+
+	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
+}</pre>
+
+<p>As usual, we start with our tests. We will need to use setters to set the values. If considered mandatory, these setters may also be defined in the <code>Measurable</code> interface. However, be careful what you put there. The interface is to define the contract between the client class <code>Progress</code> and the different server classes like <code>File</code> and <code>Music</code>. Does <code>Progress</code> need to set the values? Probably not. So the setters are highly unlikely to be needed to be defined in the interface. Also, if you would define the setters there, you would force all of the server classes to implement setters. For some of them, it may be logical to have setters, but others may behave totally differently. What if we want to use our <code>Progress</code> class to show the temperature of our oven? The <code>OvenTemperature</code> class may be initialized with the values in the constructor, or obtain the information from a third class. Who knows? To have setters on that class would be odd.</p>
+
+<pre class="brush: php">class File implements Measurable {
+
+	private $length;
+	private $sent;
+
+	public $filename;
+	public $owner;
+
+	function setLength($length) {
+		$this-&gt;length = $length;
+	}
+
+	function getLength() {
+		return $this-&gt;length;
+	}
+
+	function setSent($sent) {
+		$this-&gt;sent = $sent;
+	}
+
+	function getSent() {
+		return $this-&gt;sent;
+	}
+
+	function getRelativePath() {
+		return dirname($this-&gt;filename);
+	}
+
+	function getFullPath() {
+		return realpath($this-&gt;getRelativePath());
+	}
+
+}</pre>
+
+<p>The <code>File</code> class is modified slightly to accommodate the requirements above. It now implements the <code>Measurable</code> interface and has setters and getters for the fields we are interested in. <code>Music</code> is very similar, you can check its content in the attached source code. We are almost done.</p>
+
+<pre class="brush: php">class Progress {
+
+	private $measurableContent;
+
+	function __construct(Measurable $measurableContent) {
+		$this-&gt;measurableContent = $measurableContent;
+	}
+
+	function getAsPercent() {
+		return $this-&gt;measurableContent-&gt;getSent() * 100 / $this-&gt;measurableContent-&gt;getLength();
+	}
+
+}</pre>
+
+<p><code>Progress</code> also needed a small update. We can now specify a type, using typehinting, in the constructor. The expected type is <code>Measurable</code>. Now we have an explicit contract. <code>Progress</code> can be sure the accessed methods will be always present because they are defined in the <code>Measurable</code> interface. <code>File</code> and <code>Music</code> can also be sure they can provide all that is needed for <code>Progress</code> by simply implementing all the methods on the interface, a requirement when a class implements an interface.</p>
+
+<p>This design pattern is explained in greater detail in the <a href="https://tutsplus.com/course/agile-design-patterns/">Agile Design Patterns</a> course.</p>
+
+<h3>A Note on Interface Naming</h3>
+<p>People tend to name interfaces with a capital <code>I</code> in front of them, or with the word "<code>Interface</code>" attached at the end, like <code>IFile</code> or <code>FileInterface</code>. This is an old-style notation imposed by some outdated standards. We are so much past the Hungarian notations or the need to specify the type of a variable or object in its name in order to easier identify it. IDEs identify anything in a split second for us. This allows us to concentrate on what we actually want to abstract.</p>
+
+<p>Interfaces belong to their clients. Yes. When you want to name an interface you must think of the client and forget about the implementation. When we named our interface Measurable we did so thinking about Progress. If I would be a progress, what would I need to be able to provide the percent? The answer is simple, something we can measure. Thus the name Measurable. </p>
+
+<p>Another reason is that the implementation can be from various domains. In our case, there are files and music. But we may very well reuse our <code>Progress</code> in a racing simulator. In that case, the measured classes would be Speed, Fuel, etc. Nice, isn't it?</p>
+
+<h2>Solution 3: Use the Template Method Design Pattern</h2>
+
+<p>The Template Method design pattern is very similar to the strategy, but instead of an interface it uses an abstract class. It is recommended to use a Template Method pattern when we have a client very specific to our application, with reduced reusability and when the server classes have common behavior.</p>
+
+<figure>
+<img width="600" alt="template_method" src="http://cdn.tutsplus.com/net/uploads/2014/01/template_method.png" height="294"><br>
+</figure>
+
+<p>This design pattern is explained in greater detail in the <a href="https://tutsplus.com/course/agile-design-patterns/">Agile Design Patterns</a> course.</p>
+
+<h2>A Higher Level View</h2>
+
+<p>So, how is all of this affecting our high level architecture?</p>
+
+<figure>
+<img width="600" alt="HighLevelDesign" src="http://cdn.tutsplus.com/net/uploads/2014/01/HighLevelDesign.png" height="388"><br>
+</figure>
+
+<p>If the image above represents the current architecture of our application, adding a new module with five new classes (the blue ones) should affect our design in a moderate way (red class).</p>
+
+<figure>
+<img width="600" alt="HighLevelDesignWithNewClasses" src="http://cdn.tutsplus.com/net/uploads/2014/01/HighLevelDesignWithNewClasses.png" height="410"><br>
+</figure>
+
+<p>In most systems you can't expect absolutely no effect on the existing code when new classes are introduced. However, respecting the Open/Closed Principle will considerably reduce the classes and modules that require constant change. </p>
+
+<p>As with any other principle, try not to think about everything from before. If you do so, you will end up with an interface for each of your classes. Such a design will be hard to maintain and understand. Usually the safest way to go is to think about the possibilities and if you can determine whether there will be other types of server classes. Many times you can easily imagine a new feature or you can find one on the project's backlog that will produce another server class. In those cases, add the interface from the beginning. If you can not determine, or if you are unsure - most of the time - simply omit it. Let the next programmer, or maybe even yourself, to add the interface when you need a second implementation.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>If you follow your discipline and add interfaces as soon as a second server is needed, modifications will be few and easy. Remember, if code required changes once, there is a high possibility it will require change again. When that possibility turns into reality, OCP will save you a lot of time and effort.</p>
+
+<p>Thank you for reading.</p>
