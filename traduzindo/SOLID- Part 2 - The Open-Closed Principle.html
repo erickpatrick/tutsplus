@@ -77,11 +77,11 @@ PHPUnit 3.7.28 by Sebastian Bergmann.
 Time: 15 ms, Memory: 2.50Mb
 OK (1 test, 1 assertion)</pre>
 
-<p>This code seems to be right, however it violates the Open/Closed Principle. But why? And How?</p>
+<p>O código parece correto, porém, ele viola o OCP. Mas, por que? E como?</p>
 
-<h2>Changing Requirements</h2>
+<h2>Mudança de Requerimentos</h2>
 
-<p>Every application that is expected to evolve in time will need new features. One new feature for our application could be to allow streaming of music, instead of just downloading files. <code>File</code>'s length is represented in bytes, the music's duration in seconds. We want to offer a nice progress bar to our listeners, but can we reuse the one we already have?</p>
+<p>Toda aplicação a qual se esperar crescer, com o tempo será adicionada novas funcionalidades. Uma das novas funcionalidades da nossa aplicação poderia ser o *streaming* de músicas, ao invés do download dos arquivos. O tamanho de um arquivo, sendo visto através da classe <code>File</code>, é representado em bytes e a duração da música em segundos. Nós queremos oferecer uma barra de progresso bem bacana, mas, será que podemos reusar aquela que já tempos?</p>
 
 <p>No, we can not. Our progress is bound to <code>File</code>. It understands only files, even though it could be applied to music content also. But in order to do that we have to modify it, we have to make <code>Progress</code> know about <code>Music</code> and <code>File</code>. If our design would respect OCP, we would not need to touch <code>File</code> or <code>Progress</code>. We could just simply reuse the existing <code>Progress</code> and apply it to <code>Music</code>.</p>
 
