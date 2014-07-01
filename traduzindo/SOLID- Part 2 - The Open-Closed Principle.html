@@ -166,9 +166,9 @@ instance of Music given.</pre>
 
 <p>Um teste como esses, onde enviamos uma simples cadeia de caracteres, será uma quebra de contrato:</p>
 
-<pre class="brush: bash">Trying to get property of non-object.</pre>
+<pre class="brush: bash">Tentando obter uma propriedade de um não-objeto.</pre>
 
-<p>While the end result is the same in both cases, meaning the code breaks, the first one produced a nice message. This one, however, is very obscure. There is no way of knowing what the variable is - a string in our case - and what properties were looked for and not found. It is difficult to debug and to solve the problem. A programmer needs to open the <code>Progress</code> class and read it and understand it. The contract, in this case, when we do not explicitly specify the typehint, is defined by the behavior of <code>Progress</code>. It is an implicit contract, known only to <code>Progress</code>. In our example, it is defined by the access to the two fields, <code>sent</code> and <code>length</code>, in the <code>getAsPercent()</code> method. In real life the implicit contract can be very complex and hard to discover by just looking for a few seconds at the class.</p>
+<p>Enquanto o resultado final é igual em ambos os casos, significando uma falha no código, o primeiro produz uma mensagem legal. Esse, por outro lado, é bem obscuro. Não há como saber o que a variável é - uma cadeia de caracteres, em nosso caso - e quais propriedades não foram encontradas. É difícil de depurar e resolver o problema. Um programador precisa abrir a classe <code>Progress</code>, lê-la e entendê-la. O contrato, nesse caso, quando não especificamos explícitamente a indução de tipo, é definida pelo comportamento da classe <code>Progress</code>. É um contrato implícito, sabido somente pela classe <code>Progress</code>. Em nosso exemplo, ele é definido pelo acesso aos dois atributos, <code>sent</code> e <code>length</code>, no método <code>getAsPercent()</code>. Na vidade real, o contrato implícito pode ser bem complexo e difícil de descobrir só dando uma olhada na classe em questão.</p>
 
 <p>This solution is recommended only if none of the other suggestions below can easily be implemented or if they would inflict serious architectural changes that do not justify the effort.</p>
 
