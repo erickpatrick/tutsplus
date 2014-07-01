@@ -172,7 +172,7 @@ instance of Music given.</pre>
 
 <p>Essa solução só é recomendada se nenhuma das outras sugestões abaixo forem fáceis de implementar ou se elas causarem mudanças arquiteturais muito grandes, que não justificassem o esforço.</p>
 
-<h2>Solução 2: Use o Padrão de Design <em>Strategy</em></h2>
+<h2>Solução 2: Use o Padrão de Projeto <em>Strategy</em></h2>
 
 <p>Essa é a solução mais comum e, provavelmente, a solução mais apropriada para respeitar a OCP. É simples e efetiva.</p>
 
@@ -258,13 +258,13 @@ instance of Music given.</pre>
 <h3>Uma Nota Sobre a Nomeação de Interface</h3>
 <p>Algumas pessoas tendem a nomear interfaces com uma letra maiúscula <code>I</code>, logo antes do nome da interface, ou com a palavra <code>Interface</code> ao final do nome dela, como, em <code>IFile</code> e <code>FileInterface</code>, respectivamente. Esse é um método de notação antigo, imposto por alguns padrões ultrapassados. Já faz muito tempo que não usamos a notação Húngara ou mesmo a especificação do tipo da variável ou objeto em seu nome para facilitar sua identificação. As IDEs identificam qualquer coisa em fração de segundos. Isso ajuda a nos concentrar no que realmente queremos abstrair.</p>
 
-<p>Interfaces belong to their clients. Yes. When you want to name an interface you must think of the client and forget about the implementation. When we named our interface Measurable we did so thinking about Progress. If I would be a progress, what would I need to be able to provide the percent? The answer is simple, something we can measure. Thus the name Measurable. </p>
+<p>As interfaces pertencem a seus clientes. Quando quiser nomear alguma interface você deve pensar no cliente e esquecer sobre a implementação. Quando nomeamos nossa interface de <code>Measurable</code>, nós o fizemos pensando na classe <code>Progress</code>. Se eu fosse uma forma de progressão, o que eu deveria ser capaz de prover o percentual de progresso? A resposta simples, algo que possa ser medido. Logo, o nome <code>Measurable</code> (medível em inglês). </p>
 
-<p>Another reason is that the implementation can be from various domains. In our case, there are files and music. But we may very well reuse our <code>Progress</code> in a racing simulator. In that case, the measured classes would be Speed, Fuel, etc. Nice, isn't it?</p>
+<p>Outro motivo é que a implementação pode ser de vários domínios. Em nosso caso, há arquivos e músicas. Mas podemos reusar nossa classe <code>Progress</code> em um simulador de corridas. Neste caso, as classes medidas seriam Velocidade, Combustível, Tempo de Corrida, etc. Legal, não é?</p>
 
-<h2>Solution 3: Use the Template Method Design Pattern</h2>
+<h2>Solução 3: Use o Padrão de Projeto do Método Modelo</h2>
 
-<p>The Template Method design pattern is very similar to the strategy, but instead of an interface it uses an abstract class. It is recommended to use a Template Method pattern when we have a client very specific to our application, with reduced reusability and when the server classes have common behavior.</p>
+<p>O padrão de projeto do Método Modelo é bem parecido com o padrão <em>Strategy</em>, porém, ao invés de usar uma interface, ele usa uma classe abstrata. É recomendável usar o padrão do Método Modelo quando tivermos um cliente bastante específico à nossa aplicação, com reduzida capacidade de reutilização, e quando as classes servidoras possuírem um comportamento em comum.</p>
 
 <figure>
 <img width="600" alt="template_method" src="http://cdn.tutsplus.com/net/uploads/2014/01/template_method.png" height="294"><br>
