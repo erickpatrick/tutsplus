@@ -30,11 +30,11 @@
 
 <p>A classe <code>User</code> usa a classe <code>Logic</code> diretamente. Se precisarmos implementar uma segunda classe <code>Logic</code>, de forma que permita usar ambas as classes, atual e nova, a classe <code>Logic</code> já existente precisará mudar. <code>User</code> é diretamente ligado à implementação de <code>Logic</code>, não há outra maneira de prover uma nova classe <code>Logic</code> sem afetar a atual. E, quando falamos de linguagens fortemente tipadas, é bem possível que a classe <code>User</code> também necessite de mudanças. Se estamos falando de linguagens compiladas, é quase certo que tanto o executável, ou biblioteca dinâmica, de <code>User</code> quanto de <code>Logic</code> precisarão ser recompilados e reimplantados em nossos clientes. Um processo que queremos evitar a todo custo.</p>
 
-<h2>Show Me the Code</h2>
+<h2>Mostre-me o Código</h2>
 
-<p>Based only on the schema above, one can deduce that any class directly using another class would actually violate the Open/Closed Principle. And that is right, strictly speaking. I found it quite interesting to find the limits, the moment when you draw the line and decide that it is more difficult to respect OCP than modify existing code, or the architectural cost does not justify the cost of changing existing code.</p>
+<p>Baseado somente no esquema acima, alguém pode deduzir que qualquer classe usando diretamente outra, na verdade, viola o OCP. E isso é verdade, estrutamente falando. Percebi que é bem interessante encontrar os limites, o momento que você cria a linha e decide que é mais difícil respeitar o OCP que modificar o código existente, ou que o custo arquitetural não justifica o custo da mudança do código existente.</p>
 
-<p>Let's say we want to write a class that can provide progress as a percent for a file that is downloaded through our application. We will have two main classes, a <code>Progress</code> and a <code>File</code>, and I imagine we will want to use them like in the test below.</p>
+<p>Vamos criar uma classe que provê o progresso de download de um arquivo, na forma de percentual, dentro de nossa aplicação. Nós termos duas classes principais, a classe <code>Progress</code> e a <code>File</code>, e, creio eu, que queiramos usá-las de acordo com o teste abaixo.</p>
 
 <pre class="brush: php">function testItCanGetTheProgressOfAFileAsAPercent() {
 	$file = new File();
