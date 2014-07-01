@@ -119,7 +119,7 @@ OK (1 test, 1 assertion)</pre>
 	}
 }</pre>
 
-<p>And a <code>Music</code> class like the one above will work just fine. We can test it easily with a very similar test to <code>File</code>.</p>
+<p>E uma classe <code>Music</code> como a que vemos acima, funcionará como esperado. Podemos testá-la, criando um teste bem parecido ao teste que criamos para a classe <code>File</code>.</p>
 
 <pre class="brush: php">function testItCanGetTheProgressOfAMusicStreamAsAPercent() {
 	$music = new Music();
@@ -131,7 +131,7 @@ OK (1 test, 1 assertion)</pre>
 	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
 }</pre>
 
-<p>So basically, any measurable content can be used with the <code>Progress</code> class. Maybe we should express this in code by changing the variable's name also:</p>
+<p>Então, basicamente, qualquer conteúdo mensurável pode ser usado com a classe <code>Progress</code>. Talvez devessemos demonstrar isso no código, alterando o nome da variável em nossa classe:</p>
 
 <pre class="brush: php">class Progress {
 
@@ -147,7 +147,7 @@ OK (1 test, 1 assertion)</pre>
 
 }</pre>
 
-<p>Good, but we have a huge problem with this approach. When we had <code>File</code> specified as a typehint, we were positive about what our class can handle. It was explicit and if something else came in, a nice error told us so.</p>
+<p>Certo, mas temos um problema enorme com essa abordagem. Quando especificamos a classe <code>File</code> nos parâmetros do construtor, nós sabiamos com o que nossa classe era capaz de lidar. Era tudo explícito e se qualquer outra coisa surgisse, um erro nos avisaria.</p>
 
 <pre class="brush: bash">Argument 1 passed to Progress::__construct()
 must be an instance of File,
