@@ -1,5 +1,6 @@
-Versionamento de Traduções para o Tuts+
-=======================================
+Traduções para o Tuts+
+======================
+Esse repositório serve como versionamento para os arquivos temporários de tradução, bem como listagem de todos os posts que traduzi para lá. É uma espécie de portfolio de tradução que tenho mantido, juntamente ao [Repositório Traduções](https://github.com/erickpatrick/traducoes), também de minha autoria.
 
 Códigos
 -------
