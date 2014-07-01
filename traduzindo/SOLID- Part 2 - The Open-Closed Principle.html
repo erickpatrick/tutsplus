@@ -157,14 +157,14 @@ instance of Music given.</pre>
 
 <blockquote><p>Quebra de contrato: uma classe que sobrescreve um método da classe mãe, de forma que o contrato da classe mãe não é honrado pela classe filha. ~Source Wikipedia.</p>
 </blockquote>
-<p>This is one of the <em>code smells</em> presented in much more detail in the <a href="https://tutsplus.com/course/detecting-code-smells/">Detecting Code Smells</a> premium course. In short, we do not want to end up trying to call methods or access fields on objects that do not conform to our contract. When we had a typehint, the contract was specified by it. The fields and methods of the <code>File</code> class. Now that we have nothing, we can send in anything, even a string and it would result in an ugly error.</p>
+<p>Esse é um dos <em>sintomas</em> apresentados em mais detalhes no curso premium <a href="https://tutsplus.com/course/detecting-code-smells/">Detecting Code Smells</a>. Resumindo, nós não queremos acabar invocando métodos ou acessando atributos em objetos que não obedece nosso contrato. Quando tínhamos uma indução de tipos, o contrato era especificado por ele. Os campos emetodos da classe <code>File</code>. Agora, que temos nada, nós podemos enviar qualquer coisa, até mesmo uma cadeia de caracteres (<em>string</em>) e resultaria num erro grotesco.</p>
 
 <pre class="brush: php">function testItFailsWithAParameterThatDoesNotRespectTheImplicitContract() {
 	$progress = new Progress('some string');
 	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
 }</pre>
 
-<p>A test like this, where we send in a simple string, will produce a refused bequest:</p>
+<p>Um teste como esses, onde enviamos uma simples cadeia de caracteres, será uma quebra de contrato:</p>
 
 <pre class="brush: bash">Trying to get property of non-object.</pre>
 
