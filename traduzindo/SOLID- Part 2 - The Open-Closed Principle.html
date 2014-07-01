@@ -46,7 +46,7 @@
 	$this-&gt;assertEquals(50, $progress-&gt;getAsPercent());
 }</pre>
 
-<p>In this test we are a user of <code>Progress</code>. We want to obtain a value as a percent, regardless of the actual file size. We use <code>File</code> as the source of information for our <code>Progress</code>. A file has a length in bytes and a field called <code>sent</code> representing the amount of data sent to the one doing the download. We do not care about how these values are updated in the application. We can assume there is some magical logic doing it for us, so in a test we can set them explicitly.</p>
+<p>Nesse teste, somos um usuário da classe <code>Progress</code>. Queremos obter o valor como percentual, independente do tamanho real do arquivo. Usamos a classe <code>File</code> como fonte de informação para a classe <code>Progress</code>. Um arquivo tem um tamanho em bytes e um campo chamado <code>sent</code>, representando a quantidade de dados que já foi enviada para download. Não precisamos nos preocupar sobre como esses valores são atualizados na aplicação. Nós só precisamos acreditar que há uma mágica que faça essa lógica por nós, para que, em um teste, possamos atribuí-los manualmente.</p>
 
 <pre class="brush: php">class File {
 	public $length;
