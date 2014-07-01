@@ -147,15 +147,15 @@ OK (1 test, 1 assertion)</pre>
 
 }</pre>
 
-<p>Certo, mas temos um problema enorme com essa abordagem. Quando especificamos a classe <code>File</code> nos parâmetros do construtor, nós sabiamos com o que nossa classe era capaz de lidar. Era tudo explícito e se qualquer outra coisa surgisse, um erro nos avisaria.</p>
+<p>Certo, mas temos um problema enorme com essa abordagem. Quando especificamos (induzimos o tipo) a classe <code>File</code> nos parâmetros do construtor, nós sabiamos com o que nossa classe era capaz de lidar. Era tudo explícito e se qualquer outra coisa surgisse, um erro nos avisaria.</p>
 
 <pre class="brush: bash">Argument 1 passed to Progress::__construct()
 must be an instance of File,
 instance of Music given.</pre>
 
-<p>But without the typehint, we must rely on the fact that whatever comes in will have two public variables of some exact names like "<code>length</code>" and "<code>sent</code>". Otherwise we will have a refused bequest.</p>
+<p>Mas, sem a indução de tipo, nós dependemos no fato de que, qualquer coisa que vier, deverá ter duas variáveis públicas, chamadas de "<code>length</code>" e "<code>sent</code>". De outro modo, nós teremos uma quebra de contrato.</p>
 
-<blockquote><p>Refused bequest: a class that overrides a method of a base class in such a way that the contract of the base class is not honored by the derived class. ~Source Wikipedia.</p>
+<blockquote><p>Quebra de contrato: uma classe que sobrescreve um método da classe mãe, de forma que o contrato da classe mãe não é honrado pela classe filha. ~Source Wikipedia.</p>
 </blockquote>
 <p>This is one of the <em>code smells</em> presented in much more detail in the <a href="https://tutsplus.com/course/detecting-code-smells/">Detecting Code Smells</a> premium course. In short, we do not want to end up trying to call methods or access fields on objects that do not conform to our contract. When we had a typehint, the contract was specified by it. The fields and methods of the <code>File</code> class. Now that we have nothing, we can send in anything, even a string and it would result in an ugly error.</p>
 
