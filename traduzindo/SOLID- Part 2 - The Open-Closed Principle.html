@@ -18,17 +18,17 @@
 
 <p>De acordo com que avançamos com esses tutoriais, podemos trabalhar os novos princípios nos contextos daqueles já discutidos. Nós já discutimos sobre o <a href="http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074">Princípio da Responsabilidade Única (SRP)</a>, que afirmou que um módulo deve ter, apenas, um único motivo para mudar. Se pensarmos no COP e no SRP, podemos observar que eles são complementares. Códigos projetados com o SRP em mente estarão bem próximos de seguir o OCP ou será bem fácil fazê-los respeitar esse princípio. Quando tempos código que tem, somente, uma razao para mudar, introduzir uma nova funcionalidade gerará uma segunda razão para mudança. Então, tanto o SRP quanto o OCP seriam violados. Da mesma forma, se tivermos código que só será alterado quando sua função principal muda e mantem-se inalterado quando novas funcionalidades são adicionadas, ele respeita o OCP e, muito provavelmente, respeitará o SRP também.</p>
 
-<p>This does not mean that SRP always leads to OCP or vice versa, but in most cases if one of them is respected, achieving the second one is quite simple.</p>
+<p>Isso não quer dizer que um código que segue o SRP sempre permitirá seguir o OCP ou vice e versa, mas, na maioria dos casos, se um deles é respeitado, conseguir respeitar o outro se torna bem simples.</p>
 
-<h2>The Obvious Example of OCP Violation</h2>
+<h2>O Exemplo Óbvio de Violação do OCP</h2>
 
-<p>From a purely technical point of view, the Open/Closed Principle is very simple. A simple relationship between two classes, like the one below violates the OCP.</p>
+<p>De um ponto de vista, puramente, técnico, o princípio do Aberto para Extensão, Fechado para Modificação, é bem simples. Um relacionamento entre duas classes, como o que vemos logo abaixo, viola o OCP.</p>
 
 <figure>
 <img width="600" alt="violate1" src="http://cdn.tutsplus.com/net/uploads/2014/01/violate1.png" height="109"><br>
 </figure>
 
-<p>The <code>User</code> class uses the <code>Logic</code> class directly. If we need to implement a second <code>Logic</code> class in a way that will allow us to use both the current one and the new one, the existing <code>Logic</code> class will need to be changed. <code>User</code> is directly tied to the implementation of <code>Logic</code>, there is no way for us to provide a new <code>Logic</code> without affecting the current one. And when we are talking about statically typed languages, it is very possible that the <code>User</code> class will also require changes. If we are talking about compiled languages, most certainly both the <code>User</code> executable and the <code>Logic</code> executable or dynamic library will require recompilation and redeployment to our clients, a process we want to avoid whenever possible.</p>
+<p>A classe <code>User</code> usa a classe <code>Logic</code> diretamente. Se precisarmos implementar uma segunda classe <code>Logic</code>, de forma que permita usar ambas as classes, atual e nova, a classe <code>Logic</code> já existente precisará mudar. <code>User</code> é diretamente ligado à implementação de <code>Logic</code>, não há outra maneira de prover uma nova classe <code>Logic</code> sem afetar a atual. E, quando falamos de linguagens fortemente tipadas, é bem possível que a classe <code>User</code> também necessite de mudanças. Se estamos falando de linguagens compiladas, é quase certo que tanto o executável, ou biblioteca dinâmica, de <code>User</code> quanto de <code>Logic</code> precisarão ser recompilados e reimplantados em nossos clientes. Um processo que queremos evitar a todo custo.</p>
 
 <h2>Show Me the Code</h2>
 
