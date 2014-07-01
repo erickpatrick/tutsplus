@@ -85,9 +85,9 @@ OK (1 test, 1 assertion)</pre>
 
 <p>Não, não podemos. Nossa barra de progresso está atrelada à classe <code>File</code>. Ela só entende arquivos, embora ela pudesse ser usada com conteúdo musical também. Mas, para tornar isso possível, precisamos modificá-la, precisamos fazer com que a classe <code>Progress</code> tenha conhecimento tanto da classe <code>Music</code> quanto da <code>File</code>. Se nosso projeto respeitasse o OCP, não precisaríamos tocar na classe <code>File</code> ou na <code>Progress</code>. Nós, simplesmente, reusaríamos a classe <code>Progress</code> existente e a aplicaríamos para a classe <code>Music</code>.</p>
 
-<h2>Solution 1: Take Advantage of the Dynamic Nature of PHP</h2>
+<h2>Solução 1: Lançar Mão da Natureza Dinâmica do PHP</h2>
 
-<p>Dynamically typed languages have the advantages of guessing the types of objects at runtime. This allows us to remove the typehint from <code>Progress</code>' constructor and the code will still work.</p>
+<p>Linguagens fracamente tipadas tem a vantagem de descobrir os tipos dos objetos em tempo de execução. Isso permite que removamos a dica do tipo de objeto que esperamos receber no construtor da classe <code>Progress</code> e ainda permitir que o código funcione.</p>
 
 <pre class="brush: php">class Progress {
 
@@ -103,7 +103,7 @@ OK (1 test, 1 assertion)</pre>
 
 }</pre>
 
-<p>Now we can throw anything at <code>Progress</code>. And by anything, I mean literally anything:</p>
+<p>Agora, podemos enviar qualquer coisa para a classe <code>Progress</code>. E, por qualquer coisa, quero dizer qualquer coisa, mesmo:</p>
 
 <pre class="brush: php">class Music {
 
