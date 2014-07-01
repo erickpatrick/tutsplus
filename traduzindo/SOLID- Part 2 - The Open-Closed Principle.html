@@ -83,7 +83,7 @@ OK (1 test, 1 assertion)</pre>
 
 <p>Toda aplicação a qual se esperar crescer, com o tempo será adicionada novas funcionalidades. Uma das novas funcionalidades da nossa aplicação poderia ser o *streaming* de músicas, ao invés do download dos arquivos. O tamanho de um arquivo, sendo visto através da classe <code>File</code>, é representado em bytes e a duração da música em segundos. Nós queremos oferecer uma barra de progresso bem bacana, mas, será que podemos reusar aquela que já tempos?</p>
 
-<p>No, we can not. Our progress is bound to <code>File</code>. It understands only files, even though it could be applied to music content also. But in order to do that we have to modify it, we have to make <code>Progress</code> know about <code>Music</code> and <code>File</code>. If our design would respect OCP, we would not need to touch <code>File</code> or <code>Progress</code>. We could just simply reuse the existing <code>Progress</code> and apply it to <code>Music</code>.</p>
+<p>Não, não podemos. Nossa barra de progresso está atrelada à classe <code>File</code>. Ela só entende arquivos, embora ela pudesse ser usada com conteúdo musical também. Mas, para tornar isso possível, precisamos modificá-la, precisamos fazer com que a classe <code>Progress</code> tenha conhecimento tanto da classe <code>Music</code> quanto da <code>File</code>. Se nosso projeto respeitasse o OCP, não precisaríamos tocar na classe <code>File</code> ou na <code>Progress</code>. Nós, simplesmente, reusaríamos a classe <code>Progress</code> existente e a aplicaríamos para a classe <code>Music</code>.</p>
 
 <h2>Solution 1: Take Advantage of the Dynamic Nature of PHP</h2>
 
