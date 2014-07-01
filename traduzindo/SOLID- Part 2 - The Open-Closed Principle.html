@@ -251,12 +251,12 @@ instance of Music given.</pre>
 
 }</pre>
 
-<p><code>Progress</code> also needed a small update. We can now specify a type, using typehinting, in the constructor. The expected type is <code>Measurable</code>. Now we have an explicit contract. <code>Progress</code> can be sure the accessed methods will be always present because they are defined in the <code>Measurable</code> interface. <code>File</code> and <code>Music</code> can also be sure they can provide all that is needed for <code>Progress</code> by simply implementing all the methods on the interface, a requirement when a class implements an interface.</p>
+<p>A classe <code>Progress</code> também precisa de uma pequena atualização. Agora, nós podemos especificar um tipo, usando uma indução de tipo, no construtor. O tipo esperado é o da classe <code>Measurable</code>. Agora, temos um contrato explícito. A classe <code>Progress</code>, agora, pode ficar "despreocupada" que os métodos acessados, sempre, estarão presentes porque eles estarão definidos na interface <code>Measurable</code>.As classes <code>File</code> e <code>Music</code> também podem ter certeza que proveem tudo que é requesitado pela <code>Progress</code>, simplesmente, implementando todos os métodos da interface. Um requerimento quando uma classe implementa uma interface.</p>
 
-<p>This design pattern is explained in greater detail in the <a href="https://tutsplus.com/course/agile-design-patterns/">Agile Design Patterns</a> course.</p>
+<p>Esse padrão de projeto é melhor explicado no curso <a href="https://tutsplus.com/course/agile-design-patterns/">Agile Design Patterns</a>.</p>
 
-<h3>A Note on Interface Naming</h3>
-<p>People tend to name interfaces with a capital <code>I</code> in front of them, or with the word "<code>Interface</code>" attached at the end, like <code>IFile</code> or <code>FileInterface</code>. This is an old-style notation imposed by some outdated standards. We are so much past the Hungarian notations or the need to specify the type of a variable or object in its name in order to easier identify it. IDEs identify anything in a split second for us. This allows us to concentrate on what we actually want to abstract.</p>
+<h3>Uma Nota Sobre a Nomeação de Interface</h3>
+<p>Algumas pessoas tendem a nomear interfaces com uma letra maiúscula <code>I</code>, logo antes do nome da interface, ou com a palavra <code>Interface</code> ao final do nome dela, como, em <code>IFile</code> e <code>FileInterface</code>, respectivamente. Esse é um método de notação antigo, imposto por alguns padrões ultrapassados. Já faz muito tempo que não usamos a notação Húngara ou mesmo a especificação do tipo da variável ou objeto em seu nome para facilitar sua identificação. As IDEs identificam qualquer coisa em fração de segundos. Isso ajuda a nos concentrar no que realmente queremos abstrair.</p>
 
 <p>Interfaces belong to their clients. Yes. When you want to name an interface you must think of the client and forget about the implementation. When we named our interface Measurable we did so thinking about Progress. If I would be a progress, what would I need to be able to provide the percent? The answer is simple, something we can measure. Thus the name Measurable. </p>
 
