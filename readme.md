@@ -16,6 +16,7 @@ Códigos
 - [PHP Orientado a Objetos para Iniciantes](https://code.tutsplus.com/pt/tutorials/object-oriented-php-for-beginners--net-12762)
 - [Os 30 Seletores CSS Que Você Deve Memorizar](https://code.tutsplus.com/pt/tutorials/the-30-css-selectors-you-must-memorize--net-16048)
 - [Princípios SOLID Parte 1 - O Princípio da Responsabilidade Única](http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074)
+- [Princípios SOLID Parte 2 - Princípio do Aberto para Expensão, Fechado para Modificação](http://code.tutsplus.com/pt/tutorials/solid-part-2-the-openclosed-principle--net-36600)
 
 Habilidades com Computadores
 ----------------------------
