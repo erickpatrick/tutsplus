@@ -29,15 +29,15 @@
 <pre class="brush: php">class Vehicle {
 
 	function startEngine() {
-		// Default engine start functionality
+		// Funcionalidade de inicialização padrão do motor
 	}
 
 	function accelerate() {
-		// Default acceleration functionality
+		// Funcionalidade de aceleração padrão
 	}
 }</pre>
 
-<p>Given a class <code>Vehicle</code> - it may be abstract - and two implementations:</p>
+<p>Dada uma classe <code>Vehicle</code> - ela pode ser abstrata - e duas implementaçõesand:</p>
 
 <pre class="brush: php">class Car extends Vehicle {
 
@@ -47,7 +47,7 @@
 	}
 
 	private function engageIgnition() {
-		// Ignition procedure
+		// Procedimento de ignição
 	}
 
 }
@@ -60,16 +60,16 @@ class ElectricBus extends Vehicle {
 	}
 
 	private function increaseVoltage() {
-		// Electric logic
+		// Lógica elétrica
 	}
 
 	private function connectIndividualEngines() {
-		// Connection logic
+		// Lógica de conexão
 	}
 
 }</pre>
 
-<p>A client class should be able to use either of them, if it can use <code>Vehicle</code>.</p>
+<p>Uma classe cliente deve ser capaz de usar qualquer uma das duas implementações, se a classe cliente for capaz de usar a classe <code>Vehicle</code>.</p>
 
 <pre class="brush: php">class Driver {
 	function go(Vehicle $v) {
