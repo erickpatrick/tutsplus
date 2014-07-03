@@ -122,7 +122,7 @@ class ElectricBus extends Vehicle {
 <img width="178" alt="SquareRect" src="http://cdn.tutsplus.com/net/uploads/2014/01/SquareRect.png" height="259"><br>
 </figure>
 
-<p>But is a <code>Square</code> really a <code>Rectangle</code> in programming?</p>
+<p>Mas, uma classe <code>Square</code> é uma classe <code>Rectangle</code>, programaticamente falando?</p>
 
 <pre class="brush: php">class Square extends Rectangle {
 
@@ -137,7 +137,7 @@ class ElectricBus extends Vehicle {
 	}
 }</pre>
 
-<p>A square is a rectangle with equal width and height, and we could do a strange implementation like in the above example. We could overwrite both setters to set the height as well as the width. But how would that affect client code?</p>
+<p>Uma quadrado é um retângulo com largura e alturas iguais, e poderíamos criar essa implementação esquisita que vemos no exemplo acima. Poderíamos sobrescrever ambos os <code>setter</code>s para atribuir tanto a altura quanto a largura, juntas. Mas, como isso afetaria o código cliente?</p>
 
 <pre class="brush: php">class Client {
 
