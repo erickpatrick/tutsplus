@@ -172,7 +172,7 @@ class ElectricBus extends Vehicle {
 
 }</pre>
 
-<p>And we created a simple test by sending an empty rectangle object to area verifier and the test passes. If our <code>Square</code> class is correctly defined, sending it to the Client's <code>areaVerifier()</code> should not break its functionality. After all, a <code>Square</code> is a <code>Rectangle</code> in all mathematical sense. But is our class?</p>
+<p>E nós criamos um testes simples, enviando um objeto retângulo vazio para o método verificador de área e ele passa. Se nossa classe <code>Square</code> estiver definida corretamente, enviá-la para o método <code>areaVerifier()</code> da classe cliente não deveria quebrar sua funcionalidade. Afinal, uma classe <code>Square</code> é uma classe <code>Rectangle</code> em todos os sentidos matemáticos. Mas, e nos sentigos programáticos?</p>
 
 <pre class="brush: php">function testSquareArea() {
 	$r = new Square();
@@ -180,15 +180,15 @@ class ElectricBus extends Vehicle {
 	$this-&gt;assertTrue($c-&gt;areaVerifier($r));
 }</pre>
 
-<p>Testing it is very easy and it breaks big time. An exception is thrown to us when we run the test above.</p>
+<p>Testá-lo é bem simples e veremos que ele falhará fácil, fácil. Uma exceção é lançada quando executarmos o teste acima.</p>
 
 <pre class="brush: bash">PHPUnit 3.7.28 by Sebastian Bergmann.
 
-Exception : Bad area!
+Exception : Área errada!
 #0 /paht/: /.../.../LspTest.php(18): Client-&gt;areaVerifier(Object(Square))
 #1 [internal function]: LspTest-&gt;testSquareArea()</pre>
 
-<p>So, our <code>Square</code> class is not a <code>Rectangle</code> after all. It breaks the laws of geometry. It fails and it violates the Liskov Substitution Principle.</p>
+<p>Então, nossa classe <code>Square</code> não é uma classe <code>Rectangle</code>, no fim das contas. Ela quebra as leis da geometria. Ela falha e viola o Princípio de Substituição de Liskov.</p>
 
 <p>I especially love this example because it not only violates LSP, it also demonstrates that object oriented programming is not about mapping real life to objects. Each object in our program must be an abstraction over a concept. If we try to map one-to-one real objects to programmed objects, we will almost always fail.</p>
 
