@@ -16,12 +16,12 @@
 	<p>Seja q(x) uma propriedade provável de objetos x do tipo T. Então, q(y) deve ser provável para o objeto y do tipo S onde S é um subtipo de T.</p>
 </blockquote>
 
-<p>Later on, with the publication of the SOLID principles by <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> in his book <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> and then republished in the C# version of the book <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, the definition became known as the Liskov Substitution Principle. </p>
+<p>Pouco depois, com a publicação dos princípios SOLID por <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> em eu livro <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> e republicado na versão usando C# do mesmo livro, <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, a definição ficou conhecida como o Princípio de Substituição de Liskov. </p>
 
-<p>This leads us to the definition given by Robert C. Martin:</p>
+<p>O que nos leva à definição apresentada porRobert C. Martin:</p>
 
 <blockquote>
-	<p>Subtypes must be substitutable for their base types.</p>
+	<p>Subtipos devem ser substituíveis pelos seus tipos base.</p>
 </blockquote>
 
 <p>As simple as that, a subclass should override the parent class' methods in a way that does not break functionality from a client's point of view. Here is a simple example to demonstrate the concept.</p>
