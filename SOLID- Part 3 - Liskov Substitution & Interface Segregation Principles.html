@@ -146,7 +146,7 @@ class ElectricBus extends Vehicle {
 		$r-&gt;setHeight(4);
 
 		if($r-&gt;area() != 20) {
-			throw new Exception('Bad area!');
+			throw new Exception('Área errada!');
 		}
 
 		return true;
@@ -154,13 +154,13 @@ class ElectricBus extends Vehicle {
 
 }</pre>
 
-<p>It is conceivable to have a client class that verifies the rectangle's area and throws an exception if it is wrong.</p>
+<p>É aceitável que exista uma classe cliente que verifique a área de um retângulo e lance uma exceção se a área estiver errada.</p>
 
 <pre class="brush: php">function area() {
 	return $this-&gt;width * $this-&gt;height;
 }</pre>
 
-<p>Of course we added the above method to our <code>Rectangle</code> class to provide the area.</p>
+<p>Claro, adicionamos o método acima à nossa classe <code>Rectangle</code> para prover a área.</p>
 
 <pre class="brush: php">class LspTest extends PHPUnit_Framework_TestCase {
 
