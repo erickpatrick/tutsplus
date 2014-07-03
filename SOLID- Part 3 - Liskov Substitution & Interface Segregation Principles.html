@@ -198,13 +198,13 @@ Exception : Área errada!
 
 <p>Em todas aplicações modulares, deve existir algum tipo de interface que o cliente possa contar. Talvez essa sejam entidades do tipo Interface ou outros objetos clássicos implementando padrões de projeto como Facades. Nã importa qual a solução usada. Sempre é o mesmo escopo: mostrar ao código cliente como usar um módulo. Essas interfaces podem ficar entre módulos diferentes na mesma aplicação ou projeto,ou entre um projeto e uma biblioteca de terceiros, servido outro projeto. Novamente, não interessa. Comunicação é comunicação, e clientes são clientes, independente de quem esteja escrevendo os códigos.</p>
 
-<p>So, how should we define these interfaces? We could think about our module and expose all the functionalities we want it to offer.</p>
+<p>Então, como nós definiríamos essas interfaces? Poderíamos pensar em nosso módulo e expor todas as funcionalidades que quisermos oferecer.</p>
 
 <figure>
 <img width="277" alt="hugeInterface" src="http://cdn.tutsplus.com/net/uploads/2014/01/hugeInterface.png" height="580"><br>
 </figure>
 
-<p>This looks like a good start, a great way to define what we want to implement in our module. Or is it? A start like this will lead to one of two possible implementations:</p>
+<p>Isso parece um bom começo, uma ótima maneira de como implementar nosso módulo. Será que é? Um começo como esse levará a um de dois tipos de implementações:</p>
 
 <ul>
 <li>A huge <code>Car</code> or <code>Bus</code> class implementing all the methods on the <code>Vehicle</code> interface. Only the sheer dimensions of such classes should tell us to avoid them at all costs.</li>
