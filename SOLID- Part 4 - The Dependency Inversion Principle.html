@@ -20,7 +20,7 @@ B. Abstrações não deveriam depender de detalhes. Detalhes devem depender de a
 
 <p>A maioria dos projetos web contém três tecnologias principais: HTML, PHP, e SQL. As versões específicas dessas tecnologias ou o tipo da implementação SQL que usamos, são irrelevantes. O ponto é, a informação em um formulário HTML deve acabar, de uma forma ou de outra, no banco de dados. A "cola" necessária entre os dois, pode ser dado pelo PHP.</p>
 
-<p>What is essential to take away from this, is that how nicely the three technologies represent three different architectural layers: user interface, business logic, and persistence. We will talk about the implications of these layers in a minute. For now, let's focus on some odd but frequently encountered solutions to make the technologies work together.</p>
+<p>O que é preciso entender dessa situação, é como essas três tecnologias representam tão bem três camadas arquiteturais diferentes: interface do usuário, lógica de negócios e persistência. Nós trataremos sobre as implicações dessas três camadas em um minuto. Por hora, foquemos numa forma esquisita e frequentente vista para fazer essas tecnologias trabalharem juntas.</p>
 
 <p>Many times I've seen projects that used SQL code in a PHP tag inside an HTML file, or PHP code echoing pages and pages of HTML and interpreting directly the <code>$_GET</code> or <code>$_POST</code> global variables. But why is this bad?</p>
 
