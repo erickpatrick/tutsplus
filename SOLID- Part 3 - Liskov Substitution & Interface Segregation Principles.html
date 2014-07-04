@@ -244,7 +244,7 @@ Exception : Área errada!
 
 <p>Claro, isso levará a um certo nível de duplicação. Mas, lembre-se: Interfaces são só simples definições de nomes de funções. Não há qualquer tipo de implementação ou lógica nelas. Logo, as duplicações são mínimas e administráveis.</p>
 
-<p>Then, we have the great advantage of clients depending only and only on what they actually need and use. In some cases, clients may use and need several interfaces, that is OK, as long as they use all the methods from all the interfaces they depend on.</p>
+<p>Então, nós temos a grande vantagem dos clientes dependerem só e somente daquilo que eles realmente precisam e usam. Em alguns casos, os clientes podem chegar a usar várias interfaces, e isso é normal, desde que eles usem todos os métodos das interfaces das quais dependam.</p>
 
 <p>Another nice trick is that in our business logic, a single class can implement several interfaces if needed. So we can provide a single implementation for all the common methods between the interfaces. The segregated interfaces will also force us to think of our code more from the client's point of view, which will in turn lead to loose coupling and easy testing. So, not only have we made our code better to our clients, we also made it easier for ourselves to understand, test and implement.</p>
 
