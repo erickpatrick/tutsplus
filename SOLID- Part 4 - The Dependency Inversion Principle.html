@@ -1,0 +1,271 @@
+<h1>SOLID: Part 4 - The Dependency Inversion Principle</h1>
+
+<p>The <a href="http://code.tutsplus.com/tutorials/solid-part-1-the-single-responsibility-principle--net-36074">Single Responsibility (SRP)</a>, <a href="http://code.tutsplus.com/tutorials/solid-part-2-the-openclosed-principle--net-36600">Open/Closed (OCP)</a>, <a href="http://code.tutsplus.com/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710">Liskov Substitution, Interface Segregation,</a> and <em>Dependency Inversion</em>. Five agile principles that should guide you every time you write code.</p>
+
+<p>It would be unjust to tell you that any one of the SOLID principles is more important than another. However, probably none of the others have such an immediate and profound effect on your code than the Dependency Inversion Principle, or DIP in short. If you find the other principles hard to grasp or apply, start with this one and apply the rest on code that already respects DIP.</p>
+
+<h2>Definition</h2>
+
+<blockquote><p>A. High-level modules should not depend on low-level modules. Both should depend on abstractions.<br>
+B. Abstractions should not depend upon details. Details should depend upon abstractions.</p>
+</blockquote>
+
+<p>This principle was defined by <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> in his book <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> and later republished in the C# version of the book <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, and it is the last of the five SOLID agile principles.</p>
+
+<h2>DIP in the Real World</h2>
+
+<p>Before we start coding, I would like to tell you a story. At Syneto, we weren't always so careful with our code. A few years ago we knew less and even though we tried to do our best, not all of our projects were so nice. We went through hell and back again and we learned many things by trial and error.</p>
+
+<p>The SOLID principles and the clean architecture principles of Uncle Bob (Robert C. Martin) became a game changer for us and transformed our way of coding in ways that are hard to describe. I will try to exemplify, in a nutshell, a few key architectural decisions imposed by DIP that had a great impact on our projects.</p>
+
+<p>Most web projects contain three main technologies: HTML, PHP, and SQL. The particular version of these applications we are talking about or what type of SQL implementations you use is irrelevant. The thing is, that information from an HTML form must end up, in one way or another, in the database. The glue between the two can be provided with PHP.</p>
+
+<p>What is essential to take away from this, is that how nicely the three technologies represent three different architectural layers: user interface, business logic, and persistence. We will talk about the implications of these layers in a minute. For now, let's focus on some odd but frequently encountered solutions to make the technologies work together.</p>
+
+<p>Many times I've seen projects that used SQL code in a PHP tag inside an HTML file, or PHP code echoing pages and pages of HTML and interpreting directly the <code>$_GET</code> or <code>$_POST</code> global variables. But why is this bad?</p>
+
+<figure>
+<img width="600" alt="html-php-sql-cross-dependencies" src="http://cdn.tutsplus.com/net/uploads/2014/02/html-php-sql-cross-dependencies.png" height="423"><br>
+</figure>
+
+<p>The images above represent a raw version of what we described in the previous paragraph. The arrows represent various dependencies, and as we can conclude, basically everything depends on everything. If we need to change a database table, we may end up editing an HTML file. Or if we change a field in HTML, we may end up changing the name of a column in an SQL statement. Or if we look at the second schema, we may very well need to modify our PHP if the HTML changes, or in very bad cases, when we generate all HTML content from inside a PHP file we will surely need to change a PHP file to modify HTML content. So, there is no doubt, the dependencies are zigzagging between the classes and modules. But it doesn't end here. You can store procedures; PHP code in SQL tables.</p>
+
+<figure>
+<img width="600" alt="html-php-sql-stored-procedures" src="http://cdn.tutsplus.com/net/uploads/2014/02/html-php-sql-stored-procedures.png" height="503"><br>
+</figure>
+
+<p>In the schema above, queries to the SQL database return PHP code generated with data from the tables. These PHP functions or classes are doing other SQL queries which are returning different PHP code, and the cycle continues until finally all the information is obtained and returned... probably to the UI.</p>
+
+<p>I know this may sound outrageous to many of you, but if you have not yet worked with a project invented and implemented in this manner, you surely will in your future career. Most existing projects, regardless of the programming languages used, were written with old principles in mind, by programmers who did not care or know enough to do better. If you are reading these tutorials, you are most likely a level higher than that. You are ready, or getting ready to respect your profession, to embrace your craft, and to do better.</p>
+
+<p>The other option is to repeat the mistakes your predecessors made and live with the consequences. At Syneto, after one of our projects reached an almost unmaintainable state because of its old and cross-dependent architecture and we had to basically abandon it forever, we decided to never go back down that road again. Since then, we have striven to have a clean architecture which correctly respects the SOLID principles, and most importantly the Dependency Inversion Principle.</p>
+
+<figure>
+<img width="600" alt="HighLevelDesign" src="http://cdn.tutsplus.com/net/uploads/2014/02/HighLevelDesign.png" height="388"><br>
+</figure>
+
+<p>What's so amazing about this architecture is how the dependencies are pointing:</p>
+
+<ul>
+<li>The user interface (in most cases a web MVC framework) or whatever other delivery mechanism there is for your project will depend on the business logic. Business logic is quite abstract. A user interface is very concrete. The UI is just a detail for the project, and it is also very volatile. Nothing should depend on the UI, nothing should depend on your MVC framework.</li>
+<li>The other interesting observation we can make is that the persistence, the database, your MySQL or PostgreSQL, depends on the business logic. Your business logic is database agnostic. This allows exchanging persistence as you wish. If tomorrow you want to change MySQL with PostgreSQL or just plain text files, you can do that. You will, of course, need to implement a specific persistence layer for the new persistence method, but you will not need to modify a single line of code in your business logic. There is a more detailed explanation on the persistence topic in the <a href="http://code.tutsplus.com/tutorials/evolving-toward-a-persistence-layer--net-27138">Evolving Toward a Persistence Layer</a> tutorial. </li>
+<li>Finally, on the right of the business logic, outside of it, we have all the classes that are creating business logic classes. These are factories and classes created by the entry point to our application. Many people tend to think these belong to the business logic, but while they are creating business objects, their sole reason is to do this. They are classes just to help us create other classes. The business objects and the logic they provide are independent of these factories. We could use different patterns, like Simple Factory, Abstract Factory, Builder or plain object creation to provide the business logic. It doesn't matter. Once the business objects are created they can do their job.</li>
+</ul>
+
+<h2>Show Me the Code</h2>
+
+<p>Applying the Dependency Inversion Principle (DIP) at an architectural level is quite easy if you respect the classic <a href="https://tutsplus.com/course/agile-design-patterns/">agile design patterns</a>. Exercising and exemplifying it inside the business logic is quite easy also and can even be fun. We will imagine an e-book reader application.</p>
+
+<pre class="brush: php">class Test extends PHPUnit_Framework_TestCase {
+
+	function testItCanReadAPDFBook() {
+		$b = new PDFBook();
+		$r = new PDFReader($b);
+
+		$this-&gt;assertRegExp('/pdf book/', $r-&gt;read());
+	}
+
+}
+
+class PDFReader {
+
+	private $book;
+
+	function __construct(PDFBook $book) {
+		$this-&gt;book = $book;
+	}
+
+	function read() {
+		return $this-&gt;book-&gt;read();
+	}
+
+}
+
+class PDFBook {
+
+	function read() {
+		return "reading a pdf book.";
+	}
+}</pre>
+
+<p>We start developing our e-reader as a PDF reader. So far so good. We have a <code>PDFReader</code> class using a <code>PDFBook</code>. The <code>read()</code> function on the reader delegates to the book's <code>read()</code> method. We just verify this by doing a regex check after a key part of the string returned by <code>PDFBook</code>'s <code>reader()</code> method.</p>
+
+<p>Please bear in mind that this is just an example. We will not implement the reading logic of PDF files or other file formats. That's why our tests will just simply check for some basic strings. If we were to write the real application, the only difference would be how we test the different file formats. The dependency structure would be very similar to our example.</p>
+
+<figure>
+<img width="600" alt="pdfreader-pdfbook" src="http://cdn.tutsplus.com/net/uploads/2014/02/pdfreader-pdfbook.png" height="89"><br>
+</figure>
+
+<p>Having a PDF reader using a PDF book may be a sound solution for a limited application. If our scope was to write a PDF reader and nothing more, it would actually be an acceptable solution. But we want to write a generic e-book reader, supporting several formats, amongst which our first implemented version PDF. Let's rename our reader class.</p>
+
+<pre class="brush: php">class Test extends PHPUnit_Framework_TestCase {
+
+	function testItCanReadAPDFBook() {
+		$b = new PDFBook();
+		$r = new EBookReader($b);
+
+		$this-&gt;assertRegExp('/pdf book/', $r-&gt;read());
+	}
+
+}
+
+class EBookReader {
+
+	private $book;
+
+	function __construct(PDFBook $book) {
+		$this-&gt;book = $book;
+	}
+
+	function read() {
+		return $this-&gt;book-&gt;read();
+	}
+
+}
+
+class PDFBook {
+
+	function read() {
+		return "reading a pdf book.";
+	}
+}</pre>
+
+<p>Renaming had no functional counter effects. The tests are still passing.</p>
+
+<p>Testing started at 1:04 PM ...<br>
+PHPUnit 3.7.28 by Sebastian Bergmann.<br>
+Time: 13 ms, Memory: 2.50Mb<br>
+OK (1 test, 1 assertion)<br>
+Process finished with exit code 0</p>
+
+<p>But it has a serious design effect.</p>
+
+<figure>
+<img width="600" alt="ebookreader-pdfbook" src="http://cdn.tutsplus.com/net/uploads/2014/02/ebookreader-pdfbook.png" height="89"><br>
+</figure>
+
+<p>Our reader became much more abstract. Much more general. We have a generic <code>EBookReader</code> that uses a very specific book type, <code>PDFBook</code>. An abstraction depends on a detail. The fact that our book is of type PDF should only be a detail, and no one should depend on it.</p>
+
+<pre class="brush: php">class Test extends PHPUnit_Framework_TestCase {
+
+	function testItCanReadAPDFBook() {
+		$b = new PDFBook();
+		$r = new EBookReader($b);
+
+		$this-&gt;assertRegExp('/pdf book/', $r-&gt;read());
+	}
+
+}
+
+interface EBook {
+	function read();
+}
+
+class EBookReader {
+
+	private $book;
+
+	function __construct(EBook $book) {
+		$this-&gt;book = $book;
+	}
+
+	function read() {
+		return $this-&gt;book-&gt;read();
+	}
+
+}
+
+class PDFBook implements EBook{
+
+	function read() {
+		return "reading a pdf book.";
+	}
+}</pre>
+
+<p>The most common, and most frequently used solution to invert the dependency is to introduce a more abstract module in our design. "The most abstract element in OOP is an Interface. Thus, any other class can depend on an Interface and still respect DIP".</p>
+
+<p>We created an interface <em>for our reader</em>. The interface is called <code>EBook</code> and represents the needs of the <code>EBookReader</code>. This is a direct result of respecting the <a href="http://dev.tutsplus.com/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710">Interface Segregation Principle (ISP)</a> which promotes the idea that interfaces should reflect the needs of the clients. Interfaces belong to the clients, and thus they are named to reflect the types and objects the clients need and they will contain methods the clients wants to use. It is only natural for an <code>EBookReader</code> to use <code>EBooks</code> and have a <code>read()</code> method.</p>
+
+<figure>
+<img width="600" alt="ebookreader-ebookinterface-pdfbook" src="http://cdn.tutsplus.com/net/uploads/2014/02/ebookreader-ebookinterface-pdfbook.png" height="246"><br>
+</figure>
+
+<p>Instead of a single dependency, we have two dependencies now.</p>
+
+<ul>
+<li>The first dependency points from <code>EBookReader</code> toward the <code>EBook</code> interface and it is of type usage. <code>EBookReader</code> uses <code>EBooks</code>.</li>
+<li>The second dependency is different. It points from <code>PDFBook</code> toward the same <code>EBook</code> interface but it is of type implementation. A <code>PDFBook</code> is just a particular form of <code>EBook</code>, and thus implements that interface to satisfy the client's needs.</li>
+</ul>
+
+<p>Unsurprisingly, this solution also allows us to plug in different types of ebooks into our reader. The single condition for all these books is to satisfy the <code>EBook</code> interface and implement it.</p>
+
+<pre class="brush: php">class Test extends PHPUnit_Framework_TestCase {
+
+	function testItCanReadAPDFBook() {
+		$b = new PDFBook();
+		$r = new EBookReader($b);
+
+		$this-&gt;assertRegExp('/pdf book/', $r-&gt;read());
+	}
+
+	function testItCanReadAMobiBook() {
+		$b = new MobiBook();
+		$r = new EBookReader($b);
+
+		$this-&gt;assertRegExp('/mobi book/', $r-&gt;read());
+	}
+
+}
+
+interface EBook {
+	function read();
+}
+
+class EBookReader {
+
+	private $book;
+
+	function __construct(EBook $book) {
+		$this-&gt;book = $book;
+	}
+
+	function read() {
+		return $this-&gt;book-&gt;read();
+	}
+
+}
+
+class PDFBook implements EBook {
+
+	function read() {
+		return "reading a pdf book.";
+	}
+}
+
+class MobiBook implements EBook {
+
+	function read() {
+		return "reading a mobi book.";
+	}
+}</pre>
+
+<p>Which in turn leads us to <a href="http://dev.tutsplus.com/tutorials/solid-part-2-the-openclosed-principle--net-36600">The Open/Closed Principle</a>, and the circle is closed.</p>
+
+<p>The Dependency Inversion Principle is one that leads or helps us respect all the other principles. Respecting DIP will:</p>
+
+<ul>
+<li>Almost force you into respecting OCP.</li>
+<li>Allow you to separate responsibilities.</li>
+<li>Make you correctly use subtyping.</li>
+<li>Offer you the opportunity to segregate your interfaces.</li>
+</ul>
+
+<h2>Final Thoughts</h2>
+
+<p>That's it. We are done. All tutorials about the SOLID principles are complete. For me, personally, discovering these principles and implementing projects with them in mind was a huge change. I completely changed the way I think about design and architecture and I can say since then all the projects I work on are exponentially easier to manage and understand.</p>
+
+<p>I consider the SOLID principles one of the most essential concepts of object-oriented design. These concepts that must guide us in making our code better and our life as programmers much much easier. Well-designed code is easier for programmers to understand. Computers are smart, they can understand code regardless of its complexity. Human beings on the other hand have a limited number of things they can keep in their active, focused mind. More specifically, the number of such things is <a href="http://www.musanim.com/miller1956/">The Magical Number Seven, Plus or Minus Two</a>.</p>
+
+<p>We should strive to have our code structured around these numbers and there are several techniques that help us do so. Functions with a maximum of four lines in length (five with the definition line included) so that they can all fit at once within our mind. Indentations not passing five levels deep. Classes with no more than nine methods. Design patterns that usually use a number of five to nine classes. Our high level design in the schemas above uses four to five concepts. There are five SOLID principles, each requiring five to nine sub-concepts/modules/classes to be exemplified. The ideal size of a programming team is between five and nine. The ideal number of teams in a company is between five and nine.</p>
+
+<p>As you can see, the magical number seven, plus or minus two is all around us, so why should your code be different?</p>
