@@ -13,18 +13,18 @@
 <p>O conceito desse princípio foi apresentado por Barbara Liskov em uma apresentação de uma conferência em 1987, e depois publicada em um artigo científico, junto de Jannette Wing, em 1994. A definição original é a que segue:</p>
 
 <blockquote>
-	<p>Seja q(x) uma propriedade provável de objetos x do tipo T. Então, q(y) deve ser provável para o objeto y do tipo S onde S é um subtipo de T.</p>
+	<p>Seja q(x) uma propriedade que se pode provar do objeto x do tipo T. Então, q(y) também é possível provar para o objeto y do tipo S, sendo S um subtipo de T.</p>
 </blockquote>
 
 <p>Pouco depois, com a publicação dos princípios SOLID por <a href="http://www.8thlight.com/our-team/robert-martin">Robert C. Martin</a> em eu livro <a href="http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1378755964&amp;sr=1-1&amp;keywords=robert+c+martin">Agile Software Development, Principles, Patterns, and Practices</a> e republicado na versão usando C# do mesmo livro, <a href="http://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258">Agile Principles, Patterns, and Practices in C#</a>, a definição ficou conhecida como o Princípio de Substituição de Liskov. </p>
 
-<p>O que nos leva à definição apresentada porRobert C. Martin:</p>
+<p>O que nos leva à definição apresentada por Robert C. Martin:</p>
 
 <blockquote>
 	<p>Subtipos devem ser substituíveis pelos seus tipos base.</p>
 </blockquote>
 
-<p>Tão simples quanto você vê, uma subclasse deve sobrescrever os métodos da classe pai, de tal maneira que não quebre a funcionalidade do ponto de vista do cliente. Eis um exemplo que demonstra o conceito.</p>
+<p>Tão simples quanto parece, uma subclasse deve sobrescrever os métodos da classe pai, de tal maneira que não quebre a funcionalidade do ponto de vista do cliente. Eis um exemplo que demonstra o conceito.</p>
 
 <pre class="brush: php">class Vehicle {
 
@@ -37,7 +37,7 @@
 	}
 }</pre>
 
-<p>Dada uma classe <code>Vehicle</code> - ela pode ser abstrata - e duas implementaçõesand:</p>
+<p>Dada uma classe <code>Vehicle</code> - ela pode ser uma classe abstrata - e duas implementações:</p>
 
 <pre class="brush: php">class Car extends Vehicle {
 
@@ -69,7 +69,7 @@ class ElectricBus extends Vehicle {
 
 }</pre>
 
-<p>Uma classe cliente deve ser capaz de usar qualquer uma das duas implementações, se a classe cliente for capaz de usar a classe <code>Vehicle</code>.</p>
+<p>Uma classe cliente deve ser capaz de usar qualquer uma das duas implementações, desde que a classe cliente seja capaz de usar a classe <code>Vehicle</code>.</p>
 
 <pre class="brush: php">class Driver {
 	function go(Vehicle $v) {
@@ -84,11 +84,11 @@ class ElectricBus extends Vehicle {
 <img width="600" alt="template_method" src="http://cdn.tutsplus.com/net/uploads/2014/01/template_method1.png" height="294"><br>
 </figure>
 
-<p>Baseados em nossa experiência anterior com o Princípio do Aberto para Expansão, Fechado para Modificação, nós podemos concluir que o Princípio da Substituição de Liskov é bastante relacionado ao OCP. Na verdade, "uma violação do LSP é uma violação latente ao OCP" (Robert C. Martin), e o Padrão de Projeto do Método Modelo é um clássico exemplo de respeito e implementação do LSP, que, em troca, é uma das soluções para implementar o OCP também.</p>
+<p>Baseados em nossa experiência anterior com o Princípio do Aberto para Expansão, Fechado para Modificação, nós podemos concluir que o Princípio da Substituição de Liskov é bastante relacionado ao OCP. Na verdade, "uma violação do LSP é uma violação latente ao OCP" (Robert C. Martin), e o Padrão de Projeto do Método Modelo é um clássico exemplo de respeito e implementação do LSP, que, também, é uma das soluções para implementar o OCP.</p>
 
 <h2>O Exemplo Clássico de Violação ao LSP</h2>
 
-<p>Para ilustrar isso completamente, nós mostraremos um exemplo clássico, uma vez que ele é bastante significante e facilmente compreensível.</p>
+<p>Para ilustrar isso completamente, nós mostraremos um exemplo clássico, uma vez que ele é bastante significante e de fácil entendimento.</p>
 
 <pre class="brush: php">class Rectangle {
 
@@ -114,9 +114,9 @@ class ElectricBus extends Vehicle {
 
 }</pre>
 
-<p>Começamos com uma forma geométrica básica, um <code>Rectangle</code>. Ela é um simples objeto de dados com <code>setters</code> e <code>getters</code> para <code>width</code> (largura) e <code>height</code> (altura). Imagine que nossa aplicação está em funcionamento e já está implantada em diversos clientes. Agora, eles precisam de uma nova funcionalidade. Eles precisam ser capazes de manipular quadrados.</p>
+<p>Começamos com uma forma geométrica básica, um <code>Rectangle</code> (Retângulo). Ela é um simples objeto de dados com <code>setters</code> e <code>getters</code> para <code>width</code> (largura) e <code>height</code> (altura). Imagine que nossa aplicação está em funcionamento e já está implantada em diversos clientes. Agora, eles precisam de uma nova funcionalidade. Eles precisam ser capazes de manipular quadrados.</p>
 
-<p>Na vida real, na geometria, um quadrado é um tipo especial de retângulo. Então, nós podemos tentar implementar uma classe <code>Square</code> (quadrado) que estende a classe <code>Rectangle</code>. Frequentemente, diz-se que uma classe filha <em>é uma</em> classe pai, e essa expressão também se sujeita ao LSP, pelo menos à primeira vista.</p>
+<p>Na vida real, na geometria, um quadrado é um tipo especial de retângulo. Então, nós podemos tentar implementar uma classe <code>Square</code> (quadrado) que estende a classe <code>Rectangle</code>. Frequentemente, diz-se que uma classe filha <em>é uma</em> classe pai, e que essa expressão também se sujeita ao LSP, pelo menos à primeira vista.</p>
 
 <figure>
 <img width="178" alt="SquareRect" src="http://cdn.tutsplus.com/net/uploads/2014/01/SquareRect.png" height="259"><br>
@@ -137,7 +137,7 @@ class ElectricBus extends Vehicle {
 	}
 }</pre>
 
-<p>Uma quadrado é um retângulo com largura e alturas iguais, e poderíamos criar essa implementação esquisita que vemos no exemplo acima. Poderíamos sobrescrever ambos os <code>setter</code>s para atribuir tanto a altura quanto a largura, juntas. Mas, como isso afetaria o código cliente?</p>
+<p>Uma quadrado é um retângulo com largura e alturas iguais. Nós poderíamos implementar isso, usando essa forma esquisita que vemos no exemplo acima. Poderíamos sobrescrever ambos os <code>setter</code>s para atribuir tanto a altura quanto a largura, juntas. Mas, como isso afetaria o código cliente?</p>
 
 <pre class="brush: php">class Client {
 
@@ -154,13 +154,13 @@ class ElectricBus extends Vehicle {
 
 }</pre>
 
-<p>É aceitável que exista uma classe cliente que verifique a área de um retângulo e lance uma exceção se a área estiver errada.</p>
+<p>É aceitável que exista uma classe cliente que verifique a área de um retângulo e lance uma exceção no caso da área estar errada.</p>
 
 <pre class="brush: php">function area() {
 	return $this-&gt;width * $this-&gt;height;
 }</pre>
 
-<p>Claro, adicionamos o método acima à nossa classe <code>Rectangle</code> para prover a área.</p>
+<p>Claro, adicionamos o método acima à nossa classe <code>Rectangle</code> para calcular a área da forma em questão.</p>
 
 <pre class="brush: php">class LspTest extends PHPUnit_Framework_TestCase {
 
@@ -172,7 +172,7 @@ class ElectricBus extends Vehicle {
 
 }</pre>
 
-<p>E nós criamos um testes simples, enviando um objeto retângulo vazio para o método verificador de área e ele passa. Se nossa classe <code>Square</code> estiver definida corretamente, enviá-la para o método <code>areaVerifier()</code> da classe cliente não deveria quebrar sua funcionalidade. Afinal, uma classe <code>Square</code> é uma classe <code>Rectangle</code> em todos os sentidos matemáticos. Mas, e nos sentigos programáticos?</p>
+<p>E nós também criamos um testes simples, enviando um objeto retângulo vazio para o método verificador de área. O teste passa. Se nossa classe <code>Square</code> estiver definida corretamente, enviá-la para o método <code>areaVerifier()</code> da classe cliente não deveria quebrar sua funcionalidade. Afinal, uma classe <code>Square</code> é uma classe <code>Rectangle</code> em todos os sentidos matemáticos. Mas, e nos sentidos programáticos?</p>
 
 <pre class="brush: php">function testSquareArea() {
 	$r = new Square();
@@ -190,13 +190,13 @@ Exception : Área errada!
 
 <p>Então, nossa classe <code>Square</code> não é uma classe <code>Rectangle</code>, no fim das contas. Ela quebra as leis da geometria. Ela falha e viola o Princípio de Substituição de Liskov.</p>
 
-<p>Gosto bastante desse exemplo porque ele não só violá o LSP, mas também demostra que a programação orientada a objetos não se trata de mapear itens da vida real em objetos. Cada objeto em nosso programa deve ser uma abstração de um conceito. Se tentarmos mapear objetos da vida real, um a um, com objetos programáticos, nós, praticamente, falharemos.</p>
+<p>Gosto bastante desse exemplo porque ele não só viola o LSP, mas também demostra que a programação orientada a objetos não se trata de mapear itens da vida real em objetos programáticos. Cada objeto em nosso programa deve ser uma abstração de um conceito. Se tentarmos mapear objetos da vida real, um a um, com objetos programáticos, é quase certo que falharemos.</p>
 
 <h2>O Princípio da Segregação de Interfaces</h2>
 
 <p>O Princípio da Responsabilidade Única é sobre atores e estruturas de alto nível. O Princípio do Aberto para Expansão, Fechado para Modificação, é sobre projeto de classes e extensão de funcionalidades. O Princípio de Substituição de Liskov é sobre subtipos e herança. O Princípio da Segregação de Interfaces (ISP) é sobre lógica de negócios relacionada a comunicação com clientes.</p>
 
-<p>Em todas aplicações modulares, deve existir algum tipo de interface que o cliente possa contar. Talvez essa sejam entidades do tipo Interface ou outros objetos clássicos implementando padrões de projeto como Facades. Nã importa qual a solução usada. Sempre é o mesmo escopo: mostrar ao código cliente como usar um módulo. Essas interfaces podem ficar entre módulos diferentes na mesma aplicação ou projeto,ou entre um projeto e uma biblioteca de terceiros, servido outro projeto. Novamente, não interessa. Comunicação é comunicação, e clientes são clientes, independente de quem esteja escrevendo os códigos.</p>
+<p>Em todas aplicações modulares, deve existir algum tipo de interface que o cliente possa contar. Talvez elas sejam entidades do tipo Interface ou outros objetos clássicos implementando padrões de projeto como padrão Facades. Não importa qual a solução seja usada. Sempre é o mesmo escopo: mostrar ao código cliente como usar um módulo. Essas interfaces podem ficar entre módulos diferentes na mesma aplicação ou projeto, ou entre um projeto e uma biblioteca de terceiros, servindo outro projeto diferente. Mais uma vez, não interessa. Comunicação é comunicação, e clientes são clientes, independente de quem esteja escrevendo os códigos.</p>
 
 <p>Então, como nós definiríamos essas interfaces? Poderíamos pensar em nosso módulo e expor todas as funcionalidades que quisermos oferecer.</p>
 
@@ -204,39 +204,39 @@ Exception : Área errada!
 <img width="277" alt="hugeInterface" src="http://cdn.tutsplus.com/net/uploads/2014/01/hugeInterface.png" height="580"><br>
 </figure>
 
-<p>Isso parece um bom começo, uma ótima maneira de como implementar nosso módulo. Será que é? Um começo como esse levará a um de dois tipos de implementações:</p>
+<p>Isso parece um bom começo, uma ótima maneira de como implementar nosso módulo. Mas, será que é? Um começo como esse levará a um desses dois tipos de implementações:</p>
 
 <ul>
-<li>Uma classe carro <code>Car</code> ou <code>Bus</code> gigante, implementando todos os métodos da interface <code>Vehicle</code>. Somente as dimensões mais simples de tais classes devem dizer se devemos evita-las a todo custo.</li>
-<li>Ou, muitas classes pequenas, como as classes <code>LightsControl</code>, <code>SpeedControl</code>, ou <code>RadioCD</code>, as quais todas implementam toda a interface, porém, provendo algo de útil somente para as partes que eles implementam.</li>
+<li>Uma classe carro <code>Car</code> ou <code>Bus</code> gigante, implementando todos os métodos da interface <code>Vehicle</code>. Basta ver as dimensões mais simples de tais classes para vermos que devemos evita-las a todo custo.</li>
+<li>Ou, muitas classes pequenas, como as classes <code>LightsControl</code>, <code>SpeedControl</code>, ou <code>RadioCD</code>, onde todas implementam toda a interface, porém, provendo algo de útil somente para as partes que eles implementam.</li>
 </ul>
 
-<p>É claro que nenhuma das solução é aceitável para implementar a lógica do nosso negócio.</p>
+<p>É claro que nenhuma desses soluções é aceitável para implementar a lógica do nosso negócio.</p>
 
 <figure>
 <img width="600" alt="specializedImplementationInterface" src="http://cdn.tutsplus.com/net/uploads/2014/01/specializedImplementationInterface.png" height="413"><br>
 </figure>
 
-<p>Nós poderíamos escolher outra abordagem. Divida a interface em partes, especializada para cada implementação. Isso ajudaria a criar e usar pequenas classes que importam-se com suas próprias interfaces. Os objetos implementando as interfaces serão usados pelos diferentes tipos de veículos, como o carro na imagem acima. O carro usará as implementações mas dependerá das interfaces. Assim, um esquema como o de logo abaixo é ainda mais expressivo.</p>
+<p>Nós poderíamos escolher outra abordagem. Dividir a interface em partes, especializadas para cada implementação. Isso ajudaria a criar e usar pequenas classes que importam-se com suas próprias interfaces. Os objetos implementando as interfaces serão usados pelos diferentes tipos de veículos, como o carro na imagem acima. O carro usará as implementações, mas dependerá das interfaces. Assim, um esquema como o de logo abaixo é demonstra de forma mais clara.</p>
 
 <figure>
 <img width="600" alt="carUsingInterface" src="http://cdn.tutsplus.com/net/uploads/2014/01/carUsingInterface.png" height="423"><br>
 </figure>
 
-<p>Mas isso muda, fundamentalmente, nossa percepção da aruitetura. A classe <code>Car</code> torna-se o cliente ao invés da implementação. Nós ainda queremos prover a nossos clientes, maneiras para usarem nosso módulo por inteiro, aquele que é um veículo.</p>
+<p>Mas isso muda, fundamentalmente, nossa percepção da aruitetura. A classe <code>Car</code> torna-se o cliente ao invés da implementação. Nós ainda queremos prover a nossos clientes, maneiras para usarem nosso módulo por inteiro, aquele que forma um veículo.</p>
 
 <figure>
 <img width="600" alt="oneInterfaceManyClients" src="http://cdn.tutsplus.com/net/uploads/2014/01/oneInterfaceManyClients.png" height="339"><br>
 </figure>
 
-<p>Assuma que resolvemos o problema da implementação e temos uma lógica de negócios estável. A coisa mais fácil a fazer é prover uma única interface com todas as implementações de deixar o cliente, em nosso caso, as classes <code>BusStation</code>, <code>HighWay</code>, <code>Driver</code> aí em diante, a usar o que quer que eles queiram da implementação de nossa interface. Basicamente, isso passa a responsabilidade de seleção de comportamento para os clientes. Você é capaz de encontrar esse tipo de solução em várias aplicações mais antigas.</p>
+<p>Assuma que resolvemos o problema da implementação e temos uma lógica de negócios estável. A coisa mais fácil a fazer é prover uma única interface com todas as implementações, e deixar o cliente, em nosso caso, as classes <code>BusStation</code>, <code>HighWay</code>, <code>Driver</code> e por aí em diante, a usar o que quer que eles queiram da implementação de nossa interface. Basicamente, isso passa a responsabilidade de seleção de comportamento para os clientes. Você é capaz de encontrar esse tipo de solução em várias aplicações mais antigas.</p>
 
 <blockquote><p>O Princípio da Segregação de Interface (ISP) afirma que nenhum cliente deve ser forçado a depender de métodos que ele não use.</p>
 </blockquote>
 
-<p>Entretanto, essa solução tem seus próprios problemas. Nem todos os clientes dependem de todos os métodos. Por que uma classe <code>BusStation</code> dependeria da situação das luzes do ônibus ou da estação de rádio selecionada pelo motorista? Bem, ele não deveria. E se ele depender? Isso importa. Bem, se pensarmos no Princípio da Responsabilidade Única, ele é um conceito irmão desse que estamos tratando. Se a classe <code>BusStation</code> depende várias implementações individuais, até mesmo daqueles não usadas por ela, ela pode necessitar mudanças se qualquer pequena mudança ocorrer na implementação das classes que ela depende. Isso é, especialmente, verdade para as linguagens compiladas, mas ainda podemos ver o efeito da mudança da classe <code>LightControl</code> impactando a classe <code>BusStation</code>. Esse tipo de coisa nunca deveria acontecer.</p>
+<p>Entretanto, essa solução tem seus próprios problemas. Nem todos os clientes dependem de todos os métodos. Por que uma classe <code>BusStation</code> dependeria da situação das luzes do ônibus ou da estação de rádio selecionada pelo motorista? Bem, ele não deveria. E se ele depender? Isso importa? Bem, se pensarmos no Princípio da Responsabilidade Única, ele é um conceito irmão desse que estamos tratando. Se a classe <code>BusStation</code> depende de várias implementações individuais, até mesmo daqueles não usadas por ela, ela pode necessitar de mudanças se qualquer pequena mudança ocorrer na implementação das classes das quais ela depende. Isso é, especialmente, verdade para as linguagens compiladas, mas ainda podemos ver o efeito da mudança da classe <code>LightControl</code> impactando a classe <code>BusStation</code>. Esse tipo de coisa nunca deveria acontecer.</p>
 
-<p>As interfaces pertencem a seus clientes e não às implementações. Assim, deveríamos, sempre, projetá-las de modo que melhor se adaptem aos clientes. Algumas vezes nós conhecemos, outras vezes, não. Mas, nós podemos e deveríamos dividir nossas interfaces em interfaces menores, assim, elas satisfazem de forma melhor, as necessidades de nossos clientes.</p>
+<p>As interfaces pertencem a seus clientes e não às implementações. Assim, deveríamos, sempre, projetá-las de modo que melhor se adaptem aos clientes. Algumas vezes, nós os conhecemos, outras vezes, não. Mas, nós podemos e deveríamos dividir nossas interfaces em interfaces menores, assim, elas satisfazem, de uma forma melhor, as necessidades de nossos clientes.</p>
 
 <figure>
 <img width="600" alt="segregatedInterfaces" src="http://cdn.tutsplus.com/net/uploads/2014/01/segregatedInterfaces.png" height="406"><br>
@@ -246,12 +246,12 @@ Exception : Área errada!
 
 <p>Então, nós temos a grande vantagem dos clientes dependerem só e somente daquilo que eles realmente precisam e usam. Em alguns casos, os clientes podem chegar a usar várias interfaces, e isso é normal, desde que eles usem todos os métodos das interfaces das quais dependam.</p>
 
-<p>Outra grande dica é que, em nossa lógica de negócio, uma únic classe pode implementar várias interfaces, se necessário. Logo, podemos prover um única implementação para todos os métodos em comuns das várias interfaces. As interfaces segregadas também nos forçará a pensar sobre nosso código, do ponto de vista do cliente, o que, por sua vez, resultará em menor acoplamento e maior testabilidade. Assim, não somente melhoramos nosso código para nossos clientes, como também o tornamos mais fácil para nós mesmos entendê-los, testá-los e implementá-los.</p>
+<p>Outra grande dica é que, em nossa lógica de negócio, uma única classe pode implementar várias interfaces, se necessário. Logo, podemos prover um única implementação para todos os métodos em comuns das várias interfaces. Segregar as interfaces também nos forçará a pensar em nosso código, do ponto de vista do cliente, o que, por sua vez, resultará em menor acoplamento e maior testabilidade. Assim, não somente melhoramos nosso código para nossos clientes, como também o tornamos mais fácil para que, nós mesmos, possamos entendê-los, testá-los e implementá-los.</p>
 
 <h2>Considerações finais</h2>
 
-<p>LSP nos ensinou o porque de não podermos fazer uma adaptação 1-para-1 de objetos reais em objetos programáticos, e como subtipos respeitos seus parentes. E nós também aprendemos isso com relação aos outros princípios que já tínhamos aprendido.</p>
+<p>O LSP nos ensinou o porque de não podermos fazer uma adaptação 1-para-1 de objetos reais em objetos programáticos, e como subtipos respeitam seus parentes. E nós também aprendemos como ele se relaciona aos outros princípios que já tínhamos aprendido.</p>
 
-<p>ISP nos ensinou a respeitar nossos clientes, mais que pensávamos ser necessário. Respeitar suas necessidades fará de nossos códgos muito melhor e a nossa vida, enquanto programadores, mais fácil.</p>
+<p>O ISP nos ensinou a respeitar nossos clientes, mais do que pensávamos ser necessário. Respeitar as necessidades deles fará de nossos códgos muito melhor e a nossa vida, enquanto programadores, mais fácil.</p>
 
 <p>Obrigado pelo seu tempo.</p>
