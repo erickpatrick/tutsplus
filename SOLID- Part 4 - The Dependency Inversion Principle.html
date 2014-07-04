@@ -22,7 +22,7 @@ B. Abstrações não deveriam depender de detalhes. Detalhes devem depender de a
 
 <p>O que é preciso entender dessa situação, é como essas três tecnologias representam tão bem três camadas arquiteturais diferentes: interface do usuário, lógica de negócios e persistência. Nós trataremos sobre as implicações dessas três camadas em um minuto. Por hora, foquemos numa forma esquisita e frequentente vista para fazer essas tecnologias trabalharem juntas.</p>
 
-<p>Many times I've seen projects that used SQL code in a PHP tag inside an HTML file, or PHP code echoing pages and pages of HTML and interpreting directly the <code>$_GET</code> or <code>$_POST</code> global variables. But why is this bad?</p>
+<p>Já vi diversos projetos que usam código SQL em um script PHP, dentro de um arquivo HTML, ou, ainda, códigos PHP imprimindo páginas e mais páginas de HTML, interpretando, diretamente, variáveis globais de <code>$_GET</code> ou <code>$_POST</code>. Mas, por que isso é ruim?</p>
 
 <figure>
 <img width="600" alt="html-php-sql-cross-dependencies" src="http://cdn.tutsplus.com/net/uploads/2014/02/html-php-sql-cross-dependencies.png" height="423"><br>
