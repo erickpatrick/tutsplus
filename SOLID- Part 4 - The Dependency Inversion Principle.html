@@ -18,7 +18,7 @@ B. Abstrações não deveriam depender de detalhes. Detalhes devem depender de a
 
 <p>Os princípios SOLID e a clara arquitetura do Tio Bob (Robert C. Martin) mudaram nossa situação, e transformaram a maneira como codificamos, de tal forma, que é difícil de descrever. Tentarei explicar, de forma simples, algumas decisões arquiteturais impostas pelo DIP que tiveram um grande impacto em nossos projetos.</p>
 
-<p>Most web projects contain three main technologies: HTML, PHP, and SQL. The particular version of these applications we are talking about or what type of SQL implementations you use is irrelevant. The thing is, that information from an HTML form must end up, in one way or another, in the database. The glue between the two can be provided with PHP.</p>
+<p>A maioria dos projetos web contém três tecnologias principais: HTML, PHP, e SQL. As versões específicas dessas tecnologias ou o tipo da implementação SQL que usamos, são irrelevantes. O ponto é, a informação em um formulário HTML deve acabar, de uma forma ou de outra, no banco de dados. A "cola" necessária entre os dois, pode ser dado pelo PHP.</p>
 
 <p>What is essential to take away from this, is that how nicely the three technologies represent three different architectural layers: user interface, business logic, and persistence. We will talk about the implications of these layers in a minute. For now, let's focus on some odd but frequently encountered solutions to make the technologies work together.</p>
 
