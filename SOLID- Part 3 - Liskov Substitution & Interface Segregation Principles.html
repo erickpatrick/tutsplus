@@ -229,9 +229,9 @@ Exception : Área errada!
 <img width="600" alt="oneInterfaceManyClients" src="http://cdn.tutsplus.com/net/uploads/2014/01/oneInterfaceManyClients.png" height="339"><br>
 </figure>
 
-<p>Assume we solved the implementation problem and we have a stable business logic. The easiest thing to do is to provide a single interface with all the implementations and let the clients, in our case <code>BusStation</code>, <code>HighWay</code>, <code>Driver</code> and so on, to use whatever thew want from the interface's implementation. Basically, this shifts the behavior selection responsibility to the clients. You can find this kind of solution in many older applications.</p>
+<p>Assuma que resolvemos o problema da implementação e temos uma lógica de negócios estável. A coisa mais fácil a fazer é prover uma única interface com todas as implementações de deixar o cliente, em nosso caso, as classes <code>BusStation</code>, <code>HighWay</code>, <code>Driver</code> aí em diante, a usar o que quer que eles queiram da implementação de nossa interface. Basicamente, isso passa a responsabilidade de seleção de comportamento para os clientes. Você é capaz de encontrar esse tipo de solução em várias aplicações mais antigas.</p>
 
-<blockquote><p>The interface-segregation principle (ISP) states that no client should be forced to depend on methods it does not use.</p>
+<blockquote><p>O Princípio da Segregação de Interface (ISP) afirma que nenhum cliente deve ser forçado a depender de métodos que ele não use.</p>
 </blockquote>
 
 <p>However, this solution has its problems. Now all the clients depend on all the methods. Why should a <code>BusStation</code> depend on the state of lights of the bus, or on the radio channels selected by the driver? It should not. But what if it does? Does it matter? Well, if we think about the Single Responsibility Principle, it is a sister concept to this one. If <code>BusStation</code> depends on many individual implementations, not even used by it, it may require changes if any of the individual small implementations change. This is especially true for compiled languages, but we can still see the effect of the <code>LightControl</code> change impacting <code>BusStation</code>. These things should never happen.</p>
