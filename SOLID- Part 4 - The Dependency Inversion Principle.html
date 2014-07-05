@@ -197,7 +197,7 @@ class PDFBook implements EBook{
 <li>A segunda dependência é diferente. Ela vai da classe <code>PDFBook</code> para a interface <code>EBook</code>, mas é do tipo implementação. Uma classe <code>PDFBook</code> é um tipo particular da interface <code>EBook</code>, e, assim, implementa essa interface para satisfazer as necessidades do cliente.</li>
 </ul>
 
-<p>Unsurprisingly, this solution also allows us to plug in different types of ebooks into our reader. The single condition for all these books is to satisfy the <code>EBook</code> interface and implement it.</p>
+<p>Sem supresas, essa solução também permite usar diferentes tipos de ebooks em nosso leitor. A única condição é satisfazer a interface <code>EBook</code> e implementá-la.</p>
 
 <pre class="brush: php">class Test extends PHPUnit_Framework_TestCase {
 
