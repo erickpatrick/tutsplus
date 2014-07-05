@@ -88,7 +88,7 @@ class PDFBook {
 	}
 }</pre>
 
-<p>We start developing our e-reader as a PDF reader. So far so good. We have a <code>PDFReader</code> class using a <code>PDFBook</code>. The <code>read()</code> function on the reader delegates to the book's <code>read()</code> method. We just verify this by doing a regex check after a key part of the string returned by <code>PDFBook</code>'s <code>reader()</code> method.</p>
+<p>Nós começamos a desenvolver nosso leitor eletrônico como um leitor de PDF. Até agora, tudo bem. Nós temos uma classe <code>PDFReader</code> usando uma classe <code>PDFBook</code>. O método <code>read()</code> do leitor, incumbe o método <code>read()</code> do livro. Nós verificamos isso, usando uma expressão regular para buscar a chave na cadeia de caracteres retornada pelo método <code>reader()</code> da classe <code>PDFBook</code>.</p>
 
 <p>Please bear in mind that this is just an example. We will not implement the reading logic of PDF files or other file formats. That's why our tests will just simply check for some basic strings. If we were to write the real application, the only difference would be how we test the different file formats. The dependency structure would be very similar to our example.</p>
 
