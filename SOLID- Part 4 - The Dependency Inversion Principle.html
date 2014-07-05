@@ -190,11 +190,11 @@ class PDFBook implements EBook{
 <img width="600" alt="ebookreader-ebookinterface-pdfbook" src="http://cdn.tutsplus.com/net/uploads/2014/02/ebookreader-ebookinterface-pdfbook.png" height="246"><br>
 </figure>
 
-<p>Instead of a single dependency, we have two dependencies now.</p>
+<p>Ao invés de uma única dependência, temos duas dependências, agora.</p>
 
 <ul>
-<li>The first dependency points from <code>EBookReader</code> toward the <code>EBook</code> interface and it is of type usage. <code>EBookReader</code> uses <code>EBooks</code>.</li>
-<li>The second dependency is different. It points from <code>PDFBook</code> toward the same <code>EBook</code> interface but it is of type implementation. A <code>PDFBook</code> is just a particular form of <code>EBook</code>, and thus implements that interface to satisfy the client's needs.</li>
+<li>A primeira dependência vai da classe <code>EBookReader</code> para a interface <code>EBook</code>, e é do tipo de uso. <code>EBookReader</code> usa <code>EBooks</code>.</li>
+<li>A segunda dependência é diferente. Ela vai da classe <code>PDFBook</code> para a interface <code>EBook</code>, mas é do tipo implementação. Uma classe <code>PDFBook</code> é um tipo particular da interface <code>EBook</code>, e, assim, implementa essa interface para satisfazer as necessidades do cliente.</li>
 </ul>
 
 <p>Unsurprisingly, this solution also allows us to plug in different types of ebooks into our reader. The single condition for all these books is to satisfy the <code>EBook</code> interface and implement it.</p>
