@@ -130,7 +130,7 @@ class PDFBook {
 	}
 }</pre>
 
-<p>Renaming had no functional counter effects. The tests are still passing.</p>
+<p>Renomear não tem qualquer efeitos colaterais. Os testes ainda passam.</p>
 
 <p>Testing started at 1:04 PM ...<br>
 PHPUnit 3.7.28 by Sebastian Bergmann.<br>
@@ -138,13 +138,13 @@ Time: 13 ms, Memory: 2.50Mb<br>
 OK (1 test, 1 assertion)<br>
 Process finished with exit code 0</p>
 
-<p>But it has a serious design effect.</p>
+<p>Mas isso gera um efeito sério de projeto.</p>
 
 <figure>
 <img width="600" alt="ebookreader-pdfbook" src="http://cdn.tutsplus.com/net/uploads/2014/02/ebookreader-pdfbook.png" height="89"><br>
 </figure>
 
-<p>Our reader became much more abstract. Much more general. We have a generic <code>EBookReader</code> that uses a very specific book type, <code>PDFBook</code>. An abstraction depends on a detail. The fact that our book is of type PDF should only be a detail, and no one should depend on it.</p>
+<p>Nosso leitor tornou-se muito mais abstrato. Nós temos uma classe <code>EBookReader</code> genérica que usa um tipo específico de livro, <code>PDFBook</code>. A abstração depende do detalhe. O fato que nosso livro é do tipo PDF deveria ser só um detalhe e, nada deveria depender disso.</p>
 
 <pre class="brush: php">class Test extends PHPUnit_Framework_TestCase {
 
