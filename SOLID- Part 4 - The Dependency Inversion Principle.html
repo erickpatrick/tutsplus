@@ -182,7 +182,7 @@ class PDFBook implements EBook{
 	}
 }</pre>
 
-<p>The most common, and most frequently used solution to invert the dependency is to introduce a more abstract module in our design. "The most abstract element in OOP is an Interface. Thus, any other class can depend on an Interface and still respect DIP".</p>
+<p>A solução mais comum e frequente para inverter a dependência é introduzir um módulo mais abstrato em nosso projeto. "O elemento mais abstrato da POO é a Interface. Assim, qualquer outra classe pode depender de uma interface e, ainda assim, respeitar o DIP".</p>
 
 <p>We created an interface <em>for our reader</em>. The interface is called <code>EBook</code> and represents the needs of the <code>EBookReader</code>. This is a direct result of respecting the <a href="http://dev.tutsplus.com/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710">Interface Segregation Principle (ISP)</a> which promotes the idea that interfaces should reflect the needs of the clients. Interfaces belong to the clients, and thus they are named to reflect the types and objects the clients need and they will contain methods the clients wants to use. It is only natural for an <code>EBookReader</code> to use <code>EBooks</code> and have a <code>read()</code> method.</p>
 
