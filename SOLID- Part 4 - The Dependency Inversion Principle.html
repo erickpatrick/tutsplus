@@ -52,9 +52,9 @@ B. Abstrações não deveriam depender de detalhes. Detalhes devem depender de a
 <li>Finalmente, do lado direito da lógica de negócios, na parte externa, nós temos todas as classes que criam as classes para a lógica de negócios. Essas são "fábricas" e classes criadas pelo ponto de entrada da aplicação. Muitas pessoas acreditam que essas classes pertencem à lógica de negócios, mas, enquanto criarem objetos de negócio, o único motivo de existência deles é esse. Elas são classes que nos ajudam a criar outras classes. Os objetos do negócio e a lógica deles são independente dessas fábricas. Poderíamos usar outros padrões, como a Fábrica Simples (Simple Factory), Fábrica Abstrata (Abstract Factory), Construtor (Builder) ou um sistema padrão de criação de objetos, capazes de prover a lógica do negócio. Não importa. Uma vez que os objetos forem criados, eles podem realizar seus trabalhos.</li>
 </ul>
 
-<h2>Show Me the Code</h2>
+<h2>Mostre-me o Código</h2>
 
-<p>Applying the Dependency Inversion Principle (DIP) at an architectural level is quite easy if you respect the classic <a href="https://tutsplus.com/course/agile-design-patterns/">agile design patterns</a>. Exercising and exemplifying it inside the business logic is quite easy also and can even be fun. We will imagine an e-book reader application.</p>
+<p>Aplicar o Princípio da Inversão de Dependência (DIP), em um nível arquitetural, é bem simples, se você respeitar os <a href="https://tutsplus.com/course/agile-design-patterns/">padrões de projeto ágeis</a> clássicos. Exercitá-los e exemplificá-los dentro da lógica de negócios também é bem simples e pode, até, ser bem diverto. Imaginemos uma aplicação leitora de e-books.</p>
 
 <pre class="brush: php">class Test extends PHPUnit_Framework_TestCase {
 
