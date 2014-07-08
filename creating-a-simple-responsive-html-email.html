@@ -75,13 +75,13 @@ then comes the meat of the post
 
 <p>O que acabamos de criar foi a nossa página básica com seu elementos <code>header</code>, <code>doctype</code> e tabela receptáculo com uma cor de fundo aplicada (tanto na tag <code>body</code> quanto à <code>table</code> receptáculo, uma vez que a estilização da tag body não é bem suportada). Para mais informação dessa preparação básica, veja <a href="http://dev.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770">Build an HTML Email Template from Scratch</a>.</p>
 
-<p>I've then added our main content table to the centre with a class of 'content'.</p>
+<p>Também adicionei a tabela que terá o nosso conteúdo, logo ao centro, com a classe <code>content</code>.</p>
 
-<h3>Pay Attention</h3>
+<h3>Preste Atenção</h3>
 
-<p><strong>Note:</strong> You will notice that in this tutorial I'm going to be placing CSS in the head of our document. I generally place styles in the head when I am going to re-use them, and keep one-off styles inline.</p>
+<p><strong>Nota:</strong> Você percebera que, nesse tutorial, colocarei o CSS no elemento <code>head</code> do seu documento. Geralmente, coloco os elementos que reutilizarei lá e uso estilos em linha quando são usados uma única vez.</p>
 
-<p><strong>Important:</strong> Whenever you use CSS rules in the head of your document, you <em>must</em> use a tool to bring it all inline at the end of the process. If you use a service such as <a href="http://mailchimp.com/" rel="external">MailChimp</a> or <a href="http://www.campaignmonitor.com/" rel="external">Campaign Monitor</a>, they will automatically offer to bring your styles inline for you when you import your design. You must do this because the some clients, such as Gmail, will ignore or strip out your <code>&lt;style&gt;</code> tag contents, or ignore them. You can also use a tool such as <a href="http://premailer.dialect.ca/" rel="external">Premailer</a> to bring your CSS inline. If you use Premailer or a similar tool, remember to take out your media queries before processing (since we want them to remain intact), then re-insert them at the end. MailChimp and Campaign Monitor automatically take care of this for you.</p>
+<p><strong>Importante:</strong> Sempre que colocar suas regras CSS no <code>head</code> de seu documento, você <em>deve</em> usar alguma ferramenta para fazê-lo virar estilo em linha, ao fim do processo. Se você usar serviços como <a href="http://mailchimp.com/" rel="external">MailChimp</a> ou o <a href="http://www.campaignmonitor.com/" rel="external">Campaign Monitor</a>, eles, automaticamente, oferecerão essa funcionalidade quando for importar seus designs. Você tem de fazer isso porque, alguns clientes, como o Gmail, ignoram ou removem o conteúdo da tag <code>&lt;style&gt;</code>. Você também pode usar alguma ferramenta como a <a href="http://premailer.dialect.ca/" rel="external">Premailer</a> para tornar todo seu CSS em linha. Se você usar o Premailer ou alguma ferramenta parecida, lembre-se de remover suas media queries antes do processamento (já que queremos que elas permaneçam intactas), e, então, insira-as, novamente, após o processamento, ao final das regras. O MailChimp e Campaign Monitor já levam isso em consideração, na hora de importar seus layouts.</p>
 
 <h3>Hiding Mobile Styles From Yahoo!</h3>
 
