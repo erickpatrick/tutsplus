@@ -99,11 +99,11 @@ then comes the meat of the post
 
 <p>Há dois pontos ligeriamente complicados que precisamos ajustar, para garantir que tudo aparece como planejado em todos os clientes de e-mail. Esses dois ajustes são graças ao excelente tutorial de <a href="https://twitter.com/tinabeans" rel="external">Tina Ye</a> sobre esse método, que está <a href="http://blog.fogcreek.com/responsive-html-emails-a-different-strategy/" rel="external">disponível no Blog FogCreek</a>.</p>
 
-<h3>1. Overcoming the Lack of Max-Width Support</h3>
+<h3>1. Superando a Falta de Suporte a Max-Width</h3>
 
-<p>Unfortunately, <code>max-width</code> is not supported by all email clients. In order to get our email to display properly in Outlook and Lotus Notes 8 &amp; 8.5, we need to wrap each table in some conditional code which creates a table with a set width to hold everything in. It targets IE (which is the rendering engine used by Lotus Notes) and Microsoft Outlook.</p>
+<p>Infelizmente, a propriedade <code>max-width</code> não é suportada por todos os clientes de e-mail. Assim, para fazer com que nossos e-mails apresentem-se apropriadamente nos aplicativos Outlook e nos Lotus Notes 8 &amp; 8.5, precisamos envolver cada tabela em um código condicional que cria uma tabela com uma largura fixa, para sustentar tudo dentro. Esses comentários miram o IE (que é o motor de renderização usado pelo Lotus Notes) e p Microsoft Outlook.</p>
 
-<p>We'll wrap our table in some conditional code:</p>
+<p>Nós envolveremos nossa tabela em um código condicional:</p>
 
 <pre class="brush: html">&lt;!--[if (gte mso 9)|(IE)]&gt;
 &lt;table width="600" align="center" cellpadding="0" cellspacing="0" border="0"&gt;
