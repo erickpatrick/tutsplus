@@ -123,9 +123,9 @@ then comes the meat of the post
 &lt;/table&gt;
 &lt;![endif]--&gt;</pre>
 
-<h3>2. A Fix for Apple Mail</h3>
+<h3>2. Um Ajuste para o Apple Mail</h3>
 
-<p>Weirdly, Apple Mail (normally a <em>very</em> progressive email client) doesn't support the max-width property either. It does support media queries though, so we can add one that tells it to set a width on our 'content' class table, as long as the viewport can display the whole 600px.</p>
+<p>Estranhamente, o Apple Mail (normalmente, um cliente de email <em>bem</em> progressivo) também não suporta a propriedade max-width. Mas, ele suporta media queires, então, podemos adicionar uma que diga a ele para fixar a largura de nossa tabela <code>content</code>, desde que a área de visualização (viewport) seja capaz de mostrar os 600px por inteiro.</p>
 
 <pre class="brush: html">&lt;style type="text/css"&gt;
 @media only screen and (min-device-width: 601px) {
