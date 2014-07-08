@@ -18,6 +18,7 @@ Códigos
 - [Princípios SOLID Parte 1 - O Princípio da Responsabilidade Única](http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074)
 - [Princípios SOLID Parte 2 - Princípio do Aberto para Expensão, Fechado para Modificação](http://code.tutsplus.com/pt/tutorials/solid-part-2-the-openclosed-principle--net-36600)
 - [Princípios SOLID Parte 3 - Princípios da Substituição de Liskov e Segregação de Interfaces](http://code.tutsplus.com/pt/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710)
+- [Princípos SOLID Parte 4 - Princípio da Inversão de Dependência](https://code.tutsplus.com/pt/tutorials/solid-part-4-the-dependency-inversion-principle--net-36872)
 
 Habilidades com Computadores
 ----------------------------
