@@ -1,0 +1,458 @@
+<!--
+first, we have the title
+-->
+
+<h1>Creating a Simple Responsive HTML Email</h1>
+
+
+
+
+<!--
+then, we have an introduction paragraph
+-->
+
+<p>In this tutorial I will show you how to create a simple responsive HTML email which will work in every email client, including all the new smartphone mail clients and apps. It uses minimal media queries and a fluid width approach to ensure maximum compatibility.</p>
+
+
+
+
+<!--
+then comes the meat of the post
+-->
+
+<p>In this tutorial I will show you how to create a simple responsive HTML email which will work in every email client, including all the new smartphone mail clients and apps. It uses minimal media queries and a fluid width approach to ensure maximum compatibility.</p>
+
+<h3>Media Queries: Only Half the Solution</h3>
+
+<p>There was a time when media queries were quite enough to get responsive emails working in iOS and Android mail applications, both of which support media queries.</p>
+
+<p>Since then, there has been a proliferation of mail applications created for both iOS and Android platforms, with varying degrees of support for responsive email development methods.</p>
+
+<p>Most notable is the latest update to the Gmail app for Android, which is <a href="http://blog.brightwavemarketing.com/2013/02/infographic-ignore-android-subscribers-at-your-own-risk/" rel="external">twice as popular</a> as the default mail app for Android users (which now comprise <a href="https://litmus.com/blog/master-android-gmail-app-for-android-now-available-for-testing" rel="external">11% of total opens</a>). It has never supported media queries, and still doesn't, however it now scales down your emails by compressing the size of the outer table to fit within the viewable area of the screen. It's difficult to control and, when your entire email relies on media queries to display properly on mobile, generates some very unpleasant results.</p>
+
+<h3>Why Fluid Is the New Black</h3>
+
+<p>The good news is that you <em>can</em> design and build an email that will look excellent in every mail app, including those that don't support media queries. You can do this by using a fluid layout.</p>
+
+<p>There are, however, a few design compromises that you have to make. Those lovely equal column layouts that stack to a single column don't work so well using this method. If you can learn to live without them, there are some very functional designs that can work extremely well.</p>
+
+<p>Here's what we'll be creating today:</p>
+
+<figure class="tutorial_image">
+	<img width="100" alt="Final-Product-Both" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Final-Product-Both.png">
+</figure>
+
+<h2>Getting Started</h2>
+
+<p>Ok, let's start off with our blank canvas.</p>
+
+<pre class="brush: html">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+	&lt;head&gt;
+		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+		&lt;title&gt;A Simple Responsive HTML Email&lt;/title&gt;
+		&lt;style type="text/css"&gt;
+		body {margin: 0; padding: 0; min-width: 100%!important;}
+		.content {width: 100%; max-width: 600px;}  
+		&lt;/style&gt;
+	&lt;/head&gt;
+	&lt;body yahoo bgcolor="#f6f8f1"&gt;
+		&lt;table width="100%" bgcolor="#f6f8f1" border="0" cellpadding="0" cellspacing="0"&gt;
+			&lt;tr&gt;
+				&lt;td&gt;
+					&lt;table class="content" align="center" cellpadding="0" cellspacing="0" border="0"&gt;
+						&lt;tr&gt;
+							&lt;td&gt;
+								Hello!
+							&lt;/td&gt;
+						&lt;/tr&gt;
+					&lt;/table&gt;
+				&lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>What we are creating here is our basic page with its <code>header</code>, <code>doctype</code> and container table with a background colour applied (to both the body and a big wrapper table, since styling of the body tag isn't fully supported). For more information on this basic setup, see <a href="http://dev.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770">Build an HTML Email Template from Scratch</a>.</p>
+
+<p>I've then added our main content table to the centre with a class of 'content'.</p>
+
+<h3>Pay Attention</h3>
+
+<p><strong>Note:</strong> You will notice that in this tutorial I'm going to be placing CSS in the head of our document. I generally place styles in the head when I am going to re-use them, and keep one-off styles inline.</p>
+
+<p><strong>Important:</strong> Whenever you use CSS rules in the head of your document, you <em>must</em> use a tool to bring it all inline at the end of the process. If you use a service such as <a href="http://mailchimp.com/" rel="external">MailChimp</a> or <a href="http://www.campaignmonitor.com/" rel="external">Campaign Monitor</a>, they will automatically offer to bring your styles inline for you when you import your design. You must do this because the some clients, such as Gmail, will ignore or strip out your <code>&lt;style&gt;</code> tag contents, or ignore them. You can also use a tool such as <a href="http://premailer.dialect.ca/" rel="external">Premailer</a> to bring your CSS inline. If you use Premailer or a similar tool, remember to take out your media queries before processing (since we want them to remain intact), then re-insert them at the end. MailChimp and Campaign Monitor automatically take care of this for you.</p>
+
+<h3>Hiding Mobile Styles From Yahoo!</h3>
+
+<p>You will notice that the body tag has an extra attribute. Yahoo Mail loves to interpret your media queries as gospel, so to prevent this, you need to use attribute selectors. I find the easiest way to do this (as suggested by <a href="http://www.emailonacid.com/blog/details/C13/stop_yahoo_mail_from_rendering_your_media_queries" rel="external">Email on Acid</a>) is to simply add an arbitrary attribute to the body tag. I use the suggested 'yahoo' but it could be anything you like:</p>
+
+<pre class="brush: html">&lt;body yahoo&gt;</pre>
+
+<p>You can then target specific classes by using the attribute selector for your body tag in the CSS.</p>
+
+<pre class="brush: css">body[yahoo] .class {}</pre>
+
+<h2>Two Tricks to Master the Fluid Method</h2>
+
+<p>As you can see, our 'content' table is set to be 100% wide so that it will be fluid and take up the full width of smartphone and tablet screens. We'll also set a maximum width of 600px to avoid the email taking up the the entire screen on bigger devices.</p>
+
+<p>There are now two slightly tricky things that we need to address to ensure that everything displays as planned across all email clients. These two fixes are thanks to <a href="https://twitter.com/tinabeans" rel="external">Tina Ye</a>'s excellent tutorial on this method which is <a href="http://blog.fogcreek.com/responsive-html-emails-a-different-strategy/" rel="external">available over at FogCreek Blog</a>.</p>
+
+<h3>1. Overcoming the Lack of Max-Width Support</h3>
+
+<p>Unfortunately, <code>max-width</code> is not supported by all email clients. In order to get our email to display properly in Outlook and Lotus Notes 8 &amp; 8.5, we need to wrap each table in some conditional code which creates a table with a set width to hold everything in. It targets IE (which is the rendering engine used by Lotus Notes) and Microsoft Outlook.</p>
+
+<p>We'll wrap our table in some conditional code:</p>
+
+<pre class="brush: html">&lt;!--[if (gte mso 9)|(IE)]&gt;
+&lt;table width="600" align="center" cellpadding="0" cellspacing="0" border="0"&gt;
+	&lt;tr&gt;
+		&lt;td&gt;
+			&lt;![endif]--&gt;
+			&lt;table class="content" align="center" cellpadding="0" cellspacing="0" border="0"&gt;
+				&lt;tr&gt;
+					&lt;td&gt;
+						Hello!
+					&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/table&gt;
+			&lt;!--[if (gte mso 9)|(IE)]&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+&lt;![endif]--&gt;</pre>
+
+<h3>2. A Fix for Apple Mail</h3>
+
+<p>Weirdly, Apple Mail (normally a <em>very</em> progressive email client) doesn't support the max-width property either. It does support media queries though, so we can add one that tells it to set a width on our 'content' class table, as long as the viewport can display the whole 600px.</p>
+
+<pre class="brush: html">&lt;style type="text/css"&gt;
+@media only screen and (min-device-width: 601px) {
+.content {width: 600px !important;}
+}
+&lt;/style&gt;</pre>
+
+<h2>Creating the Header</h2>
+
+<p>Now we'll add the first row of our table — the header. Add the following to style to the row that we already created:</p>
+
+<pre class="brush: html">&lt;td class="header" bgcolor="#c7d8a7"&gt;
+Hello!
+&lt;/td&gt;</pre>
+
+<p>And then in your CSS, add the padding for the header:</p>
+
+<pre class="brush: css">.header {padding: 40px 30px 20px 30px;}</pre>
+
+<h3>Adding the First Responsive Row</h3>
+
+<p>Now we are going to create our very first responsive row. The way we do this is to create two tables that 'float' next to each other by using the 'align' HTML property.</p>
+
+<h4>Left Column</h4>
+
+<p>Replace our little "Hello!" Greeting with the following:</p>
+
+<pre class="brush: html">&lt;table width="70" align="left" border="0" cellpadding="0" cellspacing="0"&gt;
+	&lt;tr&gt;
+		&lt;td height="70" style="padding: 0 20px 20px 0;"&gt;
+			&lt;img src="images/icon.gif" width="70" height="70" border="0" alt="" / &gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;</pre>
+
+<p>We create our 70px table and also add some padding which will act as our gutter between the two columns. The padding on the bottom will add vertical breathing room when the two columns stack on mobile.</p>
+
+<h4>Right Column</h4>
+
+<p>We'll create the right column by again aligning a table to the left. This table is going to be 445px wide, which will leave us 25px to spare on the right hand side. This very is important because Outlook will automatically stack your tables if there isn't at least 25px to spare on any given row.</p>
+
+<figure class="tutorial_image">
+	<img width="100" alt="Responsive-AlignedTables" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Responsive-AlignedTables.png">
+</figure>
+
+<p>As long as you allow at least 25px of breathing room, your tables will behave as expected.</p>
+
+<figure class="tutorial_image">
+	
+	<img alt="Allow at least 25px of breathing room to stop Outlook from stacking your tables" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Responsive-PreventStack-2.png"><br>
+	<figcaption>Allow at least 25px of breathing room to stop Outlook from stacking your tables</figcaption>
+
+</figure>
+
+<p>On the wider, right-hand table, we're going to use the same approach we used on our container table, which involves creating a class and adding the conditional wrapper code too. We want this table to be 100% wide on mobile, where it will pop down below the table on the left.</p>
+
+<pre class="brush: html">&lt;!--[if (gte mso 9)|(IE)]&gt;
+&lt;table width="425" align="left" cellpadding="0" cellspacing="0" border="0"&gt;
+	&lt;tr&gt;
+		&lt;td&gt;
+		&lt;![endif]--&gt;
+			&lt;table class="col425" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 425px;"&gt;style="width: 100%; max-width: 425px;"&gt;
+				&lt;tr&gt;
+					&lt;td height="70"&gt;
+					&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/table&gt;
+		&lt;!--[if (gte mso 9)|(IE)]&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+&lt;![endif]--&gt;</pre>
+
+<p>Here you can see that I have created a class called 'col425' for this table, our 425px wide column. I've wrapped the table in the conditional code that will enclose it in a 425px wide table. We then add our class to the Media Query that we created for Apple Mail too.</p>
+
+<pre class="brush: css">.col425 {width: 425px!important;}</pre>
+
+<p>Now inside our cell we'll add the styled heading.</p>
+
+<pre class="brush: html">&lt;table width="100%" border="0" cellspacing="0" cellpadding="0"&gt;
+	&lt;tr&gt;
+		&lt;td class="subhead" style="padding: 0 0 0 3px;"&gt;
+			CREATING
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td class="h1" style="padding: 5px 0 0 0;"&gt;
+			Responsive Email Magic
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;</pre>
+
+<p>I've added some classes to each cell for styling, as well as some styles I'll be using for other text types later on:</p>
+
+<pre class="brush: css">.subhead {font-size: 15px; color: #ffffff; font-family: sans-serif; letter-spacing: 10px;}
+.h1 {font-size: 33px; line-height: 38px; font-weight: bold;}
+.h1, .h2, .bodycopy {color: #153643; font-family: sans-serif;}</pre>
+
+<p>Our header is now complete, and you can see below how the two columns will stack on mobile. (To preview this while you work, you'll need to temporarily comment out the min-device-width media queries, because they are enforcing a fixed width on desktop).</p>
+
+<figure class="tutorial_image">
+	<img width="100" alt="01-header" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/01-header.png">
+</figure>
+
+<h2>Creating the Single Column Text Row</h2>
+
+<p>To create a single column text row, we simply add a new row to our '.content' table. We'll add an 'innerpadding' class to these rows with some reusable padding values. We'll also add a class of 'borderbottom' to apply a border to each row.</p>
+
+<pre class="brush: html">&lt;tr&gt;
+	&lt;td class="innerpadding borderbottom"&gt;
+		&lt;table width="100%" border="0" cellspacing="0" cellpadding="0"&gt;
+			&lt;tr&gt;
+				&lt;td class="h2"&gt;
+					Welcome to our responsive email!
+				&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;td class="bodycopy"&gt;
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat.
+				&lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+	&lt;/td&gt;
+&lt;/tr&gt;</pre>
+
+<p>Our CSS for this section:</p>
+
+<pre class="brush: css">.innerpadding {padding: 30px 30px 30px 30px;}
+.borderbottom {border-bottom: 1px solid #f2eeed;}
+.h2 {padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold;}
+.bodycopy {font-size: 16px; line-height: 22px;}</pre>
+
+
+<h2>Creating the Double Column Article</h2>
+
+<p>Now we'll create a responsive row exactly like our header, but with slightly different dimensions so that we can have a larger image.</p>
+
+<pre class="brush: html">&lt;tr&gt;
+  &lt;td class="innerpadding borderbottom"&gt;
+    &lt;table width="115" align="left" border="0" cellpadding="0" cellspacing="0"&gt;  
+      &lt;tr&gt;
+        &lt;td height="115" style="padding: 0 20px 20px 0;"&gt;
+          &lt;img src="images/article1.png" width="115" height="115" border="0" alt="" /&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;!--[if (gte mso 9)|(IE)]&gt;
+      &lt;table width="380" align="left" cellpadding="0" cellspacing="0" border="0"&gt;
+        &lt;tr&gt;
+          &lt;td&gt;
+    &lt;![endif]--&gt;
+    &lt;table class="col380" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 380px;"&gt;  
+      &lt;tr&gt;
+        &lt;td&gt;
+          &lt;table width="100%" border="0" cellspacing="0" cellpadding="0"&gt;
+            &lt;tr&gt;
+              &lt;td class="bodycopy"&gt;
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat.
+              &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td style="padding: 20px 0 0 0;"&gt;
+                &lt;table class="buttonwrapper" bgcolor="#e05443" border="0" cellspacing="0" cellpadding="0"&gt;
+                  &lt;tr&gt;
+                    &lt;td class="button" height="45"&gt;
+                      &lt;a href="#"&gt;Claim yours!&lt;/a&gt;
+                    &lt;/td&gt;
+                  &lt;/tr&gt;
+                &lt;/table&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;!--[if (gte mso 9)|(IE)]&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;![endif]--&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;</pre>
+
+<p>We've added a button here with the class 'buttonwrapper'. It contains a padded cell with a background colour set, and then a text link inside. I prefer to use this method as it allows you to have fluid width buttons which is very useful when creating a reusable template, where the width of every button will be different each time it is used. If you have a fixed width for your buttons you may prefer to use the <a href="http://www.buttons.cm/" rel="external">Bulletproof Button Generator</a> over at Campaign Monitor.</p>
+
+<p>Our styles for the button:</p>
+
+<pre class="brush: css">.button {text-align: center; font-size: 18px; font-family: sans-serif; font-weight: bold; padding: 0 30px 0 30px;}
+.button a {color: #ffffff; text-decoration: none;}</pre>
+
+<p>As well as our set width for this new class 'col380', we'll add our size to our list of styles to take care of Apple Mail. It now looks like this:</p>
+
+<pre class="brush: css">@media only screen and (min-device-width: 601px) {
+.content {width: 600px !important;}
+.col425 {width: 425px!important;}
+.col380 {width: 380px!important;}
+}</pre>
+
+<figure class="tutorial_image">
+	<img width="100" alt="Email-TwoCol" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Email-TwoCol.jpg">
+</figure>
+
+<h2>Creating the Single Column Image</h2>
+
+<p>This is a very simple row; we'll simply set an image to be 100% of the width of the email and make sure its height is set to be automatic using CSS.</p>
+
+<pre class="brush: html">&lt;tr&gt;
+	&lt;td class="innerpadding borderbottom"&gt;
+		&lt;img src="images/wide.png" width="100%" border="0" alt="" /&gt;
+	&lt;/td&gt;
+&lt;/tr&gt;</pre>
+
+<p>In our CSS:</p>
+
+<pre class="brush: css">img {height: auto;}</pre>
+
+
+<h2>Creating the Final Plain Text Row</h2>
+
+<p>Finally we'll add a row of text without the border on the bottom:</p>
+
+<pre class="brush: html">&lt;tr&gt;
+	&lt;td class="innerpadding borderbottom"&gt;
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat.
+	&lt;/td&gt;
+&lt;/tr&gt;</pre>
+
+
+<h2>Creating the Footer</h2>
+
+<p>To create the footer, we'll add a new row with a table inside. One of the rows will contain another table for our social media icons.</p>
+
+<pre class="brush: html">&lt;tr&gt;
+	&lt;td class="footer" bgcolor="#44525f"&gt;
+		&lt;table width="100%" border="0" cellspacing="0" cellpadding="0"&gt;
+			&lt;tr&gt;
+				&lt;td align="center" class="footercopy"&gt;
+					&amp;amp;reg; Someone, somewhere 2013&lt;br/&gt;
+					&lt;a href="#"&gt;&lt;font color="#ffffff"&gt;Unsubscribe&lt;/font&gt;&lt;/a&gt; from this newsletter instantly
+				&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;td align="center" style="padding: 20px 0 0 0;"&gt;
+					&lt;table border="0" cellspacing="0" cellpadding="0"&gt;
+						&lt;tr&gt;
+							&lt;td width="37" style="text-align: center; padding: 0 10px 0 10px;"&gt;
+								&lt;a href="http://www.facebook.com/"&gt;
+									&lt;img src="images/facebook.png" width="37" height="37" alt="Facebook" border="0" /&gt;
+								&lt;/a&gt;
+							&lt;/td&gt;
+							&lt;td width="37" style="text-align: center; padding: 0 10px 0 10px;"&gt;
+								&lt;a href="http://www.twitter.com/"&gt;
+									&lt;img src="images/twitter.png" width="37" height="37" alt="Twitter" border="0" /&gt;
+								&lt;/a&gt;
+							&lt;/td&gt;
+						&lt;/tr&gt;
+					&lt;/table&gt;
+				&lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+	&lt;/td&gt;
+&lt;/tr&gt;</pre>
+
+<p>We'll add the requisite styles for our footer to the CSS:</p>
+
+<pre class="brush: css">.footer {padding: 20px 30px 15px 30px;}
+.footercopy {font-family: sans-serif; font-size: 14px; color: #ffffff;}
+.footercopy a {color: #ffffff; text-decoration: underline;}</pre>
+
+
+<h2>Optimising Buttons for Mobile</h2>
+
+<p>On mobile, it's ideal if the whole button is a link, not just the text, because it's much harder to target a tiny text link with your finger. Because it's not possible to have this work on all desktop clients (padding isn't fully supported on <code>&lt;a&gt;</code> tags), it's something that I add to the mobile version using media queries.</p>
+
+<p>We'll have to strip the colour from the <code>&lt;td&gt;</code> to which it is currently applied, and then apply it back to the <code>&lt;a&gt;</code> tag along with lots of padding.</p>
+
+<p>I will use both <code>max-width</code> and <code>max-device-width</code> in this media query in an attempt to avoid a <a href="http://emailwizardry.nightjar.com.au/2013/08/28/media-queries-in-html-email-cover-all-your-bases/" rel="external">bug in Outlook.com on IE9</a>.</p>
+
+<pre class="brush: css">@media only screen and (max-width: 550px), screen and (max-device-width: 550px) {
+body[yahoo] .buttonwrapper {background-color: transparent!important;}
+body[yahoo] .button a {background-color: #e05443; padding: 15px 15px 13px!important; display: block!important;}
+}</pre>
+
+<p>Now when you tap anywhere on the coloured button on mobile, it's a link!</p>
+
+
+<h2>Further Enhancements With Media Queries</h2>
+
+<p>If you wanted to, you could now start making enhancements to your layout by applying class names to elements that you wish to control, and then creating the new rules inside the media query we just created above.</p>
+
+<p>As an example, we'll turn our unsubscribe link into a button, by adding a class to the link:</p>
+
+<pre class="brush: html">&lt;a href="#" class="unsubscribe"&gt;
+	&lt;font color="#ffffff"&gt;Unsubscribe&lt;/font&gt;
+&lt;/a&gt;
+&lt;span class="hide"&gt;from this newsletter instantly&lt;/span&gt;</pre>
+
+<p>and adding the following CSS to the media query:</p>
+
+<pre class="brush: css">body[yahoo] .unsubscribe {display: block; margin-top: 20px; padding: 10px 50px; background: #2f3942; border-radius: 5px; text-decoration: none!important; font-weight: bold;}</pre>
+
+<pre class="brush: css">body[yahoo] .hide {display: none!important;}</pre>
+
+<figure class="tutorial_image">
+	<img width="100" alt="Email-Footer-MQs" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Email-Footer-MQs.jpg">
+</figure>
+
+<p>You could also target the .innerpadding, .header and .footer classes to reduce the amount of padding on clients that support media queries.</p>
+
+
+
+
+
+
+<!--
+lastly, there's a conclusion
+-->
+
+<h2>Test and Go!</h2>
+
+<p>Finally, as always, make sure you validate (using the <a href="http://validator.w3.org/" rel="external">W3C validator</a> — you should only get one error for the proprietary 'yahoo' attribute on the body tag) and test really well using live devices and a web preview service like <a href="https://litmus.com/" rel="external">Litmus</a> or <a href="http://www.emailonacid.com/" rel="external">Email on Acid</a>.</p>
+
+<p>Enjoy creating responsive emails that look great in every email client!</p>
+
+
+
+
+<!--
+job done! Thanks :)
+-->
