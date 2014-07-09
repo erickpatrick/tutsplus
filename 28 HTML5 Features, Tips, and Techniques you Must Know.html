@@ -92,9 +92,9 @@ Considere o seguinte código para uma imagem:</p>
 <pre class="brush: html">&lt;ul contenteditable=true&gt;</pre>
 
 
-<h2><span class="sectionnum">7.</span> Email Inputs </h2>
+<h2><span class="sectionnum">7.</span> Campos de E-mail </h2>
 
-<p>If we apply a <code>type</code> of "email" to form inputs, we can instruct the browser to <em>only</em> allow strings that conform to a valid email address structure. That's right; built-in form validation will soon be here! We can't 100% rely on this just yet, for obvious reasons. In older browsers that do not understand this "email" type, they'll simply fall back to a regular textbox. </p>
+<p>Se aplicarmos o valor "email" ao atributo <code>type</code> de algum campo de formulário, podemos instruir o navegador a <em>só</em> permitir cadeias de caracteres que sigam as regras de estrutura de um endereço de e-mail válido. É verdade. Validação de formulários logo-logo nos navegadores! Não podemos depender 100% dessa validação, ainda, por questões óbvias. Em navegadores antigos, que não entendem esse valor "email", eles simplesmente criaram um campo de texto padrão. </p>
 
 <pre class="brush: html">&lt;!DOCTYPE html&gt;
 
@@ -108,14 +108,14 @@ Considere o seguinte código para uma imagem:</p>
 &lt;label for="email"&gt;Email:&lt;/label&gt;
 &lt;input id="email" name="email" type="email" /&gt;
 
-&lt;button type="submit"&gt; Submit Form &lt;/button&gt;
+&lt;button type="submit"&gt; Enviar Formulário &lt;/button&gt;
 	&lt;/form&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/email_validation.png" /></figure>
 
-<blockquote><p>At this time, we cannot depend on browser validation. A server/client side solution must still be implemented.  </p>
+<blockquote><p>Nesse momento, não podemos depender de validação dos navegadores. Soluções tanto no cliente quando no servidor devem ser implementadas.  </p>
 </blockquote>
 
 <p>It should also be noted that all the current browsers are a bit wonky when it comes to what elements and attributes they do and don't support. For example, Opera seems to support email validation, just as long as the <code>name</code> attribute is specified. However, it does not support the <code>placeholder</code> attribute, which we'll learn about in the next tip. Bottom line, don't depend on this form of validation just yet...but you can still use it!</p>
