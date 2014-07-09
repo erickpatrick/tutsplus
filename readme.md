@@ -32,3 +32,4 @@ Design E Ilustração
 Web  Design
 -----------
 - [Um Guia Para Iniciantes Sobre Como Combinar Fontes](https://webdesign.tutsplus.com/pt/articles/a-beginners-guide-to-pairing-fonts--webdesign-5706)
+- [Criando E-Mails HTML Responsivos](http://webdesign.tutsplus.com/pt/articles/creating-a-simple-responsive-html-email--webdesign-12978)
