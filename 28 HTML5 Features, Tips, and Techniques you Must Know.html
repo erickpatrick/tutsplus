@@ -1,0 +1,562 @@
+<p>
+This industry moves fast -- really fast! If you're not careful, you'll be left in its dust. So, if you're feeling a bit overwhelmed with the coming changes/updates in HTML5, use this as a primer of the things you must know.</p>
+
+<h2><span class="sectionnum">1.</span> New Doctype </h2>
+
+<p>
+Still using that pesky, impossible-to-memorize XHTML doctype?</p>
+
+<pre class="brush: html">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</pre>
+	
+<p>If so, why? Switch to the new HTML5 doctype. You'll live longer -- as Douglas Quaid might say. </p>
+
+<pre class="brush: html">&lt;!DOCTYPE html&gt;</pre>
+
+<p>In fact, did you know that it truthfully isn't even really necessary for HTML5? However, it's used for current, and older browsers that require a specified <code>doctype</code>. Browsers that do not understand this doctype will simply render the contained markup in standards mode. So, without worry, feel free to throw caution to the wind, and embrace the new HTML5 doctype. </p>
+
+
+<h2><span class="sectionnum">2.</span> The Figure Element </h2>
+
+<p>
+Consider the following mark-up for an image:</p>
+
+<pre class="brush: html">&lt;img src="path/to/image" alt="About image" /&gt;
+&lt;p&gt;Image of Mars. &lt;/p&gt;</pre>
+
+<p>There unfortunately isn't any easy or semantic way to associate the caption, wrapped in a paragraph tag, with the image element itself. HTML5 rectifies this, with the introduction of the <code>&lt;figure&gt;</code> element. When combined with the <code>&lt;figcaption&gt;</code> element, we can now semantically associate captions with their image counterparts. </p>
+
+<pre class="brush: html">&lt;figure&gt;
+	&lt;img src="path/to/image" alt="About image" /&gt;
+	&lt;figcaption&gt;
+&lt;p&gt;This is an image of something interesting. &lt;/p&gt;
+	&lt;/figcaption&gt;
+&lt;/figure&gt;</pre>
+
+
+<h2><span class="sectionnum">3.</span> &lt;small&gt; Redefined </h2>
+
+<p>Not long ago, I utilized the <code>&lt;small&gt;</code> element to create subheadings that are closely related to the logo. It's a useful presentational element; however, now, that would be an incorrect usage. The <code>small</code> element has been redefined, more appropriately, to refer to small print. Imagine a copyright statement in the footer of your site; according to the new HTML5 definition of this element; the <code>&lt;small&gt;</code> would  be the correct wrapper for this information. </p>
+
+<blockquote><p>The <code>small</code> element now refers to "small print." </p>
+</blockquote>
+
+
+<h2>4. No More <code>Types</code> for Scripts and Links  </h2>
+
+<p>You possibly still add the <code>type</code> attribute to your <code>link</code> and <code>script</code> tags. </p>
+
+<pre class="brush: html">&lt;link rel="stylesheet" href="path/to/stylesheet.css" type="text/css" /&gt;
+&lt;script type="text/javascript" src="path/to/script.js"&gt;&lt;/script&gt;</pre>
+
+<p>This is no longer necessary. It's implied that both of these tags refer to stylesheets and scripts, respectively. As such, we can remove the <code>type</code> attribute all together. </p>
+
+<pre class="brush: html">&lt;link rel="stylesheet" href="path/to/stylesheet.css" /&gt;
+&lt;script src="path/to/script.js"&gt;&lt;/script&gt;</pre>
+
+
+<h2><span class="sectionnum">5.</span> To Quote or Not to Quote.  </h2>
+
+<p>...That is the question. Remember, HTML5 is not XHTML. You don't have to wrap your attributes in quotation marks if you don't want to you. You don't have to close your elements. With that said, there's nothing wrong with doing so, if it makes you feel more comfortable. I find that this is true for myself. </p>
+
+<pre class="brush: html">&lt;p class=myClass id=someId&gt; Start the reactor.</pre>
+
+<p>Make up your own mind on this one. If you prefer a more structured document, by all means, stick with the quotes. </p>
+
+
+<h2><span class="sectionnum">6.</span> Make your Content Editable</h2>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/contenteditable.png" /></figure><p>The new browsers have a nifty new attribute that can be applied to elements, called <code>contenteditable</code>. As the name implies, this allows the user to edit any of the text contained within the element, including its children. There are a variety of uses for something like this, including an app as simple as a to-do list, which also takes advantage of local storage. </p>
+
+<pre class="brush: html">&lt;!DOCTYPE html&gt;
+
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="utf-8"&gt;
+	&lt;title&gt;untitled&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h2&gt; To-Do List &lt;/h2&gt;
+   &lt;ul contenteditable="true"&gt;
+&lt;li&gt; Break mechanical cab driver. &lt;/li&gt;
+&lt;li&gt; Drive to abandoned factory
+&lt;li&gt; Watch video of self &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>Or, as we learned in the previous tip, we could write it as: </p>
+
+<pre class="brush: html">&lt;ul contenteditable=true&gt;</pre>
+
+
+<h2><span class="sectionnum">7.</span> Email Inputs </h2>
+
+<p>If we apply a <code>type</code> of "email" to form inputs, we can instruct the browser to <em>only</em> allow strings that conform to a valid email address structure. That's right; built-in form validation will soon be here! We can't 100% rely on this just yet, for obvious reasons. In older browsers that do not understand this "email" type, they'll simply fall back to a regular textbox. </p>
+
+<pre class="brush: html">&lt;!DOCTYPE html&gt;
+
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="utf-8"&gt;
+	&lt;title&gt;untitled&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;form action="" method="get"&gt;
+&lt;label for="email"&gt;Email:&lt;/label&gt;
+&lt;input id="email" name="email" type="email" /&gt;
+
+&lt;button type="submit"&gt; Submit Form &lt;/button&gt;
+	&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/email_validation.png" /></figure>
+
+<blockquote><p>At this time, we cannot depend on browser validation. A server/client side solution must still be implemented.  </p>
+</blockquote>
+
+<p>It should also be noted that all the current browsers are a bit wonky when it comes to what elements and attributes they do and don't support. For example, Opera seems to support email validation, just as long as the <code>name</code> attribute is specified. However, it does not support the <code>placeholder</code> attribute, which we'll learn about in the next tip. Bottom line, don't depend on this form of validation just yet...but you can still use it!</p>
+
+
+<h2><span class="sectionnum">8.</span> Placeholders </h2>
+
+<p>
+Before, we had to utilize a bit of JavaScript to create placeholders for textboxes. Sure, you can initially set the <code>value</code> attribute how you see fit, but, as soon as the user deletes that text and clicks away, the input will be left blank again. The <code>placeholder</code> attribute remedies this.</p>
+
+<pre class="brush: html">&lt;input name="email" type="email" placeholder="doug@givethesepeopleair.com" /&gt;</pre>
+
+<p>Again, support is shady at best across browsers, however, this will continue to improve with every new release. Besides, if the browser, like Firefox and Opera, don't currently support the <code>placeholder</code> attribute, no harm done. </p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/validation.png" /></figure>
+
+<h2><span class="sectionnum">9.</span>  Local Storage</h2>
+
+<p>
+ Thanks to local storage (not officially HTML5, but grouped in for convenience's sake), we can make advanced browsers "remember" what we type, even after the browser is closed or is refreshed.</p>
+ 
+<figure data-video-embed="true" data-original-url="https://www.youtube.com/watch?v=h0uZIljjElo" class="embedded-video"><iframe src="//www.youtube.com/embed/h0uZIljjElo?rel=0" frameborder="0" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allowfullscreen="allowfullscreen"></iframe>
+</figure>
+
+<blockquote>
+<p>"localStorage sets fields on the domain. Even when you close the browser, reopen it, and go back to the site, it remembers all fields in localStorage."<br />-<a href="http://www.quirksmode.org/blog/archives/2009/06/html5_storage_t.html">QuirksBlog</a></p>
+</blockquote>
+
+<p>While obviously not supported across all browsers, we can expect this method to work, most notably, in Internet Explorer 8, Safari 4, and Firefox 3.5. Note that, to compensate for older browsers that won't recognize local storage, you should first test to determine whether window.localStorage exists. </p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/macwin.png" /><figcaption>via <a href="http://www.findmebyip.com/litmus/">http://www.findmebyip.com/litmus/</a></figcaption></figure>
+
+<h2><span class="sectionnum">10. </span>The Semantic <code>Header</code> and <code>Footer</code></h2>
+
+<p>
+Gone are the days of:</p>
+
+<pre class="brush: html">&lt;div id="header"&gt;
+	...
+&lt;/div&gt;
+
+&lt;div id="footer"&gt;
+	...
+&lt;/div&gt;</pre>
+
+<p>Divs, by nature, have no semantic structure -- even after an <code>id</code> is applied. Now, with HTML5, we have access to the <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> elements. The mark-up above can now be replaced with:</p>
+
+<pre class="brush: html">&lt;header&gt;
+	...
+&lt;/header&gt;
+
+&lt;footer&gt;
+	...
+&lt;/footer&gt;</pre>
+
+<blockquote><p>It's fully appropriate to have multiple <code>header</code>s and <code>footer</code>s in your projects. </p>
+</blockquote>
+
+<p>Try not to confuse these elements with the "header" and "footer" of your website. They simply refer to their container. As such, it makes sense to place, for example, meta information at the bottom of a blog post within the <code>footer</code> element. The same holds true for the <code>header</code>. </p>
+
+
+<h2><span class="sectionnum">11.</span> More HTML5 Form Features </h2>
+
+<p>Learn about more helpful HTML5 form features in this quick video tip.</p>
+
+<figure data-video-embed="true" data-original-url="https://www.youtube.com/watch?v=spjOAFGxOP0" class="embedded-video"><iframe src="//www.youtube.com/embed/spjOAFGxOP0?rel=0" frameborder="0" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allowfullscreen="allowfullscreen"></iframe></figure>
+
+<h2><span class="sectionnum">12.</span> Internet Explorer and HTML5</h2>
+
+<p>
+Unfortunately, that dang Internet Explorer requires a bit of wrangling in order to understand the new HTML5 elements.</p>
+
+<blockquote><p>All elements, by default, have a <code>display</code> of <code>inline</code>. </p>
+</blockquote>
+
+<p>In order to ensure that the new HTML5 elements render correctly as block level elements, it's necessary at this time to style them as such. </p>
+
+<pre class="brush: css">header, footer, article, section, nav, menu { 
+ display: block;
+}</pre>
+
+<p>Unfortunately, Internet Explorer will still ignore these stylings, because it has no clue what, as an example, the <code>header</code> element even is. Luckily, there is an easy fix: </p>
+
+<pre class="brush: javascript">document.createElement("article");
+document.createElement("footer");
+document.createElement("header");
+document.createElement("nav");
+document.createElement("menu");</pre>
+
+<p>Strangely enough, this code seems to trigger Internet Explorer. To simply this process for each new application, Remy Sharp <a href="http://remysharp.com/2009/01/07/html5-enabling-script/">created a script</a>, commonly referred to as the HTML5 shiv.  This script also fixes some printing issues as well. </p>
+
+<pre class="brush: html">&lt;!--[if IE]&gt;
+&lt;script src="http://html5shim.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
+&lt;![endif]--&gt;</pre>
+
+
+<h2><span class="sectionnum">13.</span> hgroup*</h2>
+
+<p>*Since first publication of this article, the <a href="http://www.w3.org/html/wg/drafts/html/master/obsolete.html#non-conforming-features" target="_self">hgroup element has become entirely obsolete</a> and must no longer be used.</p>
+
+
+<h2><span class="sectionnum">14.</span> Required Attribute </h2>
+
+<p>Forms allow for a new <code>required</code> attribute, which specifies, naturally, whether a particular input is required. Dependent upon your coding preference, you can declare this attribute in one of two ways: </p>
+
+<pre class="brush: html">&lt;input type="text" name="someInput" required&gt;</pre>
+
+<p>Or, with a more structured approach. </p>
+
+<pre class="brush: html">&lt;input type="text" name="someInput" required="required"&gt;</pre>
+
+<p>Either method will do. With this code, and within browsers that support this attribute, a form cannot be submitted if that "someInput" input is blank. Here's a quick example; we'll also add the placeholder attribute as well, as there's no reason not to.</p>
+
+<pre class="brush: html">&lt;form method="post" action=""&gt;
+	&lt;label for="someInput"&gt; Your Name: &lt;/label&gt;
+	&lt;input type="text" id="someInput" name="someInput" placeholder="Douglas Quaid" required&gt;
+	&lt;button type="submit"&gt;Go&lt;/button&gt;
+&lt;/form&gt;</pre>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/placeholder_required.png" /></figure><p>If the input is left blank, and the form is submitted, the textbox will be highlighted. </p>
+
+
+<h2><span class="sectionnum">15.</span> Autofocus Attribute </h2>
+
+<p>
+Again, HTML5 removes the need for JavaScript solutions. If a particular input should be "selected," or focused, by default, we can now utilize the <code>autofocus</code> attribute.</p>
+
+<pre class="brush: html">&lt;input type="text" name="someInput" placeholder="Douglas Quaid" required autofocus&gt;</pre>
+
+<p>Interestingly enough, while I personally tend to prefer a more XHTML approach (using quotation marks, etc.), writing <code>"autofocus=autofocus"</code> feels odd. As such, we'll stick with the single keyword approach. </p>
+
+
+<h2><span class="sectionnum">16.</span> Audio Support </h2>
+
+<p>No longer do we have to rely upon third party plugins in order to render audio. HTML5 now offers the <code>&lt;audio&gt;</code> element. Well, at least, ultimately, we won't have to worry about these plugins. For the time being, only the most recent of browsers offer support for HTML5 audio. At this time, it's still a good practice to offer some form of backward compatibility.  </p>
+
+<pre class="brush: html">&lt;audio autoplay="autoplay" controls="controls"&gt;
+	&lt;source src="file.ogg" /&gt;
+	&lt;source src="file.mp3" /&gt;	
+	<a>Download this file.</a>
+&lt;/audio&gt;</pre>
+
+<p>Mozilla and Webkit don’t fully get along just yet, when it comes to the audio format. Firefox will want to see an .ogg file, while Webkit browsers will work just fine with the common .mp3 extension. This means that, at least for now, you should create two versions of the audio.</p>
+
+<p>When Safari loads the page, it won’t recognize that .ogg format, and will skip it and move on to the mp3 version, accordingly. Please note that IE, per usual, doesn’t support this, and Opera 10 and lower can only work with .wav files. </p>
+
+
+<h2><span class="sectionnum">17.</span>  Video Support</h2>
+
+<p>Much like the <code>&lt;audio&gt;</code> element, we also, of course, have HTML5 video as well in the new browsers! In fact, just recently, <a href="http://apiblog.youtube.com/2010/07/new-way-to-embed-youtube-videos.html">YouTube announced a new HTML5 video embed</a> for their videos, for browsers which support it. Unfortunately, again, because the HTML5 spec doesn't specify a specific codec for video, it's left to the browsers to decide. While Safari, and Internet Explorer 9 can be expected to support video in the H.264 format (which Flash players can play), Firefox and Opera are sticking with the open source Theora and Vorbis formats. As such, when displaying HTML5 video, you must offer both formats. </p>
+
+<pre class="brush: html">&lt;video controls preload&gt;
+	&lt;source src="cohagenPhoneCall.ogv" type="video/ogg; codecs='vorbis, theora'" /&gt;
+	&lt;source src="cohagenPhoneCall.mp4" type="video/mp4; 'codecs='avc1.42E01E, mp4a.40.2'" /&gt;
+	&lt;p&gt; Your browser is old. &lt;a href="cohagenPhoneCall.mp4"&gt;Download this video instead.&lt;/a&gt; &lt;/p&gt;
+&lt;/video&gt;</pre>
+
+<blockquote><p>Chrome can correctly display video that is encoded in both the "ogg" and "mp4" formats. </p>
+</blockquote>
+
+<p>There are a few things worth noting here. </p>
+
+<ol>
+<li>We aren't technically required to set the <code>type</code> attribute; however, if we don't, the browser has to figure out the type itself. Save some bandwidth, and declare it yourself.  </li>
+<li>Not all browsers understand HTML5 video. Below the <code>source</code> elements, we can either offer a download link, or embed a Flash version of the video instead. It's up to you. </li>
+<li> The <code>controls</code> and <code>preload</code> attributes will be discussed in the next two tips. </li>
+</ol>
+
+<h2><span class="sectionnum">18.</span> Preload Videos </h2>
+
+<p>The <code>preload</code> attribute does exactly what you'd guess. Though, with that said, you should first decide whether or not you want the browser to preload the video. Is it necessary? Perhaps, if the visitor accesses a page, which is specifically made to display a video, you should definitely preload the video, and save the visitor a bit of waiting time. Videos can be preloaded by setting <code>preload="preload"</code>, or by simply adding <code>preload</code>. I prefer the latter solution; it's a bit less redundant.</p>
+
+<pre class="brush: html">&lt;video preload&gt;</pre>
+
+
+<h2><span class="sectionnum">19.</span> Display Controls </h2>
+
+<p>If you're working along with each of these tips and techniques, you might have noticed that, with the code above, the video above appears to be only an image, without any controls. To render these play controls, we must specify the <code>controls</code> attribute within the <code>video</code> element. </p>
+
+<pre class="brush: html">&lt;video preload controls&gt;</pre><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/video.jpg" /></figure><p>Please note that each browser renders its player differently from one another. </p>
+
+
+<h2><span class="sectionnum">20.</span> Regular Expressions </h2>
+
+<p>How often have you found yourself writing some quickie regular expression to verify a particular textbox. Thanks to the new <code>pattern</code> attribute, we can insert a regular expression directly into our markup. </p>
+
+<pre class="brush: html">&lt;form action="" method="post"&gt;
+	&lt;label for="username"&gt;Create a Username: &lt;/label&gt;
+ 	&lt;input type="text" 
+  name="username" 
+  id="username"
+  placeholder="4 &lt;&gt; 10"
+  pattern="[A-Za-z]{4,10}"
+  autofocus
+  required&gt;
+	&lt;button type="submit"&gt;Go &lt;/button&gt;
+&lt;/form&gt;</pre>
+
+<p>If you're moderately familiar with regular expressions, you'll be aware that this pattern: <code>[A-Za-z]{4,10}</code> accepts only upper and lowercase letters. This string must also have a minimum of four characters, and a maximum of ten. </p>
+
+<p>Notice that we're beginning to combine all of these new awesome attributes! </p>
+
+<p><em>If regular expressions are foreign to you, <a href="http://net.tutsplus.com/tutorials/javascript-ajax/you-dont-know-anything-about-regular-expressions/">refer here</a>. </em></p>
+
+
+<h2><span class="sectionnum">21.</span> Detect Support for Attributes </h2>
+
+<p>What good are these attributes if we have no way of determining whether the browser recognizes them? Well, good point; but there are several ways to figure this out. We'll discuss two. The first option is to utilize the excellent <a href="http://modernizr.com">Modernizr</a> library. Alternatively, we can create and dissect these elements to determine what the browsers are capable of. For instance, in our previous example, if we want to determine if the browser can implement the <code>pattern</code> attribute, we could add a bit of JavaScript to our page:</p>
+
+<pre class="brush:">alert( 'pattern' in document.createElement('input') ) // boolean;</pre>
+
+<p>In fact, this is a popular method of determining browser compatibility. The jQuery library utilizes this trick. Above, we're creating a new <code>input</code> element, and determining whether the <code>pattern</code> attribute is recognized within. If it is, the browser supports this functionality. Otherwise, it of course does not. </p>
+
+<pre class="brush:">&lt;script&gt;
+if (!'pattern' in document.createElement('input') ) {
+	// do client/server side validation
+}
+&lt;/script&gt;</pre>
+
+<p><em>Keep in mind that this relies on JavaScript! </em></p>
+
+
+<h2><span class="sectionnum">22.</span> Mark Element </h2>
+
+<p>
+Think of the <code>&lt;mark&gt;</code> element as a highlighter. A string wrapped within this tag should be relevant to the current actions of the user. For example, if I searched for "Open your Mind" on some blog, I could then utilize some JavaScript to wrap each occurrence of this string within <code>&lt;mark&gt;</code> tags. </p>
+
+<pre class="brush: html">&lt;h3&gt; Search Results &lt;/h3&gt;
+&lt;p&gt; They were interrupted, just after Quato said, &lt;mark&gt;"Open your Mind"&lt;/mark&gt;. &lt;/p&gt;</pre>
+
+
+<h2><span class="sectionnum">23.</span> When to Use a &lt;div&gt; </h2>
+
+<p>Some of us initially questioned when we should use plain-ole <code>div</code>s. Now that we have access to <code>header</code>s, <code>article</code>s, <code>section</code>s, and <code>footer</code>s, is there ever a time to use a...<code>div</code>? Absolutely. </p>
+
+<blockquote>
+<p><code>Div</code>s should be utilized when there's no better element for the job. </p>
+</blockquote>
+
+<p>For example, if you find that you need to wrap a block of code within a wrapper element specifically for the purpose of positioning the content, a <code>&lt;div&gt;</code> makes perfect sense. However, if you're instead wrapping a new blog post, or, perhaps, a list of links in your footer, consider using the <code>&lt;article&gt;</code> and <code>&lt;nav&gt;</code> elements, respectively. They're more semantic. </p>
+
+
+<h2><span class="sectionnum">24.</span> What to Immediately Begin Using</h2>
+
+<p>
+With all this talk about HTML5 <a href="http://blogs.techrepublic.com.com/programming-and-development/?p=718">not being complete until 2022</a>, many people disregard it entirely - which is a big mistake. In fact, there are a handful of HTML5 features that we can use in all our projects right now! Simpler, cleaner code is always a good thing. In today's video quick tip, I'll show you a handful of options.</p>
+
+<figure data-video-embed="true" data-original-url="https://www.youtube.com/watch?v=HzCkSv3s0-k" class="embedded-video"><iframe src="//www.youtube.com/embed/HzCkSv3s0-k?rel=0" frameborder="0" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allowfullscreen="allowfullscreen"></iframe></figure>
+
+<h2><span class="sectionnum">25.</span>  What is Not HTML5</h2>
+
+<p>
+People can be forgiven for assuming that awesome JavaScript-less transitions are grouped into the all-encompassing HTML5. Hey -- even Apple has inadvertently promoted this idea. For non-developers, who cares; it's an easy way to refer to modern web standards. However, for us, though it may just be semantics, it's important to understand exactly what <strong>is not</strong> HTML5. </p>
+
+<ol>
+<li> <strong>SVG: </strong> Not HTML5. It's at least five years old. </li>
+<li> <strong>CSS3: </strong>Not HTML5. It's...CSS. </li>
+<li> <strong>Geolocation: </strong>Not HTML5. </li>
+<li> <strong>Client Storage: </strong> Not HTML5. It was at one point, but was removed from the spec, due to the fact that many worried that it, as a whole, was becoming too complicated. It now has its own specification.</li>
+<li><strong>Web Sockets: </strong>Not HTML5. Again, was exported to its own specification. </li>
+</ol><p>Regardless of how much distinction you require, all of these technologies can be grouped into the modern web stack. In fact, many of these branched specifications are still managed by the same people. </p>
+
+
+<h2><span class="sectionnum">26.</span>  The Data Attribute</h2>
+
+<p>
+We now officially have support for custom attributes within all HTML elements. While, before, we could still get away with things like:</p>
+
+<pre class="brush: html">&lt;h1 id=someId customAttribute=value&gt; Thank you, Tony. &lt;/h1&gt;</pre>
+
+<p>...the validators would kick up a fuss! But now, as long as we preface our custom attribute with "data," we can officially use this method. If you've ever found yourself attaching important data to something like a <code>class</code> attribute, probably for JavaScript usage, this will come as a big help! </p>
+
+<h3> HTML Snippet </h3>
+
+<pre class="brush: html">&lt;div id="myDiv" data-custom-attr="My Value"&gt; Bla Bla &lt;/div&gt;</pre>
+
+<h3> Retrieve Value of the Custom Attribute </h3>
+
+<pre>var theDiv = document.getElementById('myDiv');
+var attr = theDiv.getAttribute('data-custom-attr'); 
+alert(attr); // My Val
+</pre>
+
+<p>It can also even be used in your CSS, like for this silly and lame CSS text changing example.  </p>
+
+<pre class="brush: html">&lt;!DOCTYPE html&gt;
+
+&lt;html lang="en"&gt;
+&lt;head&gt;
+ &lt;meta charset="utf-8"&gt;
+ &lt;title&gt;Sort of Lame CSS Text Changing&lt;/title&gt;
+&lt;style&gt;
+
+h1 { position: relative; }
+h1:hover { color: transparent; }
+
+h1:hover:after {
+	content: attr(data-hover-response);
+	color: black;
+	position: absolute;
+	left: 0;
+
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1 data-hover-response="I Said Don't Touch Me!"&gt; Don't Touch Me  &lt;/h1&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>You can view a demo of the effect above <a href="http://jsbin.com/okepo4">on JSBIN</a>. </p>
+
+
+<h2><span class="sectionnum">27.</span> The Output Element </h2>
+
+<p>As you probably have guessed, the <code>output</code> element is used to display some sort of calculation. For example, if you'd like to display the coordinates of a mouse position, or the sum of a series of numbers, this data should be inserted into the <code>output</code> element. </p>
+
+<p>As a simple example, let's insert the sum of two numbers into an empty <code>output</code> with JavaScript, when a <code>submit</code> button is pressed. </p>
+
+<pre class="brush: html">&lt;form action="" method="get"&gt;
+	&lt;p&gt; 
+10 + 5 = &lt;output name="sum"&gt;&lt;/output&gt; 
+	&lt;/p&gt;
+	&lt;button type="submit"&gt; Calculate &lt;/button&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+(function() {
+	var f = document.forms[0];
+	
+	if ( typeof f['sum'] !== 'undefined' ) {
+f.addEventListener('submit', function(e) {
+	f['sum'].value = 15;
+	e.preventDefault();
+}, false);
+	}
+	else { alert('Your browser is not ready yet.'); }
+})();
+&lt;/script&gt;</pre>
+
+<p><em><a href="http://jsbin.com/efedu3">Try it out for yourself.</a> </em></p>
+
+<p>Please note that support for the <code>output</code> element is still a bit wonky. At the time of this writing, I was only able to get Opera to play nice. This is reflected in the code above. If the browser does not recognize the element, the browser will simply alert a notice informing you of as much. Otherwise, it finds the output with a name of "sum," and sets its value to <code>15</code>, accordingly, after the form has been submitted. </p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/output.png" /></figure>
+
+<p>This element can also receive a <code>for</code> attribute, which reflects the name of the element that the <code>output</code> relates to, similar to the way that a <code>label</code> works. </p>
+
+
+<h2><span class="sectionnum">28.</span> Create Sliders with the Range Input</h2>
+
+<p>
+HTML5 introduces the new <code>range</code> type of input.</p>
+
+<pre class="brush: html">&lt;input type="range"&gt;</pre>
+
+<p>Most notably, it can receive <code>min</code>, <code>max</code>, <code>step</code>, and <code>value</code> attributes, among others. Though only Opera seems to support this type of input right now fully, it'll be fantastic when we can actually use this!  </p>
+
+<p>For a quick demonstration, let's build a gauge that will allow users to decide how awesome "Total Recall" is. We won't build a real-world polling solution, but we'll review how it could be done quite easily. </p>
+
+<h3>Step 1: Mark-up </h3>
+
+<p>
+First, we create our mark-up.</p>
+
+<pre class="brush: html">&lt;form method="post"&gt;
+	&lt;h1&gt; Total Recall Awesomness Gauge &lt;/h1&gt;
+	&lt;input type="range" name="range" min="0" max="10" step="1" value=""&gt;
+	&lt;output name="result"&gt;  &lt;/output&gt;
+&lt;/form&gt;</pre>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/gaugeunstyled.png" /></figure>
+
+<p>Notice that, in addition to setting <code>min</code> and <code>max</code> values, we can always specify what the <code>step</code> for each transition will be. If the <code>step</code> is set to <code>1</code>, there will then be 10 values to choose. We also take advantage of the new <code>output</code> element that we learned about in the previous tip. </p>
+
+<h3> Step 2: CSS </h3>
+
+<p>Next, we'll style it just a bit. We'll also utilize <code>:before</code> and <code>:after</code> to inform the user what our specified <code>min</code> and <code>max</code> values are. <em>Thanks so much to Remy and Bruce for teaching me this trick, via "<a href="http://introducinghtml5.com/">Introducing HTML5</a>." </em></p>
+
+<pre class="brush: css">body {
+	font-family: 'Myriad-Pro', 'myriad', helvetica, arial, sans-serif;
+	text-align: center;
+}
+input { font-size: 14px; font-weight: bold;  }
+
+input[type=range]:before { content: attr(min); padding-right: 5px; }
+input[type=range]:after { content: attr(max); padding-left: 5px;}
+
+output { 
+	display: block;
+	font-size: 5.5em;
+	font-weight: bold;
+}</pre>
+
+<p>Above, we create content before and after the range input, and make their values equal to the <code>min</code> and <code>max</code> values, respectively. </p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/styledNoJS.png" /></figure>
+
+<h3>Step 3: The JavaScript </h3>
+
+<p>Lastly, we: </p>
+
+<ul>
+<li> Determine if the current browser knows what the range input is. If not, we alert the user that the demo won't work. </li>
+<li>Update the <code>output</code> element dynamically, as the user moves the slider. </li>
+<li> Listen for when the user mouses off the slider, grab the value, and save it to local storage. </li>
+<li>Then, the next time the user refreshes the page, the range and output will automatically be set to what they last selected. </li>
+</ul>
+
+<pre class="brush:">(function() {
+	var f = document.forms[0],
+range = f['range'],
+result = f['result'],
+cachedRangeValue = localStorage.rangeValue ? localStorage.rangeValue : 5; 
+	
+	// Determine if browser is one of the cool kids that 
+	// recognizes the range input.
+	var o = document.createElement('input');
+	o.type = 'range';
+	if ( o.type === 'text' ) alert('Sorry. Your browser is not cool enough yet. Try the latest Opera.');
+
+	// Set initial values of the input and ouput elements to
+	// either what's stored locally, or the number 5.
+	range.value = cachedRangeValue;
+	result.value = cachedRangeValue;
+
+	// When the user makes a selection, update local storage.
+	range.addEventListener("mouseup", function() {
+alert("The selected value was " + range.value + ". I am using local storage to remember the value. Refresh and check on a modern browser.");
+localStorage ? (localStorage.rangeValue = range.value) : alert("Save data to database or something instead.");
+	}, false);
+	
+	// Display chosen value when sliding. 
+	range.addEventListener("change", function() {
+result.value = range.value;
+	}, false);
+	
+})();</pre>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/gauge.png" /></figure>
+
+<p>Ready for the real world? Probably not yet; but it's still fun to play with and prep for!</p>
+
+<p><a href="http://cdn.tutsplus.com/net/uploads/legacy/757_html5Tips/range.html.zip">Download the source code</a>, and try it out for yourself. But use a modern browser. </p>
+
+<p>Thanks for reading! We've covered a lot, but have still only scratched the surface of what's possible with HTML5. I hope this served as a helpful primer!</p>
