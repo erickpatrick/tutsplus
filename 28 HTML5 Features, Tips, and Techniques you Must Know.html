@@ -18,20 +18,20 @@ Você ainda usa aquele doctype complicado e de difícil memorização do XHTML??
 <p>Na verdade, você sabia que ele não é necessário para um documento HTML5? Entretanto, ele é usado pelos navegadores atuais e antigos que requerem que seja especificado um <code>doctype</code>. Os navegadores que não entendem esse doctype, simplesmente, renderizarão o código no modo padrão. Assim, não se preocupe, sinta-se livre para mandar o medo embora e adote o novo doctype do HTML5. </p>
 
 
-<h2><span class="sectionnum">2.</span> The Figure Element </h2>
+<h2><span class="sectionnum">2.</span> O Elemento Figure </h2>
 
 <p>
-Consider the following mark-up for an image:</p>
+Considere o seguinte código para uma imagem:</p>
 
-<pre class="brush: html">&lt;img src="path/to/image" alt="About image" /&gt;
-&lt;p&gt;Image of Mars. &lt;/p&gt;</pre>
+<pre class="brush: html">&lt;img src="path/to/image" alt="Sobre a Imagem" /&gt;
+&lt;p&gt;Imagem de Marte. &lt;/p&gt;</pre>
 
-<p>There unfortunately isn't any easy or semantic way to associate the caption, wrapped in a paragraph tag, with the image element itself. HTML5 rectifies this, with the introduction of the <code>&lt;figure&gt;</code> element. When combined with the <code>&lt;figcaption&gt;</code> element, we can now semantically associate captions with their image counterparts. </p>
+<p>Não há, infelizmente, uma maneira fácil ou semântica de associar a legenda, dentro da tag <code>&lt;p&gt;</code>, com o elemento <code>&lt;img&gt;</code> em si. O HTML5 corrige isso, introduzindo o elemento <code>&lt;figure&gt;</code>. Quando combinada com o elemento <code>&lt;figcaption&gt;</code>, nós podemos, agora, associar a legenda com sua respectiva imagem. </p>
 
 <pre class="brush: html">&lt;figure&gt;
-	&lt;img src="path/to/image" alt="About image" /&gt;
+	&lt;img src="path/to/image" alt="Sobre a Imagem" /&gt;
 	&lt;figcaption&gt;
-&lt;p&gt;This is an image of something interesting. &lt;/p&gt;
+&lt;p&gt;Isso é uma imagem de algo interessante. &lt;/p&gt;
 	&lt;/figcaption&gt;
 &lt;/figure&gt;</pre>
 
