@@ -400,16 +400,16 @@ Hello!
 
 <p>Nos dispositivos móveis, é preferível que o botão inteiro seja um link, não apenas o texto, porque é muito difícil apertar um pequeno texto com seu dedo. Por ser algo que não funciona em todos os clientes desktop (espaçamento interno não é totalmente suportado em tags <code>&lt;a&gt;</code>), será algo que adicionaremos à versão dos dispositivos módeis através das media queries.</p>
 
-<p>We'll have to strip the colour from the <code>&lt;td&gt;</code> to which it is currently applied, and then apply it back to the <code>&lt;a&gt;</code> tag along with lots of padding.</p>
+<p>Temos de remover a corde fundo atual da <code>&lt;td&gt;</code>, e, então, aplicá-la à tag <code>&lt;a&gt;</code>, além de bastante espaçamento interno.</p>
 
-<p>I will use both <code>max-width</code> and <code>max-device-width</code> in this media query in an attempt to avoid a <a href="http://emailwizardry.nightjar.com.au/2013/08/28/media-queries-in-html-email-cover-all-your-bases/" rel="external">bug in Outlook.com on IE9</a>.</p>
+<p>Usarei tanto <code>max-width</code> como <code>max-device-width</code> nessa, para tentar evitar um <a href="http://emailwizardry.nightjar.com.au/2013/08/28/media-queries-in-html-email-cover-all-your-bases/" rel="external">bug no Outlook.com rodando IE9</a>.</p>
 
 <pre class="brush: css">@media only screen and (max-width: 550px), screen and (max-device-width: 550px) {
 body[yahoo] .buttonwrapper {background-color: transparent!important;}
 body[yahoo] .button a {background-color: #e05443; padding: 15px 15px 13px!important; display: block!important;}
 }</pre>
 
-<p>Now when you tap anywhere on the coloured button on mobile, it's a link!</p>
+<p>Agora, quando você apertar em qualquer lugar de um botão colorido em um dispositivo móvel, será um link!</p>
 
 
 <h2>Further Enhancements With Media Queries</h2>
