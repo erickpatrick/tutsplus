@@ -11,7 +11,7 @@ first, we have the title
 then, we have an introduction paragraph
 -->
 
-<p>Nesse tutorial, mostrarei a você como criar simples e-mails HTML responsivos, que funcionarão em cada cliente de email, incluindo todos os novos clientes de email e apps dos smartphones. Ele usa o mínimo de <em>media queries</em> e uma abordagem de largura fluida para garantir o máximo de compatibilidade.</p>
+<p>Nesse tutorial, mostrarei a você como criar simples e-mails HTML responsivos, que funcionarão em todos clientes de email, incluindo todos os novos clientes de email e apps de smartphones. Ele usa o mínimo de <em>media queries</em> e uma abordagem de largura fluida para garantir o máximo de compatibilidade.</p>
 
 
 
@@ -20,21 +20,21 @@ then, we have an introduction paragraph
 then comes the meat of the post
 -->
 
-<p>Nesse tutorial, mostrarei a você como criar simples e-mails HTML responsivos, que funcionarão em cada cliente de email, incluindo todos os novos clientes de email e apps dos smartphones. Ele usa o mínimo de <em>media queries</em> e uma abordagem de largura fluida para garantir o máximo de compatibilidade.</p>
+<p>Nesse tutorial, mostrarei a você como criar simples e-mails HTML responsivos, que funcionarão em todos clientes de email, incluindo todos os novos clientes de email e apps de smartphones. Ele usa o mínimo de <em>media queries</em> e uma abordagem de largura fluida para garantir o máximo de compatibilidade.</p>
 
 <h3>Media Queries: Apenas a Metade da Solução</h3>
 
-<p>Houve um tempo que as media queries eram mais que suficiente para fazer com que e-mails responsivos funcionacem em aplicativos do iOS e Android, uma vez que ambos os sistemas operacionais oferecem suporte a media queries em suas <code>WebViews</code>.</p>
+<p>Houve um tempo que as media queries eram mais que suficiente para fazer com que e-mails responsivos funcionacem em aplicativos do iOS e Android, uma vez que ambos os sistemas operacionais oferecem suporte a media queries.</p>
 
 <p>Desde então, houve uma proliferação de aplicativos de e-mail, criados tanto para a plataforma iOS quanto para Android, com variados níveis de suporte a métodos de desenvolvimento de e-mails responsivos.</p>
 
-<p>O mais notável é a última atualização do app do Gmail para Android, o qual é <a href="http://blog.brightwavemarketing.com/2013/02/infographic-ignore-android-subscribers-at-your-own-risk/" rel="external">duas vezes mais popular</a> que o app nativo de e-mails entre os usuários do Android (correspondendo a  <a href="https://litmus.com/blog/master-android-gmail-app-for-android-now-available-for-testing" rel="external">11% do total de abertura de e-mails</a>). Ele nunca deu suporte a media queries e, embora ainda não suporte, agora ele é capaz de dimensionar os seus e-mails, comprimindo o tamanho das tabelas mais externas para caber na largura da área visível da tela. Isso é difícil de lidar e contrar, e, quando seu e-mail depende de media queries para apresentar-se corretamente em dispositivos móveis, isso gera alguns resultados bem indesejáveis.</p>
+<p>O mais notável é a última atualização do app do Gmail para Android, a qual é <a href="http://blog.brightwavemarketing.com/2013/02/infographic-ignore-android-subscribers-at-your-own-risk/" rel="external">duas vezes mais popular</a> que o app nativo de e-mails entre os usuários do Android (correspondendo a  <a href="https://litmus.com/blog/master-android-gmail-app-for-android-now-available-for-testing" rel="external">11% do total de abertura de e-mails</a>). Ele nunca deu suporte a media queries e, embora ainda não suporte, agora ele é capaz de dimensionar os seus e-mails, diminuindo o tamanho das tabelas mais externas para caber na largura da área visível da tela. Isso é difícil de lidar e controlar, e, quando seu e-mail depende de media queries para apresentar-se corretamente em dispositivos móveis, isso gera alguns resultados bem indesejáveis.</p>
 
-<h3>Porque Fluído é o Novo Preto</h3>
+<h3>Porque Fluido é o Novo Preto</h3>
 
 <p>A boa notícia é que você <em>pode</em> projetar e construir um e-mail que pareça excelente em todos aplicativos de e-mail, incluindo aqueles que não dão suporte a media queries. Você pode alcançar isso, lançando mão dos layouts fluidos.</p>
 
-<p>Há, porém, alguns ajutes de design que é preciso que você realize. Aqueles layouts com colunas iguais que se empilham um em cima do outro em um única coluna, não funcionam muito bem ao usar esse método. Se você conseguir sobreviver sem eles, há vários designs bastante funcionais que servem extremamente bem.</p>
+<p>Há, porém, alguns ajutes de design que é preciso que você realize. Aqueles layouts com colunas iguais que se empilham em cima do outro em um única coluna, não funcionam muito bem ao usar esse método. Se você conseguir sobreviver sem eles, há vários designs bastante funcionais que servem extremamente bem.</p>
 
 <p>Eis o que criaremos hoje:</p>
 
@@ -44,7 +44,7 @@ then comes the meat of the post
 
 <h2>Começando</h2>
 
-<p>Certo, comecemos com nosso tela em branco.</p>
+<p>Certo, comecemos com nossa tela em branco.</p>
 
 <pre class="brush: html">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
 &lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
@@ -73,15 +73,15 @@ then comes the meat of the post
 	&lt;/body&gt;
 &lt;/html&gt;</pre>
 
-<p>O que acabamos de criar foi a nossa página básica com seu elementos <code>header</code>, <code>doctype</code> e tabela receptáculo com uma cor de fundo aplicada (tanto na tag <code>body</code> quanto à <code>table</code> receptáculo, uma vez que a estilização da tag body não é bem suportada). Para mais informação dessa preparação básica, veja <a href="http://dev.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770">Build an HTML Email Template from Scratch</a>.</p>
+<p>O que acabamos de criar foi a nossa página básica com seu elementos <code>header</code>, <code>doctype</code> e a tabela receptáculo com uma cor de fundo aplicada (tanto na tag <code>body</code> quanto na <code>table</code> receptáculo, uma vez que a estilização da tag <code>body</code> não é bem suportada). Para mais informação dessa preparação básica, veja <a href="http://dev.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770">Build an HTML Email Template from Scratch</a>.</p>
 
-<p>Também adicionei a tabela que terá o nosso conteúdo, logo ao centro, com a classe <code>content</code>.</p>
+<p>Também adicionei a tabela que terá o nosso conteúdo, logo ao centro, com uma classe <code>content</code>.</p>
 
 <h3>Preste Atenção</h3>
 
-<p><strong>Nota:</strong> Você percebera que, nesse tutorial, colocarei o CSS no elemento <code>head</code> do seu documento. Geralmente, coloco os elementos que reutilizarei lá e uso estilos em linha quando são usados uma única vez.</p>
+<p><strong>Nota:</strong> Você perceberá que, nesse tutorial, colocarei o CSS no elemento <code>head</code> do seu documento. Geralmente, coloco os elementos que reutilizarei lá e uso estilos em linha quando serão usados uma única vez.</p>
 
-<p><strong>Importante:</strong> Sempre que colocar suas regras CSS no <code>head</code> de seu documento, você <em>deve</em> usar alguma ferramenta para fazê-lo virar estilo em linha, ao fim do processo. Se você usar serviços como <a href="http://mailchimp.com/" rel="external">MailChimp</a> ou o <a href="http://www.campaignmonitor.com/" rel="external">Campaign Monitor</a>, eles, automaticamente, oferecerão essa funcionalidade quando for importar seus designs. Você tem de fazer isso porque, alguns clientes, como o Gmail, ignoram ou removem o conteúdo da tag <code>&lt;style&gt;</code>. Você também pode usar alguma ferramenta como a <a href="http://premailer.dialect.ca/" rel="external">Premailer</a> para tornar todo seu CSS em linha. Se você usar o Premailer ou alguma ferramenta parecida, lembre-se de remover suas media queries antes do processamento (já que queremos que elas permaneçam intactas), e, então, insira-as, novamente, após o processamento, ao final das regras. O MailChimp e Campaign Monitor já levam isso em consideração, na hora de importar seus layouts.</p>
+<p><strong>Importante:</strong> Sempre que colocar suas regras CSS no <code>head</code> de seu documento, você <em>deve</em> usar alguma ferramenta para fazê-las virar estilo em linha, ao fim do processo. Se você usar serviços como <a href="http://mailchimp.com/" rel="external">MailChimp</a> ou o <a href="http://www.campaignmonitor.com/" rel="external">Campaign Monitor</a>, eles, automaticamente, oferecerão essa funcionalidade quando for importar seus designs. Você tem de fazer isso porque, alguns clientes, como o Gmail, ignoram ou removem o conteúdo da tag <code>&lt;style&gt;</code>. Você também pode usar alguma ferramenta, como a <a href="http://premailer.dialect.ca/" rel="external">Premailer</a> para tornar todo seu CSS em linha. Se você usar o Premailer ou alguma ferramenta parecida, lembre-se de remover suas media queries antes do processamento (já que queremos que elas permaneçam intactas), e, então, insira-as, novamente, após o processamento, ao final das regras. O MailChimp e Campaign Monitor já levam isso em consideração, na hora de importar seus layouts.</p>
 
 <h3>Escondendo Estilos Mobile em Relação ao Yahoo!</h3>
 
@@ -97,7 +97,7 @@ then comes the meat of the post
 
 <p>Como você pode ver, nossa tabela <code>content</code> foi criada para possuir largura de 100%, tornando-a fluida, ocupando a largura total das telas de smartphones e tablets. Também atribuiremos uma largura máxima de 600px para evitar que o e-mail tome todo o espaço da tela em dispositivos maiores.</p>
 
-<p>Há dois pontos ligeriamente complicados que precisamos ajustar, para garantir que tudo aparece como planejado em todos os clientes de e-mail. Esses dois ajustes são graças ao excelente tutorial de <a href="https://twitter.com/tinabeans" rel="external">Tina Ye</a> sobre esse método, que está <a href="http://blog.fogcreek.com/responsive-html-emails-a-different-strategy/" rel="external">disponível no Blog FogCreek</a>.</p>
+<p>Há dois pontos ligeriamente complicados que precisamos ajustar, para garantir que tudo apareça como planejado em todos os clientes de e-mail. Esses dois ajustes são graças ao excelente tutorial de <a href="https://twitter.com/tinabeans" rel="external">Tina Ye</a> sobre esse método, que está <a href="http://blog.fogcreek.com/responsive-html-emails-a-different-strategy/" rel="external">disponível no Blog FogCreek</a>.</p>
 
 <h3>1. Superando a Falta de Suporte a Max-Width</h3>
 
