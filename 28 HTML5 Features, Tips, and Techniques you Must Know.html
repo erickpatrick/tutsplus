@@ -1,5 +1,7 @@
+<h1>28 Recursos, Dicas e Técnicas Sobre HTML5 Que Você Deve Saber</h1>
+
 <p>
-This industry moves fast -- really fast! If you're not careful, you'll be left in its dust. So, if you're feeling a bit overwhelmed with the coming changes/updates in HTML5, use this as a primer of the things you must know.</p>
+Essa indústria evolui rápido &ndash; muito rápido! Se não tomar cuidado, você ficará para trás, comendo poeira. Então, se você está se sentido sobrecarregado pelas mudanças/atualizações que vieram com o HTML5, use esse artigo como um ponta-pé inicial para o que você precisa saber.</p>
 
 <h2><span class="sectionnum">1.</span> New Doctype </h2>
 
@@ -8,7 +10,7 @@ Still using that pesky, impossible-to-memorize XHTML doctype?</p>
 
 <pre class="brush: html">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</pre>
-	
+
 <p>If so, why? Switch to the new HTML5 doctype. You'll live longer -- as Douglas Quaid might say. </p>
 
 <pre class="brush: html">&lt;!DOCTYPE html&gt;</pre>
@@ -134,7 +136,7 @@ Before, we had to utilize a bit of JavaScript to create placeholders for textbox
 
 <p>
  Thanks to local storage (not officially HTML5, but grouped in for convenience's sake), we can make advanced browsers "remember" what we type, even after the browser is closed or is refreshed.</p>
- 
+
 <figure data-video-embed="true" data-original-url="https://www.youtube.com/watch?v=h0uZIljjElo" class="embedded-video"><iframe src="//www.youtube.com/embed/h0uZIljjElo?rel=0" frameborder="0" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allowfullscreen="allowfullscreen"></iframe>
 </figure>
 
@@ -189,7 +191,7 @@ Unfortunately, that dang Internet Explorer requires a bit of wrangling in order 
 
 <p>In order to ensure that the new HTML5 elements render correctly as block level elements, it's necessary at this time to style them as such. </p>
 
-<pre class="brush: css">header, footer, article, section, nav, menu { 
+<pre class="brush: css">header, footer, article, section, nav, menu {
  display: block;
 }</pre>
 
@@ -250,7 +252,7 @@ Again, HTML5 removes the need for JavaScript solutions. If a particular input sh
 
 <pre class="brush: html">&lt;audio autoplay="autoplay" controls="controls"&gt;
 	&lt;source src="file.ogg" /&gt;
-	&lt;source src="file.mp3" /&gt;	
+	&lt;source src="file.mp3" /&gt;
 	<a>Download this file.</a>
 &lt;/audio&gt;</pre>
 
@@ -300,8 +302,8 @@ Again, HTML5 removes the need for JavaScript solutions. If a particular input sh
 
 <pre class="brush: html">&lt;form action="" method="post"&gt;
 	&lt;label for="username"&gt;Create a Username: &lt;/label&gt;
- 	&lt;input type="text" 
-  name="username" 
+ 	&lt;input type="text"
+  name="username"
   id="username"
   placeholder="4 &lt;&gt; 10"
   pattern="[A-Za-z]{4,10}"
@@ -391,7 +393,7 @@ We now officially have support for custom attributes within all HTML elements. W
 <h3> Retrieve Value of the Custom Attribute </h3>
 
 <pre>var theDiv = document.getElementById('myDiv');
-var attr = theDiv.getAttribute('data-custom-attr'); 
+var attr = theDiv.getAttribute('data-custom-attr');
 alert(attr); // My Val
 </pre>
 
@@ -434,8 +436,8 @@ h1:hover:after {
 <p>As a simple example, let's insert the sum of two numbers into an empty <code>output</code> with JavaScript, when a <code>submit</code> button is pressed. </p>
 
 <pre class="brush: html">&lt;form action="" method="get"&gt;
-	&lt;p&gt; 
-10 + 5 = &lt;output name="sum"&gt;&lt;/output&gt; 
+	&lt;p&gt;
+10 + 5 = &lt;output name="sum"&gt;&lt;/output&gt;
 	&lt;/p&gt;
 	&lt;button type="submit"&gt; Calculate &lt;/button&gt;
 &lt;/form&gt;
@@ -443,7 +445,7 @@ h1:hover:after {
 &lt;script&gt;
 (function() {
 	var f = document.forms[0];
-	
+
 	if ( typeof f['sum'] !== 'undefined' ) {
 f.addEventListener('submit', function(e) {
 	f['sum'].value = 15;
@@ -502,7 +504,7 @@ input { font-size: 14px; font-weight: bold;  }
 input[type=range]:before { content: attr(min); padding-right: 5px; }
 input[type=range]:after { content: attr(max); padding-left: 5px;}
 
-output { 
+output {
 	display: block;
 	font-size: 5.5em;
 	font-weight: bold;
@@ -527,9 +529,9 @@ output {
 	var f = document.forms[0],
 range = f['range'],
 result = f['result'],
-cachedRangeValue = localStorage.rangeValue ? localStorage.rangeValue : 5; 
-	
-	// Determine if browser is one of the cool kids that 
+cachedRangeValue = localStorage.rangeValue ? localStorage.rangeValue : 5;
+
+	// Determine if browser is one of the cool kids that
 	// recognizes the range input.
 	var o = document.createElement('input');
 	o.type = 'range';
@@ -545,12 +547,12 @@ cachedRangeValue = localStorage.rangeValue ? localStorage.rangeValue : 5;
 alert("The selected value was " + range.value + ". I am using local storage to remember the value. Refresh and check on a modern browser.");
 localStorage ? (localStorage.rangeValue = range.value) : alert("Save data to database or something instead.");
 	}, false);
-	
-	// Display chosen value when sliding. 
+
+	// Display chosen value when sliding.
 	range.addEventListener("change", function() {
 result.value = range.value;
 	}, false);
-	
+
 })();</pre>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/gauge.png" /></figure>
