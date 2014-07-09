@@ -101,7 +101,7 @@ then comes the meat of the post
 
 <h3>1. Superando a Falta de Suporte a Max-Width</h3>
 
-<p>Infelizmente, a propriedade <code>max-width</code> não é suportada por todos os clientes de e-mail. Assim, para fazer com que nossos e-mails apresentem-se apropriadamente nos aplicativos Outlook e nos Lotus Notes 8 &amp; 8.5, precisamos envolver cada tabela em um código condicional que cria uma tabela com uma largura fixa, para sustentar tudo dentro. Esses comentários miram o IE (que é o motor de renderização usado pelo Lotus Notes) e p Microsoft Outlook.</p>
+<p>Infelizmente, a propriedade <code>max-width</code> não é suportada por todos os clientes de e-mail. Assim, para fazer com que nossos e-mails apresentem-se apropriadamente nos aplicativos Outlook e nos Lotus Notes 8 &amp; 8.5, precisamos envolver cada tabela em um código condicional que cria uma tabela com uma largura fixa, para sustentar tudo dentro. Esses comentários miram o IE (que é o motor de renderização usado pelo Lotus Notes) e o Microsoft Outlook.</p>
 
 <p>Nós envolveremos nossa tabela em um código condicional:</p>
 
@@ -161,7 +161,7 @@ Hello!
 	&lt;/tr&gt;
 &lt;/table&gt;</pre>
 
-<p>Nós criamos nossa tabela com 70px de largura e também adicionamos espaçamento interno para servir de vão entre as duas colunas. O espaçamento interna da parte inferior irá adicionar vão que ajudará a fazer o layout respeirar quando as duas colunas empilharem em dispositivos módeis.</p>
+<p>Nós criamos nossa tabela com 70px de largura e também adicionamos espaçamento interno para servir de vão entre as duas colunas. O espaçamento interno da parte inferior irá adicionar vão que ajudará a fazer o layout respirar quando as duas colunas empilharem em dispositivos módeis.</p>
 
 <h4>Coluna Direita</h4>
 
@@ -171,12 +171,12 @@ Hello!
 	<img width="100" alt="Responsive-AlignedTables" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Responsive-AlignedTables.png">
 </figure>
 
-<p>Você permitindo ter os 25px de sobra na largura, suas tabelas se comportaram como esperado.</p>
+<p>Você permitindo ter os 25px de sobra na largura, suas tabelas se comportarão como esperado.</p>
 
 <figure class="tutorial_image">
 
 	<img alt="Allow at least 25px of breathing room to stop Outlook from stacking your tables" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Responsive-PreventStack-2.png"><br>
-	<figcaption>Dê 25px de sobre para previnir que o Outlook empilhe suas tabelas</figcaption>
+	<figcaption>Dê 25px de sobra para previnir que o Outlook empilhe suas tabelas</figcaption>
 
 </figure>
 
@@ -218,13 +218,13 @@ Hello!
 	&lt;/tr&gt;
 &lt;/table&gt;</pre>
 
-<p>Adicionei algumas classes a cada uma das ceélulas para estilização, assim como alguns estilos que usarei para alguns textos mais tarde:</p>
+<p>Adicionei algumas classes a cada uma das células para estilização, assim como alguns estilos que usarei para alguns textos mais tarde:</p>
 
 <pre class="brush: css">.subhead {font-size: 15px; color: #ffffff; font-family: sans-serif; letter-spacing: 10px;}
 .h1 {font-size: 33px; line-height: 38px; font-weight: bold;}
 .h1, .h2, .bodycopy {color: #153643; font-family: sans-serif;}</pre>
 
-<p>Nosso cabeçalho está completo, e você pode ver, abaixo, como as duas colunas empilharão em dispositivos móveis. (Para pré-visualizar enquanto você trabalhar, terá de comentar, temporariamente, as media queries com min-device-width, porque elas forçam uma largura fixa no desktop).</p>
+<p>Nosso cabeçalho está completo, e você pode ver, abaixo, como as duas colunas empilharão em dispositivos móveis. (Para pré-visualizar enquanto você trabalha, terá de comentar, temporariamente, as media queries com min-device-width, porque elas forçam uma largura fixa no desktop).</p>
 
 <figure class="tutorial_image">
 	<img width="100" alt="01-header" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/01-header.png">
@@ -232,7 +232,7 @@ Hello!
 
 <h2>Criando A Linha Com Uma Única Coluna</h2>
 
-<p>Para criar uma linha com uma única coluna, nós, simplesmente, adicionaremos uma nova linha à nossa tabela <code>.content</code>. Nós adicionaremos uma classe <code>innerpadding</code> a essas linhas, com alguns valores de espaçamento interno reusáveis. Nós também adicionaremos uma classe chamada <code>borderbottom</code> para aplicar uma borda a cada linha.</p>
+<p>Para criar uma linha com uma única coluna, nós, simplesmente, adicionaremos uma nova linha à nossa tabela <code>.content</code>. Nós adicionaremos uma classe <code>innerpadding</code> a essas linhas, com alguns valores de espaçamento interno reutilizáveis. Nós também adicionaremos uma classe chamada <code>borderbottom</code> para aplicar uma borda a cada linha.</p>
 
 <pre class="brush: html">&lt;tr&gt;
 	&lt;td class="innerpadding borderbottom"&gt;
@@ -309,7 +309,7 @@ Hello!
   &lt;/td&gt;
 &lt;/tr&gt;</pre>
 
-<p>Adicionamos um botão com uma classe <code>buttonwrapper</code>. Ele contém uma célula com espaçamento interno e uma cor de fundo~, e, então, um link textual dentro. Prefiro usar esse método, porque ele permite que você tenha botões com larguras fluidas, o que é bastante interessante ao criar modelos reutilizáveis, onde a largura de cada botão será diferente a cada vez que ele for usado. Se você fixar a largura dos seus botões, talvez você queira usar o <a href="http://www.buttons.cm/" rel="external">Gerador de Botões à prova de Balas</a> do Campaign Monitor.</p>
+<p>Adicionamos um botão com uma classe <code>buttonwrapper</code>. Ele contém uma célula com espaçamento interno e uma cor de fundo, e, então, um link textual dentro. Prefiro usar esse método, porque ele permite que você tenha botões com larguras fluidas, o que é bastante interessante ao criar modelos reutilizáveis, onde a largura de cada botão será diferente a cada vez que ele for usado. Se você fixar a largura dos seus botões, talvez você queira usar o <a href="http://www.buttons.cm/" rel="external">Gerador de Botões à prova de Balas</a> do Campaign Monitor.</p>
 
 <p>Nosso estilo para o botão:</p>
 
@@ -328,7 +328,7 @@ Hello!
 	<img width="100" alt="Email-TwoCol" src="http://cdn.tutsplus.com/webdesign/uploads/2013/12/Email-TwoCol.jpg">
 </figure>
 
-<h2>Criando Uma Image de Uma Só Coluna</h2>
+<h2>Criando Uma Imagem de Uma Só Coluna</h2>
 
 <p>Essa é uma linha bem simples; nós faremos com que a nossa imagem tenha largura de 100% da largura do email, além de garantir que a altura seja atribuida, automaticamente, usando o CSS.</p>
 
@@ -356,7 +356,7 @@ Hello!
 
 <h2>Criando o Rodapé</h2>
 
-<p>Em nosso rodapé, adicionaremos uma linha com uma tabela dentro dela. Uma das linhas dela conterá outra tabela que ficarão nossos ícones de redes sociais.</p>
+<p>Em nosso rodapé, adicionaremos uma linha com uma tabela dentro dela. Uma das linhas dela conterá outra tabela onde ficarão nossos ícones de redes sociais.</p>
 
 <pre class="brush: html">&lt;tr&gt;
 	&lt;td class="footer" bgcolor="#44525f"&gt;
@@ -389,7 +389,7 @@ Hello!
 	&lt;/td&gt;
 &lt;/tr&gt;</pre>
 
-<p>Adicionaremos os estilos requeridos pelo nosso rodapé, ao CSS:</p>
+<p>Adicionaremos os estilos requeridos pelo nosso rodapé ao CSS:</p>
 
 <pre class="brush: css">.footer {padding: 20px 30px 15px 30px;}
 .footercopy {font-family: sans-serif; font-size: 14px; color: #ffffff;}
@@ -400,7 +400,7 @@ Hello!
 
 <p>Nos dispositivos móveis, é preferível que o botão inteiro seja um link, não apenas o texto, porque é muito difícil apertar um pequeno texto com seu dedo. Por ser algo que não funciona em todos os clientes desktop (espaçamento interno não é totalmente suportado em tags <code>&lt;a&gt;</code>), será algo que adicionaremos à versão dos dispositivos módeis através das media queries.</p>
 
-<p>Temos de remover a corde fundo atual da <code>&lt;td&gt;</code>, e, então, aplicá-la à tag <code>&lt;a&gt;</code>, além de bastante espaçamento interno.</p>
+<p>Temos de remover a cor de fundo atual da <code>&lt;td&gt;</code>, e, então, aplicá-la à tag <code>&lt;a&gt;</code>, além de bastante espaçamento interno.</p>
 
 <p>Usarei tanto <code>max-width</code> como <code>max-device-width</code> nessa, para tentar evitar um <a href="http://emailwizardry.nightjar.com.au/2013/08/28/media-queries-in-html-email-cover-all-your-bases/" rel="external">bug no Outlook.com rodando IE9</a>.</p>
 
@@ -416,7 +416,7 @@ body[yahoo] .button a {background-color: #e05443; padding: 15px 15px 13px!import
 
 <p>Se você quisesse, você poderia começar a realizar aprimoramentos ao seu layout, adicionando classes aos elementos que você quisesse controlar e, então, criar novas regras dentro da media query que acabamos de criar.</p>
 
-<p>Como exemplo, faremos com que nosso link de cancelamento de inscrição em um botão, adicionando uma classe ao link:</p>
+<p>Como exemplo, faremos com que nosso link de cancelamento de inscrição se transforme em um botão, adicionando uma classe ao link:</p>
 
 <pre class="brush: html">&lt;a href="#" class="unsubscribe"&gt;
 	&lt;font color="#ffffff"&gt;Unsubscribe&lt;/font&gt;
