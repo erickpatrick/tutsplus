@@ -412,18 +412,18 @@ body[yahoo] .button a {background-color: #e05443; padding: 15px 15px 13px!import
 <p>Agora, quando você apertar em qualquer lugar de um botão colorido em um dispositivo móvel, será um link!</p>
 
 
-<h2>Further Enhancements With Media Queries</h2>
+<h2>Mais Aprimoramentos com Media Queries</h2>
 
-<p>If you wanted to, you could now start making enhancements to your layout by applying class names to elements that you wish to control, and then creating the new rules inside the media query we just created above.</p>
+<p>Se você quisesse, você poderia começar a realizar aprimoramentos ao seu layout, adicionando classes aos elementos que você quisesse controlar e, então, criar novas regras dentro da media query que acabamos de criar.</p>
 
-<p>As an example, we'll turn our unsubscribe link into a button, by adding a class to the link:</p>
+<p>Como exemplo, faremos com que nosso link de cancelamento de inscrição em um botão, adicionando uma classe ao link:</p>
 
 <pre class="brush: html">&lt;a href="#" class="unsubscribe"&gt;
 	&lt;font color="#ffffff"&gt;Unsubscribe&lt;/font&gt;
 &lt;/a&gt;
 &lt;span class="hide"&gt;from this newsletter instantly&lt;/span&gt;</pre>
 
-<p>and adding the following CSS to the media query:</p>
+<p>e adicionando o CSS a seguir à media query:</p>
 
 <pre class="brush: css">body[yahoo] .unsubscribe {display: block; margin-top: 20px; padding: 10px 50px; background: #2f3942; border-radius: 5px; text-decoration: none!important; font-weight: bold;}</pre>
 
