@@ -261,9 +261,9 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 <p>Quando o Safari carregar a página, ele não reconhecerá o formato .ogg e pulará, seguindo em busca do formato mp3. Note que o IE, como sempre, não dá suporte, e o Opera 10 ou anterior só trabalham com arquivos do tipo .wav. </p>
 
 
-<h2><span class="sectionnum">17.</span>  Video Support</h2>
+<h2><span class="sectionnum">17.</span>  Suporte a Vídeo</h2>
 
-<p>Much like the <code>&lt;audio&gt;</code> element, we also, of course, have HTML5 video as well in the new browsers! In fact, just recently, <a href="http://apiblog.youtube.com/2010/07/new-way-to-embed-youtube-videos.html">YouTube announced a new HTML5 video embed</a> for their videos, for browsers which support it. Unfortunately, again, because the HTML5 spec doesn't specify a specific codec for video, it's left to the browsers to decide. While Safari, and Internet Explorer 9 can be expected to support video in the H.264 format (which Flash players can play), Firefox and Opera are sticking with the open source Theora and Vorbis formats. As such, when displaying HTML5 video, you must offer both formats. </p>
+<p>Assim como com o elemento <code>&lt;audio&gt;</code>, nós também temos, claro, o elemento <code>video</code> do HTML5 nos navegadores! Na verdade, recentemente, <a href="http://apiblog.youtube.com/2010/07/new-way-to-embed-youtube-videos.html">o YouTube anunciou o HTML5 como uma nova opção de formato para seus vídeos embutidos</a>, para aqueles navegadores que o suportam. Infelizmente, novamente, o especificação HTML5 não especifica um decodificador de vídeo padrão, deixando para que os criadores dos navegadores decidam. Enquanto o Safari e o Internet Explorer 9 dão suporte ao formato H.264 (o qual os reprodutores em Flash podem executar), o Firefox e o Opera escolheram os formatos de código aberto, Theora e Vorbis. Dessa forma, quando precisar apresentar algum vídeo com o HTML5, deverá apresentar ambos os formatos. </p>
 
 <pre class="brush: html">&lt;video controls preload&gt;
 	&lt;source src="cohagenPhoneCall.ogv" type="video/ogg; codecs='vorbis, theora'" /&gt;
