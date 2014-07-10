@@ -246,9 +246,9 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 <p>De forma interessante, enquanto eu prefiro escrever de uma forma mais parecida com a do XHTML (usando aspas, etc), escrever o atributo como <code>autofocus="autofocus"</code> fica bem estranho. Assim, usaremos o atributo sozinho. </p>
 
 
-<h2><span class="sectionnum">16.</span> Audio Support </h2>
+<h2><span class="sectionnum">16.</span> Suporte a Áudio </h2>
 
-<p>No longer do we have to rely upon third party plugins in order to render audio. HTML5 now offers the <code>&lt;audio&gt;</code> element. Well, at least, ultimately, we won't have to worry about these plugins. For the time being, only the most recent of browsers offer support for HTML5 audio. At this time, it's still a good practice to offer some form of backward compatibility.  </p>
+<p>Não precisamos mais depender de plugins de terceiros para renderizar áudios. O HTML5 oferece, agora, o elemento <code>&lt;audio&gt;</code>. Bem, ao menos, algum dia, não precisaremos depender desses plugins. Por enquanto, somente os navegadores mais recentes dão suporte a esse elemento. Assim, é uma boa prática oferece alguma forma de retrocompatibilidade.  </p>
 
 <pre class="brush: html">&lt;audio autoplay="autoplay" controls="controls"&gt;
 	&lt;source src="file.ogg" /&gt;
@@ -256,9 +256,9 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 	<a>Download this file.</a>
 &lt;/audio&gt;</pre>
 
-<p>Mozilla and Webkit don’t fully get along just yet, when it comes to the audio format. Firefox will want to see an .ogg file, while Webkit browsers will work just fine with the common .mp3 extension. This means that, at least for now, you should create two versions of the audio.</p>
+<p>A Mozilla e o Webkit ainda não andam juntas, quando se trata dos formatos de áudio suportados. O Firefox quer que o tipo .ogg prevaleça, enquanto o Webkit trabalham, sem problemas, com o formato mp3. Isso significa, pelo menos por hora, você deve criar duas versões do seu áudio.</p>
 
-<p>When Safari loads the page, it won’t recognize that .ogg format, and will skip it and move on to the mp3 version, accordingly. Please note that IE, per usual, doesn’t support this, and Opera 10 and lower can only work with .wav files. </p>
+<p>Quando o Safari carregar a página, ele não reconhecerá o formato .ogg e pulará, seguindo em busca do formato mp3. Note que o IE, como sempre, não dá suporte, e o Opera 10 ou anterior só trabalham com arquivos do tipo .wav. </p>
 
 
 <h2><span class="sectionnum">17.</span>  Video Support</h2>
