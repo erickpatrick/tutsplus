@@ -215,17 +215,17 @@ document.createElement("menu");</pre>
 <p>*Desde a primeira publicação desse artigo, o <a href="http://www.w3.org/html/wg/drafts/html/master/obsolete.html#non-conforming-features" target="_self">elemento <code>hgroup</code> tornou-se obsoleto</a> e não deve mais ser usado.</p>
 
 
-<h2><span class="sectionnum">14.</span> Required Attribute </h2>
+<h2><span class="sectionnum">14.</span> Atributo Required </h2>
 
-<p>Forms allow for a new <code>required</code> attribute, which specifies, naturally, whether a particular input is required. Dependent upon your coding preference, you can declare this attribute in one of two ways: </p>
+<p>Campos de formulários permitem um novo atributo, o <code>required</code>, que especifica, logicamente, se um campo em particular é obrigatório. Dependendo da sua preferência de codificação, você pode declarar esse atributo de duas maneiras: </p>
 
 <pre class="brush: html">&lt;input type="text" name="someInput" required&gt;</pre>
 
-<p>Or, with a more structured approach. </p>
+<p>Ou, de forma mais estruturada. </p>
 
 <pre class="brush: html">&lt;input type="text" name="someInput" required="required"&gt;</pre>
 
-<p>Either method will do. With this code, and within browsers that support this attribute, a form cannot be submitted if that "someInput" input is blank. Here's a quick example; we'll also add the placeholder attribute as well, as there's no reason not to.</p>
+<p>Ambas as formas funcionarão. Com esse código, dentro dos navegadores que dão suporte ao atributo, um formulário não pode ser enviado com o campo "someInput" em branco. Eis um exemplo simples: Também adicionaremos o atributo <code>placeholder</code>, já que não há razão para não fazê-lo.</p>
 
 <pre class="brush: html">&lt;form method="post" action=""&gt;
 	&lt;label for="someInput"&gt; Your Name: &lt;/label&gt;
@@ -233,7 +233,7 @@ document.createElement("menu");</pre>
 	&lt;button type="submit"&gt;Go&lt;/button&gt;
 &lt;/form&gt;</pre>
 
-<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/placeholder_required.png" /></figure><p>If the input is left blank, and the form is submitted, the textbox will be highlighted. </p>
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/placeholder_required.png" /></figure><p>Se o campo for deixado em branco e o formulário for enviado, o campo em questão ficará em destaque. </p>
 
 
 <h2><span class="sectionnum">15.</span> Autofocus Attribute </h2>
