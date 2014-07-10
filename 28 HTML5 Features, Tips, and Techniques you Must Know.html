@@ -268,18 +268,18 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 <pre class="brush: html">&lt;video controls preload&gt;
 	&lt;source src="cohagenPhoneCall.ogv" type="video/ogg; codecs='vorbis, theora'" /&gt;
 	&lt;source src="cohagenPhoneCall.mp4" type="video/mp4; 'codecs='avc1.42E01E, mp4a.40.2'" /&gt;
-	&lt;p&gt; Your browser is old. &lt;a href="cohagenPhoneCall.mp4"&gt;Download this video instead.&lt;/a&gt; &lt;/p&gt;
+	&lt;p&gt; Seu navegador é antigo. &lt;a href="cohagenPhoneCall.mp4"&gt;Ao invés disso, baixe o arquivo.&lt;/a&gt; &lt;/p&gt;
 &lt;/video&gt;</pre>
 
-<blockquote><p>Chrome can correctly display video that is encoded in both the "ogg" and "mp4" formats. </p>
+<blockquote><p>O navegador Chrome pode mostrar, corretamente, videos codificados nos formatos "ogg" e "mp4". </p>
 </blockquote>
 
-<p>There are a few things worth noting here. </p>
+<p>Há alguns pontos importantes a levantar, porém. </p>
 
 <ol>
-<li>We aren't technically required to set the <code>type</code> attribute; however, if we don't, the browser has to figure out the type itself. Save some bandwidth, and declare it yourself.  </li>
-<li>Not all browsers understand HTML5 video. Below the <code>source</code> elements, we can either offer a download link, or embed a Flash version of the video instead. It's up to you. </li>
-<li> The <code>controls</code> and <code>preload</code> attributes will be discussed in the next two tips. </li>
+<li>Tecnicamente, não precisamos preencher o atritbuto <code>type</code>; entretanto, se não o fizermos, o navegador terá de descobrir o tipo por conta própria. Economize banda e declare.  </li>
+<li>Nem todos os navegadores compreender a tag <code>video</code> do HTML5. Logo após os elementos <code>source</code>, podemos oferecer um link para download ou uma versão em Flash. Fica a seu critétio. </li>
+<li> Os atributos <code>controls</code> e <code>preload</code> serão discutidos nas duas próximas dicas. </li>
 </ol>
 
 <h2><span class="sectionnum">18.</span> Preload Videos </h2>
