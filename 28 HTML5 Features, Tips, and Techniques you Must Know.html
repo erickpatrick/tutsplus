@@ -181,21 +181,21 @@ Já se foram os dias de:</p>
 
 <figure data-video-embed="true" data-original-url="https://www.youtube.com/watch?v=spjOAFGxOP0" class="embedded-video"><iframe src="//www.youtube.com/embed/spjOAFGxOP0?rel=0" frameborder="0" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allowfullscreen="allowfullscreen"></iframe></figure>
 
-<h2><span class="sectionnum">12.</span> Internet Explorer and HTML5</h2>
+<h2><span class="sectionnum">12.</span> Internet Explorer e HTML5</h2>
 
 <p>
-Unfortunately, that dang Internet Explorer requires a bit of wrangling in order to understand the new HTML5 elements.</p>
+Infelizmente, o tal do Internet Explorer precisa dar uma volta danada para entender esses elementos HTML5 novos.</p>
 
-<blockquote><p>All elements, by default, have a <code>display</code> of <code>inline</code>. </p>
+<blockquote><p>Todos os elementos, por padrão, possuem o valor <code>inline</code> para a propriedade <code>display</code>. </p>
 </blockquote>
 
-<p>In order to ensure that the new HTML5 elements render correctly as block level elements, it's necessary at this time to style them as such. </p>
+<p>Para garantir que esses novos elementos HTML5 renderizem corretamente como elementos de tipo bloco, é necessário, por enquanto, estilizados como tal. </p>
 
 <pre class="brush: css">header, footer, article, section, nav, menu {
  display: block;
 }</pre>
 
-<p>Unfortunately, Internet Explorer will still ignore these stylings, because it has no clue what, as an example, the <code>header</code> element even is. Luckily, there is an easy fix: </p>
+<p>Infelizmente, o Internet Explorer ignorará esses estilos, porque elee não tem a menor ideia do que o elemento <code>header</code> é, por exemplo. Felizmente, há uma maneira fácil de corrigir isso: </p>
 
 <pre class="brush: javascript">document.createElement("article");
 document.createElement("footer");
@@ -203,7 +203,7 @@ document.createElement("header");
 document.createElement("nav");
 document.createElement("menu");</pre>
 
-<p>Strangely enough, this code seems to trigger Internet Explorer. To simply this process for each new application, Remy Sharp <a href="http://remysharp.com/2009/01/07/html5-enabling-script/">created a script</a>, commonly referred to as the HTML5 shiv.  This script also fixes some printing issues as well. </p>
+<p>Por mais estranho que seja, esse código ativa o Internet Explorer. Para simplificar esse processo para cada nova aplicação, Remy Sharp <a href="http://remysharp.com/2009/01/07/html5-enabling-script/">criou um script</a>, comumente chamado de <em>HTML5 shiv</em>. Esse script também ajusta alguns problems de impressão também. </p>
 
 <pre class="brush: html">&lt;!--[if IE]&gt;
 &lt;script src="http://html5shim.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
