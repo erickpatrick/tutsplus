@@ -296,12 +296,12 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 <pre class="brush: html">&lt;video preload controls&gt;</pre><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/video.jpg" /></figure><p>Atente que cada navegador renderiza seus tocadores de vídeo diferente um dos outros. </p>
 
 
-<h2><span class="sectionnum">20.</span> Regular Expressions </h2>
+<h2><span class="sectionnum">20.</span> Expressões REgulares </h2>
 
-<p>How often have you found yourself writing some quickie regular expression to verify a particular textbox. Thanks to the new <code>pattern</code> attribute, we can insert a regular expression directly into our markup. </p>
+<p>Quantas vezes você teve de criar expressões regulares para validar algum campo? Graças ao novo atributo <code>pattern</code>, podemos inserir uma expressão regular diretamente no código HTML. </p>
 
 <pre class="brush: html">&lt;form action="" method="post"&gt;
-	&lt;label for="username"&gt;Create a Username: &lt;/label&gt;
+	&lt;label for="username"&gt;Crie um usuário: &lt;/label&gt;
  	&lt;input type="text"
   name="username"
   id="username"
@@ -309,14 +309,14 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
   pattern="[A-Za-z]{4,10}"
   autofocus
   required&gt;
-	&lt;button type="submit"&gt;Go &lt;/button&gt;
+	&lt;button type="submit"&gt;Continuar &lt;/button&gt;
 &lt;/form&gt;</pre>
 
-<p>If you're moderately familiar with regular expressions, you'll be aware that this pattern: <code>[A-Za-z]{4,10}</code> accepts only upper and lowercase letters. This string must also have a minimum of four characters, and a maximum of ten. </p>
+<p>Se você tem certo conhecimento de expressões regulares, você saberá que o padrão <code>[A-Za-z]{4,10}</code> aceita, somente, letras em maiúsculo e/ou minúsculo. E essa cadeia de caracteres deve ter o mínimo de quatro caracteres e o máximo de dez. </p>
 
-<p>Notice that we're beginning to combine all of these new awesome attributes! </p>
+<p>Note que estamos começando a combinar todos esses atributos incríveis! </p>
 
-<p><em>If regular expressions are foreign to you, <a href="http://net.tutsplus.com/tutorials/javascript-ajax/you-dont-know-anything-about-regular-expressions/">refer here</a>. </em></p>
+<p><em>Se expressões regulares estão além do seu conhecimento, <a href="http://net.tutsplus.com/tutorials/javascript-ajax/you-dont-know-anything-about-regular-expressions/">dê uma olhada nisso</a>. </em></p>
 
 
 <h2><span class="sectionnum">21.</span> Detect Support for Attributes </h2>
