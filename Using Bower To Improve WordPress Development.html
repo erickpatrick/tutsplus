@@ -8,21 +8,21 @@
 
 <p>Como já falei, Bower é muito bom para equipes pois ele auto-documenta suas dependências front-end. Se você leu meu post anterior sobre Grunt, o processo é muito parecido. Quando você quer instalar um pacote através do Bower, você digita <code class="inline">bower install package-name</code>, e, adicionando <code class="inline">--save</code> ao final do comando, fará com que o pacote seja adicionado à lista de dependências do projeto, no arquivo <code class="inline">bower.json</code>.</p>
 
-<p>Let's say you want to include Bootstrap in your WordPress theme and you want to use the <code class="inline">.scss</code> files during your build process. You will want to use the <a href="http://bower.io/search/?q=bootstrap-sass-official">bootstrap-sass-official</a> project and install it via Bower. </p>
+<p>Digamos que você queira incluir o Bootstrap no seu tema do WordPress e quer usar os arquivos <code class="inline">.scss</code> durante o desenvolvimento. Você, provavelmente, quererá usar o projeto <a href="http://bower.io/search/?q=bootstrap-sass-official">bootstrap-sass-official</a> e instalá-lo através do Bower. </p>
 
-<p>Here's how you would do it,</p>
+<p>Eis como você deve proceder:</p>
 
 <ol>
-<li>Open up your command line tool of choice</li>
-<li>Navigate to your project's root folder</li>
-<li>Type in <code class="inline">bower install bootstrap-sass-official --save</code> and hit "Return" (or "Enter")</li>
+<li>Abre o aplicativo de linha de comando de sua preferência</li>
+<li>Navegue até a pasta raiz do seu projeto</li>
+<li>Digite <code class="inline">bower install bootstrap-sass-official --save</code> e aperte "Return" (ou "Enter")</li>
 </ol>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/260/posts/20524/image/install-bower-save.png" />
 </figure>
 
-<p>If everything is installed correctly, you should see two things, a new <code class="inline">bower_components</code> folder and <code class="inline">boostrap-sass-official</code> added in your <code class="inline">bower.json</code> file.</p>
+<p>Se tudo foi instalado corretamente, você deveria ver duas coisas: um novo diretório, chamado <code class="inline">bower_components</code>, e a linha <code class="inline">boostrap-sass-official</code> adicionada ao seu arquivo <code class="inline">bower.json</code>.</p>
 
 <p>You will want to do this for each package you want to use with your project. Once you do done, any other co-worker or teammate will be able to easily install all the necessary packages for the project. All they need to do is type in <code class="inline">bower install</code> and all of the packages will be downloaded and installed for the project.</p>
 
