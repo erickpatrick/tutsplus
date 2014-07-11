@@ -380,11 +380,11 @@ As pessoas podem ser perdoadas por acreditarem que transições incríveis, sem 
 <h2><span class="sectionnum">26.</span>  O Atributo Data</h2>
 
 <p>
-Agora temos, oficialmente, suporte a atributos customizados em todos os elementos HTML. Enquanto, antigamente, podiamos fazer, somente, algo assim:</p>
+Agora temos, oficialmente, suporte a atributos customizados em todos os elementos HTML. Enquanto, antigamente, só podiamos fazer algo assim:</p>
 
 <pre class="brush: html">&lt;h1 id=someId customAttribute=value&gt; Obrigado, Tony. &lt;/h1&gt;</pre>
 
-<p>...os validadores de código iriam reclamar bastante! Agora, porém, desde que prefixemos nossos atributos customizados usando <code>data</code>, podemos, oficialmente, usar esse método. Se você, alguma vez, se viu tendo de guardar dados importantes dentro do atributo <code>class</code>, provavelmente para uso com JavaScript, isso virá em um ótimo momento! </p>
+<p>...os validadores de código ficariam doidos! Agora, porém, desde que prefixemos nossos atributos customizados usando <code>data</code>, podemos, oficialmente, usar esse método. Se você, alguma vez, se viu tendo de guardar dados importantes dentro do atributo <code>class</code>, provavelmente para uso com JavaScript, isso virá bem a calhar! </p>
 
 <h3> Trecho HTML </h3>
 
@@ -458,7 +458,7 @@ f.addEventListener('submit', function(e) {
 
 <p><em><a href="http://jsbin.com/efedu3">Veja em funcionamento.</a> </em></p>
 
-<p>Note que o suporte ao elemento <code>output</code> ainda é bem fraco. Enquanto escrevo, somente o navegador Opera implementava-o bem. Isso é refletido no código acima. Se o navegador não reconhece o elemento, o navegador, simplesmente, alertará você sobre isso. Em qualquer outro caso, ele descobre o elemento <code>output</code> com o atributo <code>name</code> de valor "sum" e atribui o valor <code>15</code>, após o formulário ser enviado. </p>
+<p>Note que o suporte ao elemento <code>output</code> ainda é bem fraco. Enquanto escrevo, somente o navegador Opera implementava-o bem. Isso é refletido no código acima. Se o navegador não reconhece o elemento, simplesmente, alertará você sobre. Em qualquer outro caso, ele busca o elemento <code>output</code> com o atributo <code>name</code> de valor "sum" e atribui o valor <code>15</code>, após o formulário ser enviado. </p>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/output.png" /></figure>
 
