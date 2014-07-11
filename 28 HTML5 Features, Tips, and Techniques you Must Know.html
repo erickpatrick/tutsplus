@@ -493,7 +493,7 @@ Primeiro, criaremos a estrutura HTML.</p>
 
 <h3> Passo 2: CSS </h3>
 
-<p>Next, we'll style it just a bit. We'll also utilize <code>:before</code> and <code>:after</code> to inform the user what our specified <code>min</code> and <code>max</code> values are. <em>Thanks so much to Remy and Bruce for teaching me this trick, via "<a href="http://introducinghtml5.com/">Introducing HTML5</a>." </em></p>
+<p>Depois, estilizaremos um pouco. Nós utilizaremos os pseudo-elementos <code>:before</code> e <code>:after</code> para avisar ao usuário quais são os valores <code>min</code> e <code>max</code>. <em>Muito obrigado ao Remy e Bruce por ensinarem esse truque, via "<a href="http://introducinghtml5.com/">Introducing HTML5</a>." </em></p>
 
 <pre class="brush: css">body {
 	font-family: 'Myriad-Pro', 'myriad', helvetica, arial, sans-serif;
@@ -510,13 +510,13 @@ output {
 	font-weight: bold;
 }</pre>
 
-<p>Above, we create content before and after the range input, and make their values equal to the <code>min</code> and <code>max</code> values, respectively. </p>
+<p>Criamos, acima, conteúdo antes e depois do campo <code>range</code>, e fazemos seus valores iniciais serem iguais aos atribuídos a <code>min</code> e <code>max</code>, respectivamente. </p>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/styledNoJS.png" /></figure>
 
-<h3>Step 3: The JavaScript </h3>
+<h3>Passo 3: O JavaScript </h3>
 
-<p>Lastly, we: </p>
+<p>Por último, nós: </p>
 
 <ul>
 <li> Determine if the current browser knows what the range input is. If not, we alert the user that the demo won't work. </li>
