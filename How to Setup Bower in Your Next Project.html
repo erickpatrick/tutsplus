@@ -1,0 +1,122 @@
+<h1>How to Setup Bower in Your Next Project</h1>
+
+<p>Throughout this series, we've been taking a look at Bower and how it can improve our WordPress developer. As we wrap up this series, we're going to take a look at how to setup Bower for your next project. Specifically, we're going to cover how to install, update, and customize various components using Bower.</p>
+
+<p>In previous posts, I talked about what <a href="http://bower.io/">Bower</a> is and how it can help you with you WordPress development. In this post, I am going to walk you through how to setup Bower for your project and some advanced techniques with it as well.</p>
+
+<p>Some of the concepts are similar to <a href="http://gruntjs.com/">Grunt</a>, so I would suggest taking a look at a previous post, <a href="http://code.tutsplus.com/articles/setting-up-grunt-for-your-next-project--wp-35123">Setting Up Grunt For Your Next Project</a>. We are finally getting into some code. Let's do this!</p>
+
+<h2>bower.json</h2>
+
+<p>The key to Bower in a project is the <code class="inline">bower.json</code> file. This is what will be parsed during a <code class="inline">bower install</code> for you and any consumer of your project. It is also necessary in order to save dependencies, but more on that later.</p>
+
+<p>The first thing that we are going to do is create a <code class="inline">bower.json</code> file in the project's root folder. I would suggest starting with at least the name, description, and version. </p>
+
+<p>Here's what we will start with:</p>
+
+<pre class="brush: javascript">{
+  "name": "tuts-bower",
+  "description": "Example project for tutorial on Bower for Tuts+",
+  "version": "1.0.0"
+}</pre>
+
+<h2>Installing Dependencies</h2>
+
+<p>Now that we have a <code class="inline">bower.json</code> file, let's add Bootstrap to our project. We are going to do this by going to the command line and typing in <code class="inline">bower install bootstrap-sass-official --save</code>. This should create a <code class="inline">bower_components</code> folder with a <code class="inline">bootstrap-sass-official</code> folder inside it, along with updating our <code class="inline">bower.json</code> file. </p>
+
+<p>Here's what it should look like now:</p>
+
+<pre class="brush: javascript">{
+"name": "tuts-bower",
+"description": "Example project for tutorial on Bower for Tuts+",
+"version": "1.0.0",
+"dependencies": {
+  "bootstrap-sass-official": "~3.1.1"
+}
+}</pre>
+
+<p>You will notice dependencies is added and there is <code class="inline">bootstrap-sass-official</code> along with the latest version number.</p>
+
+<h2>Updating Components</h2>
+
+<p>One of my favorite features of Bower is how simple it is to update the components I use in a project. For those who know me, I am usually one to try out the latest version of whatever libraries I'm currently using. As soon at a new release of Bootstrap comes out, I'm pulling it into a project. Bower makes it really easy to do this.</p>
+
+<p>In our above example, the tilde "~" in front of the version number simply means to use at least this version. It will also update your project to any new patch release when you run <code class="inline">bower update</code>. For example, when/if Bootstrap updates to 3.1.2, you can simply run <code class="inline">bower update</code> and you will get updated to that version.</p>
+
+<p>There's a number of different ways that you can specify what versions of each component to use.</p>
+
+<ul>
+	<li>Explicit version - <code class="inline">3.1.1</code></li>
+	<li>Only patch versions - <code class="inline">~3.1.1</code></li>
+	<li>Minor versions - <code class="inline">^3.1.1</code></li>
+	<li>Latest version - <code class="inline">*</code></li>
+	<li><a href="https://github.com/isaacs/node-semver/#ranges">The whole list</a></li>
+</ul>
+
+<h2>Using Components</h2>
+
+<p>Now that we have Bootstrap installed, let's get it built into our project. For the example in this post I am only going to add the styles to the project, not the JavaScript or Fonts. I do include these in the full project on GitHub.</p>
+
+<p>The first thing we are going to want to do is create a <code class="inline">style.scss</code> file that we will compile into our style.css file in the root of our project. I usually create a structure like <code class="inline">css/sass/</code> then place all of my <code class="inline">.scss</code> files in the sass folder. Let's go ahead and create our <code class="inline">style.scss</code> file in there.</p>
+
+<p>Since we are making a theme, we need a few comments at the top, then we can import in the <code class="inline">bootstrap.scss</code> file that we pulled down with Bower. You will need to figure out the path to it, then use an <code class="inline">@import</code> to bring it in like so:</p>
+
+<pre class="brush: css">/*!
+Theme Name: Tuts Bower
+Theme URI: http://code.tutsplus.com/
+Version: 1.0.0
+Description: Example project for tutorial on Bower for Tuts+
+Author: Jason Bradley
+Author URI: http://jasonbradley.me
+License: GNU General Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+*/
+
+// Import Bootstrap styles
+@import '../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';</pre>
+
+<p>I'm using <a href="https://github.com/gruntjs/grunt-contrib-sass">grunt-contrib-sass</a> in my example project, now when we run our Sass compiler, it will compile the <code class="inline">bootstrap.scss</code> into our <code class="inline">style.css</code> file. Now we have all of the Bootstrap styles added to our project.</p>
+
+<h2>Customizing Components</h2>
+
+<p>There are two ways that you can customize these components: I'm going to focus on the styling. One way is to override the styles with another stylesheet or lower in the order of things being compiled in your <code class="inline">.scss</code> files. Another way, the one I recommend, is to override the existing <code class="inline">.scss</code> files that you are pulling in with Bower.</p>
+
+<p>Let's look at the <code class="inline">bootstrap.scss</code> file that I referenced in the previous section. It is essentially importing to the other <code class="inline">.scss</code> files it needs to compile. If you look at the files and the order in which things are being imported, you should see the <code class="inline">variables.scss</code> file at the top. As a project, Bootstrap has done a great job of extracting out commonly overriden or reused styles like colors and font sizes into here.</p>
+
+<p>What we can do is copy the <code class="inline">bootstrap.scss</code> file and add it as one of our theme's <code class="inline">.scss</code> files in the <code class="inline">css/sass</code> folder. Once we do that we will want to change the path of all of the files it imports to point to our <code class="inline">bower_components</code> directory.</p>
+
+<p>We can also add our own <code class="inline">.scss</code> files inside this file to override things, like the sass variables in <code class="inline">variables.scss</code>. Let's say you wanted to update the background color. There's a variable inside of Bootstrap's <code class="inline">variables.scs</code> file called <code class="inline">$body-bg</code>, and we can simply override that in our theme's <code class="inline">variables.scss</code> file.</p>
+
+<p>Both examples above would be changing from this:</p>
+
+<pre class="brush: css">// Core variables and mixins
+@import "bootstrap/variables";
+@import "bootstrap/mixins";</pre>
+
+<p>to this:</p>
+
+<pre class="brush: css">// Core variables and mixins
+@import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/variables";
+// Overriding default Bootstrap variables
+@import "variables";
+@import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/mixins";</pre>
+
+<p>This is one thing that is a little bit harder to explain without a concrete demo, so I put together an <a href="https://github.com/jbrad/tuts-bower">example on GitHub</a> so you can take a look.</p>
+
+<h2>Conclusion</h2>
+
+<p>This concludes our series on Bower. We talked about what Bower is, how it can help your WordPress development and now talked about how to set it up. </p>
+
+<p>Bower has really become the defacto frontend dependency manager, so I hope this helps you know the concept and understand how to utilize it in your own projects.</p>
+
+<h2>Resources</h2>
+
+<ul>
+	<li><a href="http://bower.io/">Bower</a></li>
+	<li><a href="http://gruntjs.com/">Grunt</a></li>
+	<li><a href="http://code.tutsplus.com/articles/setting-up-grunt-for-your-next-project--wp-35123">Setting Up Grunt For Your Next Project</a></li>
+	<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+	<li><a href="https://github.com/isaacs/node-semver/#ranges">Semantic Versioner Ranges</a></li>
+	<li><a href="https://github.com/gruntjs/grunt-contrib-sass">grunt-contrib-sass</a></li>
+	<li><a href="https://github.com/jbrad/tuts-bower">GitHub Example</a></li>
+</ul>
