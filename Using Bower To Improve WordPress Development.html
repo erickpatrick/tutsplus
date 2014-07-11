@@ -42,7 +42,7 @@
 
 <p>Os pacotes que são instalados através do Bower são necessários, somente, para a construção ou compilação do projeto. Você não precisa adiciona-los ao seu repositório. O <code class="inline">bower_components</code> é um diretório temporário, então, sugiro que você adicioine um arquivo <code class="inline">.gitignore</code> ao repositório do seu projeto para que esse diretório não seja adicioinado.</p>
 
-<p>If you have a build server or have continuous integration set up for your project, you will want to make sure you run a <code class="inline">bower install</code> at the beginning of your build. Once all of your other tasks are ran, you could empty out the <code class="inline">bower_components</code> folder or make sure to run a <code class="inline">bower update</code> on each subsequent build.</p>
+<p>Se você tiver um servidor de construção ou uma integração continua para seu projeto, você quererá garantir que o comando <code class="inline">bower install</code> seja executado bem no começo da construção. Uma vez que todas suas tarefas forem executadas, você pode apagar a pasta <code class="inline">bower_components</code> ou garantir a execução do comando <code class="inline">bower update</code> em cada outra construção.</p>
 
 <p>If you are using <a href="http://gruntjs.com/">Grunt</a> for your build tasks, there is a grunt plugin called <a href="https://github.com/yatskevich/grunt-bower-task">grunt-bower-task</a> that can run a <code class="inline">bower install</code> for you.</p>
 
