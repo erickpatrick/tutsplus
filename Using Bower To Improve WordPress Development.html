@@ -1,6 +1,6 @@
 <h1>Usando Bower PAra Aprimorar o Desenvolvimento no WordPress</h1>
 
-<p>Bower é muito bom para equipes porque ele, basicamente, auto-documenta suas dependências front-end. Por conta disso, é muito fácil atualizá-las quando seu projeto precisar mudar. É ótimo para o processo de desenvolvimento do seu projeto, tanto localmente, quanto em um servidor. Você também pode usar o Bower para buscar seus próprios repositórios privados quanto para reuso entre vários projetos.<br /></p>
+<p>Bower é muito bom para equipes porque ele, basicamente, auto-documenta suas dependências front-end. Por conta disso, é muito fácil atualizá-las quando seu projeto precisar mudar. É ótimo para o processo de construção do seu projeto, tanto localmente, quanto em um servidor. Você também pode usar o Bower para buscar seus próprios repositórios privados quanto para reuso entre vários projetos.<br /></p>
 
 <p>No post anterior, falei sobre o que o <a href="http://bower.io/">Bower</a> é e alguns de seus recursos. Nesse psot, falarei sobre os benefícios em usar o Bower e como aprimorar seu processo de desenvolvimento no WordPress.<br /></p>
 
@@ -24,13 +24,13 @@
 
 <p>Se tudo foi instalado corretamente, você deveria ver duas coisas: um novo diretório, chamado <code class="inline">bower_components</code>, e a linha <code class="inline">boostrap-sass-official</code> adicionada ao seu arquivo <code class="inline">bower.json</code>.</p>
 
-<p>Você fará isso para cada pacote que quiser usar em seu projeto. Uma vez feito isso, qualquer outro desenvolvedor do projeto ou colega de equipe poderá intalar todos os pacotes necessários para o projeto. Tudo que eles precisarão fazer é digitar <code class="inline">bower install</code> e todos os pacotes serão baixados e instalados na versão local do projeto de cada um deles.</p>
+<p>Você fará isso para cada pacote que quiser usar em seu projeto. Uma vez feito isso, qualquer outro desenvolvedor do projeto ou colega de equipe poderá instalar todos os pacotes necessários para o projeto. Tudo que eles precisarão fazer é digitar <code class="inline">bower install</code> e todos os pacotes serão baixados e instalados na versão local do projeto de cada um deles.</p>
 
-<p>Claro, essa técnica não está limitada, somente a frameworks front-end como o Bootstrap. Há um <a href="http://bower.io/search/" rel="external" target="_blank">repositório inteiro e filtrável</a> de pacotes que estão disponíveis. Isso pode tornar a administração de dependências do WordPress <i>muito mais fácil</i>.</p>
+<p>Claro, essa técnica não está limitada, somente, a frameworks front-end como o Bootstrap. Há um <a href="http://bower.io/search/" rel="external" target="_blank">repositório inteiro e filtrável</a> de pacotes que estão disponíveis. Isso pode tornar a administração de dependências do WordPress <i>muito mais fácil</i>.</p>
 
 <h2>Atualizando Dependências</h2>
 
-<p>Novamente, não é incomum que os pacotes atualizem, certo? Esse é um outro ponto em que o Bower é bem útil.</p>
+<p>Novamente, não é incomum que os pacotes sejam atualizados, certo? Esse é um outro ponto em que o Bower é bem útil.</p>
 
 <p>Agora, que você tem todas as dependências do seu projeto documentadas e instaladas, é muito fácil atualizar esses pacotes quando atualizações para eles estiverem disponíveis. Tudo que precisa fazer é digitar <code class="inline">bower update</code> e o Bower lerá todas as dependências no seu arquivo <code class="inline">bower.json</code> e verificará se há atualizações para baixar.</p>
 
@@ -38,7 +38,7 @@
 
 <p>Para entender mais sobre o significado das versões rotuladas, você deveria acessar a página <a href="http://semver.org/">semantic versioning</a>. É isso o que a maioria dos projetos registrados no Bower usam em seus lançamentos, então, é interessante entender o que cada número significa.</p>
 
-<h2>Build Process</h2>
+<h2>Processo de Construção</h2>
 
 <p>The packages that are installed via Bower are only needed for build or compile time, you don't need to add to your repository. The <code class="inline">bower_components</code> folder is pretty much a temporary folder, so I would also suggest adding it to your <code class="inline">.gitignore</code> file as well in your project's git repository so you don't add them.</p>
 
