@@ -429,17 +429,17 @@ h1:hover:after {
 <p>Você pode ver o efeito acima na demonstração hospedada <a href="http://jsbin.com/okepo4">no JSBIN</a>. </p>
 
 
-<h2><span class="sectionnum">27.</span> The Output Element </h2>
+<h2><span class="sectionnum">27.</span> O Elemento Output </h2>
 
-<p>As you probably have guessed, the <code>output</code> element is used to display some sort of calculation. For example, if you'd like to display the coordinates of a mouse position, or the sum of a series of numbers, this data should be inserted into the <code>output</code> element. </p>
+<p>Você, provavelmente, já adivinhou, o elemento <code>output</code> é usado para apresentar algum tipo de resultado de cálculo. Por exemplo, se você quiser apresentar as coordenadas da posição do mouse ou a soma de uma série de números, esses dados deveriam ser inseridos no elemento <code>output</code>. </p>
 
-<p>As a simple example, let's insert the sum of two numbers into an empty <code>output</code> with JavaScript, when a <code>submit</code> button is pressed. </p>
+<p>Como um exemplo simples, vamos inserir a soma de dois números em um elemento <code>output</code> vazio, usando JavaScript, quando um botão <code>submit</code> for pressionado. </p>
 
 <pre class="brush: html">&lt;form action="" method="get"&gt;
 	&lt;p&gt;
 10 + 5 = &lt;output name="sum"&gt;&lt;/output&gt;
 	&lt;/p&gt;
-	&lt;button type="submit"&gt; Calculate &lt;/button&gt;
+	&lt;button type="submit"&gt; Calcular &lt;/button&gt;
 &lt;/form&gt;
 
 &lt;script&gt;
@@ -452,11 +452,11 @@ f.addEventListener('submit', function(e) {
 	e.preventDefault();
 }, false);
 	}
-	else { alert('Your browser is not ready yet.'); }
+	else { alert('Seu navegador não está pronto ainda.'); }
 })();
 &lt;/script&gt;</pre>
 
-<p><em><a href="http://jsbin.com/efedu3">Try it out for yourself.</a> </em></p>
+<p><em><a href="http://jsbin.com/efedu3">Veja em funcionamento.</a> </em></p>
 
 <p>Please note that support for the <code>output</code> element is still a bit wonky. At the time of this writing, I was only able to get Opera to play nice. This is reflected in the code above. If the browser does not recognize the element, the browser will simply alert a notice informing you of as much. Otherwise, it finds the output with a name of "sum," and sets its value to <code>15</code>, accordingly, after the form has been submitted. </p>
 
