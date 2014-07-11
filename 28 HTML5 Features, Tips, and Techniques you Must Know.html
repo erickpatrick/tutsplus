@@ -319,21 +319,21 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 <p><em>Se expressões regulares estão além do seu conhecimento, <a href="http://net.tutsplus.com/tutorials/javascript-ajax/you-dont-know-anything-about-regular-expressions/">dê uma olhada nisso</a>. </em></p>
 
 
-<h2><span class="sectionnum">21.</span> Detect Support for Attributes </h2>
+<h2><span class="sectionnum">21.</span> Detectar Suporte a Atributos </h2>
 
-<p>What good are these attributes if we have no way of determining whether the browser recognizes them? Well, good point; but there are several ways to figure this out. We'll discuss two. The first option is to utilize the excellent <a href="http://modernizr.com">Modernizr</a> library. Alternatively, we can create and dissect these elements to determine what the browsers are capable of. For instance, in our previous example, if we want to determine if the browser can implement the <code>pattern</code> attribute, we could add a bit of JavaScript to our page:</p>
+<p>De que adianta ter esses atributos se não temos uma maneira de saber se o navegador os reconhce? Bem, esse é um ótimo ponto, mas há inúmeras maneiras de determinar isso. Discutiremos duas. A primeira opção é utilizar a excelente biblioteca <a href="http://modernizr.com">Modernizr</a>. Alternativamente, podemos criar e dissecar esses elementos para determinar do que são capazes os navegadores. Por exemplo, em nosso exemplo anterior, se quisermos descobrir se um navegador implementa o atributo <code>pattern</code>, poderíamos usar esse trecho JavaScript:</p>
 
 <pre class="brush:">alert( 'pattern' in document.createElement('input') ) // boolean;</pre>
 
-<p>In fact, this is a popular method of determining browser compatibility. The jQuery library utilizes this trick. Above, we're creating a new <code>input</code> element, and determining whether the <code>pattern</code> attribute is recognized within. If it is, the browser supports this functionality. Otherwise, it of course does not. </p>
+<p>Na verdade, esse é um método bem popular de descobrir a compatibilidade de um navegador. A bibioteca jQuery utiliza esse truque. Acima, criamos um novo elemento <code>input</code> e determinamos se o atributo <code>pattern</code> faz parte de seus atributos. Se sim, o navegador suporta a funcionalidade. Caso contrário, não suporta. </p>
 
 <pre class="brush:">&lt;script&gt;
 if (!'pattern' in document.createElement('input') ) {
-	// do client/server side validation
+	// realize validação do lado cliente e do servidor
 }
 &lt;/script&gt;</pre>
 
-<p><em>Keep in mind that this relies on JavaScript! </em></p>
+<p><em>Tenha em mente que essa técnica depende do JavaScript! </em></p>
 
 
 <h2><span class="sectionnum">22.</span> Mark Element </h2>
