@@ -72,14 +72,14 @@ License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
-// Import Bootstrap styles
+// Importando as Folhas de Estilo do Bootstrap
 @import '../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';</pre>
 
 <p>Usarei o <a href="https://github.com/gruntjs/grunt-contrib-sass">grunt-contrib-sass</a> no projeto exemplo, e quando executarmos nosso compilador de Sass, ele compilará o arquivo <code class="inline">bootstrap.scss</code> em nosso arquivo <code class="inline">style.css</code>. Agora, temos todos os arquivos do Bootstrap adicionados ao nosso projeto.</p>
 
-<h2>Customizing Components</h2>
+<h2>Customizando Componentes</h2>
 
-<p>There are two ways that you can customize these components: I'm going to focus on the styling. One way is to override the styles with another stylesheet or lower in the order of things being compiled in your <code class="inline">.scss</code> files. Another way, the one I recommend, is to override the existing <code class="inline">.scss</code> files that you are pulling in with Bower.</p>
+<p>Há duas maneiras de se customizar esses componentes: Focarei na estilização. Uma forma é sobrescrever os estilos com outra folha de estilo, importando mais ao final do seu arquivo <code class="inline">style.scss</code>. Outra maneira, que eu recomendo, é sobrescrever os arquivos <code class="inline">.scss</code> existentes e adicioná-los com o Bower.</p>
 
 <p>Let's look at the <code class="inline">bootstrap.scss</code> file that I referenced in the previous section. It is essentially importing to the other <code class="inline">.scss</code> files it needs to compile. If you look at the files and the order in which things are being imported, you should see the <code class="inline">variables.scss</code> file at the top. As a project, Bootstrap has done a great job of extracting out commonly overriden or reused styles like colors and font sizes into here.</p>
 
