@@ -118,17 +118,17 @@ Considere o seguinte código para uma imagem:</p>
 <blockquote><p>Nesse momento, não podemos depender de validação dos navegadores. Soluções tanto no cliente quando no servidor devem ser implementadas.  </p>
 </blockquote>
 
-<p>Deve-se perceber que todos os navegadores atuais são um pouco instável quanto aos elementos e atributos que eles suportam ou não. Por exemplo, o Opera parece que dá suporte a validação de e-mails, desde que o atributo <code>name</code> seja especificado. Entretanto, ele não dá suporte ao atributo <code>placeholder</code>, sobre o qual aprenderemos na próxima dica. No fim das contas, não dependa desse tipo de validação de formulário, ainda... Mas, você já pode utilizá-lo!</p>
+<p>Deve-se perceber que todos os navegadores atuais são um pouco instáveis, quanto aos elementos e atributos que eles suportam ou não. Por exemplo, o Opera parece que dá suporte a validação de e-mails, desde que o atributo <code>name</code> seja especificado. Entretanto, ele não dá suporte ao atributo <code>placeholder</code>, sobre o qual aprenderemos na próxima dica. No fim das contas, não dependa desse tipo de validação de formulário, ainda... Mas, você já pode utilizá-lo!</p>
 
 
 <h2><span class="sectionnum">8.</span> Placeholders </h2>
 
 <p>
-Antes de utilizar um pouco de JavaScript para criar textos indicativos (placeholder), utilize o atributo placeholder para os campos de texto de seus formulários. Claro, você pode atribuir valor inicial através de <code>value</code> e isso funciona, mas, tão logo o usuário apaga o texto e clica/seleciona outra coisa, o campo continua em branco. O atributo <code>placeholder</code> remedia essa situação.</p>
+Antes de utilizar um pouco de JavaScript para criar textos indicativos (placeholder), utilize o atributo <code>placeholder</code> para os campos de texto de seus formulários. Claro, você pode atribuir valor inicial através de <code>value</code> e isso até funciona, mas, tão logo o usuário apaga o texto e clica/seleciona outra coisa, o campo continua em branco. O atributo <code>placeholder</code> remedia essa situação.</p>
 
 <pre class="brush: html">&lt;input name="email" type="email" placeholder="doug@givethesepeopleair.com" /&gt;</pre>
 
-<p>DE novo, o suporte é impreciso entre os navegadore, porém, a situação melhorará a cada nova versão dos navegadores. Além disso, se os navegadores, como o Firefox ou Opera, não dão suporte, atualmente, ao atributo <code>placeholder</code>, não há perigo algum. </p>
+<p>De novo, o suporte é impreciso entre os navegadores, porém, a situação melhorará a cada nova versão deles. Além disso, se os navegadores, como o Firefox ou Opera, não dão suporte, atualmente, ao atributo <code>placeholder</code>, não há perigo algum em utilizá-lo. Simplesmente será desconsiderado. </p>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/validation.png" /></figure>
 
