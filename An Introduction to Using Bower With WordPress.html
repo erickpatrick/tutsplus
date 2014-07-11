@@ -1,0 +1,58 @@
+<h1>An Introduction to Using Bower With WordPress</h1>
+
+<p>The majority of web projects today start with or include third party libraries. If you are working on a WordPress theme, there's probably a good chance that you are using the <a href="http://html5boilerplate.com/">HTML5 Boilerplate</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, or <a href="http://foundation.zurb.com/">Foundation</a>. Most of these projects are available on GitHub and accessible via <a href="http://bower.io/">Bower</a>.</p>
+
+<p>In this series I'm going to introduce you to Bower, talk about how it can improve your WordPress theme or plugin development and show you how to set it up in your project.</p>
+
+<h2>What is Bower?</h2>
+
+<p>What exactly is Bower? According to the project site:</p>
+
+<blockquote>Bower is a package manager for the web. It offers a generic, unopinionated solution to the problem of front-end package management, while exposing the package dependency model via an API that can be consumed by a more opinionated build stack.</blockquote>
+
+<p>Essentially, what that means is Bower gives you a way to specify what libraries (or packages) your project needs for development. It also handles what other projects <i>those</i> projects need as well and handles that for you automatically.</p>
+
+<p>Bower does depend on <a href="http://nodejs.org/">Node.js</a> and <a href="https://www.npmjs.org/">NPM</a> to work, so you need to make sure that you have those installed on your machine. Another requirement for working with Bower is that the repositories need to be on <a href="https://github.com/">GitHub</a> and added to the <a href="http://bower.io/search/">Bower Registry</a>.</p>
+
+<h2>Third-Party Libraries</h2>
+
+<p>Like I mentioned before, there's probably a good chance that you are using a third party library in your project. You probably have gone to GitHub and downloaded the project then placed the appropriate files in your project. You would need to rinse and repeat for each library your project needs.</p>
+
+<p>With Bower, you can easily install (or download) these third-party libraries without needing to go to GitHub. All of the libraries you install with Bower will be placed into a <code class="inline">bower_components</code> folder inside your project's root folder. All of this can be done via the command line so there's no need to flip back and forth to a browser.</p>
+
+<h2>Managing Dependencies</h2>
+
+<p>Another great feature of Bower is that it manages dependencies for you. It looks at all the packages your project needs and the packages they need as well. Each package might require a specific version of another package, like a specific version of jQuery.</p>
+
+<p>So, for example, let's say your project requires jQuery. You also decide to use both Bootstrap and <a href="http://fitvidsjs.com/">FitVids</a> as well with your project. Bower will look at all of the different packages and all the versions of packages they rely on as well and figure out what is version needed for all. If there are any conflicts, Bower will let you know.</p>
+
+<p>Who wants to keep track of all the required versions of everything anyway?</p>
+
+<h2>No Project Bloat</h2>
+
+<p>I mentioned before that all of the packages you install will be placed into a <code class="inline">bower_components</code> folder. You can access anything in that folder during your local development, but you don't need to add it to your project's repository.</p>
+
+<p>Let's say you want to use Bootstrap for the layout of your theme and you are using Sass to compile your stylesheets into the <code class="inline">style.css</code> file. You can use the <a href="http://bower.io/search/?q=bootstrap-sass-official">bootstrap-sass-official</a> project and simply import the <code class="inline">bootstrap.scss</code> file into your existing project <code class="inline">.scss</code> files.</p>
+
+<p>I will go into more detail around how to do this in another post.</p>
+
+<h2>Conclusion</h2>
+
+<p>I talked about what Bower is and how it helps you work with third-party libraries in your project. I also talked about how it can help you manage your dependencies and remove some bloat to your project's repository.</p>
+
+<p>In the next post I plan on talking more about how it can improve your WordPress development. Whether you are the only developer or working with a larger team, you will see how this benefits for you.</p>
+
+<h2>Resources</h2>
+
+<ul>
+	<li><a href="http://html5boilerplate.com/">HTML5 Boilerplate</a></li>
+	<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+	<li><a href="http://foundation.zurb.com/">Foundation</a></li>
+	<li><a href="http://bower.io/">Bower</a></li>
+	<li><a href="http://nodejs.org/">Node.js</a></li>
+	<li><a href="https://www.npmjs.org/">NPM</a></li>
+	<li><a href="https://github.com/">GitHub</a></li>
+	<li><a href="http://bower.io/search/">Bower Registry</a></li>
+	<li><a href="http://fitvidsjs.com/">FitVids</a></li>
+	<li><a href="http://bower.io/search/?q=bootstrap-sass-official">bootstrap-sass-official</a></li>
+</ul>
