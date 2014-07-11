@@ -40,7 +40,7 @@
 
 <h2>Processo de Construção</h2>
 
-<p>The packages that are installed via Bower are only needed for build or compile time, you don't need to add to your repository. The <code class="inline">bower_components</code> folder is pretty much a temporary folder, so I would also suggest adding it to your <code class="inline">.gitignore</code> file as well in your project's git repository so you don't add them.</p>
+<p>Os pacotes que são instalados através do Bower são necessários, somente, para a construção ou compilação do projeto. Você não precisa adiciona-los ao seu repositório. O <code class="inline">bower_components</code> é um diretório temporário, então, sugiro que você adicioine um arquivo <code class="inline">.gitignore</code> ao repositório do seu projeto para que esse diretório não seja adicioinado.</p>
 
 <p>If you have a build server or have continuous integration set up for your project, you will want to make sure you run a <code class="inline">bower install</code> at the beginning of your build. Once all of your other tasks are ran, you could empty out the <code class="inline">bower_components</code> folder or make sure to run a <code class="inline">bower update</code> on each subsequent build.</p>
 
