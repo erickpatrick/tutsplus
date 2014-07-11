@@ -386,25 +386,25 @@ Agora temos, oficialmente, suporte a atributos customizados em todos os elemento
 
 <p>...os validadores de código iriam reclamar bastante! Agora, porém, desde que prefixemos nossos atributos customizados usando <code>data</code>, podemos, oficialmente, usar esse método. Se você, alguma vez, se viu tendo de guardar dados importantes dentro do atributo <code>class</code>, provavelmente para uso com JavaScript, isso virá em um ótimo momento! </p>
 
-<h3> HTML Snippet </h3>
+<h3> Trecho HTML </h3>
 
-<pre class="brush: html">&lt;div id="myDiv" data-custom-attr="My Value"&gt; Bla Bla &lt;/div&gt;</pre>
+<pre class="brush: html">&lt;div id="myDiv" data-custom-attr="Meu valor"&gt; Bla Bla &lt;/div&gt;</pre>
 
-<h3> Retrieve Value of the Custom Attribute </h3>
+<h3> Retornar o Valor de Um Atributo Customizado </h3>
 
 <pre>var theDiv = document.getElementById('myDiv');
 var attr = theDiv.getAttribute('data-custom-attr');
-alert(attr); // My Val
+alert(attr); // Meu valor
 </pre>
 
-<p>It can also even be used in your CSS, like for this silly and lame CSS text changing example.  </p>
+<p>Ele pode ser usado, inclusive, em nosso CSS, como nesse exemplo básico de mudança de texto.  </p>
 
 <pre class="brush: html">&lt;!DOCTYPE html&gt;
 
 &lt;html lang="en"&gt;
 &lt;head&gt;
  &lt;meta charset="utf-8"&gt;
- &lt;title&gt;Sort of Lame CSS Text Changing&lt;/title&gt;
+ &lt;title&gt;Exemplo simples de mudança de texto&lt;/title&gt;
 &lt;style&gt;
 
 h1 { position: relative; }
@@ -421,12 +421,12 @@ h1:hover:after {
 &lt;/head&gt;
 &lt;body&gt;
 
-&lt;h1 data-hover-response="I Said Don't Touch Me!"&gt; Don't Touch Me  &lt;/h1&gt;
+&lt;h1 data-hover-response="Eu disse, não me toque!"&gt; Não me toque  &lt;/h1&gt;
 
 &lt;/body&gt;
 &lt;/html&gt;</pre>
 
-<p>You can view a demo of the effect above <a href="http://jsbin.com/okepo4">on JSBIN</a>. </p>
+<p>Você pode ver o efeito acima na demonstração hospedada <a href="http://jsbin.com/okepo4">no JSBIN</a>. </p>
 
 
 <h2><span class="sectionnum">27.</span> The Output Element </h2>
