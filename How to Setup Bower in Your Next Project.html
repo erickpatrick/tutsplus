@@ -85,15 +85,15 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 <p>O que podemos fazer é copiar o arquivo <code class="inline">bootstrap.scss</code> e adicioná-lo como um de nossos arquivos <code class="inline">.scss</code> do nosso tema, dentro do diretório <code class="inline">css/sass</code>. Uma vez que fizermos isso, nós temos de mudar o caminho para todos os arquivos que ele importa, para apontar para nosso diretório <code class="inline">bower_components</code>.</p>
 
-<p>We can also add our own <code class="inline">.scss</code> files inside this file to override things, like the sass variables in <code class="inline">variables.scss</code>. Let's say you wanted to update the background color. There's a variable inside of Bootstrap's <code class="inline">variables.scs</code> file called <code class="inline">$body-bg</code>, and we can simply override that in our theme's <code class="inline">variables.scss</code> file.</p>
+<p>Nós também podemos adicionar nossos próprios arquivos <code class="inline">.scss</code> dentro desse arquivo e sobrescrever as coisas, como as variáveis saas em <code class="inline">variables.scss</code>. Digamos que queremos atualizar a cor de fundo. Há uma variável dentro do arquivo <code class="inline">variables.scs</code> do Bootstrap, chamada de <code class="inline">$body-bg</code>, e nós podemos, simplesmente, sobrescreve-la, através do arquivo <code class="inline">variables.scss</code> nosso tema.</p>
 
-<p>Both examples above would be changing from this:</p>
+<p>Ambos os exemplos acima seriam alterados disso:</p>
 
-<pre class="brush: css">// Core variables and mixins
+<pre class="brush: css">// Variáveis base e mixins
 @import "bootstrap/variables";
 @import "bootstrap/mixins";</pre>
 
-<p>to this:</p>
+<p>para isso:</p>
 
 <pre class="brush: css">// Core variables and mixins
 @import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/variables";
