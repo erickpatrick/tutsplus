@@ -1,6 +1,6 @@
 <h1>Introdução ao Uso do Bower com WordPress</h1>
 
-<p>A maioria dos projetos para web, hoje, começam ou incluem bibliotecas de terceiros. Se você está trabalhando em um tema do WordPress, é bem provável que você esteja usando o <a href="http://html5boilerplate.com/">HTML5 Boilerplate</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, ou o <a href="http://foundation.zurb.com/">Foundation</a>. A maioria desses projetos estão disponíveis no Github e acessíveis através do <a href="http://bower.io/">Bower</a>.</p>
+<p>A maioria dos projetos para web, hoje, começam ou incluem bibliotecas de terceiros. Se você está trabalhando em um tema do WordPress, é bem provável que você esteja usando o <a href="http://html5boilerplate.com/">HTML5 Boilerplate</a>, <a href="http://getbootstrap.com/">Bootstrap</a> ou o <a href="http://foundation.zurb.com/">Foundation</a>. A maioria desses projetos está disponível no Github e acessível através do <a href="http://bower.io/">Bower</a>.</p>
 
 <p>Nessa série, apresentarei o Bower, falarei sobre como ele pode aprimorar o seu desenvolvimento de temas e plugins para WordPress, além de mostrar como prepará-lo para seu projeto.</p>
 
@@ -8,15 +8,15 @@
 
 <p>O que, exatamente, é o Bower? De acordo com o site do projeto:</p>
 
-<blockquote>Bower é um gerenciador de pacotes para a web. Oferecendo uma solução genérica e imparcial para o problema de gerenciamento de pacotes front-end, expondo o modelo de dependência de pacote através de uma API que pode ser consumida por um processo de implementações mais dogmático.</blockquote>
+<blockquote>Bower é um gerenciador de pacotes para a web. Oferece uma solução genérica e imparcial para o problema de gerenciamento de pacotes front-end, expondo o modelo de dependência de pacotes através de uma API que pode ser consumida por um processo de implementações mais dogmático.</blockquote>
 
 <p>Essencialmente, o que isso significa é que o Bower fornece a você uma maneira de especificar quais bibliotecas (ou pacotes) que seu projeto precisa para ser desenvolvido. Ele também é capaz de lidar com as dependências dos projetos que você especificar, de forma automática.</p>
 
-<p>O Bower depende do <a href="http://nodejs.org/">Node.js</a> e do <a href="https://www.npmjs.org/">NPM</a> para funcionar, assim, você precisa ter certeza que os tem instalados na sua máquina. Outro requerimento para trabalhar com o Bower é que os repositórios precisam estar no <a href="https://github.com/">GitHub</a> e serem adicionados ao <a href="http://bower.io/search/">Catálogo do Bower</a>.</p>
+<p>O Bower depende do <a href="http://nodejs.org/">Node.js</a> e do <a href="https://www.npmjs.org/">NPM</a> para funcionar, assim, você precisa ter certeza que os tem instalados em sua máquina. Outro requerimento para trabalhar com o Bower é que os repositórios precisam estar no <a href="https://github.com/">GitHub</a> e ser adicionados ao <a href="http://bower.io/search/">Catálogo do Bower</a>.</p>
 
 <h2>Bibliotecas de Terceiros</h2>
 
-<p>Como mencionem antes, há uma grande chance que você esteja usando uma biblioteca de terceiro em seu projeto. Você provavelmente já foi ao GitHub, baixou o projeto e o colocou os arquivos em um local apropriado em seu projeto. Você precisaria repetir essa tarefa para toda e cada biblioteca que seu projeto precisa.</p>
+<p>Como mencionei antes, há uma grande chance que você esteja usando uma biblioteca de terceiro em seu projeto. Você provavelmente já foi ao GitHub, baixou o projeto e o colocou os arquivos em um local apropriado em seu projeto. Você precisaria repetir essa tarefa para toda e cada biblioteca que seu projeto precisa.</p>
 
 <p>Com o Bower, você pode instalar (ou baixar), facilmente, essas bibliotecas, sem precisar ir ao GitHub. Todas as bibliotecas que você instala com o Bower, serão colocadas em um diretório chamado <code class="inline">bower_components</code>, dentro do diretório raiz do seu projeto. Tudo isso pode ser feito pela linha de comando, assim, não há necessidade de ir e vir do navegador o tempo todo.</p>
 
