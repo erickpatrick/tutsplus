@@ -519,10 +519,10 @@ output {
 <p>Por último, nós: </p>
 
 <ul>
-<li> Determine if the current browser knows what the range input is. If not, we alert the user that the demo won't work. </li>
-<li>Update the <code>output</code> element dynamically, as the user moves the slider. </li>
-<li> Listen for when the user mouses off the slider, grab the value, and save it to local storage. </li>
-<li>Then, the next time the user refreshes the page, the range and output will automatically be set to what they last selected. </li>
+<li> Determinamos se o navegador atual sabe o que é um campo do tipo <code>range</code>. Se não, alertamos o usuário que a demonstração não funcionará. </li>
+<li>Atualizamos o elemento <code>output</code> dinamicamente, de acordo com que o usuário mexe o slider. </li>
+<li> Prestamos atenção para quando o usuário tirar o mouse de cima do slider, podermos salvar o valor e salvá-lo no armazenamento local. </li>
+<li>Então, a próxima vez que o usuário recarregar a página, o campo <code>range</code> e o elemento <code>output</code> já estarão, automaticamente, configurados com os valores selecionados da última vez. </li>
 </ul>
 
 <pre class="brush:">(function() {
@@ -531,24 +531,24 @@ range = f['range'],
 result = f['result'],
 cachedRangeValue = localStorage.rangeValue ? localStorage.rangeValue : 5;
 
-	// Determine if browser is one of the cool kids that
-	// recognizes the range input.
+	// Determina se o navegador é um dos modernos, capazes de
+	// reconhecer o campo
 	var o = document.createElement('input');
 	o.type = 'range';
-	if ( o.type === 'text' ) alert('Sorry. Your browser is not cool enough yet. Try the latest Opera.');
+	if ( o.type === 'text' ) alert('Desculpa. Seu navegador não é moderno o suficiente. Tente utilizar o Opera.');
 
-	// Set initial values of the input and ouput elements to
-	// either what's stored locally, or the number 5.
+	// Atribuit os valores iniciais do campo range e do elemento output
+	// para aquilo que estiver salvo localmente, ou o número 5.
 	range.value = cachedRangeValue;
 	result.value = cachedRangeValue;
 
-	// When the user makes a selection, update local storage.
+	// Quando o usuário selecionar algo, atualizar o armazenamento local.
 	range.addEventListener("mouseup", function() {
-alert("The selected value was " + range.value + ". I am using local storage to remember the value. Refresh and check on a modern browser.");
-localStorage ? (localStorage.rangeValue = range.value) : alert("Save data to database or something instead.");
+alert("O valor selecionado foi " + range.value + ". Estou usando o armazenamento local para lembrar do valor. Atualize e verifique num navegador moderno.");
+localStorage ? (localStorage.rangeValue = range.value) : alert("Salve os dados numa base de dados ou algo parecido.");
 	}, false);
 
-	// Display chosen value when sliding.
+	// Mostra o valor escolhido enquanto arrasta o slider.
 	range.addEventListener("change", function() {
 result.value = range.value;
 	}, false);
@@ -557,8 +557,8 @@ result.value = range.value;
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/gauge.png" /></figure>
 
-<p>Ready for the real world? Probably not yet; but it's still fun to play with and prep for!</p>
+<p>Pronto para o mundo real? Provavelmente, não. Mas, ainda assim, é legal de brincar e de se preparar!</p>
 
-<p><a href="http://cdn.tutsplus.com/net/uploads/legacy/757_html5Tips/range.html.zip">Download the source code</a>, and try it out for yourself. But use a modern browser. </p>
+<p><a href="http://cdn.tutsplus.com/net/uploads/legacy/757_html5Tips/range.html.zip">Baixe o código fonte</a>, e tente por conta própria. Mas, lembre-se de usar um navegador moderno e atualizado. </p>
 
-<p>Thanks for reading! We've covered a lot, but have still only scratched the surface of what's possible with HTML5. I hope this served as a helpful primer!</p>
+<p>Obrigado pela leitura! Falamos sobre muita coisa, mas apenas cobrimos só o topo do iceberg. O HTML5 é bastante poderoso! Espero que esse artigo tenha sevido como uma bela introdução!</p>
