@@ -465,33 +465,33 @@ f.addEventListener('submit', function(e) {
 <p>Esse elemento também pode receber um atributo <code>for</code>, que reflete o nome do elemento o qual o elemento <code>output</code> se relaciona, de forma semelhante a que o elemento <code>label</code> trabalha. </p>
 
 
-<h2><span class="sectionnum">28.</span> Create Sliders with the Range Input</h2>
+<h2><span class="sectionnum">28.</span> Criação de Sliders Com o Campo Range</h2>
 
 <p>
-HTML5 introduces the new <code>range</code> type of input.</p>
+O HTML5 introduz o novo tipo de campo, <code>range</code>.</p>
 
 <pre class="brush: html">&lt;input type="range"&gt;</pre>
 
-<p>Most notably, it can receive <code>min</code>, <code>max</code>, <code>step</code>, and <code>value</code> attributes, among others. Though only Opera seems to support this type of input right now fully, it'll be fantastic when we can actually use this!  </p>
+<p>Notavelmente, ele pode ter os atributos <code>min</code>, <code>max</code>, <code>step</code>, e <code>value</code>, além de outros. Embora apenas o Opera pareça dar suporte a esse tipo de campo, será fantástico quando nós pudermos usar isso de verdade!  </p>
 
-<p>For a quick demonstration, let's build a gauge that will allow users to decide how awesome "Total Recall" is. We won't build a real-world polling solution, but we'll review how it could be done quite easily. </p>
+<p>Para uma rápida demonstração, vamos construir um votador para que os usuários decidam o quão incrível o filme "Total Recall" é. Não construiremos uma solução de votação real, mas revisaremos como poderíamos fazer, bem rápido. </p>
 
-<h3>Step 1: Mark-up </h3>
+<h3>Passo 1: Estrutura </h3>
 
 <p>
-First, we create our mark-up.</p>
+Primeiro, criaremos a estrutura HTML.</p>
 
 <pre class="brush: html">&lt;form method="post"&gt;
-	&lt;h1&gt; Total Recall Awesomness Gauge &lt;/h1&gt;
+	&lt;h1&gt; Votador de Grandiosidade do "Total Recall" &lt;/h1&gt;
 	&lt;input type="range" name="range" min="0" max="10" step="1" value=""&gt;
 	&lt;output name="result"&gt;  &lt;/output&gt;
 &lt;/form&gt;</pre>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/gaugeunstyled.png" /></figure>
 
-<p>Notice that, in addition to setting <code>min</code> and <code>max</code> values, we can always specify what the <code>step</code> for each transition will be. If the <code>step</code> is set to <code>1</code>, there will then be 10 values to choose. We also take advantage of the new <code>output</code> element that we learned about in the previous tip. </p>
+<p>Note que, além de atribuir os valores de <code>min</code> e <code>max</code>, podemos especificar qual o tamanho do passo (<code>step</code>) de cada trnasição. Se o <code>step</code> tiver o valor de <code>1</code>, teremos 10 valores a escolher. Nós, também, lançamos mão do novo elemento <code>output</code>que aprendemos na dica anterior. </p>
 
-<h3> Step 2: CSS </h3>
+<h3> Passo 2: CSS </h3>
 
 <p>Next, we'll style it just a bit. We'll also utilize <code>:before</code> and <code>:after</code> to inform the user what our specified <code>min</code> and <code>max</code> values are. <em>Thanks so much to Remy and Bruce for teaching me this trick, via "<a href="http://introducinghtml5.com/">Introducing HTML5</a>." </em></p>
 
