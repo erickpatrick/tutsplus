@@ -59,13 +59,13 @@
 
 <p>A primeira coisa que queremos fazer é criar um arquivo <code class="inline">style.scss</code> que será compilado em nosso arquivo <code class="inline">style.css</code> na raiz do nosso projeto. Geralmente, crio uma estrutura parecida com <code class="inline">css/sass/</code> e coloco todos os meus arquivos <code class="inline">.scss</code> dentro da pasta <code class="inline">sass</code>. Vamos em frente e criar nosso arquivo <code class="inline">style.scss</code> lá.</p>
 
-<p>Since we are making a theme, we need a few comments at the top, then we can import in the <code class="inline">bootstrap.scss</code> file that we pulled down with Bower. You will need to figure out the path to it, then use an <code class="inline">@import</code> to bring it in like so:</p>
+<p>Uma vez que estamos criando um tema, precisamos adicionar alguns comentários no topo do arquivo, e, então, poderemos importar o arquivo <code class="inline">bootstrap.scss</code> que baixamos através do Bower. Você precisará descobrir o caminho para ele, daí, então, usa o <code class="inline">@import</code> para importá-lo:</p>
 
 <pre class="brush: css">/*!
-Theme Name: Tuts Bower
+Theme Name: Tuts+ Bower
 Theme URI: http://code.tutsplus.com/
 Version: 1.0.0
-Description: Example project for tutorial on Bower for Tuts+
+Description: Projeto exemplo para o tutorial sobre Bower no Tuts+
 Author: Jason Bradley
 Author URI: http://jasonbradley.me
 License: GNU General Public License v3.0
@@ -75,7 +75,7 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 // Import Bootstrap styles
 @import '../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';</pre>
 
-<p>I'm using <a href="https://github.com/gruntjs/grunt-contrib-sass">grunt-contrib-sass</a> in my example project, now when we run our Sass compiler, it will compile the <code class="inline">bootstrap.scss</code> into our <code class="inline">style.css</code> file. Now we have all of the Bootstrap styles added to our project.</p>
+<p>Usarei o <a href="https://github.com/gruntjs/grunt-contrib-sass">grunt-contrib-sass</a> no projeto exemplo, e quando executarmos nosso compilador de Sass, ele compilará o arquivo <code class="inline">bootstrap.scss</code> em nosso arquivo <code class="inline">style.css</code>. Agora, temos todos os arquivos do Bootstrap adicionados ao nosso projeto.</p>
 
 <h2>Customizing Components</h2>
 
