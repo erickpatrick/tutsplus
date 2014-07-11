@@ -225,7 +225,7 @@ document.createElement("menu");</pre>
 
 <pre class="brush: html">&lt;input type="text" name="someInput" required="required"&gt;</pre>
 
-<p>Ambas as formas funcionarão. Com esse código, dentro dos navegadores que dão suporte ao atributo, um formulário não pode ser enviado com o campo "someInput" em branco. Eis um exemplo simples: Também adicionaremos o atributo <code>placeholder</code>, já que não há razão para não fazê-lo.</p>
+<p>Ambas as formas funcionarão. Com esse código, dentro dos navegadores que dão suporte ao atributo, um formulário não pode ser enviado com o campo "someInput" em branco. Eis um exemplo simples: Também adicionaremos o atributo <code>placeholder</code>, já que nada nos impede de fazê-lo.</p>
 
 <pre class="brush: html">&lt;form method="post" action=""&gt;
 	&lt;label for="someInput"&gt; Your Name: &lt;/label&gt;
@@ -233,7 +233,7 @@ document.createElement("menu");</pre>
 	&lt;button type="submit"&gt;Go&lt;/button&gt;
 &lt;/form&gt;</pre>
 
-<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/placeholder_required.png" /></figure><p>Se o campo for deixado em branco e o formulário for enviado, o campo em questão ficará em destaque. </p>
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/12357/image/placeholder_required.png" /></figure><p>Se o campo for deixado em branco e o formulário for enviado, o campo em questão ganhará destaque. </p>
 
 
 <h2><span class="sectionnum">15.</span> Atributo Autofocus </h2>
@@ -248,7 +248,7 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 
 <h2><span class="sectionnum">16.</span> Suporte a Áudio </h2>
 
-<p>Não precisamos mais depender de plugins de terceiros para renderizar áudios. O HTML5 oferece, agora, o elemento <code>&lt;audio&gt;</code>. Bem, ao menos, algum dia, não precisaremos depender desses plugins. Por enquanto, somente os navegadores mais recentes dão suporte a esse elemento. Assim, é uma boa prática oferece alguma forma de retrocompatibilidade.  </p>
+<p>Não precisamos mais depender de plugins de terceiros para renderizar áudios. O HTML5 oferece, agora, o elemento <code>&lt;audio&gt;</code>. Bem, ao menos, algum dia, não precisaremos depender desses plugins. Por enquanto, somente os navegadores mais recentes dão suporte a esse elemento. Assim, é uma boa prática oferecer alguma forma de retrocompatibilidade.  </p>
 
 <pre class="brush: html">&lt;audio autoplay="autoplay" controls="controls"&gt;
 	&lt;source src="file.ogg" /&gt;
@@ -256,14 +256,14 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 	<a>Download this file.</a>
 &lt;/audio&gt;</pre>
 
-<p>A Mozilla e o Webkit ainda não andam juntas, quando se trata dos formatos de áudio suportados. O Firefox quer que o tipo .ogg prevaleça, enquanto o Webkit trabalham, sem problemas, com o formato mp3. Isso significa, pelo menos por hora, você deve criar duas versões do seu áudio.</p>
+<p>A Mozilla e o Webkit ainda não andam juntas, quando se trata dos formatos de áudio suportados. O Firefox quer que o tipo .ogg prevaleça, enquanto os Webkit trabalham, sem problemas, com o formato mp3. Isso significa, pelo menos por hora, que você deve criar duas versões do seu áudio.</p>
 
 <p>Quando o Safari carregar a página, ele não reconhecerá o formato .ogg e pulará, seguindo em busca do formato mp3. Note que o IE, como sempre, não dá suporte, e o Opera 10 ou anterior só trabalham com arquivos do tipo .wav. </p>
 
 
 <h2><span class="sectionnum">17.</span>  Suporte a Vídeo</h2>
 
-<p>Assim como com o elemento <code>&lt;audio&gt;</code>, nós também temos, claro, o elemento <code>video</code> do HTML5 nos navegadores! Na verdade, recentemente, <a href="http://apiblog.youtube.com/2010/07/new-way-to-embed-youtube-videos.html">o YouTube anunciou o HTML5 como uma nova opção de formato para seus vídeos embutidos</a>, para aqueles navegadores que o suportam. Infelizmente, novamente, o especificação HTML5 não especifica um decodificador de vídeo padrão, deixando para que os criadores dos navegadores decidam. Enquanto o Safari e o Internet Explorer 9 dão suporte ao formato H.264 (o qual os reprodutores em Flash podem executar), o Firefox e o Opera escolheram os formatos de código aberto, Theora e Vorbis. Dessa forma, quando precisar apresentar algum vídeo com o HTML5, deverá apresentar ambos os formatos. </p>
+<p>Assim como com o elemento <code>&lt;audio&gt;</code>, nós também temos, claro, o elemento <code>video</code> do HTML5 nos navegadores! Na verdade, recentemente, <a href="http://apiblog.youtube.com/2010/07/new-way-to-embed-youtube-videos.html">o YouTube anunciou o HTML5 como uma nova opção de formato para seus vídeos embutidos</a>, para aqueles navegadores que o suportam. Infelizmente, novamente, a especificação HTML5 não indica um decodificador de vídeo padrão, deixando para que os criadores dos navegadores decidam. Enquanto o Safari e o Internet Explorer 9 dão suporte ao formato H.264 (o qual os reprodutores em Flash podem executar), o Firefox e o Opera escolheram os formatos de código aberto, Theora e Vorbis. Dessa forma, quando precisar apresentar algum vídeo com o HTML5, deverá apresentar ambos os formatos. </p>
 
 <pre class="brush: html">&lt;video controls preload&gt;
 	&lt;source src="cohagenPhoneCall.ogv" type="video/ogg; codecs='vorbis, theora'" /&gt;
@@ -278,13 +278,13 @@ Novamente, o HTML5 acaba com a necessidade de soluções em JavaScript. Se um ca
 
 <ol>
 <li>Tecnicamente, não precisamos preencher o atritbuto <code>type</code>; entretanto, se não o fizermos, o navegador terá de descobrir o tipo por conta própria. Economize banda e declare.  </li>
-<li>Nem todos os navegadores compreender a tag <code>video</code> do HTML5. Logo após os elementos <code>source</code>, podemos oferecer um link para download ou uma versão em Flash. Fica a seu critétio. </li>
+<li>Nem todos os navegadores compreendem a tag <code>video</code> do HTML5. Logo após os elementos <code>source</code>, podemos oferecer um link para download ou uma versão em Flash. Fica a seu critétio. </li>
 <li> Os atributos <code>controls</code> e <code>preload</code> serão discutidos nas duas próximas dicas. </li>
 </ol>
 
 <h2><span class="sectionnum">18.</span> Precarregue os Vídeos </h2>
 
-<p>O atributo <code>preload</code> faz exatamente o que você está imaginando. Embora, com isso, você tenha de decidir, primeiro, se quer ou não que o navegador precarregue o video. É necessário? Talvez, se o visitante acessar uma página própria para visualização de vídeos, você, definitivamente, deve precarregar o video e evitar que o usuário tenha de esperar muito tempo. Vídeos podem ser precarregados atribuindo <code>preload="preload"</code>, ou, simplesmente, adicionando o atributo <code>preload</code> sozinho. Prefiro a segunda solução, é bem menos redundante.</p>
+<p>O atributo <code>preload</code> faz exatamente o que você está imaginando. Embora, com isso, você tenha de decidir, primeiro, se quer ou não que o navegador precarregue o vídeo. Isso é necessário? Talvez, se o visitante acessar uma página própria para visualização de vídeos, você, definitivamente, deve precarregar o video e evitar que o usuário tenha de esperar muito tempo para assistí-lo. Vídeos podem ser precarregados atribuindo <code>preload="preload"</code>, ou, simplesmente, adicionando o atributo <code>preload</code> sozinho. Prefiro a segunda solução, é bem menos redundante.</p>
 
 <pre class="brush: html">&lt;video preload&gt;</pre>
 
