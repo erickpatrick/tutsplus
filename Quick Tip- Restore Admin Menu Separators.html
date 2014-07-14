@@ -27,18 +27,18 @@
 
 <p>É o estilo do nosso separador. Para ser mais específico, é o estilo que precisamos estilizar.</p>
 
-<h3>Add Your Own CSS Styles to the Backend</h3>
+<h3>Adicionando Seus Próprios Estilos CSS ao Painel Administrativo</h3>
 
-<p>Now we are going to write a function, to hook up our own CSS-Styles to the WordPress Backend. </p>
+<p>Agora, criaremos uma função que adicionará nossos próprios estilos CSS ao painel administrativo do WordPress. </p>
 
-<p>Add this code to your themes <code class="inline">functions.php</code> file.</p>
+<p>Adicione esse código ao arquivo <code class="inline">functions.php</code> do seu tema.</p>
 
 <pre class="brush: php">function tutsplus_separators() {
 
 }
 add_action( 'admin_head', 'tutsplus_separators' );</pre>
 
-<p>The first part defines the function and the <a href="http://codex.wordpress.org/Function_Reference/add_action" target="_blank">add_action</a> hook will add it to the WordPress dashboard header. In the middle, we will now add an echo to post our own CSS-Code.</p>
+<p>A primeira parte define a função em si e o gancho <a href="http://codex.wordpress.org/Function_Reference/add_action" target="_blank">add_action</a> adicionará a função ao cabeçalho do painel administrativo do WordPress. No meio, adicionaremos uma função <code>echo</code> para adicionar nosso próprio códogio CSS.</p>
 
 <pre class="brush: php">function tutsplus_separators() {
 echo '&lt;style type="text/css"&gt;#adminmenu li.wp-menu-separator {margin: 0; background: #444;}&lt;/style&gt;';
