@@ -49,11 +49,11 @@ add_action( 'admin_head', 'tutsplus_separators' );</pre>
 
 <h3>Dando Suporte aos Esquemas de Cores Padrão do WordPress</h3>
 
-<p>If you're a perfectionist, you will notice this color only suits for the default black and blue admin style of WordPress. Let’s take another look at how we can cover all of the new color schemes.</p>
+<p>Se você for um perfeccionista, notará que essa cor só combina com os temas preto e azul padrões do painel administrativo do WordPress. Vejamos como podemos fazer para dar suporte a todos os esquemas de cores.</p>
 
-<p>The <code>body</code>-tag of WordPress has a lot of handy classes to identify different uses. If you take a closer look you will also see a class for the color scheme. The default one is called <code>admin-color-fresh</code>. </p>
+<p>A tag <code>body</code> do painel do WordPress tem várias classes úteis para identificar os diferentes usos. Se você prestar mais atenção, também verá a classe do esquema de cores. A classe padrão é chamada de <code>admin-color-fresh</code>. </p>
 
-<p>Try changing your style in “Users” &gt; “Your Profile” and see how the class is changing. With this class available, we can give every color-style its own separator color. Just add the class name in front of your css code like this <code>.admin-color-fresh #adminmenu li.wp-menu-separator {background: #444;}</code></p>
+<p>Tente mudar seu estilo em “Usuários” &gt; “Seu Perfil” e veja essa classe mudar. Com essa classe disponível, podemos atribuit a cada esquema, seu próprio separador personalizado. Apenas adicione o nome da classe na frente do seu código css, assim <code>.admin-color-fresh #adminmenu li.wp-menu-separator {background: #444;}</code></p>
 
 <p>Here's the code now with all color-styles for matching separators:</p>
 
