@@ -1,0 +1,164 @@
+<h1>Dica Rápida: O Que Fazer Quando Encontrar Um Arquivo do Bower</h1>
+
+<p>Have you ever cloned or downloaded a GitHub repo, only to find a number of strange and extraneous files which you don't recognise?</p>
+
+<p>Let's say, for example, you are working on a website and need a library, JavaScript or CSS, to add some features to your project. You find the perfect library in a GitHub repository, so you download it right away. When you extract the package, you discover several strange files, one of which being <strong>bower.json</strong>.</p>
+
+<p>Furthermore, you may also have found instructions in the repository typically saying something along the lines of:</p>
+
+<blockquote>
+  <p>Install with Bower: <code>bower install bootstrap</code>.</p>
+</blockquote>
+
+<p>You might well wonder what this file is used for, let alone why you should install it with Bower. I was recently asked these very questions by a web designer friend of mine and I suspect there are many people feeling similarly confused. If you're one of these people, this quick tip should help you out!</p>
+
+<h2>A Bower File</h2>
+
+<p><a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Bower</a> is a package manager for the web. It helps you manage dependencies; files (perhaps third-party, often publicly available via GitHub) which you need for your project.</p>
+
+<p><b>bower.json</b>, the file we're talking about here, plays a central role in a Bower environment. Previously, it was named component.json, but the name then changed to bower.json to avoid conflict that may occur with the other tools using the same file name.</p>
+
+<p>bower.json helps Bower to understand the project; it records meta data such as the project's name, the version, the author, the license, the dependencies, and so forth. The information is structured in JSON which typically looks as follows:</p>
+
+<pre class="brush: javascript">{
+	"name": "awesome",
+	"version": "1.0.0",
+	"authors": [
+"John Doe"
+	],
+	"description": "The Most Awesome thing in the Galaxy",
+	"license": "MIT",
+	"dependencies": {
+"cool-library": "1.1.2",
+"good-library": "2.1.3"
+	}
+}
+</pre>
+
+<p>From this human-readable JSON file we can deduce that this project is named "awesome", is currently at version "1.0.0", was authored by "John Doe", a couple of other details, and requires a couple of dependencies to be present in order to work.</p>
+
+<p>If you find bower.json in a library, it implies two things:</p>
+
+<ul>
+  <li>First, the project author defined the library as a Bower package. The project may have been published to the <a href="http://bower.io/search/" target="_self">Bower registry</a>, a central collection of packages, so that it can be added into your project through Bower command line.</li>
+  <li>The project author may have used Bower to organize the project libraries, making it easier for other developers who may use or extend the project later on.</li>
+</ul>
+
+<p>Bower uses this file in several ways. It uses the meta details to display the package information when we search the Bower registry. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/registry.png" />
+  <figcaption>You'll find some familiar projects in the Bower registry</figcaption>
+</figure>
+
+<p>Bower will also parse the file when we execute several commands such as <code>bower version</code> and <code>bower install</code>.</p>
+
+<h2>Bower Install</h2>
+
+<p><code>bower install</code> is the command to install a package which is registered in the Bower registry. This command will also install the packages listed in the bower.json under "dependencies". By default, these packages will be added in a folder named <strong>bower_components</strong>.</p>
+
+<p>As an example, let's install <a href="http://daneden.github.io/animate.css/" target="_self">Animate.css</a> and <a href="http://getbootstrap.com/" target="_self">Bootstrap</a> with Bower. </p>
+
+<p>To begin with, you'll need actually need to install Bower. Take a look at <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Meet Bower: A Package Manager For The Web</a> for details on this. With that done you can type the following command in the Terminal or the Command Prompt (if you are using Windows) which installs these packages simultaneously:</p>
+
+<pre class="brush: bash">bower install animate.css bootstrap</pre>
+
+<p>Now you should find them added in the bower_components. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/installed-packages.jpg" />
+  <figcaption>Animate.css and Bootstrap folder added in bower_components</figcaption>
+</figure>
+
+<p>As you can see above, we have an extra folder, <b>jquery</b>. This is because Bootstrap set it as a dependency; the Bootstrap JavaScript components require jQuery to function. If you take a look at the bower.json file included in the package, you will find it listed at the end of the file, as follows.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/bootstrap-dependency.jpg" />
+  <figcaption>jQuery is set as dependency in Bootstrap's bower.json</figcaption>
+</figure>
+
+<h2>What's Next?</h2>
+
+<p>Assuming you have just downloaded a library with an accompanying bower.json file, the first thing I would suggest is that you inspect the file for dependencies.</p>
+
+<p>As an example, I've downloaded a JavaScript library called <a href="https://github.com/shameerc/Revealer.js/">Revealer.js</a>. Revealer.js apparently requires Reveal.js to function. We can find it listed as a dependency within the bower.json file, as shown below:</p>
+
+<pre class="brush: javascript">{
+// ...
+"dependencies": {
+  "reveal.js": "~2.5.0"
+},
+// ...
+}
+</pre>
+
+<p>Just to confirm this, if we open the index.html from the <b>views</b> folder, we will find <b>reveal.js</b> file is linked within a <code>script</code> tag, like so.</p>
+
+<pre class="brush: html">&lt;script src="components/reveal.js/js/reveal.min.js"&gt;&lt;/script&gt;
+</pre>
+
+<p>Now we need to open the library's folder in the Terminal or Command Prompt, then type:</p>
+
+<pre class="brush: bash">bower install
+</pre>
+
+<p>As mentioned earlier, this command will download all the registered packages in bower.json at once. </p>
+
+<p><b>Note:</b> In this particular case, the package is added in the <b>public/components</b> folder, as specified in the <b>.bowerrc</b> file. <a href="http://bower.io/#custom-install-directory" target="_self">A .bowerrc file</a> sometimes accompanies the bower.json file and is used to specify custom install directories.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/revealjs-installed.jpg" />
+</figure>
+
+<h3>Updating the Package</h3>
+
+<p>The package that we have installed may be updated over time, either for fixing the bugs or adding new features. With Bower, updating these libraries is a breeze. First of all, let's type:</p>
+
+<pre class="brush: bash">bower list
+</pre>
+
+<p>This will list the currently installed packages in our project, and show us the latest version available. In our case, it seems Reveal.js has a newer version. So, let's update it.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/bower-list-1.jpg" />
+  <figcaption>The newest version of Reveal.js is available</figcaption>
+</figure>
+
+<p>Type this command to update Reveal.js.</p>
+
+<pre class="brush: bash">bower install --save reveal.js#2.6.2
+</pre>
+
+<p>This will also change the version recorded in our project's bower.json.</p>
+
+<pre class="brush: javascript">{
+// ...
+"dependencies": {
+  "reveal.js": "2.6.2"
+},
+// ...
+}</pre>
+
+<h2>Conclusion</h2>
+
+<p>Bower is a really handy tool for managing project libraries. It's a bit like having our own AppStore or Google Play; we can install, update, and remove libraries easily. I hope this tip has helped avoid any confusion you may experience when downloading third party libraries, and shown you the benefits of using Bower in your workflow.</p>
+
+<h3>Further Reference</h3>
+
+<ul>
+  <li>
+    <a href="http://bower.io/">Bower Official Website</a>
+  </li>
+  <li>
+    <a href="https://github.com/bower/bower.json-spec">Bower JSON Specification</a>
+  </li>
+  <li>
+    <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774">Meet Bower: A Package Manager For The Web</a>
+  </li>
+  <li>
+    <a href="http://www.youtube.com/watch?v=USk1ie30z5k">A RequireJS, Backbone, and Bower Starter Template</a>
+  </li>
+  <li>
+    <a href="http://stackoverflow.com/questions/21198977/difference-between-grunt-npm-and-bower-package-json-vs-bower-json">The difference between Grunt, NPM and Bower (package.json vs bower.json)</a>
+  </li>
+</ul>
