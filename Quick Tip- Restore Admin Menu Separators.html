@@ -1,0 +1,83 @@
+<h1>Quick Tip: Restore Admin Menu Separators</h1>
+
+<p>As refreshing as the new WordPress dashboard is, not everyone is happy with some of the changes. I personally love the new minimal style. </p>
+
+<p>There was only one thing that I really miss: The left navigation was lacking its visual separation of different WordPress-areas.</p>
+
+<figure><img alt="" src="http://cdn.tutsplus.com/wp/uploads/2014/01/admin_separators_big.gif" /></figure>
+
+<p>In this quick tip, I am going to show you how to inspect the backend CSS and bring the separators back with just a few lines of code.</p>
+
+<h2>Find Your Styles</h2>
+
+<p>The separators that we are going to attempt to restore are not actually gone - they are just transparent. Right-click in the blank area between <em>Comments</em> and <em>Appearance</em> and inspect this element.</p>
+
+<figure>
+<img width="642" alt="bring_back_separators_screenshot-2" src="http://cdn.tutsplus.com/wp/uploads/2014/01/bring_back_separators_screenshot-2.gif" height="310" /><br />
+</figure>
+
+<p>You should see the rendered HTML. The menus are <code>ul</code>-elements with	<code>li</code>-elements for every menu-item. </p>
+
+<p>Open <code>ul id="adminmenu" role="navigation"</code>. You see all the menu items in	<code>li</code>-elements wrapped, but you will also see a	<code>li class="wp-menu-separator"</code> in between. When you click on it, you will be able to see the styles and should notice the CSS for this item.</p>
+
+<pre class="brush: css">#adminmenu li.wp-menu-separator {
+  background:   transparent;
+  border-color: transparent;
+}</pre>
+
+<p>That's our separator style. Specifically, it's the one we need to modify.</p>
+
+<h3>Add Your Own CSS Styles to the Backend</h3>
+
+<p>Now we are going to write a function, to hook up our own CSS-Styles to the WordPress Backend. </p>
+
+<p>Add this code to your themes <code class="inline">functions.php</code> file.</p>
+
+<pre class="brush: php">function tutsplus_separators() {
+
+}
+add_action( 'admin_head', 'tutsplus_separators' );</pre>
+
+<p>The first part defines the function and the <a href="http://codex.wordpress.org/Function_Reference/add_action" target="_blank">add_action</a> hook will add it to the WordPress dashboard header. In the middle, we will now add an echo to post our own CSS-Code.</p>
+
+<pre class="brush: php">function tutsplus_separators() {
+echo '&lt;style type="text/css"&gt;#adminmenu li.wp-menu-separator {margin: 0; background: #444;}&lt;/style&gt;';
+}
+add_action( 'admin_head', 'tutsplus_separators' );</pre>
+
+<p>If you reload your pages, your separators will be in the color <code class="inline">#444</code> - gray. I changed the margin of the separator as well because it needed some alignment in my opinion.</p>
+
+<h3>Covering the WordPress Default Color Schemes</h3>
+
+<p>If you're a perfectionist, you will notice this color only suits for the default black and blue admin style of WordPress. Let’s take another look at how we can cover all of the new color schemes.</p>
+
+<p>The <code>body</code>-tag of WordPress has a lot of handy classes to identify different uses. If you take a closer look you will also see a class for the color scheme. The default one is called <code>admin-color-fresh</code>. </p>
+
+<p>Try changing your style in “Users” &gt; “Your Profile” and see how the class is changing. With this class available, we can give every color-style its own separator color. Just add the class name in front of your css code like this <code>.admin-color-fresh #adminmenu li.wp-menu-separator {background: #444;}</code></p>
+
+<p>Here's the code now with all color-styles for matching separators:</p>
+
+<pre class="brush: php">function tutsplus_separators() {
+ echo '&lt;style type="text/css"&gt;
+ 		#adminmenu li.wp-menu-separator {margin: 0;}
+ 		.admin-color-fresh #adminmenu li.wp-menu-separator {background: #444;}
+ 		.admin-color-midnight #adminmenu li.wp-menu-separator {background: #4a5258;}
+ 		.admin-color-light #adminmenu li.wp-menu-separator {background: #c2c2c2;}
+ 		.admin-color-blue #adminmenu li.wp-menu-separator {background: #3c85a0;}
+ 		.admin-color-coffee #adminmenu li.wp-menu-separator {background: #83766d;}
+ 		.admin-color-ectoplasm #adminmenu li.wp-menu-separator {background: #715d8d;}
+ 		.admin-color-ocean #adminmenu li.wp-menu-separator {background: #8ca8af;}
+ 		.admin-color-sunrise #adminmenu li.wp-menu-separator {background: #a43d39;}
+       &lt;/style&gt;';
+}
+add_action( 'admin_head', 'tutsplus_separators' );</pre>
+
+<h3>Bonus</h3>
+
+<p>If you want separator lines between <i>every</i> menu item try tweaking the menu-top class of the <code>li</code>-items a bit with <code>border-bottom</code> and <code>border-top</code>.
+</p>
+
+<h3>Plugin</h3>
+
+<p>I made this small piece of code into a plugin to simply add it quickly to some of my installations. If you want to, you can get it <a href="http://wordpress.org/plugins/bring-back-admin-menu-seperators/" target="_blank">from the WordPress Plugin Directory</a>.</p>
+
