@@ -55,7 +55,7 @@ add_action( 'admin_head', 'tutsplus_separators' );</pre>
 
 <p>Tente mudar seu estilo em “Usuários” &gt; “Seu Perfil” e veja essa classe mudar. Com essa classe disponível, podemos atribuit a cada esquema, seu próprio separador personalizado. Apenas adicione o nome da classe na frente do seu código css, assim <code>.admin-color-fresh #adminmenu li.wp-menu-separator {background: #444;}</code></p>
 
-<p>Here's the code now with all color-styles for matching separators:</p>
+<p>Aqui está o código de como ficará os outros separadores, combinando com seus respectivos esquemas:</p>
 
 <pre class="brush: php">function tutsplus_separators() {
  echo '&lt;style type="text/css"&gt;
@@ -72,7 +72,7 @@ add_action( 'admin_head', 'tutsplus_separators' );</pre>
 }
 add_action( 'admin_head', 'tutsplus_separators' );</pre>
 
-<h3>Bonus</h3>
+<h3>Bônus</h3>
 
 <p>If you want separator lines between <i>every</i> menu item try tweaking the menu-top class of the <code>li</code>-items a bit with <code>border-bottom</code> and <code>border-top</code>.
 </p>
