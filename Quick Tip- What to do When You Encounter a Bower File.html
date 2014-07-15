@@ -18,15 +18,15 @@
 
 <p><b>bower.json</b>, o arquivo do qual estamos falando, tem um papel fundamental no ambiente do Bower. Antes, chamávamos de component.json, mas, recentemente, o nome foi trocado para bower.json, para evitar conflitos que possam ocorrer com outras ferramentas que usem o mesmo nome de arquivo.</p>
 
-<p>bower.json helps Bower to understand the project; it records meta data such as the project's name, the version, the author, the license, the dependencies, and so forth. The information is structured in JSON which typically looks as follows:</p>
+<p>O arquivo bower.json ajudao Bower a entender o projeto. Ele salva metadados como o nome do projeto, a versão, o autor, a licença, as dependências e outros. A informação está estruturada em formato JSON que, tipicamente, se parece com o que vemos abaixo:</p>
 
 <pre class="brush: javascript">{
-	"name": "awesome",
+	"name": "impressionante",
 	"version": "1.0.0",
 	"authors": [
 "John Doe"
 	],
-	"description": "The Most Awesome thing in the Galaxy",
+	"description": "A coisa impressionante da Galáxia",
 	"license": "MIT",
 	"dependencies": {
 "cool-library": "1.1.2",
@@ -35,9 +35,9 @@
 }
 </pre>
 
-<p>From this human-readable JSON file we can deduce that this project is named "awesome", is currently at version "1.0.0", was authored by "John Doe", a couple of other details, and requires a couple of dependencies to be present in order to work.</p>
+<p>Desse arquivo JSON, legível por humanos, podemos deduzir que esse projeto é chamado de "impressionante", está, atualmente, na versão "1.0.0", foi criado por "John Doe", alguns outros detalhes e tem algumas dependências, que precisam estar presentes, para poder funcionar.</p>
 
-<p>If you find bower.json in a library, it implies two things:</p>
+<p>Se você encontra um arquivo bower.json em uma biblioteca, isso significa duas coisas:</p>
 
 <ul>
   <li>First, the project author defined the library as a Bower package. The project may have been published to the <a href="http://bower.io/search/" target="_self">Bower registry</a>, a central collection of packages, so that it can be added into your project through Bower command line.</li>
