@@ -92,17 +92,17 @@
 }
 </pre>
 
-<p>Just to confirm this, if we open the index.html from the <b>views</b> folder, we will find <b>reveal.js</b> file is linked within a <code>script</code> tag, like so.</p>
+<p>Só para confirmar, se abrirmos o arquivo index.html da pasta <b>views</b>, encontraremos o arquivo<b>reveal.js</b> como link em uma tag <code>script</code>, dessa forma.</p>
 
 <pre class="brush: html">&lt;script src="components/reveal.js/js/reveal.min.js"&gt;&lt;/script&gt;
 </pre>
 
-<p>Now we need to open the library's folder in the Terminal or Command Prompt, then type:</p>
+<p>Precisamos,a gora, abrir o diretório da biblioteca no Terminal ou na Linha de Comando, e digitar:</p>
 
 <pre class="brush: bash">bower install
 </pre>
 
-<p>As mentioned earlier, this command will download all the registered packages in bower.json at once. </p>
+<p>Como mencionado anteriormente, esse comando baixará todos os pacotes registrados no arquivo bower.json de uma só vez. </p>
 
 <p><b>Note:</b> In this particular case, the package is added in the <b>public/components</b> folder, as specified in the <b>.bowerrc</b> file. <a href="http://bower.io/#custom-install-directory" target="_self">A .bowerrc file</a> sometimes accompanies the bower.json file and is used to specify custom install directories.</p>
 
