@@ -19,6 +19,7 @@ Códigos
 - [Introdução ao Uso do Bower com WordPress](http://code.tutsplus.com/pt/tutorials/an-introduction-to-using-bower-with-wordpress--cms-20501)
 - [Usando Bower Para Aprimorar o Desenvolvimento no WordPress](http://code.tutsplus.com/pt/tutorials/using-bower-to-improve-wordpress-development--cms-20524)
 - [Como Preparar o Bower Para Seu Próximo Projeto](http://code.tutsplus.com/pt/tutorials/how-to-setup-bower-in-your-next-project--cms-20526)
+- [Dica Rápida: Restaurando os Separadores dos Menus do Painel Administrativo](https://code.tutsplus.com/pt/articles/quick-tip-restore-admin-menu-separators--wp-34850)
 - [Princípios SOLID Parte 1 - O Princípio da Responsabilidade Única](http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074)
 - [Princípios SOLID Parte 2 - Princípio do Aberto para Expensão, Fechado para Modificação](http://code.tutsplus.com/pt/tutorials/solid-part-2-the-openclosed-principle--net-36600)
 - [Princípios SOLID Parte 3 - Princípios da Substituição de Liskov e Segregação de Interfaces](http://code.tutsplus.com/pt/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710)
