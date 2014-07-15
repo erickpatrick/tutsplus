@@ -59,15 +59,15 @@
 
 <p>Como um exemplo, instalemos o <a href="http://daneden.github.io/animate.css/" target="_self">Animate.css</a> e o <a href="http://getbootstrap.com/" target="_self">Bootstrap</a> com o Bower. </p>
 
-<p>To begin with, you'll need actually need to install Bower. Take a look at <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Meet Bower: A Package Manager For The Web</a> for details on this. With that done you can type the following command in the Terminal or the Command Prompt (if you are using Windows) which installs these packages simultaneously:</p>
+<p>Para começar, você precisará, primeiro, instalar o Bower. Veja o artigo <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Conheça o Bower: Um Administrador de Pacotes para a Web</a> para mais detalhes sobre isso. Com esses procedimentos realizados, você pode digitar o seguinte comando no Terminal ou na Linha de Comando (se você está usando o Windows) que instala esses pacotes, simultaneamente:</p>
 
 <pre class="brush: bash">bower install animate.css bootstrap</pre>
 
-<p>Now you should find them added in the bower_components. </p>
+<p>Você deve ser capaz de encontrá-los na pasta bower_components. </p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/installed-packages.jpg" />
-  <figcaption>Animate.css and Bootstrap folder added in bower_components</figcaption>
+  <figcaption>Pastas do Animate.css e Bootstrap adicionadas a bower_components</figcaption>
 </figure>
 
 <p>As you can see above, we have an extra folder, <b>jquery</b>. This is because Bootstrap set it as a dependency; the Bootstrap JavaScript components require jQuery to function. If you take a look at the bower.json file included in the package, you will find it listed at the end of the file, as follows.</p>
