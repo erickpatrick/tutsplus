@@ -1,24 +1,24 @@
 <h1>Dica Rápida: O Que Fazer Quando Encontrar Um Arquivo do Bower</h1>
 
-<p>Você, alguma vez, já clonou ou baixou um repositório do GitHub, só para se deparar com vários arquivos estranhos que você não reconhece?</p>
+<p>Você, alguma vez, já clonou ou baixou um repositório do GitHub, só para se deparar com vários arquivos estranhos que não reconhece?</p>
 
-<p>Digamos, por exemplo, que você está trabalhando em um site e precisa de uma biblioteca JavaScript ou mesmo CSS, para adicionar alguma funcionalidade ao seu projeto. Você encontra a biblioteca perfeito em um repositório do GitHub, então, baixa de imediato. Quando você extrai o conteúdo do pacote, você descobre inúmeros arquivos estranhos, dos quais, um é o <strong>bower.json</strong>.</p>
+<p>Digamos, por exemplo, que está trabalhando em um site e precisa de uma biblioteca JavaScript, ou mesmo de uma CSS, para adicionar alguma funcionalidade ao seu projeto. Você encontra a biblioteca perfeit\ em um repositório do GitHub e a baixa de imediato. Quando extrai o conteúdo do pacote, descobre inúmeros arquivos estranhos, dos quais, um é o <strong>bower.json</strong>.</p>
 
-<p>Além disso, talvez você tenha encontrado instruções no repositório, geralmente, dizendo algo como:</p>
+<p>Além disso, talvez tenha encontrado instruções no repositório, geralmente, dizendo algo como:</p>
 
 <blockquote>
   <p>Instalação com o Bower: <code>bower install bootstrap</code>.</p>
 </blockquote>
 
-<p>Você se pergunta para que serve esse arquivo e, ainda por cima, porque deveria instalá-lo usando o Bower. Recentemente, um amigo web designer fez essas mesmas perguntas para mim e, suspeito, há inúmeras outras pessoas que também estão confusas. Se você é uma dessas pessoas, essa dica rápida deve ajudar você!</p>
+<p>Você se pergunta para que serve esse arquivo e, ainda por cima, porque deveria instalá-lo usando o Bower. Recentemente, um amigo web designer fez essas mesmas perguntas para mim e, suspeito, há inúmeras outras pessoas que também estão confusas. Se você é uma delas, essa dica rápida deve ajudar!</p>
 
 <h2>Um Arquivo Bower</h2>
 
-<p>O <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Bower</a> é um gerenciador de pacotes para a web. Ele ajuda você a administrar dependências: arquivos (talvez de terceiros, geralmente, publicamente disponíveis através do GitHub) que você precisa para seu projeto.</p>
+<p>O <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Bower</a> é um gerenciador de pacotes para a web. Ele ajuda a administrar dependências: arquivos (talvez de terceiros, geralmente, publicamente disponíveis através do GitHub) que você precisa para seu projeto.</p>
 
-<p><b>bower.json</b>, o arquivo do qual estamos falando, tem um papel fundamental no ambiente do Bower. Antes, chamávamos de component.json, mas, recentemente, o nome foi trocado para bower.json, para evitar conflitos que possam ocorrer com outras ferramentas que usem o mesmo nome de arquivo.</p>
+<p>O <b>bower.json</b>, arquivo do qual estamos falando, tem um papel fundamental no ambiente do Bower. Antes, chamávamos de component.json, mas, recentemente, o nome foi trocado para bower.json, para evitar conflitos que possam ocorrer com outras ferramentas que usem o mesmo nome de arquivo.</p>
 
-<p>O arquivo bower.json ajudao Bower a entender o projeto. Ele salva metadados como o nome do projeto, a versão, o autor, a licença, as dependências e outros. A informação está estruturada em formato JSON que, tipicamente, se parece com o que vemos abaixo:</p>
+<p>O arquivo bower.json ajuda o Bower a entender o projeto. Ele salva metadados, como o nome do projeto, a versão, o autor, a licença, as dependências e outros. A informação está estruturada em formato JSON que, tipicamente, se parece com o que vemos abaixo:</p>
 
 <pre class="brush: javascript">{
 	"name": "impressionante",
@@ -35,9 +35,9 @@
 }
 </pre>
 
-<p>Desse arquivo JSON, legível por humanos, podemos deduzir que esse projeto é chamado de "impressionante", está, atualmente, na versão "1.0.0", foi criado por "John Doe", alguns outros detalhes e tem algumas dependências, que precisam estar presentes, para poder funcionar.</p>
+<p>Desse arquivo JSON, legível por humanos, podemos deduzir que esse projeto é chamado de "impressionante", está, atualmente, na versão "1.0.0", foi criado por "John Doe", além de alguns outros detalhes, e que tem algumas dependências, necessárias para seu funcionamento.</p>
 
-<p>Se você encontra um arquivo bower.json em uma biblioteca, isso significa duas coisas:</p>
+<p>Se você encontrou um arquivo bower.json em uma biblioteca, isso significa duas coisas:</p>
 
 <ul>
   <li>Primeiro, o autor do projeto definiu que a biblioteca é um pacote do Bower. O projeto deve ter sido pulicado na <a href="http://bower.io/search/" target="_self">Listagem do Bower</a>, um coleção centralizada de pacotes, de modo que possa ser adicionado ao seu projeto, através da linha de comando do Bower.</li>
@@ -51,15 +51,15 @@
   <figcaption>Você encontrará alguns projetos conhecidos na listagem do Bower</figcaption>
 </figure>
 
-<p>O Bower também analisará o arquivo quando executamos diversos comandos, como o <code>bower version</code> e o <code>bower install</code>.</p>
+<p>O Bower também analisa o arquivo quando executamos diversos comandos, como o <code>bower version</code> e o <code>bower install</code>.</p>
 
 <h2>Bower Install</h2>
 
 <p><code>bower install</code> é o comando para a instalação de um pacote que esteja registrado na Listagem do Bower. Esse comando também instalará pacotes listados no arquivo bower.json, na seção "dependencies". Por padrão, esses pacotes serão adicionados a um diretório chamado <strong>bower_components</strong>.</p>
 
-<p>Como um exemplo, instalemos o <a href="http://daneden.github.io/animate.css/" target="_self">Animate.css</a> e o <a href="http://getbootstrap.com/" target="_self">Bootstrap</a> com o Bower. </p>
+<p>Como exemplo, instalemos o <a href="http://daneden.github.io/animate.css/" target="_self">Animate.css</a> e o <a href="http://getbootstrap.com/" target="_self">Bootstrap</a> com o Bower. </p>
 
-<p>Para começar, você precisará, primeiro, instalar o Bower. Veja o artigo <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Conheça o Bower: Um Administrador de Pacotes para a Web</a> para mais detalhes sobre isso. Com esses procedimentos realizados, você pode digitar o seguinte comando no Terminal ou na Linha de Comando (se você está usando o Windows) que instala esses pacotes, simultaneamente:</p>
+<p>De início, você precisará, primeiro, instalar o Bower. Veja o artigo <a href="https://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774" target="_self">Conheça o Bower: Um Administrador de Pacotes para a Web</a> para mais detalhes sobre o procedimento. Com o Bower instalado, você pode digitar o seguinte comando no Terminal ou na Linha de Comando (se estiver usando o Windows), que instalará esses pacotes, simultaneamente:</p>
 
 <pre class="brush: bash">bower install animate.css bootstrap</pre>
 
@@ -70,7 +70,7 @@
   <figcaption>Pastas do Animate.css e Bootstrap adicionadas a bower_components</figcaption>
 </figure>
 
-<p>Como pode ver acima, temos um diretório extra, <b>jquery</b>. Isso é porque o Boostrap coloca-o como dependência; Os componentes JavaScript do Bootstrap requerem o jQuery para funcionar. Se você der uma olhada no arquivo bower.json do pacote, você verá ele listado ao final do arquivo, como segue:</p>
+<p>Como pode ver acima, temos um diretório extra, <b>jquery</b>. Isso é porque o Boostrap coloca-o como dependência; Os componentes JavaScript do Bootstrap requerem o jQuery para funcionar. Se der uma olhada no arquivo bower.json do pacote, verá ele listado ao final do arquivo, como segue:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/bootstrap-dependency.jpg" />
@@ -79,9 +79,9 @@
 
 <h2>E Agora?</h2>
 
-<p>Assumindo que você baixou uma biblioteca com um arquivo bower.json, a primeira coisa que sugiro fazer é que você o inspecione em busca de dependências.</p>
+<p>Assumindo que você baixou uma biblioteca com um arquivo bower.json, a primeira coisa que sugiro fazer é que o inspecione em busca de dependências.</p>
 
-<p>Como um exemplo, baixei uma biblioteca JavaScript chamada <a href="https://github.com/shameerc/Revealer.js/">Revealer.js</a>. Revealer.js, aparentemente, requer o Reveal.js para funcionar. Podemos encontrá-lo listado como uma dependência dentro do arquivo bower.json, como mostrado abaixo:</p>
+<p>Como exemplo, baixei uma biblioteca JavaScript chamada <a href="https://github.com/shameerc/Revealer.js/">Revealer.js</a>. Revealer.js, aparentemente, requer o Reveal.js para funcionar. Podemos encontrá-lo listado como uma dependência dentro do arquivo bower.json, como mostrado abaixo:</p>
 
 <pre class="brush: javascript">{
 // ...
@@ -97,7 +97,7 @@
 <pre class="brush: html">&lt;script src="components/reveal.js/js/reveal.min.js"&gt;&lt;/script&gt;
 </pre>
 
-<p>Precisamos,a gora, abrir o diretório da biblioteca no Terminal ou na Linha de Comando, e digitar:</p>
+<p>Precisamos, agora, abrir o diretório da biblioteca no Terminal ou na Linha de Comando, e digitar:</p>
 
 <pre class="brush: bash">bower install
 </pre>
@@ -117,7 +117,7 @@
 <pre class="brush: bash">bower list
 </pre>
 
-<p>Isso listará todos os pacotes instalados em nosso projeto e mostrará a última versão disponível. Em nosso caso, ele mostrará que o Reveal.js tem uma nova versão. Então, vamos atualizá-lo.</p>
+<p>Isso listará todos os pacotes instalados em nosso projeto e mostrará a última versão disponível. Em nosso caso, mostrará que o Reveal.js tem uma nova versão. Então, vamos atualizá-lo.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21162/image/bower-list-1.jpg" />
@@ -141,7 +141,7 @@
 
 <h2>Conclusão</h2>
 
-<p>O Bower é uma ferramenta muito útil para a administração de bibliotecas em projetos. É como se tivessemos nossa própria AppStore ou Google Play; podemos instalar, atualizar e remover bibliotecas, facilmente. Espero que essa dica tenha ajudado a acabar com qualquer confusão que você tenha passado ao baixar bibliotecas de terceiros, mostrando os benefícios de usar o Bower em seu fluxo de trabalho.</p>
+<p>O Bower é uma ferramenta muito útil para a administração de bibliotecas em projetos. É como se tivéssemos nossa própria AppStore ou Google Play; podemos instalar, atualizar e remover bibliotecas, facilmente. Espero que essa dica tenha ajudado a acabar com qualquer confusão que você tenha passado ao baixar bibliotecas de terceiros, mostrando os benefícios de usar o Bower em seu fluxo de trabalho.</p>
 
 <h3>Referências Adicionais</h3>
 
