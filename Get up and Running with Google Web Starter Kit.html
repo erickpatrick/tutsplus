@@ -1,0 +1,149 @@
+<h1>Get up and Running with Google Web Starter Kit</h1>
+
+<p><a href="https://developers.google.com/web/starter-kit/" target="_self">Web Starter Kit</a> is a new Google initiative; part of their mission to streamline web development workflow, whilst at the same time advocating best practices which they suggest in <a href="https://developers.google.com/web/fundamentals/" target="_self">Google's Web Fundamentals</a>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/home.png" />
+</figure>
+
+<p>At the time of writing, Web Starter Kit has been around just a few days, launched as a public repo on <a href="https://github.com/google/web-starter-kit">Github</a>. It has immediately gained traction within the web development community, quickly hitting the top spot in Github's <a href="https://github.com/trending" target="_self">trending repositories</a>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/trend.png" />
+</figure>
+
+<p>There are plenty of libraries and frameworks around these days, but Web Starter Kit is pretty exciting and well worth exploring. In this post, I'm going walk you through several of its key features and also demonstrate how to use it for your next new project. Without further ado, let's get started!</p>
+
+<h2>About Web Starter Kit</h2>
+
+<p>As its name implies, Web Starter Kit is a development toolkit designed as a starting point for new projects. Google, <a href="https://github.com/google/web-starter-kit">in its Github repository</a>, describes it as:</p>
+
+<blockquote>A starting point for multi-device web development</blockquote>
+
+<p>Upon inspection you may notice that Web Starter Kit draws inspiration by the likes of <a href="http://html5boilerplate.com/">HTML5 Boilerplate</a> and <a href="https://courses.tutsplus.com/courses/say-yo-to-yeoman" target="_self">Yeoman</a> (it combines the best of both these popular tools). Web Starter Kit ships with starter templates which are optimized both for speed and multiple devices. </p>
+
+<blockquote>We actively work on delivering the best <a href="https://developers.google.com/speed/pagespeed/insights/">PageSpeed Insights</a> score and frame-rate possible.</blockquote>
+
+<p>On top of that, it also encompasses a number of tools to facilitate development, including a synchronized testing tool, live browser reloader, JavaScript linter, Sass compiler, CSS minifier, and an image optimizer. Much as in Yeoman, these tools are pre-configured, so we can start development without wasting any time on configuration.</p>
+
+<h2>Prerequisites</h2>
+
+<p>You can grab the files from Google's repo and simply download them, but in order to fully employ Web Starter Kit for your new project you'd be advised to have the following tools installed on your system:</p>
+
+<p><strong>Git:</strong> as mentioned above, Web Starter Kit project is hosted on Github. You'll find it leaner to grab the repository through the <code>git clone</code> command rather than downloading the Zip package. If you use the Github app, hit the <b>Clone in Desktop</b> button from the repo page:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/clone.png" />
+</figure>
+
+<p> Not sure what git is all about? check out <a href="http://code.tutsplus.com/tutorials/git-for-designers--pre-54689">Git for Designers</a> on Tuts+ Code.</p>
+
+<p><strong>Node.js:</strong> many of the tools you'll encounter in Web Starter Kit, such as <a href="http://www.jslint.com/">JSLinter</a>, are built on top of <a href="http://nodejs.org/">Node.js</a>. And they will be installed through <a href="https://www.npmjs.org/">Node Package Manager (NPM)</a>. You can refer to <a href="http://www.joyent.com/blog/installing-node-and-npm/">Installing Node and NPM</a>, for further assistance.</p>
+
+<p><strong>Ruby and Sass:</strong> Web Starter Kit utilizes <a href="https://github.com/sindresorhus/gulp-ruby-sass">gulp-ruby-sass</a> to compile Sass into CSS, which requires both Ruby and Sass to work. For OS X and Linux users, you'll have Ruby installed already. Windows users; use <a href="http://rubyinstaller.org/" target="_self">RubyInstaller</a> to install Ruby. Once Ruby is installed, run <code>gem install sass</code> from the command prompt to install Sass.</p>
+
+<p>For more information on installing Ruby and Sass, take a look at <a href="https://www.youtube.com/watch?v=b_-HLevIJbc" target="_self">Mastering Sass: Lesson 1</a>.</p>
+
+<p><b>Gulp:</b> using Gulp to handle many of the tasks needed during development will really help. With Node.js already on your system, install Gulp with the following command:</p>
+
+<pre class="brush: bash">npm install -g gulp</pre>
+
+<p>Lastly, ensure the <code>git</code> and <code>npm</code> commands are accessible. Type the command below to test whether <code>git</code> and <code>npm</code> are functioning.</p>
+
+<pre class="brush: bash">git --version &amp;&amp; npm -v
+</pre>
+
+<p>These commands should respond with the <code>git</code> and <code>npm</code> versions, as follows.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/out.png" />
+</figure>
+
+<h2>Installing Web Starter Kit</h2>
+
+<p>Ok, to get started, navigate to the directory where you want to have your project (either navigate using commands, or type "cd" then drag your chosen folder into the terminal window before hitting "enter") then run the following command to clone the Web Starter Kit project:<br /></p>
+
+<pre class="brush: bash">git clone https://github.com/google/web-starter-kit.git
+</pre>
+
+<p>Afterwards, change the current directory to the "web-starter-kit" folder where the Web Starter Kit files reside.</p>
+
+<pre class="brush: bash">cd web-starter-kit
+</pre>
+
+<p>In this folder, <code>web-starter-kit/</code>, you will find:</p>
+
+<ul>
+  <li><code>app/</code>; this is the folder where all the unminified source code resides.</li>
+  <li><code>package.json</code>; enlist the dependencies.</li>
+  <li><code>gulpfile.js</code>; containing the configuration to run Gulp task.</li>
+</ul>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/files.png" />
+</figure>
+
+<h2>Web Starter Kit Dependencies</h2>
+
+<p>As mentioned, Web Starter Kit relies upon a number of Node packages, including <a href="http://gulpjs.com/plugins/">Gulp plugins</a>, to run several build processes. So the next thing you'll have to do is to install the Node packages which are specified within the "package.json" file. Do this simply by entering the following command:</p>
+
+<pre class="brush: bash">npm install</pre>
+
+<p>A whole pile of Node packages will then be installed in a folder named <code>node_modules</code>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/more-files.png" />
+</figure>
+
+<h3>A Word on Gulp</h3>
+
+<p>In a nutshell, <a href="http://gulpjs.com/">Gulp</a>, is similar to <a href="http://gruntjs.com/">Grunt</a>.  Both are "task runners" which automate certain tasks during development, aiming to handle the hard work for you. Normally, we would have to specify and configure Gulp tasks within a <code>gulpfile.js</code>, but since Web Starter Kit has done this job for us we can immediately run the Gulp tasks without touching anything.</p>
+<p>During the course of your development process, type this command below.</p>
+
+<pre class="brush: bash">gulp serve
+</pre>
+
+<p>This command will enable <a href="http://browsersync.io/">BrowserSync</a> that has been incorporated and configured in<code>gulpfile.js</code>. BrowserSync is a handy tool which allows us to test website synchronously across multiple browsers. With BrowserSync, user interaction such as scrolling, clicking, and filling in inputs will be reflected in real-time through all connected devices. This allows us catch any discrepancies that may happen in each connected device as the interaction is happening. BrowseSync is also armed with HTTP server. Upon running this command you will be given the <code>localhost</code> address where you can access the website.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/server.png" />
+</figure>
+
+<p>Furthermore, BrowserSync will monitor changes made within the files specified, including the HTML, the stylesheets, and the images. When we modify these files, BrowserSync will immediately run the task that has been specified in <code>gulpfile.js</code></p>
+
+<p>Anytime you are ready to publish your website, you can simply run <code>gulp</code>. This command will run all the Gulp tasks, compile the project into a distributable package in a new folder named <code>dist/</code> which is ready to be handed over to your client.</p>
+
+<p>A detail list of Gulp tasks can be found at <a href="https://developers.google.com/web/fundamentals/tools/build/build_site#summary-of-web-starter-kit-tools">Summary of Web Starter Kit tools</a>.</p>
+
+<h2>Guide for Basic Styling</h2>
+
+<p>Web Starter Kit provides a Style Guide which kicks off basic styling of common elements and components, such as typography, buttons, links, breadcrumbs, tables, icons, and grid. Looking through the source you will also find the selectors used to produce the styles. </p>
+
+<p>The Style Guide can be found in the <code>app/styleguide</code> folder and it's interconnected with the stylesheets, so we can see the Style Guide evolve while the stylesheet is updated. Brilliant!</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/icons.png" />
+  <figcaption>Basic styling of Featured Icons in Web Starter Kit Style Guide</figcaption>
+</figure>
+
+<p><b>Note:</b> Be sure to check out our series <a href="http://webdesign.tutsplus.com/series/all-about-style-guides--cms-606" target="_self">All About Style Guides</a>.</p>
+
+<h2>Wrapping Up</h2>
+
+<p>Well done! We have downloaded and setup the Web Starter Kit along with its dependencies, so you should now be able to work on your project.</p>
+
+<p>All in all, <strong>Web Starter Kit</strong> is pretty solid — even in its current beta release. The template and tools are well-configured; they work out of the box. And seeing that this project is backed by Google with brilliant developers behind it, Web Starter Kit could quickly become as popular as Bootstrap or Foundation. I'm really looking forward to see how this project evolves in the future.</p>
+
+<h3>Further References</h3>
+
+<ul>
+  <li>
+    <a href="https://developers.google.com/web/fundamentals/tools/build/build_site">Build Site with Web Starter Kit</a>
+  </li>
+  <li>
+    <a href="https://developers.google.com/web/fundamentals/">Google Web Fundamental, Best practices for modern web development</a>
+  </li>
+  <li>
+    <a href="https://developers.google.com/web/fundamentals/tools/build/build_process">What's in the Web Starter Kit build process?</a>
+  </li>
+</ul>
