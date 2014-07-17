@@ -74,28 +74,28 @@
 <p>Nesse diretório, <code>web-starter-kit/</code>, você encontrará:</p>
 
 <ul>
-  <li><code>app/</code>; this is the folder where all the unminified source code resides.</li>
-  <li><code>package.json</code>; enlist the dependencies.</li>
-  <li><code>gulpfile.js</code>; containing the configuration to run Gulp task.</li>
+  <li><code>app/</code>: esse é o diretório onde todos os códigos não minimizados ficarão;</li>
+  <li><code>package.json</code>: lista as dependências do projeto;</li>
+  <li><code>gulpfile.js</code>: contém as configurações necessárias para executar as tarefas do Gulp.</li>
 </ul>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/files.png" />
 </figure>
 
-<h2>Web Starter Kit Dependencies</h2>
+<h2>Dependências do Web Starter Kit</h2>
 
-<p>As mentioned, Web Starter Kit relies upon a number of Node packages, including <a href="http://gulpjs.com/plugins/">Gulp plugins</a>, to run several build processes. So the next thing you'll have to do is to install the Node packages which are specified within the "package.json" file. Do this simply by entering the following command:</p>
+<p>Como já mencionamos, o Web Starter Kit depende de certos pacotes do Node, incluindo <a href="http://gulpjs.com/plugins/">plugins do Gulp</a>, para executar os processos de construção dos aplicativos. Então, a próxima coisa que teremos de fazer é instalar os pacotes do Node especificados no arquivo <code>package.json</code>. Faça isso, executando o seguinte comando:</p>
 
 <pre class="brush: bash">npm install</pre>
 
-<p>A whole pile of Node packages will then be installed in a folder named <code>node_modules</code>.</p>
+<p>Vários pacotes Node serão instalados em um diretório chamado <code>node_modules</code>.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21495/image/more-files.png" />
 </figure>
 
-<h3>A Word on Gulp</h3>
+<h3>Um Pouco Sobre o Gulp</h3>
 
 <p>In a nutshell, <a href="http://gulpjs.com/">Gulp</a>, is similar to <a href="http://gruntjs.com/">Grunt</a>.  Both are "task runners" which automate certain tasks during development, aiming to handle the hard work for you. Normally, we would have to specify and configure Gulp tasks within a <code>gulpfile.js</code>, but since Web Starter Kit has done this job for us we can immediately run the Gulp tasks without touching anything.</p>
 <p>During the course of your development process, type this command below.</p>
