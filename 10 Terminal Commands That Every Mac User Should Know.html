@@ -1,10 +1,10 @@
 <h1>Os 10 Comandos do Terminal Que Todo Usuário de Mac Deveria Saber</h1>
 
-<p>Geralmente, o Terminal no Mac OS X é, na minha opinião, uma parte negligenciada do sistema. A maioria dos iniciantes no Mac olha para ele com medo como se a visão de qualquer coisa relacionada a códigos, ou um pouco mais avançada, fosse o suficiente para afugentá-las. Felizmente, você não precisa temer o Terminal. Imagine-o como um recurso a mais para aqueles mais ligados a tecnologia. Saber alguns comandos básicos do Terminal pode aprimorar bastante sua experiência no OS X. Então, para todos os iniciantes por aí, eis a minha escolha para os 10 principais comandos do Terminal que todo usuário de MAc deveria saber.</p>
+<p>Geralmente, o Terminal no Mac OS X é, na minha opinião, uma parte negligenciada do sistema. A maioria dos iniciantes no Mac olha para ele com medo, como se a visão de qualquer coisa relacionada a códigos, ou de algo um pouco mais avançado, fosse o suficiente para afugentá-las. Felizmente, você não precisa temer o Terminal. Imagine-o como um recurso a mais para aqueles mais ligados em tecnologia. Saber alguns comandos básicos do Terminal pode aprimorar bastante sua experiência no OS X. Então, para todos os iniciantes por aí, eis a minha escolha para os 10 principais comandos do Terminal que todo usuário de Mac deveria saber.</p>
 
 <h2>Antes de Começarmos...</h2>
 
-<p>Antes de começarmos a fuçar por aí com o Terminal, é interessante parar uns dois minutos para explicar para você, o que, exatamente, o terminal é (claro, tudo em termos comuns!).</p>
+<p>Antes de começarmos a fuçar por aí com o Terminal, é interessante parar uns dois minutos para explicar para você, o que, exatamente, o Terminal é (claro, tudo em termos comuns!).</p>
 
 <figure><img width="620" alt="Terminal OS X" src="http://cdn.tutsplus.com/mac/authors/legacy/James%20Cull/2012/08/08/Appleterminal2.png" height="498">
 <figcaption>O Terminal.app executado no OS X (Lion)</figcaption> </figure>
@@ -16,18 +16,18 @@
 <ul>
 <li><strong>ls&nbsp;</strong>- lista o conteúdo de um diretório</li>
 <li><strong>cd&nbsp;</strong>- muda para outro diretório (assim como no DOS)</li>
-<li><strong>sudo&nbsp;</strong>- autentique-se como super usuário para ganhar privilégios extras de segurnaça</li>
+<li><strong>sudo&nbsp;</strong>- autentique-se como super usuário para ganhar privilégios extras de segurança</li>
 </ul>
 
 <p><strong>Dica:</strong> Tome cuidado extra ao usar o comando <strong>sudo</strong>. Você, provavelmente, terá de digitar sua senha do OS X e, quaisquer erros podem, permanentemente, bagunçar pra valer o seu sistema. Se não tiver certeza, não use!</p>
 
 <h2><span class="sectionnum">1.</span> Desabilite a Janela Pop-up de Caracteres Acentuados no Lion/Mountain Lion</h2>
 
-<p>Para aqueles que, assim como eu, escrevem muitas palavras estrangeiras, aquela janela de caracteres acentuados que aparece quando você segura alguma letra por alguns segundos, é útil o bastante. Mas, para aqueles que escrevem inúmeras letras repetidas, acaba atrapalhando bastante. Use o truque a seguir para desabilitá-la:</p>
+<p>Para aqueles que, assim como eu, escrevem muitas palavras estrangeiras, aquela janela de caracteres acentuados que aparece quando você segura alguma letra por alguns segundos, é bastante útil. Mas, para aqueles que escrevem inúmeras letras repetidas, ela acaba atrapalhando bastante, também. Use o truque a seguir para desabilitá-la:</p>
 
 <pre class="brush: bash">defaults write -g ApplePressAndHoldEnabled -bool false</pre>
 
-<p>Aperte <code>Return</code> (ou <code>Enter</code>, dependendo do teclado), desconecte-se da sua conta de usuário do sistema e reconecte-se, para que as mudanças aconteçam. Se quiser mudar para o comportamento anterior, basta, simplesmente, substituir o <strong>false&nbsp;</strong>pelo&nbsp;<strong>true</strong> no comando acima..</p>
+<p>Aperte <code>Return</code> (ou <code>Enter</code>, dependendo do teclado), desconecte-se da sua conta de usuário do sistema e reconecte-se, para que as mudanças aconteçam. Se quiser mudar para o comportamento anterior, basta, simplesmente, substituir o <strong>false</strong> pelo <strong>true</strong> no comando acima..</p>
 
 <h2><span class="sectionnum">2.</span> Altere os Períodos Padrões de Backup no Time Machine</h2>
 
@@ -35,37 +35,37 @@
 
 <pre class="brush: bash">sudo defaults write /System/Library/Launch Daemons/com.apple.backupd-auto StartInterval -int 1800</pre>
 
-<p>Isso faz com que o Time Machine faça backup a cada 30 minutos. Para alterar para um valor que você quiser, basta alterar o <strong>1800</strong> com um valor de intervalor em segundos (assim, 15 minutos equivalem a 900 segundos, que seria o que você deveria colocar lá). Atente que você está usando o comando<em>sudo</em>, então, tenha certeza que você digitou todo o comando corretamente antes de apertar o <code>Enter</code> (e que você, também, será a solicitado a digitar sua senha).</p>
+<p>Isso faz com que o Time Machine faça backup a cada 30 minutos. Para alterar para um valor que você quiser, basta alterar o <strong>1800</strong> com um valor de intervalo em segundos (assim, 15 minutos equivalem a 900 segundos, que seria o valor que você deve colocar lá). Atente que você está usando o comando <em>sudo</em>, então, tenha certeza de digitar todo o comando corretamente antes de apertar o <code>Enter</code> (e que você, também, será a solicitado a digitar sua senha).</p>
 
 <h2><span class="sectionnum">3.</span> Arraste Widgets para Área de Trabalho</h2>
 
-<p>Sempre esqueço que a Dashboard existe no Mac. Na verdade, eu raramente, vejo uso para ele. Mas, isso se dá pelos widgets estarem escondidos pelo sistema operacional. Para ser capaz de levar os widgets para sua área de trabalho, digite o comando a seguir:</p>
+<p>Sempre esqueço que o Dashboard existe no Mac. Na verdade, eu raramente, vejo uso para ele. Mas, isso se dá pelos widgets estarem escondidos pelo sistema operacional. Para ser capaz de levar os widgets para sua área de trabalho, digite o comando a seguir:</p>
 
 <pre class="brush: bash">defaults write com.apple.dashboard devmode YES</pre>
 
-<p>Você precisa desconectar da sua conta de usuário e reconectar-se para a mudança surtir efeito. Quando o fizer, para poder levar um widget para sua área de trabalho, clique e segure com o botão esquerdo do mouse no widget em questão e, então, aperta a tecla F12, que o remove da Dashboard e permite que ele seja colocado na área de trabalho. Agora, seu widgets ficar sobre as aplicações abertas, parecido com os Gadgets do Windows 7.</p>
+<p>Você precisa desconectar da sua conta de usuário e reconectar-se para a mudança surtir efeito. Quando o fizer, para poder levar um widget para sua área de trabalho, aperte e segure com o botão esquerdo do mouse no widget em questão e, então, aperte a tecla F12, que o remove da Dashboard e permite que seja colocado na área de trabalho. Agora, seus widgets ficarão sobre as aplicações abertas, parecido com os Gadgets do Windows 7.</p>
 
 <p>Para desabilitar essa funcionalidade, substitua <strong>YES</strong> por <strong>NO </strong> no comando acima. E, mais uma vez, você precisa desconectar e reconectar-se da sua conta de usuário, infelizmente.</p>
 
 <h2><span class="sectionnum">4.</span> Desabilite a Funcionalidade de Auto-Restauração do Lion/Mountain Lion</h2>
 
-<p>Isso me deixou bem confuso, quando eu atualizei para o Lion - acontece que, quando você abre algum programa como o Previsualização, todos os PDFs recentemente acessados, abrirão de ua só vez, mesmo que você os tenha fechado apropriadamente. Infelizmente, não há um comando para desabilitar essa funcionalidade por todo o sistema operacional, então, você terá de fazer isso para cada programa que não quiser que essa funcionalidade ocorra. Se quiser desabilitar essa funcionalidade para o Previsualização, então, digite o comando a seguir:</p>
+<p>Isso me deixou bem confuso, quando eu atualizei para o Lion - acontece que, quando você abre algum programa como o Previsualização, todos os PDFs recentemente acessados, abrirão de uma só vez, mesmo que você os tenha fechado corretamente. Infelizmente, não há um comando para desabilitar essa funcionalidade por todo o sistema operacional, então, você terá de fazer isso para cada programa que não quiser que essa funcionalidade ocorra. Se quiser desabilitar essa funcionalidade para o Previsualização, digite esse comando:</p>
 
 <pre class="brush: bash">defaults write com.apple.Preview NSQuitAlwaysKeepsWindows -bool false</pre>
 
-<p>Para mim, o QuickTime é outro que merece isso, basta digitar:</p>
+<p>Para mim, o QuickTime é outro que merece passar por isso, basta digitar:</p>
 
 <pre class="brush: bash">defaults write com.apple.QuickTimePlayerX NSQuitAlwaysKeepsWindows -bool false</pre>
 
-<p>Tenha certeza de fechar e reabrir os aplicativos para que as mudanças tenham efeito. E, se você quiser reverter esse feito, basta substituir o <strong>false</strong> por <strong>true</strong> (Tenho certeza que você já está pegando o jeito da coisa).</p>
+<p>Tenha certeza de fechar e reabrir os aplicativos para que as mudanças tenham efeito. E, se você quiser reverter esse efeito, basta substituir o <strong>false</strong> por <strong>true</strong> (Tenho certeza que você já está pegando o jeito da coisa, certo?).</p>
 
 <h2><span class="sectionnum">5.</span> Mostrar Arquivos Ocultos no Finder</h2>
 
-<p>Por padrão, o Finder, no OS X, esconde alguns arquivos da vista do usuário (a maioria é irrelevante), porém, se você quiser vê-los todos em seu computador, digite o comando abaixo:</p>
+<p>Por padrão, o Finder, no OS X, esconde alguns arquivos da vista do usuário (a maioria deles é irrelevante), porém, se você quiser vê-los todos em seu computador, digite o comando abaixo:</p>
 
 <pre class="brush: bash">defaults write com.apple.finder AppleShowAllFiles TRUE</pre>
 
-<p>Novamente, substitua <strong>false</strong> por <strong>true</strong>par escondê-los novamente.</p>
+<p>Novamente, substitua <strong>false</strong> por <strong>true</strong> para escondê-los novamente.</p>
 
 <h2><span class="sectionnum">6.</span> Altere a Extensão das Imagens das Capturas de Tela</h2>
 
@@ -89,11 +89,11 @@
 
 <h2><span class="sectionnum">8.</span> Limpeza Segura de Espaço Livre</h2>
 
-<p>Quando você apaga arquivos no seu Mac, o OS X ainda deixa fragmentos do mesmo pelo espaço livre do seu disco rídigo, até que eles sejam sobrescritos por nos arquivos e/ou informações. Se você quiser deletá-los de forma segura (talvez queira vender o seu Mac), execute o comando a seguir:</p>
+<p>Quando você apaga arquivos no seu Mac, o OS X ainda deixa fragmentos do mesmo pelo espaço livre do seu disco rídigo, até que eles sejam sobrescritos por novos arquivos e/ou informações. Se você quiser deletá-los de forma segura (talvez queira vender o seu Mac), execute o comando a seguir:</p>
 
 <pre class="brush: bash">diskutil secureErase freespace 3 /Volumes/name-of-drive</pre>
 
-<p>Substitua <strong>/name-of-drive</strong> com o nome do drive que você quer limpar. Esse comando usa um algoritmo especial que limpa todo o espaço livre, 35 vezes. Bem acima do padrão do Departamento de Defesa Americano, que só requer 7 vezes. Tenha em mente que esse processo pode levar dias em discos rígidos maiores.</p>
+<p>Substitua <strong>/name-of-drive</strong> com o nome do drive que você quer limpar. Esse comando usa um algoritmo especial que limpa todo o espaço livre, 35 vezes. Bem acima do padrão do Departamento de Defesa Americano, que só requer 7 vezes. Tenha em mente que, esse processo, pode levar dias em discos rígidos maiores.</p>
 
 <p>Como lembrete, o comando <strong>diskutil</strong> é bastante útil e permite você administrar discos e volumes locais, diretamente, pelo Terminal (uma lista de comandos modelo é dado). Atente, porém, que a maioria dos comandos requer acesso de administrador.</p>
 
@@ -104,19 +104,19 @@
 <figure><img alt="SSH Mac" src="http://cdn.tutsplus.com/mac/authors/legacy/James%20Cull/2012/08/09/SSH.png">
 <figcaption>Tenha certeza de habilitar o Login Remoto em seu Mac antes de começar qualquer coisa.</figcaption> </figure>
 
-<p>Uma pequena luz verde aparecerá, junto com um endereço IP que você pode usar para acessar através do Terminal. A conexão entre o seu Mac que você está usando e o remoto (o seu próprio), é segura e criptografada, significando que, qualquer dado transferido entre os dois não pode ser interceptado.</p>
+<p>Uma pequena luz verde aparecerá, junto com um endereço IP que você pode usar para acessar através do Terminal. A conexão entre o seu Mac que você está usando e o remoto, é segura e criptografada, significando que, qualquer dado transferido entre os dois não pode ser interceptado.</p>
 
 <p>Para acessar seu Mac ou qualquer outro Mac, execute o comando:</p><pre class="brush: bash">ssh -l username remote-address</pre>
 
-<p>Substitua <strong>username</strong> como nome de usuário que você acessa o  OS X e <strong>remote-address</strong> com o endereço de IP que apareceu no painel de Compartilhamento. Agora, você pode contrar seu Mac e executar qualquer comando de Terminal, remotamente. Muito bom, mesmo.</p>
+<p>Substitua <strong>username</strong> pelo nome de usuário que você acessa o  OS X e <strong>remote-address</strong> com o endereço de IP que apareceu no painel de Compartilhamento. Agora, você pode contrar seu Mac e executar qualquer comando de Terminal, remotamente. Muito bom, mesmo.</p>
 
 <h2><span class="sectionnum">10.</span> Mac Falante!</h2>
 
-<p>E por último, mas não menos importante, se você quer que seu Mac fale com vocÊ, basta usar o comando <strong>say </strong>, como em:</p>
+<p>E por último, mas não menos importante, se você quer que seu Mac fale com você, basta usar o comando <strong>say </strong>, como em:</p>
 
 <pre class="brush: bash">say Olá mundo!</pre>
 
-<p>As palavras serão ditas usando a voz padrão do seu Max, então, se quiser mudá-la, basta ir às <em>Preferências do Sistema</em>, acessar o painel <em>Ditados e Fala</em>(no Mountain Lion) ou simplesmente <em>Fala</em> (no Lion). Aqui, você poderá selecionar vozes diferentes e baixar outras novas, diretamente, dos servidores da Apple, se quiser. Outra funcionalidade "útil", é a capacidade de transformar textos em fala, se assim desejar. Simplesmente digite:</p>
+<p>As palavras serão ditas usando a voz padrão do seu Mac, então, se quiser mudá-la, basta ir às <em>Preferências do Sistema</em>, acessar o painel <em>Ditados e Fala</em>(no Mountain Lion) ou simplesmente <em>Fala</em> (no Lion). Aqui, você poderá selecionar vozes diferentes e baixar outras novas, diretamente, dos servidores da Apple, se quiser. Outra funcionalidade "útil", é a capacidade de transformar textos em fala, se assim desejar. Simplesmente digite:</p>
 
 <pre class="brush: bash">say -o audio.aiff -f FILENAME.txt</pre>
 
@@ -126,6 +126,6 @@
 
 <h2>Conclusão</h2>
 
-<p>I hope that this little tutorial has helped you demystify the Terminal and realize that it's really not that bad to use – you can achieve a lot more using it and if you want to customize OS X beyond simply changing the wallpaper, then it really is your first port of call.</p>
+<p>Espero que esse pequeno tutorial tenha ajudado a desmistificar o Terminal e ajudado você a perceber que ele não é tão difícil de usar - você pode conseguir fazer muito mais coisas com ele e, se quiser customizar seu OS X além de simples mudanças de papéis de parede, então é a ele quem você deve procurar.</p>
 
-<p>I hope you have plenty of fun with the commands mentioned above, please feel free to share your own favourites in the comments section below for the benefit of all Mactuts+ readers!</p>
+<p>Espero que tenha curtido os comandos acima. Sinta-se a vontade em compartilhar seus próprios comandos favoritos na área de comentários abaixo. Todos os leitores do Mactuts+ se beneficiarão do seu comentário!</p>
