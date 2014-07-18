@@ -67,25 +67,25 @@
 
 <p>Novamente, substitua <strong>false</strong> por <strong>true</strong>par escondê-los novamente.</p>
 
-<h2><span class="sectionnum">6.</span> Change the File Format for Screenshots</h2>
+<h2><span class="sectionnum">6.</span> Altere a Extensão das Imagens das Capturas de Tela</h2>
 
-<p>Screenshots using the built-in shortcut for OS X are really useful but by default they are saved as PNG files. If you want to change this, then type in the following command:</p>
+<p>Captura de tela tiradas usando o atalho próprio do OS X são bem úteis, mas, por padrão, são salvas como arquivos PNG. Se quiser alterar essa extensão, digite o comando a seguir:</p>
 
 <pre class="brush: bash">defaults write com.apple.screencapture type file-extension</pre>
 
-<p>Replace&nbsp;<strong>file-extension&nbsp;</strong>with the three letter abbreviation of your desired file format, so for JPEG format simply enter&nbsp;<strong>JPG&nbsp;</strong>and for Acrobat PDF format, <strong>PDF</strong>. Terminal doesn't have to be difficult, does it?</p>
+<p>Substitua <strong>file-extension</strong> pela abreviação do seu formato desejado, então, para o formato JPEG, digite <strong>JPG</strong> e para o formato Acrobat PDF, digite <strong>PDF</strong>. O Terminal não precisa ser tão difícil, não é?</p>
 
-<h2><span class="sectionnum">7.</span> Kill the Dashboard Altogether</h2>
+<h2><span class="sectionnum">7.</span> Acabe Com a Dashboard</h2>
 
-<p>Above, we went over the command to drop Dashboard widgets onto the desktop, but if you want to get rid of the Dashboard altogether (for example, if you're running an older Mac and have memory issues) then you can do via this simple Terminal command:</p>
+<p>Mais acima, nós usamos um comando para colocar os widgets na área de trabalho, mas, se você quiser sumir com a Dashboard de uma vez por todas (por exemplo, você está em um Mac antigo e tem problema com memória principal), então você pode eliminá-la através desse comando:</p>
 
 <pre class="brush: bash">defaults write com.apple.dashboard mcx-disabled -boolean YES</pre>
 
-<p>Then, restart the Dock using the following command:</p>
+<p>Então, reinicie a Dock, usando o seguinte comando:</p>
 
 <pre class="brush: bash">killall Dock</pre>
 
-<p>Et, voilà! No more Dashboard. If you find yourself afterwards lamenting after the good old days, replace <strong>YES&nbsp;</strong>with&nbsp;<strong>NO&nbsp;</strong>in the top command and repeat the process.</p>
+<p>E, voilà! Sem a Dashboard. Se, por alguma motivo, você está arrependido de removê-la, substitua o <strong>YES</strong> pelo <strong>NO</strong> no primeiro comando dessa dica e repita o resto do processo.</p>
 
 <h2><span class="sectionnum">8.</span> Securely Erase Free Space</h2>
 
