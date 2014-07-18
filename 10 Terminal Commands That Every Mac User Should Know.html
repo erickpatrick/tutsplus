@@ -87,13 +87,13 @@
 
 <p>E, voilà! Sem a Dashboard. Se, por alguma motivo, você está arrependido de removê-la, substitua o <strong>YES</strong> pelo <strong>NO</strong> no primeiro comando dessa dica e repita o resto do processo.</p>
 
-<h2><span class="sectionnum">8.</span> Securely Erase Free Space</h2>
+<h2><span class="sectionnum">8.</span> Limpeza Segura de Espaço Livre</h2>
 
-<p>When you delete files on your Mac, OS X still leaves fragments of the file all over the free space on your hard disk drive, until these are written over by new files. If you want to securely delete all the remaining fragments on a hard disk drive (for example if you're going to sell your Mac), then execute the following command:</p>
+<p>Quando você apaga arquivos no seu Mac, o OS X ainda deixa fragmentos do mesmo pelo espaço livre do seu disco rídigo, até que eles sejam sobrescritos por nos arquivos e/ou informações. Se você quiser deletá-los de forma segura (talvez queira vender o seu Mac), execute o comando a seguir:</p>
 
 <pre class="brush: bash">diskutil secureErase freespace 3 /Volumes/name-of-drive</pre>
 
-<p>Replace&nbsp;<strong>/name-of-drive&nbsp;</strong>with the drive you want to erase. This command uses a special algorithm to wipe over each free area of space 35 times, far above the US Department of Defense's standard, which only requires 7 passes. Be aware though that this process can take days on larger drives.</p>
+<p>Substitua <strong>/name-of-drive</strong> com o nome do drive que você quer limpar. Esse comando usa um algoritmo especial que limpa todo o espaço livre, 35 vezes. Bem acima do padrão do Departamento de Defesa Americano, que só requer 7 vezes. Tenha em mente que esse processo pode levar dias em discos rígidos maiores.</p>
 
 <p>On a side note, the command <strong>diskutil&nbsp;</strong>is a really useful one and allows you to manage local disks and volumes directly from the Terminal (a list of sample commands is given). Be aware, though, that most commands require root access.</p>
 
