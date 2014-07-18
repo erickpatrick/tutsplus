@@ -1,0 +1,131 @@
+<h1>10 Terminal Commands That Every Mac User Should Know</h1>
+
+<p>The Terminal in OS X is often, in my opinion anyway, an overlooked area of the operating system. Most newcomers to Macs look at it with fear, as the sight of anything code-related or advanced is enough to put them off for life. Fortunately, you don't have to be scared of Terminal and think of it as a feature just for the tech-minded. Knowing some basic Terminal commands can really enhance your experience of OS X. So, for all the beginners out there, here is my pick of the top 10 Terminal commands that every Mac user should know.</p>
+
+<h2>Before We Start...</h2>
+
+<p>Before we start tinkering around with it, it is probably worth taking a couple of minutes to tell you exactly what Terminal is (all in a non-technical sense, of course!).</p>
+
+<figure><img width="620" alt="Terminal OS X" src="http://cdn.tutsplus.com/mac/authors/legacy/James%20Cull/2012/08/08/Appleterminal2.png" height="498">
+<figcaption>Terminal.app running under OS X (Lion)</figcaption> </figure>
+
+<p>Terminal (officially called Terminal.app) is, strictly speaking, an <em>emulator</em> and works off most typical UNIX commands (OS X is a UNIX-based system, as opposed to Windows, which is NT-based). Unlike OS X, which has a graphical user interface (shortened to GUI), Terminal works off a text-based interface and all commands have to be typed in - this may be the reason why some people are scared off by it!</p>
+
+<p>We won't go into massive detail on how Terminal works but it's best to learn the following three commands before we start this tutorial:</p>
+
+<ul>
+<li><strong>ls&nbsp;</strong>- list the contents of a particular directory</li>
+<li><strong>cd&nbsp;</strong>- change to another directory (as in DOS)</li>
+<li><strong>sudo&nbsp;</strong>- authenticate yourself a superuser to gain extra security&nbsp;privileges</li>
+</ul>
+
+<p><strong>Tip:</strong> Be extra careful when using the <strong>sudo</strong> command. You will usually have to enter your OS X system password and any mistakes can permanently mess up your system for good. When in doubt, leave it out!</p>
+
+<h2><span class="sectionnum">1.</span> Disable Lion/Mountain Lion's Pop-up Accent Window</h2>
+
+<p>For people like me who write a lot of foreign accents then the pop-up accent window that came up when you hold down a letter for a longer period is extremely useful. But for those of you who want to write lots of repeat letters, it can be quite annoying. Use this simple trick to disable it:</p>
+
+<pre class="brush: bash">defaults write -g ApplePressAndHoldEnabled -bool false</pre>
+
+<p>Hit Return then log out then back in again to see the changes. If you want to change back to the norm, then simply substitute&nbsp;<strong>false&nbsp;</strong>for&nbsp;<strong>true</strong> in the above.</p>
+
+<h2><span class="sectionnum">2.</span> Change the Default Backup Periods in Time Machine</h2>
+
+<p>By default, Time Machine backs up every hour when it's connected but this can be changed through Terminal. To do so, simply enter the following command:</p>
+
+<pre class="brush: bash">sudo defaults write /System/Library/Launch Daemons/com.apple.backupd-auto StartInterval -int 1800</pre>
+
+<p>This makes Time Machine backup now every 30 minutes. To change it to what you want, simply replace the <strong>1800 </strong> with the interval time in seconds (so 15 minutes would be 900 seconds, therefore enter <strong>900</strong>). Also be aware that you are using a&nbsp;<em>sudo&nbsp;</em>command, so make sure that you've typed the command exactly right before you hit Enter (and you'll also be prompted to enter your system password).</p>
+
+<h2><span class="sectionnum">3.</span> Drag Dashboard Widgets onto the Desktop</h2>
+
+<p>I always forget that the Dashboard exists on my Mac. In fact, I hardly ever see a need for it. But I think that's mostly down to the fact that the widgets are hidden away inside the operating system. To be able to drag your Dashboard widgets onto your desktop, then enter the following command:</p>
+
+<pre class="brush: bash">defaults write com.apple.dashboard devmode YES</pre>
+
+<p>You must log out then back in again and to drag a widget onto your desktop click and hold down on it then press F12, which dismisses it from the Dashboard and allows you to drop it onto the desktop. Your widgets now float above open applications, similar to the Gadgets on Windows 7.</p>
+
+<p>To disable this feature, simply replace <strong>YES </strong> with <strong>NO </strong> in the above command. Again, you'll have to log out then back in again, unfortunately.</p>
+
+<h2><span class="sectionnum">4.</span> Disable Lion/Mountain Lion's Auto-restore Feature</h2>
+
+<p>This really bugged me when I first upgraded to Lion - the fact that when you open up something like Preview, all your recently accessed PDFs coming popping up in your face, even if you closed them down properly. Unfortunately there's no universal command to disable it across the entire OS so you'll have to do it for each individual program. If you want to disable it for Preview, then enter the following command:</p>
+
+<pre class="brush: bash">defaults write com.apple.Preview NSQuitAlwaysKeepsWindows -bool false</pre>
+
+<p>QuickTime is another culprit in my eyes, again just enter:</p>
+
+<pre class="brush: bash">defaults write com.apple.QuickTimePlayerX NSQuitAlwaysKeepsWindows -bool false</pre>
+
+<p>Make sure you quit and restart the apps to see the changes and if you want to reverse anything, simply substitute&nbsp;<strong>false&nbsp;</strong>for&nbsp;<strong>true&nbsp;</strong>(I'm sure you're getting the hang of this by now!).</p>
+
+<h2><span class="sectionnum">5.</span> Show Hidden Files in&nbsp;Finder</h2>
+
+<p>By default, the Finder in OS X hides some files away from view (mostly irrelevant ones) but if you want to see everything on your computer, then enter in the following command:</p>
+
+<pre class="brush: bash">defaults write com.apple.finder AppleShowAllFiles TRUE</pre>
+
+<p>Again, substitute&nbsp;<strong>false&nbsp;</strong>for&nbsp;<strong>true&nbsp;</strong>to hide them again.</p>
+
+<h2><span class="sectionnum">6.</span> Change the File Format for Screenshots</h2>
+
+<p>Screenshots using the built-in shortcut for OS X are really useful but by default they are saved as PNG files. If you want to change this, then type in the following command:</p>
+
+<pre class="brush: bash">defaults write com.apple.screencapture type file-extension</pre>
+
+<p>Replace&nbsp;<strong>file-extension&nbsp;</strong>with the three letter abbreviation of your desired file format, so for JPEG format simply enter&nbsp;<strong>JPG&nbsp;</strong>and for Acrobat PDF format, <strong>PDF</strong>. Terminal doesn't have to be difficult, does it?</p>
+
+<h2><span class="sectionnum">7.</span> Kill the Dashboard Altogether</h2>
+
+<p>Above, we went over the command to drop Dashboard widgets onto the desktop, but if you want to get rid of the Dashboard altogether (for example, if you're running an older Mac and have memory issues) then you can do via this simple Terminal command:</p>
+
+<pre class="brush: bash">defaults write com.apple.dashboard mcx-disabled -boolean YES</pre>
+
+<p>Then, restart the Dock using the following command:</p>
+
+<pre class="brush: bash">killall Dock</pre>
+
+<p>Et, voilà! No more Dashboard. If you find yourself afterwards lamenting after the good old days, replace <strong>YES&nbsp;</strong>with&nbsp;<strong>NO&nbsp;</strong>in the top command and repeat the process.</p>
+
+<h2><span class="sectionnum">8.</span> Securely Erase Free Space</h2>
+
+<p>When you delete files on your Mac, OS X still leaves fragments of the file all over the free space on your hard disk drive, until these are written over by new files. If you want to securely delete all the remaining fragments on a hard disk drive (for example if you're going to sell your Mac), then execute the following command:</p>
+
+<pre class="brush: bash">diskutil secureErase freespace 3 /Volumes/name-of-drive</pre>
+
+<p>Replace&nbsp;<strong>/name-of-drive&nbsp;</strong>with the drive you want to erase. This command uses a special algorithm to wipe over each free area of space 35 times, far above the US Department of Defense's standard, which only requires 7 passes. Be aware though that this process can take days on larger drives.</p>
+
+<p>On a side note, the command <strong>diskutil&nbsp;</strong>is a really useful one and allows you to manage local disks and volumes directly from the Terminal (a list of sample commands is given). Be aware, though, that most commands require root access.</p>
+
+<h2><span class="sectionnum">9.</span> Control Your Mac Remotely</h2>
+
+<p>Being able to control your Mac remotely via SSH, or secure shell, is far more advantageous than screen sharing as it uses less system resources and less bandwidth. The first thing you will have to do is enable Remote Login on your Mac, which you can do by heading over to <em>System Preferences</em> then <em>Sharing&nbsp;</em>then click on&nbsp;<em>Remote Login</em>.</p>
+
+<figure><img alt="SSH Mac" src="http://cdn.tutsplus.com/mac/authors/legacy/James%20Cull/2012/08/09/SSH.png">
+<figcaption>Be sure to enable Remote Login on your Mac before you start anything</figcaption> </figure>
+
+<p>A little green light should come up, along with an IP address that you can use to log in via Terminal. The connection between the local Mac you're using and the remote one (i.e. your own one) is secure and encrypted, meaning that any data being transferred between the two cannot be intercepted.</p>
+
+<p>To log into your Mac on another Mac, execute the command:</p><pre class="brush: bash">ssh -l username remote-address</pre>
+
+<p>Replace&nbsp;<strong>username&nbsp;</strong>with the username you'd use to log into OS X and&nbsp;<strong>remote-address&nbsp;</strong>with the IP address given to you in the Sharing pane. You can now control your Mac and execute Terminal commands remotely, a real plus.</p>
+
+<h2><span class="sectionnum">10.</span> Talking Mac!</h2>
+
+<p>And last but not least, if you want your Mac to speak to you, then simply use the <strong>say </strong> command, as in:</p>
+
+<pre class="brush: bash">say Hello World!</pre>
+
+<p>The words will be spoken in your Mac's default voice but if you want to change this, then simply head over to&nbsp;<em>System Preferences&nbsp;</em>then either&nbsp;<em>Dictation and Speech&nbsp;</em>(on Mountain Lion) or simply&nbsp;<em>Speech&nbsp;</em>(on Lion). Here you can select different voices and download new ones from Apple's servers if you fancy. Another "useful" feature is the ability to convert an entire text file into speech, if you so fancy. Simply enter:</p>
+
+<pre class="brush: bash">say -o audio.aiff -f FILENAME.txt</pre>
+
+<p>Replace <strong>FILENAME.txt&nbsp;</strong>with your own file. This will create a reading of your file as an AIFF file <strong>audio.aiff&nbsp;</strong>in Terminal's default directory.</p>
+
+<p><strong>Tip:</strong> Ever wondered if the Mac operating system is pronounced "OS ten" or "OS ex?" Your Mac knows the answer! Try typing "say OS X" into Terminal. The result may surprise you.</p>
+
+<h2>Conclusion</h2>
+
+<p>I hope that this little tutorial has helped you demystify the Terminal and realize that it's really not that bad to use – you can achieve a lot more using it and if you want to customize OS X beyond simply changing the wallpaper, then it really is your first port of call.</p>
+
+<p>I hope you have plenty of fun with the commands mentioned above, please feel free to share your own favourites in the comments section below for the benefit of all Mactuts+ readers!</p>
