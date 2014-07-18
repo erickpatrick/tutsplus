@@ -45,15 +45,15 @@
 
 <p>Você precisa desconectar da sua conta de usuário e reconectar-se para a mudança surtir efeito. Quando o fizer, para poder levar um widget para sua área de trabalho, clique e segure com o botão esquerdo do mouse no widget em questão e, então, aperta a tecla F12, que o remove da Dashboard e permite que ele seja colocado na área de trabalho. Agora, seu widgets ficar sobre as aplicações abertas, parecido com os Gadgets do Windows 7.</p>
 
-<p>To disable this feature, simply replace <strong>YES </strong> with <strong>NO </strong> in the above command. Again, you'll have to log out then back in again, unfortunately.</p>
+<p>Para desabilitar essa funcionalidade, substitua <strong>YES</strong> por <strong>NO </strong> no comando acima. E, mais uma vez, você precisa desconectar e reconectar-se da sua conta de usuário, infelizmente.</p>
 
-<h2><span class="sectionnum">4.</span> Disable Lion/Mountain Lion's Auto-restore Feature</h2>
+<h2><span class="sectionnum">4.</span> Desabilite a Funcionalidade de Auto-Restauração do Lion/Mountain Lion</h2>
 
-<p>This really bugged me when I first upgraded to Lion - the fact that when you open up something like Preview, all your recently accessed PDFs coming popping up in your face, even if you closed them down properly. Unfortunately there's no universal command to disable it across the entire OS so you'll have to do it for each individual program. If you want to disable it for Preview, then enter the following command:</p>
+<p>Isso me deixou bem confuso, quando eu atualizei para o Lion - acontece que, quando você abre algum programa como o Previsualização, todos os PDFs recentemente acessados, abrirão de ua só vez, mesmo que você os tenha fechado apropriadamente. Infelizmente, não há um comando para desabilitar essa funcionalidade por todo o sistema operacional, então, você terá de fazer isso para cada programa que não quiser que essa funcionalidade ocorra. Se quiser desabilitar essa funcionalidade para o Previsualização, então, digite o comando a seguir:</p>
 
 <pre class="brush: bash">defaults write com.apple.Preview NSQuitAlwaysKeepsWindows -bool false</pre>
 
-<p>QuickTime is another culprit in my eyes, again just enter:</p>
+<p>Para mim, o QuickTime é outro que merece isso, basta digitar:</p>
 
 <pre class="brush: bash">defaults write com.apple.QuickTimePlayerX NSQuitAlwaysKeepsWindows -bool false</pre>
 
