@@ -27,23 +27,23 @@
 
 <pre class="brush: bash">defaults write -g ApplePressAndHoldEnabled -bool false</pre>
 
-<p>Hit Return then log out then back in again to see the changes. If you want to change back to the norm, then simply substitute&nbsp;<strong>false&nbsp;</strong>for&nbsp;<strong>true</strong> in the above.</p>
+<p>Aperte <code>Return</code> (ou <code>Enter</code>, dependendo do teclado), desconecte-se da sua conta de usuário do sistema e reconecte-se, para que as mudanças aconteçam. Se quiser mudar para o comportamento anterior, basta, simplesmente, substituir o <strong>false&nbsp;</strong>pelo&nbsp;<strong>true</strong> no comando acima..</p>
 
-<h2><span class="sectionnum">2.</span> Change the Default Backup Periods in Time Machine</h2>
+<h2><span class="sectionnum">2.</span> Altere os Períodos Padrões de Backup no Time Machine</h2>
 
-<p>By default, Time Machine backs up every hour when it's connected but this can be changed through Terminal. To do so, simply enter the following command:</p>
+<p>Por padrão, o Time Machine faz backup a cada hora, quando está conectado, mas isso pode ser alterado pelo Terminal. Para tanto, basta digitar o comando a seguir:</p>
 
 <pre class="brush: bash">sudo defaults write /System/Library/Launch Daemons/com.apple.backupd-auto StartInterval -int 1800</pre>
 
-<p>This makes Time Machine backup now every 30 minutes. To change it to what you want, simply replace the <strong>1800 </strong> with the interval time in seconds (so 15 minutes would be 900 seconds, therefore enter <strong>900</strong>). Also be aware that you are using a&nbsp;<em>sudo&nbsp;</em>command, so make sure that you've typed the command exactly right before you hit Enter (and you'll also be prompted to enter your system password).</p>
+<p>Isso faz com que o Time Machine faça backup a cada 30 minutos. Para alterar para um valor que você quiser, basta alterar o <strong>1800</strong> com um valor de intervalor em segundos (assim, 15 minutos equivalem a 900 segundos, que seria o que você deveria colocar lá). Atente que você está usando o comando<em>sudo</em>, então, tenha certeza que você digitou todo o comando corretamente antes de apertar o <code>Enter</code> (e que você, também, será a solicitado a digitar sua senha).</p>
 
-<h2><span class="sectionnum">3.</span> Drag Dashboard Widgets onto the Desktop</h2>
+<h2><span class="sectionnum">3.</span> Arraste Widgets para Área de Trabalho</h2>
 
-<p>I always forget that the Dashboard exists on my Mac. In fact, I hardly ever see a need for it. But I think that's mostly down to the fact that the widgets are hidden away inside the operating system. To be able to drag your Dashboard widgets onto your desktop, then enter the following command:</p>
+<p>Sempre esqueço que a Dashboard existe no Mac. Na verdade, eu raramente, vejo uso para ele. Mas, isso se dá pelos widgets estarem escondidos pelo sistema operacional. Para ser capaz de levar os widgets para sua área de trabalho, digite o comando a seguir:</p>
 
 <pre class="brush: bash">defaults write com.apple.dashboard devmode YES</pre>
 
-<p>You must log out then back in again and to drag a widget onto your desktop click and hold down on it then press F12, which dismisses it from the Dashboard and allows you to drop it onto the desktop. Your widgets now float above open applications, similar to the Gadgets on Windows 7.</p>
+<p>Você precisa desconectar da sua conta de usuário e reconectar-se para a mudança surtir efeito. Quando o fizer, para poder levar um widget para sua área de trabalho, clique e segure com o botão esquerdo do mouse no widget em questão e, então, aperta a tecla F12, que o remove da Dashboard e permite que ele seja colocado na área de trabalho. Agora, seu widgets ficar sobre as aplicações abertas, parecido com os Gadgets do Windows 7.</p>
 
 <p>To disable this feature, simply replace <strong>YES </strong> with <strong>NO </strong> in the above command. Again, you'll have to log out then back in again, unfortunately.</p>
 
