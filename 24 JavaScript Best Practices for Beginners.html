@@ -122,12 +122,12 @@ var arr = ['item 1', 'item 2', 'item 3', ...];
 var list = '&lt;ul&gt;&lt;li&gt;' + arr.join('&lt;/li&gt;&lt;li&gt;') + '&lt;/li&gt;&lt;/ul&gt;';</pre>
 
 <blockquote>
-<p>I won’t bore you with benchmarks; you’ll just have to believe me (or test for yourself) - this is by far the fastest method!</p>
+<p>Não chatearei você com <em>benchmarks</em>; você terá de acreditar em mim (ou testar por conta própria) - esse, de longe, é o método mais rápido!</p>
 
-<p>Using native methods (like join()), regardless of what’s going on behind the abstraction layer, is usually much faster than any non-native alternative.  <br /> - James Padolsey, james.padolsey.com</p></blockquote>
+<p>Usar métodos nativos (como o <code>join()</code>), independente do que esteja acontecendo por trás da camada de abstração, é, geralmente, muito mais rápido que os métodos alternativos, não nativos.  <br /> - James Padolsey, james.padolsey.com</p></blockquote>
 
 
-<h2><span>8.</span> Reduce Globals </h2>
+<h2><span>8.</span> Reduza as Globais </h2>
 
 <blockquote><p>By reducing your global footprint to a single name, you significantly reduce the chance of bad interactions with other applications, widgets, or libraries." <br /> - Douglas Crockford</p></blockquote>
 
