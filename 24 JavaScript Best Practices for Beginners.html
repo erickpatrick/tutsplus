@@ -182,9 +182,9 @@ setInterval(
 <pre class="brush: javascript">
 setInterval(someFunction, 3000);</pre>
 
-<h2><span>12.</span> Don't Use the "With" Statement </h2>
+<h2><span>12.</span> Não Use a Instrução "With" </h2>
 
-<p>At first glance, "With" statements seem like a smart idea. The basic concept is that they can be used to provide a shorthand for accessing deeply nested objects. For example...</p>
+<p>A primeira vista, instruções "With" parecem ser uma boa ideia. O conceito básico delas é que podemo ser usadas para prover uma forma rápida para acessar objetos aninhados profundamente. Por exemplo...</p>
 
 <pre class="brush: javascript">
 with (being.person.man.bodyparts) {
@@ -192,13 +192,13 @@ with (being.person.man.bodyparts) {
  legs = true;
 }</pre>
 
-<p>-- instead of -- </p>
+<p>&ndash; ao invés de &ndash; </p>
 
 <pre class="brush: javascript">
 being.person.man.bodyparts.arms = true;
 being.person.man.bodyparts.legs= true;</pre>
 
-<p>Unfortunately, after some testing, it was found that they "behave very badly when setting new members." Instead, you should use var.</p>
+<p>Infelizmente, após alguns testes, percebeu-se que isso "se compoarta muito mal ao adicionar novos membros". Você deve usar um <code>var</code>.</p>
 
 <pre class="brush: javascript">
 var o = being.person.man.bodyparts;
