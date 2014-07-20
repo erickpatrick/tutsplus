@@ -89,7 +89,7 @@ if(2 + 2 === 4) return 'nicely done';</pre>
 
 <h2><span>6.</span> Declare Variáveis, Fora da Instrução For</h2>
 
-<p>When executing lengthy "for" statements, don't make the engine work any harder than it must. For example:</p>
+<p>Ao executar instruções <code>for</code> muito grandes, não faça com que o motor JavaScript tenha de trabalhar mais que ele realmente precisa. Por exemplo:</p>
 
 <h4>Bad</h4>
 
@@ -100,7 +100,7 @@ for(var i = 0; i &lt; someArray.length; i++) {
  console.log(i);
 }</pre>
 
-<p>Notice how we must determine the length of the array for each iteration, and how we traverse the dom to find the "container" element each time -- highly inefficient!</p>
+<p>Perceba como precisamos determinar o tamanho do vetor a cada iteração e como temos de atravessar a DOM para encontrar o elemento <code>container</code> todas as vezes &ndash; altamente ineficiente!</p>
 
 <h4>Better</h4>
 
@@ -111,11 +111,11 @@ for(var i = 0, len = someArray.length; i &lt; len;  i++) {
  console.log(i);
 }</pre>
 
-<p>Bonus points to the person who leaves a comment showing us how we can further improve the code block above.</p>
+<p>Pontos extras para aquele que deixar um comentário mostrando e explicando como podemos melhorar o trecho acima, ainda mais.</p>
 
-<h2><span>7.</span> The Fastest Way to Build a String </h2>
+<h2><span>7.</span> A Forma Mais Rápida de Construir uma Cadeia de Caracteres</h2>
 
-<p>Don't always reach for your handy-dandy "for" statement when you need to loop through an array or object. Be creative and find the quickest solution for the job at hand.</p>
+<p>Não opte, sempre, pelo útil <code>for</code>, quando precisar iterar por um vetor ou objeto. Seja criativo e encontre a solução mais rápida para o trabalho em questão.</p>
 
 <pre class="brush: javascript">
 var arr = ['item 1', 'item 2', 'item 3', ...];
