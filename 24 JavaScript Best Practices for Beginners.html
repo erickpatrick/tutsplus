@@ -63,31 +63,31 @@ if(2 + 2 === 4) return 'nicely done';</pre>
 <blockquote>
 <p>O JSLint pega um código fonte em JavaScript e escaneia-o. Se encontrar algum problema, retorna uma mensagem descrevendo o problema e a localização aproximada no código fonte. O problema não será, necessariamente, um erro de sintaxe, embora, geralmente, seja. O JSLint procura por algumas conveções de estilo de programação, bem como por problemas estruturais. Ele não atesta que seu programa está correto. Só provê "outros olhos" para ajudar a encontrar problemas." <br /> - Documentação do JSLint</p></blockquote>
 
-<p>Before signing off on a script, run it through JSLint just to be sure that you haven't made any mindless mistakes.</p>
+<p>Antes de publicar algum script, execute-o pelo JSLint para ter certeza que não cometeu qualquer erro bobo.</p>
 
-<h2><span>5.</span> Place Scripts at the Bottom of Your Page </h2>
+<h2><span>5.</span> Coloque os Scripts na Parte Final da Sua Página</h2>
 
-<p>This tip has already been recommended in the previous article in this series. As it's highly appropriate though, I'll paste in the information. </p>
+<p>Essa dica já foi abordada no meu artigo anterior dessa série. Mas, como ele é pertinente, colocarei a informação.</p>
 
 <figure>
 <img src="http://cdn.tutsplus.com/net/uploads/legacy/327_30Musts/javascriptButton.png" data-original-url="http://nettuts.s3.amazonaws.com/327_30Musts/javascriptButton.png" alt="Place JS at bottom" style="width: 600px;" />
 </figure>
 
-<p>Remember -- the primary goal is to make the page load as quickly as possible for the user. When loading a script, the browser can't continue on until the entire file has been loaded. Thus, the user will have to wait longer before noticing any progress.</p>
+<p>Lembre-se &ndash; o objetivo principal é fazer a página carregar o mais rápido possível para o usuário. Quando carregar um script, o navegador não pode ocntinuar até que o arquivo inteiro tenha sido carregado. Assim, o usuário terá de esperar mais para perceber algum progresso.</p>
 
-<p>If you have JS files whose only purpose is to add functionality -- for example, after a button is clicked -- go ahead and place those files at the bottom, just before the closing body tag. This is absolutely a best practice.</p>
+<p>Se o propósito dos seus arquivos JavaScript são, somente, para adicionar funcionalidades &ndash; por exemplo, após um botão ser clicado &ndash; vá em frente e coloque todos esses arquivos ao final da página, logo antes do fechamento da tag <code>body</code>. Isso é, definitivamente, uma boa prática.</p>
 
-<h4>Better</h4>
+<h4>Bem Melhor</h4>
 
 <pre class="brush: html">
-&lt;p&gt;And now you know my favorite kinds of corn. &lt;/p&gt;
+&lt;p&gt;E, agora, você sabe os meus tipos favoritos de milho. &lt;/p&gt;
 &lt;script type="text/javascript" src="path/to/file.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="path/to/anotherFile.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
 
 
-<h2><span>6.</span> Declare Variables Outside of the For Statement </h2>
+<h2><span>6.</span> Declare Variáveis, Fora da Instrução For</h2>
 
 <p>When executing lengthy "for" statements, don't make the engine work any harder than it must. For example:</p>
 
