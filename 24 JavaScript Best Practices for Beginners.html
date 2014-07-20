@@ -91,7 +91,7 @@ if(2 + 2 === 4) return 'nicely done';</pre>
 
 <p>Ao executar instruções <code>for</code> muito grandes, não faça com que o motor JavaScript tenha de trabalhar mais que ele realmente precisa. Por exemplo:</p>
 
-<h4>Bad</h4>
+<h4>Ruim</h4>
 
 <pre class="brush: javascript">
 for(var i = 0; i &lt; someArray.length; i++) {
@@ -102,7 +102,7 @@ for(var i = 0; i &lt; someArray.length; i++) {
 
 <p>Perceba como precisamos determinar o tamanho do vetor a cada iteração e como temos de atravessar a DOM para encontrar o elemento <code>container</code> todas as vezes &ndash; altamente ineficiente!</p>
 
-<h4>Better</h4>
+<h4>Bem Melhor</h4>
 
 <pre class="brush: javascript">
 var container = document.getElementById('container');
@@ -127,9 +127,9 @@ var list = '&lt;ul&gt;&lt;li&gt;' + arr.join('&lt;/li&gt;&lt;li&gt;') + '&lt;/li
 <p>Usar métodos nativos (como o <code>join()</code>), independente do que esteja acontecendo por trás da camada de abstração, é, geralmente, muito mais rápido que os métodos alternativos, não nativos.  <br /> - James Padolsey, james.padolsey.com</p></blockquote>
 
 
-<h2><span>8.</span> Reduza as Globais </h2>
+<h2><span>8.</span> Reduza as Variáveis Globais </h2>
 
-<blockquote><p>By reducing your global footprint to a single name, you significantly reduce the chance of bad interactions with other applications, widgets, or libraries." <br /> - Douglas Crockford</p></blockquote>
+<blockquote><p>Ao reduzir a quantidade de variáveis globais a um único nome, você reduz, significantemente, a chance de más interações com outras aplicações, widgets ou bibliotecas". <br /> - Douglas Crockford</p></blockquote>
 
 <pre class="brush: javascript">
 var name = 'Jeffrey';
@@ -139,7 +139,7 @@ function doSomething() {...}
 
 console.log(name); // Jeffrey -- or window.name</pre>
 
-<h4>Better</h4>
+<h4>Bem Melhor</h4>
 
 <pre class="brush: javascript">
 var DudeNameSpace = {
@@ -149,9 +149,9 @@ var DudeNameSpace = {
 }
 console.log(DudeNameSpace.name); // Jeffrey</pre>
 
-<p>Notice how we've "reduced our footprint" to just the ridiculously named "DudeNameSpace" object.</p>
+<p>Note como reduzimos a quantidade de globais para o objeto, ridiculamente, chamado "DudeNameSpace".</p>
 
-<h2><span>9.</span> Comment Your Code </h2>
+<h2><span>9.</span> Comente Seu Código </h2>
 
 <p>It might seem unnecessary at first, but trust me, you WANT to comment your code as best as possible. What happens when you return to the project months later, only to find that you can't easily remember what your line of thinking was. Or, what if one of your colleagues needs to revise your code? Always, always comment important sections of your code.</p>
 
@@ -219,7 +219,7 @@ o.someFunction = function() {
 
 <p>However, this method receives the "bad practice" stamp without actually being so. Instead, I recommend that you use the much more robust object literal method.</p>
 
-<h4>Better</h4>
+<h4>Bem Melhor</h4>
 
 <pre class="brush: javascript">
 var o = {
@@ -249,7 +249,7 @@ var a = new Array();
 a[0] = "Joe";
 a[1] = 'Plumber';</pre>
 
-<h4>Better</h4>
+<h4>Bem Melhor</h4>
 
 <pre class="brush: javascript">
 var a = ['Joe','Plumber'];</pre>
@@ -263,7 +263,7 @@ var someItem = 'some string';
 var anotherItem = 'another string';
 var oneMoreItem = 'one more string';</pre>
 
-<h4>Better</h4>
+<h4>Bem Melhor</h4>
 
 <pre class="brush: javascript">
 var someItem = 'some string',
@@ -284,7 +284,7 @@ return 'something'
 
 <p>Having said that, this is a very bad practice that can potentially lead to much bigger, and harder to find, issues.</p>
 
-<h4>Better</h4>
+<h4>Bem Melhor</h4>
 
 <pre class="brush: javascript">
 var someItem = 'some string';
