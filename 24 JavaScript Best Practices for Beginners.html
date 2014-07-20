@@ -8,13 +8,13 @@
 
 <blockquote><p>Se dois operandos tem o mesmo tipo e valor, o === retornar verdadeiro e !== retorna falso." - JavaScript: Melhores Partes </p></blockquote>
 
-<p>However, when working with <em>==</em> and <em>!=</em>, you'll run into issues when working with different types. In these cases, they'll try to coerce the values, unsuccessfully.</p>
+<p>Entretanto, ao usarmos <em>==</em> e <em>!=</em>, você acabará se deparando com problemas, ao trabalhar com tipos diferentes. Nesses casos, eles forçaram uma conversão dos valores, sem sucesso.</p>
 
-<h2><span>2.</span> Eval = Bad</h2>
+<h2><span>2.</span> Eval = Ruim</h2>
 
-<p>For those unfamiliar, the "eval" function gives us access to JavaScript's compiler. Essentially, we can execute a string's result by passing it as a parameter of "eval".</p>
+<p>Para aqueles não familiarizados, a função <code>eval</code> dá-nos acesso ao compilador do JavaScript. Essencialmente, podemos executar o resultado de uma cadeia de caracteres passando como parâmetro para a função <code>eval</code>.</p>
 
-<p>Not only will this decrease your script's performance substantially, but it also poses a huge security risk because it grants far too much power to the passed in text. Avoid it! </p>
+<p>Além de diminuir substancialmente a performance do seu script, isso também gera um grande risco à segurança da aplicação, uma vez que dá muito poder ao que foi passado como texto. Evite! </p>
 
 <h2><span>3.</span> Don't Use Short-Hand</h2>
 
