@@ -347,11 +347,11 @@ function TimeTracker(){
 
 <p>O método <code>each</code> do jQuery é ótimo para iterações, mas usar a isntrução <code>for</code> nativa, sempre será mais um pouco mais rápido.</p>
 
-<h2><span>23.</span> Crockford's JSON.Parse </h2>
+<h2><span>23.</span> O JSON.Parse do Crockford</h2>
 
-<p>Although JavaScript 2 should have a built-in JSON parser, as of this writing, we still need to implement our own. Douglas Crockford, the creator of JSON, has already created a parser that you can use. It can be downloaded <a href="http://www.json.org/json2.js">HERE</a>.</p>
+<p>Embora o JavaScript 2 deva vir com um analisador de JSON embutido, até o momento da escrita desse post, ainda precisamos implementar o nosso próprio analisador. Douglas Crockford, o criador do JSON, criou um analisador que você pode usar. Ele pode ser baixado <a href="http://www.json.org/json2.js">AQUI</a>.</p>
 
-<p>Simply by importing the script, you'll gain access to a new JSON global object, which can then be used to parse your .json file.</p>
+<p>Simplesmente, importando seu script, você terá acesso a um novo objeto JSON global, que pode ser usado para analisar seus arquivos <code>.json</code>.</p>
 
 <pre class="brush: javascript">
  var response = JSON.parse(xhr.responseText);
