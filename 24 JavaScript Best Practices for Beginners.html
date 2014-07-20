@@ -16,22 +16,22 @@
 
 <p>Além de diminuir substancialmente a performance do seu script, isso também gera um grande risco à segurança da aplicação, uma vez que dá muito poder ao que foi passado como texto. Evite! </p>
 
-<h2><span>3.</span> Don't Use Short-Hand</h2>
+<h2><span>3.</span> Não Use Abreviações</h2>
 
-<p>Technically, you can get away with omitting most curly braces and semi-colons. Most browsers will correctly interpret the following:</p>
+<p>Tecnicamente, você não precisa usar chaves ou ponto-e-vígulas. A maioria dos navegadores intepretará corretamente o trecho abaixo:</p>
 
 <pre class="brush: javascript">
 if(someVariableExists)
  x = false</pre>
 
-<p>However, consider this: </p>
+<p>Entretanto, considere o seguinte: </p>
 
 <pre class="brush: javascript">
 if(someVariableExists)
  x = false
  anotherFunctionCall();</pre>
 
-<p>One might think that the code above would be equivalent to:</p>
+<p>Alguém pode achar que o código acima equivale ao do trecho abaixo:</p>
 
 <pre class="brush: javascript">
 if(someVariableExists) {
@@ -39,7 +39,7 @@ if(someVariableExists) {
  anotherFunctionCall();
 }</pre>
 
-<p>Unfortunately, he'd be wrong. In reality, it means:</p>
+<p>Infelizmente, ele estaria errado. Na verdade, ele significaria:</p>
 
 <pre class="brush: javascript">
 if(someVariableExists) {
