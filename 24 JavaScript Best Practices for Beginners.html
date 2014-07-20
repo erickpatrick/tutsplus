@@ -168,16 +168,16 @@ for(var i = 0, len = array.length; i &lt; len; i++) {
 
 <p>Você já parou para ver seu <em>slider</em> sem o JavaScript habilitado? (<a href="https://addons.mozilla.org/en-US/firefox/addon/60">Baixe</a> a Barra de Ferramentas do Desenvolvedor Web para conseguir fazer isso de forma fácil). Ele pode quebrar seu site completamente. Por via de regra, projete seu site, assumindo que o JavaScript estará desabilitado. Então, assim que o tiver feito, comece a <strong>aprimora progressivamente</strong> o layout!</p>
 
-<h2><span>11.</span> Don't Pass a String to "SetInterval" or "SetTimeOut" </h2>
+<h2><span>11.</span> Não Passe uma Cadeia de Caracteres Para "SetInterval" ou "SetTimeOut" </h2>
 
-<p>Consider the following code:</p>
+<p>Considere o código a seguir:</p>
 
 <pre class="brush: javascript">
 setInterval(
 "document.getElementById('container').innerHTML += 'My new number: ' + i", 3000
 );</pre>
 
-<p>Not only is this code inefficient, but it also functions in the same way as the "eval" function would. <strong>Never pass a string to SetInterval and SetTimeOut.</strong> Instead, pass a function name.</p>
+<p>Além de ser um código ineficiente, também funciona como se fosse a função <code>eval</code>. <strong>Nunca passe uma cadeia de caracteres para SetInterval ou SetTimeOut</strong>. Ao invés disso, passe uma função nomeada.</p>
 
 <pre class="brush: javascript">
 setInterval(someFunction, 3000);</pre>
