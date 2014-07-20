@@ -1,0 +1,377 @@
+<h1>24 Boas Práticas do JavaScript para Iniciantes</h1>
+
+<p>As a follow-up to <a href="http://net.tutsplus.com/tutorials/html-css-techniques/30-html-best-practices-for-beginners/">"30 HTML and CSS Best Practices"</a>, this week, we'll review JavaScript! Once you've reviewed the list, be sure to let us know what little tips you've come across!</p>
+
+<h2><span>1.</span> Use === Instead of == </h2>
+
+<p>JavaScript utilizes two different kinds of equality operators: <em>===</em> | <em>!==</em> and <em>==</em> | <em>!=</em>  It is considered best practice to always use the former set when comparing.</p>
+
+<blockquote><p>If two operands are of the same type and value, then === produces true and !== produces false." - JavaScript: The Good Parts </p></blockquote>
+
+<p>However, when working with <em>==</em> and <em>!=</em>, you'll run into issues when working with different types. In these cases, they'll try to coerce the values, unsuccessfully.</p>
+
+<h2><span>2.</span> Eval = Bad</h2>
+
+<p>For those unfamiliar, the "eval" function gives us access to JavaScript's compiler. Essentially, we can execute a string's result by passing it as a parameter of "eval".</p>
+
+<p>Not only will this decrease your script's performance substantially, but it also poses a huge security risk because it grants far too much power to the passed in text. Avoid it! </p>
+
+<h2><span>3.</span> Don't Use Short-Hand</h2>
+
+<p>Technically, you can get away with omitting most curly braces and semi-colons. Most browsers will correctly interpret the following:</p>
+
+<pre class="brush: javascript">
+if(someVariableExists)
+ x = false</pre>
+
+<p>However, consider this: </p>
+
+<pre class="brush: javascript">
+if(someVariableExists)
+ x = false
+ anotherFunctionCall();</pre>
+
+<p>One might think that the code above would be equivalent to:</p>
+
+<pre class="brush: javascript">
+if(someVariableExists) {
+ x = false;
+ anotherFunctionCall();
+}</pre>
+
+<p>Unfortunately, he'd be wrong. In reality, it means:</p>
+
+<pre class="brush: javascript">
+if(someVariableExists) {
+ x = false;
+}
+anotherFunctionCall();</pre>
+
+<p>As you'll notice, the indentation mimics the functionality of the curly brace. Needless to say, this is a terrible practice that should be avoided at all costs. The only time that curly braces should be omitted is with one-liners, and even this is a highly debated topic.</p>
+
+<pre class="brush: javascript">
+if(2 + 2 === 4) return 'nicely done';</pre>
+
+<h4>Always Consider the Future </h4>
+
+<p>What if, at a later date, you need to add more commands to this if statement. In order to do so, you would need to rewrite this block of code. Bottom line - tread with caution when omitting. </p>
+
+<h2><span>4.</span> Utilize JS Lint </h2>
+
+<p><a href="http://www.jslint.com/">JSLint</a> is a debugger written by Douglas Crockford. Simply paste in your script, and it'll quickly scan for any noticeable issues and errors in your code.</p>
+
+<blockquote>
+<p>JSLint takes a JavaScript source and scans it. If it finds a problem, it returns a message describing the problem and an approximate location within the source. The problem is not necessarily a syntax error, although it often is. JSLint looks at some style conventions as well as structural problems. It does not prove that your program is correct. It just provides another set of eyes to help spot problems." <br /> - JSLint Documentation</p></blockquote>
+
+<p>Before signing off on a script, run it through JSLint just to be sure that you haven't made any mindless mistakes.</p>
+
+<h2><span>5.</span> Place Scripts at the Bottom of Your Page </h2>
+
+<p>This tip has already been recommended in the previous article in this series. As it's highly appropriate though, I'll paste in the information. </p>
+
+<figure>
+<img src="http://cdn.tutsplus.com/net/uploads/legacy/327_30Musts/javascriptButton.png" data-original-url="http://nettuts.s3.amazonaws.com/327_30Musts/javascriptButton.png" alt="Place JS at bottom" style="width: 600px;" />
+</figure>
+
+<p>Remember -- the primary goal is to make the page load as quickly as possible for the user. When loading a script, the browser can't continue on until the entire file has been loaded. Thus, the user will have to wait longer before noticing any progress.</p>
+
+<p>If you have JS files whose only purpose is to add functionality -- for example, after a button is clicked -- go ahead and place those files at the bottom, just before the closing body tag. This is absolutely a best practice.</p>
+
+<h4>Better</h4>
+
+<pre class="brush: html">
+&lt;p&gt;And now you know my favorite kinds of corn. &lt;/p&gt;
+&lt;script type="text/javascript" src="path/to/file.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="path/to/anotherFile.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+
+<h2><span>6.</span> Declare Variables Outside of the For Statement </h2>
+
+<p>When executing lengthy "for" statements, don't make the engine work any harder than it must. For example:</p>
+
+<h4>Bad</h4>
+
+<pre class="brush: javascript">
+for(var i = 0; i &lt; someArray.length; i++) {
+ var container = document.getElementById('container');
+ container.innerHtml += 'my number: ' + i;
+ console.log(i);
+}</pre>
+
+<p>Notice how we must determine the length of the array for each iteration, and how we traverse the dom to find the "container" element each time -- highly inefficient!</p>
+
+<h4>Better</h4>
+
+<pre class="brush: javascript">
+var container = document.getElementById('container');
+for(var i = 0, len = someArray.length; i &lt; len;  i++) {
+ container.innerHtml += 'my number: ' + i;
+ console.log(i);
+}</pre>
+
+<p>Bonus points to the person who leaves a comment showing us how we can further improve the code block above.</p>
+
+<h2><span>7.</span> The Fastest Way to Build a String </h2>
+
+<p>Don't always reach for your handy-dandy "for" statement when you need to loop through an array or object. Be creative and find the quickest solution for the job at hand.</p>
+
+<pre class="brush: javascript">
+var arr = ['item 1', 'item 2', 'item 3', ...];
+var list = '&lt;ul&gt;&lt;li&gt;' + arr.join('&lt;/li&gt;&lt;li&gt;') + '&lt;/li&gt;&lt;/ul&gt;';</pre>
+
+<blockquote>
+<p>I won’t bore you with benchmarks; you’ll just have to believe me (or test for yourself) - this is by far the fastest method!</p>
+
+<p>Using native methods (like join()), regardless of what’s going on behind the abstraction layer, is usually much faster than any non-native alternative.  <br /> - James Padolsey, james.padolsey.com</p></blockquote>
+
+
+<h2><span>8.</span> Reduce Globals </h2>
+
+<blockquote><p>By reducing your global footprint to a single name, you significantly reduce the chance of bad interactions with other applications, widgets, or libraries." <br /> - Douglas Crockford</p></blockquote>
+
+<pre class="brush: javascript">
+var name = 'Jeffrey';
+var lastName = 'Way';
+
+function doSomething() {...}
+
+console.log(name); // Jeffrey -- or window.name</pre>
+
+<h4>Better</h4>
+
+<pre class="brush: javascript">
+var DudeNameSpace = {
+ name : 'Jeffrey',
+ lastName : 'Way',
+ doSomething : function() {...}
+}
+console.log(DudeNameSpace.name); // Jeffrey</pre>
+
+<p>Notice how we've "reduced our footprint" to just the ridiculously named "DudeNameSpace" object.</p>
+
+<h2><span>9.</span> Comment Your Code </h2>
+
+<p>It might seem unnecessary at first, but trust me, you WANT to comment your code as best as possible. What happens when you return to the project months later, only to find that you can't easily remember what your line of thinking was. Or, what if one of your colleagues needs to revise your code? Always, always comment important sections of your code.</p>
+
+<pre class="brush: javascript">
+// Cycle through array and echo out each name.
+for(var i = 0, len = array.length; i &lt; len; i++) {
+ console.log(array[i]);
+}</pre>
+
+
+<h2><span>10.</span> Embrace Progressive Enhancement </h2>
+
+<p>Always compensate for when JavaScript is disabled. It might be tempting to think, "The majority of my viewers have JavaScript enabled, so I won't worry about it." However, this would be a huge mistake.</p>
+
+<p>Have you taken a moment to view your beautiful slider with JavaScript turned off? (<a href="https://addons.mozilla.org/en-US/firefox/addon/60">Download</a> the Web Developer Toolbar for an easy way to do so.) It might break your site completely. As a rule of thumb, design your site assuming that JavaScript will be disabled. Then, once you've done so, begin to <strong>progressively enhance</strong> your layout!</p>
+
+<h2><span>11.</span> Don't Pass a String to "SetInterval" or "SetTimeOut" </h2>
+
+<p>Consider the following code:</p>
+
+<pre class="brush: javascript">
+setInterval(
+"document.getElementById('container').innerHTML += 'My new number: ' + i", 3000
+);</pre>
+
+<p>Not only is this code inefficient, but it also functions in the same way as the "eval" function would. <strong>Never pass a string to SetInterval and SetTimeOut.</strong> Instead, pass a function name.</p>
+
+<pre class="brush: javascript">
+setInterval(someFunction, 3000);</pre>
+
+<h2><span>12.</span> Don't Use the "With" Statement </h2>
+
+<p>At first glance, "With" statements seem like a smart idea. The basic concept is that they can be used to provide a shorthand for accessing deeply nested objects. For example...</p>
+
+<pre class="brush: javascript">
+with (being.person.man.bodyparts) {
+ arms = true;
+ legs = true;
+}</pre>
+
+<p>-- instead of -- </p>
+
+<pre class="brush: javascript">
+being.person.man.bodyparts.arms = true;
+being.person.man.bodyparts.legs= true;</pre>
+
+<p>Unfortunately, after some testing, it was found that they "behave very badly when setting new members." Instead, you should use var.</p>
+
+<pre class="brush: javascript">
+var o = being.person.man.bodyparts;
+o.arms = true;
+o.legs = true;</pre>
+
+<h2><span>13.</span> Use {} Instead of New Object() </h2>
+
+<p>There are multiple ways to create objects in JavaScript. Perhaps the more traditional method is to use the "new" constructor, like so: </p>
+
+<pre class="brush: javascript">
+var o = new Object();
+o.name = 'Jeffrey';
+o.lastName = 'Way';
+o.someFunction = function() {
+ console.log(this.name);
+}</pre>
+
+<p>However, this method receives the "bad practice" stamp without actually being so. Instead, I recommend that you use the much more robust object literal method.</p>
+
+<h4>Better</h4>
+
+<pre class="brush: javascript">
+var o = {
+ name: 'Jeffrey',
+ lastName = 'Way',
+ someFunction : function() {
+    console.log(this.name);
+ }
+};</pre>
+
+<p>Note that if you simply want to create an empty object, {} will do the trick.</p>
+
+<pre class="brush: javascript">
+var o = {};</pre>
+
+<blockquote>
+<p>Objects literals enable us to write code that supports lots of features yet still make it a relatively straightforward for the implementers of our code. No need to invoke constructors directly or maintain the correct order of arguments passed to functions, etc." - <a href="http://www.dyn-web.com/tutorials/obj_lit.php">dyn-web.com</a></p></blockquote>
+
+<h2><span>14.</span> Use [] Instead of New Array() </h2>
+
+<p>The same applies for creating a new array.</p>
+
+<h4>Okay</h4>
+
+<pre class="brush: javascript">
+var a = new Array();
+a[0] = "Joe";
+a[1] = 'Plumber';</pre>
+
+<h4>Better</h4>
+
+<pre class="brush: javascript">
+var a = ['Joe','Plumber'];</pre>
+
+<blockquote><p>A common error in JavaScript programs is to use an object when an array is required or an array when an object is required. The rule is simple: when the property names are small sequential integers, you should use an array. Otherwise, use an object." - Douglas Crockford</p></blockquote>
+
+<h2><span>15.</span> Long List of Variables? Omit the "Var" Keyword and Use Commas Instead </h2>
+
+<pre class="brush: javascript">
+var someItem = 'some string';
+var anotherItem = 'another string';
+var oneMoreItem = 'one more string';</pre>
+
+<h4>Better</h4>
+
+<pre class="brush: javascript">
+var someItem = 'some string',
+  anotherItem = 'another string',
+  oneMoreItem = 'one more string';</pre>
+
+<p>...Should be rather self-explanatory. I doubt there's any real speed improvements here, but it cleans up your code a bit. </p>
+
+<h2><span>17.</span> Always, Always Use Semicolons </h2>
+
+<p>Technically, most browsers will allow you to get away with omitting semi-colons.</p>
+
+<pre class="brush: javascript">
+var someItem = 'some string'
+function doSomething() {
+return 'something'
+}</pre>
+
+<p>Having said that, this is a very bad practice that can potentially lead to much bigger, and harder to find, issues.</p>
+
+<h4>Better</h4>
+
+<pre class="brush: javascript">
+var someItem = 'some string';
+function doSomething() {
+return 'something';
+}</pre>
+
+<h2><span>18.</span> "For in" Statements </h2>
+
+<p>When looping through items in an object, you might find that you'll also retrieve method functions as well. In order to work around this, always wrap your code in an if statement which filters the information</p>
+
+<pre class="brush: javascript">
+for(key in object) {
+ if(object.hasOwnProperty(key) {
+    ...then do something...
+ }
+}</pre>
+
+<p><em>As referenced from JavaScript: The Good Parts, by Douglas Crockford. </em></p>
+
+<h2><span>19.</span> Use Firebug's "Timer" Feature to Optimize Your Code </h2>
+
+<p>Need a quick and easy way to determine how long an operation takes? Use Firebug's "timer" feature to log the results.</p>
+
+<pre class="brush: javascript">
+function TimeTracker(){
+ console.time("MyTimer");
+ for(x=5000; x &gt; 0; x--){}
+ console.timeEnd("MyTimer");
+}</pre>
+
+<h2><span>20.</span> Read, Read, Read... </h2>
+
+<p>While I'm a huge fan of web development blogs (like this one!), there really isn't a substitute for a book when grabbing some lunch, or just before you go to bed. Always keep a web development book on your bedside table. Here are some of my JavaScript favorites.  </p>
+
+<ul>
+<li><a href="http://www.packtpub.com/object-oriented-javascript-applications-libraries/book">Object-Oriented JavaScript</a></li>
+<li><a href="http://oreilly.com/catalog/9780596517748/">JavaScript: The Good Parts</a></li>
+<li><a href="www.packtpub.com/learning-jquery-1.3/boo">Learning jQuery 1.3</a></li>
+<li><a href="http://oreilly.com/catalog/9780596527464/">Learning JavaScript</a></li>
+</ul>
+
+<p>Read them...multiple times. I still do!</p>
+
+<h2><span>21.</span> Self-Executing Functions </h2>
+
+<p>Rather than calling a function, it's quite simple to make a function run automatically when a page loads, or a parent function is called. Simply wrap your function in parenthesis, and then append an additional set, which essentially calls the function.</p>
+
+<pre class="brush: javascript">
+(function doSomething() {
+ return {
+    name: 'jeff',
+    lastName: 'way'
+ };
+})();</pre>
+
+<h2><span>22.</span> Raw JavaScript Can Always Be Quicker Than Using a Library </h2>
+
+<p>JavaScript libraries, such as jQuery and Mootools, can save you an enormous amount of time when coding -- especially with AJAX operations. Having said that, always keep in mind that a library can never be as fast as raw JavaScript (assuming you code correctly).</p>
+
+<p>jQuery's "each" method is great for looping, but using a native "for" statement will always be an ounce quicker.</p>
+
+<h2><span>23.</span> Crockford's JSON.Parse </h2>
+
+<p>Although JavaScript 2 should have a built-in JSON parser, as of this writing, we still need to implement our own. Douglas Crockford, the creator of JSON, has already created a parser that you can use. It can be downloaded <a href="http://www.json.org/json2.js">HERE</a>.</p>
+
+<p>Simply by importing the script, you'll gain access to a new JSON global object, which can then be used to parse your .json file.</p>
+
+<pre class="brush: javascript">
+ var response = JSON.parse(xhr.responseText);
+
+ var container = document.getElementById('container');
+ for(var i = 0, len = response.length; i &lt; len; i++) {
+ container.innerHTML += '&lt;li&gt;' + response[i].name + ' : ' + response[i].email + '&lt;/li&gt;';
+ }</pre>
+
+<h2><span>24.</span> Remove "Language" </h2>
+
+<p>Years ago, it wasn't uncommon to find the "language" attribute within script tags.</p>
+
+<pre class="brush: javascript">
+&lt;script type="text/javascript" language="javascript"&gt;
+...
+&lt;/script&gt;</pre>
+
+<p>However, this attribute has long since been deprecated; so leave it out.</p>
+
+<h2>That's All, Folks</h2>
+
+<p>So there you have it; twenty-four essential tips for beginning JavaScripters. Let me know your quick tips! Thanks for reading. What subject should the third part in this series cover?</p>
