@@ -274,7 +274,7 @@ var someItem = 'some string',
 
 <h2><span>17.</span> Sempre, Sempre Use Ponto-e-Vírgulas</h2>
 
-<p>Technically, most browsers will allow you to get away with omitting semi-colons.</p>
+<p>Tecnicamente, a maioria dos navegadores permitem você não usar os ponto-e-vírgulas.</p>
 
 <pre class="brush: javascript">
 var someItem = 'some string'
@@ -282,7 +282,7 @@ function doSomething() {
 return 'something'
 }</pre>
 
-<p>Having said that, this is a very bad practice that can potentially lead to much bigger, and harder to find, issues.</p>
+<p>Com isso dito, isso é uma prática muito ruim que pode levar a problemas, potencialmente, muito mais difíceis de achar.</p>
 
 <h4>Bem Melhor</h4>
 
@@ -292,9 +292,9 @@ function doSomething() {
 return 'something';
 }</pre>
 
-<h2><span>18.</span> "For in" Statements </h2>
+<h2><span>18.</span> Instruções "For in" </h2>
 
-<p>When looping through items in an object, you might find that you'll also retrieve method functions as well. In order to work around this, always wrap your code in an if statement which filters the information</p>
+<p>Ao iterar sobre itens de um objeto, você talvez perceba que está trazendo os métodos do objeto também. Para contornar isso, sempre envolva seu código usando uma instrução <code>if</code> que filtre a informação:</p>
 
 <pre class="brush: javascript">
 for(key in object) {
@@ -303,7 +303,7 @@ for(key in object) {
  }
 }</pre>
 
-<p><em>As referenced from JavaScript: The Good Parts, by Douglas Crockford. </em></p>
+<p><em>Como referenciado em JavaScript: Melhores Partes, por Douglas Crockford. </em></p>
 
 <h2><span>19.</span> Use Firebug's "Timer" Feature to Optimize Your Code </h2>
 
