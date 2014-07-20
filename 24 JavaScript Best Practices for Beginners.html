@@ -205,9 +205,9 @@ var o = being.person.man.bodyparts;
 o.arms = true;
 o.legs = true;</pre>
 
-<h2><span>13.</span> Use {} Instead of New Object() </h2>
+<h2><span>13.</span> Use {} Ao Invés de New Object() </h2>
 
-<p>There are multiple ways to create objects in JavaScript. Perhaps the more traditional method is to use the "new" constructor, like so: </p>
+<p>Há inúmeras formas de criar objetos em JavaScript. Talvez o método mais tradicional é usar o construtor "new", dessa forma: </p>
 
 <pre class="brush: javascript">
 var o = new Object();
@@ -217,7 +217,7 @@ o.someFunction = function() {
  console.log(this.name);
 }</pre>
 
-<p>However, this method receives the "bad practice" stamp without actually being so. Instead, I recommend that you use the much more robust object literal method.</p>
+<p>Entretanto, esse método recebe o selo de "má prática" sem, necessariamente, ser. Contudo, recomendo que você use uma forma muito mais robusta de criação de objetos, o método do objeto literal.</p>
 
 <h4>Bem Melhor</h4>
 
@@ -230,13 +230,13 @@ var o = {
  }
 };</pre>
 
-<p>Note that if you simply want to create an empty object, {} will do the trick.</p>
+<p>Note que, se quiser criar um simples objeto em branco, basta atribuir <code>{}</code> a uma variável.</p>
 
 <pre class="brush: javascript">
 var o = {};</pre>
 
 <blockquote>
-<p>Objects literals enable us to write code that supports lots of features yet still make it a relatively straightforward for the implementers of our code. No need to invoke constructors directly or maintain the correct order of arguments passed to functions, etc." - <a href="http://www.dyn-web.com/tutorials/obj_lit.php">dyn-web.com</a></p></blockquote>
+<p>Objetos literais permitem-nos escrever código que suporta várias funcionalidades e, ainda assim, torná-lo relativamente direto para os implementadores do nosso código. Não há necessidade de invocar construtores diretamente ou manter a ordem correta dos argumentos passados para as funções, etc". - <a href="http://www.dyn-web.com/tutorials/obj_lit.php">dyn-web.com</a></p></blockquote>
 
 <h2><span>14.</span> Use [] Instead of New Array() </h2>
 
