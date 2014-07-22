@@ -1,6 +1,6 @@
 <h1>Compartilhando Componentes do Polymer: Parte 1</h1>
 
-<p>Em meu <a href="http://code.tutsplus.com/tutorials/using-polymer-to-create-web-components--cms-20475">último artigo sobre a biblioteca Polymer</a>, expliquei como aproveitar essa ótima ferramente para criar componentes web reutilizáveis. O ponto central do tutorial, bem como do uso de componentes, é ajudar nosso desenvolvimento através:</p>
+<p>Em meu <a href="http://code.tutsplus.com/tutorials/using-polymer-to-create-web-components--cms-20475">último artigo sobre a biblioteca Polymer</a>, expliquei como aproveitar essa ótima ferramenta para criar componentes web reutilizáveis. O ponto central do tutorial, bem como do uso de componentes, é ajudar nosso desenvolvimento através:</p>
 
 <ul>
 <li>Do encapsulamento da complexidade dos código e estrutura</li>
@@ -8,19 +8,19 @@
 <li>Do fornecimento de elementos de Interface de Usuário (UI) para se usar e estender</li>
 </ul>
 
-<p>Estou bastante interessado por ela e quis explorar um pouco mais, verificando o novo modelo que a equipe do Polymer lançou para facilitar o desenvolvimento e reutilização de componentes, substancialmente, mais fácil.</p>
+<p>Estou bastante interessado por ela e quis explorar um pouco mais, verificando o novo modelo que a equipe do Polymer lançou para facilitar o desenvolvimento e reutilização de componentes, substancialmente.</p>
 
 <h2>O Caminho Canônico</h2>
 
-<p>Uma das peculiaridades do processo de desenvolvimento do Polymer que eu ainda não trabalhei foi o do rompimento entre o desenvolvimento do componente e a conseguir toná-lo disponível para reuso por outros. Vejamos um pequeno trecho do meu tutorial anterior:</p>
+<p>Uma das peculiaridades do processo de desenvolvimento do Polymer, que eu ainda não trabalhei, foi o do rompimento entre o desenvolvimento do componente e a capacidade de toná-lo disponível para reuso por outros. Vejamos um pequeno trecho do meu tutorial anterior:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;</pre>
 
-<p>O propósito desse trecho de código é o de incluir o códibo base do Polymer, a API principal que permitirá você definir elementos customizáveis. Para desenvolvimento local e de testes, isso funciona perfeitamente, mas, infelizmente, o caminho especificado prevenirá você de compartilhar esse componente. A razão disso é que, se outra pessoa tentar instalar seu componente usando o <a href="http://bower.io/">Bower</a> (que é o meio preferido de instalação), ele acabará como irmão do Polymer, dentro do diretório <code>bower_components</code>.</p><p>O problema disso é que o componente procurará por <code>../bower_components/polymer/polymer.html</code>, que será um caminho inválido. Os componente sempre assumem que suas dependências são irmãs, então, ele deveria procurar, na verdade, por <code>../polymer/polymer.html</code>. Esse é o "caminho canônino".</p>
+<p>O propósito desse trecho de código é o de incluir o código base do Polymer, a API principal que permitirá você definir elementos customizáveis. Para desenvolvimento local e de testes, isso funciona perfeitamente, mas, infelizmente, o caminho especificado prevenirá você de compartilhar esse componente. A razão disso é que, se outra pessoa tentar instalar seu componente usando o <a href="http://bower.io/">Bower</a> (que é o meio preferido de instalação), ele acabará como irmão do Polymer, dentro do diretório <code>bower_components</code>.</p><p>O problema disso é que o componente procurará por <code>../bower_components/polymer/polymer.html</code>, que será um caminho inválido. Os componente sempre assumem que suas dependências são irmãs, então, ele deveria procurar, na verdade, por <code>../polymer/polymer.html</code>. Esse é o "caminho canônino".</p>
 
-<p>Conversando com o super <a href="https://twitter.com/rob_dodson">Rob Dodson</a> da equipe do Polymer, ele disse que a única maneira de contornar isso era desenvolver da maneira que mostrei primeiro e, quando eu estivesse pronto para compartilhar meu componente, converter todos os meus caminhos de <code>bower_components</code> para <code>../</code>. </p>
+<p>Conversando com o super <a href="https://twitter.com/rob_dodson">Rob Dodson</a> da equipe do Polymer, ele disse que a única maneira de contornar isso, seria desenvolver da maneira que mostrei primeiro e, quando estivesse pronto para compartilhar o componente, converter todos os caminhos de <code>bower_components</code> para <code>../</code>. </p>
 
-<p>Isso, obviamente, não é ideal e eu, provavelmente, poderia ter criado alguma tarefa no Grunt para analisar meus componentes e fazer essas atualizações. Felizmente, a equipe do Polymer esteve ocupada nesse problema e apresentou uma solução criativa que eles chamam de <code>untitled-element</code>.</p>
+<p>Isso, obviamente, não é ideal e, provavelmente, poderia ter criado alguma tarefa no Grunt para analisar meus componentes e fazer essas atualizações. Felizmente, a equipe do Polymer esteve ocupada nesse problema e apresentou uma solução criativa que eles chamam de <code>untitled-element</code>.</p>
 
 <h2>O Modelo <code>untitled-element</code></h2>
 
@@ -32,11 +32,11 @@
 <li>Permitir que demonstre, facilmente, seu componente enquanto desenvolve <em>e</em> quando compartilha</li>
 </ul>
 
-<p>A grande vantagem disso é que sermos capazes de desenvolver um componente sem ter que passar pelo problema alterar os caminhos nos arquivo que, além de ser bem chato, podem fazer seu componente deixar de funcionar se esquecer algo.</p>
+<p>A grande vantagem disso é que somos capazes de desenvolver um componente sem ter que passar pelo problema de alterar os caminhos nos arquivo que, além de ser bem chato, pode fazer seu componente deixar de funcionar se esquecer algo.</p>
 
-<p>Atualmente, o projeto faz parte do <a href="https://github.com/PolymerLabs/">PolymerLabs</a> enquanto ele é posto à prova em testes, mas, certamente, já é bem promissor:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/github.png"></figure>
+<p>Atualmente, o projeto faz parte do <a href="https://github.com/PolymerLabs/">PolymerLabs</a>, enquanto é posto à prova em testes, mas, certamente, já é bem promissor:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/github.png"></figure>
 
-<p>Agora, a primeira coisa que você fará é criar um diretório de desenvolvimento que guardará seu novo componente, bem como todos os componentes do Bower que você instalará. Nomeei o meu de <code>polymerdev</code>. Daqui, você precisará ir até o repositório no GitHub do <code><a href="https://github.com/PolymerLabs/untitled-element">untitled-element</a></code> e baixá-lo em seu próprio diretório de desenvolvimento. Essa passo é bastante importante porque você <em>precisa</em> extrair o conteúdo dentro daquele diretório para evitar os problemas de diretórios irmão, como mencionado mais cedo. </p>
+<p>Agora, a primeira coisa que você fará, é criar um diretório de desenvolvimento que guardará seu novo componente, bem como todos os componentes do Bower que você instalará. Nomeei o meu de <code>polymerdev</code>. Daqui, você precisará ir até o repositório no GitHub do <code><a href="https://github.com/PolymerLabs/untitled-element">untitled-element</a></code> e baixá-lo em seu próprio diretório de desenvolvimento. Essa passo é bastante importante porque você <em>precisa</em> extrair o conteúdo dentro daquele diretório para evitar os problemas de diretórios irmão, como mencionado mais cedo. </p>
 
 <p>Extrair o arquivo <code>.zip</code> criará um novo diretório chamado <code>untitled-element-master</code> que contem os arquivos base para você criar seu novo componente. Você precisará renomear algumas coisas, com base no nome do seu componente. Isso inclui:</p>
 
@@ -72,7 +72,7 @@
 
 <h2>Preparando o Bower</h2>
 
-<p>Uma vez que o Bower é o método preferido para instalar e compartilhar componente do Polymer, é interessante garantirmos que a configuração do Bower para nosso componente Reddit esteja correta.</p>
+<p>Uma vez que o Bower é o método preferido para instalar e compartilhar componentes do Polymer, é interessante garantirmos que a configuração do Bower para nosso componente Reddit esteja correta.</p>
 
 <p>Por padrão, o código base inclui um arquivo <code>bower.json</code>. Esse arquivo é usado para listar diversas coisas, incluindo o nome do componente e quaisquer dependências que precisam ser instaladas para usá-lo. Eis como ele parece:</p>
 
@@ -108,7 +108,7 @@
 
 <p>Ela instalaria o diretório <code>bower_components</code> diretamente dentro do diretório dos componentes, o que não é o que quero. Quero que o diretório <code>reddit-element</code> seja irmão de todas as ddependências que ele precisa:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-rc.png"></figure>
 
-<p>Esse método garante que, quando um usuário instalar esse componente usando o Bower, o componente e suas dependências será instaladas, apropriadamente, dentro do diretório <code>bower_components</code>.</p>
+<p>Esse método garante que, quando um usuário instalar esse componente usando o Bower, o componente e suas dependências serão instaladas, apropriadamente, dentro do diretório <code>bower_components</code>.</p>
 
 <p>Com o arquivo <code>.bowerrc</code> adicionado ao diretório de nosso componente e o arquivo <code>bower.json</code> preparado com as dependências apropriadas, o próximo passo é executar o comando <code>bower install</code>, para fazer com que o Bower baixe os componentes apropriados, adicionando-os ao projeto.</p>
 
