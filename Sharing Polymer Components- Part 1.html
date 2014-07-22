@@ -104,9 +104,9 @@
 
 <p>O que ele faz é dizer ao Bower para instalar quaisquer dependências um level acima, tornando-as irmãs do diretório <code>reddit-element</code>. Fazer isso é importante porque, quando alguém instalar nosso componente com o Bower, ele será colocado dentro do diretório <code>bower_components</code> como irmão de tudo que está lá dentro (includindo o Polymer). Estruturando as coisas dessa forma, garante que estamos desenvolvendo da mesma forma que iremos compartilhar. Isso também permite que usemos o caminho canônico, mencionado anteriormente, garantindo uma forma consistente de referência outros componentes em nosso código. </p>
 
-<p>Let's review the differences. If I didn't create the <code>.bowerrc</code> file and ran the <code>bower install</code> command, my directory structure would look like this:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-norc.png"></figure>
+<p>Revisemos as diferenças. Se não tivesse criado o arquivo <code>.bowerrc</code> e tivesse executado o comando <code>bower install</code>, minha estrutura de diretório estaria assim:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-norc.png"></figure>
 
-<p>This installs the <code>bower_components</code> folder directly into the component's directory, which is not what I want. I want the <code>reddit-element</code> folder to be a sibling to all of the dependencies that it needs:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-rc.png"></figure>
+<p>Ela instalaria o diretório <code>bower_components</code> diretamente dentro do diretório dos componentes, o que não é o que quero. Quero que o diretório <code>reddit-element</code> seja irmão de todas as ddependências que ele precisa:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-rc.png"></figure>
 
 <p>This method ensures that when a user installs this component using Bower, the component and the dependencies will be installed properly into the <code>bower_components</code> folder.</p>
 
