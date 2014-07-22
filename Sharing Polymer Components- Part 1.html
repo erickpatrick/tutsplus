@@ -102,7 +102,7 @@
    "directory": "../"
 }</pre>
 
-<p>What this essentially does is tells Bower to install any dependencies one level up, so that they're siblings of the <code>reddit-element</code> folder. The reason this is important is because when someone installs our component with Bower, it'll be placed into the <code>bower_components</code> folder as siblings to everything else in there (including Polymer). Structuring things this way, ensures that we're developing in the same way that we'll eventually be sharing. It also allows us to use the canonical path I mentioned above, ensuring a consistent way of referencing other components in our code. </p>
+<p>O que ele faz é dizer ao Bower para instalar quaisquer dependências um level acima, tornando-as irmãs do diretório <code>reddit-element</code>. Fazer isso é importante porque, quando alguém instalar nosso componente com o Bower, ele será colocado dentro do diretório <code>bower_components</code> como irmão de tudo que está lá dentro (includindo o Polymer). Estruturando as coisas dessa forma, garante que estamos desenvolvendo da mesma forma que iremos compartilhar. Isso também permite que usemos o caminho canônico, mencionado anteriormente, garantindo uma forma consistente de referência outros componentes em nosso código. </p>
 
 <p>Let's review the differences. If I didn't create the <code>.bowerrc</code> file and ran the <code>bower install</code> command, my directory structure would look like this:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-norc.png"></figure>
 
