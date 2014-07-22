@@ -85,7 +85,7 @@
 }
 </pre>
 
-<p>First, I'll remove the <code>private</code> property since it'll prevent the component from being listed in the Bower registry. Since it's supposed to be shareable, I want it to be listed. Also, the Reddit component needs to make an Ajax call, so I'm including a dependency on the Polymer <code><a href="https://github.com/Polymer/core-elements">core-elements</a></code> set of components which includes the Ajax functionality that I need. Lastly, I'll add a version number to track this going forward. Here's the end result:</p>
+<p>Primeiro, removerei a propriedade <code>private</code>, uma vez que ela prevenirá que o componente seja listado na Listagem do Bower. Uma vez que ele deve ser compartilhável, queremos que ele seja listado. O componente Reddit também precisa realizar chamadas Ajax, então, adicionarei uma dependência relacionada ao Polymer, e ao <code><a href="https://github.com/Polymer/core-elements">core-elements</a></code>, um conjunto de componentes que inclui uma funcionalidade Ajax que precisaremos. Finalmente, adicionarei o número de versão do componente, para acompanhá-lo. E o arquivo ficará assim:</p>
 
 <pre class="brush: javascript">{
   "name": "reddit-element",
