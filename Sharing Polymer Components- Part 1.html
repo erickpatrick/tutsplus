@@ -1,0 +1,119 @@
+<h1>Compartilhando Componentes do Polymer: Parte 1</h1>
+
+<p>In my <a href="http://code.tutsplus.com/tutorials/using-polymer-to-create-web-components--cms-20475">last tutorial about the Polymer library</a>, I explained how to take advantage of this great new tool to create reusable web components. The key point of the tutorial and of using components, is to help our development by:</p>
+
+<ul>
+<li>Encapsulating much of the complex code and structure</li>
+<li>Allowing developers to use a simple-to-use tag style naming convention</li>
+<li>Providing a suite of predefined UI elements to leverage and extend</li>
+</ul>
+
+<p>I'm still smitten with it and wanted to explore this a little more by checking out a new template the Polymer team released to make deployment and reuse substantially easier.</p>
+
+<h2>The Canonical Path</h2>
+
+<p>One of the quirks of the Polymer development process which I didn't touch on, was the disconnect between developing a component and actually making it available for reuse by others. Let's take a look at a snippet from my previous tutorial:</p>
+
+<pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;</pre>
+
+<p>This purpose of this code is to include Polymer core, the main API that allows you to define the custom elements. For local development and testing, this actually works perfectly but unfortunately the path specified will actually prevent you from sharing this component.  The reason for this is because if another user tries to install your element with <a href="http://bower.io/">Bower</a> (which is the preferred installation method), it's going to end up as a sibling of Polymer in their <code>bower_components</code> folder.&nbsp;</p><p>The problem with that, is that the component is going to be looking for <code>../bower_components/polymer/polymer.html</code> which will be an invalid path.  Components must always assume that their dependencies are siblings, so it should actually be looking for <code>../polymer/polymer.html</code>. This the "canonical path." </p>
+
+<p>In chatting with the awesome <a href="https://twitter.com/rob_dodson">Rob Dodson</a> of the Polymer team, he said that the only way around this was to develop using the method I originally outlined and once I was ready to share my component, convert all of my paths that look for <code>bower_components</code> over to <code>../</code> when I'm ready to publish my element. </p>
+
+<p>This is obviously not ideal and I probably could've created some type of Grunt task to parse through my component files to make these updates. Thankfully, the Polymer team has been noodling on this and has come up with a creative solution that they call the <code>untitled-element</code>.</p>
+
+<h2>The <code>untitled-element</code> Template</h2>
+
+<p>When I mention <code><a href="https://github.com/PolymerLabs/untitled-element">untitled-element</a></code>, I'm referring to a new boilerplate that's available to make creating reusable and deployable components substantially easier, by giving you a base foundation to work with. It helps to eliminate the issues I mentioned above by:</p>
+
+<ul>
+<li>Providing guidance on proper directory structure</li>
+<li>Incorporating an additional component that serves to document your API</li>
+<li>Allowing you to easily demo your component during development <em>and</em> when sharing</li>
+</ul>
+
+<p>The big win for this, is being able to develop your component without having to go through the trouble of making substantial path changes that are not only cumbersome, but could break your element if you miss something.</p>
+
+<p>Currently, the project is a part of <a href="https://github.com/PolymerLabs/">PolymerLabs</a> as it gets put through its paces, but it's certainly looking pretty solid:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/github.png"></figure>
+
+<p>Now the first thing you're going to want to do is create a development directory that will house your new component, as well as all of the Bower components you'll install. I called mine <code>polymerdev</code>. From there, you'll need to go to the <code><a href="https://github.com/PolymerLabs/untitled-element">untitled-element</a></code> Github repo and download it into your new development folder. This is an important step because you <em>need</em> to extract the contents into that folder, to avoid the sibling directory issues that I mentioned previously. </p>
+
+<p>Extracting the <code>.zip</code> file will create a new folder called <code>untitled-element-master</code> which contains the boilerplate files you'll need to create your new component. You'll need to rename a couple of things based on the name of your component. This includes:</p>
+
+<ul>
+<li>The <code>untitled-element-master</code> folder</li>
+<li><code>untitled-element.html</code></li>
+<li><code>untitled-element.css</code></li>
+</ul>
+
+<p>I'm going to recreate the Reddit element that I created in my last tutorial, so this is what the changes would look like:</p>
+
+<ul>
+<li><code>untitled-element-master</code> -&gt; <code>reddit-element</code></li>
+<li><code>untitled-element.html</code> -&gt; <code>reddit-element.html</code></li>
+<li><code>untitled-element.css</code> -&gt; <code>reddit-element.css</code></li>
+</ul>
+
+<p>Here's what the directory looked like before:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/directory.png"></figure>
+
+<p>And here's what it looks like after the updates:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/directory-new.png"></figure>
+
+<p>The key thing to understand, is that you'll be working inside of the <code>reddit-element</code> folder when creating your component and in later steps, when we use Bower to install the Polymer components, that directory will be a direct sibling to the newly installed directories. I know I'm really harping on this point but it's an important thing to understand, since it affects your ability to share your component.</p>
+
+<p>To finish this off, you're going to want to update the references to your component name, inside of the following files:</p>
+
+<ul>
+<li><code>bower.json</code></li>
+<li><code>demo.html</code></li>
+<li><code>reddit-element.html</code></li>
+</ul>
+
+<p>Each of these files contains references to <code>untitled-element</code> within the code and need to be updated. Remember that any references to <code>untitled-element</code> should be changed to <code>reddit-element</code>. If you want to be absolutely sure, do a global search-and-replace using your editor.</p>
+
+<h2>Getting Setup for Bower</h2>
+
+<p>Since Bower is the preferred method for installing Polymer and sharing components, let's go through a few steps to ensure that we setup the Reddit component's Bower configuration properly.</p>
+
+<p>By default, the boilerplate includes a <code>bower.json</code> file. This file is used to list several things, including the name of the component and any dependencies that need to be installed to use it. Here's what it looks like:</p>
+
+<pre class="brush: javascript">{
+  "name": "reddit-element",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#master"
+  }
+}
+</pre>
+
+<p>First, I'll remove the <code>private</code> property since it'll prevent the component from being listed in the Bower registry. Since it's supposed to be shareable, I want it to be listed. Also, the Reddit component needs to make an Ajax call, so I'm including a dependency on the Polymer <code><a href="https://github.com/Polymer/core-elements">core-elements</a></code> set of components which includes the Ajax functionality that I need. Lastly, I'll add a version number to track this going forward. Here's the end result:</p>
+
+<pre class="brush: javascript">{
+  "name": "reddit-element",
+  "version": "0.0.1",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.2.3",
+    "core-elements": "Polymer/core-elements#~0.2.3",
+  }
+}</pre>
+
+<p>The last bit of Bower configuration that needs to be done, is to create a file called <code><a href="http://bower.io/#custom-install-directory">.bowerrc</a></code> in the <code>reddit-element</code> folder which defines a custom install location for the dependencies of our component. This is defined as simple JSON data like this:</p>
+
+<pre class="brush: javascript">{
+   "directory": "../"
+}</pre>
+
+<p>What this essentially does is tells Bower to install any dependencies one level up, so that they're siblings of the <code>reddit-element</code> folder. The reason this is important is because when someone installs our component with Bower, it'll be placed into the <code>bower_components</code> folder as siblings to everything else in there (including Polymer). Structuring things this way, ensures that we're developing in the same way that we'll eventually be sharing. It also allows us to use the canonical path I mentioned above, ensuring a consistent way of referencing other components in our code. </p>
+
+<p>Let's review the differences. If I didn't create the <code>.bowerrc</code> file and ran the <code>bower install</code> command, my directory structure would look like this:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-norc.png"></figure>
+
+<p>This installs the <code>bower_components</code> folder directly into the component's directory, which is not what I want. I want the <code>reddit-element</code> folder to be a sibling to all of the dependencies that it needs:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21264/image/bower-rc.png"></figure>
+
+<p>This method ensures that when a user installs this component using Bower, the component and the dependencies will be installed properly into the <code>bower_components</code> folder.</p>
+
+<p>With the <code>.bowerrc</code> file added to your component's folder and the <code>bower.json</code> setup with the proper dependencies, the next step is to run <code>bower install</code>, to have Bower pull down the appropriate components and add them to the project.</p>
+
+<h2>Coming Up Next</h2>
+
+<p>In this tutorial, I wanted to make sure I laid a solid foundation for how to use the new Polymer boilerplate and some of the rationale behind the design choices that the team has made. </p>
+
+<p>In the next part of this series, I'm going to go over the new documentation component that's included in the boilerplate and how it will make sharing and demoing your component substantially easier. I'll also show you how to setup your component to be shared via the Bower registry.</p>
