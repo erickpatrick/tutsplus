@@ -180,18 +180,18 @@ Element that returns the public descript of a subreddit
 
 <p>Clicando no botão "<b>Create a new release</b>" levará você a um formulário que permitirá definir informações sobre esse lançamento em específico, incluindo o número da versão, o ramo (<em>branch</em>) alvo e informações gerais sobre o lançamento. O Bower segue o modelo de versionamento semântico e você deveria seguir o mesmo caminho. Por exemplo, no arquivo <code class="inline">bower.json</code>, listei o número de versão do componente como "<code class="inline">0.0.1</code>", então, seguirei a mesma técnica para o meu lançamento.</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/release-3.png"></figure>
 
-<p>From there, it's a simple matter of hitting the <b>publishing</b> button and, boom, I have a new release:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/release-final.png"></figure>
+<p>Daqui, basta, simplesmente, apertar o botão <b>publishing</b> e, pronto! Um novo lançamento:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/release-final.png"></figure>
 
-<p>Again, this is an important step since it'll help users find a version history of your component.</p>
+<p>Novamente, esse é um passo importante que ajudará seus usuários a encontrar uma versão específica no histórico do seu componente.</p>
 
-<p>The last thing we need to do on GitHub is publish a landing page for the component. The landing page will consist of the documentation page that is generated automatically by the boilerplate, making the documentation and demo readily available for you to easily share. To do this, the Polymer team has created a simple script that handles the creation of a GitHub page's branch ,for the repo. You'll need to pull down the script from the Polymer Github repo and run it <em>within the parent directory</em>. I'm emphasizing this so that you clone it in the correct place. Here are the steps:</p>
+<p>A última coisa que precisamos fazer no GitHub é publicar uma página para o componente. A página será a página da documentação que é gerada automaticamente pelo modelo, tornando a documentação e a versão de demonstração disponíveis para você compartilhar facilmente. Para fazer isso, a equipe do Polymer criou um código simples que lida com a criação do ramo para páginas no GitHub, para seu repositório. Você precisará baixar o arquivo do respositório do Polymer no GitHub e executálo <em>dentro do diretório pai</em> do componente. Dei enfaze a isso para que você possa executá-lo no lugar exato. Eis os passos:</p>
 
 <ol>
-<li>Change back into the parent directory</li>
-<li>Type <code class="inline">git clone git://github.com/Polymer/tools.git</code> to pull down the script</li>
-<li>Type <code class="inline">mkdir temp &amp;&amp; cd temp</code> to create a temp directory and switch into it</li>
-<li>Type <code class="inline">../tools/bin/gp.sh  test-element</code> replacing  with your GitHub username</li>
-<li>Change back to the parent directory and remove the temp folder (e.g.: <code class="inline">rm -rf temp</code>)</li>
+<li>Volte para o diretório pai do componente</li>
+<li>Digite <code class="inline">git clone git://github.com/Polymer/tools.git</code> para baixar/clonar o código</li>
+<li>Digite <code class="inline">mkdir temp &amp;&amp; cd temp</code> para criar um novo diretório e ir para ele</li>
+<li>Digite <code class="inline">../tools/bin/gp.sh  test-element</code> substituindo com o seu nome de usuário do GitHub</li>
+<li>Volte para o diretório pai e remova o diretório <em>temp</em> (ex: <code class="inline">rm -rf temp</code>)</li>
 </ol>
 
 <p>The page's branch is now created:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/gh-pages.png"></figure>
