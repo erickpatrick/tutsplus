@@ -84,7 +84,7 @@ Element providing solution to no problem in particular.
 
 <p>Fora o básico, da ligação com a base do Polymer, definição dos atributos e adição de um espaço reservad para a inclusção de JavaScript em seu componente, o <i>ponto chave</i> a notar é que as referências de recursos externos usam o caminho canônico mencionado antes. É por isso que a parte de preparação do Bower, na parte um desse tutorial, é tão importante. Ela garante que todas as dependências imitem o seu ambiente de desenvolvimento, tal qual seria se você já estivesse compartilhando seu componente.</p>
 
-<p>Também note o monte de meta-documentação inclusa no componente. Há um motivo importante para isso. O modelo lança mão do elemento <em><a href="https://github.com/Polymer/core-component-page">core-component-page</a></em> para extrair a documentação do seu elemento para poder criar uma página de documentção no estilo do JSDoc! Se abrir o arquivo <code class="inline">index.html</code>, poderá ver a referência lá:</p>
+<p>Também note o monte de meta-documentação inclusa no componente. Há um motivo importante para isso. O modelo lança mão do elemento <em><a href="https://github.com/Polymer/core-component-page">core-component-page</a></em> para extrair a documentação do seu elemento para poder criar uma página de documentação no estilo do JSDoc! Se abrir o arquivo <code class="inline">index.html</code>, poderá ver a referência lá:</p>
 
 <pre class="brush: html">&lt;core-component-page&gt;&lt;/core-component-page&gt;</pre>
 
@@ -94,7 +94,7 @@ Element providing solution to no problem in particular.
 
 <p>E, também, se olhar para o canto esquerdo da página de documentação, logo ao lado do nome do elemento, há um botão com o nome <b>demo</b>:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/element-doc-demo.png"></figure>
 
-<p>Clicá-lo fará uma chamada ao arquivo <code class="inline">demo.html</code>. Essa é uma outra característica importante porque, quando você publicar seu componente, outros poderão ter, além de uma ótima documentação para seguir, mas, também, a possibilidade de testar seu componente imediatamente, para ver se satisfaz as necessidades deles. Falaremos sobre isso já-já.</p>
+<p>Clicá-lo fará uma chamada ao arquivo <code class="inline">demo.html</code>. Essa é uma outra característica importante porque, quando você publicar seu componente, os outros, além de uma ótima documentação para seguir, terão a possibilidade de testar seu componente imediatamente, para ver se satisfaz as necessidades deles. Falaremos sobre isso já-já.</p>
 
 <p>É assim que o componente Reddit parece, depois que passei o código do componente para o modelo:</p>
 
@@ -158,7 +158,7 @@ Element that returns the public descript of a subreddit
 
 <h2>Enviando Para o GitHub</h2>
 
-<p>Para distribuir seu componente através do Bower, é necessário haja acesso online via Git e que haja um rótulo Git com um número de versão correspondente, para que os usuários saibam que versão eles estão instalando. Para esse tutorial, usaremos o GitHub.</p>
+<p>Para distribuir seu componente através do Bower, é necessário que haja acesso online via Git e que haja um rótulo Git com um número de versão correspondente, para que os usuários saibam que versão eles estão instalando. Para esse tutorial, usaremos o GitHub.</p>
 
 <p>Os passos iniciais são relativamente fáceis e comuns para qualquer pessoa familiarizada com o Git, uma vez que basta criar um repositório local, adicionar e entregar (<em>commit</em>) seus arquivos do projeto atual e, então, enviá-los para o GitHub. Assumirei que usará o Terminal, que tem o Git instalado e que já possui uma conta no GitHub:</p>
 
@@ -174,7 +174,7 @@ Element that returns the public descript of a subreddit
 
 <p>Se você recarregar a página do seu repositório no GitHub, você deverá ver todos os arquivos do seu componente.</p>
 
-<p>Quando você tiver feito todas as mudanças necessárias e achar que já pode liberar seu componente, será preciso que você crie um rótulo de lançamento para ele. Isso é feito, criando um rótulo via Git que marca um ponto específico na história do seu repositório. Você pode fazer isso pela linha de comando, porém, a forma mais fácil de fazer isso é através do GitHub, clicando no link "<b>releases</b>" link:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/release.png"></figure>
+<p>Quando você tiver feito todas as mudanças necessárias e achar que já pode liberar seu componente, será preciso que você crie um rótulo de lançamento para ele. Isso é feito criando um rótulo via Git que marca um ponto específico na história do seu repositório. Você pode fazer isso pela linha de comando, porém, a forma mais fácil de fazer isso é através do GitHub, clicando no link "<b>releases</b>" link:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/release.png"></figure>
 
 <p>Isso mostrará o processo de como criar um lançamento para seu componente:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/release-2.png"></figure>
 
@@ -184,7 +184,7 @@ Element that returns the public descript of a subreddit
 
 <p>Novamente, esse é um passo importante que ajudará seus usuários a encontrar uma versão específica no histórico do seu componente.</p>
 
-<p>A última coisa que precisamos fazer no GitHub é publicar uma página para o componente. A página será a página da documentação que é gerada automaticamente pelo modelo, tornando a documentação e a versão de demonstração disponíveis para você compartilhar facilmente. Para fazer isso, a equipe do Polymer criou um código simples que lida com a criação do ramo para páginas no GitHub, para seu repositório. Você precisará baixar o arquivo do respositório do Polymer no GitHub e executálo <em>dentro do diretório pai</em> do componente. Dei enfaze a isso para que você possa executá-lo no lugar exato. Eis os passos:</p>
+<p>A última coisa que precisamos fazer no GitHub é publicar uma página para o componente. A página será a página da documentação que é gerada automaticamente pelo modelo, tornando a documentação e a versão de demonstração disponíveis para você compartilhar facilmente. Para fazer isso, a equipe do Polymer criou um código simples que lida com a criação do ramo para páginas no GitHub, para seu repositório. Você precisará baixar o arquivo do respositório do Polymer no GitHub e executá-lo <em>dentro do diretório pai</em> do componente. Dei enfaze a isso para que você possa executá-lo no lugar exato. Eis os passos:</p>
 
 <ol>
 <li>Volte para o diretório pai do componente</li>
@@ -221,7 +221,7 @@ Element that returns the public descript of a subreddit
 <p>Precisamos atualizá-lo com informações adicionais que a Listagem do Bower usará para mostrar quando algum usuário estiver avaliando seu componente. Entre as informações estão:</p>
 
 <ul>
-<li>Ñome do auto</li>
+<li>Nome do auto</li>
 <li>Descrição do componente</li>
 <li>Palavras-chave que descrevem o componente</li>
 <li>Tipo de licença que o componente foi lançado</li>
@@ -253,14 +253,14 @@ Element that returns the public descript of a subreddit
 
 <p>As palavras-chave são importantes para a descoberta, então, esforce-se um pouco nelas.</p>
 
-<p>Finalmente, estamos no último passo para poder ser listado. Usaremos o comando <em>bower register</em>, através do Terminal, para registrar nosso componente. Isso requererá o nome do componente o endereço Git (em nosso caso, no GitHub) do repositório online:</p>
+<p>Finalmente, estamos no último passo para poder ser listado. Usaremos o comando <em>bower register</em>, através do Terminal, para registrar nosso componente. Isso requererá o nome do componente e o endereço Git (em nosso caso, no GitHub) do repositório online:</p>
 
 <pre class="brush: bash">bower register polymer-demo git://github.com/johnsmith/polymer-demo.git
 </pre>
 
-<p>Isso tornará o componente disponível e procurável através da <a href="http://bower.io/search">Listagem do Bower</a>, bem como atravpes do comando <code class="inline">bower search</code>:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/bower-search.png"></figure>
+<p>Isso tornará o componente disponível e pesquisável através da <a href="http://bower.io/search">Listagem do Bower</a>, bem como atravpes do comando <code class="inline">bower search</code>:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21497/image/bower-search.png"></figure>
 
-<p>Agora posso instalar meu novo componente e todas suas dependências atravpes do comando a seguir:</p>
+<p>Agora posso instalar meu novo componente e todas suas dependências através do comando a seguir:</p>
 
 <pre class="brush: bash">bower install reddit-element --save
 </pre>
@@ -269,6 +269,6 @@ Element that returns the public descript of a subreddit
 
 <h2>O Novo Modelo É Ótimo</h2>
 
-<p>Sou muito grato à equipe do Polymer pela criação desse modelo de onde podemos iniciar nossos próprios componentes. Transformaram a tediosa tarefa de lidar com caminhos em algo simples. E, ao incluir o elemento <em><a href="https://github.com/Polymer/core-component-page">core-component-page</a></em>, criar documentações e prover uma versão de demonstração é, incrivelmente, fácil de se fazer.</p>
+<p>Sou muito grato à equipe do Polymer pela criação desse modelo, do qual podemos iniciar nossos próprios componentes. Transformaram a tediosa tarefa de lidar com caminhos em algo simples. E, ao incluir o elemento <em><a href="https://github.com/Polymer/core-component-page">core-component-page</a></em>, criar documentações e prover uma versão de demonstração é, incrivelmente, fácil de se fazer.</p>
 
 <p>Espero que esse tutorial tenha demonstrado o quão fácil é para documentar, empacotar, registrar e distribuir seu componente. O Bower é, definitivamente, aquilo que você deveria usar para tornar o processo mais fácil para seus usuários e para você mesmo.</p>
