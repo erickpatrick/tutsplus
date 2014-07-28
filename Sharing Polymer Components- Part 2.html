@@ -18,7 +18,7 @@
 
 <p>Esses são os arquivos base que estão presentes quando você baixa o modelo a partir <a href="https://github.com/PolymerLabs/untitled-element">do repositório PolymerLabs no GitHub</a>, e servirão como a fundação do seu novo componente. Na parte um, nós renomeamos o arquivo <code class="inline">untitled-element-master.html</code> para <code class="inline">reddit-element.html</code>, e o arquivo <code class="inline">untitled-element-master.css</code> para <code class="inline">reddit-element.css</code>, uma vez que eles precisam ser nomeados tal qual nosso componente. Nós também atualizamos as referências a <code class="inline">untitled-element</code> nos arquivos, para garantir que referenciam o nome correto do componente.</p>
 
-<p>Let's take a look at the code inside of <code class="inline">reddit-element.html</code>: </p>
+<p>Olhemos o código do arquivo <code class="inline">reddit-element.html</code>: </p>
 
 <pre class="brush: html">&lt;link rel="import" href="../polymer/polymer.html"&gt;
 
@@ -82,7 +82,7 @@ Element providing solution to no problem in particular.
 &lt;/polymer-element&gt;
 </pre>
 
-<p>Apart from the standard stuff like linking in Polymer core, defining <em></em> attributes and adding a placeholder for including JavaScript into your component, the <i>key thing</i> to note is that external resource references are using the canonical path I mentioned before. This is why the Bower setup step, in part one, was so important. It ensures that all of the dependencies are mimicked in your development environment, just like they would be if you actually were sharing your component.</p>
+<p>Fora o básico, da ligação com a base do Polymer, definição dos atributos e adição de um espaço reservad para a inclusção de JavaScript em seu componente, o <i>ponto chave</i> a notar é que as referências de recursos externos usam o caminho canônico mencionado antes. É por isso que a parte de preparação do Bower, na parte um desse tutorial, é tão importante. Ela garante que todas as dependências imitem o seu ambiente de desenvolvimento, tal qual seria se você já estivesse compartilhando seu componente.</p>
 
 <p>Also, check out the amount of meta data documentation that is being included within the component. There's an important reason for this. The boilerplate leverages the <em><a href="https://github.com/Polymer/core-component-page">core-component-page</a></em> element to parse out documentation from your element in order to create a JSDoc-like documentation page! If you open <code class="inline">index.html</code> you can see the reference inside:</p>
 
