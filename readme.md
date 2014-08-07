@@ -31,11 +31,13 @@ JavaScript
 - [Usando Bower Para Aprimorar o Desenvolvimento no WordPress](http://code.tutsplus.com/pt/tutorials/using-bower-to-improve-wordpress-development--cms-20524)
 - [Como Preparar o Bower Para Seu Próximo Projeto](http://code.tutsplus.com/pt/tutorials/how-to-setup-bower-in-your-next-project--cms-20526)
 - [Dica Rápida: O Que Fazer Quando Encontrar Um Arquivo do Bower](http://webdesign.tutsplus.com/pt/tutorials/quick-tip-what-to-do-when-you-encounter-a-bower-file--cms-21162)
+- [24 Boas Práticas no JavaScript para Iniciantes](http://code.tutsplus.com/pt/tutorials/24-javascript-best-practices-for-beginners--net-5399)
 
 Habilidades com Computadores
 ----------------------------
 - [O Que Fazer Quando o Disco de Inicialização do Seu Mac Está Cheio](https://computers.tutsplus.com/pt/tutorials/what-to-do-when-your-macs-startup-disk-is-almost-full--mac-31780)
 - [Como Usar VPN em Seu Mac](https://computers.tutsplus.com/pt/tutorials/how-to-use-vpn-on-your-mac--mac-46053)
+- [Os 10 Comandos do Terminal Que Todo Usuário de Mac Deveria Saber](http://computers.tutsplus.com/pt/tutorials/10-terminal-commands-that-every-mac-user-should-know--mac-4825)
 
 Design E Ilustração
 -------------------
@@ -45,3 +47,4 @@ Web  Design
 -----------
 - [Um Guia Para Iniciantes Sobre Como Combinar Fontes](https://webdesign.tutsplus.com/pt/articles/a-beginners-guide-to-pairing-fonts--webdesign-5706)
 - [Criando E-Mails HTML Responsivos](http://webdesign.tutsplus.com/pt/articles/creating-a-simple-responsive-html-email--webdesign-12978)
+- [Aprendendo o Google Web Starter Kit](http://webdesign.tutsplus.com/pt/tutorials/get-up-and-running-with-google-web-starter-kit--cms-21495)
