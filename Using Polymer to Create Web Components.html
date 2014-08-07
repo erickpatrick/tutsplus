@@ -119,7 +119,7 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <p>O Polymer nos permite criar nossos próprios elementos customizado, do zero, ou reutilizar outros elementos ao criar os nossos próprios. Fazemos isso, primeiro, criando um modelo do elemento customizado. Para todos os fins, esse modelo é uma combinação de HTML, CSS e JavaScript e inclui a funcionalidade que disponibilizaremos quando usarmos o elemento. Ele é baseado na <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/scripting-1.html#the-template-element">Especificação de Modelos (templates) HTML da WhatWG</a> que dará suporte nativo para modelos no lado do cliente.</p>
 
-<p>Let's look at this simple example of a Polymer template:</p>
+<p>Vejamos esse exemplo simples de um modelo do Polymer:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;
 
@@ -129,19 +129,19 @@ bower install Polymer/polymer-ui-elements</pre>
   &lt;/template&gt;
 &lt;/polymer-element&gt;</pre>
 
-<p>This Element allows you to easily add Lorem Ipsum text into your code by simply using the following tag:</p>
+<p>Esse elemento permite você adicionar, facilmente, texto <em>Lorem Ipsum</em> em seu código, simplesmente usando a seguinte tag:</p>
 
 <pre class="brush: html">&lt;lorem-element&gt;&lt;/lorem-element&gt;</pre>
 
-<p>The first thing that needs to be included is Polymer core, which is the main API that allows you to define the Custom Elements:</p>
+<p>A primeira coisa que precisamos fazer é incluir o código base do Polymer, que a interface de programação (API) principal a permitir que definamos os Elementos Customizados:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;</pre>
 
-<p>The next step is defining the name of the new element using Polymer's <code>polymer-element</code> directive: </p>
+<p>O próximo passo é definir o nome do novo elemento, usando a diretriz <code>polymer-element</code> do Polymer: </p>
 
 <pre class="brush: html">&lt;polymer-element name="lorem-element"&gt;</pre>
 
-<p>In this case, I've named my new element <code>lorem-element</code>. The name is a required attribute and it must contain a dash (“-”). </p>
+<p>Nesse caso, nomeei meu novo elemento de <code>lorem-element</code>. O nome é um atributo obrigatório e deve conter um hífen (“-”). </p>
 
 <p>From there we use the <code>template</code> directive to wrap the main body tags and code that will make up our new element. For this simple example, I grab Lorem Ipsum text and wrapped it with paragraph tags.</p>
 
