@@ -25,38 +25,38 @@
 
 <p>Imagine um <em>slideshow</em> de imagens, por exemplo. Normalmente, você precisaria de várias <code>div</code>s aninhadas, usando classes específicas para lidar com o <em>slideshow</em>, cada slide, adição de legenda e miniaturas. Tería, ainda, de prover valores padrões de opções para efeitos de transição através de algum JavaScript em linha.</p>
 
-<p>What if you could skip all that and instead just use:</p>
+<p>E se você pudesse evitar tudo isso e só usar assim:</p>
 
 <pre class="brush: html">&lt;slide-show transition="fade"&gt;
 &lt;slide src="slideone.jpg" thumb="slideone_thumb.jpg" caption="Look at this image"&gt;
 &lt;slide src="slidetwo.jpg" thumb="slidetwo_thumb.jpg" caption="Look at this other image"&gt;
 &lt;/slide-show&gt;</pre>
 
-<p>With web components, that's exactly what you can do. <br /></p>
+<p>Com os componentes web, você pode!. <br /></p>
 
-<h2>Create Your Own HTML Elements</h2>
+<h2>Criando Seus Próprios Elementos HTML</h2>
 
-<p>If you want to provide a concise, easy to interact with method of placing content that would otherwise be bloated and unwieldy you can go ahead and create your own web component.</p>
+<p>Se quisermos prover um elemento conciso e fácil de interagir e implantar que, de outros modos, seria bem complicado de implementar, podemos criar nossos próprios componentes web.</p>
 
-<p>Web components can also be easily shared, so as developers get on board there's a good bet you'll be able to just grab a prebuilt web component for the most common project requirements. Already we're seeing freely shared components pop up for everything from  <a href="http://zenorocha.github.io/voice-elements/" rel="external" target="_blank">voice recognition</a>.. </p>
+<p>Componentes web também podem ser, facilmente, compartilhados, então, assim que os desenvolvedores entrarem de cabeça, há uma grande chance de você só precisar procurar por algum componente pré-feito. Para falar a verdade, já vemos vários componentes disponíveis, gratuitamente, para variadas necessidades, desde o <a href="http://zenorocha.github.io/voice-elements/" rel="external" target="_blank">reconhecimento de voz</a>.. </p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/voice.png" />
 </figure>
 
-<p>to <a href="http://viniciusalmeida.github.io/ninja-presentation/#1" rel="external" target="_blank">presentation builders</a>..<br /></p>
+<p>aos <a href="http://viniciusalmeida.github.io/ninja-presentation/#1" rel="external" target="_blank">construtores de apresentação</a>..<br /></p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/ninja.png" />
 </figure>
 
-<p> to <a href="http://educastellano.github.io/qr-code/" rel="external" target="_blank">QR code generation</a>.<br /></p>
+<p> passado pelos <a href="http://educastellano.github.io/qr-code/" rel="external" target="_blank">geradores de QR code</a>.<br /></p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/qr.png" />
 </figure>
 
-<p>Let's take a look at what's behind the curtain of web components.</p>
+<p>Que tal darmos uma olhada por trás do que os componentes web?</p>
 
 <h2>What Makes a Web Component</h2>
 
