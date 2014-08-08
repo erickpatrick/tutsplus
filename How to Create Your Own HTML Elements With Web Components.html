@@ -100,7 +100,7 @@
 
 <p>A ideia básica é que você pegar todo o código que não precisa ser visto no posicionamento da marcação e escondê-lo usando a DOM Sombra, de forma que ele não fique no seu caminho. Isso permite você lidar, somente, com dados que ajustam o elemento, como a altura, largura e caminho dos arquivos de vídeo ao usarmos o elemento <code class="inline">&lt;video&gt;</code>.</p>
 
-<p>One of the coolest things about working with the Shadow DOM is that each instance is its own little self contained world. So if you have styling and scripts inside the element they won't accidentally leak out and effect anything else on the page. </p>
+<p>Uma das coisas mais legais de se trabalhar com a DOM Sombra é que cada instância é auto-contida. Assim, se você usa folhas de estilo e códigos JavaScript dentro do elemento, eles não vazarão, acidentalmente, e ñão afetarão qualquer outra coisa na página. </p>
 
 <p>Conversely, CSS and JavaScript elsewhere on the page won't effect your web component, with the exception of style hooks you might specifically create in order to allow external CSS targeting. All that means no more worrying about namespacing your ID and class names to avoid conflicts.</p>
 
