@@ -198,7 +198,7 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <pre class="brush: html">&lt;polymer-element name="reddit-element" attributes="subreddit"&gt;</pre>
 
-<p>In this case, I want to be able to pass a subreddit to my element and have it pull back data based on that. I can now change the call to <code>polymer-ajax</code> like this:</p>
+<p>Nesse caso, quero poder passar o nome de um <em>subreddit</em> para o elemento e obter as respectivas informações dele. Posso, agora, modificar a chamada ao <code>polymer-ajax</code> para algo assim:</p>
 
 <pre class="brush: html">&lt;core-ajax url="http://www.reddit.com//r/{{subreddit}}/about.json" auto response="{{resp}}"&gt;&lt;/core-ajax&gt;</pre>
 
