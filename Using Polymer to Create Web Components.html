@@ -151,19 +151,19 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <p>Tenha em mente que esse componente será importado por outras páginas em seu aplicativo web que precisarem utilizá-lo. Isso é possível porque o Polymer implementa a especificação do <em>HTML Imports</em>, que permite incluir e reutilizar documentos HTML em outros documentos HTML.</p>
 
-<p>First, you need to include <code>platform.js</code> which provides the polyfill that mimicks the native APIs:</p>
+<p>Primeiro, você precisará incluir o arquivo <code>platform.js</code> que provê o código necessário para simular as APIs nativas:</p>
 
 <pre class="brush: html">&lt;script src="bower_components/platform/platform.js"&gt;&lt;/script&gt;</pre>
 
-<p>Next, we need to import our custom element into our web page:</p>
+<p>Depois, precisaremos importar nosso elemento customizado em nossa página:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="lorem-element.html"&gt;</pre>
 
-<p>Once you've done this, your new custom element is now available allowing you to do something like this:</p>
+<p>Uma vez feito isso, nosso novo elemento customizado estará disponível, permitindo que façamos isso:</p>
 
 <pre class="brush: html">&lt;div&gt;&lt;lorem-element&gt;&lt;/lorem-element&gt;&lt;/div&gt;</pre>
 
-<p>You also have the ability to fully style the element as well: </p>
+<p>Também poderemos a capacidade de estilizar completamente o elemento: </p>
 
 <pre class="brush: html">&lt;style&gt;
       div { width: 300px;}
