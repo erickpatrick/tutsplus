@@ -192,9 +192,9 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <p>“Things that make you go AWW! Like puppies. And bunnies... and so on... A place for really cute pictures, videos and stories!”</p>
 
-<p>The response is returned and Polymer establishes a two-way data binding that allows me to be able to use the data by wrapping it in double curly braces like this <code>{{resp.data.public_description}}</code>.</p>
+<p>A resposta foi retornada e o Polymer estabelece uma união de mão-dupla entre os dados e o modelo, que me permite usar os dados, envolvendo-os em chaves duplas, dessa forma <code>{{resp.data.public_description}}</code>.</p>
 
-<p>This is cool but in most cases, we're not going to hardcode a URL for a specific resource. Let's expand this further by adding attributes to our custom element. Doing this is incredibly simple. First, you need to update the <code>polymer-element</code> directive to reflect the attributes you want for your custom element:</p>
+<p>Isso é legal, mas, na maioria das vezes, não fixaremos uma URL para um recurso específico. Nós aprimoraremos o nosso elemento, adicionando atributos a ele. Primeiro, precisamos atualizar a diretriz <code>polymer-element</code> para refletir os atributos que queremos em nosso elemento customizado:</p>
 
 <pre class="brush: html">&lt;polymer-element name="reddit-element" attributes="subreddit"&gt;</pre>
 
