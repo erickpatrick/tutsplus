@@ -1,30 +1,30 @@
 <h1>Usando Polymer Para Criar Componentes Web</h1>
 
-<p>Construir aplicações web modernas requer várias ferramentas. Entre elas temos os pré-processadores, bibliotecas JavaScript, ferramentas de testes e muito mais coisas. E, de acordo com que a complexidade dessas aplicações aumenta, também aumenta a amplitude de ferramentas e serviços necessários para administrá-los. Não seria ótimo se algumas delas fosse mais simples?</p>
+<p>A construção de aplicações web modernas requer várias ferramentas. Entre elas temos os pré-processadores, as bibliotecas JavaScript, as ferramentas de testes e muito mais coisas. E, de acordo com que a complexidade dessas aplicações aumenta, também aumenta a amplitude de ferramentas e serviços necessários para administrá-las. Não seria ótimo se algumas delas fosse mais simples?</p>
 
-<p>Os Componentes Web buscam melhorar algumas dessas complexidades, provendo uma maneira unificada para criar novos elementos que proveem funcionalidades ricas sem a necessidade de bibliotecas extras. Os componentes são compostos de quatro especificações diferentes (<a href="http://www.polymer-project.org/platform/custom-elements.html">Custom Elements</a>, <a href="http://www.polymer-project.org/docs/polymer/template.html" target="_self">Templates</a>, <a href="http://www.polymer-project.org/platform/shadow-dom.html">Shadow DOM</a> e <a href="http://www.polymer-project.org/platform/html-imports.html">HTML imports</a>) que estão sendo concretizados pela W3C. </p>
+<p>Os Componentes Web buscam melhorar algumas dessas complexidades, provendo uma maneira unificada para criar novos elementos capazes de prover funcionalidades ricas, sem a necessidade de bibliotecas extras. Os componentes são compostos de quatro especificações diferentes (<a href="http://www.polymer-project.org/platform/custom-elements.html">Custom Elements</a>, <a href="http://www.polymer-project.org/docs/polymer/template.html" target="_self">Templates</a>, <a href="http://www.polymer-project.org/platform/shadow-dom.html">Shadow DOM</a> e <a href="http://www.polymer-project.org/platform/html-imports.html">HTML imports</a>) que estão sendo concretizados pela W3C. </p>
 
-<p>Para suprir essa demanda e dar acesso aos desenvolvedores esse tipo de funcionalidade, hoje, o Google criou a biblioteca <a href="http://www.polymer-project.org/">Polymer</a> que serve como um conjunto de códigos que implementa essas especificações, trazendo a "promessa" dos Componentes Web para você, hoje. Aprendamos mais um pouco sobre ele.</p>
+<p>Para suprir essa demanda e dar acesso aos desenvolvedores, hoje, esse tipo de funcionalidade, o Google criou a biblioteca <a href="http://www.polymer-project.org/">Polymer</a> que serve como um conjunto de códigos que implementa essas especificações mencionadas, trazendo a "promessa" dos Componentes Web para você. Aprendamos mais um pouco sobre ele.</p>
 
 <h2>O Que É Polymer</h2>
 
-<p>Como mencionei, a biblioteca Polymer é um conjunto de códigos que implementam as quatro especificações, e que ajuda você a criar Componentes Web para todos os maiores navegadores web modernos. Ele prover a base para definir, criar e renderizar elementos customizados, de forma simples, muito parecido com as tags HTML que você já está acostumado. O que quero dizer com isso é que ele ajuda a simplificar a forma como usamos componentes complexos ao: </p>
+<p>Como mencionei, a biblioteca Polymer é um conjunto de códigos que implementam as quatro especificações, e que ajuda a criar Componentes Web para todos os principais navegadores web modernos. Ele provê a base para definir, criar e renderizar elementos customizados, de forma simples, muito parecida com as tags HTML que você já está acostumado. O que quero dizer com isso é que ele ajuda a simplificar a forma como usamos componentes complexos, ao: </p>
 
 <ul>
 <li>Encapsular grande parte da complexidade do código e estrutura;</li>
-<li>Permitir que os desenvolvedores usem uma convenção de nomenclatura simples como as tags;</li>
-<li>Prover um conjunto de elemento de interface do usuário pré-definidos, que podem ser usados e extendidos</li>
+<li>Permitir que os desenvolvedores usem uma convenção de nomenclatura simples, como as tags;</li>
+<li>Prover um conjunto pré-definido de elementos de interface do usuário, que podem ser usados e extendidos</li>
 </ul>
 
-<p>Mas, uma coisa importante a se lembrar, é que a própria Polymer tem sido desenvolvida com base na direção que as especificações tem tomado dentro da própria W3C, provendo, assim, uma base que evoluirá junto do padrão oficial.</p>
+<p>Mas, uma coisa importante a se lembrar, é que o próprio Polymer tem sido desenvolvido com base na direção que as especificações tem tomado dentro da própria W3C, assim evoluirá junto do padrão oficial.</p>
 
-<p>O que essa biblioteca pode fazer, é permtir que criemos componentes reutilizáveis que funcionam como verdadeiros elementos DOM e, ao mesmo tempo, diminuir nossa dependência em relação ao JavaScript para manipulações complexas da DOM, na hora de renderizar resultos de interfaces de usuário ricas.</p>
+<p>Essa biblioteca permite criarmos componentes reutilizáveis, funcionando como verdadeiros elementos DOM, e diminuir nossa dependência em relação ao JavaScript para manipulações complexas da DOM, na hora de renderizar resultados de interfaces de usuário ricas.</p>
 
-<p>Eis um exemplo rápido, lá do site do Polymer. Digamos que quero renderizar um relógio funcional em meu site. Isso, geralmente, levaria uma boa carga de código JavaScript, mas, como Polymer, posso, simplesmente, usar a seguinte sintaxe:</p>
+<p>Eis um exemplo rápido, lá do site do Polymer. Digamos que quero renderizar um relógio funcional em meu site. Geralmente, levaria uma boa quantidade de código JavaScript, mas, com o Polymer, basta usar a seguinte sintaxe:</p>
 
 <pre class="brush: html">&lt;polymer-ui-clock&gt;&lt;/polymer-ui-clock&gt;</pre>
 
-<p>Parece com a sintaxe HTML que estamos acostumados a usar e bem mais fácil de implementar, ler e manter, que códigos JavaScript. E o resultado final é parecido com isso:&nbsp;</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20475/image/clock.png"></figure><p>E, já que ele é mais um elemnto na DOM, podemos estilizá-lo, usando CSS, dessa forma:</p>
+<p>Parece com a sintaxe HTML que estamos acostumados a usar, além de ser bem mais fácil de implementar, ler e manter, que códigos JavaScript. O resultado final é parecido com isso:&nbsp;</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20475/image/clock.png"></figure><p>E, já que é mais um elemnto na DOM, podemos estilizá-lo, usando CSS, dessa forma:</p>
 
 <pre class="brush: css">      polymer-ui-clock {
         width: 320px;
@@ -36,7 +36,7 @@
       }
 </pre>
 
-<p>Não é o melhor dos relógios, mas não essa a questão. O ponto é você poder customizar o componente ao seu gosto e poder reutilizá-lo através de uma sintaxe mais fácil e manutenível.</p>
+<p>Não é o melhor dos relógios, mas não essa a questão. O ponto é poder customizar o componente ao seu gosto e reutilizá-lo através de uma sintaxe mais fácil e manutenível.</p>
 
 <h2>Instalando o Polymer</h2>
 
@@ -48,14 +48,14 @@
 <li>Instalando através do Git</li>
 </ul>
 
-<p>Das três maneiras, a mais fácil e recomendada é usar o <a href="http://bower.io/">Bower</a> porque, além de ser mais fácil, o Bower também administra quaisquer dependências que o Polymer tiver/precisar. Isso significa que se você escolher instalar algum elemento específico de interface do usuário que depende de algum outro, o Bower lidará com isso por você.</p>
+<p>Das três maneiras, a mais fácil e recomendada é usar o <a href="http://bower.io/">Bower</a> porque, além da facilidade, o Bower também administra quaisquer dependências que o Polymer tiver/precisar. Isso significa que, se você escolher instalar algum elemento específico de interface do usuário que depende de algum outro elemento, o Bower lidará com isso por você.</p>
 
 <p>O Bower é instalado como um módulo do Node (NPM), então, você precisará ter o <a href="http://nodejs.org/">Node.js</a> instalado. Na linha de comando, digite o comando a seguir:</p>
 
 <pre class="brush: bash">npm install -g bower
 </pre>
 
-<p>Isso deve baixar o Bower, direto da Listagem do NPM, e o instalará globalmente para você. Daqui, quaisquer instalações a partir do Bower, seguirão o segunte padrão:</p>
+<p>Isso baixará e instalará o Bower, globalmente, para você. Daqui, quaisquer instalações a partir do Bower seguirão o segunte padrão:</p>
 
 <pre class="brush: bash">bower install
 </pre>
@@ -79,9 +79,9 @@ bower install --save Polymer/polymer</pre>
 <li>Abas</li>
 </ul>
 
-<p>E isso é só a ponta do <em>iceberg</em>. Há muito mais ali, com o código fonte disponível para servir como meio de aprendizado, bem como permitir você customizar as capacidades às suas necessidades.</p>
+<p>E isso é só a ponta do <em>iceberg</em>. Há muito mais ali, com código fonte disponível para servir para o aprendizado, bem como permitir customizar as capacidades às suas necessidades.</p>
 
-<p>Você tem a opção de instalar esses componentes. Você pode instalar tudo ou somente aquilo que você quiser usar. Para instalar tudo, digite e execute:</p>
+<p>Você pode instalar todos os componentes ou somente aquilo que você quiser usar. Para instalar tudo, digite e execute:</p>
 
 <pre class="brush: bash">bower install Polymer/core-elements
 bower install Polymer/polymer-ui-elements</pre>
@@ -107,7 +107,7 @@ bower install Polymer/polymer-ui-elements</pre>
 }
 </pre>
 
-<p>O ponto chave é você não se preocupar com isso, porque o Bower administra tudo isso por você. É por isso que o Bower é a ferramenta preferida para instalar o Polymer.</p>
+<p>O ponto chave é você não se preocupar com isso, porque o Bower administra tudo por você. Por isso que o Bower é a ferramenta preferida para instalar o Polymer.</p>
 
 <p>Instalá-lo através do Bower criará um diretório no seu projeto, chamado <code>bower_components</code>, que guardará todos os arquivos que o Polymer precisa.</p>
 
@@ -117,9 +117,9 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <p>“Elementos Customizados são a base das aplicações feitas com Polymer. Você criar aplicações ao juntar elementos customizados, seja os providos pelo Polymer, criados por você ou de elementos terceirizados.”</p>
 
-<p>O Polymer nos permite criar nossos próprios elementos customizado, do zero, ou reutilizar outros elementos ao criar os nossos próprios. Fazemos isso, primeiro, criando um modelo do elemento customizado. Para todos os fins, esse modelo é uma combinação de HTML, CSS e JavaScript e inclui a funcionalidade que disponibilizaremos quando usarmos o elemento. Ele é baseado na <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/scripting-1.html#the-template-element">Especificação de Modelos (templates) HTML da WhatWG</a> que dará suporte nativo para modelos no lado do cliente.</p>
+<p>O Polymer nos permite criar nossos próprios elementos customizado, do zero, ou reutilizar outros elementos ao criar os nossos próprios. Fazemos isso, primeiro, criando um modelo do elemento customizado. Para todos os fins, esse modelo é uma combinação de HTML, CSS e JavaScript, e inclui a funcionalidade que disponibilizaremos quando usarmos o elemento. Ele é baseado na <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/scripting-1.html#the-template-element">Especificação de Modelos (templates) HTML da WhatWG</a>, que dará suporte nativo para modelos no lado do cliente.</p>
 
-<p>Vejamos esse exemplo simples de um modelo do Polymer:</p>
+<p>Vejamos esse exemplo simples de um modelo para Polymer:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;
 
@@ -133,7 +133,7 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <pre class="brush: html">&lt;lorem-element&gt;&lt;/lorem-element&gt;</pre>
 
-<p>A primeira coisa que precisamos fazer é incluir o código base do Polymer, que a interface de programação (API) principal a permitir que definamos os Elementos Customizados:</p>
+<p>A primeira coisa que precisamos fazer é incluir o código base do Polymer, que é a interface de programação (API) principal a permitir que definamos os Elementos Customizados:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;</pre>
 
@@ -143,7 +143,7 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <p>Nesse caso, nomeei meu novo elemento de <code>lorem-element</code>. O nome é um atributo obrigatório e deve conter um hífen (“-”). </p>
 
-<p>Daí, usamos a diretriz <code>template</code> para envolver os código principal que comporá nosso elemento. Para esse simples exemplo, pego o texto Lorem Ipsum e o envolvo ao com tags de parágrafo.</p>
+<p>Daí, usamos a diretriz <code>template</code> para envolver o código principal que comporá nosso elemento. Para esse simples exemplo, pego o texto Lorem Ipsum e o envolvo com tags de parágrafo.</p>
 
 <p>Só isso! Meu elemento customizado está pronto e já posso utilizá-lo. </p>
 
@@ -163,7 +163,7 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <pre class="brush: html">&lt;div&gt;&lt;lorem-element&gt;&lt;/lorem-element&gt;&lt;/div&gt;</pre>
 
-<p>Também poderemos a capacidade de estilizar completamente o elemento: </p>
+<p>Também teremos a capacidade de estilizar o elemento completamente: </p>
 
 <pre class="brush: html">&lt;style&gt;
       div { width: 300px;}
@@ -174,9 +174,9 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <h2>Adicionando Mais Funcionalidades ao Elemento</h2>
 
-<p>Se você lembrar, menciou como você pode fazer uso de elementos pré-existentes para aprimorar o seu próprio elemento. Vejamos como fazer isso.</p>
+<p>Se você lembrar, mencionei como você pode fazer uso de elementos pré-existentes para aprimorar o seu próprio elemento. Vejamos como fazer isso.</p>
 
-<p>Digamos que eu queira ter um elemento que fosse ao Reddit, buscasse informações sobre algumas <em>subreddits</em>. Poço fazer uso do componente Ajax, já existente, do Polymer, incluindo-o em meu elemento, dessa forma:</p>
+<p>Digamos que eu queira ter um elemento que vá ao Reddit e busque informações sobre alguns <em>subreddits</em>. Poço fazer uso do componente Ajax, já existente, do Polymer, incluindo-o em meu elemento, dessa forma:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;
 &lt;link rel="import" href="../bower_components/core-ajax/core-ajax.html"&gt;
@@ -188,7 +188,7 @@ bower install Polymer/polymer-ui-elements</pre>
   &lt;/template&gt;
 &lt;/polymer-element&gt; </pre>
 
-<p>Perceba que estou importando o componente Ajax do Polymer e colocando-o no meu modelo. Isso facilita a referência ao meu novo elemento, o que torna as chamadas XHR para trazer os dados em formato JSON e usá-los para preencher minhas tags de parágrafo com a descrição pública do <em>subreddit</em>:</p>
+<p>Perceba que estou importando o componente Ajax do Polymer e colocando-o no meu modelo. Isso facilita a referência ao meu novo elemento, o que facilita as chamadas XHR para trazer os dados em formato JSON e usá-los para preencher minhas tags de parágrafo com a descrição pública do <em>subreddit</em>:</p>
 
 <p>“Things that make you go AWW! Like puppies. And bunnies... and so on... A place for really cute pictures, videos and stories!”</p>
 
