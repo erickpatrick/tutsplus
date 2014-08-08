@@ -202,7 +202,7 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <pre class="brush: html">&lt;core-ajax url="http://www.reddit.com//r/{{subreddit}}/about.json" auto response="{{resp}}"&gt;&lt;/core-ajax&gt;</pre>
 
-<p>Notice how I'm using Polymer's data binding capabilities to dynamically build the URL based on the attribute value of <code>{{subreddit}}</code>. Now, I can update how I reference my custom element to pass in the subreddit that I want:</p>
+<p>Perceba como uso as capacidades de união dos dados do Polymer para criar, dinamicamente, a URL, baseada no valor do atributo <code>{{subreddit}}</code>. Agora, podemos atualizar a referência ao elemento customizado, passando o <em>subreddit</em> que queremos:</p>
 
 <pre class="brush: html">&lt;reddit-element subreddit="aww"&gt;&lt;/reddit-element&gt;</pre>
 
