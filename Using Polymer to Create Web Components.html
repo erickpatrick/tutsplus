@@ -57,10 +57,10 @@
 
 <p>Isso deve baixar o Bower, direto da Listagem do NPM, e o instalará globalmente para você. Daqui, quaisquer instalações a partir do Bower, seguirão o segunte padrão:</p>
 
-<pre class="brush: bash">bower install 
+<pre class="brush: bash">bower install
 </pre>
 
-<p>No mínimo, você precisará instalar a plataforma e a fundação dos componentes do Polymer, já que eles provem o que é necessário para você criar e executar seus elementos customizados.</p><pre class="brush: bash">bower install --save Polymer/platform 
+<p>No mínimo, você precisará instalar a plataforma e a fundação dos componentes do Polymer, já que eles provem o que é necessário para você criar e executar seus elementos customizados.</p><pre class="brush: bash">bower install --save Polymer/platform
 bower install --save Polymer/polymer</pre>
 
 <p>Você também pode usar o seguinte comado para obter o mesmo resultado:</p>
@@ -147,9 +147,9 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <p>Só isso! Meu elemento customizado está pronto e já posso utilizá-lo. </p>
 
-<h2>Using Your New Polymer Element</h2>
+<h2>Usando Seu Novo Elemento Polymer</h2>
 
-<p>Keep in mind that this component will be imported into other pages in your web app that may want to leverage it. This is possible because of Polymer's implementation of the HTML Imports specification that allows you to include and reuse HTML documents in other HTML documents.</p>
+<p>Tenha em mente que esse componente será importado por outras páginas em seu aplicativo web que precisarem utilizá-lo. Isso é possível porque o Polymer implementa a especificação do <em>HTML Imports</em>, que permite incluir e reutilizar documentos HTML em outros documentos HTML.</p>
 
 <p>First, you need to include <code>platform.js</code> which provides the polyfill that mimicks the native APIs:</p>
 
