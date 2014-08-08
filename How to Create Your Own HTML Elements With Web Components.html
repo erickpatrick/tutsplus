@@ -1,0 +1,244 @@
+<h1>How to Create Your Own HTML Elements With Web Components</h1>
+
+<p>Web Components are currently and excitedly being talked about as an upcoming "<a href="http://webcomponents.org/" rel="external" target="_blank">tectonic shift for web development</a>" with the promise of permanently reshaping the web design landscape. Big players are moving forward to bring web components into reality. Both Google and Mozilla are already gradually rolling out native browser support.</p>
+
+<p>What are web components you ask? In a nutshell, web components give you a way to create your own custom HTML elements which can do just about anything you need them to. Instead of loading up your sites with verbose markup, long scripts and repetitive code, you wrap everything up into nice, neat little custom HTML elements.</p>
+
+<h2>Understanding Web Components</h2>
+
+<p>The easiest way to understand how web components allow for custom HTML elements is to first look at an existing element we already know from HTML5: the <code class="inline">&lt;video&gt;</code> tag. Using this element you can place a video with just a few of lines of code, for example:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/videoelement.png" />
+</figure>
+
+<p>You may only be seeing a few lines of HTML above, but here's what the <code class="inline">&lt;video&gt;</code> element really looks like behind the scenes:<br /></p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/videoshadowdom.png" />
+</figure>
+
+<p>By default, the browser hides all that verbose code so you don't need to see it or worry about writing it when you want to place a video. You just whack in your <code class="inline">&lt;video&gt;</code> and <code class="inline">&lt;source&gt;</code> tags and you're up and running. </p>
+
+<p>Previously, only browser vendors could create elements in this way. But imagine if you could use this same approach yourself with other types of content? </p>
+
+<p>Take an image slideshow for example. Typically you would need a few rounds of nested divs bearing specific class names to handle wrapping the slideshow, wrapping each slide and adding captions and thumbnails. You'd also need to set any overall slideshow options for things like slide transition effects via some inline jQuery / JavaScript.</p>
+
+<p>What if you could skip all that and instead just use:</p>
+
+<pre class="brush: html">&lt;slide-show transition="fade"&gt;
+&lt;slide src="slideone.jpg" thumb="slideone_thumb.jpg" caption="Look at this image"&gt;
+&lt;slide src="slidetwo.jpg" thumb="slidetwo_thumb.jpg" caption="Look at this other image"&gt;
+&lt;/slide-show&gt;</pre>
+
+<p>With web components, that's exactly what you can do. <br /></p>
+
+<h2>Create Your Own HTML Elements</h2>
+
+<p>If you want to provide a concise, easy to interact with method of placing content that would otherwise be bloated and unwieldy you can go ahead and create your own web component.</p>
+
+<p>Web components can also be easily shared, so as developers get on board there's a good bet you'll be able to just grab a prebuilt web component for the most common project requirements. Already we're seeing freely shared components pop up for everything from  <a href="http://zenorocha.github.io/voice-elements/" rel="external" target="_blank">voice recognition</a>.. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/voice.png" />
+</figure>
+
+<p>to <a href="http://viniciusalmeida.github.io/ninja-presentation/#1" rel="external" target="_blank">presentation builders</a>..<br /></p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/ninja.png" />
+</figure>
+
+<p> to <a href="http://educastellano.github.io/qr-code/" rel="external" target="_blank">QR code generation</a>.<br /></p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/qr.png" />
+</figure>
+
+<p>Let's take a look at what's behind the curtain of web components.</p>
+
+<h2>What Makes a Web Component</h2>
+
+<p>Web components, as they exist at the moment, are made up of four pieces:</p>
+
+<ul>
+  <li>Custom Elements</li>
+  <li>Shadow DOM</li>
+  <li>Templates</li>
+  <li>HTML Imports</li>
+</ul>
+
+<h3>Custom Elements</h3>
+
+<p>Custom elements are exactly what they sound like: elements that can be named anything you choose, and operate in any way you want. And when I say anything any way, I really mean it. For example, I present the <code class="inline">&lt;x-gangnam-style&gt;</code> element:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/gangnam.gif" />
+  <figcaption><a href="http://html5-demos.appspot.com/gangnam" rel="external" target="_blank">Live demo</a> - hover over the bar</figcaption>
+</figure>
+
+<p>Custom elements are declared, in their simplest form, like so:</p>
+
+<pre class="brush: html">&lt;element name="x-gangnam-style"&gt;
+...
+&lt;/element&gt;</pre>
+
+<p>When you create a custom element you can do it completely from scratch, or you can extend an existing HTML element, such as <code class="inline">&lt;button&gt;</code> for example, and give it the modified functionality or presentation you need.</p>
+
+<pre class="brush: html">&lt;element name="custom-button" extends="button"&gt;
+...
+&lt;/element&gt;</pre>
+
+<p><b>Note</b>: it's worth pointing out that the <code class="inline">&lt;element&gt;</code> tag <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/#historysupport" target="_self">was deprecated in 2013</a> because of complications. It may make a return, but in the meantime there are polyfill options, which we'll talk about in a moment. Thanks to <a href="https://twitter.com/addyosmani" target="_self">Addy Osmani</a> for pointing that out!</p>
+
+<h3>The Shadow DOM</h3>
+
+<p>The Shadow DOM is really the core aspect of how web components work. Earlier, we looked at the HTML5 <code class="inline">&lt;video&gt;</code> element and showed how, despite only seeing a few lines of code, in reality there is quite a bit of code hidden by default. The place this hidden code lives is called the "Shadow DOM".</p>
+
+<p>Browser vendors have been using this shadow DOM for years to natively implement elements such as input, audio, video and so on. Through web components it can now be utilized by any developer.</p>
+
+<p>The general idea is that you take all the code that doesn't really need to be seen during markup placement and obscure it in the Shadow DOM so it doesn't get in the way. This leaves you only having to deal with the pertinent information, for example the height, width and source file locations when using the <code class="inline">&lt;video&gt;</code> element.</p>
+
+<p>One of the coolest things about working with the Shadow DOM is that each instance is its own little self contained world. So if you have styling and scripts inside the element they won't accidentally leak out and effect anything else on the page. </p>
+
+<p>Conversely, CSS and JavaScript elsewhere on the page won't effect your web component, with the exception of style hooks you might specifically create in order to allow external CSS targeting. All that means no more worrying about namespacing your ID and class names to avoid conflicts.</p>
+
+<p>If you want to see what the shadow DOM looks like, it's easy. Make sure you're running an up to date installation of Chrome, open the Dev Tools, click the gear icon to open settings and check the box labelled <b>Show user agent shadow DOM</b>:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/showshadowdom.png" />
+</figure>
+
+<p>Then when you inspect any element with a shadow DOM you'll see its full code. Try it out by inspecting the <code class="inline">&lt;x-gangnam-style&gt;</code> element with and without the shadow DOM showing: <a href="http://html5-demos.appspot.com/gangnam">http://html5-demos.appspot.com/gangnam</a></p>
+
+<p>For a full rundown on the shadow DOM check out: <a href="http://code.tutsplus.com/tutorials/intro-to-shadow-dom--net-34966" rel="external" target="_blank">Intro to Shadow DOM</a></p>
+
+<h3>Templates</h3>
+
+<p>We've already covered how custom elements allow just the pertinent information to be focused on while all the remaining code is obscured in the shadow DOM. A template within a web component is what holds all the presentational elements of that remaining code.</p>
+
+<p>As part of the code that defines the web component the tags <code class="inline">&lt;template&gt;...&lt;/template&gt;</code> are placed, and in between those tags any HTML and CSS the component needs is included.</p>
+
+<p>For example, <a href="https://github.com/ebidel/html5demos/blob/master/html5-demos.appspot.com/static/webcomponents/demos/components/my-components/x-gangnam-style.html" rel="external" target="_blank">take a look at the code</a> that created the <code class="inline">&lt;x-gangnam-style&gt;</code> web component. Its opening <code class="inline">&lt;template&gt;</code> tag is on line 4 and its closing <code class="inline">&lt;/template&gt;</code> tag is on line 201. In between those tags you'll see all the CSS responsible for creating the positioning and animation, and the HTML that places each of the images involved. </p>
+
+<h3>HTML Imports</h3>
+
+<p>HTML imports allow you to take everything described above and actually make it work on your page. Web components are defined within an external HTML file, so that file needs to be imported in order for a custom element to work. HTML imports handle this via a <code class="inline">&lt;link&gt;</code> tag, which you'll be familiar with from importing external CSS files.</p>
+
+<p>For example, before you could use the <code class="inline">&lt;x-gangnam-style&gt;</code> web component you'd have to import the HTML file that defines it, like so:</p>
+
+<pre class="brush: html">&lt;link rel="import" href="/components/x-gangnam-style.html"&gt;</pre>
+
+<h2>Browser Support and Polyfills</h2>
+
+<p>The possibilities offered by web components make the idea of diving head first into using them very appealing, however at the moment the browser support is not yet workable. The current state of support looks like this:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/browsersupport.png" />
+  <figcaption>
+    <a href="http://jonrimmer.github.io/are-we-componentized-yet/">http://jonrimmer.github.io/are-we-componentized-yet/</a>
+  </figcaption>
+</figure>
+
+<p>Native support is in the process of being implemented for Chrome, Opera and Firefox but is not yet complete. IE and Safari haven't yet made their plans known, however it's thought that given <a href="http://www.w3schools.com/browsers/browsers_stats.asp" rel="external" target="_blank">the majority</a> of browsers will support web components ultimately the other browsers will probably follow suit.</p>
+
+<p>Right now, if you want to start working with web components you'll need to use one of the available polyfills. The good news is two of the most popular solutions are created by Google and Mozilla, so we can expect to see some consistency with how native support will ultimately operate.</p>
+
+<h3>Polymer by Google</h3>
+
+<p>It's hard not to lean towards using <a href="http://www.polymer-project.org/" rel="external" target="_blank">Polymer</a> given Chrome is now the most widely used browser, and you might assume consideration will be given during development as to how web component code will be indexed by Google.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/polymer.png" />
+</figure>
+
+<p>Polymer comes with a full library of prebuilt web components. It includes the "<a href="http://www.polymer-project.org/docs/elements/core-elements.html" rel="external" target="_blank">Polymer Core elements</a>" which are functionally oriented, and the "<a href="http://www.polymer-project.org/docs/elements/paper-elements.html" rel="external" target="_blank">Paper elements</a>" which are design oriented.</p>
+
+<p>When creating custom elements with Polymer, instead of using the format <code class="inline">&lt;element name="..."&gt;</code> you use <code class="inline">&lt;polymer-element name="..."&gt;</code>.</p>
+
+<p>Polymer describes itself as being in "developer preview" rather than absolutely production ready, however they also say </p>
+
+<blockquote>...despite the label many people have already had success using Polymer in production.</blockquote>
+
+<h4>Browser Support</h4>
+
+<ul>
+  <li>Chrome Android</li>
+  <li>Chrome</li>
+  <li>Canary</li>
+  <li>Firefox</li>
+  <li>IE 10+</li>
+  <li>Safari 6+</li>
+  <li>Mobile Safari</li>
+</ul>
+
+<p>If you need to cater for IE9, which is estimated to hold around <a href="http://www.w3schools.com/browsers/browsers_explorer.asp" rel="external" target="_blank">1.9%</a> to <a href="http://www.w3counter.com/globalstats.php" rel="external" target="_blank">5.11%</a> of market share, unfortunately you're out of luck with Polymer. However, you can still go with Mozilla's X-Tags instead.</p>
+
+<h3>X-Tags by Mozilla</h3>
+
+<p><a href="http://x-tags.org/" rel="external" target="_blank">X-Tags</a> is a JavaScript library created by Mozilla that, currently, has an advantage over Polymer in that its browser support is wider reaching. If that's a major consideration for you X-Tags may be your preference.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/x.png" />
+</figure>
+
+<h4>Browser Support</h4>
+
+<ul>
+  <li>Firefox 5+ desktop &amp; mobile</li>
+  <li>Chrome 4+</li>
+  <li>Chrome Android 2.1+</li>
+  <li>Safari 4+ desktop &amp; mobile</li>
+  <li>IE9+</li>
+  <li>Opera 11+ desktop &amp; mobile</li>
+</ul>
+
+<h3>IE8 Support</h3>
+
+<p>Right now, if you need to support IE8 then unfortunately web components aren't likely to be for you as the available polyfills support IE9+. Estimates are that IE8 users are at around <a href="http://www.w3schools.com/browsers/browsers_explorer.asp" rel="external" target="_blank">2.1%</a> to <a href="http://www.w3counter.com/globalstats.php" rel="external" target="_blank">3.82%</a>, but of course if your own stats say differently you'll have to make a judgement call on how far back your browser support should stretch.</p>
+
+<h2>Ember.js and AngularJS Components</h2>
+
+<p>One possible way you can prepare yourself to transition into using web components is to work with <a href="http://emberjs.com/" rel="external" target="_blank">Ember.js</a> or <a href="https://angularjs.org/" rel="external" target="_blank">AngularJS</a> for the time being. Both have their own systems of component creation and both promise to transition into utilizing native web component code when it becomes fully available.</p>
+
+<h2>Community Created Components</h2>
+
+<ul>
+  <li>
+    <a href="http://component.kitchen/" rel="external" target="_blank">Component Kitchen</a>
+  </li>
+  <li>
+    <a href="http://customelements.io/" rel="external" target="_blank">Custom Elements</a>
+  </li>
+  <li>
+    <a href="http://bower.io/search/?q=web-components" target="_self">Web Components on Bower</a>
+  </li>
+</ul>
+
+<h2>Learn More</h2>
+
+<ul>
+  <li>
+    <a href="http://webcomponents.org/" rel="external" target="_blank">WebComponents.org</a>
+  </li>
+  <li>
+    <a href="https://code.tutsplus.com/tutorials/using-polymer-to-create-web-components--cms-20475" target="_self">Using Polymer to Create Web Components</a>
+  </li>
+  <li>
+    <a href="https://code.tutsplus.com/tutorials/sharing-polymer-components-part-1--cms-21264" target="_self">Sharing Polymer Components: Part 1</a>
+  </li>
+  <li>
+    <a href="https://code.tutsplus.com/tutorials/sharing-polymer-components-part-2--cms-21497" target="_self">Sharing Polymer Components: Part 2</a>
+  </li>
+  <li>
+    <a href="https://developers.google.com/events/io/sessions/318907648" rel="external" target="_blank">Web Components: A Tectonic Shift for Web Development</a>
+  </li>
+  <li>
+    <a href="http://www.w3.org/TR/components-intro/" rel="external" target="_blank">Introduction to Web Components</a>
+    <a href="http://code.tutsplus.com/tutorials/intro-to-shadow-dom--net-34966" rel="external" target="_blank">Intro to Shadow DOM</a>
+  </li>
+</ul>
+
+<h2>Conclusion</h2>
+
+<p>I hope you enjoyed reading this rundown of what web components are and why you should care! There's a lot more to dive into, but with these fundamentals covered, we have plenty of opportunity for tutorials on actually building custom web components. What do you think? Under what circumstances could you see yourself using them?</p>
