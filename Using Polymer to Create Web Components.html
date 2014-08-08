@@ -206,7 +206,7 @@ bower install Polymer/polymer-ui-elements</pre>
 
 <pre class="brush: html">&lt;reddit-element subreddit="aww"&gt;&lt;/reddit-element&gt;</pre>
 
-<p>The last thing I want to do is ensure there's a default value for my attribute so my code doesn't blow up. I do this by adding the following into my element template:</p>
+<p>A última coisa que faremos é garantir um valor padrão para o atributo, para evitar que o código lance algum erro. Faço isso adicionando o trecho a seguir ao modelo do meu elemento:</p>
 
 <pre class="brush: html">  &lt;script&gt;
     Polymer('reddit-element', {
@@ -214,7 +214,7 @@ bower install Polymer/polymer-ui-elements</pre>
     });
   &lt;/script&gt;</pre>
 
-<p>This ensures that I'll always have a default value for my element's public attribute. Here's how the final code looks like:</p>
+<p>Isso garante que sempre terei um valor padrão para o atributo público do meu elemento. Eis, aqui, mais ou menos como o código final deve ficar:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="../bower_components/polymer/polymer.html"&gt;
 &lt;link rel="import" href="../bower_components/core-ajax/core-ajax.html"&gt;
