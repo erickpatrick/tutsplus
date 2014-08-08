@@ -64,35 +64,35 @@
 
 <ul>
   <li>Elementos Customizados (Custom Elements)</li>
-  <li>Sombras da DOM (Shadow DOM)</li>
+  <li>DOM Sombra (Shadow DOM)</li>
   <li>Modelos (Templates)</li>
   <li>Importação HTML (HTML Imports)</li>
 </ul>
 
-<h3>Elementos Customizados</h3>
+<h3>Custom Elements</h3>
 
-<p>Custom elements are exactly what they sound like: elements that can be named anything you choose, and operate in any way you want. And when I say anything any way, I really mean it. For example, I present the <code class="inline">&lt;x-gangnam-style&gt;</code> element:</p>
+<p>Elementos customizados são exatamente o que parecem: elementos que podem ser nomeados como você quiser e operar a seu gosto. E quando digo de qualquer maneira, é isso mesmo. Por exemplo, apresento-lhes o elemento <code class="inline">&lt;x-gangnam-style&gt;</code>:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/gangnam.gif" />
-  <figcaption><a href="http://html5-demos.appspot.com/gangnam" rel="external" target="_blank">Live demo</a> - hover over the bar</figcaption>
+  <figcaption><a href="http://html5-demos.appspot.com/gangnam" rel="external" target="_blank">Demonstração</a> - passe o mouse sobre a barra</figcaption>
 </figure>
 
-<p>Custom elements are declared, in their simplest form, like so:</p>
+<p>Elementos customizados são declarados, em sua forma mais simples, parecido com isso:</p>
 
 <pre class="brush: html">&lt;element name="x-gangnam-style"&gt;
 ...
 &lt;/element&gt;</pre>
 
-<p>When you create a custom element you can do it completely from scratch, or you can extend an existing HTML element, such as <code class="inline">&lt;button&gt;</code> for example, and give it the modified functionality or presentation you need.</p>
+<p>Quando você cria um elemento customizado, pode criá-lo do zero ou pode extender algum elemento HTML existente, como, por exemplo, o <code class="inline">&lt;button&gt;</code> e fornecer uma funcionalidade ou apresentação modificada que precisar.</p>
 
 <pre class="brush: html">&lt;element name="custom-button" extends="button"&gt;
 ...
 &lt;/element&gt;</pre>
 
-<p><b>Note</b>: it's worth pointing out that the <code class="inline">&lt;element&gt;</code> tag <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/#historysupport" target="_self">was deprecated in 2013</a> because of complications. It may make a return, but in the meantime there are polyfill options, which we'll talk about in a moment. Thanks to <a href="https://twitter.com/addyosmani" target="_self">Addy Osmani</a> for pointing that out!</p>
+<p><b>Nota</b>: é interessante apontar que a tag <code class="inline">&lt;element&gt;</code> <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/#historysupport" target="_self">foi tornada obsoleta em 2013</a> por complicações. Ela pode retornar, mas, nesse meio tempo, há opções de implementação dela, que falaremos em alguns minutos.Obrigado ao <a href="https://twitter.com/addyosmani" target="_self">Addy Osmani</a> por explicar essa situação!</p>
 
-<h3>The Shadow DOM</h3>
+<h3>Shadow DOM</h3>
 
 <p>The Shadow DOM is really the core aspect of how web components work. Earlier, we looked at the HTML5 <code class="inline">&lt;video&gt;</code> element and showed how, despite only seeing a few lines of code, in reality there is quite a bit of code hidden by default. The place this hidden code lives is called the "Shadow DOM".</p>
 
