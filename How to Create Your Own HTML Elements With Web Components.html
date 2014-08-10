@@ -1,19 +1,19 @@
 <h1>Como Criar Seus Próprios Componentes HTML Com Componentes Web</h1>
 
-<p>Os Web Componentes tem sido considerados "<a href="http://webcomponents.org/" rel="external" target="_blank">uma futura grande mudança de paradigma para o desenvolvimento web</a>", com a promessa de alterar, permanentemente, o panorama do design para web. Os grandes nomes da web tem se movimentado para tornar os web componentes em realidade. Tanto o Google quanto a Mozilla tem, gradativamente, trazido suporte nativo.</p>
+<p>Os Componentes Web tem sido considerados "<a href="http://webcomponents.org/" rel="external" target="_blank">uma futura grande mudança de paradigma para o desenvolvimento web</a>", com a promessa de alterar, permanentemente, o panorama do design para web. Os grandes nomes da web tem se movimentado para tornar os componentes web realidade. Tanto o Google quanto a Mozilla tem, gradativamente, trazido suporte nativo.</p>
 
-<p>Você deve estar se perguntando o que são componentes web, certo? Resumindo, os componentes web permitem criar elementos HTML customizados que podem realizar qualquer tarefa que você quiser que eles façam. Ao invés de encher seu site com marcação verbosa, scripts gigantesco e código repetitivo, você envolve tudo em um simples e único elemento HTML customizado.</p>
+<p>Você deve estar se perguntando o que são componentes web, certo? Resumindo, os componentes web permitem criar elementos HTML customizados que podem realizar qualquer tarefa que você quiser que eles façam. Ao invés de encher seu site com marcação verbosa, scripts gigantescos e códigos repetitivos, você envolve tudo em um simples e único elemento HTML customizado.</p>
 
 <h2>Entendendo os Componentes Web</h2>
 
-<p>A maneira mais fácil de entendermos como os componentes web permitem elementos HTML customizado, é olhando um elemento já existente, e que conhecemos do HTML5: a tag <code class="inline">&lt;video&gt;</code>. Usando esse elemento você pode adicionar um vídeo com algumas poucas linahs de código, como por exemplo:</p>
+<p>A maneira mais fácil de entendermos como os componentes web permitem elementos HTML customizados, é olhando um elemento já existente, e que conhecemos do HTML5: a tag <code class="inline">&lt;video&gt;</code>. Usando esse elemento, você pode adicionar um vídeo com algumas poucas linahs de código, como por exemplo:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/videoelement.png" />
 </figure>
 
-<p>Você pode até estar vendo poucas linhas de HTML, mas, eis o que o elemento
-<code class="inline">&lt;video&gt;</code> se parece, por trás dos panos:<br /></p>
+<p>Você pode até ver poucas linhas de HTML, mas, eis o que o elemento
+<code class="inline">&lt;video&gt;</code> se parece por trás dos panos:<br /></p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/videoshadowdom.png" />
@@ -23,7 +23,7 @@
 
 <p>Antigamente, só fabricantes de navegadores podiam criar elementos dessa forma. Imagine, agora, se você pudesse usar essa mesma abordagem com outros tipos de conteúdo? </p>
 
-<p>Imagine um <em>slideshow</em> de imagens, por exemplo. Normalmente, você precisaria de várias <code>div</code>s aninhadas, usando classes específicas para lidar com o <em>slideshow</em>, cada slide, adição de legenda e miniaturas. Tería, ainda, de prover valores padrões de opções para efeitos de transição através de algum JavaScript em linha.</p>
+<p>Imagine um <em>slideshow</em> de imagens, por exemplo. Normalmente, você precisaria de várias <code>div</code>s aninhadas, usando classes específicas para lidar com o <em>slideshow</em>, cada slide, adição de legendas e miniaturas. Teria, ainda, de prover valores padrões de opções para efeitos de transição, através de algum JavaScript em linha.</p>
 
 <p>E se você pudesse evitar tudo isso e só usar assim:</p>
 
@@ -38,7 +38,7 @@
 
 <p>Se quisermos prover um elemento conciso e fácil de interagir e implantar que, de outros modos, seria bem complicado de implementar, podemos criar nossos próprios componentes web.</p>
 
-<p>Componentes web também podem ser, facilmente, compartilhados, então, assim que os desenvolvedores entrarem de cabeça, há uma grande chance de você só precisar procurar por algum componente pré-feito. Para falar a verdade, já vemos vários componentes disponíveis, gratuitamente, para variadas necessidades, desde o <a href="http://zenorocha.github.io/voice-elements/" rel="external" target="_blank">reconhecimento de voz</a>.. </p>
+<p>Componentes web também podem ser compartilhados facilmente, então, assim que os desenvolvedores entrarem de cabeça, há uma grande chance de você só precisar procurar por algum componente pré-feito. Para falar a verdade, já vemos vários componentes disponíveis, gratuitamente, para variadas necessidades, desde o <a href="http://zenorocha.github.io/voice-elements/" rel="external" target="_blank">reconhecimento de voz</a>.. </p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/voice.png" />
@@ -50,13 +50,13 @@
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/ninja.png" />
 </figure>
 
-<p> passado pelos <a href="http://educastellano.github.io/qr-code/" rel="external" target="_blank">geradores de QR code</a>.<br /></p>
+<p> passando pelos <a href="http://educastellano.github.io/qr-code/" rel="external" target="_blank">geradores de QR code</a>.<br /></p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/qr.png" />
 </figure>
 
-<p>Que tal darmos uma olhada por trás do que os componentes web?</p>
+<p>Que tal darmos uma olhada naquilo que os componentes web são feitos?</p>
 
 <h2>A Constituição de Um Componente Web</h2>
 
@@ -69,7 +69,7 @@
   <li>Importação HTML (HTML Imports)</li>
 </ul>
 
-<h3>Custom Elements</h3>
+<h3>Elementos Customizados</h3>
 
 <p>Elementos customizados são exatamente o que parecem: elementos que podem ser nomeados como você quiser e operar a seu gosto. E quando digo de qualquer maneira, é isso mesmo. Por exemplo, apresento-lhes o elemento <code class="inline">&lt;x-gangnam-style&gt;</code>:</p>
 
@@ -78,7 +78,7 @@
   <figcaption><a href="http://html5-demos.appspot.com/gangnam" rel="external" target="_blank">Demonstração</a> - passe o mouse sobre a barra</figcaption>
 </figure>
 
-<p>Elementos customizados são declarados, em sua forma mais simples, parecido com isso:</p>
+<p>Elementos customizados são declarados, em sua forma mais simples, mais ou menos assim:</p>
 
 <pre class="brush: html">&lt;element name="x-gangnam-style"&gt;
 ...
@@ -90,21 +90,21 @@
 ...
 &lt;/element&gt;</pre>
 
-<p><b>Nota</b>: é interessante apontar que a tag <code class="inline">&lt;element&gt;</code> <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/#historysupport" target="_self">foi tornada obsoleta em 2013</a> por complicações. Ela pode retornar, mas, nesse meio tempo, há opções de implementação dela, que falaremos em alguns minutos.Obrigado ao <a href="https://twitter.com/addyosmani" target="_self">Addy Osmani</a> por explicar essa situação!</p>
+<p><b>Nota</b>: é interessante apontar que a tag <code class="inline">&lt;element&gt;</code> <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/#historysupport" target="_self">foi tornada obsoleta em 2013</a> por algumas complicações. Ela pode retornar, mas, nesse meio tempo, há opções de implementação dela, que falaremos em alguns minutos. Obrigado ao <a href="https://twitter.com/addyosmani" target="_self">Addy Osmani</a> por explicar essa situação!</p>
 
-<h3>Shadow DOM</h3>
+<h3>DOM Sombra</h3>
 
-<p>A Shadow DOM é o aspecto fundamental do funcionamento dos componentes web. No começo, nós vimos sobre o elemento <code class="inline">&lt;video&gt;</code> do HTML5 e mostramos como, apesar de vermos apenas algumas linhas de código, há muito mais código escondido por padrão. O lugar onde esse código escondido vive é chamado de "Shadow DOM".</p>
+<p>A DOM Sombra (Shadow DOM) é o aspecto fundamental do funcionamento dos componentes web. No começo, nós vimos sobre o elemento <code class="inline">&lt;video&gt;</code> do HTML5 e mostramos como, apesar de vermos apenas algumas linhas de código, há muito mais código escondido por padrão. O lugar onde esse código escondido vive é chamado de "DOM Sombra" (Shadow DOM).</p>
 
-<p>Fabricantes de navegadores tem usado essa DOM Sombra por anos para implementar, nativamente, elementos como o <code>input</code>, <code>audio</code>, <code>video</code> e outros. Através dos componentes web, ela pode ser utilizada por qualquer desenvolvedor, agora.</p>
+<p>Fabricantes de navegadores tem usado essa DOM Sombra por anos, para implementar, nativamente, elementos como o <code>input</code>, <code>audio</code>, <code>video</code> e outros. Através dos componentes web, ela pode ser utilizada por qualquer desenvolvedor.</p>
 
-<p>A ideia básica é que você pegar todo o código que não precisa ser visto no posicionamento da marcação e escondê-lo usando a DOM Sombra, de forma que ele não fique no seu caminho. Isso permite você lidar, somente, com dados que ajustam o elemento, como a altura, largura e caminho dos arquivos de vídeo ao usarmos o elemento <code class="inline">&lt;video&gt;</code>.</p>
+<p>A ideia básica é que você pode pegar todo o código que não precisa ser visto e escondê-lo usando a DOM Sombra, de forma que ele não fique no seu caminho. Isso permite você lidar, somente, com dados que ajustam o elemento, como a altura, largura e caminho dos arquivos de vídeo ao usarmos o elemento <code class="inline">&lt;video&gt;</code>.</p>
 
-<p>Uma das coisas mais legais de se trabalhar com a DOM Sombra é que cada instância é auto-contida. Assim, se você usa folhas de estilo e códigos JavaScript dentro do elemento, eles não vazarão, acidentalmente, e ñão afetarão qualquer outra coisa na página. </p>
+<p>Uma das coisas mais legais de se trabalhar com a DOM Sombra é que cada instância é auto-contida. Assim, se você usa folhas de estilo e códigos JavaScript dentro do elemento, eles não vazarão, acidentalmente, e não afetarão qualquer outra coisa na página. </p>
 
-<p>Reciprocamente, CSS e JavaScript que estiver em qualquer lugar da sua página, não afetarão seu componente web, exceto aquelas que foram criadas especificamentes para estilizar e interagir com ele. Isso significa que não precisará criar um espaço de nome em seus IDs e classes CSS para evitar conflito.</p>
+<p>Reciprocamente, os CSS e JavaScript que estiverem em qualquer lugar da sua página, não afetarão seu componente web, exceto aquelas que forem criadas especificamentes para estilizar e interagir com ele. Isso significa que não precisará criar um espaço de nome em seus IDs e classes CSS para evitar conflitos.</p>
 
-<p>Se quiser ver como a DOM Sombra parece, é bem fácil. Certifique-se que está com uma versão atualizada do Chrome e abra as Ferramentas de Desenvolvedor (Dev Tools). Clique no ícone de roda dentada para abrir as configurações e marque a caixa rotulada <b>Show user agent shadow DOM</b>:</p>
+<p>Se quiser ver como a DOM Sombra parece, é bem fácil. Certifique-se que está com uma versão atualizada do Chrome e abra as Ferramentas de Desenvolvedor (Dev Tools). Clique no ícone de roda dentada para abrir as configurações e marque a caixa rotulada com <b>Show user agent shadow DOM</b>:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/showshadowdom.png" />
@@ -122,17 +122,17 @@
 
 <p>Por exemplo, <a href="https://github.com/ebidel/html5demos/blob/master/html5-demos.appspot.com/static/webcomponents/demos/components/my-components/x-gangnam-style.html" rel="external" target="_blank">veja o código</a> criado para o componente web <code class="inline">&lt;x-gangnam-style&gt;</code>. A tag de abertura <code class="inline">&lt;template&gt;</code> está na linha 4 e a tag de fechamento <code class="inline">&lt;/template&gt;</code> está na linha 201. Entre elas, você verá todo o CSS responsável pela criação, posicionamento e animação, bem como o HTML que posiciona cada uma das imagens envolvidas. </p>
 
-<h3>Imoprtação de HTML</h3>
+<h3>Importação de HTML</h3>
 
-<p>Importação de HTML permite que você pegue tudo que foi descrito acima e faça funcionar na sua página. Os componente web são definidos dentro de arquivos HTML externos, assim, esse arquivo precisa ser importado para que o elemento customizado funcione. A importação de HTML lida com isso atravé da tag <code class="inline">&lt;link&gt;</code>, que você já deve estar familiar ao usar para importar arquivos CSS externos.</p>
+<p>Importação de HTML permite que você pegue tudo que foi descrito acima e faça funcionar na sua página. Os componente web são definidos dentro de arquivos HTML externos, assim, esse arquivo precisa ser importado para que o elemento customizado funcione. A importação de HTML lida com isso atravé da tag <code class="inline">&lt;link&gt;</code>, que você já deve ser familiar por usar para importar arquivos CSS externos.</p>
 
-<p>Por exemplo, antes de pode usar o componente web <code class="inline">&lt;x-gangnam-style&gt;</code> você teria de importar o arquivo HTML que o define, dessa forma:</p>
+<p>Por exemplo, antes de poder usar o componente web <code class="inline">&lt;x-gangnam-style&gt;</code> você teria de importar o arquivo HTML que o define, dessa forma:</p>
 
 <pre class="brush: html">&lt;link rel="import" href="/components/x-gangnam-style.html"&gt;</pre>
 
 <h2>Suporte dos Navegadores e Implementações Não-Nativas</h2>
 
-<p>As possibilidades oferecidas pelos componentes web tornam a ideia de cair de cabeça neles bastante atraente, porém, nesse momento, o suporte dos navegadores não é muito interessante. O estado atual de suporte aos componentes web parece é mais ou menos esse:</p>
+<p>As possibilidades oferecidas pelos componentes web tornam a ideia de cair de cabeça neles bastante atraente, porém, nesse momento, o suporte dos navegadores não é muito interessante. O estado atual de suporte aos componentes web parece mais ou menos com isso:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/21524/image/browsersupport.png" />
@@ -141,13 +141,13 @@
   </figcaption>
 </figure>
 
-<p>O suporte nativo está a caminho por parte do Chrome, Opera e Firefox, porém, não está completo ainda. O IE e o Safari ainda não publicaram seus planos, contudo, é meio difícil que eles não deem suporte, uma vez que a <a href="http://www.w3schools.com/browsers/browsers_stats.asp" rel="external" target="_blank">maioria</a> dos navegadores dará suporte.</p>
+<p>O suporte nativo está a caminho por parte do Chrome, Opera e Firefox, porém, não está completo ainda. O IE e o Safari ainda não publicaram seus planos, contudo, é meio difícil que eles não deem suporte, uma vez que a <a href="http://www.w3schools.com/browsers/browsers_stats.asp" rel="external" target="_blank">maioria</a> dos navegadores o fará.</p>
 
 <p>Por hora, se você quiser trabalhar com componentes web, terá de usar uma das implementações não-nativas existentes. A boa notícia é que as duas soluções mais populares foram criadas pelo Google e pela Mozilla, então, podemos esperar que haja consistência no modo de operação do suporte nativo.</p>
 
 <h3>Polymer, pelo Google</h3>
 
-<p>É complicado não tender ao uso do <a href="http://www.polymer-project.org/" rel="external" target="_blank">Polymer</a>, uma vez que o Chrome é o navegadot mais usado atualmente, e você, com certeza, deve ter em mente que haverá várias considerações em relação a como o Google indexará os componentes web.</p>
+<p>É complicado não tender ao uso do <a href="http://www.polymer-project.org/" rel="external" target="_blank">Polymer</a>, uma vez que o Chrome é o navegador mais usado atualmente, e você, com certeza, deve ter em mente que haverá várias considerações em relação a como o Google indexará os componentes web.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/polymer.png" />
@@ -157,7 +157,7 @@
 
 <p>Ao criar elementos customizados com o Polymer, ao invés de usar o formato <code class="inline">&lt;element name="..."&gt;</code> você usará <code class="inline">&lt;polymer-element name="..."&gt;</code>.</p>
 
-<p>O Polymer se descreve como sendo uma versão "<em>preview</em> para desenvolvedores" ao invés de pronto para produção, embora eles também digam </p>
+<p>O Polymer se descreve como sendo uma versão "<em>preview</em> para desenvolvedores" ao invés de pronto para produção, embora eles também digam:</p>
 
 <blockquote>...apesar do rótulo, muitas pessoas já demonstraram sucesso ao usar o Polymer em produção.</blockquote>
 
@@ -177,7 +177,7 @@
 
 <h3>X-Tags, pela Mozilla</h3>
 
-<p><a href="http://x-tags.org/" rel="external" target="_blank">X-Tags</a> é uma biblioteca JavaScript criada pela Mozilla que, atualmente, leva vantagem sobre o Polymer pelo seu suporte a navegadores ser maior. Se você tem de levar isso em consideração, talvez a X-Tags pode ser sua preferência.</p>
+<p><a href="http://x-tags.org/" rel="external" target="_blank">X-Tags</a> é uma biblioteca JavaScript criada pela Mozilla que, atualmente, leva vantagem sobre o Polymer pelo seu suporte a navegadores ser maior. Se você tem de levar isso em consideração, talvez a X-Tags pode ser sua escolha.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21524/image/x.png" />
@@ -196,11 +196,11 @@
 
 <h3>Suporte ao IE8</h3>
 
-<p>Por hora, se precisar dar suporte ao IE8, infelizmente, você não poderá usar, uma vez que as implementações não-nativas dá suporte, somente, ao IE9 ou mais recente. Estimativas dizem que os usuários de IE8 estão entre <a href="http://www.w3schools.com/browsers/browsers_explorer.asp" rel="external" target="_blank">2.1%</a> e <a href="http://www.w3counter.com/globalstats.php" rel="external" target="_blank">3.82%</a>, mas, claro, se seus dados dizem o contrário, é preferível que tome sua própria decisão em relação ao suporte.</p>
+<p>Por hora, se precisar dar suporte ao IE8, infelizmente, você não poderá usar, uma vez que as implementações não-nativas dão suporte, somente, ao IE9 ou mais recentes. Estimativas dizem que os usuários de IE8 estão entre <a href="http://www.w3schools.com/browsers/browsers_explorer.asp" rel="external" target="_blank">2.1%</a> e <a href="http://www.w3counter.com/globalstats.php" rel="external" target="_blank">3.82%</a>, mas, claro, se seus dados disserem o contrário, é preferível que tome sua própria decisão em relação ao suporte.</p>
 
 <h2>Componentes do Ember.js e AngularJS</h2>
 
-<p>Uma forma que você pode se preparar para usar os componentes web é trabalhar com o <a href="http://emberjs.com/" rel="external" target="_blank">Ember.js</a> ou o <a href="https://angularjs.org/" rel="external" target="_blank">AngularJS</a> por enquanto. Ambos tem seus próprios meios de criação de componentes e prometem passar a usar os componentes web nativos quando estiverem plenamente disponíveis.</p>
+<p>Uma forma que você pode se preparar para usar os componentes web é trabalhar com o <a href="http://emberjs.com/" rel="external" target="_blank">Ember.js</a> ou o <a href="https://angularjs.org/" rel="external" target="_blank">AngularJS</a>. Ambos tem seus próprios meios de criação de componentes e prometem passar a usar os componentes web nativos quando estiverem plenamente disponíveis.</p>
 
 <h2>Componentes Criados Pela Comunidade</h2>
 
@@ -242,4 +242,4 @@
 
 <h2>Conclusão</h2>
 
-<p>Espero que tenha curtido a leitura desse resumo sobre componentes web e o porque você deve ficar de olho! Há muito mais a aprender, mas, com o básico, temos oportunidades para criar, de verdade, componentes web customizados. O que você acha? Sob quais circunstâncias você usaria componentes web?</p>
+<p>Espero que tenha curtido a leitura desse resumo sobre componentes web e o porque você deve ficar de olho neles! Há muito mais a aprender, mas, com o básico, temos oportunidades para criar, de verdade, componentes web customizados. O que você acha? Sob quais circunstâncias você usaria componentes web?</p>
