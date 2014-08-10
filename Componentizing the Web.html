@@ -1,0 +1,228 @@
+<h1>Componentizing the Web</h1>
+
+<p>This is the story about a project of mine. A big one. A mixture between <a href="http://php.net/">PHP</a> and <a href="http://nodejs.org/">Node.js</a>. It's a single page application from one point of view and an SEO optimized website from another. Tons of JavaScript, CSS and HTML was written. In a single word, a spaghetti nightmare for any developer. There were falls and rises. Producing and solving bugs. Fighting with the latest technologies and ending up with a wonderfully simple library, which is the topic of this article.<br></p>
+
+<h2>The Beginning</h2>
+
+<p>As it normally happens, the project was considered not so big. The brief came in, we discussed how the development would be handled, what technologies would be used and how we will use them. We made a plan and got to work. In the beginning we had a few pages, which were controlled by a CMS. There wasn't so much JavaScript code at first because our system delivered most of the content.</p>
+
+<p>Here is a rough structure of the project:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20602/image/img1.png"></figure>
+
+<p>We put our client side code into different directories. The server side code was only PHP at the moment, so it went in to the <code>php</code> directory. We wrap everything into around 30 files and everything was OK. </p>
+
+<h2>The Journey</h2>
+
+<p>During the period of a few months, we were trying different concepts and changed the project's code several times. From the current point of view, I could spot four big issues which we met.</p>
+
+<h3>Problem #1 - Too Many Badly Structured Files</h3>
+
+<p>It looks like the client was happy with the result and decided to invest more in his Internet appearance. We were asked to build a few new features. Some of them were just new content places, others were additions to already existing pages. We started adding more and more files in all of the folders above. It started to get a little bit messy, so we decided to create subdirectories for the different pages and save the necessary code there.</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20602/image/img2.png"></figure>
+
+<p>For example, the CSS styles for the <em>about</em> page were in <code>css/about/styles.css</code>. The JavaScript in <code>js/about/scripts.js</code> and so on. We used a PHP script which concatenates the files. There were, of course, parts of the site that were on several pages and we put them in <code>common</code> directories. This was good for a while, but it did not work well for long because when the directories became full, it was slow to modify something. You had to search for three different directories to find what you needed. The site was still mainly written in PHP.</p>
+
+<h3>Problem #2 - The Big Turning Point or How We Messed Things Up</h3>
+
+<p>At that time, mobile applications became popular. The client wanted to have his site available for mobile devices and this is the big turning point in the project. We had to convert the site to a single page application. And not only that, it had to have tons of real-time features. Of course, not all the content of the site had to be loaded dynamically. The SEO was still an important part of the client's vision. We chose the <a href="http://www.mean.io/">MEAN stack</a> for the upcoming parts. The problem was with the old pages. Their content had to be served by PHP, but the pages' logic changed and it was completely made with JavaScript. For several weeks, we felt like the passengers of Titanic. We were in a hurry to release something, but there was hole after hole and very soon, our ship was full of water (bugs).  </p>
+
+<h3>Problem #3 - A Tough Working Process</h3>
+
+<p>We used <a href="http://gruntjs.com/">GruntJS</a> for a while, but migrated to <a href="http://gulpjs.com/">Gulp</a>. It helped a lot because we increased our development speed. However, it was still too annoying to add or edit existing components. The solid architecture that we had in the beginning was transformed to a complex mixture of files. Yes, there was strict conventions for naming and placing these files, but it was still too messy. We then banged our heads together and came up with the following format:</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20602/image/img3.png"></figure>
+
+<p>We split the site in to different components, that were like black boxes. They live in their own folder. Everything related to the component was saved inside its directory. We designed carefully, the APIs of the classes. They were testable and communicative. We found that a structure such as this worked better for us because we had tons of independent modules. Yes, we are mixing the JavaScript files with CSS styles and HTML templates, but it was just easier to work on a unit basis, instead of digging deeply into several directories.</p>
+
+<h3>Problem #4  - Angular vs. Custom Code</h3>
+
+<p>Those pages which were old and which we had to deliver via PHP, were also full of JavaScript logic. However in some cases, Angular did not work very well. We had to make small hacks to make the things run smoothly. We ended up with a mixture between Angular controllers and custom code. The good news was that the budget of the project was expanded and we decided to use our own framework. At that time, I was developing my own <a href="http://code.tutsplus.com/tutorials/absurdjs-or-why-i-wrote-my-own-css-preprocessor--net-36003">CSS preprocessor</a>. The project goes really, really fast. Very soon I ported my library for client side usage. Line by line, it was transformed to a small framework, which we started integrating into the project.</p><h4>Why Create a New Framework?</h4>
+
+<p>This is probably what you're asking. Well, there is a dozen of others that provide a wide range of capabilities. Yes, that's true, but ... we did not need a wide range of capabilities. We needed specific things and nothing more. We were ready to accept the fact that by using a popular framework, we may add a few kilobytes to the overall page load. That wasn't a big problem.&nbsp;</p><p>The status of our code-base was the issue. We were focused on building good architecture and we all agree that sometimes the custom solution fits better. The usage of Angular, Ember, Knockout or Backbone comes with its benefits, but the truth is that there is no universal framework.&nbsp;</p><p>I like the words of <a href="http://adactio.com/">Jeremy Keith</a>, in his talk <a href="http://krasimirtsonev.com/blog/article/The-Power-Of-Simplicity-by-Jeremy-Keith">The power of Simplicity</a>, he said that the most important thing while choosing your tool is the philosophy of the person who made the tool and if that philosophy aligns with yours. If the ideas of the framework do not align with yours, very soon, you will go against them. The same thing happened to us. We tried using Angular and there were too many difficulties. Problems that we were able to solve, but we used hacks and complex workarounds.&nbsp;</p><p>We also tried Ember, but it did not work, because it is heavily based on its routing mechanisms. Backbone was a nice choice and it was the closest thing to our vision. However, when I introduced <a href="http://absurdjs.com/">AbsurdJS</a> we decided to use it.</p>
+
+<h2>What AbsurdJS Did For Us</h2>
+
+<p><a href="http://absurdjs.com/">AbsurdJS</a> was originally started as a <a href="http://absurdjs.com/pages/css-preprocessing/">CSS preprocessor</a>, expanded to an <a href="http://absurdjs.com/pages/html-preprocessing/">HTML preprocessor</a> and it was successfully ported for client side usage. So, in the beginning we use it for compiling JavaScript to HTML or CSS. Yes, you heard me right; we started writing our styles and markup in JavaScript (probably sounds strange, but please keep reading). I pushed the library forward and a dozen of functionalities were added.</p>
+
+<h3>Divide and Rule</h3>
+
+<p>When you have a complex system, with many pages, you really don't want to solve big problems. It is much better to split everything into smaller tasks and solve them one by one. We did the same thing. We decided that our application will be built of smaller components, like so:</p>
+
+<pre class="brush: javascript">var absurd = Absurd();
+var MyComp = absurd.component('MyComp', {
+    constructor: function() {
+        // ...
+    }
+});
+var instance = MyComp();
+</pre>
+
+<p><code>absurd.component</code> defines a class. Calling the <code>MyComp()</code> method creates a new instance.</p>
+
+<h3>Let's Talk to Each Other</h3>
+
+<p>Having all these small components, we needed a channel for communication. The observer pattern was perfect for this case. So, every component is an event dispatcher.</p>
+
+<pre class="brush: javascript">var MyComp = absurd.component('MyComp', {
+    doSomething: function() {
+        this.dispatch('something-happen');
+    }
+});
+var instance = MyComp();
+instance.on('something-happen', function() {
+    console.log('Hello!');
+});
+instance.doSomething();
+</pre>
+
+<p>We are also able to pass data along with the message. The definition of the components and their "listen-dispatch" nature is pretty trivial. I adopted this concept from the other popular frameworks, because it looks natural. It was also much easier for my colleagues to start using AbsurdJS.</p>
+
+<h3>Controlling the DOM</h3>
+
+<p>Along with the PHP served markup, we had dynamically created DOM elements. This means that we needed access to the existing DOM elements or new ones, that will be later added to the page. For example, let's say that we have the following HTML:</p>
+
+<pre class="brush: html">&lt;div class="content"&gt;
+    &lt;h1&gt;Page title&lt;/h1&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
+&lt;/div&gt;</pre>
+
+<p>Here is a component which retrieves the heading:</p>
+
+<pre class="brush: javascript">absurd.component('MyComp', {
+    html: '.content h1',
+    constructor: function() {
+        this.populate();
+        console.log(this.el.innerHTML); // Page title
+    }
+})();
+</pre>
+
+<p>The <code>populate</code> method is the only <em>magic</em> method in the whole library. It does several things like compiling CSS or HTML, it binds events and such things. In the example above, it sees that there is an <code>html</code> property and initializes the <code>el</code> variable which points to the DOM element. This works pretty good for us because once we got that reference, we were able to work with the elements and its children. For those components that needed dynamically created elements, the <code>html</code> property accepts an object.</p>
+
+<pre class="brush: javascript">absurd.component('MyComp', {
+    html: {
+        'div.content': {
+            h1: 'Page title',
+            p: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        }
+    },
+    constructor: function() {
+        this.populate();
+        document.querySelector('body').appendChild(this.el);
+    }
+})();
+</pre>
+
+<p>The JSON above is translated to the same HTML markup. I chose JSON because from a JavaScript point of view, it is much more flexible. We are able to merge objects, replace or delete only parts of it. In most of the popular frameworks, the templates are just plain text that makes them difficult for manipulating. AbsurdJS also has its own <a href="http://krasimirtsonev.com/blog/article/Javascript-template-engine-in-just-20-line">templating engine</a>.</p>
+
+<pre class="brush: javascript">absurd.component('MyComp', {
+    html: {
+        'div.content': {
+            h1: '&lt;% this.title %&gt;',
+            ul: [
+                '&lt;% for(var i=0; i',
+                { li: '&lt;% this.availableFor[i] %&gt;' },
+                '&lt;% } %&gt;'
+            ]
+        }
+    },
+    title: 'That\'s awesome',
+    availableFor: ['all browsers', 'Node.js'],
+    constructor: function() {
+        this.populate();
+        document.querySelector('body').appendChild(this.el);
+    }
+})();
+</pre>
+
+<p>The result is:</p>
+
+<pre class="brush: html">&lt;div class="content"&gt;
+    &lt;h1&gt;That's awesome&lt;/h1&gt;
+    &lt;ul&gt;
+        &lt;li&gt;all browsers&lt;/li&gt;
+        &lt;li&gt;Node.js&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</pre>
+
+<p>The <code>this</code> keyword in the expressions above, points to the component itself. The code between <code>&lt;%</code> and <code>%&gt;</code> is valid JavaScript. So, features like computed properties could be easily developed directly into the template's definition. Of course, we are able to use the same template engine with already existing markup. For example:</p>
+
+<pre class="brush: html">&lt;div class="content"&gt;
+    &lt;h1&gt;&lt;% this.title %&gt;&lt;/h1&gt;
+    &lt;ul&gt;
+        &lt;% for(var i=0; i&amp;amp;lt;this.availableFor.length; i++) { %&gt;
+        &lt;li&gt;&lt;% this.availableFor[i] %&gt;&lt;/li&gt;
+        &lt;% } %&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</pre>
+
+<p>... could be controlled with the following component (the result is the same):</p>
+
+<pre class="brush: javascript">absurd.component('MyComp', {
+    html: '.content',
+    title: 'That\'s awesome',
+    availableFor: ['all browsers', 'Node.js'],
+    constructor: function() {
+        this.populate();
+    }
+})();
+</pre>
+
+<p>Anyway, the point is that we were able to define templates or create such from scratch. We are also able to control the data that is injected in an easy and natural way. Everything is just properties of the good old JavaScript object. </p>
+
+<h3>What About the Styling?</h3>
+
+<p>We successfully split the whole system in to small modules. The parts that were before Angular controllers, became AbsurdJS components. We realized that their HTML was tightly attached to their definition, that completely changed the management of the markup in the application. We stopped thinking about the concatenation, conventions or anything like that. We did not have to create HTML files at all. When I look back, I could see this exact moment in our commit history. It is easily visible because many files were removed from the code-base. </p>
+
+<p>Then I thought, what will happen if we do the same thing with the CSS. It was of course possible because AbsurdJS was a CSS preprocessor and could produce CSS. We just got the compiled string, create a new <code>style</code> tag in the <code>head</code> of the current page and inject it there.</p>
+
+<pre class="brush: javascript">absurd.component('MyComp', {
+    css: {
+        '.content': {
+            h1: {
+                color: '#99FF00',
+                padding: 0,
+                margin: 0
+            },
+            p: {
+                fontSize: '20px'
+            }
+        }
+    },
+    html: '.content',
+    constructor: function() {
+        this.populate();
+    }
+})();
+</pre>
+
+<p>Here is the <code>style</code> tag which is produced:</p>
+
+<pre class="brush: html">&lt;style id="MyComp-css" type="text/css"&gt;
+    .content h1 {
+      color: #99FF00;
+      padding: 0;
+      margin: 0;
+    }
+    .content p {
+      font-size: 20px;
+    }
+&lt;/style&gt;</pre>
+
+<p>And day by day we transferred the CSS styles from the SASS files (because, at some point, we chose SASS as a CSS preprocessor) to the AbsurdJS components. To be honest, it was pretty easy because all the mixins and variables which we have, were defined as JavaScript functions and variables. The sharing of the styles was even easier because everything was JavasSript. </p>
+
+<h3>That Awkward Moment</h3>
+
+<p>... when everything works perfectly but you feel that something is wrong</p>
+
+<p>We were looking at the code. It worked. AbsurdJS drove even the old parts. The new stuff uses the same library. The HTML and the CSS were nicely separated and placed directly into the components' definition. However, I felt that there was something wrong. I stopped for a while and asked myself: "What is the Web made from?".</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20602/image/img4.png"></figure>
+
+<p>And what we did, is a little bit different. It looks more like the picture below.</p><figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20602/image/img5.png"></figure>
+
+<p>I've been building websites for more than ten years and I remember the times when we all fought for the big separation of these three building materials. And what I did in this project is exactly the opposite. There was no CSS and HTML files (almost) at all. Everything was JavaScript.&nbsp;</p><p>Many people will say that this is ridiculous and we should give the client's money back. Yes, this could be true, but this concept worked perfectly in our case. We did not write an application. In fact, we wrote a bunch of independent components. I believe that the Web will be a combination of ready-to-use components.&nbsp;</p><p>We, as developers, will have to develop such components and probably connect with and use such components written by others. Projects like <a href="http://absurdjs.com/">AbsurdJS</a> or <a href="http://www.polymer-project.org/">Polymer</a> are showing that this is possible and I encourage you to experiment in this direction. </p>
+
+<h2>Back to Reality</h2>
+
+<p>So in the end the client's business went well. It was so good that he decided to launch a new service. And guess what. He wanted some parts of the existing application transferred into the new project. I can't tell you how happy we were to move components from one place to another. We did not have to setup something, copy HTML markup or CSS files. We just got the JavaScript file of the component, placed it somewhere and created an instance of it. It just worked because there were no dependencies. I'd not be surprised if some of these components are put up for sale very soon. They are pretty light and provide nice functionality connected with the client's product.</p>
+
+<p>Yes, we broke some rules. Rules that I personally agree with. Rules that I followed for many years. However, the reality is that we all want quality and sometimes that quality is reachable by breaking the rules. We want to produce good, well structured code which is easily maintainable, flexible and extendable. We do not want to look back and say, "Oh my gosh ... was that written by me!?". When I look back now, I know why the code looks the way it does. It looks like that because it was written for that project specifically.</p>
+
+<h2>Conclusion</h2>
+
+<p>If you found this tutorial interesting, check out the official page of <a href="http://absurdjs.com/">AbsurdJS</a>. There are guides, documentation, and articles. You can even try the <a href="http://absurdjs.com/pages/try-it/">library online</a>. Like every other tool, AbsurdJS is designed for specific usage. It fit well for our project and may fit for yours. I don't even call it a framework, because I don't like this definition. It's more like a toolbox rather then a full stack framework. Feel free to experiment with it, make pull requests or submit issues. It's completely open source and <a href="https://github.com/krasimir/absurd">available at GitHub</a>.</p>
