@@ -57,9 +57,9 @@ var instance = MyComp();
 
 <p><code>absurd.component</code> define uma classe. Invocando o método <code>MyComp()</code> cria-se uma nova instância.</p>
 
-<h3>Let's Talk to Each Other</h3>
+<h3>Vamos Bater Um Papo</h3>
 
-<p>Having all these small components, we needed a channel for communication. The observer pattern was perfect for this case. So, every component is an event dispatcher.</p>
+<p>Era preciso um canal de comunicação para todos esses pequenos componentes. O padrão de projeto Observador (Observer Pattern) era perfeito para esse caso. Assim, cada componente é um despachador de eventos.</p>
 
 <pre class="brush: javascript">var MyComp = absurd.component('MyComp', {
     doSomething: function() {
