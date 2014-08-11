@@ -111,7 +111,7 @@ instance.doSomething();
 })();
 </pre>
 
-<p>The JSON above is translated to the same HTML markup. I chose JSON because from a JavaScript point of view, it is much more flexible. We are able to merge objects, replace or delete only parts of it. In most of the popular frameworks, the templates are just plain text that makes them difficult for manipulating. AbsurdJS also has its own <a href="http://krasimirtsonev.com/blog/article/Javascript-template-engine-in-just-20-line">templating engine</a>.</p>
+<p>O JSON acima é convertido no mesmo código HTML. Escolhi o formato JSON porque, do ponto de vista do JavaScript, ele é muito mais flexível. Somos capazes de fundir objetos, substituir ou apagar só alguma parte deles. Nas bibliotecas mais populares, os modelos (templates) são em texto puro, o que dificulta a manipulação deles. AbsurdJS também tem seu próprio <a href="http://krasimirtsonev.com/blog/article/Javascript-template-engine-in-just-20-line">motor de modelagem</a> (templating engine).</p>
 
 <pre class="brush: javascript">absurd.component('MyComp', {
     html: {
@@ -124,8 +124,8 @@ instance.doSomething();
             ]
         }
     },
-    title: 'That\'s awesome',
-    availableFor: ['all browsers', 'Node.js'],
+    title: 'Muito massa',
+    availableFor: ['todos navegadores', 'Node.js'],
     constructor: function() {
         this.populate();
         document.querySelector('body').appendChild(this.el);
@@ -133,12 +133,12 @@ instance.doSomething();
 })();
 </pre>
 
-<p>The result is:</p>
+<p>O resultado é:</p>
 
 <pre class="brush: html">&lt;div class="content"&gt;
-    &lt;h1&gt;That's awesome&lt;/h1&gt;
+    &lt;h1&gt;Muito massa&lt;/h1&gt;
     &lt;ul&gt;
-        &lt;li&gt;all browsers&lt;/li&gt;
+        &lt;li&gt;todos navegadoress&lt;/li&gt;
         &lt;li&gt;Node.js&lt;/li&gt;
     &lt;/ul&gt;
 &lt;/div&gt;</pre>
