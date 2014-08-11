@@ -84,18 +84,18 @@ instance.doSomething();
     &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
 &lt;/div&gt;</pre>
 
-<p>Here is a component which retrieves the heading:</p>
+<p>Eis um componentes que retorna o título da página:</p>
 
 <pre class="brush: javascript">absurd.component('MyComp', {
     html: '.content h1',
     constructor: function() {
         this.populate();
-        console.log(this.el.innerHTML); // Page title
+        console.log(this.el.innerHTML); // Título da página
     }
 })();
 </pre>
 
-<p>The <code>populate</code> method is the only <em>magic</em> method in the whole library. It does several things like compiling CSS or HTML, it binds events and such things. In the example above, it sees that there is an <code>html</code> property and initializes the <code>el</code> variable which points to the DOM element. This works pretty good for us because once we got that reference, we were able to work with the elements and its children. For those components that needed dynamically created elements, the <code>html</code> property accepts an object.</p>
+<p>O método <code>populate</code> é o único método <em>mágico</em> em todaa biblioteca. Ele faz inúmeras coisas, como a compilação de HTML ou CSS, ligação de eventos e coisas do tipo. No exemplo acima, ele percebe que há uma propriedade <code>html</code> e inicializa a variável <code>el</code> que aponta para o elemento DOM. Isso funciona muito bem para nós, já que, uma vez que tivermos aquela referência, nós seremos capazes de trabalhar com aqueles elementos e seus filhos. Para aqueles componentes que precisassem de elementos criados dinâmicamente, a propriedade <code>html</code> aceita um objeto.</p>
 
 <pre class="brush: javascript">absurd.component('MyComp', {
     html: {
