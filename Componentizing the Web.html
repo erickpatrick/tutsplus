@@ -143,7 +143,7 @@ instance.doSomething();
     &lt;/ul&gt;
 &lt;/div&gt;</pre>
 
-<p>The <code>this</code> keyword in the expressions above, points to the component itself. The code between <code>&lt;%</code> and <code>%&gt;</code> is valid JavaScript. So, features like computed properties could be easily developed directly into the template's definition. Of course, we are able to use the same template engine with already existing markup. For example:</p>
+<p>A palavra chave <code>this</code> nas expressões acima, aponta para o próprio componente. O código entr <code>&lt;%</code> e <code>%&gt;</code>é JavaScript válido. Assim, recursos como propriedades computadas podem ser desenvolvidas diretamente na definição do modelo. Claro, somos capazes de usar o mesmo motor de modelagem com código HTMl já existente. Por exemplo:</p>
 
 <pre class="brush: html">&lt;div class="content"&gt;
     &lt;h1&gt;&lt;% this.title %&gt;&lt;/h1&gt;
@@ -154,12 +154,12 @@ instance.doSomething();
     &lt;/ul&gt;
 &lt;/div&gt;</pre>
 
-<p>... could be controlled with the following component (the result is the same):</p>
+<p>... poderia ser controlado pelo componente a seguir (o resultado é o mesmo):</p>
 
 <pre class="brush: javascript">absurd.component('MyComp', {
     html: '.content',
-    title: 'That\'s awesome',
-    availableFor: ['all browsers', 'Node.js'],
+    title: 'Muito massa',
+    availableFor: ['todos navegadores', 'Node.js'],
     constructor: function() {
         this.populate();
     }
