@@ -172,7 +172,7 @@ instance.doSomething();
 
 <p>Nós dividimos o sistema inteiro, de forma bem sucedida, em vários módulos pequenos. As partes que, antes, eram controladores Angular, tornaram-se componentes do AbsurdJS. Percebemos que o HTML estava fortemente ligado às suas definições, o que mudava completamente a administração dos códigos HTML na aplicação. Paramos de pensar em concatenção, conveções e qualquer coisa dessas. Não tivemos de criar qualquer arquivo HTML. Quando penso naquele momento, consigo visualizar o exato momento em nosso histórico de <em>commits</em>. É facilmente visível porque muitos arquivos foram removidos da nossa base. </p>
 
-<p>Then I thought, what will happen if we do the same thing with the CSS. It was of course possible because AbsurdJS was a CSS preprocessor and could produce CSS. We just got the compiled string, create a new <code>style</code> tag in the <code>head</code> of the current page and inject it there.</p>
+<p>Então pensei, o que aconteceria se fizéssemos o mesmo com o CSS? Isso também foi possível, claro, porque a AbsurdJS também era um pré-processador CSS e podia produzir CSS. Só pegamos a cadeia de caracteres compilada, criamos uma nova tag <code>style</code> no <code>head</code> da página atual e o injetamos lá.</p>
 
 <pre class="brush: javascript">absurd.component('MyComp', {
     css: {
