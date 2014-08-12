@@ -32,9 +32,11 @@ JavaScript
 - [Como Preparar o Bower Para Seu Próximo Projeto](http://code.tutsplus.com/pt/tutorials/how-to-setup-bower-in-your-next-project--cms-20526)
 - [Dica Rápida: O Que Fazer Quando Encontrar Um Arquivo do Bower](http://webdesign.tutsplus.com/pt/tutorials/quick-tip-what-to-do-when-you-encounter-a-bower-file--cms-21162)
 - [24 Boas Práticas no JavaScript para Iniciantes](http://code.tutsplus.com/pt/tutorials/24-javascript-best-practices-for-beginners--net-5399)
+- [Como Criar Seus Próprios Componentes HTML Com Componentes Web](http://code.tutsplus.com/pt/articles/how-to-create-your-own-html-elements-with-web-components--cms-21524)
 - [Usando Polymer Para Criar Componentes Web](http://code.tutsplus.com/pt/tutorials/using-polymer-to-create-web-components--cms-20475)
 - [Compartilhando Componentes do Polymer: Parte 1](http://code.tutsplus.com/pt/tutorials/sharing-polymer-components-part-1--cms-21264)
 - [Compartilhando Componentes do Polymer: Parte 2](http://code.tutsplus.com/pt/tutorials/sharing-polymer-components-part-2--cms-21497)
+- [Componentizando a Web](http://code.tutsplus.com/pt/tutorials/componentizing-the-web--cms-20602)
 
 Habilidades com Computadores
 ----------------------------
