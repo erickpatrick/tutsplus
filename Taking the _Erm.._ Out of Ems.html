@@ -76,46 +76,46 @@
 </figure>
 
 
-<h2>Conversion from Pixels</h2>
+<h2>Convertendo A Partir dos Pixels</h2>
 
-<p>We've already started to set our typographic scale in pixels, so how do we convert that into ems? A simple calculation, which expresses the desired font size in relation to the body font size:</p>
+<p>Já começamos a definir nossa escala tipográfica em pixels, então, como a convertemos em <code>em</code>s? Um cálculo simples, que expressa o tamanho desejado do tamanho da fonte em relação ao tamanho da fonte de corpo:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-equation" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-equation.png" height="400">
 </figure>
 
-<p>Using the body size we assume to be 16px, aiming to convert our 36px <code>&lt;h1&gt;</code>, we get:</p>
+<p>Assumindo que o tamanho da fonte de corpo seja 16px, ao tentar converter 36px <code>&lt;h1&gt;</code>, temos:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-equation-result" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-equation-result.png" height="400">
 </figure>
 
-<p>Here's how our scale is converted, using the method above:</p>
+<p>É assim que nossa escala ficará convertida, usando o método acima:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-modular-scale-ems" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-modular-scale-ems.png" height="400">
 </figure>
 
-<p>Some of these values can get a little complex, but don't be afraid to be as precise as possible with the decimal places. Browsers will always do their best to render the exact values.</p>
+<p>Alguns desses valores pode ficar um pouco complexos, mas não tema em ser muito preciso com as casas decimais. Os navegadores tentarão o máximo para renderizar os valores exatos.</p>
 
-<p><strong>Tip:</strong> It's often useful to make a note in the comments, to remind yourself how you calculated each em value.</p>
+<p><strong>Dica:</strong> Geralmente, é útil criar comentários, para lembrar a você mesmo de como calculou cada um dos valores.</p>
 
 
-<h2>Issues with Cascading</h2>
+<h2>Problemas com o Efeito Cascata</h2>
 
-<p>The number one biggest grumble people have with ems comes from complications which arise from cascading. An em value is relative to its nearest parent's value, which can accidentally mess things up if you're not paying attention. Take a look at the following css, which aims to get anchors and paragraphs sized equally:</p>
+<p>O maior problema que o pessoa tem com o <code>em</code> vem da complicação que surge do efeito cascata. Um valor <code>em</code> é relativo ao valor do elemento pai mais próximo, que, acidentalmente, acaba bagunçando as coisas se você não prestar atenção. Veja o CSS abaixo, que tenta formatar os links e os parágrafos, igualmente:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-p-a" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-p-a.png" height="400">
 </figure>
 
-<p>Now take a look at this innocent piece of markup:</p>
+<p>Agora, veja esse pequeno e inocente trecho de código:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-bieber" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-bieber.png" height="400">
 </figure>
 
-<p>As you'd expect, all appears well in the browser. Both the paragraph and the anchor are displaying at 1.2em, relative to the body font size <code>(1.2 * 16px = 19.2px)</code>.</p>
+<p>Como se espera, tudo aparece muito bem no navegador. Ambos parágrafo e links estão com mesmo tamanho, em 1.2em, relativo ao tamanho da fonte do <code>(1.2 * 16px = 19.2px)</code>.</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-markup-good" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-markup-good.png" height="400">
