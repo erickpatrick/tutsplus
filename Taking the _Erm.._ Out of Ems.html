@@ -190,17 +190,17 @@
 
 <h3>Exceções</h3>
 
-<p>Like all excellent scientific rules, there has to be an exception to prove it. In this case, I can think of one good scenario where you may need pixels; borders. If you define a border width (or the height of a horizontal rule) in ems, it may find itself being calculated so small that the browser can't render it.</p>
+<p>Como todas as excelentes regras científicas, tem de ter uma exceção para provar. Nesse caso, sei de um excelente cenário onde, talvez, você precise usar pixels: As bordas; Se você definir a espessura das bordas (ou a altura de um linha horizontal) em <code>em</code>s, pode ser que ela acabe tão fina que o navegador não seja capaz de renderizá-la.</p>
 
-<p>In this case, you simply won't see it.</p>
+<p>Assim, você, simplesmente, não será capaz de vê-la.</p>
 
 <figure>
 <a href="http://source.tutsplus.com/webdesign/tutorials/029_ems/sliders/index.html" rel="external"><img width="600" alt="demystifying-ems-hr-demo" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-hr-demo.png" height="500">
 </a>
-<figcaption><a href="http://source.tutsplus.com/webdesign/tutorials/029_ems/sliders/index.html" rel="external">Take a look a this wee demo</a></figcaption>
+<figcaption><a href="http://source.tutsplus.com/webdesign/tutorials/029_ems/sliders/index.html" rel="external">Dê uma olhada nessa demonstração</a></figcaption>
 </figure>
 
-<p>For horizontal rules, you may have styles a bit like this:</p>
+<p>Para linhas horizontal, você talvez tenha estilos mais ou menos assim:</p>
 
 <pre class="brush: css">hr {
 	height: .02em;
@@ -213,15 +213,15 @@
 	width: 100%;
 }</pre>
 
-<p>In order to prevent it disappearing when the body size is too small, you could add this:</p>
+<p>Para evitar que eles desapareçam quando o tamanho da fonte for muito pequeno, você pode adicionar o seguinte código:</p>
 
 <pre class="brush: css">	min-height: 1px;</pre>
 
-<p>There. A pixel. Dangit.</p>
+<p>Um único pixel.</p>
 
-<p>Border widths cannot have a minimum value (sadly) so a similar backup in that case isn't possible. Instead, you could use the border width values of <code>thick</code>, <code>medium</code> and <code>thin</code>, although these values don't scale with font-size any better than pixels do.</p>
+<p>Infelizmente, as bordas não podem ter valores mínimos, assim, código semelhante ao de logo acima não é possível. Ao invés disso, você pode usar os valores para bordas <code>thick</code>, <code>medium</code> e <code>thin</code>, embora esses valores não escalem melhor que os pixels.</p>
 
-<h2>Conclusion</h2>
+<h2>Conclusão</h2>
 
 <p>Start using ems today! Your content is typographically grounded, whether you realise it or not. Referring back to pixels, converting figures and thinking in terms of fixed layouts isn't even necessary. Begin thinking in ems and you'll soon forget pixels altogether.</p>
 
