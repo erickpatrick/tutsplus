@@ -103,7 +103,7 @@
 
 <h2>Problemas com o Efeito Cascata</h2>
 
-<p>O maior problema que o pessoa tem com o <code>em</code> vem da complicação que surge do efeito cascata. Um valor <code>em</code> é relativo ao valor do elemento pai mais próximo, que, acidentalmente, acaba bagunçando as coisas se você não prestar atenção. Veja o CSS abaixo, que tenta formatar os links e os parágrafos, igualmente:</p>
+<p>O maior problema que o pessoa tem com o <code>em</code> vem da complicação que surge do efeito cascata. Um valor <code>em</code> é relativo ao valor do elemento pai mais próximo, que, acidentalmente, acaba bagunçando as coisas se você não prestar atenção. Veja o CSS abaixo, que tenta formatar as âncoras e os parágrafos, igualmente:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-p-a" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-p-a.png" height="400">
@@ -115,32 +115,32 @@
 <img width="600" alt="demystifying-ems-bieber" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-bieber.png" height="400">
 </figure>
 
-<p>Como se espera, tudo aparece muito bem no navegador. Ambos parágrafo e links estão com mesmo tamanho, em 1.2em, relativo ao tamanho da fonte do <code>(1.2 * 16px = 19.2px)</code>.</p>
+<p>Como se espera, tudo aparece muito bem no navegador. Ambos parágrafo e âncora estão com mesmo tamanho, em 1.2em, relativo ao tamanho da fonte do <code>(1.2 * 16px = 19.2px)</code>.</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-markup-good" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-markup-good.png" height="400">
 </figure>
 
-<p>However, if we were to introduce a second anchor <em>within</em> the paragraph, let's see what happens:</p>
+<p>Porém, se adicionarmos uma segunda âncora, <em>dentro</em> do parágrafo, vejamos o que acontece:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-markup-bad" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-markup-bad.png" height="400">
 </figure>
 
-<p>The anchor within the paragraph is still sized at 1.2em, but that's now relative to the parent paragraph, which is already 19.2px -  <code>(1.2 * 19.2px = 23.04px)</code>. This gives us extra large anchors in some parts of our page; hardly desirable.</p>
+<p>A âncora dentro do parágrafo ainda está em 1.2em, mas, isso porque está em relação ao tamanho da fonte do parágrafo pai, que já é 19.2px - <code>(1.2 * 19.2px = 23.04px)</code>. Isso gerar âncoras maiores em algumas partes de nossa página o que é, altamente, indesejável.</p>
 
-<p><strong>Note:</strong> Nested list items in navigation menus are a classic example of where cascading can get out of control - watch out for that one.</p>
+<p><strong>Nota:</strong> Itens de lista ainhados em menus de navegação são um exemplo clássico de efeito cascata saindo do controle - fique atento nisso.</p>
 
-<h3>The Fix</h3>
-<p>There is no fix for this; the last thing you want to do is add an extra rule to decrease the size of anchors which happen to be in paragraphs - that's a one-way ticket to Migrainesville. In order to keep your CSS and HTML maintainable, it's important to Keep It Simple™.</p>
+<h3>A Correção</h3>
+<p>Não há uma correção para isso. A última coisa que você quer fazer é adicionar uma regra extra para diminuir o tamanho das âncoras de dentro dos parágrafos - é um caminho sem volta. Para manter seu CSS e HTML manuteníveis, é importante "Continuar Simples" (Keep It Simple™).</p>
 
 <ul>
-<li>Keep your markup simple and modular.</li>
-<li>Define your ems clearly and in a restrained fashion - don't go throwing them all over the place. </li>
-<li>Try to restrict font-sizes to typographic elements; be cautious of applying font-sizes to structural elements.</li>
+<li>Deixe seu código simples e modular;</li>
+<li>Defina seus <code>em</code>s claramente e de forma moderada - não os lance a torto e a direito; </li>
+<li>Tente restringir o tamanho das fontes aos elementos tipográficos; tenha cuidado ao aplicar tamanhos de fontes a elementos estruturais;</li>
 </ul>
 
-<p>That should help! Using Ems does mean that you'll have to think quite hard sometimes, but doing so will force you to clean up your act and be efficient in your coding.</p>
+<p>Isso deve ajudar! Usar <code>em</code>s significa que você tem de pensar de verdade, algumas vezes, mas, fazendo isso, forçará você a tomar a decisão correta e deixar o seu código o mais eficiente possível.</p>
 
 <h3>Rems</h3>
 
