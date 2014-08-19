@@ -1,0 +1,240 @@
+<h1>Entendo O Tal do Em</h1>
+
+<p>I'm going to make a sweeping statement; pixels have no place in web design. There's only one reason you're still relying on pixels – and that's because you haven't yet gotten the hang of ems. Let's change that!</p>
+
+<figure>
+<img alt="demystifying-ems-fight" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-fight.png">
+<figcaption>Decorative M courtesy of Frances Mcleod - winner of <a href="http://thetypefight.tumblr.com/post/25095716789/these-fights-are-getting-too-heated-wed-like-to">TypeFight #34</a></figcaption>
+</figure>
+
+<h2>Size is Everything</h2>
+
+<p>When we build websites, we need to tell the browser how “big” stuff is: “this heading is so big”, “this container is yay high”, “this form is wider than that”, it's how we layout a page. Pixels have always made perfect sense as the chosen unit of measurement; we're outputting to a screen, so what else would we use?!</p>
+
+<p>However, it turns out that pixels are inherently inflexible. And it turns out that being inflexible isn't great for the web.</p>
+
+<h2>Problems with Pixels</h2>
+
+<p>Oliver Reichenstein stated a long time ago: “<a href="http://ia.net/blog/the-web-is-all-about-typography-period/">The Web is 95% Typography</a>”, but it's taken a good few years for people to get on board with the idea. Content and users; they are our priorities as web designers, and typographic design helps us meet those priorities.</p>
+
+<p>Browsers display body copy at a default size. On desktops this is generally 16px, <a href="http://kdpeterson.net/blog/2011/06/font-size-in-mobile-browsers.html">mobile browsers vary</a>. Users can change this default, depending on what they prefer.</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-browser-settings" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-browser-settings.png" height="500">
+</figure>
+
+<p>Often, web designers will use CSS to cast the base font size in stone..</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-font-size-12px" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-font-size-12px.png" height="400">
+</figure>
+
+<p>..preventing the user from tailoring their own reading experience, ultimately making the content less accessible.</p>
+
+<p>Lesson one is in handing power back to the user. Don't prevent users from setting their own type size, but make sure you begin on a level playing field. Set your base font to 100% of the browser default:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-font-size-100" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-font-size-100.png" height="400">
+</figure>
+
+<p>then we can work from there.</p>
+
+
+<h2>Our Typographic Scale</h2>
+
+<p>We still need to define how large our various typographic elements appear, especially if we've used a CSS reset technique to remove all default sizing. A fairly typical modular scale would look something like this:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-modular-scale" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-modular-scale.png" height="400">
+</figure>
+
+<p>These figures have been used for centuries, calculated in order to optimize proportions, without having to physically manufacture too many of the blocks used in printing. There's all kind of <a href="http://en.wikipedia.org/wiki/Fibonacci_number">clever mathematics</a> which justify scales like this and I'm sure you can appreciate that this range is pleasing to the eye too.</p>
+
+<p>We would translate this scale to our own typography by applying CSS a bit like this:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-modular-scale-pixels" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-modular-scale-pixels.png" height="400">
+</figure>
+
+<p>However (as we've said already) using fixed pixel values is inflexible, so let's rectify that..</p>
+
+
+<h2>Enter the Em</h2>
+
+<p>An em is a unit of measurement. Just like pixels, ems can determine the size of elements on a web page. Unlike pixels, which are absolute, ems are relative to their parent's font size, which is where a lot of confusion lies.</p>
+
+<p>1em is equal to the inherited font size. If the font size of a <code>&lt;div&gt;</code> is set to 16px, 1em within that <code>&lt;div&gt;</code> is equivalent to 16px. If the font size of that <code>&lt;div&gt;</code>  changes to 20px, 1em within that <code>&lt;div&gt;</code> is equivalent to 20px.</p>
+
+<p>Ems get their name from printing. Precisely when the term was first used <a href="http://www.lettermodel.org/wordpress/?p=280" rel="external">is unclear</a>, but as the uppercase M (pronounced <em>emm</em>) most closely represents the square printing block on which printing letters were placed, it came to lend its name to the measurement. Whatever the point size of the font in question, the block of the uppercase M would define the Em.</p>
+
+<p>An em is usually a touch larger than the letterform, but you get the idea.</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-1-em" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-1-em.png" height="400">
+
+<figcaption>An uppercase M in <a href="http://calendasplus.com/">Calendas Plus</a> - the surrounding square is 1em high, 1em wide</figcaption>
+</figure>
+
+
+<h2>Conversion from Pixels</h2>
+
+<p>We've already started to set our typographic scale in pixels, so how do we convert that into ems? A simple calculation, which expresses the desired font size in relation to the body font size:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-equation" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-equation.png" height="400">
+</figure>
+
+<p>Using the body size we assume to be 16px, aiming to convert our 36px <code>&lt;h1&gt;</code>, we get:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-equation-result" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-equation-result.png" height="400">
+</figure>
+
+<p>Here's how our scale is converted, using the method above:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-modular-scale-ems" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-modular-scale-ems.png" height="400">
+</figure>
+
+<p>Some of these values can get a little complex, but don't be afraid to be as precise as possible with the decimal places. Browsers will always do their best to render the exact values.</p>
+
+<p><strong>Tip:</strong> It's often useful to make a note in the comments, to remind yourself how you calculated each em value.</p>
+
+
+<h2>Issues with Cascading</h2>
+
+<p>The number one biggest grumble people have with ems comes from complications which arise from cascading. An em value is relative to its nearest parent's value, which can accidentally mess things up if you're not paying attention. Take a look at the following css, which aims to get anchors and paragraphs sized equally:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-p-a" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-p-a.png" height="400">
+</figure>
+
+<p>Now take a look at this innocent piece of markup:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-bieber" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-bieber.png" height="400">
+</figure>
+
+<p>As you'd expect, all appears well in the browser. Both the paragraph and the anchor are displaying at 1.2em, relative to the body font size <code>(1.2 * 16px = 19.2px)</code>.</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-markup-good" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-markup-good.png" height="400">
+</figure>
+
+<p>However, if we were to introduce a second anchor <em>within</em> the paragraph, let's see what happens:</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-markup-bad" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-markup-bad.png" height="400">
+</figure>
+
+<p>The anchor within the paragraph is still sized at 1.2em, but that's now relative to the parent paragraph, which is already 19.2px -  <code>(1.2 * 19.2px = 23.04px)</code>. This gives us extra large anchors in some parts of our page; hardly desirable.</p>
+
+<p><strong>Note:</strong> Nested list items in navigation menus are a classic example of where cascading can get out of control - watch out for that one.</p>
+
+<h3>The Fix</h3>
+<p>There is no fix for this; the last thing you want to do is add an extra rule to decrease the size of anchors which happen to be in paragraphs - that's a one-way ticket to Migrainesville. In order to keep your CSS and HTML maintainable, it's important to Keep It Simple™.</p>
+
+<ul>
+<li>Keep your markup simple and modular.</li>
+<li>Define your ems clearly and in a restrained fashion - don't go throwing them all over the place. </li>
+<li>Try to restrict font-sizes to typographic elements; be cautious of applying font-sizes to structural elements.</li>
+</ul>
+
+<p>That should help! Using Ems does mean that you'll have to think quite hard sometimes, but doing so will force you to clean up your act and be efficient in your coding.</p>
+
+<h3>Rems</h3>
+
+<p><a href="http://snook.ca/archives/html_and_css/font-size-with-rem">Rems are useful</a> and behave in exactly the same way as ems, <em>without the cascading</em>. Every Rem you define is relative to the body font size. Support is <a href="http://caniuse.com/#feat=rem">nowhere near as good</a> however, so IE8 and older will need a pixel-based fallback.</p>
+
+
+<h2>What About Using Ems Elsewhere?</h2>
+
+<p>We've covered the CSS <code>font-size</code> property; a sensible first step into using ems, but now let's look at <code>line-height</code>. If ever there was a property which screams "don't use pixel values", it's line-height. The line height (discussed during <a href="http://hub.tutsplus.com/categories/development/articles/webdesign-10533-the-anatomy-of-web-typography">an earlier article</a> in more detail) of a typographic element should <em>always</em> be relative to the font-size. If you have a heading whose size is set in ems, but whose line-height is set in pixels, you could end up with ugly overlapping and a poor visual relationship in general.</p>
+
+<p>There's no fixed rule for how large line-height should be, but 1.5em is a reasonable value to try out and will make your typography pleasantly readable.</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-line-height" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-line-height.png" height="400">
+
+<figcaption>In this case, 1.5em is <code>1.5 * 18px</code> which is 27px</figcaption>
+</figure>
+
+<p><strong>Tip:</strong> Take a look at Bryan Gruhlke's suggestion in the comments for using unit-less values with line-height..</p>
+
+<p><strong>Note:</strong> Things can get complicated if you're trying to set <a href="http://hub.tutsplus.com/categories/development/articles/webdesign-3414-setting-web-type-to-a-baseline-grid">a baseline grid</a> with ems, but that's a topic for another article.</p>
+
+
+<h3>Structural Elements</h3>
+
+<p>Once you get into the mindset of keeping your layout flexible in terms of the font size, you'll find you rely on pixels less and less for laying out elements on the page.</p>
+
+<p>If we're talking about fluid layouts, you should be using % values to determine the width of any given element. Pixels should be nowhere to be seen when determining horizontal dimensions.</p>
+
+<p>Vertical spacing can be achieved very easily with ems; again, it's a question of being clean with your markup and styling. Consider restricting margins to the <em>bottom</em> of your elements, so as to make managing vertical rhythm easier.</p>
+
+<p>If you need to define a <code>height</code> (which can be tricky in flexible layouts) use ems too. Perhaps you're building a navigation and need to define the height of the menu links - they should grow and shrink with the font size.</p>
+
+<p>Rounded corners on a button? Set the <code>border-radius</code> using ems, so everything scales seamlessly.</p>
+
+<figure>
+<img width="600" alt="demystifying-ems-button" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-button.png" height="600">
+
+<figcaption><a href="http://codepen.io/snaptin/pen/CuvFq" rel="external">Take a look at this Codepen</a> for a more visual example of what I'm talking about here</figcaption>
+</figure>
+
+<p>Text shadow, box shadow, ditto.</p>
+
+<h3>RWD</h3>
+
+<p>And if you need to change the size of <em>everything</em> under certain circumstances, like smaller viewports? Alter the base font size of the body in the appropriate media query <code>body { font-size: 90%; }</code> and <em>wham!</em> Your whole site scales in the time it takes to hit enter.</p>
+
+<h3>Exceptions</h3>
+
+<p>Like all excellent scientific rules, there has to be an exception to prove it. In this case, I can think of one good scenario where you may need pixels; borders. If you define a border width (or the height of a horizontal rule) in ems, it may find itself being calculated so small that the browser can't render it.</p>
+
+<p>In this case, you simply won't see it.</p>
+
+<figure>
+<a href="http://source.tutsplus.com/webdesign/tutorials/029_ems/sliders/index.html" rel="external"><img width="600" alt="demystifying-ems-hr-demo" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-hr-demo.png" height="500">
+</a>
+<figcaption><a href="http://source.tutsplus.com/webdesign/tutorials/029_ems/sliders/index.html" rel="external">Take a look a this wee demo</a></figcaption>
+</figure>
+
+<p>For horizontal rules, you may have styles a bit like this:</p>
+
+<pre class="brush: css">hr {
+	height: .02em;
+	border: none;
+	background: white;
+	margin: 2em 0;
+	outline: none;
+	display: block;
+	clear: both;
+	width: 100%;
+}</pre>
+
+<p>In order to prevent it disappearing when the body size is too small, you could add this:</p>
+
+<pre class="brush: css">	min-height: 1px;</pre>
+
+<p>There. A pixel. Dangit.</p>
+
+<p>Border widths cannot have a minimum value (sadly) so a similar backup in that case isn't possible. Instead, you could use the border width values of <code>thick</code>, <code>medium</code> and <code>thin</code>, although these values don't scale with font-size any better than pixels do.</p>
+
+<h2>Conclusion</h2>
+
+<p>Start using ems today! Your content is typographically grounded, whether you realise it or not. Referring back to pixels, converting figures and thinking in terms of fixed layouts isn't even necessary. Begin thinking in ems and you'll soon forget pixels altogether.</p>
+
+<p>If you can think of a situation where you simply can't use ems, I'd love to hear it in the comments!</p>
+
+<h3>Further Reading</h3>
+
+<ul>
+<li><a href="http://pxtoem.com/">pxtoem.com</a> conversion tool</li>
+<li><a href="http://filamentgroup.com/lab/how_we_learned_to_leave_body_font_size_alone/">How we learned to leave default font-size alone and embrace the em</a> by Filament Group</li>
+<li><a href="http://css-tricks.com/why-ems/">Why Ems?</a> by Chris Coyier</li>
+<li><a href="http://en.wikipedia.org/wiki/Em_(typography)">Em (typography)</a> on Wikipedia</li>
+<li><a href="http://csswizardry.com/2011/05/font-sizing-with-rem-could-be-avoided/">Font sizing with rem could be avoided</a> by Harry Roberts (an approach which is less popular these days)</li>
+<li><a href="http://css-tricks.com/snippets/css/less-mixin-for-rem-font-sizing/">Mixins for Rem Font Sizing</a> by Chris Coyier (if you're confident with SASS)</li>
+<li><a href="http://webtypography.net/rhythm_and_proportion/horizontal_motion/2.1.1/">An explanation of ems</a> on "The Elements of Typographic Style Applied to the Web"</li>
+</ul>
