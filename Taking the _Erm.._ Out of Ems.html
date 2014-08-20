@@ -1,6 +1,6 @@
 <h1>Entendo O Tal do Em</h1>
 
-<p>Farei uma afirmação polêmica: Pixels não tem vez no web design. Só há um motivo de você ainda depender dos pixels - e isso se é porque você ainda não entendeu o <code>em</code>. Vamos mudar isso!</p>
+<p>Farei uma afirmação polêmica: Pixels não tem mais vez no web design. Só há um motivo para você ainda depender dos pixels - e isso se dá por você ainda não entender o <code>em</code>. Vamos mudar isso!</p>
 
 <figure>
 <img alt="demystifying-ems-fight" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-fight.png">
@@ -9,46 +9,46 @@
 
 <h2>Tamanho é Tudo</h2>
 
-<p>Ao construir sites, precisamos dizer ao navegador, o quão "grande" as coisas são: "o cabeçalho será desse tamanho", "esse envólucro terá essa altura", "esse formulário será mais largo que aquilo". É assim que projetamos uma página. Os pixels sempre fizeram sentido como a escolha para unidade de medida: Nós estamos jogando as coisas na tela, então, o que mais poderíamos usar?!</p>
+<p>Ao construir sites, precisamos dizer ao navegador o quão "grande" as coisas são: "o cabeçalho será desse tamanho", "esse envólucro terá essa altura", "esse formulário será mais largo que aquilo". É assim que projetamos uma página. Os pixels sempre fizeram sentido em ser a escolha para unidade de medida: Nós estamos jogando as coisas em uma tela, então, o que mais poderíamos usar?!</p>
 
 <p>Contudo, os pixels são inerentemente inflexíveis. E, no fim das contas, inflexibilidade não é legal para a web.</p>
 
 <h2>Problemas com Pixels</h2>
 
-<p>Oliver Reichenstein, há um tempo, afirmou: “<a href="http://ia.net/blog/the-web-is-all-about-typography-period/">A Web é 95% Tipografia</a>”, mas levou bons anos para as pessoas entenderem essa ideia. Conteúdo e usuários; eles são nossas prioridades enquanto web designers e o design tipográfico ajuda a adequar-nos a essas prioridades.</p>
+<p>Oliver Reichenstein, há um tempo, afirmou: “<a href="http://ia.net/blog/the-web-is-all-about-typography-period/">A Web é 95% Tipografia</a>”, mas levou alguns anos para as pessoas entenderem essa ideia. Conteúdo e usuários: les são nossas prioridades enquanto web designers e o design tipográfico ajuda a adequar-nos a essas prioridades.</p>
 
-<p>Navegadores apresentam o texto em um tamanho padrão. No desktop, geralmente é 16px, em <a href="http://kdpeterson.net/blog/2011/06/font-size-in-mobile-browsers.html">navegadores móveis, varia</a>. Usuário podem mudar esse valor, dependendo de suas preferências.</p>
+<p>Navegadores apresentam o texto em um tamanho padrão. No desktop, geralmente é 16px, em <a href="http://kdpeterson.net/blog/2011/06/font-size-in-mobile-browsers.html">navegadores móveis, esse valor varia</a>. Os usuários podem mudar esse valor, adequando-o às suas preferências.</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-browser-settings" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-browser-settings.png" height="500">
 </figure>
 
-<p>Geralmente, os web designer usarão CSS para fixar o tamanho da fonte padrão...</p>
+<p>Geralmente, os web designers usarão CSS para fixar o tamanho da fonte padrão...</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-font-size-12px" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-font-size-12px.png" height="400">
 </figure>
 
-<p>...prevenindo que o usuário ajuste para o que seria sua melhor experiência de leitura, tornando o conteúdo, por fim, menos acessível.</p>
+<p>...prevenindo que o usuário ajuste para sua melhor experiência de leitura, tornando o conteúdo, no fim das contas, menos acessível.</p>
 
-<p>A primeira lição é: devolver esse poder ao usuário. Não previna que os usuários alterem a fonte padrão, porém, garanta que você esteja preparado para esses ajustes. Defina sua fonte base para 100% do tamanho padrão do navegador:</p>
+<p>A primeira lição é: devolver esse controle ao usuário. Não previna que os usuários alterem a fonte padrão, porém, garanta que você esteja preparado para esses diferenças. Defina sua fonte base para 100% do tamanho da fonte padrão do navegador:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-font-size-100" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-font-size-100.png" height="400">
 </figure>
 
-<p>Assim, podemos continuar a trabalhar daqui.</p>
+<p>Dessa forma, podemos continuar a trabalhar a partir daqui.</p>
 
 
 <h2>Nossa Escala Tipográfica</h2>
 
-<p>Ainda teremos de definir o quão grandes os elementos se apresentarão, especialmente se tivermos usado uma técnica de redefinição de CSS para remover os tamanhos padrões. Um escala modular bem típica seria mais ou menos assim:</p>
+<p>Ainda teremos de definir o quão grandes os elementos se apresentarão, especialmente se tivermos usado uma técnica de redefinição de CSS (<em>CSS Reset</em>) para remover os tamanhos padrões. Um escala modular bem típica seria mais ou menos assim:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-modular-scale" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-modular-scale.png" height="400">
 </figure>
 
-<p>Esses tamanhos tem sido usados por séculos, calculados de modo a otimizar as proporções, sem precisar de manufaturar vários blocos usados na impressão. Há várias <a href="http://en.wikipedia.org/wiki/Fibonacci_number">explicações matemáticas</a> que justificam esse tipo de escala, e tenho certeza que você achará essa variação agradável ao seus olhos, também.</p>
+<p>Esses tamanhos tem sido usados por séculos, calculados de modo a otimizar as proporções, sem precisar manufaturar vários blocos usados na impressão. Há várias <a href="http://en.wikipedia.org/wiki/Fibonacci_number">explicações matemáticas</a> para justificar esse tipo de escala, e tenho certeza que você também achará essa escala agradável ao seus olhos.</p>
 
 <p>Nós passaremos essa escala para nossa tipografia, aplicando um pouco de CSS, dessa forma:</p>
 
@@ -65,14 +65,14 @@
 
 <p>1em é igual ao valor herdado do tamanho da fonte. Se o tamanho da fonte em uma <code>&lt;div&gt;</code> for 16px, 1em dentro dessa <code>&lt;div&gt;</code> é equivalente a 16px. Se o tamanho da fonte dessa <code>&lt;div&gt;</code> muda para 20px, 1em dentro dessa <code>&lt;div&gt;</code> será equivalente a 20px.</p>
 
-<p>Os <code>em</code>s conseguiram esse nome do design impresso. Para ser "preciso", a primeira vez que o termo foi usado <a href="http://www.lettermodel.org/wordpress/?p=280" rel="external">é incerto</a>, mas, como a letra maíscula M (pronunciada <em>eme</em>) é a que mais se aproxima da representaçao de um bloco quadrado de impressão, o qual as letras das impressoras são dispostos, acabou emprestando seu nome para essa medida. Independente do tamanho da fonte em questão, a letra M maíscula definiriam o <code>em</code>.</p>
+<p>Os <code>em</code>s ganharam esse nome lá no design impresso. Para ser "preciso", a primeira vez que o termo foi usado <a href="http://www.lettermodel.org/wordpress/?p=280" rel="external">é incerto</a>, mas, como a letra maíscula M (pronunciada <em>eme</em>) é a que mais se aproxima da representaçao de um bloco quadrado de impressão, o qual as letras das impressoras são dispostas, acabou emprestando seu nome para essa medida. Independente do tamanho da fonte em questão, a letra M maíscula definiria o <code>em</code>.</p>
 
-<p>Um <code>em</code>, na verdade, é um pouco maior que a forma da letra, mas você pegou a ideia, não é?.</p>
+<p>Um <code>em</code>, na verdade, é um pouco maior que a forma da letra em si, mas você entendeu a ideia, não é?.</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-1-em" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-1-em.png" height="400">
 
-<figcaption>Uma letra M maísucla na fonte <a href="http://calendasplus.com/">Calendas Plus</a> - o quadrado ao redor tem 1em de largura e 1em de altura</figcaption>
+<figcaption>Uma letra M maíuscula na fonte <a href="http://calendasplus.com/">Calendas Plus</a> - o quadrado ao redor tem 1em de largura e 1em de altura</figcaption>
 </figure>
 
 
@@ -96,14 +96,14 @@
 <img width="600" alt="demystifying-ems-modular-scale-ems" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-modular-scale-ems.png" height="400">
 </figure>
 
-<p>Alguns desses valores pode ficar um pouco complexos, mas não tema em ser muito preciso com as casas decimais. Os navegadores tentarão o máximo para renderizar os valores exatos.</p>
+<p>Alguns desses valores podem ficar um pouco complexos, mas não tema em ser bastante preciso com as casas decimais. Os navegadores tentarão o máximo para renderizar os valores exatos.</p>
 
 <p><strong>Dica:</strong> Geralmente, é útil criar comentários, para lembrar a você mesmo de como calculou cada um dos valores.</p>
 
 
-<h2>Problemas com o Efeito Cascata</h2>
+<h2>Problemas Com O Efeito Cascata</h2>
 
-<p>O maior problema que o pessoa tem com o <code>em</code> vem da complicação que surge do efeito cascata. Um valor <code>em</code> é relativo ao valor do elemento pai mais próximo, que, acidentalmente, acaba bagunçando as coisas se você não prestar atenção. Veja o CSS abaixo, que tenta formatar as âncoras e os parágrafos, igualmente:</p>
+<p>O maior problema que as pessoas tem com o <code>em</code> vem da complicação que surge do efeito cascata. Um valor <code>em</code> é relativo ao valor do elemento pai mais próximo, que, acidentalmente, acaba bagunçando as coisas se você não prestar atenção. Veja o CSS abaixo, que tenta formatar as âncoras e os parágrafos, igualmente:</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-p-a" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-p-a.png" height="400">
@@ -115,7 +115,7 @@
 <img width="600" alt="demystifying-ems-bieber" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-bieber.png" height="400">
 </figure>
 
-<p>Como se espera, tudo aparece muito bem no navegador. Ambos parágrafo e âncora estão com mesmo tamanho, em 1.2em, relativo ao tamanho da fonte do <code>(1.2 * 16px = 19.2px)</code>.</p>
+<p>Como se espera, tudo aparece muito bem no navegador. Ambos parágrafo e âncora estão com mesmo tamanho, em 1.2em, relativo ao tamanho da fonte do navegador <code>(1.2 * 16px = 19.2px)</code>.</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-markup-good" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-markup-good.png" height="400">
@@ -127,20 +127,20 @@
 <img width="600" alt="demystifying-ems-markup-bad" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-markup-bad.png" height="400">
 </figure>
 
-<p>A âncora dentro do parágrafo ainda está em 1.2em, mas, isso porque está em relação ao tamanho da fonte do parágrafo pai, que já é 19.2px - <code>(1.2 * 19.2px = 23.04px)</code>. Isso gerar âncoras maiores em algumas partes de nossa página o que é, altamente, indesejável.</p>
+<p>A âncora dentro do parágrafo ainda está em 1.2em, mas, isso porque está em relação ao tamanho da fonte do parágrafo pai, que já é 19.2px - <code>(1.2 * 19.2px = 23.04px)</code>. Isso gerará âncoras maiores em algumas partes de nossa página o que é, altamente, indesejável.</p>
 
-<p><strong>Nota:</strong> Itens de lista ainhados em menus de navegação são um exemplo clássico de efeito cascata saindo do controle - fique atento nisso.</p>
+<p><strong>Nota:</strong> Itens de lista aninhados em menus de navegação são um exemplo clássico do efeito cascata saindo do controle - fique atento a isso.</p>
 
 <h3>A Correção</h3>
-<p>Não há uma correção para isso. A última coisa que você quer fazer é adicionar uma regra extra para diminuir o tamanho das âncoras de dentro dos parágrafos - é um caminho sem volta. Para manter seu CSS e HTML manuteníveis, é importante "Continuar Simples" (Keep It Simple™).</p>
+<p>Não há uma correção para esse problema. A última coisa que você quer fazer é adicionar uma regra extra para diminuir o tamanho das âncoras de dentro dos parágrafos - é um caminho sem volta. Para manter seu CSS e HTML manuteníveis, é importante "Continuar Simples" (Keep It Simple™).</p>
 
 <ul>
 <li>Deixe seu código simples e modular;</li>
-<li>Defina seus <code>em</code>s claramente e de forma moderada - não os lance a torto e a direito; </li>
+<li>Defina seus <code>em</code>s claramente e de forma moderada - não os lance a torto e a direito pelo código; </li>
 <li>Tente restringir o tamanho das fontes aos elementos tipográficos; tenha cuidado ao aplicar tamanhos de fontes a elementos estruturais;</li>
 </ul>
 
-<p>Isso deve ajudar! Usar <code>em</code>s significa que você tem de pensar de verdade, algumas vezes, mas, fazendo isso, forçará você a tomar a decisão correta e deixar o seu código o mais eficiente possível.</p>
+<p>Isso deve ajudar! Usar <code>em</code>s significa que você tem de pensar de verdade algumas vezes, mas, fazendo isso, forçará você a tomar a decisão correta e deixar o seu código o mais eficiente possível.</p>
 
 <h3>Rems</h3>
 
@@ -149,7 +149,7 @@
 
 <h2>E Que Tal Usar Ems Em Outros Lugares?</h2>
 
-<p>Nós já falamos sobre a propriedade <code>font-size</code> do CSS; um passo considerável para aprender a usar os <code>em</code>s, mas, agora, vamos falar sobre a propriedade <code>line-height</code>. <em>Line-height</em> é aquela propriedade que clama para não usar valores em pixels. A altura da linha (discutida <a href="http://hub.tutsplus.com/categories/development/articles/webdesign-10533-the-anatomy-of-web-typography">em um artigo anterior</a> em mais detalhes) de um elemento tipográfico <em>sempre</em> deve ser relativo ao tamanho da fonte. Se você tem um cabeçalho, cujo tamanho é setado em <code>em</code>s e a <em>line-height</em> está setada em pixels, você pode acabar com uma sobreposição horrível e um péssimo relacionamento em geral.</p>
+<p>Nós já falamos sobre a propriedade <code>font-size</code> do CSS; um passo considerável para aprender a usar os <code>em</code>s, mas, agora, vamos falar sobre a propriedade <code>line-height</code>. <em>Line-height</em> é aquela propriedade que clama para não usar valores em pixels. A altura da linha (discutida <a href="http://hub.tutsplus.com/categories/development/articles/webdesign-10533-the-anatomy-of-web-typography">em um artigo anterior</a> em mais detalhes) de um elemento tipográfico <em>sempre</em> deve ser relativo ao tamanho da fonte. Se você tem um cabeçalho, cujo tamanho é definida em <code>em</code>s e a <em>line-height</em> está definida em pixels, você pode acabar com uma sobreposição horrível e um péssimo relacionamento em geral.</p>
 
 <p>Não há uma regra fixa para o quão grande a <em>line-height</em> pode ser, mas, 1.5 é um valor razoável a se tentar, fazendo com que a tipografia apresente-se agradavelmente legível.</p>
 
@@ -161,20 +161,20 @@
 
 <p><strong>Dica:</strong> Dê uma olhada na sugestão de Bryan Gruhlke nos comentários, em relação ao uso de valores sem unidades para <em>line-height</em>.</p>
 
-<p><strong>Nota:</strong> As coisas podem ficar um pouco complicadas se você tentar setar um <a href="http://hub.tutsplus.com/categories/development/articles/webdesign-3414-setting-web-type-to-a-baseline-grid">linha base de grade</a> em <code>em</code>s, mas isso é um tópico para outro artigo.</p>
+<p><strong>Nota:</strong> As coisas podem ficar um pouco complicadas se você tentar setar uma <a href="http://hub.tutsplus.com/categories/development/articles/webdesign-3414-setting-web-type-to-a-baseline-grid">linha base de grade</a> em <code>em</code>s, mas isso é um tópico para outro artigo.</p>
 
 
 <h3>Elementos Estruturais</h3>
 
-<p>Uma vez que estiver acostumado em criar seus layouts flexíveis, em termos de tamanho de fonte, você perceberá que dependerá cada vez menos dos pixels para posicionar os elementos na página.</p>
+<p>Uma vez que estiver acostumado a criar seus layouts flexíveis, em termos de tamanho de fonte, você perceberá que dependerá cada vez menos dos pixels para posicionar os elementos na página.</p>
 
 <p>Se estivermos falando sobre layouts fluidos, você deve usar valores percentuais para determinar a largura de um elemento. Os pixels não devem ser usados para determinar dimensões horizontais.</p>
 
-<p>Espaçamento vertical pode ser alcançado, facilmente, através dos <code>em</code>s. Novamente, é uma questão de ser direto com seus código e estilo. Considere restringir as margens dos seus elementos, somente às do <em>bottom</em>, facilitando, assim, a administração do ritmo vertical.</p>
+<p>Espaçamento vertical pode ser alcançado, facilmente, através dos <code>em</code>s. Novamente, é uma questão de ser direto com seus código e estilo. Considere restringir as margens dos seus elementos somente às do <em>bottom</em>, facilitando, assim, a administração do ritmo vertical.</p>
 
 <p>Se precisar definir a <code>height</code> (que pode ser bem complicado, em layouts flexíveis), também use <code>em</code>s. Talvez esteja construindo uma navegação e precise definir a altura dos links do menu - eles devem crescer e diminuir com o tamanho da fonte.</p>
 
-<p>Cantos arredondados em botões? Defina a propriedade <code>border-radius</code> usand <code>em</code>s, assim, tudo escala perfeitamente.</p>
+<p>Cantos arredondados em botões? Defina a propriedade <code>border-radius</code> usando <code>em</code>s, assim, tudo escala perfeitamente.</p>
 
 <figure>
 <img width="600" alt="demystifying-ems-button" src="http://cdn.tutsplus.com/webdesign/uploads/2013/05/demystifying-ems-button.png" height="600">
@@ -190,7 +190,7 @@
 
 <h3>Exceções</h3>
 
-<p>Como todas as excelentes regras científicas, tem de ter uma exceção para provar. Nesse caso, sei de um excelente cenário onde, talvez, você precise usar pixels: As bordas; Se você definir a espessura das bordas (ou a altura de um linha horizontal) em <code>em</code>s, pode ser que ela acabe tão fina que o navegador não seja capaz de renderizá-la.</p>
+<p>Como todas as excelentes regras científicas, tem de ter uma exceção para provar. Nesse caso, sei de um excelente cenário onde, talvez, você precise usar pixels: As bordas. Se você definir a espessura das bordas (ou a altura de um linha horizontal) em <code>em</code>s, pode ser que ela acabe tão fina que o navegador não seja capaz de renderizá-la.</p>
 
 <p>Assim, você, simplesmente, não será capaz de vê-la.</p>
 
@@ -200,7 +200,7 @@
 <figcaption><a href="http://source.tutsplus.com/webdesign/tutorials/029_ems/sliders/index.html" rel="external">Dê uma olhada nessa demonstração</a></figcaption>
 </figure>
 
-<p>Para linhas horizontal, você talvez tenha estilos mais ou menos assim:</p>
+<p>Para linhas horizontais, você talvez tenha estilos mais ou menos assim:</p>
 
 <pre class="brush: css">hr {
 	height: .02em;
@@ -213,19 +213,19 @@
 	width: 100%;
 }</pre>
 
-<p>Para evitar que eles desapareçam quando o tamanho da fonte for muito pequeno, você pode adicionar o seguinte código:</p>
+<p>Para evitar que elas desapareçam quando o tamanho da fonte for muito pequeno, você pode adicionar o seguinte código:</p>
 
 <pre class="brush: css">	min-height: 1px;</pre>
 
 <p>Um único pixel.</p>
 
-<p>Infelizmente, as bordas não podem ter valores mínimos, assim, código semelhante ao de logo acima não é possível. Ao invés disso, você pode usar os valores para bordas <code>thick</code>, <code>medium</code> e <code>thin</code>, embora esses valores não escalem melhor que os pixels.</p>
+<p>Infelizmente, as bordas não podem ter valores mínimos, assim, código semelhante ao de logo acima não é possível. Ao invés disso, você pode usar os valores <code>thick</code>, <code>medium</code> e <code>thin</code> para bordas, embora esses valores não escalem melhor que os pixels.</p>
 
 <h2>Conclusão</h2>
 
 <p>Passe a usar <code>em</code>s hoje! Seu conteúdo tem como base a tipografia, tenha você percebido ou não. Tornando aos pixels, converter imagens e pensar em termos de layouts fixos não é mais necessário. Comece a pensar em <code>em</code>s e logo esquecerá os pixels.</p>
 
-<p>Se você conseguir imaginar de alguma situação onde você, simplesmente, não pode usar <code>em</code>s, gostaria de saber dela. Deixe um comentário falando sobre ela!</p>
+<p>Se você conseguir imaginar alguma situação onde você, simplesmente, não pode usar <code>em</code>s, gostaria de saber dela. Deixe um comentário falando sobre!</p>
 
 <h3>Leitura Adicional</h3>
 
