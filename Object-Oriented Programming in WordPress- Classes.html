@@ -112,11 +112,11 @@
 
 <pre class="brush: php">class Blog_Post {
 
-  private $author;
+  private $autor;
 
-  private $publish_date;
+  private $$data_de_publicacao;
 
-  private $is_published;
+  private $foi_publicado;
 
   public function publish() {
       // publique o artigo aqui
@@ -128,11 +128,11 @@
 
 }</pre>
 
-<p>For those who are familiar with object-oriented programming, you may recognize some of the information above, and you may also recognize that I've left out certain things (such as the constructor). Don't worry about that - we'll cover those concepts later.</p>
+<p>Para aqueles familiarizados com programação orientada a objetos, talvez reconheção algumas das informações acima e, talvez também perceba, que ocultei algumas coisas (como o método construtor). Não se preocupe com isso, cobriremos esses conceitos mais tarde.</p>
 
-<p>For those who are completely new to programming, this is what a basic class definition looks like. For the time being, don't worry about the words <code class="inline">private</code> and <code class="inline">public</code> as we'll cover those later.</p>
+<p>Para aquelas pessoas totalmente novatas na programação, isso é básica definição de classe. Por hora, não se preocupe com as palavras <code class="inline">private</code> e <code class="inline">public</code> como também cobriremos isso mais tarde.</p>
 
-<p>Instead, focus on <code class="inline">$author</code>, <code class="inline">$publish_date</code>, and <code class="inline">$is_published</code>. These are the attributes. Notice that they sit above the function definitions in the class. These are analogous to adjectives that describe the <code class="inline">Blog_Post</code>.</p>
+<p>Ao invés disso, foquemos nos <code class="inline">$autor</code>, <code class="inline">$$data_de_publicacao</code>, e <code class="inline">$foi_publicado</code>. Esses são os atributos. Note que eles ficam acima das definições de funções da classe. Eles são análogos aos adjetivos que descrevem o <code class="inline">Blog_Post</code>.</p>
 
 <p>Next, we have the functions <code class="inline">publish()</code> and <code class="inline">delete()</code>. These two functions are the actions that can be taken <i>on</i> the <code class="inline">Blog_Post</code>. Remember, just how objects in the real world can move (like a car can drive), a blog post can be published.</p>
 
