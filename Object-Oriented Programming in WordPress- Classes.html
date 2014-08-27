@@ -134,22 +134,22 @@
 
 <p>Ao invés disso, foquemos nos <code class="inline">$autor</code>, <code class="inline">$$data_de_publicacao</code>, e <code class="inline">$foi_publicado</code>. Esses são os atributos. Note que eles ficam acima das definições de funções da classe. Eles são análogos aos adjetivos que descrevem o <code class="inline">Blog_Post</code>.</p>
 
-<p>Next, we have the functions <code class="inline">publish()</code> and <code class="inline">delete()</code>. These two functions are the actions that can be taken <i>on</i> the <code class="inline">Blog_Post</code>. Remember, just how objects in the real world can move (like a car can drive), a blog post can be published.</p>
+<p>Depois, nós temos as funções, we have the functions <code class="inline">publish()</code> e <code class="inline">delete()</code>. Essas duas funções são ações que podem ser realizadas <i>por um</i> <code class="inline">Blog_Post</code>. Lembre-se, assim como objetos no mundo real podem mover-se (como um carro pode ser dirigido), um artigo pode ser publicado.</p>
 
-<h3>A Visual Representation</h3>
+<h3>Um Representação Visual</h3>
 
-<p>So what happens when you actually instantiate a blog post? That is to say, when we create a blog post in code, how can we mentally picture what's happening within the computer.</p>
+<p>E o que acontece quando você instancia um artigo de blog? Isso é, quando codificamos a criação de um artigo de blod, como podemos mentalizar o que acontece dentro de um computador.</p>
 
-<p>First, let's outline how a blog post is instantiated. Remember, instantiated is a word just like erected is for construction workers - it's how an object is created from a class.</p>
+<p>Primeiros, definamos como uma instância de um artigo de blog é criada. Lembre-se, instanciar é só uma palavra, assim como construir funcionar para trabalhadores da construção civil - é a forma como um objeto é construído a partir de uma classe.</p>
 
-<p>Next, let's see how we can use the single class definition to create three different blog posts:</p>
+<p>Depois, vejamos como podemos usar essa definição única de classe para criar dois artigos de blog diferentes:</p>
 
-<pre class="brush: php">$first_post = new Blog_Post();
-$second_post = new Blog_Post();</pre>
+<pre class="brush: php">$primeiro_artigo = new Blog_Post();
+$segundo_artigo = new Blog_Post();</pre>
 
-<p>Easy enough to read, right? Above, we've created two variables that will reference two completely different <code class="inline">Blog_Post</code> objects. </p>
+<p>Fácil de ler, certo? Logo acima, criamos duas variáveis que referenciarão dois objetos <code class="inline">Blog_Post</code> completamente diferentes. </p>
 
-<p>Note that although we'll talk about this more in a future article, the word <code class="inline">new</code> is what instructs the computer to instantiate a <code class="inline">Blog_Post</code> from us from the class definition.</p>
+<p>Note que, embora falaremos sobre isso em um artigo futuro, a palavra <code class="inline">new</code> é o que instrui os computadores a instanciare um <code class="inline">Blog_Post</code> para nós, a partir de uma definição de classe.</p>
 
 <p>So let's take a look at the first example where we get our first instance of <code class="inline">Blog_Post</code>.</p>
 
