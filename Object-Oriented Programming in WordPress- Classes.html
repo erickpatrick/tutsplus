@@ -1,0 +1,180 @@
+<h1>Object-Oriented Programming in WordPress: Classes</h1>
+
+<p>As outlined <a href="http://code.tutsplus.com/tutorials/object-oriented-programming-in-wordpress-an-introduction--cms-19916" rel="external" target="_blank">in the first post in this series</a>, we're approaching the concept of object-oriented programming within the context of WordPress, and we're doing so for the <i>very </i>beginner.</p>
+
+<p>That means that if you've never heard of OOP, of if you've been curious to learn it, <i>and</i> you're someone who is interested in WordPress and learning how to develop solutions on top of it, then this series is for you.</p>
+
+<p>Over the next set of articles, we're going to be covering all of the major aspects of object-oriented programming. Once we do that, we're going to look at how we can apply what we've learned by building a working solution for WordPress.</p>
+
+<p>But first, we've got to start with the basics.</p>
+
+<h2>What Are Classes?</h2>
+
+<p>If you were to ask 10 different developers for their definition of a class, you'd likely get many <i>similar</i> answers, but few of which were actually the same. In fact, the one I heard repeated the most often when I was younger went like this:</p>
+
+<blockquote>A class is a blueprint for creating an object.</blockquote>
+
+<p>In theory, it sounds great <i>especially</i> if you know what an object is. But that's the problem, isn't it? We're trying to learn about object-oriented programming, so there's no guarantee that we even know what an object is; therefore, how can we understand that a class serves as a blueprint for it?</p>
+
+<p>In a sense, it's begging the question.</p>
+
+<p>So let's back up a few steps and define what an object is in order to more clearly define what a class is.</p>
+
+<h3>Understanding Objects</h3>
+
+<p>The whole idea of the object-oriented programming paradigm is that we, as programmers, can more easily model the information that we see in the real world using constructs in a code.</p>
+
+<p>For example, in the real world we have objects that can be described using adjectives, and these objects can perform actions. Though this may be a bit cliche, think for a moment, about a car:</p>
+
+<ul>
+  <li>It has several adjectives such as size and color.</li>
+  <li>It can drive and it can park.</li>
+</ul>
+
+<p>Again, a simple example, but it proves the point that everything that we have in the real world can usually be reduced to a noun that can be described by its adjectives and the actions that it performs.</p>
+
+<p>So let's generalize this idea to objects. In fact, let's substitute one word for another:</p>
+
+<ul>
+  <li>A noun is an object.</li>
+  <li>An adjective an an attribute (or a property).</li>
+  <li>A verb is a method (or a function).</li>
+</ul>
+
+<p>Easy enough, right? The short of it is that we should be able to describe the things that we see in the real world as objects within a programming paradigm. Note that some languages call attributes properties, and some call methods functions. It doesn't really matter, either - it's all the same. They simply refer to adjectives about the object and actions that it can take, respectively.</p>
+
+<h3>Poor Examples</h3>
+
+<p>Next, most programming courses or books <i>always</i> start off with an example about how objects are meant to model real world objects (similar to like I did with the car example above). </p>
+
+<p>And to some degree, there is truth to that. For those who <i>have</i> been working in development, then you're likely familiar with how we can model people within the context of our application, but that's getting ahead of ourselves.</p>
+
+<p>Though it's true that we can use object-oriented programming to model real world objects, I've found that, more often that not, I'm modeling a more generalized form of a real world object - such as a <i>user<u></u></i> rather than a <i>person</i> - and that the actions they perform are more unique to them.<i></i></p>
+
+<p>To that end, the examples that I want to give throughout this article and those in the rest this series are going to be more geared towards practical applications in computer programming. No one is going to be writing a car plugin and no one is going to be creating an animal object (which is something that you also often see and hear in introductory programming courses).</p>
+
+<p>Instead, we're going to try to focus a bit more on objects that are more likely to be seen in the realm of programming - not in the real world. Not because object-oriented programming is weak, but because the way we go about teaching is weak.</p>
+
+<h3>Good Examples</h3>
+
+<p>Of course, this raises the question of what constitutes a good example? The trouble with answering a question like this is that it can literally be a wide, wide variety of things. </p>
+
+<p>This includes objects such as:</p>
+
+<ul>
+  <li>a blog post,</li>
+  <li>a document such as a resumé,</li>
+  <li>an authenticator or authentication system,</li>
+  <li>a product,</li>
+  <li>a password generator,</li>
+  <li>...and so on.</li>
+</ul>
+
+<p>And you see: Many of these things don't truly exist in the real world. For example, blog posts aren't tangible. They are things that we read on our screens. But does that mean they don't have properties such as a date, a time, and an author? Or does it mean that they don't have actions such as publish, and delete?</p>
+
+<p>Of course not.</p>
+
+<p>So as we progress throughout this series, we're going to be talking about object in terms of the things with which we're more likely to work.</p>
+
+<p>I don't see us programming an animal - and certainly not so in WordPress - at any time during this series :).</p>
+
+<h2>Back to the Basics</h2>
+
+<p>Alright, now that we've taken a brief digression into <i>what</i> objects actually are, and good and bad examples of each, it's time to actually start talking about classes and how they truly serve as blueprints for objects.</p>
+
+<p>In programming, an object is created from a class. That means that a class defines all of the properties an object has and the actions that it can take, and then the computer will create an object in memory.</p>
+
+<p>When it comes to classes, you may hear developers discuss writing classes, defining classes, or building classes. Any and all of these terms are acceptable.</p>
+
+<p>After that, you may hear developers talking about creating objects. The act of creating an object is called instantiation. Yeah - it's a big word for a relatively simple concept. But think of it this way: When you have a class, you have a definition out of which you can create multiple instances of an object.</p>
+
+<p>If we need to draw an analogy to the real world, think first about a set of blueprints for a house. It lays out the floor plan, dimensions, walls, and so on that give construction workers information on how to build a house. Then, when it comes time to actually construct a house, then a team of construction workers erect the house based on the blueprint.</p>
+
+<p>Such is the case with classes, instantiation, and objects. Classes are the blueprints, the computer is the team of construction workers, and the objects are the house. And just as multiple houses can be erected from a single blueprint, such is the case with objects and classes.</p>
+
+<h2>The Mental Models of Classes and Objects</h2>
+
+<p>When it comes to writing code, some people are able to picture the object in their heads - others, maybe not. </p>
+
+<p>Personally, I think that this has more to do with how each of us tend to learn and process information, but I do believe that it's possible to begin to mentally picture how software systems work together the longer you write code.</p>
+
+<p>Here, we're not going to look at any complex system; however, <i>are</i> going to take a look at an example of a class and then a visual representation of what that might look like in terms of code and in terms of a mental image.</p>
+
+<h3>A Class for a Blog Post</h3>
+
+<p>Since we're dealing with WordPress, perhaps an initial example for a class would be one that represents a blog post.</p>
+
+<p>Granted, this will be a simple example to demonstrate the ideas of attributes and functions, but we'll cover various constructs in more details in future articles.</p>
+
+<p>So, with that said, let's say that we're going to create a class for a blog post. Let's also say that our blog post will have an author, a date on which it was published, whether or not it is published, and the actions to publish and delete.</p>
+
+<p>An example class definition for a blog post with these attributes and functions will look like this:</p>
+
+<pre class="brush: php">class Blog_Post {
+
+  private $author;
+  
+  private $publish_date;
+  
+  private $is_published;
+  
+  public function publish() {
+      // Publish the article here
+  }
+  
+  public function delete() {
+      // Delete the article here
+  }
+
+}</pre>
+
+<p>For those who are familiar with object-oriented programming, you may recognize some of the information above, and you may also recognize that I've left out certain things (such as the constructor). Don't worry about that - we'll cover those concepts later.</p>
+
+<p>For those who are completely new to programming, this is what a basic class definition looks like. For the time being, don't worry about the words <code class="inline">private</code> and <code class="inline">public</code> as we'll cover those later.</p>
+
+<p>Instead, focus on <code class="inline">$author</code>, <code class="inline">$publish_date</code>, and <code class="inline">$is_published</code>. These are the attributes. Notice that they sit above the function definitions in the class. These are analogous to adjectives that describe the <code class="inline">Blog_Post</code>.</p>
+
+<p>Next, we have the functions <code class="inline">publish()</code> and <code class="inline">delete()</code>. These two functions are the actions that can be taken <i>on</i> the <code class="inline">Blog_Post</code>. Remember, just how objects in the real world can move (like a car can drive), a blog post can be published.</p>
+
+<h3>A Visual Representation</h3>
+
+<p>So what happens when you actually instantiate a blog post? That is to say, when we create a blog post in code, how can we mentally picture what's happening within the computer.</p>
+
+<p>First, let's outline how a blog post is instantiated. Remember, instantiated is a word just like erected is for construction workers - it's how an object is created from a class.</p>
+
+<p>Next, let's see how we can use the single class definition to create three different blog posts:</p>
+
+<pre class="brush: php">$first_post = new Blog_Post();
+$second_post = new Blog_Post();</pre>
+
+<p>Easy enough to read, right? Above, we've created two variables that will reference two completely different <code class="inline">Blog_Post</code> objects. </p>
+
+<p>Note that although we'll talk about this more in a future article, the word <code class="inline">new</code> is what instructs the computer to instantiate a <code class="inline">Blog_Post</code> from us from the class definition.</p>
+
+<p>So let's take a look at the first example where we get our first instance of <code class="inline">Blog_Post</code>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/34/posts/20021/image/first_post.png" />
+</figure>
+
+<p>Notice in this illustration, we have the <code class="inline">$first_post</code> variable that refers to the instance of the <code class="inline">Blog_Post</code> that was created. The <code class="inline">Blog_Post</code> exists in the computer's memory, it has its attributes that are available as well as its methods that are available.</p>
+
+<p>We can access all of these through the <code class="inline">$first_post</code> variable that references this object. We'll talk about that in more detail later in the series.</p>
+
+<p>But what about the <code class="inline">$second_post</code>? How does <i>that</i> look within the context of object-oriented programming?</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/34/posts/20021/image/two_posts.png" />
+</figure>
+
+<p>If you compare the two illustrations, they look pretty much the same, right? <code class="inline">$first_post </code>references one instance of <code class="inline">Blog_Post</code>, <code class="inline">$second_post</code> references a second instance of <code class="inline">Blog_Post</code> even though they <i>both</i> came from a single class.</p>
+
+<p>Note that for those who are technically astute, it <i>is</i> possible for both variables to reference a single instance, but that's outside the scope of this article.</p>
+
+<h2>What's Up Next?</h2>
+
+<p>Anyway, at this point, you should have a high-level understanding of what a class is, the role it plays in object-oriented programming, and how we can create instances of objects that are accessible through variables.</p>
+
+<p>This still doesn't show us how to interact with the classes though, does it? We'll get to that, but first we need to discuss some of the more primitive aspects of programming such as strings, arrays, loops, and conditionals.</p>
+
+<p>Each of the aforementioned constructs will help us give life to our objects, and once we've taken a tour of each of those, we'll come back to make more mature classes that can actually do work.</p>
