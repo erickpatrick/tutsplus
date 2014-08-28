@@ -18,6 +18,8 @@ PHP
 - [Princípios SOLID Parte 2 - Princípio do Aberto para Expensão, Fechado para Modificação](http://code.tutsplus.com/pt/tutorials/solid-part-2-the-openclosed-principle--net-36600)
 - [Princípios SOLID Parte 3 - Princípios da Substituição de Liskov e Segregação de Interfaces](http://code.tutsplus.com/pt/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710)
 - [Princípos SOLID Parte 4 - Princípio da Inversão de Dependência](https://code.tutsplus.com/pt/tutorials/solid-part-4-the-dependency-inversion-principle--net-36872)
+- [Orientação a Objetos no WordPress: Introdução](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-an-introduction--cms-19916)
+- [Orientação a Objetos no WordPress: Classes](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-classes--cms-20021)
 
 HTML & CSS
 ----------
