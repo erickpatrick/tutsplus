@@ -1,12 +1,12 @@
 <h1>O Santo Graal da Centralização com CSS</h1>
 
-<p>Chris Coyier publicou recentemente a <a href="http://css-tricks.com/centering-css-complete-guide/">fluxo de decisão</a> em seu site, <a href="http://css-tricks.com/">CSS Tricks</a>, para demonstrar a quantidade de métodos para centralizar coisas, verticalmente e horizontalmente, usando CSS. Como soluções individuais, elas tem lá seus problemas, contudo, combinadas, são uma ferramenta poderosa para centralizar as coisas, que funciona entre navegadores, de forma consistente, a partir do IE8.</p>
+<p>Chris Coyier publicou recentemente um <a href="http://css-tricks.com/centering-css-complete-guide/">fluxo de decisão</a> em seu site, <a href="http://css-tricks.com/">CSS Tricks</a>, para demonstrar a quantidade de métodos para centralizar coisas, verticalmente e horizontalmente, usando CSS. Como soluções individuais, elas tem lá seus problemas, contudo, combinadas, são uma ferramenta poderosa para centralizar algo e que funciona entre os variados navegadores, de forma consistente, a partir do IE8.</p>
 
-<p>É assim que se faz.</p>
+<p>Vejamos como se faz.</p>
 
 <h2>Blocos Iniciais</h2>
 
-<p>Se você está criando um site responsivo, provavelmente estará dimensionando seus elementos em percentuais, então, criemos um elemento <code>.container</code> qualquer:</p>
+<p>Se você está criando um site responsivo, provavelmente dimensionará seus elementos em percentuais, então, criemos um elemento <code>.container</code> qualquer:</p>
 
 <pre class="brush: html">&lt;div class="container"&gt;
   ...
@@ -21,11 +21,11 @@
 }
 </pre>
 
-<p>Para garantir que nossos elementos se estendem apropriadamente, atribuamos <code>html, body { width: 100%; height: 100%; }</code>.</p>
+<p>Para garantir que nossos elementos se estendam apropriadamente, adicionemos o seguinte CSS <code>html, body { width: 100%; height: 100%; }</code>.</p>
 
 <h3>Virando a Mesa</h3>
 
-<p>Agora, dentro de <code>.container</code>, centralizaremos de forma vertical com o conhecido padrão das tabelas. Isso faz com que elementos <em>block</em> comuns se comportem como células de tabelas, permitindo-nos centralizar verticalmente:</p>
+<p>Agora, dentro de <code>.container</code>, centralizaremos de forma vertical com o conhecido padrão das tabelas. Isso faz com que elementos <em>block</em> comuns comportem-se como células de tabelas, permitindo centralização vertical:</p>
 
 <pre class="brush: html">&lt;div class="container"&gt;
   &lt;div class="outer"&gt;
@@ -78,10 +78,10 @@
 
 <h3>Alterações</h3>
 
-<p>Para alterar a centralização horizontal de um elemento, basta monificar a propriedade <code>text-align</code> de <code>.inner</code>. Para alterar a centralização vertical, modifique a propriedade <code>vertical-align</code> de <code>.inner</code>.</p>
+<p>Para alterar a centralização horizontal de um elemento, basta modificar a propriedade <code>text-align</code> de <code>.inner</code>. Para alterar a centralização vertical, modifique a propriedade <code>vertical-align</code> de <code>.inner</code>.</p>
 
 <h2>Concluindo</h2>
 
-<p>This example may seem like a lot of markup, but the working pieces are just three  <code>div</code>s: <code>.outer</code>, <code>.inner</code>, and<code>.centered</code>. And the styling for these is consistent so you can use this in your boilerplate CSS across projects and never worry about it again.</p>
+<p>Esse exemplo parece ter muito código HTML, mas as peças funcionais são apenas três <code>div</code>s: <code>.outer</code>, <code>.inner</code>, e <code>.centered</code>. E a estilização delas é consistente, de forma que você pode usar no código CSS base de seus projetos e nunca se preocupar novamente.</p>
 
-<p>It's one more element larger than most centering techniques and completely bulletproof. My hope is that this becomes the standard centering approach and we can finally stop worrying about centering in CSS.</p>
+<p>Essa técnica só usa um elemento a mais que a maioria das técnicas de centralização por aí e funciona perfeitamente. Espero que ela se torne a abordagem padrão para centralização de elementos, para que possamos, finalmente, parar de nos preocuparmos em relação a centralização com CSS.</p>
