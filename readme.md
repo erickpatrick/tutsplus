@@ -53,3 +53,4 @@ Web  Design
 - [Um Guia Para Iniciantes Sobre Como Combinar Fontes](https://webdesign.tutsplus.com/pt/articles/a-beginners-guide-to-pairing-fonts--webdesign-5706)
 - [Criando E-Mails HTML Responsivos](http://webdesign.tutsplus.com/pt/articles/creating-a-simple-responsive-html-email--webdesign-12978)
 - [Aprendendo o Google Web Starter Kit](http://webdesign.tutsplus.com/pt/tutorials/get-up-and-running-with-google-web-starter-kit--cms-21495)
+- [Entendo O Tal do Em](http://webdesign.tutsplus.com/pt/articles/taking-the-erm-out-of-ems--webdesign-12321)

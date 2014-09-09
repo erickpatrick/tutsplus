@@ -1,0 +1,87 @@
+<h1>The Holy Grail of CSS Centering</h1>
+
+<p>Chris Coyier recently published a <a href="http://css-tricks.com/centering-css-complete-guide/">decision tree</a> on his site, <a href="http://css-tricks.com/">CSS Tricks</a>, to demonstrate a plethora of ways to horizontally or vertically center things using CSS. As standalone solutions they all have their caveats, but combined they're an unstoppable centering tool which works cross-browser in IE8 and up consistently.</p>
+
+<p>This is how you do it.</p>
+
+<h2>Starting Blocks</h2>
+
+<p>If you're making a responsive website, you'll most likely be sizing your elements with percentages, so let's make an arbitrary <code>.container</code> element:</p>
+
+<pre class="brush: html">&lt;div class="container"&gt;
+  ...
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.container {
+  width: 70%;
+  height: 70%;
+  margin: 40px auto;
+  background: red;
+}
+</pre>
+
+<p>To make sure our containing element stretches out appropriately, let's set <code>html, body { width: 100%; height: 100%; }</code>.</p>
+
+<h3>Turning the Tables</h3>
+
+<p>Now, inside that <code>.container</code>, we're going to get vertical centering with the common table pattern. This takes normal block level elements and makes them behave like table cells, giving us vertical centering:</p>
+
+<pre class="brush: html">&lt;div class="container"&gt;
+  &lt;div class="outer"&gt;
+    &lt;div class="inner"&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.outer {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+.inner {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+</pre>
+
+<p>Finally, we are going to add a horizontally centered element:</p>
+
+<pre class="brush: html">&lt;div class="container"&gt;
+  &lt;div class="outer"&gt;
+    &lt;div class="inner"&gt;
+      &lt;div class="centered"&gt;
+        ...
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.centered {
+  position: relative;
+  display: inline-block;
+
+  width: 50%;
+  padding: 1em;
+  background: orange;
+  color: white;
+}
+</pre>
+
+<p>Inside of that, you can place anything your heart desires, including dynamic height text blocks, or absolutely positioned elements.</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22114/image/center.png"></figure>
+
+<h3>Alterations</h3>
+
+<p>To change the horizontal centering of the element, just modify <code>.inner</code>'s <code>text-align</code> property. To change the vertical centering, modify <code>.inner</code>'s <code>vertical-align</code> property.</p>
+
+<h2>In Conclusion</h2>
+
+<p>This example may seem like a lot of markup, but the working pieces are just three  <code>div</code>s: <code>.outer</code>, <code>.inner</code>, and<code>.centered</code>. And the styling for these is consistent so you can use this in your boilerplate CSS across projects and never worry about it again.</p>
+
+<p>It's one more element larger than most centering techniques and completely bulletproof. My hope is that this becomes the standard centering approach and we can finally stop worrying about centering in CSS.</p>
