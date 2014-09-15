@@ -1,34 +1,32 @@
-<h1>Creating a Collection of CSS3 Animated Pre-loaders</h1>
+<h1>Criando um Conjunto de Pré-Carregadores em CSS3</h1>
 
-<p>Pre-loaders are a common sight in modern web design. As users we expect the web to be fast and fluid - we don’t like waiting for things. Pre-loaders offer visual feedback in the event of content being loaded, thereby managing expectations and reducing the chance of a user abandoning your website.</p>
+<p>Pré-carregadores são algo bastante comum no web design moderno. Como usuários, esperamos que a web seja rápida e fluida - não gostamos de esperar pelas coisas. Pré-carregadores oferecem uma resposta visual que indica que algum conteúdo está sendo carregado e, dessa forma, adiministrando expectativas, além de reduzir as chanves dos usuários abandonarem seu site.</p>
 
-<h2>CSS3 Essentials for Creating Pre-loaders<br></h2>
+<h2>O Básico do CSS3 para a Criação de Pré-Carregadores</h2>
 
-<p>Before we dive into building our collection of CSS3 pre-loaders, first I’ll be discussing some of the attributes of CSS3 which are essential for creating these type of pre-loaders.<br></p>
+<p>Antes de começarmos a construir nossa coleção de pré-carregadores em CSS3, discutiremos alguns das características do CSS3 que são essenciais para a criação desse tipo de pré-carregadores</p>
 
-<h3>Pseudo Elements <code class="inline">:before</code> <code class="inline">:after</code><br></h3>
+<h3>Os Pseudo Elementoss <code class="inline">:before</code> <code class="inline">:after</code><br></h3>
 
-<p>Pseudo elements are <i>really</i> useful in helping creating CSS3 pre-loaders. Pseudo elements essentially create a fake element before or after the HTML element in question.<br></p>
+<p>Pseudo elementoss são <i>bastante</i> úteis na criação de pré-carregadores com CSS3. Eles criam um elemento falso antes ou depois do elemento HTML em questão.<br></p>
 
-<blockquote>“Pseudo is derived from the Greek word <i>pseudēs which means false.” </i></blockquote>
+<blockquote>“Pseudo é uma palavra que deriva do termo grego <i>pseudēs</i> , que significa falso.” </i></blockquote>
 
-<p>This is similar to creating an extra element that doesn't really exist however pseudo elements can be styled using CSS. These pseudo elements aren't a necessity for creating CSS3 pre-loaders but they do come in handy and allow us to use minimal markup. </p>
+<p>É o mesmo que criar um elemento que não existe, porém, que pode ser estilizado com CSS. Esses pseudo elementos não são necessários para a criação de pré-carregadores com CSS3, mas facilitam bastante na hora de minimizar o código HTML. </p>
 
-<p>Pseudo elements can be styled exactly the same way as you would any other HTML element the only difference being that you must specify a <code class="inline">content</code> property. Without specifying this the pseudo element will not render. The content property can contain any text which may be useful if your pre-loader needs to contain words such as “Loading...” however if you don’t need any text content then you can just leave the content property blank.</p>
+<p>Pseudo elementoss podem ser estilizados da mesma forma que você faria com qualquer outroa elemento HTML, a única diferença é que você precisa especificar a propriedade <code class="inline">content</code> deles. Se não espicificar essa propriedade, o elemento não renderizará. A propriedade <code>content</code> pode conter qualquer texto que seja útil para o seu pré-carregador, como "Carregando...", entretanto, se não precisar de qualquer texto extra, você pode deixar atribuir uma cadeia de caracteres vazia, para essa propriedade.</p>
 
-<h3>CSS3 Animation<br></h3>
+<h3>Animação em CSS3<br></h3>
 
-<p>CSS pseudo elements are useful but not <i>essential</i> for creating CSS3 pre-loaders, but the animation property is. Without this the pre-loader would fail to animate and would just be a static visual - not very useful to indicate that the content is loading.<br></p>
+<p>Os pseudo elementos do CSS são úteis, porém, não <i>essenciais</i> para a criação de pré-carregadores em CSS3, mas a propriedade <code>animation</code> é. Sem ela, o pré-carregador falhará em ficar animado e passaria a ser um simples adorno visual estático - algo não muito útil para indicar que algum conteúdo está em carregamento.<br></p>
 
-<blockquote>“The main component of CSS animations is @keyframes, the CSS rule where animation is created. Think of @keyframes as being stages along a timeline. Inside@keyframes, you can define these stages, each having a different style declaration.” - <a href="http://webdesign.tutsplus.com/tutorials/a-beginners-introduction-to-css-animation--cms-21068" target="_self">A beginners introduction to CSS animation</a></blockquote>
+<blockquote>“O principal componente de animações em CSS é o @keyframes, a regra do CSS onde a animação é criada. Pense no @keyframes como estágios em uma linha do tempo. Dentro da @keyframes, você pode definir esses estágios, cada um com seus própriso estilos declarados.” - <a href="http://webdesign.tutsplus.com/tutorials/a-beginners-introduction-to-css-animation--cms-21068" target="_self">Uma introdução à Animação em CSS</a></blockquote>
 
-<p><b>Note</b>: before we jump into the demo's it might be worth noting that vendor prefixes are not included in the code snippets below. If you need the vendor prefixes then please see the codepen examples.</p>
+<p><b>Nota</b>: antes de seguirmos para a demonstração, é importante atentar que os prefixos dos criadores de navegadores não estão inlusos nos trechos d códigos abaixo. Se precisar desses prefixos, por favor, veja os exemplos no codepen.</p>
 
-<h2><span class="sectionnum">1.</span> Audio Wave</h2>
+<h2><span class="sectionnum">1.</span> Onda de Áudio</h2>
 
-<p>The idea behind this pre-loader is to create an animation similar to an audio wave. <br></p>
-
-
+<p>A ideia por trás desse pré-carregador é criar uma animação equivalente a uma onde de áudio. <br></p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_uhgly/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
@@ -36,7 +34,7 @@
 
 <h3>HTML</h3>
 
-<p>This is achieved by creating five spans, each one representing an audio bar.<br></p>
+<p>Ela é obtida através da criação de cinco elementos <code>spans</code>, cada um representando uma barra de áudio.<br></p>
 
 <pre class="brush: html">&lt;div id="preloader_1"&gt;
       		&lt;span&gt;&lt;/span&gt;
@@ -49,7 +47,7 @@
 
 <h3>CSS</h3>
 
-<p>The effect is achieved by animating the height of each span from 5px to 30px. The span also moves down on the Y axis by 15px to give the effect that it is growing from the centre.<br></p>
+<p>O efeito é obtido através da animação da altura de cada <code>span</code>, de 5px para 30px. A <code>span</code> também se movimento para baixo no eixo Y em 15px, para dar o efeito de que está crescendo a partir do centro.<br></p>
 
 <pre class="brush: css">#preloader_1{
     position:relative;
@@ -88,23 +86,19 @@ animation-delay: .8s;
     100% {height:5px;transform:translateY(0px);background:#9b59b6;}
 }</pre>
 
-<p>By default the animation on each span happens at the same time. The <i>Mexican wave </i>effect is created by adding <code class="inline">animation-delay</code>  to each span with an offset of 2 milliseconds. Each span is targeted using the <code class="inline">nth-child()</code> selector. </p>
+<p>Por padrão, a animação em cada <code>span</code> acontece ao mesmo tempo. O efeito da <i>Onda Mexicana</i> é criado a partir da adição de um atraso, com a propriedade <code class="inline">animation-delay</code>, a cada <code>span</code> com um valor de 2 milisegundos. Cada <code>span</code> é selecionada através do uso do seletor <code class="inline">nth-child()</code>. </p>
 
-<h2><span class="sectionnum">2.</span> Circular Square</h2>
+<h2><span class="sectionnum">2.</span> Quadrado Circular</h2>
 
-<p>This pre-loader uses four squares which shift, rotate, change color and become circles.</p>
-
-
-
+<p>Esse pré-carregador usa quatro quadrados que se transformam, giram e mudam de cor até se tornarem círculos.</p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/preloader/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
 </figure>
 
-
 <h3>HTML</h3>
 
-<p>It's created by using four spans. Each one is a circle/square and has its own animation applied to it.<br></p>
+<p>Ele é criado usando quatro <code>span</code>s; Cada um é um círculo/quadrado e possui sua própria animação.<br></p>
 
 <pre class="brush: html">&lt;div id="preloader_2"&gt;
     		&lt;span&gt;&lt;/span&gt;
@@ -115,7 +109,7 @@ animation-delay: .8s;
 
 <h3>CSS</h3>
 
-<p>All four of them transform from a square into a circle by adjusting the border-radius  from 0px (square) to 20px (circle). <br></p>
+<p>Todos eles vão de quadrados até se transformarem em círculos, ajustando a propriedade <code>border-radius</code> de 0px (quadrado) para 20px (círulo). <br></p>
 
 <pre class="brush: css">#preloader_2{
 position: relative;
@@ -177,18 +171,15 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
 }
 </pre>
 
-<p>Each one also rotates and moves along the X &amp; Y axis in opposite direction to its current position. The color of each span is also animated from a uniform purple to its own independent color. This gives the impression of the shapes merging from several circles into one square.</p>
+<p>Cada um também se movimenta nos eixos X &amp; Y em direções opostas à sua posição atual. A cor de cada <code>span</code> também é animada e vai do púrpura até a cor definida para cada um. Isso dá a impressão de vários círculos fundindo em um único quadrado.</p>
 
-<h2><span class="sectionnum">3.</span> Crossing Shapes</h2>
+<h2><span class="sectionnum">3.</span> Formas Cruzadas</h2>
 
-<p>The Crossing Shapes pre-loader is a single div that utilises the <code class="inline">:before </code> and <code class="inline">:after</code>  pseudo elements that we talked about previously. <br></p>
-
-
+<p>O pré-carregador de Formas Cruzadas é uma única <code>div</code> que utiliza os pseudo-elementos <code class="inline">:before </code> e <code class="inline">:after</code> que mencionamos anteriorment. <br></p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_CKxdB/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
 </figure>
-
 
 <h3>HTML</h3>
 
@@ -233,23 +224,19 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
   	100% {transform: translateX(0px)}
 }</pre>
 
-<p>One animation is placed on <code class="inline">#preloader_3:before</code> and another on <code class="inline">#preloader_3:after</code>. Each animation changes into a different color at the opposite time. Similarly to the previous pre-loader each pseudo element changes from a circle to a square by animating the <code class="inline">border-radius</code> property.</p>
+<p>Uma animação é criada para o pseudo-elemento <code class="inline">#preloader_3:before</code> e outra para o pseudo-elemento <code class="inline">#preloader_3:after</code>. Cada animação se muda uma cor diferente em tempos distintos. De forma semelhante ao pré-carregador anterior, cada pseudo-elemento se transforma de um círculo em um quadrado, ao animar a propriedade <code class="inline">border-radius</code>.</p>
 
-<h2><span class="sectionnum">4.</span> The Snake</h2>
+<h2><span class="sectionnum">4.</span> A Cobra</h2>
 
-<p>The snake is made up of a collection of spans each one being styled to form a circle. <br></p>
-
-
-
+<p>A cobra é criada a partir de um conjunto de <code>span</code>s, onde cada um é estilizado de forma que virem um círculo. <br></p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_fsgkC/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
 </figure>
 
-
 <h3>HTML</h3>
 
-<p>Here's the markup, but you could always try creating the snake pre-loader with three circles and rather than having several spans just use <code class="inline">#preloader_4</code>  div with <code class="inline">:before</code> and <code class="inline">:after</code>. <br></p>
+<p>Eis o código HTML, mas você poderia, facilmente, criar esse pré-carregador usando, apenas, três círculos, ao usar apenas <code class="inline">#preloader_4</code> com os pseudo-elemenots <code class="inline">:before</code> e <code class="inline">:after</code>. <br></p>
 
 <pre class="brush: plain">&lt;div id="preloader_4"&gt;
     		&lt;span&gt;&lt;/span&gt;
@@ -261,7 +248,7 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
 
 <h3>CSS</h3>
 
-<p>The animation is created by transforming the Y position of each animation by -10px and changing color from blue to yellow. To create the underlying shadow effect a drop shadow is added to each span which changes its vertical shadow size from 0px to 20px. <br></p>
+<p>A animação é criada ao mudar a posição Y de cada animação em -10px e mudar a cor do azul para o amarelo. Para criar o efeito de sombra, adicionamos um sombramento a cada <code>span</code> que modifica sua sombra vertical de 0px para 20px. <br></p>
 
 <pre class="brush: css">#preloader_4{
     position:relative;
@@ -298,30 +285,25 @@ border-radius:20px;
   	100%  {opacity: 0.3; transform:translateY(0px);	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);}
 }</pre>
 
-<p>Similarly to pre-loader 1, by adding <code class="inline">animation-delay</code> to each span and offsetting each span's delay by 2 milliseconds it creates the wave effect.</p>
+<p>Semelhante ao pré-carregador 1, ao adicionar <code class="inline">animation-delay</code> a cada <code>span</code> e atrasar cada uma delas em 2 milisegundos, cria-se o efeito de onda.</p>
 
-<h2><span class="sectionnum">5.</span> Spinning Disc</h2>
+<h2><span class="sectionnum">5.</span> Disco Giratório</h2>
 
-<p>This is.. a spinny thing.</p>
-
-
+<p>Esse é um disco.. que gira.</p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_piGbc/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
 </figure>
 
-
-
-
 <h3>HTML</h3>
 
-<p>Here we simply use a single div for the central circle and  <code class="inline">:after</code> on that div to create the outer lines.<br></p>
+<p>Iremos usar uma única <code>div</code> para o círculo central e o pseudo-elemento <code class="inline">:after</code> para criar as linhas externas.<br></p>
 
 <pre class="brush: html"> &lt;div id="preloader5"&gt;&lt;/div&gt;</pre>
 
 <h3>CSS</h3>
 
-<p>Adding a border to the top and bottom and giving it a <code class="inline">border-radius</code> of 50px creates the two outer lines. An animation is added to the main div, just to change the main div's color and create the rotation effect by adding <code class="inline">transform: rotate()</code> . The <code class="inline">:after</code> element animation is added to change the color of the outer border.<br></p>
+<p>Adicionando uma borda às partes superior e inferior, e atribuindo uma <code class="inline">border-radius</code> de 50px, criar-se duas linhas esternas. Adicionamos uma animação à <code>div</code> principal só para alterar sua cor, e criamos o efeito de rotação adicionando <code class="inline">transform: rotate()</code>. A animação do pseudo-elemento <code class="inline">:after</code> é adicionada para alterar a cor da borda externa.<br></p>
 
 <pre class="brush: css">#preloader5{
     position:relative;
@@ -356,22 +338,17 @@ border-radius:20px;
     100% {border-top:10px solid #9b59b6;border-bottom:10px solid #9b59b6;}
 }</pre>
 
-<h2><span class="sectionnum">6.</span> Glistening Window</h2>
+<h2><span class="sectionnum">6.</span> Janela Brilhante</h2>
 
-<p>We've gone a bit Microsoft on this one..</p>
-
-
+<p>Nós incorporamos um pouco da Microsoft nessa daqui...</p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_Diuzb/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
 </figure>
 
-
-
-
 <h3>HTML</h3>
 
-<p>This pre-loader is created using a div and four spans to create each square.<br></p>
+<p>Esse pré-carregador é criado com uma <code>div</code> e quatro <code>span</code>s para cada quadrado.<br></p>
 
 <pre class="brush: html"> &lt;div id="preloader6"&gt;
     		&lt;span&gt;&lt;/span&gt;
@@ -382,7 +359,7 @@ border-radius:20px;
 
 <h3>CSS</h3>
 
-<p>These squares are then positioned in a grid-like order. Animation is added to the main div to rotate the whole pre-loader. Another animation is added to the spans which scales them from 100% to 50%. We then add <code class="inline">animation-delay</code>  to each span to create the pulsing effect.<br></p>
+<p>Esse quadrados são posicionados na forma de grade. A animação é adicionada à <code>div</code> principal para rotacionar todo o pré-carregador. Outra animação é adicionada às <code>span</code>s que mudam de tamanho, indo de 100% para 50%. Nós, então, adicionamos <code class="inline">animation-delay</code>  a cada <code>span</code> para criar o efeito de pulsação.<br></p>
 
 <pre class="brush: css">#preloader6{
     position:relative;
@@ -427,11 +404,11 @@ background:#f1c40f;
 
 
 
-<h2>Conclusion</h2>
+<h2>Conculsão</h2>
 
-<p>The great advantage about using CSS3 pre-loaders over image pre-loaders is that they are scalable and retina ready. That means that no matter what device they are displayed on they will always be crisp, clean and future proof (though bear in mind that not all legacy browsers support CSS3 animation). </p>
+<p>A grande vantagem de usar pré-carregadores em CSS3 ao invés de imagens é que eles são escaláveis e já adaptados para telas retina. Isso significa que, não importa em qual aparelho eles estejam, sempre estarão bem vivos, limpos e preparados para o futuro (contudo, tenha em mente que, nem todos os navegadores antigos dão suporte a animações em CSS). </p>
 
-<p>By understanding a few important CSS3 properties and techniques you should now be able to create your own CSS3 pre-loaders. They're fun to create and with a little bit of experimentation you can create some really cool animations to prevent users from leaving your website.</p>
+<p>Compreendendo algumas propriedades e técnicas importantes do CSS3, você deve ser capaz de criar seus próprios pré-carregadores. Eles são bacanas de se criar e, experimentando um pouco, você pode criar várias animações bem legais, que podem evitar que seus usuários deixem seu site.</p>
 
-<p>If you've created any cool pre-loaders recently then I'd love to see them! Feel free to leave your comments below.</p>
+<p>Se você já criou algum pré-carregador legal, gostaria de vê-los! Sinta-se a vontade de deixar o link deles na área dos comentários.</p>
 
