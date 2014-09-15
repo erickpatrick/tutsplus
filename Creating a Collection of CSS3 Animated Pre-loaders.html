@@ -1,32 +1,32 @@
-<h1>Criando um Conjunto de Pré-Carregadores em CSS3</h1>
+<h1>Criando Pré-Carregadores em CSS3</h1>
 
-<p>Pré-carregadores são algo bastante comum no web design moderno. Como usuários, esperamos que a web seja rápida e fluida - não gostamos de esperar pelas coisas. Pré-carregadores oferecem uma resposta visual que indica que algum conteúdo está sendo carregado e, dessa forma, adiministrando expectativas, além de reduzir as chanves dos usuários abandonarem seu site.</p>
+<p>Pré-carregadores são algo bastante comum no web design moderno. Como usuários, esperamos que a web seja rápida e fluida - não gostamos de esperar pelas coisas. Pré-carregadores oferecem uma resposta visual que indica que algum conteúdo está sendo carregado, adiministrando expectativas, reduz as chances dos usuários abandonarem seu site.</p>
 
 <h2>O Básico do CSS3 para a Criação de Pré-Carregadores</h2>
 
-<p>Antes de começarmos a construir nossa coleção de pré-carregadores em CSS3, discutiremos alguns das características do CSS3 que são essenciais para a criação desse tipo de pré-carregadores</p>
+<p>Antes de começarmos a construir nossa coleção de pré-carregadores, discutiremos algumas das características do CSS3 que são essenciais para a criação desse tipo de pré-carregadores</p>
 
-<h3>Os Pseudo Elementoss <code class="inline">:before</code> <code class="inline">:after</code><br></h3>
+<h3>Os Pseudo-elementoss <code class="inline">:before</code> <code class="inline">:after</code><br></h3>
 
-<p>Pseudo elementoss são <i>bastante</i> úteis na criação de pré-carregadores com CSS3. Eles criam um elemento falso antes ou depois do elemento HTML em questão.<br></p>
+<p>Pseudo-elementos são <i>bastante</i> úteis na criação de pré-carregadores com CSS3. Eles criam um elemento falso antes ou depois do elemento HTML em questão.<br></p>
 
-<blockquote>“Pseudo é uma palavra que deriva do termo grego <i>pseudēs</i> , que significa falso.” </i></blockquote>
+<blockquote>“Pseudo é uma palavra que deriva do termo grego <i>pseudēs</i>, que significa falso.” </i></blockquote>
 
-<p>É o mesmo que criar um elemento que não existe, porém, que pode ser estilizado com CSS. Esses pseudo elementos não são necessários para a criação de pré-carregadores com CSS3, mas facilitam bastante na hora de minimizar o código HTML. </p>
+<p>É o mesmo que criar um elemento que não existe, porém, passível de ser estilizado com CSS. Esses pseudo-elementos não são necessários para a criação de pré-carregadores com CSS3, mas facilitam bastante na hora de minimizar o código HTML. </p>
 
-<p>Pseudo elementoss podem ser estilizados da mesma forma que você faria com qualquer outroa elemento HTML, a única diferença é que você precisa especificar a propriedade <code class="inline">content</code> deles. Se não espicificar essa propriedade, o elemento não renderizará. A propriedade <code>content</code> pode conter qualquer texto que seja útil para o seu pré-carregador, como "Carregando...", entretanto, se não precisar de qualquer texto extra, você pode deixar atribuir uma cadeia de caracteres vazia, para essa propriedade.</p>
+<p>Pseudo-elementos podem ser estilizados da mesma forma que você faria com qualquer outro elemento HTML, a única diferença é que você precisa especificar a propriedade <code class="inline">content</code> deles. Se não espicificá-la, o elemento não renderizará. A propriedade <code>content</code> pode conter qualquer texto que seja útil para o seu pré-carregador, como "Carregando...", entretanto, se não precisar de qualquer texto extra, você pode atribuir uma cadeia de caracteres vazia, para essa propriedade.</p>
 
 <h3>Animação em CSS3<br></h3>
 
-<p>Os pseudo elementos do CSS são úteis, porém, não <i>essenciais</i> para a criação de pré-carregadores em CSS3, mas a propriedade <code>animation</code> é. Sem ela, o pré-carregador falhará em ficar animado e passaria a ser um simples adorno visual estático - algo não muito útil para indicar que algum conteúdo está em carregamento.<br></p>
+<p>Os pseudo-elementos do CSS são úteis, porém, não <i>essenciais</i> para a criação de pré-carregadores, contudo, a propriedade <code>animation</code> é. Sem ela, o pré-carregador falhará em ser animado e passaria a ser um simples adorno visual estático - algo não muito útil para indicar que algum conteúdo está em carregamento.<br></p>
 
 <blockquote>“O principal componente de animações em CSS é o @keyframes, a regra do CSS onde a animação é criada. Pense no @keyframes como estágios em uma linha do tempo. Dentro da @keyframes, você pode definir esses estágios, cada um com seus própriso estilos declarados.” - <a href="http://webdesign.tutsplus.com/tutorials/a-beginners-introduction-to-css-animation--cms-21068" target="_self">Uma introdução à Animação em CSS</a></blockquote>
 
-<p><b>Nota</b>: antes de seguirmos para a demonstração, é importante atentar que os prefixos dos criadores de navegadores não estão inlusos nos trechos d códigos abaixo. Se precisar desses prefixos, por favor, veja os exemplos no codepen.</p>
+<p><b>Nota</b>: antes de seguirmos para a demonstração, é importante atentar que os prefixos dos motores dos navegadores  não estão inlusos nos trechos de códigos abaixo. Se precisar desses prefixos, por favor, veja os exemplos no codepen.</p>
 
 <h2><span class="sectionnum">1.</span> Onda de Áudio</h2>
 
-<p>A ideia por trás desse pré-carregador é criar uma animação equivalente a uma onde de áudio. <br></p>
+<p>A ideia por trás desse pré-carregador é criar uma animação equivalente a uma onda de áudio. <br></p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_uhgly/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
@@ -34,7 +34,7 @@
 
 <h3>HTML</h3>
 
-<p>Ela é obtida através da criação de cinco elementos <code>spans</code>, cada um representando uma barra de áudio.<br></p>
+<p>Ela é obtida através da criação de cinco elementos <code>span</code>s, cada um representando uma barra de áudio.<br></p>
 
 <pre class="brush: html">&lt;div id="preloader_1"&gt;
       		&lt;span&gt;&lt;/span&gt;
@@ -47,7 +47,7 @@
 
 <h3>CSS</h3>
 
-<p>O efeito é obtido através da animação da altura de cada <code>span</code>, de 5px para 30px. A <code>span</code> também se movimento para baixo no eixo Y em 15px, para dar o efeito de que está crescendo a partir do centro.<br></p>
+<p>O efeito é obtido através da animação da altura de cada <code>span</code>, de 5px para 30px. A <code>span</code> também se movimenta para baixo no eixo Y em 15px, para dar o efeito de que está crescendo a partir do centro.<br></p>
 
 <pre class="brush: css">#preloader_1{
     position:relative;
@@ -175,7 +175,7 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
 
 <h2><span class="sectionnum">3.</span> Formas Cruzadas</h2>
 
-<p>O pré-carregador de Formas Cruzadas é uma única <code>div</code> que utiliza os pseudo-elementos <code class="inline">:before </code> e <code class="inline">:after</code> que mencionamos anteriorment. <br></p>
+<p>O pré-carregador de Formas Cruzadas é uma única <code>div</code> que utiliza os pseudo-elementos <code class="inline">:before </code> e <code class="inline">:after</code> que mencionamos anteriormente. <br></p>
 
 <figure>
 <iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_CKxdB/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
@@ -224,7 +224,7 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
   	100% {transform: translateX(0px)}
 }</pre>
 
-<p>Uma animação é criada para o pseudo-elemento <code class="inline">#preloader_3:before</code> e outra para o pseudo-elemento <code class="inline">#preloader_3:after</code>. Cada animação se muda uma cor diferente em tempos distintos. De forma semelhante ao pré-carregador anterior, cada pseudo-elemento se transforma de um círculo em um quadrado, ao animar a propriedade <code class="inline">border-radius</code>.</p>
+<p>Uma animação é criada para o pseudo-elemento <code class="inline">#preloader_3:before</code> e outra para o pseudo-elemento <code class="inline">#preloader_3:after</code>. Cada animação muda uma cor diferente em tempos distintos. De forma semelhante ao pré-carregador anterior, cada pseudo-elemento sai de um círculo e vira um quadrado, ao animar a propriedade <code class="inline">border-radius</code>.</p>
 
 <h2><span class="sectionnum">4.</span> A Cobra</h2>
 
@@ -236,7 +236,7 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
 
 <h3>HTML</h3>
 
-<p>Eis o código HTML, mas você poderia, facilmente, criar esse pré-carregador usando, apenas, três círculos, ao usar apenas <code class="inline">#preloader_4</code> com os pseudo-elemenots <code class="inline">:before</code> e <code class="inline">:after</code>. <br></p>
+<p>Eis o código HTML, mas você poderia, facilmente, criar esse pré-carregador usando, apenas, três círculos, ao usar apenas <code class="inline">#preloader_4</code> com os pseudo-elementos <code class="inline">:before</code> e <code class="inline">:after</code>. <br></p>
 
 <pre class="brush: plain">&lt;div id="preloader_4"&gt;
     		&lt;span&gt;&lt;/span&gt;
@@ -248,7 +248,7 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
 
 <h3>CSS</h3>
 
-<p>A animação é criada ao mudar a posição Y de cada animação em -10px e mudar a cor do azul para o amarelo. Para criar o efeito de sombra, adicionamos um sombramento a cada <code>span</code> que modifica sua sombra vertical de 0px para 20px. <br></p>
+<p>A animação é criada ao mudar a posição Y de cada animação em -10px e mudar a cor do azul para o amarelo. Para criar o efeito de sombra, adicionamos um sombreamento a cada <code>span</code> que modifica sua sombra vertical de 0px para 20px. <br></p>
 
 <pre class="brush: css">#preloader_4{
     position:relative;
@@ -297,7 +297,7 @@ border-radius:20px;
 
 <h3>HTML</h3>
 
-<p>Iremos usar uma única <code>div</code> para o círculo central e o pseudo-elemento <code class="inline">:after</code> para criar as linhas externas.<br></p>
+<p>Usaremos uma única <code>div</code> para o círculo central e o pseudo-elemento <code class="inline">:after</code> para criar as linhas externas.<br></p>
 
 <pre class="brush: html"> &lt;div id="preloader5"&gt;&lt;/div&gt;</pre>
 
