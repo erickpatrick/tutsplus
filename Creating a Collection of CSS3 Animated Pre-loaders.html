@@ -1,0 +1,437 @@
+<h1>Creating a Collection of CSS3 Animated Pre-loaders</h1>
+
+<p>Pre-loaders are a common sight in modern web design. As users we expect the web to be fast and fluid - we don’t like waiting for things. Pre-loaders offer visual feedback in the event of content being loaded, thereby managing expectations and reducing the chance of a user abandoning your website.</p>
+
+<h2>CSS3 Essentials for Creating Pre-loaders<br></h2>
+
+<p>Before we dive into building our collection of CSS3 pre-loaders, first I’ll be discussing some of the attributes of CSS3 which are essential for creating these type of pre-loaders.<br></p>
+
+<h3>Pseudo Elements <code class="inline">:before</code> <code class="inline">:after</code><br></h3>
+
+<p>Pseudo elements are <i>really</i> useful in helping creating CSS3 pre-loaders. Pseudo elements essentially create a fake element before or after the HTML element in question.<br></p>
+
+<blockquote>“Pseudo is derived from the Greek word <i>pseudēs which means false.” </i></blockquote>
+
+<p>This is similar to creating an extra element that doesn't really exist however pseudo elements can be styled using CSS. These pseudo elements aren't a necessity for creating CSS3 pre-loaders but they do come in handy and allow us to use minimal markup. </p>
+
+<p>Pseudo elements can be styled exactly the same way as you would any other HTML element the only difference being that you must specify a <code class="inline">content</code> property. Without specifying this the pseudo element will not render. The content property can contain any text which may be useful if your pre-loader needs to contain words such as “Loading...” however if you don’t need any text content then you can just leave the content property blank.</p>
+
+<h3>CSS3 Animation<br></h3>
+
+<p>CSS pseudo elements are useful but not <i>essential</i> for creating CSS3 pre-loaders, but the animation property is. Without this the pre-loader would fail to animate and would just be a static visual - not very useful to indicate that the content is loading.<br></p>
+
+<blockquote>“The main component of CSS animations is @keyframes, the CSS rule where animation is created. Think of @keyframes as being stages along a timeline. Inside@keyframes, you can define these stages, each having a different style declaration.” - <a href="http://webdesign.tutsplus.com/tutorials/a-beginners-introduction-to-css-animation--cms-21068" target="_self">A beginners introduction to CSS animation</a></blockquote>
+
+<p><b>Note</b>: before we jump into the demo's it might be worth noting that vendor prefixes are not included in the code snippets below. If you need the vendor prefixes then please see the codepen examples.</p>
+
+<h2><span class="sectionnum">1.</span> Audio Wave</h2>
+
+<p>The idea behind this pre-loader is to create an animation similar to an audio wave. <br></p>
+
+
+
+<figure>
+<iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_uhgly/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
+</figure>
+
+<h3>HTML</h3>
+
+<p>This is achieved by creating five spans, each one representing an audio bar.<br></p>
+
+<pre class="brush: html">&lt;div id="preloader_1"&gt;
+      		&lt;span&gt;&lt;/span&gt;
+  			&lt;span&gt;&lt;/span&gt;
+  			&lt;span&gt;&lt;/span&gt;
+  			&lt;span&gt;&lt;/span&gt;
+  			&lt;span&gt;&lt;/span&gt;
+  		&lt;/div&gt;
+</pre>
+
+<h3>CSS</h3>
+
+<p>The effect is achieved by animating the height of each span from 5px to 30px. The span also moves down on the Y axis by 15px to give the effect that it is growing from the centre.<br></p>
+
+<pre class="brush: css">#preloader_1{
+    position:relative;
+}
+#preloader_1 span{
+	display:block;
+	bottom:0px;
+	width: 9px;
+	height: 5px;
+	background:#9b59b6;
+	position:absolute;
+    animation: preloader_1 1.5s	 infinite ease-in-out;
+}
+
+#preloader_1 span:nth-child(2){
+left:11px;
+animation-delay: .2s;
+
+}
+#preloader_1 span:nth-child(3){
+left:22px;
+animation-delay: .4s;
+}
+#preloader_1 span:nth-child(4){
+left:33px;
+animation-delay: .6s;
+}
+#preloader_1 span:nth-child(5){
+left:44px;
+animation-delay: .8s;
+}
+@keyframes preloader_1 {
+    0% {height:5px;transform:translateY(0px);background:#9b59b6;}
+    25% {height:30px;transform:translateY(15px);background:#3498db;}
+    50% {height:5px;transform:translateY(0px);background:#9b59b6;}
+    100% {height:5px;transform:translateY(0px);background:#9b59b6;}
+}</pre>
+
+<p>By default the animation on each span happens at the same time. The <i>Mexican wave </i>effect is created by adding <code class="inline">animation-delay</code>  to each span with an offset of 2 milliseconds. Each span is targeted using the <code class="inline">nth-child()</code> selector. </p>
+
+<h2><span class="sectionnum">2.</span> Circular Square</h2>
+
+<p>This pre-loader uses four squares which shift, rotate, change color and become circles.</p>
+
+
+
+
+<figure>
+<iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/preloader/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
+</figure>
+
+
+<h3>HTML</h3>
+
+<p>It's created by using four spans. Each one is a circle/square and has its own animation applied to it.<br></p>
+
+<pre class="brush: html">&lt;div id="preloader_2"&gt;
+    		&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+		&lt;/div&gt;</pre>
+
+<h3>CSS</h3>
+
+<p>All four of them transform from a square into a circle by adjusting the border-radius  from 0px (square) to 20px (circle). <br></p>
+
+<pre class="brush: css">#preloader_2{
+position: relative;
+left: 50%;
+width: 40px;
+height: 40px;
+}
+#preloader_2 span{
+    display:block;
+	bottom:0px;
+	width: 20px;
+	height: 20px;
+	background:#9b59b6;
+	position:absolute;
+}
+#preloader_2 span:nth-child(1){
+animation: preloader_2_1 1.5s infinite ease-in-out;
+}
+#preloader_2 span:nth-child(2){
+left:20px;
+animation: preloader_2_2 1.5s infinite ease-in-out;
+
+}
+#preloader_2 span:nth-child(3){
+top:0px;
+animation: preloader_2_3 1.5s infinite ease-in-out;
+}
+#preloader_2 span:nth-child(4){
+top:0px;
+left:20px;
+animation: preloader_2_4 1.5s infinite ease-in-out;
+}
+
+@-keyframes preloader_2_1 {
+    0% {-transform: translateX(0px) translateY(0px)  rotate(0deg); border-radius:0px;}
+    50% {-transform: translateX(-20px) translateY(-10px) rotate(-180deg); border-radius:20px;background:#3498db;}
+    80% {-transform: translateX(0px) translateY(0px) rotate(-360deg); border-radius:0px;}
+     100% {-transform: translateX(0px) translateY(0px) rotate(-360deg); border-radius:0px;}
+}
+@-keyframes preloader_2_2 {
+    0% {-transform: translateX(0px) translateY(0px)  rotate(0deg);border-radius:0px;}
+    50% {-transform: translateX(20px) translateY(-10px) rotate(180deg);border-radius:20px;background:#f1c40f;}
+    80% {-transform: translateX(0px) translateY(0px) rotate(360deg);border-radius:0px;}
+    100% {-transform: translateX(0px) translateY(0px) rotate(360deg);border-radius:0px;}
+}
+@-keyframes preloader_2_3 {
+    0% {-transform: translateX(0px) translateY(0px)  rotate(0deg);border-radius:0px;}
+    50% {-transform: translateX(-20px) translateY(10px) rotate(-180deg); border-radius:20px;background:#2ecc71;}
+    80% {-transform: translateX(0px) translateY(0px) rotate(-360deg);border-radius:0px;}
+     100% {-transform: translateX(0px) translateY(0px) rotate(-360deg); border-radius:0px;}
+}
+
+
+@-keyframes preloader_2_4 {
+    0% {-transform: translateX(0px) translateY(0px)  rotate(0deg); border-radius:0px;}
+    50% {-transform: translateX(20px) translateY(10px) rotate(180deg); border-radius:20px;background:#e74c3c;}
+    80% {-transform: translateX(0px) translateY(0px) rotate(360deg); border-radius:0px;}
+     100% {-transform: translateX(0px) translateY(0px) rotate(360deg);border-radius:0px;}
+}
+</pre>
+
+<p>Each one also rotates and moves along the X &amp; Y axis in opposite direction to its current position. The color of each span is also animated from a uniform purple to its own independent color. This gives the impression of the shapes merging from several circles into one square.</p>
+
+<h2><span class="sectionnum">3.</span> Crossing Shapes</h2>
+
+<p>The Crossing Shapes pre-loader is a single div that utilises the <code class="inline">:before </code> and <code class="inline">:after</code>  pseudo elements that we talked about previously. <br></p>
+
+
+
+<figure>
+<iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_CKxdB/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
+</figure>
+
+
+<h3>HTML</h3>
+
+<pre class="brush: html">&lt;div id="preloader_3"&gt;&lt;/div&gt;</pre>
+
+<h3>CSS</h3>
+
+<pre class="brush: css">#preloader_3{
+    position:relative;
+}
+#preloader_3:before{
+	width:20px;
+	height:20px;
+	border-radius:20px;
+	background:blue;
+	content:'';
+	position:absolute;
+	background:#9b59b6;
+	animation: preloader_3_before 1.5s infinite ease-in-out;
+}
+
+#preloader_3:after{
+	width:20px;
+	height:20px;
+	border-radius:20px;
+	background:blue;
+	content:'';
+	position:absolute;
+	background:#2ecc71;
+	left:22px;
+	animation: preloader_3_after 1.5s infinite ease-in-out;
+}
+
+@keyframes preloader_3_before {
+    0% {transform: translateX(0px) rotate(0deg)}
+    50% {transform: translateX(50px) scale(1.2) rotate(260deg); background:#2ecc71;border-radius:0px;}
+      100% {transform: translateX(0px) rotate(0deg)}
+}
+@keyframes preloader_3_after {
+    0% {transform: translateX(0px)}
+    50% {transform: translateX(-50px) scale(1.2) rotate(-260deg);background:#9b59b6;border-radius:0px;}
+  	100% {transform: translateX(0px)}
+}</pre>
+
+<p>One animation is placed on <code class="inline">#preloader_3:before</code> and another on <code class="inline">#preloader_3:after</code>. Each animation changes into a different color at the opposite time. Similarly to the previous pre-loader each pseudo element changes from a circle to a square by animating the <code class="inline">border-radius</code> property.</p>
+
+<h2><span class="sectionnum">4.</span> The Snake</h2>
+
+<p>The snake is made up of a collection of spans each one being styled to form a circle. <br></p>
+
+
+
+
+<figure>
+<iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_fsgkC/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
+</figure>
+
+
+<h3>HTML</h3>
+
+<p>Here's the markup, but you could always try creating the snake pre-loader with three circles and rather than having several spans just use <code class="inline">#preloader_4</code>  div with <code class="inline">:before</code> and <code class="inline">:after</code>. <br></p>
+
+<pre class="brush: plain">&lt;div id="preloader_4"&gt;
+    		&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+		&lt;/div&gt;</pre>
+
+<h3>CSS</h3>
+
+<p>The animation is created by transforming the Y position of each animation by -10px and changing color from blue to yellow. To create the underlying shadow effect a drop shadow is added to each span which changes its vertical shadow size from 0px to 20px. <br></p>
+
+<pre class="brush: css">#preloader_4{
+    position:relative;
+}
+#preloader_4 span{
+	position:absolute;
+	width:20px;
+	height:20px;
+	background:#3498db;
+	opacity:0.5;
+border-radius:20px;
+	-animation: preloader_4 1s infinite ease-in-out;
+
+}
+#preloader_4 span:nth-child(2){
+	left:20px;
+	animation-delay: .2s;
+}
+#preloader_4 span:nth-child(3){
+	left:40px;
+	animation-delay: .4s;
+}
+#preloader_4 span:nth-child(4){
+	left:60px;
+	animation-delay: .6s;
+}
+#preloader_4 span:nth-child(5){
+	left:80px;
+	animation-delay: .8s;
+}
+@keyframes preloader_4 {
+    0% {opacity: 0.3; transform:translateY(0px);    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);}
+    50% {opacity: 1; transform: translateY(-10px); background:#f1c40f;	box-shadow: 0px 20px 3px rgba(0, 0, 0, 0.05);}
+  	100%  {opacity: 0.3; transform:translateY(0px);	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);}
+}</pre>
+
+<p>Similarly to pre-loader 1, by adding <code class="inline">animation-delay</code> to each span and offsetting each span's delay by 2 milliseconds it creates the wave effect.</p>
+
+<h2><span class="sectionnum">5.</span> Spinning Disc</h2>
+
+<p>This is.. a spinny thing.</p>
+
+
+
+<figure>
+<iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_piGbc/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
+</figure>
+
+
+
+
+<h3>HTML</h3>
+
+<p>Here we simply use a single div for the central circle and  <code class="inline">:after</code> on that div to create the outer lines.<br></p>
+
+<pre class="brush: html"> &lt;div id="preloader5"&gt;&lt;/div&gt;</pre>
+
+<h3>CSS</h3>
+
+<p>Adding a border to the top and bottom and giving it a <code class="inline">border-radius</code> of 50px creates the two outer lines. An animation is added to the main div, just to change the main div's color and create the rotation effect by adding <code class="inline">transform: rotate()</code> . The <code class="inline">:after</code> element animation is added to change the color of the outer border.<br></p>
+
+<pre class="brush: css">#preloader5{
+    position:relative;
+	width:30px;
+	height:30px;
+	background:#3498db;
+	border-radius:50px;
+	animation: preloader_5 1.5s infinite linear;
+}
+#preloader5:after{
+	position:absolute;
+	width:50px;
+	height:50px;
+	border-top:10px solid #9b59b6;
+	border-bottom:10px solid #9b59b6;
+	border-left:10px solid transparent;
+	border-right:10px solid transparent;
+	border-radius:50px;
+	content:'';
+	top:-20px;
+	left:-20px;
+	animation: preloader_5_after 1.5s infinite linear;
+}
+@keyframes preloader_5 {
+    0% {transform: rotate(0deg);}
+    50% {transform: rotate(180deg);background:#2ecc71;}
+    100% {transform: rotate(360deg);}
+}
+@keyframes preloader_5_after {
+    0% {border-top:10px solid #9b59b6;border-bottom:10px solid #9b59b6;}
+    50% {border-top:10px solid #3498db;border-bottom:10px solid #3498db;}
+    100% {border-top:10px solid #9b59b6;border-bottom:10px solid #9b59b6;}
+}</pre>
+
+<h2><span class="sectionnum">6.</span> Glistening Window</h2>
+
+<p>We've gone a bit Microsoft on this one..</p>
+
+
+
+<figure>
+<iframe src="//tutsplus.github.io/CSS3-Preloaders/codepens/codepen_Diuzb/" width="600" height="300" frameborder="0" scrolling="no"></iframe>
+</figure>
+
+
+
+
+<h3>HTML</h3>
+
+<p>This pre-loader is created using a div and four spans to create each square.<br></p>
+
+<pre class="brush: html"> &lt;div id="preloader6"&gt;
+    		&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+			&lt;span&gt;&lt;/span&gt;
+		&lt;/div&gt;</pre>
+
+<h3>CSS</h3>
+
+<p>These squares are then positioned in a grid-like order. Animation is added to the main div to rotate the whole pre-loader. Another animation is added to the spans which scales them from 100% to 50%. We then add <code class="inline">animation-delay</code>  to each span to create the pulsing effect.<br></p>
+
+<pre class="brush: css">#preloader6{
+    position:relative;
+	width: 42px;
+	height: 42px;
+	animation: preloader_6 5s infinite linear;
+}
+#preloader6 span{
+	width:20px;
+	height:20px;
+	position:absolute;
+	background:red;
+	display:block;
+	animation: preloader_6_span 1s infinite linear;
+}
+#preloader6 span:nth-child(1){
+background:#2ecc71;
+
+}
+#preloader6 span:nth-child(2){
+left:22px;
+background:#9b59b6;
+	animation-delay: .2s;
+
+}
+#preloader6 span:nth-child(3){
+top:22px;
+background:#3498db;
+	animation-delay: .4s;
+}
+#preloader6 span:nth-child(4){
+top:22px;
+left:22px;
+background:#f1c40f;
+	animation-delay: .6s;
+}
+@keyframes preloader_6_span {
+   0% { transform:scale(1); }
+   50% { transform:scale(0.5); }
+   100% { transform:scale(1); }
+}</pre>
+
+
+
+<h2>Conclusion</h2>
+
+<p>The great advantage about using CSS3 pre-loaders over image pre-loaders is that they are scalable and retina ready. That means that no matter what device they are displayed on they will always be crisp, clean and future proof (though bear in mind that not all legacy browsers support CSS3 animation). </p>
+
+<p>By understanding a few important CSS3 properties and techniques you should now be able to create your own CSS3 pre-loaders. They're fun to create and with a little bit of experimentation you can create some really cool animations to prevent users from leaving your website.</p>
+
+<p>If you've created any cool pre-loaders recently then I'd love to see them! Feel free to leave your comments below.</p>
+

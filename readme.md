@@ -20,6 +20,7 @@ PHP
 - [Princípos SOLID Parte 4 - Princípio da Inversão de Dependência](https://code.tutsplus.com/pt/tutorials/solid-part-4-the-dependency-inversion-principle--net-36872)
 - [Orientação a Objetos no WordPress: Introdução](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-an-introduction--cms-19916)
 - [Orientação a Objetos no WordPress: Classes](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-classes--cms-20021)
+- [Orientação a Objetos no WordPress: Tipos](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-types--cms-20299)
 
 HTML & CSS
 ----------
