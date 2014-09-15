@@ -1,14 +1,14 @@
 <h1>Orientação a Objetos no WordPress: Tipos</h1>
 
-<p>Para aqueles que acabaram de iniciar nessa série, atente que estamos aprendendo a orientação a objetos com PHP, no contexto do WordPress.</p>
+<p>Para aqueles que acabaram de iniciar nessa série, percebam que estamos aprendendo a orientação a objetos com PHP, dentro do contexto do WordPress.</p>
 
 <h2>O Público Alvo</h2>
 
-<p>Estamos seguindo um caminho para aqueles <em>bem</em> iniciantes, assim, se você é um desenvolvedor experiente, ou já é familiar com muitos dos aspectos da orientação a objetos, essa série, provavelmente, não é para você.</p>
+<p>Estamos seguindo um caminho para aqueles <em>bem</em> iniciantes, assim, se você é um desenvolvedor experiente, ou já é familiarizado com muitos dos aspectos da orientação a objetos, essa série, provavelmente, não é para você.</p>
 
-<p>Tendo isso em mente, se você <em>estiver</em> interessado em aprender sobre orientação a objetos em PHP e se considera iniciante, continuaremos essa série, com esse artigo, tratando sobre alguns dos vários tipos de dados que o PHP oferece.</p>
+<p>Tendo isso em mente, se você estiver <em>realmente</em> interessado em aprender sobre orientação a objetos em PHP e se considera iniciante, continuaremos com esse artigo, tratando sobre alguns dos vários tipos de dados que o PHP oferece.</p>
 
-<p>Primeiro, porém, tenha certeza que de já ter acompanhado os artigos anteriores da série, uma vez que eles vão adicionando conteúdo um ao outro:</p>
+<p>Primeiro, porém, tenha certeza de já estar a par dos artigos anteriores da série, uma vez que eles seguem uma ordem lógica:</p>
 
 <ol>
   <li>
@@ -19,7 +19,7 @@
   </li>
 </ol>
 
-<p>Quanto terminar, poderá começar a acompanhar esse artigo sobre tipos.</p>
+<p>Quando terminar, poderá começar a acompanhar esse artigo sobre tipos de dados.</p>
 
 <h2>O Que são Tipos?</h2>
 
@@ -27,11 +27,11 @@
 
 <blockquote>Chegaremos lá, porém, precisamos, primeiro, discutir os aspectos primitivos da programação, como as cadeias de caracteres (strings), vetores (arrays) e as estruturas de decisão (condicionais).</blockquote>
 
-<p>Agora, cadeias de caracteres, vetores e outros, são o que consideramos tipos. Repetições e condicionais são que chamamos de estruturas de controle, as quais cobriremos no próximo artigo.</p>
+<p>Cadeias de caracteres, vetores e outros, são o que podemos chamar de tipos de dados. Repetições e condicionais são que chamamos de estruturas de controle, as quais cobriremos no próximo artigo.</p>
 
-<p>Enquanto isso, aprendamos um termo simples sobre o que um tipo de dado representa para que saibamos modelar conceitualmente e dar continuidade, não só com esse artigo, mas com o resto do conteúdo dessa série.</p>
+<p>Enquanto isso, aprendamos, de forma simples, o que um tipo de dado representa, para que possamos criar os modelos conceituais em nossa mente, possamos continuar, não só com esse artigo, mas com o resto do conteúdo da série.</p>
 
-<p>Para aqueles que já criaram <em>qualquer</em> código que inclua variável, então você já deve ter visto algo do tipo:</p>
+<p>Para aqueles que já criaram <em>qualquer</em> código que inclua alguma variável, já devem ter visto algo do tipo:</p>
 
 <ul>
   <li>
@@ -46,13 +46,13 @@
   <li>...e por aí vai.</li>
 </ul>
 
-<p>Na forma mais básica, você ouvirá que esse código é sobre definição de variáveis, e até está correto, mas é uma definição muito generalizada.</p>
+<p>O que mais você ouvirá sobre esse código é que ele trata da definição de variáveis. Isso está correto, mas é uma definição muito generalizada.</p>
 
-<p>Veja, toda vez que você define uma variável em PHP, você o faz prefixando o nome da variável com <code class="inline">$</code>. Isso permite o PHP saber que você está definindo uma variável e que ela representará algum valor típico.</p>
+<p>Veja, toda vez que você define uma variável em PHP, você o faz prefixando o nome da variável com <code class="inline">$</code>. Isso permite o PHP saber que uma variável foi definida e que ela representará algum valor típico.</p>
 
 <p>Bem fácil, certo?</p>
 
-<p>O ponto é, há vários <em>tipos</em> no PHP. Para aqueles vindos das "linguagens fortemente tipadas", falaremos sobre isso logo-logo, mas, saiba que o PHP oferente os seguintes tipos de dados:</p>
+<p>O ponto é, há vários <em>tipos</em> no PHP. Se você é acostumado com "linguagens fortemente tipadas", falaremos sobre isso logo-logo. Porém, saiba que o PHP oferece os seguintes tipos de dados:</p>
 
 <ul>
   <li>booleanos</li>
@@ -64,7 +64,7 @@
   <li>...e mais</li>
 </ul>
 
-<p>Booleanos, cadeias de caracteres, números de ponto flutuante e inteiros podem ser imaginados como tipos de dados simples, enquanto vetores e objetos podem são considerados tipos de dados complexoss.</p>
+<p>Booleanos, cadeias de caracteres, números de ponto flutuante e inteiros podem ser vistos como tipos de dados simples, enquanto vetores e objetos podem ser considerados tipos de dados complexoss.</p>
 
 <h3>Tipos de Dados Simples</h3>
 
@@ -74,38 +74,38 @@
 
 <ul>
   <li>Valores booleanos são responsáveis por representar valores <code class="inline">true</code> (verdadeiro) ou <code class="inline">false</code> (falso).</li>
-  <li>Inteiros referem-se a qualquer número completo. Ou seja, números sem partes fracionárias ou casas decimais. Exemplos, são: <code class="inline">-12</code>, <code class="inline">-2</code>, <code class="inline">1</code>, <code class="inline">100</code>, <code class="inline">5000</code>, e por aí vai.</li>
-  <li>Números de ponto flutuantes são uma espécie de oposto dos Inteiros, uma vez que eles representaão números com casas decimais e partes fracionárias. Assim, os números <code class="inline">3.1459</code>, <code class="inline">2.5</code>, <code class="inline">100.25</code> são exemplos válidos. Se você quiser salvar o valor de, digamos, <code class="inline">3/4</code>, você irá, na verdade, salvar o valor <code class="inline">.75</code>, <i>a menos</i> que o tenha salvo como uma cadeia de caracteres. Para tanto, você deverá salvar o valor <code class="inline">'3/4'</code>. Perceba a sutil diferença entre os dois. Um está entre aspas enquanto o outro não.</li>
-  <li>Por falor em cadeias de caracteres, elas representam uma única palavra ou um conjunto de caracteres alfanuméricos. Palavras, frases ou caracteres aleatórios são representações das cadeias de caracteres. Exemplos concretos incluem <code class="inline">'frases como essa'</code> ou uma única <code class="inline">'palavra'</code> ou algo mais complexo, como <code class="inline">'e952098vjdkw94kd'</code>. </li>
+  <li>Inteiros referem-se a qualquer número completo. Ou seja, números sem partes fracionárias ou casas decimais. Exemplos: <code class="inline">-12</code>, <code class="inline">-2</code>, <code class="inline">1</code>, <code class="inline">100</code>, <code class="inline">5000</code>, e por aí vai.</li>
+  <li>Números de ponto flutuantes são uma espécie de oposto dos Inteiros, uma vez que eles representarão números com casas decimais e partes fracionárias. Assim, os números <code class="inline">3.1459</code>, <code class="inline">2.5</code>, <code class="inline">100.25</code> são exemplos válidos. Se você quiser salvar o valor de, digamos, <code class="inline">3/4</code>, você irá, na verdade, salvar o valor <code class="inline">.75</code>, <i>a menos</i> que o tenha salvo como uma cadeia de caracteres. Para tanto, você deverá salvar o valor <code class="inline">'3/4'</code>. Perceba a sutil diferença entre os dois. Um está entre aspas enquanto o outro não.</li>
+  <li>Por falar em cadeias de caracteres, elas representam uma única palavra ou um conjunto de caracteres alfanuméricos. Palavras, frases ou caracteres aleatórios são representações das cadeias de caracteres. Exemplos concretos incluem <code class="inline">'frases como essa'</code> ou uma única <code class="inline">'palavra'</code> ou algo mais complexo, como <code class="inline">'e952098vjdkw94kd'</code>. </li>
 </ul>
 
 <p>Atenção&ndash;qualquer um dos tipos de dados mencionados acima pode ser transformado em uma cadeia de caracteres envolvendo-os em aspas.</p>
 
 <h3>Tem Um Porém</h3>
 
-<p>Por exemplo, se você tivesse de trabalhar com o valor booleano <code>true</code>e o guardasse em uma variável, assim:<code class="inline"> $is_active = 'true';</code>, você apenas criou uma cadeia de caracteres que tem como valor a palavra <code class="inline">true</code> nela.</p>
+<p>Por exemplo, se você tivesse de trabalhar com o valor booleano <code>true</code>e o guardasse em uma variável, assim:<code class="inline"> $is_active = 'true';</code>, você apenas teria criado uma cadeia de caracteres, que tem como valor a palavra <code class="inline">true</code> nela.</p>
 
-<p>De forma análoga, se criasse variável dessa forma <code class="inline">$age = '42';</code>, você só criou uma cadeia de caracteres, com 2 caracteres, o 4 e o 2, não um número inteiro de valor 42.</p>
+<p>De forma análoga, se criasse variável dessa forma <code class="inline">$age = '42';</code>, você só teria criado uma cadeia de caracteres, com 2 caracteres, o 4 seguido do 2, não um número inteiro de valor 42.</p>
 
 <p>Conseguiu entender?</p>
 
-<p>Isso é importante porque, quando começarmos a trabalhar com estruturas de controle&ndash;as quais falaremos no próximo artigo&ndash;e executarmos comparações, pode ser que obtenhamos algo que não queiramos, se não soubermos, exatamente, com <em>quais tipos</em> de dados estamos trabalhando.</p>
+<p>Isso é importante porque, quando começarmos a trabalhar com estruturas de controle&ndash;as quais falaremos no próximo artigo&ndash;e executarmos comparações, pode ser que obtenhamos algo que não queiramos, caso não soubermos, exatamente, com <em>quais tipos</em> de dados estamos trabalhando.</p>
 
 <h3>Tipos de Dados Complexos</h3>
 
-<p>Além dos tipos de dados simples, também temos tipos de dados complexos, que, na minha opinião, não são <em>tão</em> complicados. Na verdade, vejo-os como uma forma diferenciada de guardar vários pedaços de informaçao em uma única variável, enquanto que, com os tipos simples, podemos guardar pedaços únicos de informação em uma variável.</p>
+<p>Além dos tipos de dados simples, também temos tipos de dados complexos, que, na minha opinião, não são <em>tão</em> complicados. Na verdade, vejo-os como uma forma diferenciada de guardar vários pedaços de informação em uma única variável, enquanto que, com os tipos simples, podemos guardar pedaços únicos de informação em uma única variável.</p>
 
 <p>Bem fácil de lembrar, não é? E quais são os tipos de dados mais complexos?</p>
 
-<p>Os dois principais que nos focaremos são os vetores e os objetos. Há inúmeros outros, que estão além do escopo dessa série, então, caso esteja interessado, sinta-se livre para ir ao <a href="http://php.net/manual/pt_BR/language.types.php" rel="external" target="_blank">manual do PHP</a>, mas, aviso: se você for um verdadeiro iniciante, o conteúdo pode parecer ser bem mais complicado.</p>
+<p>Os dois principais, os quais focaremos, são os vetores e os objetos. Há inúmeros outros, que estão além do escopo dessa série, então, caso esteja interessado, sinta-se livre para ir ao <a href="http://php.net/manual/pt_BR/language.types.php" rel="external" target="_blank">manual do PHP</a>, mas, aviso: se você for um verdadeiro iniciante, o conteúdo pode aparentar ser bem complicado.</p>
 
 <ul>
-  <li>Vetores são uma forma de guardar múltiplas partes de uma informação em um conjunto. Imagine, por um momento, que você tem uma lista de nomes que deseja guardar em um conjunto, chamado de $nomes. No PHP, você definirá um vetor e atribuirá a ua variável, dessa forma: <code class="inline">$nomes = [ 'John', 'Paul', 'Ringo', 'George' ];</code> Perceba que temos um vetor de cadeia de caracteres, mas, outro aspecto dos vetores no PHP é que eles podem guardar vários tipos de dados; Isso significa que você pode ter um vetor assim <code class="inline">$vetor_com_varios_tipos = [ 42, TRUE, 'Star Wars', .007 ];</code>. Bem legal, não é?</li>
-  <li>Vetores associativos são como os vetores normais que acabamos de ver, exceto que eles são constituidos de pares de chave-valor. Isso significa que qualquer valor é obtido através de uma chave, então, se fôssemos transformar o primeiro vetor em um vetor associativo, ele ficaria mais ou menos assim: array( 'guitarra-ritimica' =&gt; 'John', 'bass' =&gt; 'Paul', 'guitarra-solo' =&gt; 'George', 'baterias' =&gt; 'Ringo' ); Se o formato parecer um pouco estranho, não se preocupe! Veremos um pouco mais sobre o formato, mais para a frente nessa série. Mas, o padrão, é que os vetores normais sejam indexados numericamente - isso é, com <code class="inline">0</code>, <code class="inline">1</code>, <code class="inline">2</code>, <code class="inline">3</code>, e por aí vai - e os vetores associativos são indexados pelas suas chaves, como <code class="inline">'guitarra-ritmica'</code>, <code class="inline">'bateria'</code>, e coisas do tipo.</li>
-  <li>Os Objetos, que falamos da última vez, são, sem sombra de dúvidas, os tipos mais complexos de dados que o PHP oferece, porque eles podem ser a combinação de <em>tudo</em>. Seus atributos são compostos de qualquer tipo de dados, inclusive outros objetos e funções, além de realizar operações, não só em tipos básicos de dados, mas em dados complexos também.</li>
+  <li>Vetores são uma forma de guardar múltiplas partes de uma informação em um conjunto. Imagine, por um momento, que você tem uma lista de nomes que deseja guardar em um conjunto, chamado de $nomes. No PHP, você definirá um vetor e atribuirá a uma variável, dessa forma: <code class="inline">$nomes = [ 'John', 'Paul', 'Ringo', 'George' ];</code> Perceba que temos um vetor de cadeia de caracteres, mas, outro aspecto dos vetores no PHP é que eles podem guardar vários tipos de dados; Isso significa que você pode ter um vetor assim <code class="inline">$vetor_com_varios_tipos = [ 42, TRUE, 'Star Wars', .007 ];</code>. Bem legal, não é?</li>
+  <li>Vetores associativos são como os vetores normais que acabamos de ver, exceto que eles são constituidos de pares de chave-valor. Isso significa que qualquer valor é obtido através de uma chave, então, se fôssemos transformar o primeiro vetor em um vetor associativo, ele ficaria mais ou menos assim: array( 'guitarra-ritimica' =&gt; 'John', 'baixo' =&gt; 'Paul', 'guitarra-solo' =&gt; 'George', 'baterias' =&gt; 'Ringo' ); Se o formato parecer um pouco estranho, não se preocupe! Veremos um pouco mais sobre o formato mais para a frente nessa série. Mas, o padrão, é que os vetores normais sejam indexados numericamente - isso é, com <code class="inline">0</code>, <code class="inline">1</code>, <code class="inline">2</code>, <code class="inline">3</code>, e por aí vai - e os vetores associativos sejam indexados pelas suas chaves, como <code class="inline">'guitarra-ritmica'</code>, <code class="inline">'bateria'</code>, e coisas do tipo.</li>
+  <li>Os Objetos, que falamos da última vez, são, sem sombra de dúvidas, os tipos mais complexos de dados que o PHP oferece, porque eles podem ser a combinação de <em>tudo</em>. Seus atributos são compostos de qualquer tipo de dados, inclusive outros objetos e funções, além de poderem realizar operações, não só em tipos básicos de dados, mas em dados complexos também.</li>
 </ul>
 
-<p>Em se tratando de objetos, a melhor maneira de se ver o quão complexos eles são é vê-los em ação, que é o que faremos quando estivermos construindo um plugin.</p>
+<p>Em se tratando de objetos, a melhor maneira de se entender o quão complexos eles são, é vê-los em ação, que é o que faremos quando estivermos construindo um plugin.</p>
 
 <h3>Uma Observação Sobre Vetores</h3>
 
@@ -115,24 +115,24 @@
 
 <h2>Não Deixe as Frases Intimidarem Você!</h2>
 
-<p>Por hora, não deixe as palavras <i>simples</i> e <i>complexo</i> intimidarem você. Os tipos "simples" são, relativamente, diretos, certo? Mas, "complexo" tem sua conotação, indicando que será complicado, difpicil, e isso não é bem verdade - espero que esse artigo tenha deixado isso claro.</p>
+<p>Por hora, não deixe as palavras <i>simples</i> e <i>complexo</i> intimidarem você. Os tipos "simples" são, relativamente, diretos, certo? Mas, "complexo" tem sua conotação, indicando que será complicado, difícil, e isso não é bem verdade - espero que esse artigo tenha deixado isso claro.</p>
 
-<p>Tipos de dados complexos de dados, simplesmente, guardam múltiplos tipos de dados em uma única variável. Tipos de dados simples não podem.</p>
+<p>Tipos de dados complexos, simplesmente, guardam múltiplos tipos de dados em uma única variável. Tipos de dados simples não o podem.</p>
 
 <h2>Existem Outros?</h2>
 
 <p>Sim. são eles: <a href="http://www.php.net/manual/en/language.types.resource.php" rel="external" target="_blank">resources</a>, <a href="http://www.php.net/manual/en/language.types.callable.php" rel="external" target="_blank">callbacks</a>, e <a href="http://www.php.net/manual/en/language.pseudo-types.php" rel="external" target="_blank">pseudo-tipos</a>. A maioria deles vão além do escopo dessa série em particular; porém, podemos <em>até</em> acabar usando as callbacks (que são um tipo particular de função), quando tivermos construindo nosso plugin.</p>
 
-<p>Sinta-se livra para ler o máximo que puder, mas lembre-se que estão além do escopo do escopo do conteúdo que cobriremos nessa série. Assim, se você se sentir sobrecarregado por eles, talvez seja melhor revisitá-los após finalizar essa série.</p>
+<p>Sinta-se livra para ler o máximo que puder, mas lembre-se que estão além do escopo do conteúdo que cobriremos nessa série. Assim, se você se sentir sobrecarregado, talvez seja melhor revisitá-los após finalizar essa série.</p>
 
-<h2>Um Pouco sobre Linguagem Fortemente Tipadas</h2>
+<h2>Um Pouco sobre Linguagens Fortemente Tipadas</h2>
 
-<p>Algumas linguagens de programação são conhecidas como fracamente tipadas (ou dinâicas), enquanto outras são conhecidas como fortemente tipadas.</p>
+<p>Algumas linguagens de programação são conhecidas como fracamente tipadas (ou dinâmicas), enquanto outras são conhecidas como fortemente tipadas.</p>
 
-<p>Esse é um outro caso onde a terminologia, geralmente, intimida novatos ao invés de impulsioná-los a entender e a saber como usar as ferramentas disponíveis. Contudo, a distinção entre as duas é bem simples:</p>
+<p>Esse é um outro caso onde a terminologia, geralmente, intimida novatos, ao invés de impulsioná-los a entender e a saber como usar as ferramentas disponíveis. Contudo, a distinção entre as duas é bem simples:</p>
 
 <ul>
-  <li>Linguagens fortemente tipadas são aquelas em que as variáveis devem ser declaradas com um tipo de dado específico e, além disso, só podem guardar valores daquele tipo de dado. Por exemplo, se quisermos guardar uma cadeia de caracteres, teríamos de declarar a variáel como <code class="inline">string sMyName</code>; Então, guardaríamos uma cadeia de caracteres nessa variável: <code class="inline">sMyName = 'Tom McFarlin';</code>. Isso significa que a variável <code class="inline">sMyName</code> <i>só</i> pode guardar cadeias de caracteres. Se tentar guardar outros tipos de dados na variável, o compilador reconhecerá isso como um erro.</li>
+  <li>Linguagens fortemente tipadas são aquelas em que as variáveis devem ser declaradas com um tipo de dado específico e, além disso, só podem guardar valores daquele tipo de dado. Por exemplo, se quisermos guardar uma cadeia de caracteres, teríamos de declarar a variável como <code class="inline">string sMyName</code>; Então, guardaríamos uma cadeia de caracteres nessa variável: <code class="inline">sMyName = 'Tom McFarlin';</code>. Isso significa que a variável <code class="inline">sMyName</code> <i>só</i> pode guardar cadeias de caracteres. Se tentar guardar outros tipos de dados na variável, o compilador reconhecerá isso como um erro.</li>
   <li>Linguagens fracamente tipadas (ou dinâmicas), como o PHP, permitem que uma variável possa guardar diversos tipos de dados a qualquer momento da execução. Usando o exemplo acima, poderíamos, facilmente, criar a variável <code class="inline">$my_name = 'Tom McFarlin';</code> e depois atribuí-la outra valor, assim <code class="inline">$my_name = false</code>. Ao tentar guardar outro valor na variável, simplesmente, funcionará. Perceba que isso tem suas vantagens e desvantagens.</li>
 </ul>
 
@@ -140,8 +140,8 @@
 
 <p>Antes de retornarmos ao mundo da programação orientada a objetos, precisamos falar sobre algumas outras estruturas básicas de programação, como as estruturas de controle. </p>
 
-<p>Elas incluem coisas como os laços, condicionais e outros, que podem impactar no fluxo do código da vida do programa. Adicionalmente, elas se integram com os tipos de dados que falamos aqui.</p>
+<p>Elas incluem coisas como os laços de repetição, condicionais e outros, que podem impactar no fluxo do código durante a vida do programa. Adicionalmente, elas se integram com os tipos de dados que falamos aqui.</p>
 
-<p>Assim, antes de continuar no próximo aritog, tenha certeza de revisar tudo que falamos, deixe comentários com perguntas ou <em>feedbacks</em> sobre a série.</p>
+<p>Assim, antes de continuar no próximo artiog, tenha certeza de revisar tudo que falamos, deixe comentários com perguntas ou <em>feedbacks</em> sobre a série.</p>
 
 <p>Vejo você no próximo artigo!</p>
