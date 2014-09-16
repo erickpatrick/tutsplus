@@ -58,3 +58,7 @@ Web  Design
 - [Aprendendo o Google Web Starter Kit](http://webdesign.tutsplus.com/pt/tutorials/get-up-and-running-with-google-web-starter-kit--cms-21495)
 - [Entendo O Tal do Em](http://webdesign.tutsplus.com/pt/articles/taking-the-erm-out-of-ems--webdesign-12321)
 - [O Santo Graal da Centralização com CSS](http://webdesign.tutsplus.com/pt/tutorials/the-holy-grail-of-css-centering--cms-22114)
+
+Fotografia
+----------
+- [7 Técnicas de Pose Para Pessoas Comuns](http://photography.tutsplus.com/pt/tutorials/7-posing-techniques-for-non-models--photo-15608)
