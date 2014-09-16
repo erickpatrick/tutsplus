@@ -58,6 +58,7 @@ Web  Design
 - [Aprendendo o Google Web Starter Kit](http://webdesign.tutsplus.com/pt/tutorials/get-up-and-running-with-google-web-starter-kit--cms-21495)
 - [Entendo O Tal do Em](http://webdesign.tutsplus.com/pt/articles/taking-the-erm-out-of-ems--webdesign-12321)
 - [O Santo Graal da Centralização com CSS](http://webdesign.tutsplus.com/pt/tutorials/the-holy-grail-of-css-centering--cms-22114)
+- [Criando Pré-Carregadores em CSS3](http://webdesign.tutsplus.com/pt/tutorials/creating-a-collection-of-css3-animated-pre-loaders--cms-21978)
 
 Fotografia
 ----------
