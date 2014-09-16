@@ -63,3 +63,7 @@ Web  Design
 Fotografia
 ----------
 - [7 Técnicas de Pose Para Pessoas Comuns](http://photography.tutsplus.com/pt/tutorials/7-posing-techniques-for-non-models--photo-15608)
+
+Artesanato e DIY
+----------------
+- [Como Decorar Uma Caneca de Café Usando Marcador para Porcelana](http://crafts.tutsplus.com/pt/tutorials/how-to-decorate-a-coffee-mug-using-a-porcelain-marker--craft-7454)
