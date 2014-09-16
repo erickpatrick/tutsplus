@@ -2,7 +2,7 @@
 first, we have the title
 -->
 
-<h1>Construa um Modelo de E-mail em HTML do Zero</h1>
+<h1>Construa um Modelo de E-mail em HTML a Partir do Zero</h1>
 
 
 
@@ -11,7 +11,7 @@ first, we have the title
 then, we have an introduction paragraph
 -->
 
-<p>A melhor forma para entender qualquer processo é realizá-lo desde o começo Hoje, faremos isso com o design de e-mails, construindo um modelo de e-mail em HTML, do zero.</p>
+<p>A melhor forma de entender qualquer processo é realizá-lo desde o começo Hoje, faremos isso com o design de e-mails, construindo um modelo de e-mail em HTML, do zero.</p>
 
 
 
@@ -20,7 +20,7 @@ then, we have an introduction paragraph
 then comes the meat of the post
 -->
 
-<p>A melhor forma para entender qualquer processo é realizá-lo desde o começo Hoje, faremos isso com o design de e-mails, construindo um modelo de e-mail em HTML, do zero.</p>
+<p>A melhor forma de entender qualquer processo é realizá-lo desde o começo Hoje, faremos isso com o design de e-mails, construindo um modelo de e-mail em HTML, do zero.</p>
 
 <h2>O Pontapé Inicial</h2>
 
@@ -49,11 +49,11 @@ then comes the meat of the post
 
 <p>Primeiro, adicionaremos a estrutura básica do nosso e-mail, começando pela tag <code>&lt;body&gt;</code>. Atribuiremos o valor zero (0) para as margens e espaçamentos internos (<em>padding</em>), para evitar qualquer espaço inesperado.</p>
 
-<p>Também adicionaremos uma tabela de largura 100%. Ela se comportará como a verdadeira <code>body</code> tag para nosso e-mail, porque a estilização dela não é totalmente suportada. Se você quiser adicionar alguma cor de fundo ao "corpo" do seu e-mail, você terá de aplicar a essa tabela.</p>
+<p>Também adicionaremos uma tabela de largura 100%. Ela se comportará como a verdadeira tag <code>body</code> do nosso e-mail, porque a estilização dela (tag <code>body</code>) não é totalmente suportada. Se você quiser adicionar alguma cor de fundo ao "corpo" do seu e-mail, você terá de aplicar a essa tabela.</p>
 
-<p>Configure as <code>cellpadding</code> e <code>cellspacing</code> para zero para, mais uma vez, evitar qualquer espaço inesperado.</p>
+<p>Configure os atributos <code>cellpadding</code> e <code>cellspacing</code> para zero, de modo que, mais uma vez, não obtenha qualquer espaço inesperado.</p>
 
-<p><strong>Nota:</strong> Manteremos a <code>border="1"</code> em todas as nossas tabelas, assim, poderemos ver o esqueleto do nosso layout enquanto o construímos. Nós removeremos esse atributo, logo ao final, usando os comandos Pesquisar &amp; Substituir.</p>
+<p><strong>Nota:</strong> Manteremos o atributo <code>border="1"</code> em todas as nossas tabelas, assim, poderemos ver o esqueleto do nosso layout enquanto o construímos. Nós removeremos esse atributo, logo ao final, usando os comandos Pesquisar &amp; Substituir.</p>
 
 <pre class="brush: html">&lt;body style="margin: 0; padding: 0;"&gt;
  &lt;table border="1" cellpadding="0" cellspacing="0" width="100%"&gt;
@@ -69,11 +69,11 @@ then comes the meat of the post
 	<img alt="1" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/1.jpg">
 </figure>
 
-<blockquote><p>Se um atributo existir no HTML, use-o ao invés da propriedade CSS</p></blockquote>
+<blockquote><p>Se um atributo ou elemento existir no HTML, use-o ao invés da propriedade CSS</p></blockquote>
 
-<p>Agora, posicione e centralize uma tabela de 600px de largura <strong>dentro da tabela envoltória</strong>. 600px é uma largura máxima segura para que seus e-mails possam ser visualizados corretamente na maioria dos clientes de e-mail web e desktop, na maioria das resoluções.</p>
+<p>Agora, posicione e centralize uma tabela de 600px de largura <strong>dentro da tabela envoltória</strong>. 600px é a largura máxima segura para que seus e-mails possam ser visualizados corretamente, na maioria dos clientes de e-mail web e desktop, e na maioria das resoluções.</p>
 
-<p>Configure essa largura usando HTML ao invés do CSs, usando o atributo <code>width</code>. A regra de ouro no desenvolvimento de e-mail em HTML é: Se um atributo existir no HTML, use-o ao invés da propriedade CSS.</p>
+<p>Configure essa largura usando HTML ao invés do CSS, usando o atributo <code>width</code>. A regra de ouro no desenvolvimento de e-mails em HTML é: Se um atributo ou elemento existir no HTML, use-o ao invés da propriedade CSS.</p>
 
 <p>Nós substituiremos nossa saudação ‘Olá!’ por essa tabela:</p>
 
@@ -95,7 +95,7 @@ then comes the meat of the post
 
 <p>Em nosso design, podemos ver que o e-mail é dividio em três seções lógicas, assim, criaremos uma linha para cada uma delas.</p>
 
-<p>Deupliquemos a linha solitária que já criamos para que tenhamos um total de três linhas. Alterei o texto dentro delas para facilitar a identificação de cada uma.</p>
+<p>Dupliquemos a linha solitária que já criamos, para que tenhamos um total de três linhas. Alterei o texto dentro delas para facilitar a identificação de cada uma.</p>
 
 <pre class="brush: html">&lt;table align="center" border="1" cellpadding="0" cellspacing="0" width="600"&gt;
  &lt;tr&gt;
@@ -119,7 +119,7 @@ then comes the meat of the post
 	<img alt="3" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/3.jpg">
 </figure>
 
-<p>Agora, coloriremos cada uma, igual ao design. Como <code>bgcolor</code> é um atributo HTML válido, nós o usuaremos para configurar a cor de fundo ao invés de através do CSS. Sempre lembre de usar todos os seis caracteres da representação hexadecimal, uma vez que o atalho dos três caracteres nem sempre funcionará.</p>
+<p>Agora, coloriremos cada uma, igual ao design. Como <code>bgcolor</code> é um atributo HTML válido, nós o usuaremos para configurar a cor de fundo ao invés de fazê-lo através do CSS. Sempre lembre de usar todos os seis caracteres da representação hexadecimal, uma vez que o atalho dos três caracteres nem sempre funcionará.</p>
 
 <pre class="brush: html">&lt;table align="center" border="1" cellpadding="0" cellspacing="0" width="600"&gt;
  &lt;tr&gt;
@@ -143,19 +143,19 @@ then comes the meat of the post
 	<img alt="4" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/4.jpg">
 </figure>
 
-<p>Certo, agora, focaremos na Linha 1. Iremos ajustar o espaçamento interno para, então, adicionar nossa imagem.</p>
+<p>Certo, agora, focaremos na Linha 1. Ajustaremos o espaçamento interno para, então, adicionar nossa imagem.</p>
 
 <h3>Usando Espaçamento Interno</h3>
 
-<p>Quando usarmos espaçamento interno em e-mails, sempre devemos especificar cada um dos valores (top, right, bottom e left), caso contrário, você poderá acabar com problemas inesperados (ex: <code>padding: 10px 10px 8px 5px;</code>), mas, se ainda estiver tendo problemas, talvez queira escrever a forma completa (<code>padding-top: 10px; padding-right: 10px; padding-bottom: 8px; padding-left: 5px;</code>).</p>
+<p>Quando usarmos espaçamento interno em e-mails, sempre devemos especificar cada um dos valores (top, right, bottom e left), caso contrário, poderemos acabar com problemas inesperados (ex: <code>padding: 10px 10px 8px 5px;</code>), mas, se ainda estiver tendo problemas, talvez queira escrever a forma completa (<code>padding-top: 10px; padding-right: 10px; padding-bottom: 8px; padding-left: 5px;</code>).</p>
 
-<p>Se estiver com problemas piores que não foram resolvidos (por exemplo, sua plataforma de envio remove seu CSS), simplesmente, não o use. Prefira usar células vazias para criar espaço. Não há necessidade de se usar GIFs espaçadores, apenas tenha certeza de adicionar <code>style="line-height: 0; font-size: 0;"</code> à célula, insira um <code>&amp;nbsp;</code> dentro dela e especifique as altura e largura. Eis um exemplo:</p>
+<p>Se estiver com problemas piores que não foram resolvidos da forma anterior (por exemplo, sua plataforma de envio remove seu CSS), simplesmente, não o use. Prefira usar células vazias para criar espaço. Não há necessidade de se usar GIFs espaçadores, apenas tenha certeza de adicionar <code>style="line-height: 0; font-size: 0;"</code> à célula, insira um <code>&amp;nbsp;</code> dentro dela e especifique as altura e largura. Eis um exemplo:</p>
 
 <pre class="brush: html">&lt;tr&gt;&lt;td style="font-size: 0; line-height: 0;" height="10"&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;</pre>
 
 <p>Também perceba que é seguro usar espaçamento interno em tags <code>td</code> , mas não em <code>div</code>s ou <code>p</code>s. Eles se comportam de forma bem imprevisíveis.</p>
 
-<p>Assim, adicionaremos um pouco de CSS em linha para gerar espaçamento interno na célula. Depois, adicionaremos nossa imagem, configuraremos o texto alternativo e atribuiremos o atributo <code>style="display:block;"</code> , o qual é uma forma comum de resolver o problema de espaços abaixo de imagens que alguns clientes de e-mails adicionam. Centralizaremos nossa imagem adicionando <code>align="center"</code> à nossa tag <code>td</code>. Nós também adicionaremos um atributo <code>alt</code>, que é muito importante, uma vez que, na maioria das vezes, as imagens em nossos e-mails não serão carregadas automaticamente.</p>
+<p>Assim, adicionaremos um pouco de CSS em linha para gerar espaçamento interno na célula. Depois, adicionaremos nossa imagem, configuraremos o texto alternativo e colocaremos o atributo <code>style="display:block;"</code>, que é uma forma comum de resolver o problema de espaços abaixo de imagens, que alguns clientes de e-mails adicionam. Centralizaremos nossa imagem adicionando <code>align="center"</code> à nossa tag <code>td</code>. Também adicionaremos um atributo <code>alt</code>, que é muito importante, uma vez que, na maioria das vezes, as imagens em nossos e-mails não serão carregadas automaticamente.</p>
 
 <p><strong>Nota:</strong> Se o conteúdo do seu cabeçalho for, realmente, importante para sua mensagem, não use um cabeçalho feito totalmente com imagem. Lembre-se, imagens são bloqueadas por padrão pela maioria dos clientes de e-mails, assim, se há algum aspecto do seu conteúdo que seja crucial, nunca o inclua em uma imagem. Nesse exemplo, porém, o meu cabeçalho é bem supérfluo.</p>
 
@@ -229,18 +229,18 @@ then comes the meat of the post
 
 <p>Embora eu seja adepto dos percentuais, quando temos conteúdo com um tamanho específico, pode ser bem complicado converter esse valor para percentual (nesse caso, as colunas teria 48.1% de largura, o que seria bem confuso). Por isso, e já que nossas duas imagens tem 260px de largura, com uma célula de 20px de largura no meio (Esses valores totalizarão 540px, que são os 600px de largura de nossa tabela, menos os 30px de espaçamento interno de cada lado). Tenha certeza de configurar suas <code>font-size</code> e <code>line-height</code> e adicione um <code>&amp;nbsp;</code> na célula margem.</p>
 
-<p>Também configuraremos o atributo <code>valign</code> para <code>"top"</code> para ambas as células, assim, o alinhamento vertical for both cells so that they will vertically align to the top, even if one column has more text than the other. The default vertical alignment is <code>"middle"</code>.</p>
+<p>Também configuraremos o atributo <code>valign</code> para <code>"top"</code> para ambas as células, assim, elas alinharão verticalmente, mesmo que uma coluna tenha mais texto que a outra. O valor padrão do alinhamento vertical é <code>"middle"</code>.</p>
 
 <pre class="brush: html">&lt;table border="1" cellpadding="0" cellspacing="0" width="100%"&gt;
  &lt;tr&gt;
   &lt;td width="260" valign="top"&gt;
-   Column 1
+   Coluna 1
   &lt;/td&gt;
   &lt;td style="font-size: 0; line-height: 0;" width="20"&gt;
    &amp;nbsp;
   &lt;/td&gt;
   &lt;td width="260" valign="top"&gt;
-   Column 2
+   Coluna 2
   &lt;/td&gt;
  &lt;/tr&gt;
 &lt;/table&gt;</pre>
@@ -249,7 +249,7 @@ then comes the meat of the post
 	<img alt="10" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/10a.jpg">
 </figure>
 
-<p>Now let’s add our images and content to those columns. As we need multiple rows, we'll nest yet another table because we can’t use any colspan or rowspan tags. We’ll also add some padding in between the image and copy in each column.</p>
+<p>Adicionemos, agora, nossas imagens e conteúdo nas colunas. Como precisamos de muitas linhas, vamos inserir mais outra tabela porque não podemos usar os atributos <code>colspan</code> ou <code>rowspan</code>. Também adicionaremos um pouco de espaçamento interno entre a imagem e o texto em cada coluna.</p>
 
 <pre class="brush: html">&lt;table border="1" cellpadding="0" cellspacing="0" width="100%"&gt;
  &lt;tr&gt;
@@ -287,33 +287,33 @@ then comes the meat of the post
  &lt;/tr&gt;
 &lt;/table&gt;</pre>
 
-<p>Here we have set the width of the images using HTML at 100% of the column width. This, again, is so that if we make this email responsive, we only have to use media queries to change the width of the parent element. We'll have to override the height in pixels because using <code>style="height: auto"</code> now won’t work in everything <em>(cough cough, Outlook)</em>. So we’ll set it using pixels. This means we'd have to set&nbsp;<code>height: auto!important</code>&nbsp;on those images using media queries to override the pixel value, but we could do that with a single class. As we set the width as a percentage, we won’t need to override that. The fewer things to override, the better.</p>
+<p>Nós configuramos a largura das imagens, usando HTML, como sendo 100% da largura da coluna. Isso serve para quando formos ajustar a parte responsiva do e-mail, onde só precisaremos alterar a largura do elemento pai. Teremos de sobrescrever a altura em pixels, porque usar <code>style="height: auto"</code>não funcionará em todos os clientes <em>(leia-se, Outlook)</em>. Então, configuraremos em pixels mesmo. Isso significa que teremos de usar a propriedade&nbsp;<code>height: auto!important</code>&nbsp;nas imagens que usarmos nas <em>media queries</em>, para sobrescrever o valor em pixels. Poderíamos fazer isso com uma única classe, mas como não podemos usar, teremos de fazer assim. Quanto menos coisas tivermos de sobrescrever, melhor.</p>
 
 <figure>
 	<img alt="13" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/13.png">
 </figure>
 
-<h2>The Footer</h2>
+<h2>O Rodapé</h2>
 
-<p>Now we’ll add our padding to the footer row.</p>
+<p>Agora, adicionaremos o espaçamento interno ao nosso rodapé.</p>
 
 <pre class="brush: html">&lt;td bgcolor="#ee4c50" style="padding: 30px 30px 30px 30px;"&gt;
- Row 3
+ Linha 3
 &lt;/td&gt;</pre>
 
 <figure>
 	<img alt="14" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/14.png">
 </figure>
 
-<p>Inside that cell, we’ll nest another table to get our two columns.</p>
+<p>Dentro dessa célula, colocaremos mais outra tabela para obtermos nossas duas colunas.</p>
 
 <pre class="brush: html">&lt;table border="1" cellpadding="0" cellspacing="0" width="100%"&gt;
  &lt;tr&gt;
   &lt;td&gt;
-   Column 1
+   Coluna 1
   &lt;/td&gt;
   &lt;td&gt;
-   Column 2
+   Coluna 2
   &lt;/td&gt;
  &lt;/tr&gt;
 &lt;/table&gt;</pre>
@@ -322,7 +322,7 @@ then comes the meat of the post
 	<img alt="15" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/15.png">
 </figure>
 
-<p>We’ll create another little table for our social media icons. We’ll set its parent cell to <code>align="right"</code>. Make sure you set <code>border="0"</code> on these image links (to avoid a blue link border) and don’t forget <code>display:block</code>.</p>
+<p>Criaremos mais outra tabela para nossos ícones de redes sociais. Configuraremos a célula pai para <code>align="right"</code>. Tenha certeza de configurar <code>border="0"</code> nos links dessas imagens (para evitar a borda azul de âncoras) e não esqueça de aplicar o <code>display:block</code>.</p>
 
 <pre class="brush: html">&lt;td align="right"&gt;
  &lt;table border="0" cellpadding="0" cellspacing="0"&gt;
@@ -346,64 +346,65 @@ then comes the meat of the post
 	<img alt="17" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/17.png">
 </figure>
 
-<p>Now we’ll add our text and add a width to our cells, just to be safe, even though there is a lot of whitespace between them. We'll set this cell to 75% and the other to 25%.</p>
+<p>Colocaremos o texto e adicionaremos a largura às nossas células, só para garantir, mesmo que haja bastante espaçamento entre elas. Configuraremos essa célula com 75% de largura e a outra com 25%.</p>
 
 <pre class="brush: html">&lt;td width="75%"&gt;
- &amp;reg; Someone, somewhere 2013&lt;br/&gt;
- Unsubscribe to this newsletter instantly
+ &amp;reg; Alguém, Algum lugar 2014&lt;br/&gt;
+ Remova sua inscrição dessa e-mail marketing, instantaneamente
 &lt;/td&gt;</pre>
 
-<p>And there we have it! Our layout is complete.</p>
+<p>E é isso! Nosso layout está completo.</p>
 
-<h2>Validation</h2>
+<h2>Validação</h2>
 
-<p>Let's run this through the <a href="http://validator.w3.org/">W3C Validator</a> to make sure nothing is bad or broken. If you’ve followed along exactly, it will say that it has passed.</p>
+<p>Rodemos nosso código contra o <a href="http://validator.w3.org/">W3C Validator</a> para ter certeza que nada esteja mal ou quebrado. Se você seguiu, exatamente, esse tutorial, dirá que passou!</p>
 
 <figure>
 	<img alt="email-build-valid" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/email-build-valid.png">
 </figure>
 
-<p>Next we’re going to run a test through Litmus to make sure the structure of our email works great. Here’s a summary of my test:</p>
+<p>Depois, rodaremos um teste contra o Litmus para ter certeza que a estrutura do nosso e-mail está funcionando bem. Eis um sumário do meu teste:</p>
 
 <figure>
 	<img alt="email-build-litmus" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/email-build-litmus.png">
-	<figcaption><a href="https://litmus.com/pub/0fa600c/screenshots">Take a look online</a></figcaption>
+	<figcaption><a href="https://litmus.com/pub/0fa600c/screenshots">Veja online</a></figcaption>
 </figure>
 
-<h2>Styling our Text</h2>
+<h2>Estilizando Nosso Texto</h2>
 
-<p>Our first row is the heading. We’ll use the <code>&lt;b&gt;</code> tag to create bold text because, as we already know, if it exists in HTML, we use that instead of CSS.</p>
+<p>Nossa primeira linha é o cabeçalho. Usaremos a tag <code>&lt;b&gt;</code> para criar um texto em negrito porque, como já sabemos, se existe algum HTML que o fala, é preferível ao CSS.</p>
 
 <pre class="brush: html">&lt;td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;"&gt;
  &lt;b&gt;Lorem ipsum dolor sit amet!&lt;/b&gt;
 &lt;/td&gt;</pre>
 
-<p>We’ll also add this inline style to all the other cells of text:</p>
+<p>Também colocaremos esse estilo em linha em todas as outras células de texto:</p>
 
 <pre class="brush: css">style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;"</pre>
 
-<p>Next we need to style the footer text, and we’ll also tidy up our unsubscribe link. We'll style our unsubscribe text link using both CSS and the HTML <code>&lt;font&gt;</code> tag. This doubling up is the best way to ensure that your links never show up in the default blue.</p>
+<p>Após isso, precisaremos estilizar o texto rodapé, e diminuiremos a âncora de cancelamento de inscrição do e-mail marketing. Estilizaremos essa âncora usando tanto CSS quanto a tag <code>&lt;font&gt;</code> do HTML. Essa duplicidade é a melhor maneira de farantir que suas âncoras nunca apareçam no azul padrão.</p>
 
 <pre class="brush: html">&lt;td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;"&gt;
- &amp;reg; Someone, somewhere 2013&lt;br/&gt;
- &lt;a href="#" style="color: #ffffff;"&gt;&lt;font color="#ffffff"&gt;Unsubscribe&lt;/font&gt;&lt;/a&gt; to this newsletter instantly
+ &amp;reg; Alguém, algum lugar 2013&lt;br/&gt;
+ &lt;a href="#" style="color: #ffffff;"&gt;&lt;font color="#ffffff"&gt;
+ Remova sua inscrição&lt;/font&gt;&lt;/a&gt; dessa e-mail marketing, instantaneamente
 &lt;/td&gt;</pre>
 
 <figure>
 	<img alt="20" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/20.png">
 </figure>
 
-<p>And there we have it! Everything is in. Time to turn off the borders and see it looking beautiful. Go through and replace every occurance of <code>border="1"</code> with <code>border="0"</code>.</p>
+<p>E acabamos! Tudo está pronto, de verdade! É hora de desabilitar as bordas e ver como ficou lindo. Use o Pesquisar e Substituir para alterar o <code>border="1"</code> por <code>border="0"</code>.</p>
 
 <figure>
 	<img alt="21" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/21.png">
 </figure>
 
-<p>At this point, it’s looking a little sad floating in white space, so let’s go up to our first 600px wide table and add:</p>
+<p>Nesse momento, está aparecendo um pequeno espaço em branco, então, vejamos nossa primeira tabela de 600px e adicionemos:</p>
 
 <pre class="brush: css">style="border: 1px solid #cccccc;"</pre>
 
-<p>Now it doesn’t look like it’s floating anymore. As a final touch, I’m going to add 30px of padding to the bottom of the very first cell, to prevent our email from stopping abruptly at the bottom in some webmail clients (like Apple Mail), and 10px of padding at the top, so that our blue header has a little bit of breathing room.</p>
+<p>Agora, ela não parece que está mais flutuando. Como toque final, adicionarei espaçamento interno de 30px na parte inferior da primeira célula, para evitar que nosso e-mail para, subtamente, no rodapé de alguns clientes de e-mail (como o Apple Mail), e adicionarei outros 10px no topo, de forma que nosso cabeçalho possa "respirar" um pouco.</p>
 
 <pre class="brush: html">&lt;td style="padding: 20px 0 30px 0;"&gt;</pre>
 
@@ -411,11 +412,11 @@ then comes the meat of the post
 	<img alt="23" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/23.jpg">
 </figure>
 
-<p>And that’s it! You’re all ready for a final test.</p>
+<p>Pronto! Não temos mais o que fazer!</p>
 
 <figure>
 	<img alt="email-build-litmus-finished" src="http://cdn.tutsplus.com/webdesign/uploads/2013/06/email-build-litmus-finished.png">
-	<figcaption><a href="https://litmus.com/pub/d675d96/screenshots">Take a look online</a></figcaption>
+	<figcaption><a href="https://litmus.com/pub/d675d96/screenshots">Veja on-line</a></figcaption>
 </figure>
 
 
