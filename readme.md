@@ -64,6 +64,7 @@ Web  Design
 Fotografia
 ----------
 - [7 Técnicas de Pose Para Pessoas Comuns](http://photography.tutsplus.com/pt/tutorials/7-posing-techniques-for-non-models--photo-15608)
+- [100 Ações Grátis Para O Photoshop (E Como Criar A Sua)](http://photography.tutsplus.com/pt/articles/100-free-photoshop-actions-and-how-to-make-your-own--photo-3502)
 
 Artesanato e DIY
 ----------------
