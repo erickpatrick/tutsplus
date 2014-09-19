@@ -1,0 +1,174 @@
+<h1>API de Visibilidade de Página do HTML5</h1>
+
+<p>Antigamente, tínhamos navegadores que não usavam abas para navegação, mas, hoje, quando vê todos os navegadores disponíveis, não há um que deixe de oferecer essa funcionalidade. Por ser programador, geralmente, tenho umas 10 ou 15 abas abertas ao mesmo tempo e, algumas vezes, esse número chega a 25~30.</p>
+
+<h2>Por Que Essa API?</h2>
+
+<p>Antes, não era possível determinar qual aba estava ativa e qual não estava, mas, com a ajuda da API de Visibilidade do HTML5, podemos detectar se nosso visitante está olhando nossa página ou não.&nbsp;</p>
+
+<p>Nesse tutorial, aprenderemos como lidar com a API de Visibilidade do HTML5,através de uma simples demonstração, que é capaz de descobrir o estado de nossa página. Nessa demonstração, alteraremos o título do documento, a partir do Estado de Visibilidade da Página.</p>
+
+<h2>Verificando o Estado de Visibilidade da Página</h2>
+
+<p>Com a chegada desa API, nós ganhamos duas novas propriedades de documentos, que realizam duas funções diferentes. A primeira é a <code class="inline">document.visibilityState</code> e a segunda é a <code class="inline">document.hidden</code>.</p>
+
+<p><code class="inline">document.visibilityState</code> pode conter um dos quatro valores listados abaixo:</p>
+
+<ul><li><b>hidden:</b> A página não está visível na tela</li>
+<li><b>prerender:</b> A página está carregada, mas o usuário não a está visualizando</li>
+<li><b>visible:</b> A página está visível</li>
+<li><b>unloaded:</b> A página está prestes a sumir (o usuário pode ter fechado o navegador ou resolvido mudar de site)</li>
+</ul>
+
+<p><code class="inline">document.hidden</code> é uma propriedade booleana que é configurada como <code>false</code> se estiver visível e <code>true</code> se não estiver.</p>
+
+<blockquote>Agora, podemos controlar como nossos sites se comportam quando nossos sites não estiver visível ao usuárior.</blockquote><p>Agora, já sabemos sobre a disponibilidade dessas propriedades, mas, é hora de prestar atenção ao evento que relacionado a esse comportamento, para que possamos ser notificados sobre a nova condição da visibilidade da página. Isso é feito através do evento&nbsp;<code class="inline">visibilitychange</code>. Veremos uma demonstração rápida sobre como lidar com esse evento.</p>
+
+<pre class="brush: javascript">document.addEventListener('visibilitychange', function(event) {
+  if (!document.hidden) {
+    // A página está visível.
+  } else {
+   // A página não está visível.
+  }
+});</pre>
+
+<p>Esse código é uma instância básica da utilização desse evento e da descoberta do estado atual da página. Lembre-se que ambas as propriedades e método deverão vir prefixados, uam vez que alguns navegadores ainda prefixos para elas. Agora, veremos o mesmo código de forma <em>cross-browser</em>:</p>
+
+<pre class="brush: javascript">// Obtém o prefixo do navegador em questão
+function getBrowserPrefix() {
+
+  // Checa pela propriedade de forma não prefixada
+  if ('hidden' in document) {
+    return null;
+  }
+
+  // Todos os prefixos disponíveis.
+  var browserPrefixes = ['moz', 'ms', 'o', 'webkit'];
+
+  for (var i = 0; i &lt; browserPrefixes.length; i++) {
+    var prefix = browserPrefixes[i] + 'Hidden';
+    if (prefix in document) {
+      return browserPrefixes[i];
+    }
+  }
+
+  // A API não é suportada pelo navegador.
+  return null;
+}
+
+// Obtém a forma correta de "hidden" para o navegador em questão
+function hiddenProperty(prefix) {
+  if (prefix) {
+    return prefix + 'Hidden';
+  } else {
+    return 'hidden';
+  }
+}
+
+// Obtém a forma correta de "visibilityState" para o navegador em questão
+function visibilityState(prefix) {
+  if (prefix) {
+    return prefix + 'VisibilityState';
+  } else {
+    return 'visibilityState';
+  }
+}
+
+// Obtém o evento correto de "visbilityChange" para o navegador em questão
+function visibilityEvent(prefix) {
+  if (prefix) {
+    return prefix + 'visibilitychange';
+  } else {
+    return 'visibilitychange';
+  }
+}
+
+</pre>
+
+<p>Agora, temos todas as propriedades prefixadas de forma correta e com o evento pronto para ser usado. Mudaremos, agora, nosso código anterior.</p>
+
+<pre class="brush: javascript">// Get Browser Prefix
+var prefix = getBrowserPrefix();
+var hidden = hiddenProperty(prefix);
+var visibilityState = visibilityState(prefix);
+var visibilityEvent = visibilityEvent(prefix);
+
+document.addEventListener(visibilityEvent, function(event) {
+  if (!document[hidden]) {
+    // A página está visível.
+  } else {
+   // A página não está visível.
+  }
+});</pre>
+
+<h2>Onde Podemos Usar Essa API?</h2>
+
+<p>Há várias cenários diferentes onde podemos usar essa API.</p>
+
+<ol><li>Imagine que está num painel e a página está em busca de detalhes de algo feed RSS ou API, em intervalos de, digamos, dois minutos. Assim, podemos restringir a chamada ao feed RSS ou API, caso o usuário não esteja visualizando a página (ou seja, o usuário não esteja na aba da página em questão).</li>
+<li>Para um carrosel de iamgens. Podemos limitar o movimento do carrosel caso a página não esteja visível.</li>
+<li>De forma semelhante, podemos mostrar uma <a href="http://www.xpertdeveloper.com/2012/04/html5-notification/" target="_self">Notificação HTML</a> só quando a página não estiver visível para o usuário.</li>
+</ol>
+
+<p>Até agora, vimos o código que permite usar a API de Visibilidade de Página do HTML5. É hora para um pouco de ação.</p>
+
+<h2>Demonstraçã</h2>
+
+<ul><li>Demonstração 1: Essa demonstração faz uso da API para alterar o título da página. <a href="http://demo.xpertdeveloper.com/page-visibility-api/demo1.html" rel="external" target="_blank">Visualizar Demonstração</a></li>
+<li>Demonstração 2: Esse demonstração mostra como restringir a busca de dados em algum servidor (AJAX) quando a página estiver inativa.&nbsp;</li>
+</ul>
+
+<p>Nessa demonstração, veremos como podemos restringir a busca de dados em algum servidor (AJAX), por novas informações, mas, somente, quando o usuário estiver com a página ativa. Assumindo que a jQuery está inclusa na página, o código abaixo incrementará o valor do contador, mas pode ser substituído por algo que realmente acesse algum servidor.</p>
+
+<h3>O HTML</h3>
+
+<pre class="brush: html">&lt;!-- Esse elemento mostrará o contador atualizado --&gt;
+&lt;h1 id="valueContainer"&gt;0&lt;/h1&gt;</pre>
+
+<h3>O JavaScript</h3>
+
+<pre class="brush: javascript">&lt;script type="text/javascript"&gt;
+
+	// Obtém o prefixo do navegador
+	var prefix = getBrowserPrefix();
+	var hidden = hiddenProperty(prefix);
+	var visibilityState = visibilityState(prefix);
+	var visibilityEvent = visibilityEvent(prefix);
+
+	var timer = null;
+
+	function increaseVal() {
+		var newVal = parseInt($('#valueContainer').text()) + parseInt(1);
+		$('#valueContainer').text(newVal);
+		document.title = newVal + ': Running';
+
+		timer = setTimeout(function() {
+			increaseVal();
+        }, 1);
+	}
+
+	// Mudança de visibilidade
+	document.addEventListener(visibilityEvent, function(event) {
+		  if (document[hidden]) {
+			  clearTimeout(timer);
+			  var val = parseInt($('#valueContainer').text());
+			  document.title = val + ': Pause';
+		  } else {
+			  increaseVal();
+		  }
+	});
+
+	increaseVal();
+
+&lt;/script&gt;</pre>
+
+<p><a href="http://demo.xpertdeveloper.com/page-visibility-api/demo2.html" rel="external" target="_blank">Visualizar Demonstração</a></p>
+
+<h2>Suporte dos Navegadores</h2>
+
+<p>Se quiser saber do suporte dos navegadores para essa API, recomendo dar uma olhada no <a href="http://caniuse.com/#feat=pagevisibility" rel="external" target="_blank">Can I use?</a>. Mas, para descobrir, programaticamente, pelo suporte do navegador, sugiro ler esse artigo aqui <a href="http://www.xpertdeveloper.com/2014/08/detect-html5-features/" target="_self">Detectar o Suporte às Várias Funcionalidades do HTML5</a>. Por hora, temos um bom suporte para essa API em todas as versões mais atualizados dos navegadores.</p>
+
+<h2>Conclusão</h2>
+
+<p>Diria que temos uma API muito boa que inclui, somente, duas propriedades e um único evento. Dessa forma, pode ser, facilmente, integrada a suas aplicações que pode afetar, positivamente, a experiência do usuário. No mínimo, poderemos controlar como nossos sites se comportam quando não estão na visão dos usuários.</p>
+
