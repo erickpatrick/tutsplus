@@ -41,6 +41,7 @@ JavaScript
 - [Compartilhando Componentes do Polymer: Parte 2](http://code.tutsplus.com/pt/tutorials/sharing-polymer-components-part-2--cms-21497)
 - [Componentizando a Web](http://code.tutsplus.com/pt/tutorials/componentizing-the-web--cms-20602)
 - [API de Visibilidade de Página do HTML5](http://code.tutsplus.com/pt/articles/html5-page-visibility-api--cms-22021)
+- [Introdução ao Conjunto MEAN](http://code.tutsplus.com/pt/tutorials/introduction-to-the-mean-stack--cms-19918)
 
 Habilidades com Computadores
 ----------------------------
