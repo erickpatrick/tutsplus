@@ -40,6 +40,7 @@ JavaScript
 - [Compartilhando Componentes do Polymer: Parte 1](http://code.tutsplus.com/pt/tutorials/sharing-polymer-components-part-1--cms-21264)
 - [Compartilhando Componentes do Polymer: Parte 2](http://code.tutsplus.com/pt/tutorials/sharing-polymer-components-part-2--cms-21497)
 - [Componentizando a Web](http://code.tutsplus.com/pt/tutorials/componentizing-the-web--cms-20602)
+- [API de Visibilidade de Página do HTML5](http://code.tutsplus.com/pt/articles/html5-page-visibility-api--cms-22021)
 
 Habilidades com Computadores
 ----------------------------
@@ -60,6 +61,7 @@ Web  Design
 - [O Santo Graal da Centralização com CSS](http://webdesign.tutsplus.com/pt/tutorials/the-holy-grail-of-css-centering--cms-22114)
 - [Criando Pré-Carregadores em CSS3](http://webdesign.tutsplus.com/pt/tutorials/creating-a-collection-of-css3-animated-pre-loaders--cms-21978)
 - [Construa um Modelo de E-mail em HTML a Partir do Zero](http://webdesign.tutsplus.com/pt/articles/build-an-html-email-template-from-scratch--webdesign-12770)
+- [Uma Introdução À Metodologia BEM](http://webdesign.tutsplus.com/pt/articles/an-introduction-to-the-bem-methodology--cms-19403)
 
 Fotografia
 ----------
