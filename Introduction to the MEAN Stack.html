@@ -1,0 +1,138 @@
+<h1>Introduction to the MEAN Stack</h1>
+
+<p>Building web applications involves having to use different technologies and tools, dealing with database manipulation, server side operations, and also client side handling and displaying of the data that comes from the server. Before starting a new project, all the tools and project structure has to be setup, which is a time consuming task. Using a framework or a <i>stack</i> for this task can speed up development and ease the work for the developer.</p>
+
+<h2>What Is MEAN</h2>
+
+<p>"<a href="http://mean.io" target="_self">MEAN</a> is a fullstack JavaScript platform for modern web applications".<br></p>
+
+<p>This is how the authors of the MEAN stack define it on their website. It's very clear that MEAN is targeting all kinds of JavaScript developers (both server and client side) and also that it is a stack platform which, indicates that there are several components comprising it.</p>
+
+<p>These components are:</p>
+
+<ul> <li><a href="http://www.mongodb.org/" target="_self">MongoDB</a></li>
+<li><a href="http://expressjs.com/" target="_self">Express</a></li>
+<li><a href="http://angularjs.org/" target="_self">AngularJS</a></li>
+<li><a href="http://nodejs.org/" target="_self">NodeJS</a></li>
+</ul>
+
+<p>As you can see, MEAN brings together four of the most used and appreciated technologies for JavaScript development, laying down the foundation for easily building complex web applications.</p>
+
+<h2>Installation</h2>
+
+<p>The MEAN stack can be installed in two ways:</p>
+
+<ul> <li>using the <a href="http://mean.io/">mean.io</a> web site</li>
+<li>using various <a href="http://yeoman.io/" target="_self">Yeoman </a>generators.</li>
+</ul>
+
+<h3>Installing MEAN Using Its Site</h3>
+
+<p>This method is quite simple. You just have to visit the <a href="http://mean.io/">mean.io</a> site and then you can download the framework as a <code>zip</code> file by clicking on the big green button.</p>
+
+<p>Another option available from here is to clone the Git repository. Just open a terminal and issue the following command:</p>
+
+<pre class="brush: bash">git clone https://github.com/linnovate/mean.git</pre>
+
+<h3>Installing MEAN Using Yeoman</h3>
+
+<p>There are several Yeoman generators, written by different developers. Using a generator to install MEAN is done in two steps, first installing the generator:</p>
+
+<pre class="brush: bash">npm install -g generator-meanstack</pre>
+
+<p>and then using yo to create the app:</p>
+
+<pre class="brush: bash">yo meanstack</pre>
+
+<p>The example above assumes installation of the <code class="inline">meanstack</code> generator and also that Yeoman is installed. For a list of MEAN generators, check this <a href="http://yeoman.io/community-generators.html">link</a> and filter by "mean". For information on installing Yeoman, check the <a href="http://yeoman.io">Yeoman</a> site.</p>
+
+<p>Addy Osmani wrote a very interesting <a href="http://addyosmani.com/blog/full-stack-javascript-with-mean-and-yeoman/">blog post</a> about MEAN stack and Yeoman generators for it. I strongly recommend reading that, in order to find out how to install the stack using generators.</p>
+
+<p>For the purpose of this article, I will use the <a href="http://git-scm.com/" target="_self">Git </a>cloning approach.</p>
+
+<h3>Post Installation</h3>
+
+<p>After installation, just <code>cd</code> into the folder where you installed the MEAN stack and issue the  <code>grunt</code> command (you should have <code class="inline">grunt-cli</code> installed). This command will start a server listening on port 3000, so visiting <code>http://localhost:3000</code> in the browser will display something like this:</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/19918/image/site.jpeg"></figure>
+
+<h2>What We've Got After Installation</h2>
+
+<p>The MEAN stack is in fact a fully functional blog engine application. It has authentication using various methods: Facebook, GitHub, Twitter or Google and also by simple e-mail and password.</p>
+
+<p>I bet you are curious to see some code up to now... So let's check it out. The MEAN stack folder structure should be like the following:</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/19918/image/folders.jpeg"></figure>
+
+<h2>The Server Part</h2>
+
+<p>The server is split over two folders and one file:</p>
+
+<ul> <li><code>app</code> folder - contains the controllers, models and views that make up the application</li>
+<li><code>config</code> folder - contains the files that control how the parts of the app behave</li>
+<li><code>server.js</code> - is the entry point of the application</li>
+</ul>
+
+<p>Let's take them one by one:</p>
+
+<h3>The <code>server.js</code> File</h3>
+
+<p>This is the file that starts the entire application. If you do not want to use <code>grunt</code> you can use <code>node server,js</code> in order to start the server.</p>
+
+<p>The <code>server.js</code> file is responsible for:</p>
+
+<ul> <li>Loading configuration. The files for configuring the application itself, authentication and database connection are loaded.</li>
+<li>Bootstrapping the models. This is done by iterating through the models folder and loading all the files inside that folder (or its subdirectories).</li>
+<li>Bootstrap passport</li>
+<li>Initialize the express application</li>
+<li>Configure the express application</li>
+<li>Configure express application routes</li>
+<li>Start listening on the configured port.</li>
+</ul>
+
+<h3>The <code>config</code> Folder</h3>
+
+<p>This folder contains the application configuration files. Inside you can find an <code>env</code> folder containing configurations for the development, production and test modes for running the application.</p>
+
+<p>Also, there are files containing the configuration for the application itself, the express part and the passport configuration for logging in.</p>
+
+<h3>The <code>app</code> folder</h3>
+
+<p>Inside the <code>app</code> folder, resides the entire server side code. This folder contains sub-folders for the controllers, models and views that compose the MVC server application and also a folder for the routes that are served.</p>
+
+<p>By default, there are controllers for the articles, users, and an index file for the root path. Also, models for the articles and users are created and routes for articles, users, and the root path are created during installation.</p>
+
+<p>As for the default created views, the following structure is created:</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/19918/image/views.jpeg"></figure>
+
+<p>The <code>includes</code> folder contains the footer and header parts of the pages which are inserted into all the pages belonging to the app. The <code>layout</code> folder contains the base HTML for the page layout. This layout is extended into the <code class="inline">index.html</code> file from the <code class="inline">views</code> folder.</p>
+
+<p>The <code>users</code> folder contains the markup code for signing in, signing up and authenticating.</p>
+
+<p>In the root of the <code class="inline">views</code> folder, beside the <code class="inline">index.html</code> file, there are files containing the markup for 404 and 500 errors.</p>
+
+<h2>The Client Part</h2>
+
+<p>The client part code resides in the <code>public</code> folder. This folder contains a <code>css</code> subfolder for application styling and an <code>img</code> folder containing the images used in the application. </p>
+
+<p>Special attention should be paid to the <code>js</code> folder which contains the Angular code for the client side app, the initialization code, some directives and filters code (currently empty files) and the controllers and services for the articles and the header part of the application.The <code>views</code> folder contains the markup for article creation, editing, displaying and viewing.</p>
+
+<p>Finally, the <code>lib</code> folder contains the Angular library code.</p>
+
+<h2>Application Testing</h2>
+
+<p>The <code>test</code> folder contains the files for testing the application. Mainly there are files for testing the server part using Mocha and files for testing the client part using Karma.</p>
+
+<h2>Tools Provided</h2>
+
+<p>While using the MEAN stack, you as the developer, also have access to npm, bower, and grunt which should be installed,</p>
+
+<p>Something important to mention that JSHint is provided and all the JavaScript code is linted. Also, using Grunt, the project can be watched for modifications and rebuilt automatically.</p>
+
+<h2>Conclusion</h2>
+
+<p>This article is intended to be followed-up by a second tutorial, in which a complete application will be built on top of the MEAN stack, showing you how MEAN can be configured and adapted, to be used for other types of applications. </p>
+
+<p>Stay tuned for the second part!<br></p>
+

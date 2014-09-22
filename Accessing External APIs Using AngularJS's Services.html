@@ -1,0 +1,267 @@
+<h1>Accessing External APIs Using AngularJS's Services</h1>
+
+<p>Aside from ability to extend HTML easily AngularJS also offers a simple way to interact with external APIs. In this tutorial, I will show you how to use <i>Services</i> to access GitHub's API and create a simple repository browser.</p>
+
+
+<h2>Step 1: Preparation</h2>
+
+<p>Let's start with this basic HTML template:</p>
+
+<pre class="brush: html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+	    &lt;title&gt;GitHub Search&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>Now add the AngularJS script in the <code>&lt;head&gt;</code> of the document:</p>
+
+<pre class="brush: html">&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"&gt;&lt;/script&gt;</pre>
+
+<p>After that you can add this CSS style inline or in separate a file:</p>
+
+<pre class="brush: css">* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+body, html { margin: 0; }
+p { margin: 0; }
+input { width: 100%; }
+
+pre {
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+
+div.repo {
+	border-bottom: 1px solid;
+	cursor: pointer;
+}
+
+#search, #repo, #user { float: left; }
+#search { width: 20%; }
+#repo { width: 60%; }
+#user { width: 20%; }
+</pre>
+
+<p>It's nothing fancy as you can see, only a basic layout that puts the search box on the right, repository information in the middle, and user's repositories on the right. We also have to wrap the lines in the <code>&lt;pre&gt;</code> tag that we will use to display the README file contents, since they are usually in <a href="http://github.github.com/github-flavored-markdown/">GitHub Flavored Markdown</a> and some lines would overlap with the user's repository list.</p>
+
+<p>Of course, you can add more style to make it more pleasing to the eye, just keep in mind that the screenshots in this tutorial will show the basic look.</p>
+
+<p>You can put the JavaScript code that we will write later either inline in the <code>&lt;head&gt;</code> of the document, or in a separate file, but it has to be under the AngularJS script.</p>
+
+
+<h2>Step 2: The Module</h2>
+
+<p>Now we can create a module for our app:</p>
+
+<pre class="brush: javascript">var app = angular.module('githubsearch', []);
+</pre>
+
+<p>Let's add it to the <code>&lt;body&gt;</code> tag using the <code>ngApp</code> directive:</p>
+
+<pre class="brush: html">&lt;body ng-app="githubsearch"&gt;</pre>
+
+
+<h2>Step 3: The Controller</h2>
+
+<p>We will also need a controller for our app. To keep it simple, it will be only one for the entire app, so we don't need to deal with passing information between controllers:</p>
+
+<pre class="brush: javascript">app.controller('SearchController', function SearchController($scope) {
+	
+});</pre>
+
+
+<h2>Step 4: Basic Service</h2>
+
+<p>Let's define our <code>GitHub</code> service:</p>
+
+<pre class="brush: javascript">app.factory('GitHub', function GitHub($http) {
+	return {
+
+	};
+});</pre>
+
+<p>We are using the <code>app.factory()</code> method so we can just return the object with some methods to use later. We will be using the <a href="https://docs.angularjs.org/api/ng/service/$http"><code>$http</code></a> service to get data from GitHub's API.</p>
+
+
+<h2>Step 5: Searching for Repositories</h2>
+
+<p>The first method in our service will search for repositories using GitHub's API. The usage of the <code>$http</code> service is pretty simple (this function goes into the object returned by our factory function):</p>
+
+<pre class="brush: javascript">searchRepos: function searchRepos(query, callback) {
+	$http.get('https://api.github.com/search/repositories', { params: { q: query } })
+		.success(function (data) {
+			callback(null, data);
+		})
+		.error(function (e) {
+			callback(e);
+		});
+}
+</pre>
+
+<p>The <code>$http.get()</code> method is a shorthand for doing <code class="inline">GET</code> requests. The first parameter is the URL that we want to access. The second one is a object with options. We only need the <code>params</code> object here - it's a hash of query parameters that will be added to the request (the <code>q</code> parameter is a search string, as described <a href="https://developer.github.com/v3/search/#parameters">here</a>).</p>
+
+<p><code>$http.get()</code> returns a <a href="https://docs.angularjs.org/api/ng/service/$q">promise</a>. We can attach <code>success()</code> and <code>error()</code> listeners to it and call the callback function accordingly.</p>
+
+
+<h2>Step 6: The Search Box</h2>
+
+<p>To make use of the function that we defined in the previous step we will have to add a search box to our HTML. The code is pretty simple:</p>
+
+<pre class="brush: html">&lt;div id="search"&gt;
+	&lt;input ng-model="query" placeholder="search" ng-keyup="$event.keyCode == 13 &amp;&amp; executeSearch()"&gt;
+	&lt;div class="repo" ng-repeat="repo in repos" ng-click="openRepo(repo.full_name)"&gt;
+		&lt;strong&gt;{{ repo.full_name }}&lt;/strong&gt;
+		&lt;p&gt;{{ repo.description }}&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+<p>We use <code>ngModel</code> directive to bind the value of this input field to the <code>query</code> variable in the scope and <a href="https://docs.angularjs.org/api/ng/directive/ngKeyup"><code>ngKeyup</code></a> to call the <code>executeSearch()</code> function when user presses the enter key (hence the <code>$event.keyCode == 13</code> comparison). We can't use conditional statements in AngularJS expressions, but a simple logic operation (AND) will do fine.</p>
+
+<p>Under the input field, we use <a href="https://docs.angularjs.org/api/ng/directive/ngRepeat"><code>ngRepeat</code></a> to display the search results. We will display the repository's full name and description (you can see all of the fields available in <a href="https://developer.github.com/v3/search/#repository-search-example">this example</a> in the GitHub's API documentation if you want to display something different).</p>
+
+<p>We also use <code>ngClick</code> to call the <code>openRepo()</code> function with the repository's full name so we can display information about it. We will define this function later.</p>
+
+
+<h2>Step 7: Using the Search Function</h2>
+
+<p>Now we can finally make use of the service we created. First, add the <code>GitHub</code> parameter to the controller function (so the service can be injected by AngularJS):</p>
+
+<pre class="brush: javascript">app.controller('SearchController', function SearchController($scope) {
+</pre>
+
+<p>Now define the <code>executeSearch()</code> function:</p>
+
+<pre class="brush: javascript">$scope.executeSearch = function executeSearch() {
+	GitHub.searchRepos($scope.query, function (error, data) {
+		if (!error) {
+			$scope.repos = data.items;
+		}
+	});
+}</pre>
+
+<p>As you can see, we call the <code>GitHub.searchRepos()</code> method with the search string from <code>$scope.query</code> and in the callback we put the search results (from <code>data.items</code>) in the <code>$scope.repos</code> variable.</p>
+
+<p>That is all you need to do to display the search results. Open the HTML file in your browser and try searching:</p>
+<p><img alt=""><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/34/posts/21884/image/search_results.png"></p>
+
+
+<h2>Step 8: Getting Repository's Data</h2>
+
+<p>Now that we have the search functionality we can display some information about the repository the user selected. Let's create a function to get the repository's data in our service:</p>
+
+<pre class="brush: plain">getRepo: function getRepo(name, callback) {
+	$http.get('https://api.github.com/repos/'+ name)
+		.success(function (data) {
+			callback(null, data);
+		})
+		.error(function (e) {
+			callback(e);
+		});
+	}
+</pre>
+
+<p>The name passed to this function must be a full name (author's name, slash, repository's name - like <code class="inline">angular/angular.js</code>) since we have to pass it to the GitHub API (like shown <a href="https://developer.github.com/v3/repos/#get">here</a>).</p>
+
+
+<h2>Step 9: Getting Repository's README File</h2>
+
+<p>The contents of the README file are not inside the data we retrieved from the previous function. Instead, there is another API call to get it, so we have to create another function:</p>
+
+<pre class="brush: javascript">getReadme: function getReadme(name, callback) {
+    $http.get('https://api.github.com/repos/'+ name +'/readme')
+		.success(function (data) {
+			callback(null, atob(data.content));
+		})
+		.error(function (e) {
+			callback(e);
+		});
+}</pre>
+
+<p>This one is pretty much the same as the two previous ones, only the url changes. We are also using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window.atob"><code>atob()</code></a> function to decode contents of the README file, since it's base64 encoded. Getting contents of the README file is described <a href="https://developer.github.com/v3/repos/contents/#get-the-readme">here</a> in the GitHub's API documentation.</p>
+
+<p>The reason that we did not chain the two requests in one function is that some repositories don't have any README file. If we were to continue like that, the application would fail.</p>
+
+
+<h2>Step 10: Displaying the Repository Information</h2>
+
+<p>We will display repository's full name, number of people watching it and the README file in another <code>&lt;div&gt;</code> element:</p>
+
+<pre class="brush: html">&lt;div id="repo" ng-show="activeRepo"&gt;
+    &lt;strong&gt;{{ activeRepo.full_name }}&lt;/strong&gt; &lt;em&gt;Watched by {{ activeRepo.watchers_count }} people.&lt;/em&gt;
+	&lt;pre&gt;{{ activeRepo.readme }}&lt;/pre&gt;
+&lt;/div&gt;</pre>
+
+<p>We will store that information in the <code>activeRepo</code> variable in the scope of the controller. There is also the <a href="https://docs.angularjs.org/api/ng/directive/ngShow"><code>ngShow</code></a> which will show the element only if there is any data to be displayed (otherwise you would see a "Watched by people" text there with no repository selected).</p>
+
+
+<h2>Step 11: Updating the Controller</h2>
+
+<p>We also have to update our controller so it gets the repository data and puts it in the scope. Create the <code>openRepo()</code> function that we attached to the <code>ngClick</code> directive earlier:</p>
+
+<pre class="brush: javascript">$scope.openRepo = function openRepo(name) {
+    GitHub.getRepo(name, function (error, data) {
+		if (!error) {
+			$scope.activeRepo = data;
+
+			GitHub.getReadme(name, function (error, data) {
+				if (!error) {
+					$scope.activeRepo.readme = data;
+				} else {
+					$scope.activeRepo.readme = 'No README found!';
+				}
+			});
+		}
+	});
+}</pre>
+
+<p>As you can see we first use the <code>GitHub.getRepo()</code> method, check for errors and then place the data in the <code>activeRepo</code> variable. After that we get the README file and in case it does not exist we inform the user about that fact.</p>
+
+<p>Now you can run your app again and see how it </p>
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/34/posts/21884/image/repo_informations.png"></figure>
+
+<h2>Step 12: Getting User's Repositories</h2>
+
+<p>To add some functionality to our app we will display all repositories of the selected repository's owner on the right side of the screen. This will require another method in our service:</p>
+
+<pre class="brush: javascript">getUserRepos: function getUser(name, callback) {
+    $http.get('https://api.github.com/users/'+ name +'/repos')
+		.success(function (data) {
+			callback(null, data);
+		})
+		.error(function (e) {
+			callback(e);
+		});
+}</pre>
+
+<p>Which looks pretty much the same like the other ones (and you can read more about this API request <a href="https://developer.github.com/v3/repos/#list-user-repositories">here</a>).</p>
+
+
+<h2>Step 13: Displaying Them</h2>
+
+<p>This is basically a copy of the HTML for the search box, but we display user's name instead of the input field and the repository list is in the <code>user</code> object instead of the scope itself:</p>
+
+<pre class="brush: html">&lt;div id="user"&gt;
+    &lt;strong&gt;{{ user.login }}&lt;/strong&gt;
+	&lt;div class="repo" ng-repeat="repo in user.repos" ng-click="openRepo(repo.full_name)"&gt;
+		&lt;strong&gt;{{ repo.name }}&lt;/strong&gt;
+		&lt;p&gt;{{ repo.description }}&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+
+<p>At this point, you should have a working AngularJS application that retrieves GitHub repositories based on a search string. You can continue to iterate on this by adding more features, or giving it a different presentation through styles.</p>
+
+<p>Whatever the case, all questions, comments, and feedback is welcome!</p>
