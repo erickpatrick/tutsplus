@@ -42,6 +42,7 @@ JavaScript
 - [Componentizando a Web](http://code.tutsplus.com/pt/tutorials/componentizing-the-web--cms-20602)
 - [API de Visibilidade de Página do HTML5](http://code.tutsplus.com/pt/articles/html5-page-visibility-api--cms-22021)
 - [Introdução ao Conjunto MEAN](http://code.tutsplus.com/pt/tutorials/introduction-to-the-mean-stack--cms-19918)
+- [Acessando APIs Externas Usando Serviços do AngularJS](http://code.tutsplus.com/pt/tutorials/accessing-external-apis-using-angularjss-services--cms-21884)
 
 Habilidades com Computadores
 ----------------------------
@@ -63,6 +64,7 @@ Web  Design
 - [Criando Pré-Carregadores em CSS3](http://webdesign.tutsplus.com/pt/tutorials/creating-a-collection-of-css3-animated-pre-loaders--cms-21978)
 - [Construa um Modelo de E-mail em HTML a Partir do Zero](http://webdesign.tutsplus.com/pt/articles/build-an-html-email-template-from-scratch--webdesign-12770)
 - [Uma Introdução À Metodologia BEM](http://webdesign.tutsplus.com/pt/articles/an-introduction-to-the-bem-methodology--cms-19403)
+- [Entendendo O Layout Divido no Web Design](http://webdesign.tutsplus.com/pt/articles/understanding-the-split-layout-in-web-design--webdesign-9551)
 
 Fotografia
 ----------
