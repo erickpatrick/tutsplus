@@ -1,0 +1,336 @@
+<h1>Autenticando Aplicações Node.js com Passport</h1>
+
+<p>Implementar estratégias robustas de autenticação para qualquer aplicação pode ser uma tarefa bem assustadora e as apliocações Node.js não são exceções.</p>
+
+<p>Nesse tutorial, desenvolveremos uma aplicação em Node.js, a partir do zero, e usaremos um <em>middleware</em> relativamente novo, porém, bastante popular, o <a href="http://passportjs.org/" >Passport</a>, para cuidar da autenticação de nossa aplicação</p>
+
+<blockquote>A documentação do Passport a descreve como "um <em>middleware</em> simples e discreto para node". E realmente é.</blockquote>
+
+<p>Ao posicionar-se como um <em>middleware</em>, o Passaport faz um excelente trabalho ao separar os outros pontos de uma aplicação web das necessidades de autenticação. Isso permite que o Passaport seja facilmente configurada em qualquer aplicação baseada em <a href="http://expressjs.com/" >Express</a>, da mesma forma que configuramos qualquer outro <em>middleware</em> como o <a href="https://github.com/expressjs/morgan" >logging</a>, <a href="https://github.com/expressjs/body-parser" >body-parsing</a>, <a href="https://github.com/expressjs/cookie-parser" >cookie-parsing</a>, manipuladores de sessão, etc. </p>
+
+<p>Esse tutorial assume que tenha um entendimento básico de <a href="http://nodejs.org/" >Node.js</a> e da <em>framework</em> <a href="http://expressjs.com/" >Express</a> e tentará manter o foco na parte de autenticação, embora criaremos uma aplicação baseada em Express, a partir do zero, indo da criação das rotas à adição da camada de autenticação a alguma dessas rotas. </p>
+
+<h2>Estratégias de Autenticação</h2>
+
+<p>O Passport provê mais de 140 mecanismos de autenticação para escolhermos. Você pode autenticar em relação a uma instância remota/local de base de dados ou usar algum provedor OAuth para autenticar com redes sociais, como <a href="https://github.com/jaredhanson/passport-facebook" >Facebook</a>, <a href="https://github.com/jaredhanson/passport-twitter" >Twitter</a>, <a href="https://github.com/jaredhanson/passport-google" >Google</a>, etc, ou ainda pode escolher algum método de uma lista extensiva de <a href="http://passportjs.org/guide/providers/" target="_self">provedores</a> que dão suporte a autenticação com Passport e provê um módulo para usarmos.</p>
+
+<p>Mas, não se preocupe: Você não precisa adicionar qualquer estratégia/mecanismo de autenticação que sua aplicação não precise. Todas essas estratégias são independentes umas das outras e empacotadas como módulos separados do node, e não estão inclusas por padrão, ao instalar o Passaport:  <code class="inline">npm install passport</code></p>
+
+<p>Nesse tutorial, usaremos uma Estratégia de Autenticação Local do Passport para autenticar os usuários em relação a uma instância configurada e local do Mongo DB, guardando os detalhes do usuário nessa base de dados. Para usar essa estratégia, precisamos instalar o módulo <a href="https://github.com/jaredhanson/passport-local" target="_self">passport-local</a>: <code class="inline">npm install passport-local</code></p>
+
+<p>Mas, espere: Antes de abrir sua linha de comando e começar a executar esses comandos, comecemos criando a aplicação Express e adicionemos algumas rotas (como as <code>login</code>, <code>registration</code> e <code>home</code>) e tentemos adicionar nosso <em>middleware</em> de autenticação. Note que usaremos o Express 4 nesse tutorial, mas, com alguns <a href="https://github.com/strongloop/express/wiki/Migrating-from-3.x-to-4.x" target="_self">ajustes</a>, o Passport funcionará do mesmo jeito com o Express 3.</p>
+
+<h2>Preparando a Aplicação</h2>
+
+<p>Se você não o tiver feito ainda, instale o <a href="http://expressjs.com/" target="_self">Express</a> &amp; <a href="https://github.com/expressjs/generator" >express-generator</a> para gerar o esqueleto de uma aplicação, bastando executar <code class="inline">express passport-mongo</code> na sua linha de comando. A estrutura da aplicação gerada deve parecer com isso:</p>
+
+<figure class="post_image"><img alt="Initial Application Structure" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/388/posts/21619/image/passportjs-initial-app-structure.png"></figure>
+
+<p>Removamos parte da funcionalidade padrão a qual não usaremos - vá em frente e apague o arquivo <code class="inline">users.js</code> bem como as referências a ele do arquivo <code class="inline">app.js</code>.</p>
+
+<h2>Adicionando Dependências ao Projeto</h2>
+
+<p>Abra o arquivo <code class="inline">package.json</code> e adicione os módulos <code class="inline">passport</code> e <code class="inline">passport-local</code> como dependência.</p>
+
+<pre class="brush: bash">"passport": "~0.2.0",
+"passport-local": "~1.0.0"</pre>
+
+<p>Como guardaremos os detalhes dos usuários no MongoDB, usaremos o Mongoose como nossa ferramenta modeladora de objetos de dados. Outra maneira de instalar e salvar essas dependências no <code class="inline">package.json</code> é digitando:</p>
+
+<pre class="brush: bash">npm install mongoose --save </pre>
+
+<p>Seu <code class="inline">package.json</code> deve parecer com isso:</p>
+
+<figure class="post_image"><img alt="Added Mongoose Dependencies" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/388/posts/21619/image/passportjs-packagejson-final.png"></figure>
+
+<p>Agora, instale as dependências e rode a aplicação padrão, executando os comandos <code class="inline">npm install &amp;&amp; npm start</code>. Ele começará o download das dependências e iniciará nosso servidor node. Você pode verificar nosso app Express no endereço <a href="http://localhost:3000/">http://localhost:3000/</a>, embora não tenha muito o que se ver por lá.</p>
+
+<p>Logo mudaremos isso, criando um app Express completa, com página de registro de novos usuários; página de login dos usuários; e autenticação dos usuários registrados usando Passport.</p>
+
+<h2>Criando o Modelo com Mongoose</h2>
+
+<p>Já que salvaremos os dados do usuário no Mongo, criemos um modelo User usando <a href="http://mongoosejs.com/index.html" target="_self">Mongoose</a> e o salvemos como <code class="inline">models/user.js</code> em nosso app. </p>
+
+<pre class="brush: javascript">var mongoose = require('mongoose');
+
+module.exports = mongoose.model('User',{
+        username: String,
+	password: String,
+	email: String,
+	gender: String,
+	address: String
+});</pre>
+
+<p>Basicamente, criamos o <a href="http://mongoosejs.com/docs/models.html" target="_self">model</a> usando Mongoose, o qual poderemos realizar operações CRUD na base de dados usada.</p>
+
+<h2>Configurando o Mongo </h2>
+
+<p>Se não tiver o Mongo instalado localmente, recomendo que use serviços de bases de dado na nuvem, como o <a href="https://modulus.io/" >Modulus</a> ou o <a href="https://mongolab.com/welcome/" >MongoLab</a>. Criar uma instância do MongoDB usando algum desses serviços, além de gratuito, só leva alguns cliques.</p>
+
+<p>Depois de criar uma base de dados nesses serviços, ele fornecerá uma URI parecida com isso <code class="inline">mongodb://&lt;dbuser&gt;:&lt;dbpassword&gt;@novus.modulusmongo.net:27017/&lt;dbName&gt;</code>, que poderá ser usada para a realização das operações CRUD. É uma boa ideia manter a configuração da base de dados em um arquivo separado que pode ser utilizado quando necessário. Dessa forma, criaremos um módulo node, <code class="inline">db.js</code>, dessa forma:</p>
+
+<pre class="brush: javascript">module.exports = {
+  'url' : 'mongodb://&lt;dbuser&gt;:&lt;dbpassword&gt;@novus.modulusmongo.net:27017/&lt;dbName&gt;'
+}</pre>
+
+<p>Se você, assim como eu, usa uma instância local do Mongo, é hora de iniciar a <em>daemon</em> <code class="inline">mongod</code> e o <code class="inline">db.js</code> deverá ficar assim, para esse tipo de situação:</p>
+
+<pre class="brush: javascript">module.exports = {
+  'url' : 'mongodb://localhost/passport'
+}</pre>
+
+<p>Agora, usaremos essa configuração no <code class="inline">app.js</code> e conectaremos a ela usando as APIs do Mongoose</p>
+
+<pre class="brush: javascript">var dbConfig = require('./db.js');
+var mongoose = require('mongoose');
+mongoose.connect(dbConfig.url);</pre>
+
+<h2>Configurando o Passport</h2>
+
+<p>O Passport apenas provê o mecanismo de manipulação da autenticação, deixando a parte de manipulação de sessão para nós mesmos. Dessa forma, usaremos o <a href="https://github.com/expressjs/session" target="_self">express-session</a> para lidar com essa parte. Abra o arquivo <code class="inline">app.js</code> e cole o código abaixo antes de configurarmos as rotas:</p>
+
+<pre class="brush: javascript">// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+app.use(expressSession({secret: 'minhaChaveSecreta'}));
+app.use(passport.initialize());
+app.use(passport.session());</pre>
+
+<p>Isso é necessário se quisermos que nossas sessões sejam persistentes por natureza. Antes de executar o app, precisamos instalar o módulo <a href="https://github.com/expressjs/session" target="_self">express-session</a> e adicioná-lo na lista de dependências do <code class="inline">package.json</code>. Faça isso, executando o comando a seguir na linha de comando: <code class="inline">npm install --save express-session</code></p>
+
+<h2>Serializando e Deserializando Instâncias de Usuário</h2>
+
+<p>O Passport também precisa serializar e deserializar instâncias de objetos do armazenador de sessões, para dar suporte às sessões do login, assim, toda requisição subsequente não precisará lidar com credenciais do usuário. Ele provê dois métodos, <code class="inline">serializeUser</code> e <code class="inline">deserializeUser</code> para esse propósito:</p>
+
+<pre class="brush: javascript">passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});</pre>
+
+<h2>Usando as Estratégias do Passport</h2>
+
+<p>Definiremos estratégias do Passport para manipular o <b>login</b> e o <b>cadastro</b> de usuários. Cada uma delas será uma instância da <b>Estratégia Local de Autenticação</b> do Passport e será criada usando a função <code class="inline">passport.use()</code>. Nós usaremos o módulo <a href="https://www.npmjs.org/package/connect-flash" target="_self">connect-flash</a> para nos ajudar a manipular os erros, usando mensagens <em>flash</em> que podem ser usadas para mostrar os erros para o usuário.</p>
+
+<h3>Estratégia de Login</h3>
+
+<p>A estratégia de login parecerá com isso:</p>
+
+<pre class="brush: javascript">// passport/login.js
+passport.use('login', new <code>LocalStrategy</code>({
+    passReqToCallback : true
+  },
+  function(req, username, password, done) {
+    // verifica no mongo se o nome de usuário existe ou não
+    User.findOne({ 'username' :  username },
+      function(err, user) {
+        // Em caso de erro, retorne usando o método done
+        if (err)
+          return done(err);
+        // Nome de usuário não existe, logar o erro &amp; redirecione de volta
+        if (!user){
+          console.log('Usuário não encontrado para usuário '+username);
+          return done(null, false,
+                req.flash('message', 'Usuário não encontrado.'));
+        }
+        // Usuário existe mas a senha está errada, logar o erro
+        if (!isValidPassword(user, password)){
+          console.log('Senha Inválida');
+          return done(null, false,
+              req.flash('message', 'Senha Inválida'));
+        }
+        // Tanto usuário e senha estão corretos, retorna usuário através 
+        // do método done, e, agora, será considerado um sucesso
+        return done(null, user);
+      }
+    );
+}));</pre>
+
+<p>O primeiro parâmetro de <code class="inline">passport.use()</code> é o <b>nome</b> da estratégia que utilizaremos para identificar a estratégia em questão, quando precisarmos utiliza-la futuramente. O segundo parâmetro é o <b>tipo</b> da estratégia que queremos criar. Aqui, usamos <a href="http://passportjs.org/guide/username-password/" target="_self">username-password</a> (usuário-senha) ou a <code>LocalStrategy</code>. É preciso notar que, por padrão, a <code>LocalStrategy</code> espera encontrar as credenciais do usuário nos parâmetros <code class="inline">username</code> &amp; <code class="inline">password</code>, mas permite que usemos qualquer outro parâmetro nomeado também. A variável de configuração <code class="inline">passReqToCallback</code> permite-nos acessar o objeto <code class="inline">request</code> na <em>callback</em>, possibilitando, assim, usarmos qualquer parâmetro associado à requisição</p>
+
+<p>Depois, usamos a <a href="http://mongoosejs.com/docs/api.html#model_Model.findOne" target="_self">API do Mongoose</a> para encontrar o usuário em nossa coleção de Usuários, para verificar se é um usuário válido ou não. O último parâmetro em nossa <em>callback</em>, <code class="inline">done</code>, denota um método útil que nos permite sinalizar o sucesso ou falha do módulo Passport. Para especificar uma falha, ou o primeiro parâmetro contém um erro ou o segundo parâmetro deve ser algum valor que, se convertido para booleano, equivalha a <code class="inline">false</code>. Para denotar sucesso, o primeiro parâmetro deve ser <code class="inline">null</code> e o segundo parâmetro, se convertido para booleano, deve equivaler a <code class="inline">true</code>, que, nesse caso, estará disponível no objeto <code class="inline">request</code>.</p>
+
+<p>Como senhas são, inerentemente, fracas, nós sempre devemos <a href="http://codahale.com/how-to-safely-store-a-password/" target="_self">criptografá-las</a> antes de salvá-las na base de dados. Por isso, usamos o módulo <a href="https://www.npmjs.org/package/bcrypt-nodejs" target="_self">bcrypt-nodejs</a> para auxiliar na criptografia e descriptografia das senhas. </p>
+
+<pre class="brush: javascript">var isValidPassword = function(user, password){
+  return bCrypt.compareSync(password, user.password);
+}</pre>
+
+<p>Se você acha que só ver trechos de código dificultas as coisas, preferindo ver o código completo e a aplicação em ação, sinta-se a vontade para <a href="https://github.com/tutsplus/passport-mongo" >navegar pelo código</a>.</p>
+
+<h3>Estratégia de Registro</h3>
+
+<p>Agora, definiremos a próxima estratégia, a qual manipulará a inscrição de novos usuários e criará um novo registro em nossa base de dados Mongo DB:</p>
+
+<pre class="brush: javascript">passport.use('signup', new <code>LocalStrategy</code>({
+    passReqToCallback : true
+  },
+  function(req, username, password, done) {
+    findOrCreateUser = function(){
+      // Busca usuário pelo nome apresentado
+      User.findOne({'username':username},function(err, user) {
+        // Em caso de erro, retornar
+        if (err){
+          console.log('Erro no Registro: '+err);
+          return done(err);
+        }
+        // Usuário existe
+        if (user) {
+          console.log('Usuário já existe');
+          return done(null, false,
+             req.flash('message','Usuário já existe'));
+        } else {
+          // Se não houver usuário com aquele e-mail
+          // criaremos o novo usuário
+          var newUser = new User();
+          // Atribuindo as credenciais locais
+          newUser.username = username;
+          newUser.password = createHash(password);
+          newUser.email = req.param('email');
+          newUser.firstName = req.param('firstName');
+          newUser.lastName = req.param('lastName');
+
+          // salva o usuário
+          newUser.save(function(err) {
+            if (err){
+              console.log('Erro ao salvar usuário: '+err);
+              throw err;
+            }
+            console.log('Registro de usuário com sucesso');
+            return done(null, newUser);
+          });
+        }
+      });
+    };
+
+    // Atrasa a execução do método findOrCreateUser e o executa
+    // na próxima oportunidade dentro do loop de eventos
+    process.nextTick(findOrCreateUser);
+  });
+);</pre>
+
+<p>Nós usamos, novamente, a API do Mongoose para verificar se já existe usuário com o nome de usuário fornecido. Se não existir, criaremos o usuário e salvamos as informações no MongoDB. Caso contrário retornaremos o erro usando a <em>callback</em> <code class="inline">done</code> e mensagens <em>flash</em>. Note que usamos o módulo <code class="inline">bcrypt-nodejs</code> para a criação do <em>hash</em> da senha, antes de savá-la:</p>
+
+<pre class="brush: javascript">// Gera hash usando bCrypt
+var createHash = function(password){
+ return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}</pre>
+
+<h2>Criando as Rotas</h2>
+
+<p>Se verificássemos a estrutura geral de nossa aplicação, ela estaria assim:</p>
+
+<figure class="post_image"><img alt="Birds Eye View of Our Application" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/388/posts/21619/image/Bird_Eye_View_of_PassportJS_App.png"></figure>
+
+<p>Agora, definiremos as rotas da aplicação no módulo a seguir, o qual usa uma instância do Passport criada no arquivo <code class="inline">app.js</code>. Salve esse módulo em <code class="inline">routes/index.js</code></p>
+
+<pre class="brush: javascript">module.exports = function(passport){
+
+  /* Requisição GET para página de LOGIN. */
+  router.get('/', function(req, res) {
+    // Mostra a página de Login com qualquer mensagem flash, caso exista
+    res.render('index', { message: req.flash('message') });
+  });
+
+  /* Requisição POST para LOGIN */
+  router.post('/login', passport.authenticate('login', {
+	successRedirect: '/home',
+	failureRedirect: '/',
+	failureFlash : true
+  }));
+
+  /*Requisição GET para página de Registro */
+  router.get('/signup', function(req, res){
+	res.render('register',{message: req.flash('message')});
+  });
+
+  /* Requisição POST para Registros */
+  router.post('/signup', passport.authenticate('signup', {
+	successRedirect: '/home',
+	failureRedirect: '/signup',
+	failureFlash : true
+  }));
+
+  return router;
+}</pre>
+
+<p>A parte mais importante do trecho acima é o uso de <code class="inline">passport.authenticate()</code> para delegar a autenticação das estratégias de <code class="inline">login</code> e <code class="inline">registro</code> quando uma requisição HTTP <code class="inline">POST</code> for feita para as rotas <code class="inline">/login</code> e <code class="inline">/signup</code>, respectivamente. Note que não é obrigatório nomear as estratégias no caminho das rotas e elas podem ser nomeadas de qualquer outra forma.</p>
+
+<h2>Criando as Visões em Jade</h2>
+
+<p>Agora, criaremos as duas visões a seguir, para nossa aplicação:</p>
+
+<ol><li><code class="inline">layout.jade</code> contendo o layout básico &amp; estilos CSS  </li>
+<li><code class="inline">index.jade</code> contendo a página de login com seu formulário e a opção de criar uma nova conta</li>
+</ol>
+
+<pre class="brush: html">extends layout
+
+block content
+  div.container
+	div.row
+	  div.col-sm-6.col-md-4.col-md-offset-4
+		h1.text-center.login-title Acesse nosso Passport app
+		  div.account-wall
+			img(class='profile-img', src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120')
+			form(class='form-signin', action='/login', method='POST')
+			  input(type='text', name='username' class='form-control', placeholder='Email',required, autofocus)
+			  input(type='password', name='password' class='form-control', placeholder='Senha', required)
+			  button(class='btn btn-lg btn-primary btn-block', type='submit') Acessar
+			  span.clearfix
+		  a(href='/signup', class='text-center new-account') Criar nova conta
+		  #message
+		  if message
+			h1.text-center.error-message #{message}</pre>
+
+<p>Graças ao Bootstrap, nossa página de Login está assim: </p>
+
+<figure class="post_image"><img alt="Login Page for Our Passport App" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/388/posts/21619/image/passportjs-login-page.png"></figure>
+
+<p>Precisamos de duas outras visões para os detalhes do registro e para a página inicial da aplicação:</p>
+
+<ol><li><code class="inline">register.jade</code> contendo o formulário de registro</li>
+<li><code class="inline">home.jade</code> com uma saudação e mostrando os detalhes do usuário</li>
+</ol>
+
+<p>Se não estiver familiarizado com Jade, veja a <a href="http://jade-lang.com/reference/" target="_self">documentação aqui</a>.</p>
+
+<h2>Implementando a Funcionalidade de Saída</h2>
+
+<p>O Passport, sendo um <em>middleware</em>, pode adicionar certas propriedades e métodos nos objetos de requisição e resposta. Lançando mão dessa possibilidade, temos o método <code class="inline">request.logout()</code> que invalida a sessão do usuário em nossas propriedades.</p>
+
+<pre class="brush: javascript">/* Manipula a saída */
+router.get('/signout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});</pre>
+
+<h2>Protegendo as Rotas</h2>
+
+<p>O Passport também dá a possibilidade de restringir acesso a certas rotas que não sejam permitidas para usuários anônimos. Isso significa que, se algum usuário tentar acessar <a href="http://localhost:3000/home">http://localhost:3000/home</a> sem estar autenticado na aplicação, ele será redirecionado para página inicial.</p>
+
+
+
+<pre class="brush: javascript">/* GET Home Page */
+router.get('/home', isAuthenticated, function(req, res){
+  res.render('home', { user: req.user });
+});
+
+// Assim como qualquer middleware, é quintessencial chamarmos next()
+// Se o usuário estiver autenticado
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+	return next();
+  res.redirect('/');
+}</pre>
+
+<h2>Conclusão</h2>
+
+<p>O Passport não é a única maneira que temos disponivel para criar estratégias de autenticação em aplicações Node.js. Exitem alternativas como a <a href="https://github.com/bnoguchi/everyauth/" target="_self">EveryAuth</a>, mas a modularidade, flexibilidade, suporte da comunidade e o fato de ser apenas um <em>middleware</em>, faz do Passport a melhor escolha. </p>
+
+<p>Para uma comparação detalhada entre os dois, <a href="http://stackoverflow.com/questions/11974947/everyauth-vs-passport-js" target="_self">eis um post</a>interessante &amp; informativo, na perspectiva do próprio criador do Passport.</p>
+
