@@ -1,26 +1,26 @@
-<h1>Como as <em>frameworks</em> para Temas Funcionam de Verdade</h1>
+<h1>Como as <em>Frameworks</em> para Temas Funcionam de Verdade</h1>
 
-<p><em>Frameworks</em> para temas podem ser bastante poderosos. Para usuários de WordPress que não tem conhecimento tão técnico, eles possibilitam a criação de um site único que não parece usar o tema em questão e, para desenvolvedores, essas <em>frameworks</em> podem ajudar bastante no princípio DRY (Don't Repeat Yourself - Não se repita), dando a capacidade de criar sites customizados de forma rápida.</p>
+<p><em>Frameworks</em> para temas podem ser bastante poderosas. Para usuários de WordPress que não tem conhecimento técnico, elas possibilitam a criação de um site único que sem a aparência de um tema comum e, para desenvolvedores, essas <em>frameworks</em> podem ajudar bastante no princípio DRY (<em>Don't Repeat Yourself</em> - Não se repita), dando a capacidade de criar sites customizados de forma rápida.</p>
 
-<p>Se você tem usado alguma <em>framework</em> de terceiros há algum tempo e ficou frustrado com a quantidade de código desnecessário ou falta de flexibilidade, ou simplesmente quer controle total sobre seu código, talvez a construção de uma <em>framework</em> para temas própria seja a melhor abordagem.</p>
+<p>Se você tem usado alguma <em>framework</em> de terceiros e já ficou frustrado com a quantidade de código desnecessário ou falta de flexibilidade, ou simplesmente quer controle total sobre seu código, talvez a construção de uma <em>framework</em> própria seja a melhor abordagem.</p>
 
-<p>Nessa série, você aprenderá como criar uma <em>framework</em> para temas de WordPress para você ou seus clientes, ou mesmo liberar para o público. Você passará pelos estágios envolvidos na criação de um tema pai que servirá de base para sua <em>framework</em>, adicionar funcionalidades extras, ganchos (<em>hooks</em>) e mais. Você aprenderá como utilizar essas funcionalidades nos temas filhos e nos plugins, e como liberar seu código para o público.</p>
+<p>Nessa série, você aprenderá como criar uma <em>framework</em> para temas de WordPress para você ou para seus clientes, e, quem sabe, até liberar para o público. Você passará pelos estágios envolvidos na criação de um tema pai, que servirá de base para sua <em>framework</em>; adicioção funcionalidades extras, ganchos (<em>hooks</em>) e mais. Você aprenderá como utilizar essas funcionalidades nos temas filhos e nos plugins, e como liberar seu código para o público.</p>
 
-<p>Mas, antes de começarmos, você precisa saber como suas <em>frameworks</em> para temas operam e o que as tornam diferentes de um tema pai padrão.</p>
+<p>Mas, antes de começarmos, você precisa saber como as <em>frameworks</em> operam, e o que as tornam diferentes de um tema pai padrão.</p>
 
-<p>Passei bastante tempo desenvolvendo duas <em>frameworks</em> para usar com dois tipos diferentes de clientes, desenvolvendo e aprimorando ambas com o tempo, e também trabalhei com algumas <em>frameworks</em> de terceiros. Na minha experiência essas <em>framework</em> possuem algumas características principais:</p>
+<p>Passei bastante tempo desenvolvendo duas <em>frameworks</em> para usar com dois tipos diferentes de clientes. Desenvolvi e aprimorei ambas com o tempo. Também trabalhei com algumas <em>frameworks</em> de terceiros. Na minha experiência, essas <em>frameworks</em> possuem algumas características principais:</p>
 
-<ul><li>Ela cosiste de um tema pai, projetado para ser usado com temas filhos. Em alguns casos, o tema pai também funciona como um tema por conta própria, mas, outros temas pais só funcionam quando juntos de temas filhos - o <a href="http://codex.wordpress.org/Theme_Frameworks" target="_self">Codex WordPress</a> define esses temas como 'Temas Base/Iniciais' e 'Bibliotecas de Código,' respectivamente.</li>
-<li>Eles incluem ganchos e funções que podem ser usadas pelos temas filhos e plugins. Sua <em>framework</em> para temas é a base de um ecosistema inteiro com o qual trabalhará e isso inclui os plugins que usufruirão dos ganchos da sua <em>framework</em>.</li>
-<li>Se projetado para ser acessível por usuários, incluirá páginas com as opções do tema, permitindo que os usuários customizem-no de acordo com suas necessidades. Isso pode ser extensivo, incorporando design, layout, funções, conteúdo e mais. Em alguns casos, certas funcionalidades podem ser providas através do Customizador de Temas.</li>
-<li>Ele pode incluir várias áreas para Widgets, assim, usuários não técnicos pode adicionar conteúdo ou códigos através deles (incluindo os plugins que você escreveu especificamente para a <em>framework</em>).</li>
-<li>Ela também pode incluir uma biblioteca de funcionalidades, como um <em>slider</em> ou <em>lightbox</em> do jQuery. Dependendo nas suas necessidades e das dos usuários, talvez incorpore essas bibliotecas, diretamente, na <em>framework</em> ou proverá plugis com códigos que o façam.</li>
+<ul><li>Elas cosistem de um tema pai, projetado para ser usado com temas filhos. Em alguns casos, o tema pai também funciona como um tema por si só, mas, em outros temas pais, só funcionam quando juntos de temas filhos - o <a href="http://codex.wordpress.org/Theme_Frameworks" target="_self">Codex WordPress</a> define esses temas como 'Temas Base/Iniciais' e 'Bibliotecas de Código,' respectivamente.</li>
+<li>Eles incluem ganchos e funções que podem ser usados pelos temas filhos e plugins. Sua <em>framework</em> é a base de um ecossistema inteiro com o qual trabalhará e isso inclui os <em>plugins</em> que usufruirão dos ganchos da sua <em>framework</em>.</li>
+<li>Se projetada para ser acessível por usuários, incluirá páginas com as opções do tema, permitindo que os usuários customizem-na de acordo com suas necessidades. Isso pode ser longo, incorporando design, layout, funções, conteúdo e mais. Em alguns casos, certas funcionalidades podem ser providas através do Customizador de Temas.</li>
+<li>Ela pode incluir várias áreas para Widgets, assim, usuários leigos podem adicionar conteúdo ou códigos através deles (incluindo os <em>plugins</em> que você escreveu especificamente para a <em>framework</em>).</li>
+<li>Ela também pode incluir uma biblioteca de funcionalidades, como um <em>slider</em> ou <em>lightbox</em> do jQuery. Dependendo nas suas necessidades e das dos usuários, talvez incorpore essas bibliotecas, diretamente, na <em>framework</em> ou proverá <em>plugins</em> com códigos que o façam.</li>
 <li>Ela é extensível, com ganchos que permitem você estender as funcionalidades através dos temas filhos ou plugins.</li>
 </ul>
 
 <p>Os dois primeiros pontos acima são os fundamentais - sem um tema pai, você não tem uma <em>framework</em> para temas. E um tema pai sem ganchos e funções é só um tema básico, não uma <em>framework</em>.</p>
 
-<p>Então é isso o que as <em>frameworks</em> para temas são, mas, como elas funcionam? Vejamos os elementos de uma <em>framework</em> para temas:</p>
+<p>Então é isso o que as <em>frameworks</em> para temas são. Contudo, como elas funcionam? Vejamos os elementos de uma <em>framework</em> para temas:</p>
 
 <ul><li>O tema pai e um tema filho opicional</li>
 <li>Ganchos de ação e de filtros</li>
@@ -33,72 +33,72 @@
 
 <h2>Tema Pai e os Temas Filho</h2>
 
-<p>O componente principal de uma <em>framework</em> para temas é o tema pai. Isso pode ser projetado em uma de duas maneiras:</p>
+<p>O componente principal de uma <em>framework</em> é o tema pai. Isso pode ser projetado como uma de duas maneiras:</p>
 
-<ul><li>Como tema inicial, que pode funcionar como um tema por conta própria, talvez com customização através de uma tela de opções do tema ou pelo customizador de temas. Alguns exemplos incluem o <a href="http://wordpress.org/themes/atahualpa" target="_self">Atahualpa</a> e o <a href="http://wordpress.org/themes/thematic" target="_self">Thematic</a>. ambos podem ser usados como temas por si só ou com temas fihlos.</li>
-<li>Como base para ser usado por um tema filho, sem que o tema funcione, efetivamente, para um site. Exemplos são o <a href="http://themehybrid.com/hybrid-core" target="_self">Hybrid Core</a> e o <a href="http://my.studiopress.com/themes/genesis/" target="_self">Genesis</a>. Eles incluiem o código básico que você normalmente encontraria em alguns temas, porém, adicionam uma grande gama de ganchos e funções que podem ser usados por temas filhos e, também, por plugins. Tudo isso se torna a API da <em>framework</em>.</li>
+<ul><li>Sendo tema inicial, que pode funcionar como um tema por conta própria, talvez com customização através de uma tela de opções ou pelo Customizador de Temas. Alguns exemplos incluem o <a href="http://wordpress.org/themes/atahualpa" target="_self">Atahualpa</a> e o <a href="http://wordpress.org/themes/thematic" target="_self">Thematic</a>. Ambos podem ser usados como temas por si só ou com temas filhos.</li>
+<li>Como base para ser usado por um tema filho, sem que o tema funcione, efetivamente, como um site. Exemplos são o <a href="http://themehybrid.com/hybrid-core" target="_self">Hybrid Core</a> e o <a href="http://my.studiopress.com/themes/genesis/" target="_self">Genesis</a>. Eles incluiem o código básico que você normalmente encontraria em alguns temas, porém, adicionam uma grande gama de ganchos e funções que podem ser usados por temas filhos e, também, por plugins. Tudo isso se serve como a API da <em>framework</em>.</li>
 </ul>
 
-<p>Um característica chave dessas <em>frameworks</em> é o princípio DRY, onde seu tema, provavelmente, usará de partes de modelo e arquivos de inclusão, sempre que possível, o que lhe permite usar esses códigos em vários lugares do seu tema. Isso também facilita a possibilidade de sobrescrita desse código em temas filho, uma vez que você pode, simplesmente, criar uma parte de modelo ou arquivo de inclusão com o mesmo nome, dentro do seu tema filho.</p>
+<p>Um característica chave dessas <em>frameworks</em> é o princípio DRY, onde seu tema, provavelmente, usará de alguma seção de modelo de layout e de arquivos de inclusão, sempre que possível, o que lhe permite usar seções e trechos de código em vários lugares do seu tema. Isso também facilita a possibilidade de sobrescrita desses mesmos códigos em temas filho, uma vez que você pode, simplesmente, criar uma seção de modelo de layout ou arquivo de inclusão com o mesmo nome do tema pai, dentro do diretório do seu tema filho.</p>
 
-<p>Não explicarei o conceito de temas pai e filho, uma vez que isso já foi explicado <a href="http://code.tutsplus.com/articles/how-to-customize-your-wordpress-theme-with-a-child-theme--wp-32354" target="_self">nesse tutorial</a>. Muitas <em>frameworks</em> tem vários temas que já dão suporte a elas, enquanto em outros, você tem de criar o seu próprio tema. </p>
+<p>Não explicarei o conceito de temas pai e filho, uma vez que isso já foi explicado <a href="http://code.tutsplus.com/articles/how-to-customize-your-wordpress-theme-with-a-child-theme--wp-32354" target="_self">nesse tutorial</a>. Muitas <em>frameworks</em> tem vários temas que já dão suporte a elas, enquanto com outras, você tem de criar o seu próprio tema. </p>
 
-<p>Se for criar o seu próprio, recomendo criar, pelo menos, um tema filho 'padrão', para evitar a repetição do trabalho envolvido no preparo de um tema para cada projeto: talvez decida criar múltiplos temas filho para diferentes tipos de projetos, como por exemplo, temas filhos para blogs e temas filhos para sites institucionais.</p>
+<p>Se for criar o seu próprio tema, recomendo criar, pelo menos, um tema filho 'padrão', para evitar a repetição do trabalho envolvido no preparo de um tema para cada projeto: talvez decida criar múltiplos temas filho para diferentes tipos de projetos, como por exemplo, temas filhos para <em>blogs</em> e temas filhos para sites institucionais.</p>
 
 <h2>Ganchos de Ação e de Filtros</h2>
 
-<p>Uma <em>framework</em> incluirá uma gama ganchos para temas e plugins usarem para adicionarem códigos customizados ou mudar o comportamento do tema:</p>
+<p>Uma <em>framework</em> incluirá uma gama de ganchos para temas e <em>plugins</em> usarem para adicionar códigos customizados ou mudar o comportamento do tema:</p>
 
-<ul><li>Ganchos de ação aparecerão múltiplas vezes no seu código, permitindo que você adicione códigos aos arquivos do seu modelo através de funções codificadas em sua <em>framework</em> que podem ser sobrescritas por temas filhos, ou através de funções que você adicionar em seus temas filhos ou plugins. Minha própria <em>framework</em> faz uso extensivo de ganchos de ações, provendo em todos os arquivos do modelo para permitir que os usuários coloquem conteúdos em áreas de widgets, em detalhes de contato, botões de ação, e código específico para qualquer coisa que for preciso.</li>
-<li>Ganchos de filtros pode ser usados para alterar o comportamente de um site usando um tema filho ou um plugin em particular, por exemplo, customizado <em>loops</em>, ampliando conteúdo estático e mais. Qualquer texto estático (ou código chamado de fora do seu site) deve ser envolvido em um filtro, assim, ele pode ser alterado em temas filhos se necessário.</li>
+<ul><li>Ganchos de ação aparecerão múltiplas vezes no seu código, permitindo que você adicione códigos aos arquivos do seu modelo através de funções codificadas em sua <em>framework</em>, que, por sua vez, podem ser sobrescritas pelos temas filhos, ou através de funções que você implementar em seus temas filhos ou plugins. Minha própria <em>framework</em> faz uso extensivo de ganchos de ações, provendo ganchos em todos os arquivos do modelo do layout para permitir que os usuários coloquem conteúdos em áreas de widgets, em detalhes de contato, botões de ação, e código próprio para qualquer coisa que for preciso.</li>
+<li>Ganchos de filtros pode ser usados para alterar o comportamente de um site usando um tema filho ou um plugin em particular, por exemplo, customizando <em>loops</em>, ampliando conteúdo estático e mais. Qualquer texto estático (ou código chamado de fora do seu site) deve ser envolvido em um filtro, assim, ele pode ser alterado em temas filhos se necessário.</li>
 </ul>
 
-<p>É interessante tomar algum tempo para avaliar quais ganchos você quer incluir no começo, assim, saberá qual conteúdo será incluido através dos ganchos e qual código irá em seus arquivos de modelo.</p>
+<p>É interessante para um tempo para avaliar quais ganchos você quer incluir desde o começo, assim, saberá qual conteúdo será incluido através dos ganchos e qual código irá em seus devidos arquivos de modelo de layout.</p>
 
 <h2>Funções</h2>
 
-<p>Sua <em>framework</em>, provavelmente, também incluirá uma gama de funções. Algumas delas utilizarão os ganchos de ação e de filtro que você criou, enquanto outras serão funções que temas filho poderão usar, como as de criação de tags do modelo. </p>
+<p>Sua <em>framework</em>, provavelmente, incluirá uma gama de funções. Algumas delas utilizarão os ganchos de ação e de filtro que você criou, enquanto outras serão funções que temas filho poderão usar, como as de criação de <em>tags</em> do modelo. </p>
 
-<p>Se você tiver qualquer função customizada que usa em vários sites de clientes, é interessante adicioná-las em sua <em>framework</em>. Vpcê não precisa ativar todas suas funções: você pode ativar uma função do tema pai usando a função <code class="inline">add_action()</code> em seu tema fiilho.</p>
+<p>Se você tiver qualquer função customizada que usa em vários sites de clientes, é interessante adicioná-las em sua <em>framework</em>. Você não precisa ativar todas suas funções: você pode ativar uma função do tema pai usando a função <code class="inline">add_action()</code> em seu tema fiilho.</p>
 
 <h2>Opções de Temas</h2>
 
-<p>Telas de opções de temas são uma útil adicção a qualquer tema complexo, mas são, particularmente, úteis em <em>frameworks</em> para temas projetados para usuários não-técnicos. As maiores <em>frameworks</em> para temas incluem várias telas de opções, com opções que incluem a ativação de funcionalidades, melhoraramento do layout, adição de conteúdo e alteração de elementos de design como cores, imagens de plano de fundo, fontes e imagens de cabeçalho.</p>
+<p>Telas de opções de temas são uma útil adição a qualquer tema complexo, mas são, particularmente, úteis em <em>frameworks</em> projetadas para usuários comuns. As maiores <em>frameworks</em> incluem várias telas de opções, que incluem a ativação de funcionalidades, melhoraramento do layout, adição de conteúdo e alteração de elementos do design, como cores, imagens de plano de fundo, fontes e imagens de cabeçalho.</p>
 
-<p>Talvez escolha usar o customizador de temas para várias das suas opções, que dá a vantagem dos usuários verem as mudanças de acordo com que são feitas. Preferi essa abordagem para a <a href="http://edupress.co.uk/how-to-customise-your-school-website/" target="_self">Edupress</a>, a <em>framework</em> para temas que desenvolvi para sites de escolas, juntamente ao Mark Wilkinson.</p>
+<p>Talvez opte por usar o customizador de temas para várias das suas opções. Isso dá a vantagem dos usuários verem as mudanças de acordo com que são feitas. Preferi essa abordagem para a <a href="http://edupress.co.uk/how-to-customise-your-school-website/" target="_self">Edupress</a>, a <em>framework</em> que desenvolvi para sites de escolas, juntamente ao Mark Wilkinson.</p>
 
 <h2>Áreas de Widgets</h2>
 
-<p>Tenha você escolhido adicionar uma gama de áreas de widgets ou não, dependerá do público da sua <em>framework</em>: se somente você ou um pequeno grupo de desenvolvedores trabalharão com o tema, talvez não seja necessário adicionar algo além das áreas padrões das barras laterais ou do rodapé.</p>
+<p>Escolher adicionar uma gama de áreas de widgets ou não, dependerá do público da sua <em>framework</em>: se somente você ou um pequeno grupo de desenvolvedores trabalharão com o tema, talvez não seja necessário adicionar algo além das áreas padrões das barras laterais ou do rodapé.</p>
 
-<p>Mas se sua <em>framework</em> será usada por pessoas leigas, adicionar esss áreas lhes dará muito mais flexibilidade. Como em qualquer barra lateral ou rodapé, você pode registrar áreas de widgets no cabeçalho, antes ou depois do conteúdo e abaixo do rodapé.</p>
+<p>Mas, se sua <em>framework</em> será usada por pessoas comuns, adicionar essas áreas lhes dará muito mais flexibilidade. Como em qualquer barra lateral ou rodapé, você pode registrar áreas de widgets no cabeçalho, antes ou depois do conteúdo e abaixo do rodapé.</p>
 
-<p>A <em>framework</em> que uso para os sites dos meus clientes incluem quatro áreas de widgets no rodapé: o tema checa se essas áreas estão populadas e adiciona um CSS de acordo, de forma que as áreas de widget ocupem uma largura adequada da página.</p>
+<p>A <em>framework</em> que uso para os sites de clientes inclui quatro áreas de widgets no rodapé: o tema checa se essas áreas estão populadas e adiciona um CSS apropriado, de forma que as áreas de widget ocupem uma largura adequada da página.</p>
 
-<p>Suas áreas de widget podem ser codificadas diretamente em seus arquivos de modelo ou talvez decida (como eu fiz), adiciona-las através de ganchos em lugares relevantes ao seu site. Isso significa que elas podem ser sobrescritas nos temas filhos, seja por áreas de widgets alternativas ou código customizado.</p>
+<p>Suas áreas de widget podem ser codificadas diretamente em seus arquivos de modelo. Talvez decida (como eu fiz) adiciona-las através de ganchos em lugares relevantes ao seu site. Isso significa que elas podem ser sobrescritas nos temas filhos, seja por áreas de widgets alternativas ou código customizado.</p>
 
 <h2>Scripts</h2>
 
-<p>If a given script is likely to be used by a number of sites built on your <em>framework</em>, or if your users will be non-technical and you want to provide extra options, you might decide to include certain scripts in your <em>framework</em>, such as a slider or lightbox script. This can save users having to install extra plugins, but has the disadvantage of code bloat if these scripts aren't needed.</p>
+<p>Se um dado <em>script</em> tem uma grande probabilidade em ser usado em um grande número de sites que usam sua <em>framework</em>; ou se seus usuários serão leigos e você quer prover opções extras; talvez queira incluir certos <em>scripts</em> em sua <em>framework</em>, como o de <em>slider</em> ou de <em>lightbox</em>. Isso pode salvar os usuários, evitando que tenham de instalar <em>plugins</em> extras. Contudo traz a desvantagem de código extra, caso esses <em>scripts</em> não sejam necessários.</p>
 
-<p>Again this will depend on your audience and its anticipated needs: if it's just you working with the <em>framework</em>, I'd recommend developing (or identifying) plugins with these scripts and using those when you need to.</p>
+<p>Novamente, isso dependerá do seu público e das necessidades dele: se é somente você quem trabalha com a <em>framework</em>, recomendo desenvolver (ou identificar) <em>plugins</em> com esses <em>scripts</em> e usá-los onde e quando achar que for necessário.</p>
 
-<p>If you do include scripts it's worth including an activation and deactivation option on your theme options screen.</p>
+<p>Se você incluir esses <em>scripts</em>, é importante incluir uma opção de ativação e desativação em uma das telas de opções do tema.</p>
 
-<h2>Extendability</h2>
+<h2>Extensibilidade</h2>
 
-<p>If your <em>framework</em> is going to be useful for a range of sites now and in the future you want it to be extendable. The parent theme which forms the core of the <em>framework</em> is just the heart of an ecosystem which you and your theme's users will tap into to add extra options and power to their sites. This will include:</p>
+<p>Se sua <em>framework</em> será útil para uma gama de sites, agora e no futuro, você quer que ela seja extensível. O tema pai que serve como base para sua <em>framework</em> é só o coração de um ecossistema, o qual você e os usuários do seu tema trabalharão, adicionando opções e poderes extras aos seus sites. Isso incluirá:</p>
 
-<ul><li>Child themes or starter themes - the list of these may well grow over time, especially if you're releasing your theme to the public</li>
-<li>Plugins designed to work specifically with your <em>framework</em>, often activated via <em>framework</em>-specific hooks.</li>
+<ul><li>Temas filhos e temas iniciais - essa lista pode crescer com o tempo, especialmente se lançar seu tema para o público</li>
+<li>Plugins projetados, especificamente, para trabalhar com sua <em>framework</em>, frequentemente, ativados através de ganchos especefícos da <em>framework</em>.</li>
 </ul>
 
-<p>It may also include documentation for other developers wanting to work with your <em>framework</em>: most of the major theme <em>frameworks</em> come with extensive documentation which developers can use either to customize their sites built on the <em>framework</em> or to create child themes or plugins for other users of the <em>framework</em> to access.</p>
+<p>Também talvez inclua documentação para outros desenvolvedores que queiram trabalhar com sua <em>framework</em>: a maioria das grandes <em>frameworks</em> vem com documentação bem extensa, a qual os desenvolvedores pode usar tanto para customizar os sites que estão construindo usando a <em>framework</em> em questão, ou para construir temas filhos ou <em>plugins</em> para outros usuários da <em>framework</em> terem acesso.</p>
 
-<h2>Summary</h2>
+<h2>Em Resumo</h2>
 
-<p>Theme <em>frameworks</em> are a powerful tool in the WordPress developer's arsenal. As we've seen, they are vital for thousands of non-technical site owners who use them to create custom WordPress sites. But they're also a great tool for any developer who will be creating multiple sites, either for personal use or for clients. </p>
+<p><em>Frameworks</em> para temas são uma ferramenta poderosa no arsenal do desenvolvedor de WordPress. Como vimos, elas são vitais para donos leigos de sites, que as usam para criar sites WordPress customizados. Mas também são uma ótima ferramenta para qualquer desenvolvedor que queira criar múltiplos sites, seja para uso pessoal ou para clientes. </p>
 
-<p>Theme <em>frameworks</em> have a number of characteristics which give them that power: they are extendable and flexible, and make it easy for you or your users to create custom sites using child themes and accessing the functions and hooks provided by your <em>framework</em>.</p>
+<p><em>Frameworks</em> tem várias características que lhes dão poder: elas são extensíveis e flexíveis, facilitam a sua vida e a de seus usuários na criação de sites customizados, com temas filhos e acesso às funcionalidade e ganchos providos pela <em>framework</em>.</p>
 
-<p>Having looked at how theme <em>frameworks</em> operate, in the next part of this series you'll identify what your <em>framework</em> needs to do and who it needs to work for, which will help you decide on the most appropriate development approach.</p>
+<p>Tendo visto como <em>frameworks</em> operam, na próxima parte dessa série você identificará o que sua <em>framework</em> precisa fazer e para quem ela precisa funcionar. Isso ajudará você a decidir a abordagem de desenvolvimento mais apropriada para sua <em>framework</em>.</p>
