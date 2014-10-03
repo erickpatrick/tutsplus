@@ -1,0 +1,167 @@
+<h1>Observações D'Além do Firewall: O Estado da Arte do Web Design Chinês</h1>
+
+<p>Como mais e mais empresas ocidentais passam a olhar melhor para o mercado chinês, sempre sou perguntado sobre as complicações em projetar um site para lá, bem como os pontos técnicos sobre realizar negócios na China. Nesse artigo, responderei as perguntas mais realizadas.</p>
+
+<h3>Primeiro, Uma Observação.</h3>
+
+<p>A China é incrivelmente diversa. A divisão entre os vários segmentos da sociedade é tão grande que é impossível falar sobre a “China” ou “o povo chinês” de forma que englobe todos. Além da tremenda diferença de conhecimento tecnológico entre o povo das cidades grandes, como Shangai ou Beijing, e os das outras cidades, há, também, as diferenças maneiras de ser “Chinês”. Quando falo sobre a “China” nesse artigo, refiro-me, especificamente, sobre parte a principal do território da China e, quando digo “Chinês”, geralmente, refiro-me sobre o cidadão de classe média que vive nas cidades grandes.</p>
+
+<p>Em outras palavras, os pontos elencados aqui são baseados na minha própria experiência na indústria tecnológica da China. Não cobrirei casos únicos de experiência e, para ser breve, farei certas generalizações. Espero que isso não cause problemas.</p>
+
+<h2>Quem Pode Ter Sites na China?</h2>
+
+<p>Somente empresas com licença de válida de empresa chinesa são permitidas ter sites em servidores Chineses. Pessoas "físicas" não podem ter sites hospedados em servidores. Isso é controlado a nível de hospedagem: todo site em servidor chinês deve ser registrado por um <a href="http://en.wikipedia.org/wiki/ICP_license" target="_self">número ICP</a>, cujo o servidor de hospedagem perguntará e verificará, antes de você ser aprovado para uma conta. Números ICP são liberados, somente, para donos de empresas. As leis requerem que os números ICP sejam mostrados na página do site, geralmente, no rodapé. Role até o fim da página inicial do <a href="http://baidu.com/" target="_blank">Baidu.com</a> e veja, bem próximo do texto dos direitos de cópia, um exemplo dessa lei.</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/462/posts/22281/image/baidu-icp.jpg"></figure>
+
+<p>Qualquer um pode "burlar" esse ponto do ICP, pagando uma hospedagem de fora da China, mas isso causa outros problemas:</p>
+
+<ul>
+<li>Sites fora da China podem ser bloqueados a qualquer momento pelo <em>Grande Firewall</em> (mais sobre isso, adiante).</li>
+<li>Sites hospedados nos EUA e na Europa são mais lentos que sites hospedados na Chinay.</li>
+<li>A pessoa pagando uma conta dessas precisa ter de pagar através de Cartões Visa ou Mastercard, que não são tão disponíveis dentro da China.</li>
+<li>O administrador do site precisa entender bem o suficiente para trabalhar com o painel de administração do servidor.</li>
+</ul>
+
+<p>Uma solução simples para esse problema é hospedar em servidores de Hong Kong. Servidores de Hong Kong são próximo da China, pouco provável de serem bloqueados, mais rápidos, oferecem painéis administrativos a idioma chinês, não requerem um ICP e podem oferecer transferência bancária como método de pagamento.</p>
+
+<h2>Qual É a Realidade Diária em Viver Por Trás do Grande Firewall?</h2>
+
+<p>Um pouco irritante, às vezes mais, às vezes menos.</p>
+
+<p>A maioria dos grandes sites não-chineses estão, completamente, inacessíveis. Tentar carregar um site bloqueado acaba na velha conhecida mensagem <i>A Página não pode ser exibida</i>, e por razões desconhecidas, também acaba com a capacidade do seu navegador em carregar quaisquer outras páginas por, mais ou menos, trinta segundos.</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/fb-firewall.png"></figure>
+
+<p>Alguns sites estão sempre bloqueados - Twitter, Facebook, Youtube - enquanto outros tem épocas liberadas e bloqueadas (Mashable, Dropbox). Acesso ao Gmail esteve livre por um tempo, até que o RPC (<a href="http://en.wikipedia.org/wiki/China" target="_self">República Popular da China</a>), recentemente, cancelou o acesso, e está bloqueado, permanentemente, desde o meio deste ano (2014). </p>
+
+<p>Alguns sites que tem seus acesso bloqueado nos navegadores ainda podem ser acessados através de aplicativos móveis. Por exemplo: até o momento do lançamento desse artigo, IMDB não pode ser acessado através do navegador, mas o aplicativo para iPad funciona perfeitamente. Similarmente, meu aparelho móvel pode conectar-se via POP/IMAP à minha conta do Gmail, mesmo eu não podendo carregar o cliente web em um navegador móvel, através de uma conexão chinesa. O bloqueio a Apps e sites varia tanto, que muitas conversas de bar às sextas incluem a discussão sobre quais sites e aplciativos estão bloqueados e em quais aparelhos. O Instagram acabou de ser bloqueado, em 29 de Setembro de 2014, em resposta a protestos em Hong Kong. Duvido muito que eles irão dosbloqueá-lo. </p>
+
+<h2>Como Você Consegue Trabalhar Nessas Condições?</h2>
+
+<p>Três letras: V-P-N. Possuir uma conta de VPN (<a href="https://computers.tutsplus.com/pt/tutorials/how-to-use-vpn-on-your-mac--mac-46053" target="_self">Virtual Private Network</a>) é <i>de praxe</i> em todos os escritórios de tecnologia, tão normal que nem vale a pena falar. </p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/462/posts/22281/image/vpn.jpg"></figure>
+
+<p>Para aqueles que não são desenvolvedores: basicamente, uma VPN pega conexão web e a repassa para um servidor desbloqueado antes de passar o tráfego para o servidor de conteúdo final, assim, burlando os bloqueios locais. Você quer acessar o Facebook, mas ele é bloqueado. Assim, com a VPN, você pede para ir para algum servidor que esteja, por exemplo, na Australia, de forma que suas requisições aparentarão ser de lá, não da China. Isso parece ser bem ilegal e deve ser, no papel, mas (estou apenas supondo), acredito que o governo aceita essa prática até um certo nível: a grande maioria da população não é entendedora suficiente de tecnologia para configurar uma conta de VPN e, sem proeficiência em inglês, é bem improvável que terão interesse em qualquer coisa que esteja acontecendo no resto da web.</p>
+
+<h2>O Público Chinês ao Menos Sabe Que o Acesso a Internet é Restrito? Eles Se Importam Com Isso?</h2>
+
+<p>Novamente, caímos na questão: “Quem é o ‘Público Chinês’”? Na grandes cidades, pessoas com menos de 35 anos e os estudantes universitários são cientes de não possuir acesso à maioria das redes ocidentais, e isso é algo bastante comentado na internet. Há focos sobre isso, mas está mais para irritação que afronta em si. Parte disso se dá pela existência de sites equivalentes aos grandes nomes da internet ocidental. Assim, há poucos motivos em se usar o Facebook ou Twitter quando se tem <a href="http://www.renren.com/" target="_self">Renren</a>, <a href="http://weixin.qq.com/" target="_self">Weixin</a> e <a href="http://www.weibo.com/" target="_self">Sina Weibo</a>.</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/renren.jpg"><figcaption><a href="http://www.renren.com/" target="_self">renren.com</a></figcaption></figure>
+
+<figure class="post_image"><img alt="My Sina Weibo Chinas Twitter user panel" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/462/posts/22281/image/sina-weibo.jpg"><figcaption>Meu painel de usuário no Sina Weibo ('O Twitter da China'):</figcaption></figure>
+
+<p>Convenhamos: O <em>firewall</em> traz benefícios para as empresas de tecnologia chinesas</p>
+
+<p>Reluto em concordar e não sou a favor dos bloqueios, mas o fato é que esse <em>firewall</em> tem trazido grandes benefícios para as <em>startups</em> locais, agindo como uma encubadora, dando chance aos web apps Chineses a possibilidade de captar uma base de usuários e crescerem. Os usuários que, em outra situação, teriam ido para outra rede social mais estabelecida, são forçados pelo Firewall a escolher alguma rede do país, e, em termos de crescimento de empresas tecnológicas locais, essa abordagem tem funcionado.</p>
+
+<h2>O Futuro do Firewall: Ele Deixará de Existir?</h2>
+
+<p>Ninguém tem uma respota para isso, mas posso oferecer minha análise. Pessoalmente, acho que só há restrição suficiente para não ser capaz de impedir o crescimento econômico da China. Seria um grande erro proibir empresas locais de interagir com redes internacionais. Além do mais, as crianças que entendem de tecnologia, hoje, serão os legisladores do amanhã. Acredito que, dado tempo o bastante, esse controle ruíra até que o estado em que a China só bloqueará pornografia e tópicos delicados em relação à política.</p>
+
+<p>Mas, quem sabe? Como região, a China tem sido, historicamente, capaz de tomar meios dramáticos de reclusão.</p>
+
+<h2>Que Outros Grandes Problemas o Firewall Causa aos Web Designers e Desenvolvedores?</h2>
+
+<h3>1) A Conexão com a API do Google é Totalmente Falha</h3>
+
+<p>Aquela mao do Google embutido em sua página de contatos? Não carrega na Chuna. Nem as fontes do Google fonts. Com a exceção do Google Analytics qualquer traço de conexão com a Google API a partir do seu site, faz com que ele entre em <em>loop</em>. Às vezes, ele termina de carregar. Outras vezes, não.</p>
+
+<p>Como resolvemos isso? Esse problema com a API do Google é bem recente e, infelizmente, o Baidu Maps não oferece a funcionalidade de embutir mapas em seu site, nesse momento - não sei se alguém já achou alguma alternativa para isso. Atualmente, dependemos de soluções <em>open source</em> como o <a href="http://www.openstreetmap.org/" target="_self">OpenStreetMap</a>. </p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/map.png"></figure>
+
+<p>Fontes web são transferidas e hospedadas em um servidor desbloqueado ou em um servidor chinês, de modo que não precisaremos mais conectar com a API do Google.</p>
+
+<h3>2) Vídeos Embutidos Não Carregam</h3>
+
+<p>Há um enorme e triste rosto onde o seu vídeo <a href="https://www.youtube.com/results?search_query=Cats+Playing+With+Boxes" target="_self">Gatos brincando com caixas</a> deveria estar. Tanto Youtube quanto o Viemo são bloqueados.</p>
+
+<p>E como resolvemos isso? Hospedamos uma cópia do video em um site de vídeo chinês, como o <a href="http://www.youku.com/" target="_self">YouKu</a> ou <a href="http://www.tudou.com/" target="_self">TuDou</a>, para, então, executar um <em>script</em> que carregará o video correto, dependendo do IP do usuário.</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/tudou-2.jpg"></figure>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/youku.jpg"></figure>
+
+<h2>Fontes Embutidas e o Idioma Chinês</h2>
+
+<p>Ah, sim, meu tópico favorito.</p>
+
+<p>Todo mundo foge das quatro fontes padrões da China - elas são tão, tão, tão usadas, que os designers estão enjoados de olharem para elas. <a href="http://www.kendraschaefer.com/2012/06/chinese-standard-web-fonts-the-ultimate-guide-to-css-font-family-declarations-for-web-design-in-simplified-chinese/" target="_self">Escrevi um post sobre esse tópico</a> um tempo atrás, mas, para economizar seu tempo: Fontes para web do idioma chinês podem ser embutidos, normalmente, como qualquer outra fonte, através do <code class="inline">@font-face</code>. O problema é que, como o idioma é <em>tão</em> grande e contém <em>tantos</em> caracteres, que o tamanho dos arquivos das fontes são enormes - imagine algo em torno de 3~7Mb. Forçar o carregamento total desse arquivo é, na melhor das hipóteses, impraticável.</p>
+
+<p>Até pouco tempo atrás, só tínhamos uma solulção e que não era ideal: se tivesse um número fixo de caracteres que quisesse usar, poderia criar uma versão limitada da fonte, só com esse caracteres. Claramente, isso é impraticável para o design de temas de CMSs.</p>
+
+<p>Google e Adobe lançaram, recentemente, fontes web para o idioma Chinês: (<a href="https://www.google.com/get/noto/" target="_self">Noto Chinese</a> e <a href="http://blog.typekit.com/2014/07/15/introducing-source-han-sans/" target="_self">Source Han Sans</a>, respectivamente), mas o Typekit pode carregar bem devagar por aqui e com a API do Google bloqueada, estamos impedidos de usá-la em servidores na China.</p>
+
+<figure class="post_image"><img alt="Source Han Sans" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/source-han.png"><figcaption>Source Han Sans</figcaption></figure>
+
+<figure class="post_image"><img alt="Google Sans Hakka Chinese 100 weight" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/noto.png"><figcaption>Google <a href="https://www.google.com/get/noto/#/family/noto-sans-hant" target="_self">Noto Sans Hakka Chinese</a> (peso 100)</figcaption></figure>
+
+<p>O problema foi resolvido, mais ou menos, no ano passado através da <a href="http://www.youziku.com/Home/FontSelect" rel="external" target="_blank">Youziku.com FontSelect</a>, uma ferramenta a la Typekit para embutir fontes web. Eles possuem uma biblioteca considerável de fontes e eles hospedarão sua fonte customizada, caso tenha uma. Se usar o serviço de hospedagem, há um limite de 999 caracteres por página (repetição de caracteres ou palavras não contam para esse limite), assim, se quiser hospedar fontes com eles, o melhor é usar o mínimo possível - só em cabeçalhos, por exemplo. Se precisar de uma opção ilimitada, eles oferecem outra solução em que você mesmo pode hospedar e executar o processamento no seu servidor. </p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/462/posts/22281/image/youziku.jpg"></figure>
+
+<h2>Em Relação a UX, Quais São as Principais Diferenças Entre as Preferências dos Chineses e dos Ocidentais?</h2>
+
+<p>Ninguém gosta de complicações</p>
+
+<p>Em nosso <a href="https://twitter.com/wdtuts/status/509251055717466112" target="_self">Q&amp;A em forma de artigo</a>, <a href="https://twitter.com/jmshome" target="_self">@jmshome</a> perguntou, lá no Twitter, se o pessoal chinês prefere designs cheios de palavras ou algo mais minimalista.</p>
+
+<blockquote><p><a href="https://twitter.com/wdtuts">@wdtuts</a> <a href="https://twitter.com/tutsplus">@tutsplus</a> <a href="https://twitter.com/kendraschaefer">@kendraschaefer</a> Ouvi dizer que eles gostam de sites repletos de palavras ao invés de design minimalista. A UX é diferente por lá?</p>
+
+— James H (@jmshome) <a href="https://twitter.com/jmshome/status/509554828306292736">10 de Setembro de 2014</a></blockquote>
+
+<p>I get this question a lot, and it’s actually a pretty common misconception. Chinese people appreciate simplicity as much as the next guy, and I was thrilled to hear Daniel Szuc from Hong Kong usability firm <a href="http://apogeehk.com/" target="_self">Apogee</a> back me up on this at a conference a few years ago - they’ve been combating that perception for years. In my own experience, Chinese tend to perceive super-minimalist interfaces as high-end - the smaller the text and the more pure, clean and serene a design is, the more it’s perceived as a luxury brand design.</p>
+
+<p>No one likes over-complexity. So why does it seem to abound on the Chinese web? I think the main problems here are low awareness of web usability and a culture of duplication. There is an incredible amount of copy-catting that goes on between Chinese websites. One guy does a text-heavy design on a site that become popular, the next guy is terrified to change a successful formula. My Chinese clients have always been much more reluctant than my non-Chinese clients to take a step into the total unknown, and many a client meeting begins with a speech about why it’s better not to copy a competitor’s website. This isn’t because Chinese people are less creative than non-Chinese - it’s a cultural perception that when you launch a new product, the best way to ensure its success is to take the pieces of your competitor’s formula that have already been proven, then modify the least number of variables.</p>
+
+<h3>Chinese Are Not Yet Used to Wide, Breezy Grids</h3>
+
+<p>In terms of real UX preference differences, I can say that the Bootstrap-3 big-grid-spacing revolution has not hit here yet, and many Chinese feel like a 30px margin is too loose, that it leaves the webpage feeling too disconnected. The local eye seems a little more tuned into smaller grid spacing a-la <a href="http://960.gs/" target="_blank">960.gs</a>. It’s not that you can’t sell a client on wider grid spacing, it’s just that it often takes a bit of a pitch and you can expect it will look a little “off” to them.</p>
+
+<h3>Steer Clear of Black and White Headshots</h3>
+
+<p>I spent a couple of years wondering why I met resistance whenever I suggested black-and-white “Our Team” bio headshots to Chinese clients. Someone finally spilled the beans: black-and-white personal headshots are typically displayed at funerals, the black-and-white color indicating the subject of the image has died. Oops.</p>
+
+<h2>Tech</h2>
+
+<h3>Operating Systems</h3>
+
+<p>Stick your head in the sand about it if you want, but 50% of Chinese internet users are <a href="http://os.data.cnzz.com/" target="_self">still on Windows XP</a>, with Windows 7 coming in second at around 33%. Only slightly over 1% of the country is running iOS. When Microsoft dropped support for XP, there was a whole lot of freaking out over here . And you wonder why China is scrambling to <a href="http://mashable.com/2014/08/26/china-operating-system/" target="_self">develop their own operating system</a>. However, just because people are running XP it does not mean they’re browsing via IE6 (though 20% of users were <a href="http://www.chinainternetwatch.com/1571/china-internet-browser-market-share-for-aug-2012/" target="_self">still using that dinosaur in August 2012</a> - ouch).</p>
+
+<h3>Browsers</h3>
+
+<p>Guess what? As of September 2013, the <a href="http://www.chinainternetwatch.com/3647/360-secure-browser/" target="_self">most popular browser in China</a> is one you’ve probably never heard of: <a href="http://www.chinainternetwatch.com/3647/360-secure-browser/" target="_self">Qihoo 360 Secure</a>, followed by IE, and then a big fat “everything else”.</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/462/posts/22281/image/qihoo-360.jpg"></figure>
+
+<h3>What’s the Deal With Chinese SEO?</h3>
+
+<p>China’s answer to Google is a search engine / app developer called <a href="http://www.baidu.com/" target="_self">Baidu</a>, which is by far the biggest player in the Chinese marketplace. </p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/baidu.png"></figure>
+
+<p>As with all search engines the Baidu algorithm is a secret, but I can tell you that it primarily indexes sites on .cn domains or sites hosted within China. If you want good Baidu rankings, the bottom line is that you’ll need a local web outpost.</p>
+
+<h2>The Mobile Situation</h2>
+
+<p>Mobile browsing outpaced desktop browsing in China long before it did in the west, and mobile access statistics from Asia will blow your mind. Usage is so heavy that if your site isn’t mobile-friendly, you’ve lost the majority of your audience. For the latest developments in the China mobile market, check out <a href="http://www.chinainternetwatch.com/tag/mobile/" target="_self">China Internet Watch</a>.</p>
+
+<h3>WeiXin</h3>
+
+<p><a href="http://weixin.qq.com/" target="_self">WeiXin</a>, known in the West by its English name <i>WeChat</i>, is riding a massive wave of almost universal popularity. </p>
+
+<figure class="post_image"><img alt="WeiXin" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22281/image/wechat.png"><figcaption>WeiXin</figcaption></figure>
+
+<p>Weixin is a mobile app that incorporates elements of several other social networks, functioning as a chat application that supports text chat, voice chat, and on-the-fly group chats, a Twitter-esque personal feed with photo capabilities, a hookup-with-strangers feature, and all kinds of other nonsense.</p>
+
+<h4>Weixin Corporate Accounts</h4><p>As of this year, Weixin has begun offering corporate accounts, meaning companies can use Weixin to push updates to their subscribers. Again, you'll need a Chinese business license to apply. Take a look at <a href="https://mp.weixin.qq.com/" target="_self">the signup portal</a> for more information.</p>
+
+<h2>Wrapping Up</h2>
+
+<p>The overall tone of the industry here is largely positive, tempered by a mild and distant nervousness that the ground could be yanked out from under you at any time by a restrictive law or unexpected decision from above (heaven forbid the government deploys an effective VPN countermeasure, for example), but also with a good dollop of faith that that is unlikely to happen. The market for designers is absolutely huge, with companies in most major cities vying to hire design talent, and clients beginning to really value work that is well-crafted, rather than just cheap and fast. Fingers crossed that the general uptrend lasts for many years to come.</p>
+
+<p>Have questions? Ask in the comments!</p>
+
