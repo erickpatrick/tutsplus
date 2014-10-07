@@ -5,20 +5,20 @@
 
 <h2>Fluxo de Trabalho de Criação de E-mails é Falho</h2>
 
-<p>Criação de e-mails requer um fluxo diferente do design para web. Geralmente, você projeta um modelo em um ambiente isolado, com poucas ou sem dependências ou recursos compartilhados. Talvez você copie algum trecho de HTML de um lugar (local, estático) para outro (Provedor de Serviços de E-mail, base do trabalho). Pode ser difícil manter seus modelos de e-mails consistentes e até estranho em colaborar com membros da equipe, sem esquecer dos vários testes e da necessidade de colocar o CSS em linha, antes que os e-mails sejam enviados.</p>
+<p>Criação de e-mails requer um fluxo diferente do design para web. Geralmente, você projeta um modelo em um ambiente isolado, com poucas ou sem dependências ou recursos compartilhados. Talvez copie algum trecho de HTML de um lugar (local, estático) para outro (Provedor de Serviços de E-mail, base do trabalho). Pode ser difícil manter seus modelos de e-mails consistentes e até estranho em colaborar com membros da equipe, sem esquecer dos vários testes e da necessidade de colocar o CSS em linha, antes que os e-mails sejam enviados.</p>
 
 <p>Um problema que tive no passado foi que, toda vez que precisei de um novo modelo de e-mail, tive de pegar um modelo existente e fazer algumas mudanças aqui e acolá. Isso resultava em e-mails inconsistentes entre os produtos da empresa, que, convenhamos, é uma péssima prática.</p>
 
-<p>Outro problema que tive de lidar é achar que já tinha terminado o trabalho, precisando só passar o modelo por uma ferramenta de inserção de CSS inline para enviar para o desenvolvedor. Tudo isso só para, depois, alguém requisitar uma mudança ou apontar algum erro. O processo de editar/inserir/copiar tinha de se repetir de novo e mais uma vez.</p>
+<p>Outro problema que tive de lidar é achar que já tinha terminado o trabalho, precisando só passar o modelo por uma ferramenta de inserção de CSS em linha, para enviar para o desenvolvedor. Tudo isso só para, depois, alguém requisitar uma mudança ou apontar algum erro. O processo de editar/inserir/copiar tinha de se repetir de novo e mais uma vez.</p>
 
 <h3>O Grunt Ao Resgate</h3>
 
 <p>Hoje em dia, uso o <a href="http://gruntjs.com/" target="_self">Grunt</a> para otimizar <a href="http://www.leemunroe.com/email-design-workflow/" target="_self">meu fluxo de criação de e-mails</a>. Ele ajuda em algumas coisas:</p>
 
-<ul><li>Provê uma <em>framework</em> a partir da qual posso trabalho, podendo usar o Sass e modelos</li>
+<ul><li>Provê uma <em>framework</em> a partir da qual posso trabalhar, podendo usar o Sass e modelos</li>
 <li>Serve como código base para novos e-mails</li>
-<li>Ajuda a criar e-ails mais consistentes entre os projetos</li>
-<li>Automatiza as várias taregas e testes que tenho de realizar para cada e-mail</li>
+<li>Ajuda a criar e-mails mais consistentes entre os projetos</li>
+<li>Automatiza as várias tarefas e testes que tenho de realizar para cada e-mail</li>
 </ul>
 
 <h2>O Que É O Grunt?</h2>
@@ -27,21 +27,21 @@
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22223/image/grunt-l.png"></figure>
 
-<p>Para deixar o Grunt pronto para funcionar, você precisará por mãos na massa, indo à linha de comando e com um pouco de JavaScript. Fora isso, é tudo muito direto.</p>
+<p>Para deixar o Grunt pronto para funcionar, você precisará por as mãos na massa, indo à linha de comando e mexer com um pouco de JavaScript. Fora isso, é tudo muito direto.</p>
 
 <h2><span class="sectionnum">1.</span> Como Deixar o Grunt Pronto Para Uso</h2>
 
-<p>Chris Coyier tem um tutorial muito bom sobre <a href="http://24ways.org/2013/grunt-is-not-weird-and-hard/" target="_self">preparar e configuraro Grunt pela primeira vez</a>. Falarei sobre o básico.</p>
+<p>Chris Coyier tem um tutorial muito bom sobre <a href="http://24ways.org/2013/grunt-is-not-weird-and-hard/" target="_self">como preparar e configurar o Grunt pela primeira vez</a>. Falarei sobre o básico.</p>
 
-<p>O Grunt requer algumas coisas, primeiro, para funcionar. São elas: <a href="http://nodejs.org/" target="_self">Node</a>, um administrador de pacotes e um arquivo grunt.</p>
+<p>O Grunt tem alguns requisitos para funcionar. São eles: <a href="http://nodejs.org/" target="_self">Node</a>, um administrador de pacotes e um arquivo grunt.</p>
 
 <h3>Instalação do Node</h3>
 
 <p>Vá até o <a href="http://nodejs.org/" target="_self">site do Node</a> e siga as instruções para a instalação. <br></p>
 
-<h3>Crei um arquivo <code class="inline">package.json</code> no diretório do seu projeto</h3>
+<h3>Crie um arquivo <code class="inline">package.json</code> no diretório do seu projeto</h3>
 
-<p>Crie um novo diretório (chamado, por exemplo, <code class="inline">email</code>) e crie um arquivo chamado <code class="inline">package.json</code>.</p>
+<p>Crie um novo diretório (chamado <code class="inline">email</code>, por exemplo) e crie um arquivo <code class="inline">package.json</code>.</p>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22223/image/email-folder.png"></figure>
 
@@ -55,27 +55,27 @@
   }
 }</pre>
 
-<p>Aqui, dizemos ao administrador de pacotes do node que usaremos o Grunt, a partir da versão 0.4.5 ou mais nova.</p>
+<p>Aqui, dizemos ao administrador de pacotes do Node que usaremos o Grunt, a partir da versão 0.4.5 ou mais nova.</p>
 
 <h3>Instalação do NPM</h3>
 
-<p>Agora, para instalar a versão mencionada acima (ou mais recente), vá até o diretório do seu projeto, a partir da linha de comando e digite:</p>
+<p>Agora, para instalar a versão mencionada acima (ou mais recente), vá até o diretório do seu projeto e, a partir da linha de comando, e digite:</p>
 
 <pre class="brush: bash">npm install</pre>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/451/posts/22223/image/npm.gif"></figure>
 
-<p>Quando você executar esse comando, você perceberá que uma pasta <code class="inline">node_modules</code> aparecerá.</p>
+<p>Quando você executar esse comando, perceberá que uma pasta <code class="inline">node_modules</code> aparecerá.</p>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22223/image/email=folder-2.png"></figure>
 
 <h3>Instalando a Interface de Linha de Comando do Grunt</h3>
 
-<p>Ainda no diretório dos eu e-mail, execute o comando a seguir:</p>
+<p>Ainda no diretório do seu e-mail, execute o comando a seguir:</p>
 
 <pre class="brush: bash">npm install -g grunt-cli</pre>
 
-<p><b>Nota</b>: talvez precise iniciar esse comando com o comando <code class="inline">sudo</code> se for pedido que execute o comando como root/Administrador. </p>
+<p><b>Nota</b>: talvez precise iniciar esse comando com um outro comando, o <code class="inline">sudo</code>, no caso de ser pedido para executar o comando como root/Administrador. </p>
 
 <p>Tendo feito isso, podemos digitar comandos do Grunt na linha de comando.</p>
 
@@ -97,11 +97,11 @@
 
 <h2><span class="sectionnum">2.</span> Adicionando Tarefas do Grunt</h2>
 
-<p>Comecemos com algo simples, mas vital: <b>Embutir CSS em linha</b>. digamos que temos um modelo de e-mail, com CSS no elemento <code class="inline">head</code>. O CSS estando lá, fica fácil (de certa forma) de manter, mas o modelo que queremos <i>enviar</i> precisa do CSS em linha.</p>
+<p>Comecemos com algo simples, mas vital: <b>Embutir CSS em linha</b>. Digamos que temos um modelo de e-mail, com CSS no elemento <code class="inline">head</code>. O CSS estando lá, fica fácil (de certa forma) a manutenção, mas o modelo que queremos <i>enviar</i> precisa do CSS em linha.</p>
 
 <h3>Criando o HTML do Modelo</h3>
 
-<p>Usaremos um código HTMl relativamente básico com um CSS no elemento <code class="inline">head</code>. Save o código abaixo como email.html no diretório do seu projeto.</p>
+<p>Usaremos um código HTML relativamente básico com um CSS no elemento <code class="inline">head</code>. Salve o código abaixo como email.html no diretório do seu projeto.</p>
 
 <pre class="brush: html">&lt;html&gt;
 &lt;head&gt;
@@ -135,15 +135,15 @@
 
 <h3>Instalando o Embutidor de CSS</h3>
 
-<p>Agora, criaremos uma tarefa para o embutidor de CSS em linha, para que ele possa embutir cada regra de estilo nos elementos em si. Eu gosto <a href="https://github.com/jgallen23/grunt-inline-css" target="_self">desse embutidor</a> uma vez que ele não tem outras dependências. Volte à linha de comando e execute:</p>
+<p>Agora, criaremos uma tarefa para o embutidor de CSS em linha, para que ele possa embutir cada regra de estilo nos elementos em si. Eu gosto <a href="https://github.com/jgallen23/grunt-inline-css" target="_self">desse embutidor</a>, uma vez que ele não tem outras dependências. Volte à linha de comando e execute:</p>
 
 <pre class="brush: bash">npm install grunt-inline-css --save-dev</pre>
 
-<p>Isso adicionará uma pasta <code class="inline">grunt-inline-css</code> em seu diretório <code class="inline">npm_modules</code>, assim como o arquivo package.json.</p>
+<p>Isso adicionará uma pasta <code class="inline">grunt-inline-css</code> em seu diretório <code class="inline">npm_modules</code>, assim como no arquivo package.json.</p>
 
 <h3>Adicione a Tarefa ao Seu Arquivo Gruntfile</h3>
 
-<p>Agora, adicione a tarefa em seu arquivo Gruntfile.js usando o trecho abaixo de código, logo antes de <code class="inline">grunt.registerTask('default');</code></p>
+<p>Agora, adicione a tarefa em seu arquivo Gruntfile.js usando o trecho de código abaixo, logo antes de <code class="inline">grunt.registerTask('default');</code></p>
 
 <pre class="brush: javascript">grunt.loadNpmTasks('grunt-inline-css');</pre>
 
@@ -191,7 +191,7 @@
 
 <h3>Execute o Grunt</h3>
 
-<p>Voltando, mais uma vez, para a linhad e comando, digite <code class="inline">grunt</code> e pressione o enter para executá-lo. </p>
+<p>Voltando, mais uma vez, para a linha de comando, digite <code class="inline">grunt</code> e pressione o enter para executá-lo. </p>
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/451/posts/22223/image/grunt.gif"></figure>
 
@@ -201,19 +201,19 @@
 
 <h2>Tarefas da Criação de E-mails</h2>
 
-<p>Com sorte, isso deve ter convencido você dos pdoeres que o Grunt provê na automatização do seu fluxod e criação de e-mails. Além disso, ao seguir essa breve introdução, deu você a base para seguir mais a fundo.</p>
+<p>Com sorte, isso deve ter convencido você dos poderes que o Grunt provê na automatização do seu fluxo de criação de e-mails. Além disso, ao seguir essa breve introdução, você tem a base para seguir mais a fundo.</p>
 
 <p>Que outras tarefas de criação de e-mail podem ser automatizadas?</p>
 
-<ul><li>Compilação de CSS (se usar SASS ou Less)<br></li>
-<li>Embutidura o CSS em linha</li>
+<ul><li>Compilação de CSS (caso use SASS ou Less)<br></li>
+<li>Embutidura de CSS em linha</li>
 <li>Compilação de Modelos HTML (se estiver usando modelos e sub-seções)<br></li>
 <li>Pré-visualização em Navegadores<br></li>
 <li>Pré-visualização em Clientes de E-mail<br></li>
 <li>Testes com Aplicativos para Testes de E-mails (por exemplo: <a href="https://litmus.com/" target="_self">Litmus</a> ou <a href="https://www.emailonacid.com/" target="_self">Email on Acid</a>)<br></li>
-<li>Envio de Arquivos de Imagem, CSS, JavaScript, etc para um CDN pública<br></li>
+<li>Envio de Arquivos de Imagem, CSS, JavaScript, etc para uma CDN pública<br></li>
 <li>Adição de Tags de Rastreamento em Links<br></li>
-<li>…e a lista segue<br></li>
+<li>…e muito mais<br></li>
 </ul>
 
 <h2>Meu Arquivo Gruntfile Para Criação de E-mails</h2>
@@ -230,9 +230,9 @@
 
 <h3>3. Embutidura do CSS</h3>
 
-<p>Uso o <a href="https://github.com/dwightjack/grunt-premailer" target="_self">premailer</a> para embutir CSS. Se você está a se perguntar o porque de não usar o embutidor mencionado acima, é porque o <code class="inline">premailer</code> oferece um suporte maior e melhor a <em>media queries</em>. Para as <em>media queries</em> funcionarem, queremos que elas fiquem no elemento <code class="inline">head</code> ao invés de emutidos. </p>
+<p>Uso o <a href="https://github.com/dwightjack/grunt-premailer" target="_self">premailer</a> para embutir CSS. Se você está a se perguntar o porque de não usar o embutidor mencionado no artigo, é porque o <code class="inline">premailer</code> oferece um suporte maior e melhor a <em>media queries</em>. Para as <em>media queries</em> funcionarem, queremos que elas fiquem no elemento <code class="inline">head</code> ao invés de emutidos. </p>
 
-<p><b>Nota</b>: premailer possui suas próprias dependências que precisam ser isntaladas, incluindo a Ruby e algumas gems.</p>
+<p><b>Nota</b>: o premailer possui suas próprias dependências que precisam ser instaladas, incluindo a linguagem Ruby e algumas gems.</p>
 
 <h3>4. Envio de E-mails Testes</h3>
 
@@ -246,17 +246,17 @@
 
 <h3>Executando as Tarefas</h3>
 
-<p>Para executar as taregas temos diversas opções de comandos.</p>
+<p>Para executar as tarefas, temos diversas opções de comandos.</p>
 
 <ul><li>O comando <code class="inline">grunt</code> executa a tarefa padrão. Isso inclue a compilação do Sass, montagem dos modelos e embutidura do CSS. Você pode, então, abrir o resultado em seu navegador.</li>
-<li>O comando <code class="inline">grunt send --template=MY_TEMPLATE.html</code> executará as tarefasa cima bem como enviará o email modelo que você especificar. Lembre-se de atualizar as configurações do Mailgun em seu Gruntfile.js.</li>
+<li>O comando <code class="inline">grunt send --template=MY_TEMPLATE.html</code> executará as tarefas acima, bem como enviará o email modelo que você especificar. Lembre-se de atualizar as configurações do Mailgun em seu Gruntfile.js.</li>
 <li>O comando <code class="inline">grunt cdnify</code>, novamente, executará as tarefas padrão, mas, também enviará os recursos locais para um CDN e substituirá os endereços pelos caminhos relativos à CDN.</li>
 <li>Perceba que você também pode combinar tarefas. Por exemplo <code class="inline">grunt cdnify send —template=MY_TEMPLATE.html</code></li>
 </ul>
 
 <h3>Mais tarefas!</h3>
 
-<p>Há muito mais tarefas que você talvez queira adicionar em seu processo. Talvez queira, quem sabe, remover algumas. Vá até o <a href="http://gruntjs.com/plugins" target="_self">diretório de plugins do Grunt</a> para descobri outras tarefas que podem auxiliar em seu fluxo de trabalho.</p>
+<p>Há muito mais tarefas que você talvez queira adicionar em seu processo. Talvez queira, quem sabe, remover algumas. Vá até o <a href="http://gruntjs.com/plugins" target="_self">diretório de plugins do Grunt</a> para descobrir outras tarefas que podem auxiliar em seu fluxo de trabalho.</p>
 
 <h2>Modelos de E-mail Transacionais</h2>
 
@@ -264,7 +264,7 @@
 
 <figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/451/posts/22223/image/icons.png"></figure>
 
-<p>Usando o fluxo acima, bem como o arquivo Gruntfile mencionado, disponibilizei <a href="http://blog.mailgun.com/transactional-html-email-templates/" target="_self">alguns modelos de emails transcionais</a> como código aberto, para equipes de desenvolvimento usarem. Sinta-se livre para utilizá-los como estão, ou como base para seus próprios projetos de e-mail.</p>
+<p>Usando o fluxo acima, bem como o arquivo Gruntfile mencionado, disponibilizei <a href="http://blog.mailgun.com/transactional-html-email-templates/" target="_self">alguns modelos de emails transacionais</a> como código aberto, para equipes de desenvolvimento usarem. Sinta-se livre para utilizá-los como estão ou como base para seus próprios projetos de e-mail.</p>
 
 <h2>Recursos Úteis Sobre Criação de E-mails</h2>
 
