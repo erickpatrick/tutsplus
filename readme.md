@@ -45,6 +45,7 @@ JavaScript
 - [Acessando APIs Externas Usando Serviços do AngularJS](http://code.tutsplus.com/pt/tutorials/accessing-external-apis-using-angularjss-services--cms-21884)
 - [Autenticando Aplicações Node.js com Passport](http://code.tutsplus.com/pt/tutorials/authenticating-nodejs-applications-with-passport--cms-21619)
 - [Aprenda a Criar um Blog Usando Parse.js](https://code.tutsplus.com/pt/tutorials/get-started-building-your-blog-with-parsejs--cms-21997)
+- [Use O Grunt Para Deixar Seu Fluxo de Criação de E-mails Legal De Novo](https://webdesign.tutsplus.com/pt/tutorials/using-grunt-to-make-your-email-design-workflow-fun-again--cms-22223)
 
 Habilidades com Computadores
 ----------------------------
