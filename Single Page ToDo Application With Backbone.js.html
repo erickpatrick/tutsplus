@@ -205,9 +205,9 @@ init: function() {
 }
 </pre>
 
-<h2>Showing Our First View (Main Navigation)</h2>
+<h2>Mostrando Nossa Primeira Visão (Navegação Principal)</h2>
 
-<p>The first thing which we have to show, is the main application's navigation.</p>
+<p>A primeira coisa que teremos de mostrar é a navegação principal da aplicação.</p>
 
 <pre class="brush: javascript">// views/menu.js
 app.views.menu = Backbone.View.extend({
@@ -221,38 +221,38 @@ app.views.menu = Backbone.View.extend({
 });
 </pre>
 
-<p>It's only nine lines of code, but lots of cool things are happening here. The first one is setting a template. If you remember, we added Underscore.js to our app? We are going to use its templating engine, because it works good and it is simple enough to use. </p>
+<p>São somente nove linhas de código, mas muitas coisas interessantes estão acontecendo ali. A primeira é que estamos configurando um modelo. Você lembra que adicionamos a Underscore.js ao nosso app? Usaremos o mecanismo de modelos dele, uma vez que funciona muito bem e é simples o bastante de se usar. </p>
 
 <pre class="brush: javascript">_.template(templateString, [data], [settings])
 </pre>
 
-<p>What you have at the end, is a function which accepts an object holding your information in key-value pairs and the <code>templateString</code> is HTML markup. Ok, so it accepts an HTML string, but what is <code>$("#tpl-menu").html()</code> doing there? When we are developing a small single page application, we normally put the templates directly into the page like this:</p>
+<p>O que temos, no fim das contas, é uma função que aceita um objeto com os pares de chave-valor das informações e o código HTML do modelo na variável <code>templateString</code>. Certo, então ela aceita uma cadeia de caracteres HTML, mas o que aquele <code>$("#tpl-menu").html()</code> está fazendo ali? Quando desenvolvemos pequenos aplicativos de página única, geralmente colocamos os modelos diretamente na página, dessa forma:</p>
 
 <pre class="brush: html">// index.html
 &lt;script type="text/template" id="tpl-menu"&gt;
     &lt;ul&gt;
-        &lt;li&gt;&lt;a href="#"&gt;List&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#archive"&gt;Archive&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Lista&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#archive"&gt;Arquivar&lt;/a&gt;&lt;/li&gt;
         &lt;li class="right"&gt;&lt;a href="#new"&gt;+&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
 &lt;/script&gt;
 </pre>
 
-<p>And because it's a script tag, it is not shown to the user. From another point of view, it is a valid DOM node so we could get its content with jQuery. So, the short snippet above just takes the content of that script tag. </p>
+<p>E, uma vez que o modelo é uma tag <code class="inline">script</code>, não será mostrado ao usuário. Pensando de outra forma, ele é uma DOM válida e podemos obter seu conteúdo utilizando jQuery. Assim, aquele pequeno trecho de código (<code>$("#tpl-menu").html()</code>), é o encarregado de buscar o conteúdo da tag <code class="inline">script</code>. </p>
 
-<p>The <code>render</code> method is really important in Backbone.js. That's the function which displays the data. Normally you bind the events fired by the models directly to that method. However, for the main menu, we don't need such behavior.</p>
+<p>O método <code>render</code> é bem importante para o Backbone.js. Essa é a função responsável por mostrar os dados. Geralmente, você atrela os eventos disparados pelo modelo, diretamente, a esse método. contudo, para o menu principal, não precisamos de tal comportamento.</p>
 
 <pre class="brush: javascript">this.$el.html(this.template({}));
 </pre>
 
-<p><code>this.$el</code> is an object created by the framework and every view has it by default (there is a <code>$</code> infront of <code>el</code> because we have jQuery included). And by default, it is an empty <code>&lt;div&gt;&lt;/div&gt;</code>. Of course you may change that by using the <code>tagName</code> property. But what is more important here, is that we are not assigning a value to that object directly. We are not changing it, we are changing only its content. There is a big difference between the line above and this next one:</p>
+<p><code>this.$el</code> é um objeto criado pela <em>framework</em> e toda visão o tem por padrão (há um <code>$</code> na frente do <code>el</code> porque incluimos a jQuery). E, por padrão, esse objeto representa uma <code>&lt;div&gt;&lt;/div&gt;</code> vazia. Claro, você pode alterar isso, usando a propriedade <code>tagName</code>. Mas, o mais importante aqui é que não atribuimos diretamente um valor diretamente ao objeto. Não o alteraremos, alteraremos seu conteúdo. Há uma grande diferença entre a linha acima e a linha abaixo:</p>
 
 <pre class="brush: javascript">this.$el = $(this.template({}));
 </pre>
 
-<p>The point is, that if you want to see the changes in the browser you should call the render method before, to append the view to the DOM. Otherwise only the empty div will be attached. There is also another scenario where you have nested views. And because you are changing the property directly, the parent component is not updated. The bound events may also be broken and you need to attach the listeners again. So, you really should only change the content of <code>this.$el</code> and not the property's value.</p>
+<p>O ponto é que, se você quiser ver as mudanças no navegador, você deveria chamar o método de redenrização (<code class="inline">render</code>) antes, para adicionar a visão à DOM. Caso contrário, somente a <code class="inline">div</code> vazia será adicionada. Tem outro cenário onde temos visões aninhadas. E por você modificar a propriedade, diretamente, o componente pai não é atualizado. Os eventos atribuídos talvez também não estejam funcionando e será preciso que atrele os observadores novamente. Por isso, você só deveria alterar o conteúdo de <code>this.$el</code>, não o valor da propriedade em si.</p>
 
-<p>The view is now ready and we need to initialize it. Let's add it to our factory module:</p>
+<p>A visão está pronta e precisamos inicializá-la. Adicionemos nosso módulo fábrica:</p>
 
 <pre class="brush: javascript">// App.js
 var ViewsFactory = {
@@ -267,7 +267,7 @@ var ViewsFactory = {
 };
 </pre>
 
-<p>At the end simply call the <code>menu</code> method in the bootstrapping area:</p>
+<p>No fim, apenas invoque o método <code>menu</code> na parte de preparação da aplicação (método <code class="inline">init()</code>):</p>
 
 <pre class="brush: javascript">// App.js
 init: function() {
@@ -278,11 +278,11 @@ init: function() {
 }
 </pre>
 
-<p>Notice that while we are creating a new instance from the navigation's class, we are passing an already existing DOM element <code>$("#menu")</code>. So, the <code>this.$el</code> property inside the view is actually pointing to <code>$("#menu")</code>.</p>
+<p>Perceba que, ao criamos uma nova instância da classe de navegação, passamos um elemento DOM pré-existente, o <code>$("#menu")</code>. Assim, a propriedade <code>this.$el</code> dentro da visão estará apontando, na verdade, para <code>$("#menu")</code>.</p>
 
-<h2>Adding Routes</h2>
+<h2>Adicionando Rotas</h2>
 
-<p>Backbone.js supports the <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history"><em>push state</em></a> operations. In other words, you may manipulate the current browser's URL and travel between pages. However, we'll stick with the good old hash type URLs, for example <code>/#edit/3</code>.</p>
+<p>O Backbone.js dá suporte a operações <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history"><em>push state</em></a>. Em outras palavras, você pode manipular a URL atual do navegador e navegar entre as páginas. Entretanto, continuaremos com as boas e velhas URLs com <em>hashes</em>, como <code>/#edit/3</code>.</p>
 
 <pre class="brush: javascript">// App.js
 var Router = Backbone.Router.extend({
@@ -301,13 +301,13 @@ var Router = Backbone.Router.extend({
 });
 </pre>
 
-<p>Above is our router. There are five routes defined in a hash object. The key is what you will type in the browser's address bar and the value is the function which will be called. Notice that there is <code>:index</code> on two of the routes. That's the syntax which you need to use if you want to support dynamic URLs. In our case, if you type <code>#edit/3</code> the <code>editToDo</code> will be executed with parameter <code>index=3</code>. The last row contains an empty string which means that it handles the home page of our application.</p>
+<p>Logo acima está nosso roteador. Há cinco rotas definidas em um objeto <em>hash</em>. A chave do objeto será o endereço que você digitará no navegador e o valor será a função que será chamada. Perceba que há o termo <code>:index</code> em duas das rotas. Essa é a sintaxe que você precisa usar se quiser que sua aplicação suporte URLs dinâmicas. Em nosso caso, se você digitar <code>#edit/3</code> o método <code>editToDo</code> será executado com o parâmetro <code>index=3</code>. A última linha é um cadeia de caracteres vazia, indicando que a função <code class="inline">list</code> manipulará a página inicial da nossa aplicação.</p>
 
-<h2>Showing a List of All the Tasks</h2>
+<h2>Mostrando uma Lista com Todas as Tarefas</h2>
 
-<p>So far what we've built is the main view for our project. It will retrieve the data from the collection and print it out on the screen. We could use the same view for two things - displaying all the active ToDos and showing those which are archived. </p>
+<p>Até agora, o que criamos foi a visão principal para nosso projeto. Ele retornará os dados a partir da nossa coleção e mostrará esses dados na tela. Poderíamos usar essa mesma visão para duas coisas - mostrar todas as tarefas ativas, bem como mostrar aquelas que foram arquivadas.</p>
 
-<p>Before to continue with the list view implementation, let's see how it is actually initialized.</p>
+<p>Antes de continuarmos a implementação da lista, vejamos como ela é inicializada.</p>
 
 <pre class="brush: javascript">// in App.js views factory
 list: function() {
@@ -320,19 +320,19 @@ list: function() {
 }
 </pre>
 
-<p>Notice that we are passing in the collection. That's important because we will later use <code>this.model</code> to access the stored data. The factory returns our list view, but the router is the guy who has to add it to the page.</p>
+<p>Perceba que passamos uma coleção. Isso é importante porque, mais para frente, usaremos <code>this.model</code> para acessar os dados guardados. A fábrica retorna nossa visão de lista, mas o roteador é o responsável por adicioná-la à página.</p>
 
 <pre class="brush: javascript">// in App.js's router
 list: function(archive) {
     var view = ViewsFactory.list();
     api
-    .title(archive ? "Archive:" : "Your ToDos:")
+    .title(archive ? "Arquivo:" : "Sua lista de tarefas:")
     .changeContent(view.$el);
     view.setMode(archive ? "archive" : null).render();
 }
 </pre>
 
-<p>For now, the method <code>list</code> in the router is called without any parameters. So the view is not in <code>archive</code> mode, it will show only the active ToDos.</p>
+<p>Por hora, o método <code>list</code> em nosso roteador é chamado sem qualquer parâmetro. Assim, a visão não está no modo <code>archive</code> (que mostrará as tarefas arquivadas), mostrando apenas as tarefas ativas.</p>
 
 <pre class="brush: javascript">// views/list.js
 app.views.list = Backbone.View.extend({
@@ -356,11 +356,11 @@ app.views.list = Backbone.View.extend({
 });
 </pre>
 
-<p>The <code>mode</code> property will be used during the rendering. If its value is <code>mode="archive"</code> then only the archived ToDos will be shown. The <code>events</code> is an object which we will fill right away. That's the place where we place the DOM events mapping. The rest of the methods are responses of the user interaction and they are directly linked to the needed features. For example, <code>priorityUp</code> and <code>priorityDown</code> changes the ordering of the ToDos. <code>archive</code> moves the item to the archive area. <code>changeStatus</code> simply marks the ToDo as done.</p>
+<p>A propriedade <code>mode</code> será usada durante a renderização. Se seu valor for <code>mode="archive"</code>, então só as tarefas arquivadas serão mostradas. <code>events</code> é um objeto que o preencheremos já-já. É o local onde mapearemos os eventos da DOM. O resto dos métodos são respostas para as interações dos usuário e eles estão diretamente ligados a funcionalidades necessárias. Por exemplo, <code>priorityUp</code> e <code>priorityDown</code> muda a ordem da tarefas dentro da lista. <code>archive</code> move o item para a área de itens arquivados. <code>changeStatus</code>, simplesmente marca a tarefa como realizada.</p>
 
-<p>It's interesting what is happening inside the <code>initialize</code> method. Earlier we said that normally you will bind the changes in the model (the collection in our case) to the <code>render</code> method of the view. You may type <code>this.model.bind('change', this.render)</code>. But very soon you will notice that the <code>this</code> keyword, in the <code>render</code> method will not point to the view itself. That's because the scope is changed. As a workaround, we are creating a handler with an already defined scope. That's what Underscore's <code>bind</code> function is used for. </p>
+<p>O que está acontecendo dentro do método <code>initialize</code> é interessante. Antes, dissemos que você, normalmente, atrelaria as mudanças no modelo (a coleção, no nosso caso) ao método <code>render</code> da visão. Você pode digitar <code>this.model.bind('change', this.render)</code>. Mas, logo, perceberá que a palavra-chave <code>this</code> no método <code>render</code> não corresponde à visão em si. Isso se dá porque o escopo é diferente. Como uma alternativa, criaremos um manipulador com um escopo, previamente, definido. É para isso que serve a função <code>bind</code> da Underscore.js. </p>
 
-<p>And here is the implementation of the <code>render</code> method.</p>
+<p>Eis a implementação do método <code>render</code>.</p>
 
 <pre class="brush: javascript">// views/list.js
 render: function() {)
@@ -385,7 +385,7 @@ render: function() {)
 }
 </pre>
 
-<p>We are looping through all the models in the collection and generating an HTML string, which is later inserted into the view's DOM element. There are few checks which distinguish the ToDos from archived to active. The task is marked as <em>done</em> with the help of a checkbox. So, to indicate this we need to pass a <code>checked=="checked"</code> attribute to that element. You may notice that we are using <code>this.delegateEvents()</code>. In our case this is necessary, because we are detaching and attaching the view from the DOM. Yes, we are not replacing the main element, but the events' handlers are removed. That's why we have to tell Backbone.js to attach them again. The template used in the code above is:</p>
+<p>Iteramos sobre todos os modelos da coleção e geramos um HTML que, posteriormente, será inserido no elemento DOM da respectiva visão. Há algumas checagens que distinguem a Lista de Tarefas Padrão da Lista de Tarefas Arquivadas. A tarefa é marcada como <em>done</em> com a ajuda de um campo próprio para isso. Assim, será possível indicar se precisamos passar o atributo <code>checked=="checked"</code> para o elemento. Talvez tenha percebido que estamos usando o método <code>this.delegateEvents()</code>. No nosso caso, isso é necessário, porque está removendo e reatrelando a visão da DOM. Exato! Não estamos substituindo o elemento principal, mas os manipuladores dos eventos são removidos. É por isso que temos de dizer ao Backbone.js para atrelá-los novamente. O modelo usado com o código acima é o que segue:</p>
 
 <pre class="brush: html">// index.html
 &lt;script type="text/template" id="tpl-list-item"&gt;
@@ -405,9 +405,9 @@ render: function() {)
 &lt;/script&gt;
 </pre>
 
-<p>Notice that there is a CSS class defined called <code>done-yes</code>, which paints the ToDo with a green background. Besides that, there are a bunch of links which we will use to implement the needed functionality. They all have data attributes. The main node of the element, <code>li</code>, has <code>data-index</code>. The value of this attribute is showing the index of the task in the collection. Notice that the special expressions wrapped in <code>&lt;%= ... %&gt;</code> are sent to the <code>template</code> function. That's the data which is injected into the template.</p>
+<p>Note que tem uma classe CSS chamada <code>done-yes</code>, que pinta o plano de fundo da tarefa na cor verde. Além disso, há algumas âncoras que usaremos para implementar as funcionalidades necessárias. Elas todas possuem atributos de dados (atributos que começam com <code>data-</code>). O elemento do nodo principal, <code>li</code>, tem o atributo de dados <code>data-index</code>. O valor desse atributo é responsável por apresentaro índice da tarefa dentro da coleção. Note que as expressões especiais envolvidas em <code>&lt;%= ... %&gt;</code> são enviadas para a função <code>template</code>. É nessas expressões que os dados serão injetados no modelo.</p>
 
-<p>It's time to add some events to the view. </p>
+<p>É hora de adicionar alguns eventos à visão. </p>
 
 <pre class="brush: javascript">// views/list.js
 events: {
@@ -418,7 +418,7 @@ events: {
 }
 </pre>
 
-<p>In Backbone.js the event's definition is a just a hash. You firstly type the name of the event and then a selector. The values of the properties are actually methods of the view.</p>
+<p>No Backbone.js a definição de eventos é um simples <em>hash</em>. Você, primeiramente, digita o nome do evento e, então, um seletor. Os valores das propriedades são, na verdade, métodos das visões.</p>
 
 <pre class="brush: javascript">// views/list.js
 priorityUp: function(e) {
@@ -439,9 +439,9 @@ changeStatus: function(e) {
 }
 </pre>
 
-<p>Here we are using <code>e.target</code> coming in to the handler. It points to the DOM element which triggered the event. We are getting the index of the clicked ToDo and updating the model in the collection. With these four functions we finished our class and now the data is shown to the page. </p>
+<p>Aqui usamos o <code>e.target</code> que vem do manipulador. Ele aponta para o elemento Dom que ativou o evento. Obtemos o índice da tarefa que foi clicada e atualizar o modelo na coleção. Com essas quatro funções, finalizamos nossa classe e agora temos dados para mostrarmos na página. </p>
 
-<p>As we mentioned above, we will use the same view for the <code>Archive</code> page.</p>
+<p>Como mencionado acima, usaremos a mesma visão para a página <code>Arquivos</code>.</p>
 
 <pre class="brush: javascript">list: function(archive) {
     var view = ViewsFactory.list();
@@ -455,11 +455,11 @@ archive: function() {
 }
 </pre>
 
-<p>Above is the same route handler as before, but this time with <code>true</code> as a parameter.</p>
+<p>Acima temos o mesmo manipulador que antes, porém, dessa vez, passamos um parâmetro <code>true</code>.</p>
 
-<h2>Adding &amp; Editing ToDos</h2>
+<h2>Adicionando &amp; Editando Tarefas</h2>
 
-<p>Following the primer of the list view, we could create another one which shows a form for adding and editing tasks. Here is how this new class is created:</p>
+<p>Seguindo os princípios da visão da lista, poderíamos criar outra que mostra um formulário para adicionar e editar tarefas. Eis como essa novo classe pode ser criada:</p>
 
 <pre class="brush: javascript">// App.js / views factory
 form: function() {
@@ -474,19 +474,19 @@ form: function() {
 }
 </pre>
 
-<p>Pretty much the same. However, this time we need to do something once the form is submitted. And that's forward the user to the home page. As I said, every object which extends Backbone.js classes, is actually an event dispatcher. There are methods like <code>on</code> and <code>trigger</code> which you can use.</p>
+<p>Praticamente a mesma coisa de antes. Entretanto, dessa vez, precisamos realizar uma operação assim que o formulário for submetido. E, depois disso, retornar o usuário para a página inicial, Como já disse, todo objeto que estende alguma classe do Backbone.js, é, na verdade, um despachante de eventos. Existem métodos como o <code>on</code> e o <code>trigger</code>, os quais podem ser usados.</p>
 
-<p>Before we continue with the view code, let's take a look at the HTML template:</p>
+<p>Antes de continuarmos com o código da visão, olhemos o modelo HTML:</p>
 
 <pre class="brush: html">&lt;script type="text/template" id="tpl-form"&gt;
     &lt;form&gt;
         &lt;textarea&gt;&lt;%= title %&gt;&lt;/textarea&gt;
-        &lt;button&gt;save&lt;/button&gt;
+        &lt;button&gt;salvar&lt;/button&gt;
     &lt;/form&gt;
 &lt;/script&gt;
 </pre>
 
-<p>We have a <code>textarea</code> and a <code>button</code>. The template expects a <code>title</code> parameter which should be an empty string, if we are adding a new task.</p>
+<p>Temos uma elemento <code>textarea</code> e um <code>button</code>. o modelo espera por um parâmetro <code>title</code> o qual deveria ser uma cadeia de caracteres vazia, caso formos adicionar uma nova tarefa.</p>
 
 <pre class="brush: javascript">// views/form.js
 app.views.form = Backbone.View.extend({
@@ -518,7 +518,7 @@ app.views.form = Backbone.View.extend({
         e.preventDefault();
         var title = this.$el.find("textarea").val();
         if(title == "") {
-            alert("Empty textarea!"); return;
+            alert("Tarefa vazia!!"); return;
         }
         if(this.index !== false) {
             this.todoForEditing.set("title", title);
@@ -530,28 +530,28 @@ app.views.form = Backbone.View.extend({
 });
 </pre>
 
-<p>The view is just 40 lines of code, but it does its job well. There is only one event attached and this is the clicking of the save button. The render method acts differently depending of the passed <code>index</code> parameter. For example, if we are editing a ToDo, we pass the index and fetch the exact model. If not, then the form is empty and a new task will be created. There are several interesting points in the code above. First, in the rendering we used the <code>.focus()</code> method to bring the focus to the form once the view is rendered. Again the <code>delegateEvents</code> function should be called, because the form could be detached and attached again. The <code>save</code> method starts with <code>e.preventDefault()</code>. This removes the default behavior of the button, which in some cases may be submitting the form. And at the end, once everything is done we triggered the <code>saved</code> event notifying the outside world that the ToDo is saved into the collection.</p>
+<p>A visão só possui 40 linhas de código, mas é capaz de realizar a tarefa sem problemas. Existe só um evento atrelado que é o do clique do botão. O método <code>render</code> agirá diferente, dependendo do parâmetro <code>index</code> passado. Por exemplo, se formos editar alguma tarefa, passamos o índice e buscamos o modelo correspondente àquele índice. Caso contrário, o formulário estará vazio e uma nova tarefa será criada. Há várias pontos interessantes nesse trecho de códico. Primeiro, durante a renderização, usamos o método <code>.focus()</code> para focar no formulário assim que a visão terminasse de ser renderizada. E, mais uma vez, a função <code>delegateEvents</code> deve ser invocada, porque o formulário será removido e inserido novamente. O método <code>save</code> começa com <code>e.preventDefault()</code>. Isso remove o comportamento padrão do botão que, em alguns casos, pode submeter o formulário. E, ao final, uma vez que tudo está pronto, ativamos o evento <code>saved</code>, notificando o 'mundo exterior' que a tarefa foi salva na coleção.</p>
 
-<p>There are two methods for the router which we have to fill in.</p>
+<p>Há outros dois métodos do roteador, que devemos finalizar.</p>
 
 <pre class="brush: javascript">// App.js
 newToDo: function() {
     var view = ViewsFactory.form();
-    api.title("Create new ToDo:").changeContent(view.$el);
+    api.title("Criar nova tarefa:").changeContent(view.$el);
     view.render()
 },
 editToDo: function(index) {
     var view = ViewsFactory.form();
-    api.title("Edit:").changeContent(view.$el);
+    api.title("Editar tarefa:").changeContent(view.$el);
     view.render(index);
 }
 </pre>
 
-<p>The difference between them is that we pass in an index, if the <code>edit/:index</code> route is matched. And of course the title of the page is changed accordingly.</p>
+<p>A diferença entre os dois é que passamos um índice, caso a URL combine com o padrão da rota <code>edit/:index</code>. E, claro, o título da página muda de acordo, também.</p>
 
-<h2>Deleting a Record From the Collection</h2>
+<h2>Removendo um Registro da Coleção</h2>
 
-<p>For this feature, we don't need a view. The entire job can be done directly in the router's handler.</p>
+<p>Para essa funcionalidade, não precisamos de uma visão. Todo o trabalho pode ser realizado no manipulador da rota.</p>
 
 <pre class="brush: javascript">delteToDo: function(index) {
     api.todos.remove(api.todos.at(parseInt(index)));
@@ -559,8 +559,8 @@ editToDo: function(index) {
 }
 </pre>
 
-<p>We know the index of the ToDo which we want to delete. There is a <code>remove</code> method in the collection class which accepts a model object. At the end, just forward the user to the home page, which shows the updated list.</p>
+<p>Sabemos o índice da tarefa que queremos remover. Há o método <code>remove</code> na classe da coleção, que aceita um objeto do modelo, como parâmetro. Depois de removido, basta redirecionar o usuário para a página inicial, que mostrará a lista atualizada.</p>
 
-<h2>Conclusion</h2>
+<h2>Conclusão</h2>
 
-<p>Backbone.js has everything you need for building a fully functional, single page application. We could even bind it to a REST back-end service and the framework will synchronize the data between your app and the database. The event driven approach encourages modular programming, along with a good architecture. I'm personally using Backbone.js for several projects and it works very well.</p>
+<p>O Backbone.js tem tudo que você precisa para construir uma aplicação de página única totalmente funcional. Poderíamos até atrelá-la a um serviço REST e ela seria responsável pode sincronizar os dados entre seu aplicativo e a base de dados. A abordagem voltada a eventos encoraja uma programação modular, bem como uma boa arquitetura. Uso o Backbone.js para vários projetos e ele funciona muito bem.</p>
