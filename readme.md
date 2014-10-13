@@ -46,6 +46,7 @@ JavaScript
 - [Autenticando Aplicações Node.js com Passport](http://code.tutsplus.com/pt/tutorials/authenticating-nodejs-applications-with-passport--cms-21619)
 - [Aprenda a Criar um Blog Usando Parse.js](https://code.tutsplus.com/pt/tutorials/get-started-building-your-blog-with-parsejs--cms-21997)
 - [Use O Grunt Para Deixar Seu Fluxo de Criação de E-mails Legal De Novo](https://webdesign.tutsplus.com/pt/tutorials/using-grunt-to-make-your-email-design-workflow-fun-again--cms-22223)
+- [Um Aplicativo Lista de Tarefas de Página Única Usando Backbone.js](https://code.tutsplus.com/pt/tutorials/single-page-todo-application-with-backbonejs--cms-21417)
 
 Habilidades com Computadores
 ----------------------------
