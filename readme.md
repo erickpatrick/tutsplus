@@ -79,3 +79,4 @@ Fotografia
 Artesanato e DIY
 ----------------
 - [Como Decorar Uma Caneca de Café Usando Marcador para Porcelana](http://crafts.tutsplus.com/pt/tutorials/how-to-decorate-a-coffee-mug-using-a-porcelain-marker--craft-7454)
+- [Fundamentos de Joalheria: Tranças Kumihimo](https://crafts.tutsplus.com/pt/tutorials/jewellery-fundamentals-how-to-kumihimo-braid--cms-21848)
