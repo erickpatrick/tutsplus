@@ -69,6 +69,7 @@ Web  Design
 - [Construa um Modelo de E-mail em HTML a Partir do Zero](http://webdesign.tutsplus.com/pt/articles/build-an-html-email-template-from-scratch--webdesign-12770)
 - [Uma Introdução À Metodologia BEM](http://webdesign.tutsplus.com/pt/articles/an-introduction-to-the-bem-methodology--cms-19403)
 - [Entendendo O Layout Divido no Web Design](http://webdesign.tutsplus.com/pt/articles/understanding-the-split-layout-in-web-design--webdesign-9551)
+- [Observações D'Além da Barreira: O Estado da Arte do Web Design Chinês](https://webdesign.tutsplus.com/pt/articles/notes-from-behind-the-firewall-the-state-of-web-design-in-china--cms-22281)
 
 Fotografia
 ----------
