@@ -1,12 +1,12 @@
 <h1>Aprenda a Criar um Blog Usando Parse.js: Trabalhando com Dados</h1>
 
-<p>No último post, nós preparamos um servidor local (<a href="https://www.apachefriends.org/index.html" rel="external" target="_blank">XAMPP</a>), um servidor web (<a href="https://pages.github.com/" rel="external" target="_blank">Páginas do GitHub</a>) e um servidor de base de dados (<a href="https://parse.com/" rel="external" target="_blank">Parse.com</a>). Você também preparou o HTML de uma página de blog e embutiu o código básico do Parse.js para conectar-se à base de dados. Nessa seção, ensinarei como criar, buscar e mostrar seu primeiro objeto.</p>
+<p>No último post, nós preparamos um servidor local (<a href="https://www.apachefriends.org/index.html" rel="external" target="_blank">XAMPP</a>), um servidor web (<a href="https://pages.github.com/" rel="external" target="_blank">Páginas do GitHub</a>) e um servidor de base de dados (<a href="https://parse.com/" rel="external" target="_blank">Parse.com</a>). Também preparamos o HTML de uma página de blog e embutimos o código básico do Parse.js para conecta-lo à base de dados. Nessa seção, ensinarei como criar, buscar e mostrar seu primeiro objeto.</p>
 
 <p>Se você não se importar em usar o painel administrativo do Parse.com, você pode criar portfolios, blogs, páginas de destino (<em>landing pages</em>), etc, assim que terminar essa seção.</p>
 
 <h2>O Conceito de uma Classe e de uma Instância</h2>
 
-<p>Antes de nos aprofundarmos nso códigos e continuar criando a aplicação, vejamos o básico sobre classes e instâncias, para garantir que todos tenham uma mesma base de conhecimento. Novamente, sinta-se a vontade para pular essa parte caso esses conhecimentos já lhe sejam familiares.</p>
+<p>Antes de nos aprofundarmos nso códigos e continuarmos criando a aplicação, vejamos o básico sobre classes e instâncias, para garantir que todos tenham uma mesma base de conhecimento. Novamente, sinta-se a vontade para pular essa parte, caso esses conhecimentos já lhe sejam familiares.</p>
 
 <p>De acordo com a Wikipedia:</p>
 
@@ -14,7 +14,7 @@
 
 <h3>Uma Classe Blog</h3>
 
-<p>Pense nos principais componentes dos blogs. Eles, provavelmente, tem um título, um autor, uma página de conteúdo, um horário de quando foi criado, etc. Esses atributos compartihlados servirão de modelo para todos os blogs que temos. Assim, surge a classe Blog:</p>
+<p>Pense nos principais componentes dos blogs. Eles, provavelmente, tem um título, um autor, uma página de conteúdo, um horário de quando foi criado, etc. Esses atributos compartilhados servirão de modelo para todos os blogs que temos. Assim, surge a classe Blog:</p>
 
 <figure class="post_image"><img alt="A blog class" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22047/image/01-a-blog-class.png"></figure>
 
@@ -26,7 +26,7 @@
 
 <p>Para identificar quando estivermos falando sobre a classe <code class="inline">Blog</code>, sempre usaremos a letra inicial (<em>B</em>) em maísculo. Por outro lado, quando estivermos tratando de um blog específico, usaremos a letra inicial (<em>b</em>) em minúsculo. Essa regra serve tanto para esse tutorial quanto para o código JavaScript que criaremos.</p>
 
-<p>Você também perceberá que no Parse.com você verá, bastante a palavra, "object" (objeto). Nesse contexto, utilizaremos a regra do maísculo-minúsculo: usaremos "object" para uma isntância e "Object" para a classe. Você logo se acostumará.</p>
+<p>Você também perceberá que no Parse.com você verá, bastante, a palavra "object" (objeto). Nesse contexto, utilizaremos a regra do maísculo-minúsculo: usaremos "object" para uma isntância e "Object" para a classe. Você logo se acostumará.</p>
 
 <h3>A Tabela Blog</h3>
 
@@ -55,54 +55,54 @@
 <p>Cada classe customizada deve ter quatro atributos próprios do sistema do do Parse.com:</p>
 
 <ul><li><code class="inline">objectId</code> - um identificado único, gerado automaticamente pelo Parse quando um objeto é criado. Dessa forma, o programa saberá a qual objeto você se refere. (Como vê, aqui, a palavra objeto está relacionado a uma instância)</li>
-<li><code class="inline">createdAt</code> - a marca temporal (<em>timestamp</em>), gerada automatically pelo Parse quando você cria o objeto pela primeira vez.</li>
+<li><code class="inline">createdAt</code> - a marca temporal (<em>timestamp</em>), gerada automaticamente pelo Parse quando você cria o objeto pela primeira vez.</li>
 <li><code class="inline">updatedAt</code> - a marca temporal gerada e atualizada automaticamente pelo Parse, toda vez que você atualiza o objeto.</li>
 <li><code class="inline">ACL</code> - uma lista de controle de acesso aos objetos, que define quem pode ler e mexer com aquele objeto. Se não estiver definido, ele usa o valor padrão de controle de acesso à classe. Discutiremos melhor sobre isso em seções futuras. Pode deixar em branco, por hora.</li>
 </ul>
 
 <h3>Passo 2: Adicionando Colunas à Classe Blog</h3>
 
-<p>Agora, demos continuidade e criemos colunas par os atributos que definem um blog. Para manter as coisas o mais simples possível, criemos apenas dois deles: <code class="inline">title</code> (título) e <code class="inline">content</code> (conteúdo).</p>
+<p>Agora, continuemos e criemos colunas para os atributos que definem um blog. Para manter as coisas o mais simples possível, criaremos apenas dois deles: <code class="inline">title</code> (título) e <code class="inline">content</code> (conteúdo).</p>
 
-<p>Clique no botão "+ Col" para criar uma nova coluna. Atribua o tipo como "String" e nomeio-o como <code class="inline">title</code>.</p>
+<p>Clique no botão "+ Col" para criar uma nova coluna. Atribua o tipo "String" e o nomeie como <code class="inline">title</code>.</p>
 
 <figure class="post_image"><img alt="Add title column on Parse" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22047/image/06-Parse-add-col.png"></figure>
 
-<p>Repita o mesmo processo e crie uma coluna <code class="inline">content</code>, também do tipo "<b>String</b>".</p>
+<p>Repita o processo e crie uma coluna <code class="inline">content</code>, também do tipo "<b>String</b>".</p>
 
 <h3>Passo 3: Adicionando Alguns Blogs</h3>
 
-<p>Hora de adicionar alguns blogs (nota: blogs, em inglês, também são usados como posts)! Clique no botão "<b>+ Row</b>" e clique duas vezes nas células do título e conteúdo para adicionar algum conteúdo:</p>
+<p>Hora de adicionar alguns blogs (nota: blogs, em inglês, também é usados para referir-se a posts)! Clique no botão "<b>+ Row</b>" e clique duas vezes nas células do título e conteúdo para adicionar algum conteúdo:</p>
 
 <figure class="post_image"><img alt="Add blog posts on Parse" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22047/image/07-Parse-add-row.png"></figure>
 
-<p>Perceba que você também pode colocar código HTML na coluna de conteúdo. Na verdade, todas as colunas do tipo "string" pode salvar, sem problemas, código HTML. Nesse caso, a coluna do título não deveria conter qualquer código HTML.</p>
+<p>Perceba que você também pode colocar código HTML na coluna de conteúdo. Na verdade, todas as colunas do tipo "string" podem salvar, sem problemas, código HTML. Nesse caso, porém, a coluna do título não devee conter qualquer código HTML.</p>
 
-<p>As I mentioned before, because Parse.com let you manipulate your database like this, you can totally use it as your admin panel if you don't want to write your own. And once you learn how to render that data on your website, you can easily create a dynamic blog or portfolio of your own. Moving on to the next part, I will show you how to do that.</p>
+<p>Como falei antes, uma vez que o Parse.com permite você manipular sua base de dados dessa forma, você pode usá-la, normalmente, como seu painel administrativo, caso não queira criar o seu próprio. E, uma vez que você aprenda como renderizar dados em seu site, você poderá criar, facilmente, seus blogs ou portfolios dinâmicos. Dando continuidade, mostrarei como fazer isso.</p>
 
-<h2>Retrieve Blog Data</h2>
+<h2>Buscando e Retornando os Dados do Blog</h2>
 
-<p>Go back to your <code class="inline">blog.js</code> file. It's time to take out the test code and get those blog data from the Parse.com to your website!</p>
+<p>Volte ao seu arquivo <code class="inline">blog.js</code>. É hora de remover o código de teste e pegar os dados do blog, lá no Parse.com!</p>
 
-<p>First, extend a JavaScript class from the Blog class on Parse.com:</p>
+<p>Primeiro, crie uma classe JavaScript, estendendo a classe Blog, usando a API do Parse.js:</p>
 
 <pre class="brush: javascript">var Blog = Parse.Object.extend("Blog");</pre>
 
-<p>Thinking about a blog homepage, you probably want to get a list of blogs at once. That list of objects of the same class is called a collection by Parse. Let's also define that:</p>
+<p>Em se tratando da página inicial de um blog, você, provavelmente, quererá uma lista com os últimos posts. Essa lista com ojetos de um mesmo tipo, é chamado de coleção pelo Parse. Criemos a nossa primera coleção:</p>
 
 <pre class="brush: javascript">var Blogs = Parse.Collection.extend({
     model: Blog
 });</pre>
 
-<p>Notice that both <code class="inline">Blog</code> and <code class="inline">Blogs</code> are classes. They are the abstract templates for blogs and collations of blogs. You can have different, specific blogs, and collections of blogs. Those are their instances.</p>
+<p>Note que tanto <code class="inline">Blog</code> quanto <code class="inline">Blogs</code> são classes. Elas são os modelos abstratos para blogs e coleções de posts. Você pode ter blogs e coleções específicas e diferentes. E aquelas serão suas bases.</p>
 
-<p>So now, in order to have a real collection of all the blogs you added on Parse.com, you need to create a new instance of Blogs collection (notice that the first letter should not be capitalized here):</p>
+<p>Agora, para obter uma coleção de verdade com todos os blogs que você adicionou lá no Parse.com, é preciso criar uma instância da coleção Blogs (perceba que a primera letra não deve ser maiúscula, aqui):</p>
 
 <pre class="brush: javascript">var blogs = new Blogs();</pre>
 
-<p>If we don't specify anything and just fetch that new collection with data, it will get all the rows in the <code class="inline">Blog</code> table by default.</p>
+<p>Se não especificarmos qualquer coisa e apenas pegarmos uma nova coleção com os dados, ela buscará todos os registros na tabela <code class="inline">Blog</code>, por padrão.</p>
 
-<p>Let's fetch and log it into the console:</p>
+<p>Busquemos e imprimamos os dados no console:</p>
 
 <pre class="brush: javascript">blogs.fetch({
 	success: function(blogs) {
@@ -113,109 +113,109 @@
 	}
 });</pre>
 
-<p>Load the website on your local server again, and check your console in your developer tools, you should be able to see this:</p>
+<p>Carregue o site no seu servidor local, novamente, verifique o console das suas ferramentas de desenvolvedor, e você será capaz de ver algo assim:</p>
 
 <figure class="post_image"><img alt="Blog data in console" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22047/image/08-console-log-data.png"></figure>
 
-<p>Now you have the data!</p>
+<p>Agora você já tem os dados!</p>
 
-<h2>Display Data on the Page</h2>
+<h2>Mostrando os Dados na Página</h2>
 
-<p>Before we display the blog data on the page, we need to prepare an HTML template for that.</p>
+<p>Antes de mostrarmos os dados do blog na página, precisamos preparar um modelo HTML para isso.</p>
 
-<h3>Passo 1: Clean Up HTML</h3>
+<h3>Passo 1: Limpando o HTML</h3>
 
-<p>Clean up everything within <code class="inline">.blog-main</code> and replace that with a simple container:</p>
+<p>Limpe tudo que esteja dentro de <code class="inline">.blog-main</code> e substitua por um recipiente simples:</p>
 
 <pre class="brush: html">&lt;div class="col-sm-8 blog-main"&gt;
 	&lt;div class="main-container"&gt;&lt;/div&gt;
 &lt;/div&gt;</pre>
 
-<p>Then, if you take a look at the original blog template, you will find the HTML structure of one single post can be simplified like this:</p>
+<p>Agora, se você olhar o modelo original do blog, perceberá que a estrutura HTML para um único post pode ser simplificada, dessa forma:</p>
 
 <pre class="brush: plain">&lt;div class="blog-post"&gt;
-    &lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;A title&lt;/a&gt;&lt;/h2&gt;
-	&lt;p class="blog-post-meta"&gt;At time by an author&lt;/p&gt;
-	&lt;div&gt;Some content&lt;/div&gt;
+    &lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;Um título&lt;/a&gt;&lt;/h2&gt;
+	&lt;p class="blog-post-meta"&gt;Em horário por um autor&lt;/p&gt;
+	&lt;div&gt;Algum conteúdo&lt;/div&gt;
 &lt;/div&gt;</pre>
 
-<p>All we want is to replace those placeholder text with the data of each blog we have on Parse.com.</p>
+<p>Tudo que queremos é substituir os espaços reservados com os dados de verdade de cada post que temos no Parse.com.</p>
 
-<h3>Passo 2: Prepare Blog Template</h3>
+<h3>Passo 2: Preparando o Modelo de Blog</h3>
 
-<p>To do that, we first need to change the HTML to a template, which takes a data object and change it a string of HTML.</p>
+<p>Para fazer isso, precisamos transformar o HTML em um modelo, que receberá um objeto de dados e o transformará em uma cadeia de caracteres HTML.</p>
 
-<p>We want the template to take an array of blogs:</p>
+<p>Queremos que o modelo receba um vetor de blogs:</p>
 
 <pre class="brush: javascript">[{
-    title: 'Hello World',
-	content: 'The first blog post!'
+    title: 'Olá Mundo',
+	content: 'O primeiro post!'
 }, {
-	title: 'Second Blog',
-	content: '&lt;p&gt;You can put HTML in content, too.&lt;/p&gt;'
+	title: 'Segundo Post',
+	content: '&lt;p&gt;Você também pode inserir HTML no conteúdo.&lt;/p&gt;'
 }, ...]</pre>
 
-<div></div><p>And render it as HTML like this:</p>
+<div></div><p>E o renderize em HTML, dessa forma:</p>
 
 <pre class="brush: html">&lt;div class="blog-post"&gt;
-    &lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;Hello World&lt;/a&gt;&lt;/h2&gt;
-	&lt;p class="blog-post-meta"&gt;At time by an author&lt;/p&gt;
-	&lt;div&gt;The first blog post!&lt;/div&gt;
+    &lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;Olá Mundo&lt;/a&gt;&lt;/h2&gt;
+	&lt;p class="blog-post-meta"&gt;Em horário por um autor&lt;/p&gt;
+	&lt;div&gt;O primeiro post!&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="blog-post"&gt;
-	&lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;Second Blog&lt;/a&gt;&lt;/h2&gt;
-	&lt;p class="blog-post-meta"&gt;At time by an author&lt;/p&gt;
-	&lt;div&gt;&lt;p&gt;You can put HTML in content, too.&lt;/p&gt;&lt;/div&gt;
+	&lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;Segundo Post&lt;/a&gt;&lt;/h2&gt;
+	&lt;p class="blog-post-meta"&gt;Em horário por um autor&lt;/p&gt;
+	&lt;div&gt;&lt;p&gt;Você também pode inserir HTML no conteúdo.&lt;/p&gt;&lt;/div&gt;
 &lt;/div&gt;</pre>
 
-<p>I will show you how to use <a href="http://handlebarsjs.com/" rel="external" target="_blank">handlebars.js</a> to do that in this tutorial, but you can also use <a href="http://underscorejs.org/#template" rel="external" target="_blank">underscore.js</a>, <a href="http://mustache.github.io/" rel="external" target="_blank">mustache</a>, or other templates you prefer.</p>
+<p>Mostrarei como usar o <a href="http://handlebarsjs.com/" rel="external" target="_blank">handlebars.js</a> para fazer realizar essa tarefa, nesse tutorial, mas você também pode usar o <a href="http://underscorejs.org/#template" rel="external" target="_blank">underscore.js</a>, <a href="http://mustache.github.io/" rel="external" target="_blank">mustache</a> ou outra biblioteca de modelos que preferir.</p>
 
-<p>In order to use <a href="http://handlebarsjs.com/" rel="external" target="_blank">handlebars.js</a>, let's first add it to the <code class="inline">index.html</code> under <code class="inline">parse.js</code>:</p>
+<p>Para poder usar o <a href="http://handlebarsjs.com/" rel="external" target="_blank">handlebars.js</a>, primeiro, temos de adicioná-lo no arquivo <code class="inline">index.html</code> abaixo do arquivo <code class="inline">parse.js</code>:</p>
 
 <pre class="brush: html">&lt;!-- Handlebars.js --&gt;
 &lt;script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"&gt;&lt;/script&gt;</pre>
 
-<p>Then, let's take the cleaned up HTML of a single blog post and put it in a special <code class="inline">&lt;script&gt;</code> tag for handlebars just above the <code class="inline">&lt;script&gt;</code> tags for JavaScript files. Let's also give it the id of <code class="inline">#blogs-tpl</code>. This way, handlebars would know that it's a template, and you would have a way to refer to it:</p>
+<p>Agora, pegaremos o HTML ajustado para um único post e o colocaremos em uma tag <code class="inline">&lt;script&gt;</code> especial para o handlebars, logo acima das tags <code class="inline">&lt;script&gt;</code> dos nossos arquivos JavaScript externos. Também o daremos o <code>id</code> de <code class="inline">#blogs-tpl</code>. Dessa forma, o handlebars poderá saber que ela é um modelo, além de ter uma forma de referenciá-la:</p>
 
 <pre class="brush: html">&lt;script id="blogs-tpl" type="text/x-handlebars-template"&gt;
     &lt;div class="blog-post"&gt;
-		&lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;A title&lt;/a&gt;&lt;/h2&gt;
-		&lt;p class="blog-post-meta"&gt;At time by an author&lt;/p&gt;
-		&lt;div&gt;Some content&lt;/div&gt;
+		&lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;Um título&lt;/a&gt;&lt;/h2&gt;
+		&lt;p class="blog-post-meta"&gt;Em horário por um autor&lt;/p&gt;
+		&lt;div&gt;Algum conteúdo&lt;/div&gt;
 	&lt;/div&gt;
 &lt;/script&gt;</pre>
 
-<p>Next, to let handlebars know that where to put the title and content value, you need to change "A title" to <code class="inline">{{title}}</code> and "Some content" to <code class="inline">{{{content}}}</code>. Handlebars.js identifies the content within "double-stash" <code class="inline">{{}}</code> as variables. </p>
+<p>Depois, para permitir que o handlebars saiba onde colocar os valores do título e do conteúdo, precisará substituir o "Um título" por <code class="inline">{{title}}</code> e "Algum conteúdo" por <code class="inline">{{{content}}}</code>. O Handlebars.js percebe o conteúdo entre o conjunto de chaves <code class="inline">{{}}</code> como variáveis. </p>
 
 <pre class="brush: html">&lt;script id="blogs-tpl" type="text/x-handlebars-template"&gt;
     &lt;div class="blog-post"&gt;
 		&lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;{{title}}&lt;/a&gt;&lt;/h2&gt;
-		&lt;p class="blog-post-meta"&gt;At time by an author&lt;/p&gt;
+		&lt;p class="blog-post-meta"&gt;Em horário por um autor&lt;/p&gt;
 		&lt;div&gt;{{{content}}}&lt;/div&gt;
 	&lt;/div&gt;
 &lt;/script&gt;</pre>
 
-<p>Notice that for content, we use <code class="inline">{{{}}}</code> instead of just <code class="inline">{{}}</code>. That's because handlebars.js HTML-escapes values by default. Using "triple-stash" <code class="inline">{{{}}}</code> keeps all the HTML syntax in the content.</p>
+<p>Perceba que, para o conteúdo, usamos três pares de chaves, <code class="inline">{{{}}}</code>, ao invés de apenas dois, <code class="inline">{{}}</code>. Ao usar apenas dois pares, o handlebars.js converte todo o HTML dentro da propriedade usada, por padrão. Ao usar três pares, o handlebars.js mantém o HTMl intacto no conteúdo.</p>
 
-<p>The final change you need to make to the <code class="inline">#blogs-tpl</code> is to wrap the blog template within <code class="inline">{{#each blog}} {{/each}}</code>, so it takes in an array of objects and render them one by one:</p>
+<p>A alteração final que precisa fazer no <code class="inline">#blogs-tpl</code> é envolver o modelo do blog dentro do par <code class="inline">{{#each blog}} {{/each}}</code>. Assim, ele poderá receber um vetor de objetos para renderizar a todos, um por um:</p>
 
 <pre class="brush: html">&lt;script id="blogs-tpl" type="text/x-handlebars-template"&gt;
     {{#each blog}}
 	&lt;div class="blog-post"&gt;
 		&lt;h2 class="blog-post-title"&gt;&lt;a href="#"&gt;{{title}}&lt;/a&gt;&lt;/h2&gt;
-		&lt;p class="blog-post-meta"&gt;At time by an author&lt;/p&gt;
+		&lt;p class="blog-post-meta"&gt;Em horário por um autor&lt;/p&gt;
 		&lt;div&gt;{{{content}}}&lt;/div&gt;
 	&lt;/div&gt;
 	{{/each}}
 &lt;/script&gt;</pre>
 
-<h3>Passo 3: Render Blogs</h3>
+<h3>Passo 3: Renderize os Blogs</h3>
 
-<p>Now that we have a template, let's go back to <code class="inline">blog.js</code> and render those blogs on the page. </p>
+<p>Agora que temos um modelo pronto, voltemos para o arquivo <code class="inline">blog.js</code> e renderizemos esses posts na página. </p>
 
-<p>To do that, you will be creating a view for the blog collection. The concept of a view is from the <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" rel="external" target="_blank">MVC (model–view–controller) architectural pattern</a>, and Parse follows that pattern. I will not dive into MVC here. Just know that a view instance for a blog collection generates HTML for it and handles all its events.  And a View class is the abstract template for that instance.</p>
+<p>Para tanto, precisará criar uma visão para a coleção de blogs. O conceito de visão vem do <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" rel="external" target="_blank">padrão de arquitetura MVC (model–view–controller, ou modelo-visão-controlador, em português)</a>, e o Parse segue esse padrão. Não aprofundarei o conceito de MVC aqui. Apenas saiba que a instância de uma visão para uma coleção de blogs gera o HTML necessário e administra todos seus eventos. E uma classe <code>View</code> é o modelo abstrato para esse tipo de instância.</p>
 
-<p>It can be confusing for now, but it would be clearer as we write the code. Let's write a <code class="inline">BlogsView</code> class:</p>
+<p>Isso pode soar confuso, agora, mas ficará mais claro com o código. Criemos a classe <code class="inline">BlogsView</code>:</p>
 
 <pre class="brush: javascript">var BlogsView =  Parse.View.extend({
     template: Handlebars.compile($('#blogs-tpl').html()),
@@ -225,11 +225,11 @@
 	}
 });</pre>
 
-<p>Like how we extended <code class="inline">Blog</code> class from <code class="inline">Parse.Object</code> and <code class="inline">Blogs</code> class from <code class="inline">Parse.Collection</code>, you can simply extend a new View class from <code class="inline">Parse.View</code> so it has all the predefined values and functions from Parse.</p>
+<p>Da mesma forma que estendemos a classe <code class="inline">Blog</code> a partir de <code class="inline">Parse.Object</code> e a classe <code class="inline">Blogs</code> a partir de <code class="inline">Parse.Collection</code>, você pode, simplesmente, estender uma nova classe View a partir de <code class="inline">Parse.View</code>, obtendo todos os valores e funções pré-definidas do Parse.</p>
 
-<p>Here, the <code class="inline">template</code> variable get the template we prepared before. Then, the <code class="inline">render()</code> function get the data in <code class="inline">this.collection</code>, convert it to JSON format, render it with the handlebars template, and assign it to <code class="inline">this.$el</code>.</p>
+<p>Aqui, a variável <code class="inline">template</code> busca o modelo que preparamos antes. Então, a função <code class="inline">render()</code> busca os dados em <code class="inline">this.collection</code>, converte-os para o formato JSON, renderiza-o com o modelo do handlebars, e o atribui a <code class="inline">this.$el</code>.</p>
 
-<p>Next, let's change the <code class="inline">success</code> callback of <code class="inline">blogs.fetch()</code> to create a new instance of BlogsView, render that new instance, and put it in the <code class="inline">$('.main-container')</code> on the page.</p>
+<p>Agora, é hora de alteramos a <em>callback</em> <code class="inline">success</code> de <code class="inline">blogs.fetch()</code> para criarmos uma nova instância de BlogsView, renderizarmos essa nova instância e adicioná-la à <code class="inline">$('.main-container')</code> da página.</p>
 
 <pre class="brush: javascript">success: function(blogs) {
     var blogsView = new BlogsView({ collection: blogs });
@@ -237,19 +237,19 @@
 	$('.main-container').html(blogsView.el);
 }</pre>
 
-<p>Notice when you create a new instance of BlogsView, you pass in <code class="inline">blogs</code>, the blogs data you get from Parse server, that value becomes <code class="inline">this.collection</code> for the <code class="inline">render()</code> function. And when you put the HTML in <code class="inline">$('.main-container')</code>, you use the value of <code class="inline">blogsView.el</code>, which was the content of <code class="inline">this.$el</code>, created by the <code class="inline">render()</code> function. (Here <code class="inline">blogsView.$el = $(blogsView.el)</code>) That's how the View class and view instance works.</p>
+<p>Perceba que, quando criamos uma nova instância de <code>BlogsView</code>, passamos um valor, <code class="inline">blogs</code>, que são os dados dos posts que obtemos do servidor do Parse, que se tornará o <code class="inline">this.collection</code> da função <code class="inline">render()</code>. E quando você colocar o HTML em <code class="inline">$('.main-container')</code>, você usará o valor de <code class="inline">blogsView.el</code>, que é o conteúdo de <code class="inline">this.$el</code>, criado pela função <code class="inline">render()</code>. (Assim, <code class="inline">blogsView.$el = $(blogsView.el)</code>). É assim que a classe <code>View</code> e a instância <code>view</code> funcionam.</p>
 
-<p>Now let's refresh the page: <a href="http://localhost/blog/" rel="external" target="_blank">http://localhost/blog/</a></p>
+<p>Atualizemos a página <a href="http://localhost/blog/" rel="external" target="_blank">http://localhost/blog/</a></p>
 
 <figure class="post_image"><img alt="Blogs rendered" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22047/image/09-blogs-rendered.png"></figure>
 
-<p>And it's working! Now you can just push it to your GitHub Page and have a working dynamic content site! If you take some time to change the blog template and modify the code a little bit, you can easily create portfolios and other content websites.</p>
+<p>Está funcionando! Agora, basta você enviar para sua Página do GitHub e terá um site dinâmico! Se você parar algum tempo para alterar o modelo do blog e alterar um pouco o código, você pode criar vários tipos de sites diferentes.</p>
 
-<h2>Conclusion</h2>
+<h2>Conclusão</h2>
 
-<p>Today, you've created your first class on Parse.com. You also learned how to add content in that class on Parse.com and how to render it on your website. There could be quite a few new concepts for you, but I'm sure you will get familiar with those very soon.</p>
+<p>Você criou, hoje, sua primeira classe no Parse.com. Também aprendeu como adicionar conteúdo nessa classe, diretamente, a partir do Parse, e como renderizá-los no seu site. Você pode ter visto vários novos conceitos, mas, tenho certeza, que logo estará familiarizado com eles.</p>
 
-<p>In the next session, we will start building the admin page for the blog system. You will create your second class - the User class. You will also learn how to handle user login, and create two new views: login view and welcome view. So stay tuned, lots of good skills are coming your way.</p>
+<p>Na próxima parte, construiremos o painel administrativo para o sistema de blog. Você criará sua segunda classe - a classe Usuário. Também aprenderá como lidar com acesso de usuários, bem como criará duas novas visões: a de acesso e de boas vindas. Então, fique ligado, muito mais conteúdo interessante vem aí.</p>
 
-<p>I think you guys could have lots of fun with what you've learned in this session. Let me know if this tutorial helped you create anything. And as always, check the source file if you got stuck and leave a comment if you meet any difficulties following along.</p>
+<p>Acredito que vocês podem ficar entretidos o bastante com o que aprenderam hoje. Avisem-me caso tenham criado algo com esse tutorial. E, como sempre, verifique os arquivos de código fonte caso tenha achado algo confuso ou tenha sentido dificuldades em alguma parte.</p>
 
