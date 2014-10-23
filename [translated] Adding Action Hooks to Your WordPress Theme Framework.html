@@ -1,0 +1,120 @@
+<h1>Adicionando Ganchos de Ação à Sua <em>Framework</em> para Temas de WordPress</h1>
+
+<p>Se você seguiu os capítulos iniciais dessa série, você já:</p>
+
+<ul><li><a href="https://code.tutsplus.com/tutorials/how-theme-frameworks-actually-work--cms-21349" target="_self">Entendeu como uma <em>framework</em> para temas funciona</a></li>
+<li><a href="https://code.tutsplus.com/tutorials/deciding-how-to-develop-your-wordpress-theme-framework--cms-21562" target="_self">Identificou qual abordagem usará para desenvolver a sua própria <em>framework</em></a></li>
+<li><a href="https://code.tutsplus.com/tutorials/creating-the-starting-files-for-your-wordpress-theme-framework--cms-21662" target="_self">Criou os arquivos iniciais do seu tema</a></li>
+</ul>
+
+<p>Nesse tutorial, você adicionará alguns ganchos de ação (<em>action hooks</em>) aos arquivos do seu modelo, aos quais anexará funções no próximo tutorial. E, depois, adicionará alguns ganchos de filtro (<em>filter hooks</em>).</p>
+
+<p>A vantagem em criar filtros de ações em sua <em>framework</em> é que qualquer conteúdo que anexar a eles, pode ser sobrescrito por funções em um tema filho ou por <em>plugins</em>. Isso ajuda a evitar arquivos duplicados dentro dos temas filhos além de prover mais flexibilidade.</p>
+
+<p><i>Nota: Se quiser saber mais sobre ganchos de ação e de filtro antes de dar continuidade a esse tutorial, <a href="http://code.tutsplus.com/articles/the-beginners-guide-to-wordpress-actions-and-filters--wp-27373" target="_self">esse outro artigo</a> ajudará.</i></p>
+
+<h2>O Que Você Precisará</h2>
+
+<p>Para acompanhar esse tutorial, você precisará de:</p>
+
+<ul><li>Um ambiente para desenvolvimento com o WordPress;</li>
+<li>Seu próprio tema ou os arquivos do tema criados na <a href="https://code.tutsplus.com/tutorials/creating-the-starting-files-for-your-wordpress-theme-framework--cms-21662" target="_self">Parte 3</a> dessa série, os quais você pode encontrar no repositório do GitHub que acompanha a série;</li>
+<li>Um editor de código</li>
+</ul>
+
+<h2>Adicionando Ganchos ao Cabeçalho</h2>
+
+<p>Adicionaremos dois ganchos ao cabeçalho: um antes e um dentro dele.</p>
+
+<p>No arquivo <code class="inline">header.php</code>, logo abaixo da tag <code class="inline">&lt;body&gt;</code> de abertura, adicione o primeiro gancho de ação:</p>
+
+<pre class="brush: php">&lt;?php
+// gancho de ação para qualquer conteúdo posicionado antes do cabeçalho,
+// incluindo a área de widgets
+do_action ( 'wptp_before_header' );
+?&gt;</pre>
+
+<p>Esse gancho pode ser útil para a adição de conteúdo, menus ou <em>links</em> acima do cabeçalho do site.</p>
+
+<p>Adicione outro gancho dentro do cabeçalho, à direita. Seus temas filhos podem usar esse gancho para adicionar conteúdo customizdo, como um formulário de busca ou <em>widgets</em>.</p>
+
+<pre class="brush: php">&lt;div class="half right"&gt;
+    &lt;!-- Essa área, por padrão, fica localizada no topo e à direita do cabeçalho. Ela contem detalhes de contato e também é o local onde talvez queira adicionar links para redes sociais ou feeds RSS --&gt;
+
+	&lt;?php
+	// gancho de ação para qualquer conteúdo adicionado dentro da parte
+  // direita do cabeçalho, incluíndo áreas de widget.
+	do_action ( 'wptp_in_header' );
+	?&gt;
+&lt;/div&gt; &lt;!-- .half right --&gt;</pre>
+
+<p>Perceba que envolvi esse gancho em uma <code class="inline">div</code> com algumas classes aplicadas, que funcionam dentro do padrão orientado a objetos de estilização do meu tema - se estiver fazendo isso em seu tema, precisará usar algo diferente, mas o gancho em si será o mesmo.</p>
+
+<h2>Adicionando Ganchos ao Conteúdo</h2>
+
+<p>O tema incluirá dois ganchos para conteúdo - um logo antes e outro logo após o <em>loop</em>, ambos dentro de <code class="inline">#content div</code>. Por sorte, pelo modo que meu tema está organizado, precisarei adicionar cada gancho apenas uma vez, já que começo a <code class="inline">#content div</code> no arquivo <code class="inline">header.php</code> e termino no arquivo <code class="inline">sidebar.php</code>. No arquivo <code class="inline">page-full-width.php</code> ele esse último é adicionado à parte, porque o arquivo não chama a <code class="inline">sidebar</code>, logo, é preciso adicionar aqui também.</p>
+
+<p>Comecemos com o que vem logo antes do <em>loop</em>.</p>
+
+<p>Ao final do arquivo <code class="inline">header.php</code>, adicione o trecho de código abaixo, logo no começo de <code class="inline">#content</code>:</p>
+
+<pre class="brush: php">&lt;?php
+// gancho de ação para qualquer conteúdo adicionado antes do conteúdo,
+// incluíndo áreas de widget.
+do_action ( 'wptp_before_content' );
+?&gt;</pre>
+
+<p>Isso proverá um gancho para qualquer coisa dentro da área do conteúdo, contudo, logo antes do <em>loop</em>.</p>
+
+<p>Já no arquivo <code class="inline">sidebar.php</code>, antes da <em>tag</em> de fechamento da div <code class="inline">#content</code>, adicione o trecho abaixo:</p>
+
+<pre class="brush: php">&lt;?php
+// gancho de ação para qualquer conteúdo adicionado após o conteúdo,
+// incluíndo áreas de widget.
+do_action ( 'wptp_after_content' );
+?&gt;</pre>
+
+<p>Por fim, adicionaremos esse código ao arquivo <code class="inline">page-full-width.php</code> do modelo, assim como fizemos com o arquivo <code class="inline">sidebar.php</code>, logo antes da <em>tag</em> de fechamento da <em>div</em> <code class="inline">#content</code>.</p>
+
+<h2>Adicionando Ganchos à Sidebar</h2>
+
+<p>O próximo passo é substituir a área de <em>widget</em> na <em>sidebar</em> por um gancho, que será usado para adicionar a área de <em>widget</em> de volta, em um passo posterior, entretanto, também pode ser usado para adicionar código customizado ou sobrescrever a área de <em>widget</em>.</p>
+
+<p>Substitua todo o código da área de <em>widget</em> por esse novo gancho:</p>
+
+<pre class="brush: php">&lt;?php
+// gancho de ação para qualquer conteúdo adicionado dentro da sidebar,
+// incluíndo áreas de widget.
+do_action ( 'wptp_sidebar' );
+?&gt;</pre>
+
+<p>Isso quer dizer que, se você quiser substituir a área de <em>widget</em> por um código próprio seu em um <em>plugin</em> ou em um tema filho, será capaz de fazê-lo, anexando o novo código a esse gancho e sobrescrevendo o gancho que anexa a área de <em>widget</em>.</p>
+
+<h2>Adicionando Ganchos ao Rodapé</h2>
+
+<p>Finalmente, podemos adicionar alguns ganchos ao rodapé: um dentro dele e outro logo abaixo, que será usado para o <a href="http://pt.wikipedia.org/wiki/C%C3%B3lofon_(tipografia)">cólofon</a>.</p>
+
+<p>Dentro do elemento <code class="inline">footer</code>, substitua todo o código existente pelo gancho abaixo:</p>
+
+<pre class="brush: php">&lt;?php
+// gancho de ação para qualquer conteúdo adicionado dentro da rodapé,
+// incluíndo áreas de widget.
+do_action ( 'wptp_footer' );
+?&gt;</pre>
+
+<p>Agora, adicionemos outro gancho para o cólofon, após a <em>tag</em> de fechamento do elemento <code class="inline">footer</code>:</p>
+
+<pre class="brush: php">&lt;?php
+// gancho de ação para qualquer conteúdo adicionado após o rodapé,
+// incluíndo áreas de widget.
+do_action ( 'wptp_after_footer' );
+?&gt;</pre>
+
+<p><i>Nota: O código que você removeu será substituído, mais para frente. Contudo, ao invés de adicioná-los diretamente nos arquivos do modelo, eles serão inseridos usando uma função que é ativada através de um gancho apropriado. Também adicionaremos ganchos de filtro para algumas funções.</i></p>
+
+<h2>Conclusão</h2>
+
+<p>Usar ganchos de ação em seus arquivos de modelo dá a você e aos usuários da sua <em>framework</em>, muito mais flexibilidade. Você pode usá-los para inserir qualquer tipo de conteúdo que quiser, ou mesmo sobrescrever ou remover o conteúdo, tudo sem criar ou modificar arquivos de modelo.</p>
+
+<p>Na continuação dessa série, mostrarei como criar funções que adicionarão áreas de <em>widget</em> e outros conteúdos, tudo ativado através desses ganchos.</p>
+
