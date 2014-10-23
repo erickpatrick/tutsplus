@@ -1,0 +1,160 @@
+<h1>Adicionando Ganchos de Filtro à Sua <em>Framework</em> para Temas de WordPress</h1>
+
+<p>Até agora, você adicionou ganchos de ação à sua <em>framework</em> para temas e também criou algumas funções que são ativadas através desses ganchos. O próximo passo é adicionar alguns filtros, que darão ainda mais flexibilidade a você.</p>
+
+<h2>Uma Breve Revisão Sobre Ganchos de Ação e de Filtro</h2>
+
+<p>Antes de continuarmos, é interessante darmos uma repassada nas diferenças entre ganchos de ação e de filtro:</p>
+
+<ul><li>Ações são ativadas em pontos específicos do seu código. O gancho de ação em si não contém qualquer código que seja executado, mas provê um local no código que permite você fazer as coisas <em>acontecerem</em>, através de funções ativadas por esses ganchos.</li>
+<li>Filtros, por outro lado, permitem que sejam feitas alterações em códigos já escritos no seu tema. Ao invés de virem vazios, um gancho de filtro é envolvido por um código existente, o qual você pode aumentar ou sobrescrever usando a função atrelada ao gancho.</li>
+</ul>
+
+<p>Para mais detalhes, veja esse excelente <a href="http://code.tutsplus.com/articles/the-beginners-guide-to-wordpress-actions-and-filters--wp-27373" target="_self">guia sobre ganchos de ação e de filtro</a>.</p>
+
+<h3>Como Criar e Usar um Gancho de Filtro</h3>
+
+<pre class="brush: php">&lt;?php
+apply_filters( 'my_filter', 'código que será filtrado virá aqui' );
+?&gt;</pre>
+
+<p>Daí, você acessa o gancho do filtro usando a função <code class="inline">add_filter() </code>, como a seguir:</p>
+
+<pre class="brush: php">&lt;?php
+function my_function() {
+    // código da função aqui
+}
+add_filter( 'my_filter', 'my_function' );
+?&gt;</pre>
+
+<p>O que você adicionar na função substituirá o código filtrável na sua <em>framework</em>, então, será aqui onde você fará suas mudanças ou sobrescritas.</p>
+
+<h2>O Que Você Precisará</h2>
+
+<p>Para acompanhar esse tutorial, você precisará de:</p>
+
+<ul><li>Um ambiente para desenvolvimento com o WordPress;</li>
+<li>Seu próprio tema ou os arquivos do tema criados na <a href="https://code.tutsplus.com/tutorials/creating-the-starting-files-for-your-wordpress-theme-framework--cms-21662" target="_self">Parte 3</a> dessa série, os quais você pode encontrar no repositório do GitHub que acompanha a série;</li>
+<li>Um editor de código</li>
+</ul>
+
+<h2>Adicionando Ganchos de Filtro</h2>
+
+<p>Nesse tutorial, adicionarei três ganchos de filtro à <em>framework</em>:</p>
+
+<ul><li>No cabeçalho, envolverei os título e descrição do site em um filtro;</li>
+<li>No rodapé, adicionarei um filtro à função do cólofon que adicionamos no tutorial passado</li>
+</ul>
+
+<p>Isso significa que, no futuro, ambos poderão ser aprimorados ou sobrescritos por temas filhos ou <em>plugins</em>. Você pode adicionar vários outros filtros ao seu tema de WordPress: em qualquer lugar que adicionar código que tenha chance de mudar posteriormente, você pode usar um filtro que permita mudanças sem a necessidade de criação de um novo arquivo de modelo em um tema filho.</p>
+
+<h3>Adicionando um Gancho de Filtro ao Título e Descrição do Site</h3>
+
+<p>Comecemos pelos título e descrição do site. Abra o arquivo <code class="inline">header.php</code> do tema e busque pelo seguinte trecho:</p>
+
+<pre class="brush: php">&lt;div class="site-name half left"&gt;
+    &lt;!-- nome do site e descrição - nome do site dentro de um elemento div em todas as páginas, exceto na página inicial ou página principal da área do blog, onde está envolto em um elemento h1 --&gt;
+	&lt;h1 id="site-title"&gt;
+		&lt;a href="&lt;?php echo home_url(); ?&gt;" title="&lt;?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?&gt;" rel="home"&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/a&gt;
+	&lt;/h1&gt;
+	&lt;h2 id="site-description"&gt;&lt;?php bloginfo( 'description' ); ?&gt;&lt;/h2&gt;
+&lt;/div&gt;</pre>
+
+<p>Ao invés de escrever um filtro para tudo isso, é melhor adicionar um filtro para ambos o título e descrição, assim, você pode aprimorar ou modificar totalmente o retorno de um ou dos dois.</p>
+
+<p>Em cada caso, você substituirá a função <code class="inline">bloginfo()</code> com a função <code class="inline">get_bloginfo()</code>, e adicionará a função <code class="inline">echo</code> antes da função <code class="inline">apply_filters()</code>. Comecemos com o título. Edite o código dentro do elemento <code class="inline">h1</code> para que fique assim:</p>
+
+<pre class="brush: php">&lt;h1 id="site-title"&gt;
+    &lt;a href="&lt;?php echo home_url(); ?&gt;" title="&lt;?php echo esc_attr( apply_filters( 'wptutsplus_sitetitle', get_bloginfo( 'name', 'display' ) ) ); ?&gt;" rel="home"&gt;
+        &lt;?php echo apply_filters( 'wptutsplus_sitetitle', get_bloginfo( 'name' ) ); ?&gt;
+    &lt;/a&gt;
+&lt;/h1&gt;</pre>
+
+<p>Como pode ver, adicionei a função <code class="inline">apply_filters()</code> duas vezes aqui - uma para atributo <code class="inline">title</code> do <em>link</em> e outra para o texto que será mostrado. O nome código usado segue abaixo:</p>
+
+<pre class="brush: php">&lt;?php echo apply_filters( 'wptutsplus_sitetitle', get_bloginfo( 'name' ) ); ?&gt;</pre>
+
+<p>Isso cria um filtro chamado <code class="inline">wptutsplus_sitetitle</code>, aplicando-o à função <code class="inline">get_bloginfo( 'name' )</code>. Por fim, ele é impresso na página.</p>
+
+<p>Agora, façamos o mesmo com a descrição da página. Dessa vez será um pouco mais simples, já que não há <em>link</em> envolvido. Edite o elemento <code class="inline">h2</code> para que fique assim:</p>
+
+<pre class="brush: php">&lt;h2 id="site-description"&gt;
+    &lt;?php echo apply_filters( 'wptutsplus_sitedescription', get_bloginfo( 'description' ) );?&gt;
+&lt;/h2&gt;</pre>
+
+<p>Novamente, isso não afetará o conteúdo apresentado pelo elemento, mas fornecerá um filtro o qual poderá usar para alterá-lo futuramente.</p>
+
+<h3>Adicionando um Gancho de Filtro ao Cólofon</h3>
+
+<p>Agora, adicionaremos um filtro ao cólofon, que está contido em uma função no arquivo <code class="inline">functions.php</code>. Isso permitirá os usuários da minha <em>framework</em> aumentar ou sobrescrever o conteúdo do cólofon.</p>
+
+<p>Primeiramente, abra seu arquivo <code class="inline">functions.php</code> e ache o seguinte trecho de código:</p>
+
+<pre class="brush: php">function wptp_colophon() { ?&gt;
+    &lt;section class="colophon" role="contentinfo"&gt;
+		&lt;small class="copyright half left"&gt;
+			&amp;copy; &lt;a href="&lt;?php echo home_url( '/' ) ?&gt;"&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/a&gt; 2014
+		&lt;/small&gt;&lt;!-- #copyright --&gt;
+
+		&lt;small class="credits half right"&gt;
+			&lt;?php _e( 'Orgulhosamente desenvolvido por', 'tutsplus' ); ?&gt;
+            &lt;a href="http://wordpress.org/"&gt;WordPress&lt;/a&gt;.
+		&lt;/small&gt;&lt;!-- #credits --&gt;
+	&lt;/section&gt;&lt;!--#colophon--&gt;
+
+&lt;?php
+}</pre>
+
+<p>Agora, remova a linha que retorna o nome do blog dentro do link e envolva cada uma das duas funções em uma função <code class="inline">apply_filters()</code>, deixando assim:</p>
+
+<pre class="brush: php">function wptp_colophon() { ?&gt;
+    &lt;section class="colophon" role="contentinfo"&gt;
+		&lt;small class="copyright half left"&gt;
+			&amp;copy&lt;a href="&lt;?php echo apply_filters( 'wptp_colophon_link', home_url( '/' ) ?&gt;"&gt;) ?&gt;"&gt;&lt;?php echo apply_filters('wptp_colophon_name', get_bloginfo( 'name' ) ); ?&gt;&lt;/a&gt; 2014
+		&lt;/small&gt;&lt;!-- #copyright --&gt;
+
+		&lt;small class="credits half right"&gt;
+			&lt;?php _e( 'Orgulhosamente desenvolvido por', 'tutsplus' ); ?&gt;
+            &lt;a href="http://wordpress.org/"&gt;WordPress&lt;/a&gt;.
+		&lt;/small&gt;&lt;!-- #credits --&gt;
+	&lt;/section&gt;&lt;!--#colophon--&gt;
+
+&lt;?php
+}</pre>
+
+<p>Aqui, criei dois filtros:</p>
+
+<ul><li><code class="inline">echo apply_filters( 'wptp_colophon_link', home_url( '/' )</code> refere-se ao <em>link</em> para o qual o nome aponta;</li>
+<li><code class="inline">echo apply_filters('wptp_colophon_name', get_bloginfo( 'name' ) )</code> refere-se ao nome em si</li>
+</ul>
+
+<p>Se quisesse alterar algum desses elementos posteriormente, poderia fazê-los criando duas funções simples, dessa forma:</p>
+
+<pre class="brush: php">function wptp_amend_colophon_name() {
+
+	$name = 'Rachel McCollin';
+	return $name;
+
+}
+add_filter( 'wptp_colophon_name', 'wptp_amend_colophon_name' );
+
+function wptp_amend_colophon_link() {
+
+	$link = 'http://rachelmccollin.co.uk';
+	return $link;
+
+}
+add_filter( 'wptp_colophon_link', 'wptp_amend_colophon_link' );</pre>
+
+<p>Cada uma dessas funções retorna conteúdo estático no lugar da função PHP no filtro original, substituindo a url da página inicial e o nome do blog pela url do meu blog e pelo meu nome, respectivamente:</p>
+
+<figure class="post_image"><img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/227/posts/21779/image/add-filter-hooks-to-wordpress-framework-update-colophon.jpg"></figure>
+
+<h2>Conclusão</h2>
+
+<p>Aqui, adicionei alguns filtros simples que permitirão os usuários da sua <em>framework</em> alterar o retorno das funções, sem a necessidade de criar novos arquivos de modelo. Como vimos, um filtro é diferente de uma ação, já que ele permite você alterar o resultado de algo a partir de um gancho, ao invés de adicionar algo totalmente novo a gancho vazio.</p>
+
+<p>Em alguns casos, talvez perceba que o filtro tornou-se muito complexo, o que forçará você a criar uma nova função ou, em algumas outras vezes, criar um novo arquivo de modelo inteiramente novo. Por exemplo, se quiséssemos fazer mudanças significativas ao cólofon, adicionaríamos uma nova função, <code class="inline">wptp_colophon()</code>, ao tema filho - uma vez que a função <code class="inline">wptp_colophon()</code> na <em>framework</em> é plugável, a nova função sobrescreveria a existente. Mas, se quiséssemos substituir todo o rodapé, teríamos de criar um arquivo <code class="inline">footer.php</code> inteiramente novo.</p>
+
+<p>Filtros podem ser bastante úteis na hora de evitar grandes reescritas - quando você criar os arquivos do modelo da sua <em>framework</em>, considere o que o conteúdo retornado que seus usuários quererão aumentar ou modificar e o envolva em uma função <code class="inline">apply_filters()</code>.</p>
+
