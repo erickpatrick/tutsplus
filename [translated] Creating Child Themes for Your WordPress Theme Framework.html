@@ -1,0 +1,173 @@
+<h1>Criando Temas Filhos para Sua <em>Framework</em> Para Temas de WordPress</h1>
+
+<p>A <em>framework</em> para temas que você construiu será usada como um tema pai para os sites que você desenvolver. Isso significa que, em cada caso, você terá que criar um tema filho para criar um site único com seu próprio design e funções extras ou diferentes.</p>
+
+<p>A forma mais óbvia para lidar com isso é cair de cabeça e sair criando arquivos do modelo no seu tema para sobrescrever os da sua <em>framework</em>. Porém, graças aos ganchos de ação e ganchos de filtro que você adicionou à sua <em>framework</em>, isso pode não ser melhor abordagem sempre.</p>
+
+<p>Nesse artigo, apresentarei algumas das técnicas que você pode usar em seus temas filhos para fazer o melhor uso da sua <em>framework</em> e conseguir criar um fluxo de trabalho.</p>
+
+<p>Os tópicos que cobrirei são esses:</p>
+
+<ul><li>Criação de temas filhos básicos</li>
+<li>Alteração de código através dos ganchos de filtro da <em>framework</em></li>
+<li>Adição de código através dos ganchos de ação da <em>framework</em></li>
+<li>Criação de arquivos de modelo nos temas filhos</li>
+<li>Descobrir quando usar um <em>plugin</em> ao invés de um tema</li>
+</ul>
+
+<h2>Criação de Temas Filhos Básicos</h2>
+
+<p>A principal razão em se criar sua própria <em>framework</em> para temas é poder adotar o princípio DRY (<em>Don't Repeat Yourself</em>, "não se repita"), e isso se aplica aos seus temas filhos também.</p>
+
+<p>Isso pode trazer mais eficiência caso crie um ou mais temas filhos 'básicos' para serem usados com sua <em>framework</em>, já contendo o "grosso" do código necessário para iniciar novos projetos.</p>
+
+<p>Ao decidir se seguirá por esse caminho, considere a forma como você trabalha e os sites que você cria:</p>
+
+<ul><li>Você cria vários sites para clientes no mesmo setor com necessidades semelhantes?</li>
+<li>Você quer oferecer um site de baixo custo, baseado em modelos, para clientes menores?</li>
+<li>Há algum arquivo de modelo que você quase sempre cria em seus novos projetos?</li>
+<li>Há alguma funcionalidade que você tem de adicionar em alguns sites, mas não em outros? (Por exemplo, uso dois temas filhos básicos, um com comentários e outro sem)</li>
+<li>Há alguma estilização que costuma usar para a maioria dos projetos ou você pode usar Estilização Orientada a Objetos ou ainda um Pré-processador CSS para a maioria dos projetos?</li>
+<li>Há alguma biblioteca ou recurso que use para a maioria dos novos projetos?</li>
+<li>Você tem duas ou três categorias principais a qual pode dividir seus trabalhos, em que cada categoria envolve tipo de trabalho semelhante?</li>
+</ul>
+
+<p>Se você respondeu sim para qualquer uma dessas perguntas, o desenvolvimento de um ou mais temas filhos pode salvar bastante tempo. Você pode criar um conjunto de temas filhos com código básico repetido por todos os projetos que os usam, assim, não precisará reescrever aquele código (ou criar os arquivos) para cada novo projeto.</p>
+
+<p>Um pequeno detalhe: Se você tem adicionado um mesmo trecho de código a cada novo projeto, talvez seja interessante adicioná-lo à sua <em>framework</em> ao invés dos temas filhos, talvez através do uso de ganchos para que possam ser sobrescritos se alguma necessidade diferente aparecer no futuro.</p>
+
+<p>Mesmo que tenha respondido não para as perguntas acima, vale a pena criar um tema inicial básico com folhas de estilo em branco e um arquivo de funções, bem como as instruções que o WordPress precisa para acessar o tema pai da sua <em>framework</em>, lá na folha de estilo:</p>
+
+<pre class="brush: css">/*
+ Theme Name:   Tema filho da framework
+ Theme URI:
+ Description:  Tema filho inicial básico
+ Author:       Rachel McCollin
+ Author URI:   http://rachelmccollin.co.uk
+ Template:     wptutsplus-theme-framework-part6
+ Version:      1.0.0
+ Tags:
+ Text Domain:  tutsplus
+*/
+
+
+@import url("../wptutsplus-theme-<em>framework</em>-part6/style.css");</pre>
+
+<p>Os campos obrigatórios são <code class="inline">Theme Name</code> e <code class="inline">Template</code>, o resto é opcional. Tenha certeza que em <code class="inline">Template</code> você tenha usado o diretório do tema da sua <em>framework</em>, não o nome do tema. É interessante completar os outros campos com o conteúdo relevante ao seu tema.</p>
+
+<p>A declaração <code class="inline">@import</code> também é importante se quiser carregar a folha de estilo da <em>framework</em>. Enquanto você posicionar essa declaração antes de qualquer outro CSS, ela carregará a folha de estilo do tema pai antes de qualquer estilo da folha de estilo do tema filho. Isso significa que você pode adicionar e/ou sobrescrever qualquer estilização da sua <em>framework</em> no tema filho quando necessário.</p>
+
+<p>Talvez queira criar um arquivo <code class="inline">functions.php</code> inicial com as funções que você usa com frequência nos temas filhos. Você pode escolher remover ou adicionar funcionalidades de acordo com as espeficicações do projeto.</p>
+
+<h2>Alteração de Código Através dos Ganchos de Filtro</h2>
+
+<p>Assim como adicionar estilização ao seu tema filho, é provável que queira realizar mudanças naquilo que códigos de sua <em>framework</em> retorna. A forma mais fácil de fazer isso é através dos ganchos de filtro, assim, é interessante explorá-los antes, para identificar se é possível lançar mão deles.</p>
+
+<p>Criar uma função que você pode anexar a um gancho de filtro é muito mais eficiente que criar um arquivo de modelo inteiramente novo para o novo código. No entanto, se você tem usado, repetidamente, os mesmos ganchos de filtro, é interessante considerar trocar o gancho de filtro por um gancho de ação, e passar a escrever uma nova função para cada novo projeto, ativando através desse novo gancho de ação. </p>
+
+<p>Para maior eficiência, talvez queira criar um conjunto de funções relevantes para colocar no arquivo de funções de vários temas iniciais ou, quem sabe, criar um <em>plugin</em> com sua função, podendo ativá-la quando precisar. Falarei mais sobre <em>plugins</em> em um artigo futuro.</p>
+
+<p>Cobri o processo de <a href="https://code.tutsplus.com/tutorials/adding-filter-hooks-to-your-wordpress-theme-<em>framework</em>--cms-21779" target="_self">criação de filtros</a> em um artigo anterior da série, mas, para recapitular, você anexa uma função a um filtro usando a função <code class="inline">add_filter()</code>. Então, por exemplo, para alterar um link e o nome usado no cólofon do meu site, criei duas funções, assim:</p>
+
+<pre class="brush: php">function wptp_amend_colophon_name() {
+
+  $name = 'Rachel McCollin';
+  return $name;
+
+}
+add_filter( 'wptp_colophon_name', 'wptp_amend_colophon_name' );
+
+function wptp_amend_colophon_link() {
+
+  $link = 'http://rachelmccollin.co.uk';
+  return $link;
+
+}
+add_filter( 'wptp_colophon_link', 'wptp_amend_colophon_link' );</pre>
+
+<p>Elas são atreladas a dois filtros em minha <em>framework</em>: <code class="inline">wptp_colophon_name</code> e <code class="inline">wptp_colophon_link</code>, alterando a saída de cada uma delas.</p>
+
+<h2>Adição de Código Através dos Ganchos de Ação</h2>
+
+<p>Sua <em>framework</em> para temas também terá ganchos de ação que você pode usar para inserir conteúdo em diversos lugares em seu site.</p>
+
+<p>Se você estiver trabalhando com os arquivos dos códigos da <em>framework</em> utilizada nessa série, então você terá sete ganchos de ação:</p>
+
+<ul><li>antes do cabeçalho</li>
+<li>no cabeçalho</li>
+<li>antes do conteúdo</li>
+<li>depois do conteúdo</li>
+<li>na barra lateral (<em>sidebar</em>)</li>
+<li>no rodapé</li>
+<li>após o rodapé</li>
+</ul>
+
+<p>Então, por exemplo, digamos que você queira adicionar um botão de ação na barra lateral. Você poderia criar um novo arquivo <code class="inline">sidebar.php</code>, mas seria muito mais eficiente apenas usar o gancho <code class="inline">wptp_sidebar</code>.</p>
+
+<p>Para isso, crie um arquivo <code class="inline">functions.php</code> dentro do seu tema filho e adicione o trecho de código a seguir:</p>
+
+<pre class="brush: php">function wptp_cta() {?&gt;
+
+  &lt;div class="cta"&gt;
+    &lt;p&gt;Email us on &lt;a href="mailto:mail@example.com"&gt;mail@example.com&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+
+&lt;?php
+}
+add_action( 'wptp_sidebar', 'wptp_cta', 1 )</pre>
+
+<p>A função <code class="inline">wptp_cta()</code> cria o HTML para o botão de ação e a função <code class="inline">add_action()</code> a executa através do gancho <code class="inline">wptp_sidebar</code> com uma prioridade de <code class="inline">1</code>, assim, ele aparecerá antes de qualquer conteúdo ativado por esse gancho.</p>
+
+<p>Há vários outros conteúdos que talvez queira adicionar usando os ganchos de ação, como botões de compartilhamento nas redes sociais antes e/ou depois do conteúdo; conteúdo extra no rodapé, campo de busca no cabeçalho e muito outros.</p>
+
+<p>Talvez você queria adicionar algum conteúdo apenas a tipos específicos de páginas, como páginas únicas de artigos que, nesse caso, o lugar masi óbvio para começar seria criando um novo arquivo <code class="inline">single.php</code>. Mas você ainda pode usar seus ganchos de ação usando <em>tags</em> condicionais:</p>
+
+<pre class="brush: php">function wptp_after_single_posts() {
+
+  if( is_singular( 'post' ) ) { ?&gt;
+
+    &lt;h3&gt;Curtiu isso? Leia mais!&lt;/h3&gt;
+
+    &lt;?php
+    // consulta para lista os últimos posts
+
+  }
+
+}
+add_action( 'wptp_after_content', 'wptp_after_single_posts' );</pre>
+
+<p>Isso criaria uma nova consulta (usando a <code class="inline"><a href="http://codex.wordpress.org/Class_Reference/WP_Query" target="_self">WP_Query</a></code>) que retornaria uma lista com os artigos masi recentes do blog, numa tentiva de encoraja os visitantes a lerem algo mais, logo após terminarem de ler o artigo da página em questão. A <em>tag</em> condicional <code class="inline"><a href="http://codex.wordpress.org/Function_Reference/is_singular" target="_self">is_singular( 'post' )</a></code> garante que isso só será retornado para páginas de artigos e, ao anexá-la ao gancho <code class="inline">wptp_after_content</code>, você a mostrará após o conteúdo principal do artigo.</p>
+
+<h2>Criando Novos Arquivos de Modelos</h2>
+
+<p>No caso de não conseguir o resultado esperado criando os ganchos de filtro ou de ação da sua <em>framework</em>, você terá de criar novos arquivos de modelo em sues temas filho.</p>
+
+<p>Eles podem ser os mesmos arquivos criados para a sua <em>framework</em>. Nesse caso, os arquivos criados no tema filho sobrescreverão os do tema pai da <em>framework</em>. Ou eles podem ser novos arquivos de modelos para, por exemplo, uma nova categoria, taxonomia ou tipo de post.</p>
+
+<p>Se você criar arquivos de modelo no seus temas filhos, será mais fácil usar os modelos da <em>framework</em> como ponto de partida. Os passos são os seguintes:</p>
+
+<ol><li>Identifique o arquivo de modelo que precisa ser criado, seguindo a <a href="http://codex.wordpress.org/Template_Hierarchy" target="_self">Hierarquia de Modelos do WordPress</a></li>
+<li>Crie um arquivo em branco com o nome apropriado, dentro do diretório do tema filho</li>
+<li>Identifique o arquivo da sua <em>framework</em> que é mais parecido com o nome arquivo (novamente, referencie a hierarquia de modelos)</li>
+<li>Copie o conteúdo desse arquivo da <em>framework</em> e cole no novo arquivo</li>
+<li>Faça alterações ao novo arquivo como necessário.</li>
+</ol>
+
+<p>Fazendo isso, você evita o trabalho de duplicar qualquer código usado por ambos os arquivos, como as chamadas aos arquivos de inclusão.</p>
+
+<h2>Descobrir Quando Usar um <em>Plugin</em> ao Invés de um Tema</h2>
+
+<p>Outra opção que você tem ao criar sites baseados na sua <em>framework</em> é usa <em>plugins</em> juntos do seus temas filhos. Um <em>plugin</em> não substituirá um tema filho completamente, mas pode ser bem útil em certas circunstâncias:</p>
+
+<ul><li>A funcionalidade que você adicionar não será dependente do tema (ou seja, ela permancerá, mesmo que o tema mude no futuro). Isso inclui o registro de posts ou taxonomias customizadas, por exemplo.</li>
+<li>A funcionalidade deve ser usada em vário outros sites que você criar, mas não é interessante ou importante o suficiente para todas as categorias, o que a tornaria válida dentro do próprio tema filho inicial ou da <em>framework</em> em si.</li>
+</ul>
+
+<p>Cobrirei mais sobre <a href="https://code.tutsplus.com/tutorials/developing-<em>plugins</em>-for-your-wordpress-theme-<em>framework</em>--cms-21934" target="_self">o desenvolvimento de <em>plugins</em> para sua <em>framework</em></a> no próximo artigo da série.</p>
+
+<h2>Conclusão</h2>
+
+<p>Sua <em>framework</em> para temas é só o começo da biblioteca de códigos e arquivos que você criará para dar suporte aos sites que você desenvolve. Cada site que criar, precisará usar seu próprio tema filho, que usará o tema da <em>framework</em> como pai.</p>
+
+<p>Como vimos, seus temas filhos adicionará seus próprios estilos e funcionalidades, e poderão fazer isso através dos ganchos de ação e filtro em <em>framework</em>, ou através da criação de um novo arquivo de modelo. Sempre é uma boa ideia adotar a solução que exija a menor quantidade de código, já que isso torna seu site mais rápido e sua vida mais fácil.</p>
+
