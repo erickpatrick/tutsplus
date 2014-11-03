@@ -1,0 +1,111 @@
+<h1>Lançando sua <em>Framework</em> para Temas do WordPress</h1>
+
+<p>Talvez você tenha acabado de criar uma <em>framework</em> para seus próprios temas ou para sua equipe, assim, os passos envolvidos para o lançamento dela não serão relevantes. Mas, se quiser que seu código esteja disponível ao público, você terá de encontrar alguns meios de distribui-la além de decidir se as pessoas terão de pagar por ela ou não.</p>
+
+<p>Nesse tutorial, mostraremos as seguintes opções:</p>
+
+<p>Gratuitas:</p>
+
+<ul><li>O respositório de Temas do WordPres</li>
+<li>O GitHub ou repositório semelhante</li>
+</ul>
+
+<p><em>Premiums</em>:</p>
+
+<ul><li>Uma empresa terceirizada e especialista em temas</li>
+<li>Seu próprio site</li>
+</ul>
+
+<p>Também falaremos da opção <em>freemium</em>, que inclui ambas as opções acima.</p>
+
+<h2>Lançando sua <em>Framework</em> Gratuitamente</h2>
+
+<p>Se você criou para seu próprio trabalho, mas também gostaria de torná-la disponível para os outros, é interessante considerar a opção de lançar de forma gratuita. Você presenteia a comunidade do WordPress e ainda tem acesso a um grande número de talentosos desenvolvedores que talvez estejam interessados em ajudar a aprimorar sua <em>framework</em>.</p>
+
+<p>Basicamente, você tem duas opções se quiser lançar seus códigos gratuitamente:</p>
+
+<ul><li>Enviá-lo ao <a href="https://wordpress.org/themes/" target="_self">Repositório de Temas do WordPress</a></li>
+<li>Torná-lo disponível para baixar através de algum serviço de repositório, como o <a href="https://github.com" target="_self">GitHub</a>.</li>
+</ul>
+
+<h3>O Repositório de Temas do WordPress<br></h3>
+
+<p>Esse será o primeiro lugar onde os usuários de WordPress e desenvolvedores buscarão caso estejam em busca de um tema gratuito para WordPress. Enviar seu tema não custa um centavo, mas precisa garantir que ele segue <a href="http://codex.wordpress.org/Theme_Review" target="_self">As Regras de Revisão de Temas</a>:</p>
+
+<ul><li><b>Qualidade de Código. </b>Você deve manter o <a href="http://codex.wordpress.org/WordPress_Coding_Standards" target="_self">Padrão de Codificação do WordPress</a> e não deve gerar qualquer notas de funções obsoletas, avisos ou erros.</li>
+<li><b>Apresentação vs. Funcionalidade. </b>Temas são para apresentação, assim, se seu tema inclui bastante funcionalidade, elas deverão ser abstraídas em um <em>plugin</em>.</li>
+<li><b>Funcionalidades do Tema. </b>Seu tema deve dar suporte a todas as funcionalidades principais do WordPress, independente dele ter suas próprias funcionalidades adicionais.</li>
+<li><b><em>Tags</em> de modelo e ganchos. </b>Eles devem ser implementados corretamente.</li>
+<li><b>Classes CSS geradas pelo WordPress. </b>Seu tema deve usá-las onde for relevante.</li>
+<li><b>Arquivos de Modelo. </b>Seu tema deve usá-los corretamente.</li>
+<li><b>Segurança e Privacidade. </b>Temas devem garantir a segurança dos dados e a privacidade dos usuários.</li>
+<li><b>Licenças. </b>Seu tema deve estar licenciado com base em um licença compatível com a GPL.</li>
+<li><b>Namenclatura. </b>Seu tema não pode incluir a palavra WordPress e deve ser único para evitar confusão.</li>
+<li><b><em>Links</em> de crédito. </b>Seu tema deve usá-los apropriadamente.</li>
+<li><b>Documentação. </b>No mínimo, deve ser dado um arquivo <code class="inline">readme.txt</code>.</li>
+<li><b><a href="http://codex.wordpress.org/Theme_Unit_Test" target="_self">Testes Unitários de Tema</a></b> — Seu tema deve passar por todos.</li>
+<li><b>Obsolência do tema. </b>Seu tema deve manter-se atualizado após ser aceito.</li>
+</ul>
+
+<p>Os Testes Unitários de Temas é o teste que os revisores de temas executarão nas partes do seu modelo durante o processo de revisão, logo, vale a pena executá-los antes de enviar para o repositório. Os passos são:</p>
+
+<ol><li>Baixe o <a href="https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml" target="_self">arquivo XML contendo os dados de teste</a>.</li>
+<li>Usando o menu de Importação, importe o arquivo XML para seu tema.</li>
+<li>Configure o <code class="inline">WP_DEBUG</code> como <code class="inline">true</code> em seu arquivo <code class="inline">wp-config.php</code>.</li>
+<li>Instale o conjunto de <em>plugins</em> através do <a href="http://wordpress.org/extend/plugins/developer/" target="_self"><em>Plugin</em> de Desenvolvedor</a>.</li>
+<li>Execute a revisão de tema usando o processo apresentado <a href="http://www.chipbennett.net/2011/04/20/a-guide-to-reviewing-themes-for-the-wordpress-theme-repository/" target="_self">nesse guia</a>. </li>
+</ol>
+
+<p>Se seu tema passar no teste e seguir o padrão listado acima, ele está apto a <a href="https://wordpress.org/themes/upload/" target="_self">ser enviado</a>. Envie-o seguindo o guia apresentado e seja paciente - os testadores de temas são voluntários fazendo esse trabalho em seus tempos livres, então, não espere por uma resposta tão rápida.</p>
+
+<h3>GitHub</h3>
+
+<p>Usar o <a href="http://github.com" target="_self">GitHub</a> para distribuir seu tema dá mais controle que o que teria usasse o repositório de temas e ainda economiza alguns passos quando precisar atualizá-lo.</p>
+
+<p>Tudo que precisa fazer é <a href="https://help.github.com/articles/creating-a-new-repository" target="_self">criar um repositório público</a> com os arquivos do seu tema. Talvez você queira criar uma conta específica para sua <em>framework</em> (ou uma <a href="https://help.github.com/articles/creating-a-new-organization-account" target="_self">organização</a> associada a sua conta), para manter as coisas separadas da sua conta pessoal, caso tenha uma. A vantagem em fazer isso é que você pode adicionar <em>plugins</em> e temas filhos em repositórios separados na nova conta e criar um espaço para tudo relacionado à sua <em>framework</em>, que terá seu próprio espaço.</p>
+
+<p>Será muito fácil para seus usuários baixar seu código do GitHub e se quiserem trabalhar por conta própria nele, podem, simplesmente, <a href="https://help.github.com/articles/fetching-a-remote" target="_self">cloná-la</a>. Além do mais, você pode encorajar outros usuários a fazerem aprimoramentos e adições à sua <em>framework</em>, através da criação de <a href="https://help.github.com/articles/fork-a-repo" target="_self">forks</a> do seu projeto, mas, garanta a revisão de todas as mudanças antes de aceitá-las no ramo principal de seu repositório.</p>
+
+<p>O GitHub é uma ferramenta útil se sua <em>framework</em> for voltada aos desenvolvedores, mas, se estiver focando nos usuários, é melhor colocá-la no repositório de temas do WordPress, que é muito mais amigável aos usuários.</p>
+
+<h2>Lançando uma <em>Framework</em> Premium</h2>
+
+<p>Novamente, você tem duas escolhas para esse tipo de lançamento da sua <em>framework</em>:</p>
+
+<ul><li>Distribuí-la através de uma empresa terceirizada e especializada em temas</li>
+<li>Distribuí-la através do seu próprio site</li>
+</ul>
+
+<p>Usar uma empresa terceirizada dá a vantagem de tornar o seu tema mais visível, mas também significa que a empresa terá um percentual sobre suas vendas. No começo, isso valia muito a pena, porque você teria acesso a um número bem grande de usuários em potencial, provavelente, tendo uma maior chance de ganhar dinheiro. Se sua <em>framework</em> se estabilizar, talvez queira distribuí-la por conta própria.</p>
+
+<h3>Empresas Terceirizadas Especializadas em Temas</h3>
+
+<p>Há um grande número de empresas terceirizadas que você pode usar. Muitas delas só vendem temas filhos de suas próprias <em>frameworks</em>, então, tenha certeza de usar uma empresa que venda temas próprios. Você também quererá ter certeza que sua <em>framework</em> será apresentada como tal, ao invés de, simplesmente, um tema.</p>
+
+<p>Não proverei um lista de empresas terceirizadas, uma vez que o mercado muda constantemente, mas aconselho a buscar bastante para encontrar aquela que vende o tipo de tema que você produziu para o mercado apropriado. Também veja o percentual que eles tomam em cada venda e se eles usam a licença GPL.</p>
+
+<h3>Distribuição Própria</h3>
+
+<p>Distribuir sua <em>framework</em> por conta própria, dará mais controle sobre como venderá e como fará para adicionar temas filhos e <em>plugins</em> criados para dar suporte a ela. Dessa forma, não terá um grande público, mas pode adotar o modelo <em>freemium</em>, onde você disponibiliza algum código, gratuitamente, através do repositório de temas do WordPress e outros códigos (temas filhos e <em>plugins</em>) através de algum meio de inscrição ou pagamento externo.</p>
+
+<p>Para vender sua <em>framework</em> no seu próprio site, você precisará <a href="https://code.tutsplus.com/tutorials/writing-documentation-for-your-wordpress-theme-framework--cms-21939" target="_self">criar uma documentação</a> para seus usuários e configurar as inscrições online e os <em>downloads</em> seguros. Um <em>plugin</em> como o <a href="http://wordpress.org/plugins/woocommerce/" target="_self">WooCommerce</a> ajudará nisso. Você também precisará dar um jeito com o planejamento de marketing.</p>
+
+<h2>Usando um Modelo 'Freemium'</h2>
+
+<p>A ideia de temas e <em>plugins</em> 'freemium' é desenvolver o tempo todo. Novas maneiras de fazer isso funcionar aparecem o tempo todo, mas aqui estão algumas ideias:</p>
+
+<ul><li>Lance sua <em>framework</em> de graça e desenvolva temas filhos e <em>plugins premium</em> para ela.</li>
+<li>Lance uma versão simplificada da <em>framework</em> de graça e adicione funcionalidade extra através de <em>downloads</em>, por alguma taxa.</li>
+<li>Lance sua <em>framework</em> gratuitamente e dê suporte ou disponibilize documentação para os inscritos pagantes.</li>
+</ul>
+
+<p>A vantagem desse modelo é que você tem acesso ao repositório de temas do WordPress com milhares usuários baixando temas de lá, todos os dias, e você pode enviá-los para seu próprio site, caso queiram funcionalidades <em>premium</em>, dando-lhe mais controle caso usasse uma empresa terceirizada de temas.</p>
+
+<h2>Conclusão</h2>
+
+<p>Lançar sua <em>framework</em> para outros usuários dá a oportunidade de você ganhar algum dinheiro ou dar algo em retorno à comunidade. Como mostrei, você pode escolher lançar seu código gratuitamente ou por um preço, ou mesmo uma combinação dos dois. </p>
+
+<p>O que você escolherá, dependerá das suas próprias necessidades e do público alvo da sua <em>framework</em>. Independente do que você escolher, tenha certeza de manter os arquivos da sua <em>framework</em> atualizados para os usuários e reveja sua estratégia de publicidade de vez em quando. </p>
+
+<p>Boa sorte!</p>
+
