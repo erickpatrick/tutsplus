@@ -1,0 +1,118 @@
+<h1>“De Fora Para Dentro” — Ordenando Propriedades CSS por Importância</h1>
+
+<p>Esse artigo é inteiramente sobre estruturação de código CSS - especificamente sobre um método que tenho usado pelos últimos anos, que traz uma certa lógica e consistência para a ordem que uso na criação do meu CSS. É um método que chamo de “De Fora Para Dentro”.</p>
+
+<h2>Ordem de Declaração?</h2>
+
+<p>No passado, vi várias abordagens em relação à escrita do CSS. Algumas pessoas não usam qualquer ordem em particular, outras colocam as propriedades em ordem alfabética e já vi até alguns casos de organização pela quantidade de caracteres que cada par <code class="inline">propriedade:valor</code> possui! </p>
+
+<p>Uma <a href="http://css-tricks.com/poll-results-how-do-you-order-your-css-properties/" target="_self">antiga lá no CSS-Tricks</a> trouxe uma pergunta em que a maioria das respostas me deixou bastante surpreso: 39%, de mais de 11.000 pessoas, responderam não usar qualquer método específico na hora de ordenar o CSS.</p>
+
+<figure class="post_image">
+  <img alt="How do you order your CSS properties" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21685/image/chart.png"/>
+  <figcaption>Como você ordena suas propriedades CSS? Total de Votos: 11,093</figcaption>
+</figure>
+
+<p>Agrupamento por tipo coloca <code class="inline">height</code> bem próxima de <code class="inline">width</code>. Alfabeticamente, veríamos declarações listadas desde a <code class="inline">background</code> até a <code class="inline">z-index</code>, por exemplo.</p>
+
+<p>Eu uso o método de agrupamento por tipo - embora eu use uma ordem bem específica para ordernar cada grupo!</p>
+
+<p>Fora o “método aleatório”, há um certo nível de ordem em todas as abordagens. Mas essa ordenação não reflete algo necessariamente, ou particularmente, útil em relação à estilização de sites. </p>
+
+<p>Se você buscasse coletar dados sobre a altura dos estudantes de uma determinada sala, ordená-los pelos comprimentos faz sentido. Se estiver categorizando uma coleção de DVDs, ordernar alfabeticamente também faz todos o sentido. Mas, ordernar as propriedades CSS dessa forma, tem algo a ver com a ordem de <i>importância</i> delas ao serem aplicadas pelo navegador? </p>
+
+<p>Ao ordernar alfabeticamente, a propriedade <code class="inline">color</code> de um elemento é mais importante que sua propriedade <code class="inline">width</code>? A <code class="inline">border-style</code> de um elemento é mais importante que o elemento estar, ou não, no fluxo normal de um documento? Eu diria que não.</p>
+
+<h2>De Fora Para Dentro</h2>
+
+<p>O método que acabei adotei é através do impacto que as propriedades causam sobre o elemento em si e os ao redor dele. A essência da técnica é começar com as propriedades que causam mais impacto fora do elemento e seguir até chegar ao centro do mesmo, nos detalhes <em>mais internos</em>. E é por isso que chamo esse método de “De Fora Para Dentro”.</p>
+
+<p>As propriedades <code class="inline">position</code> e <code class="inline">float</code> removem o elemento do seu fluxo normal e causam um grande impacto sobre outros elementos ao redor do elemento em foco. Isso é algo importante e acredito que devemos torná-lo bem visível, colocando-as logo no início do bloco de propriedades do elemento. </p>
+
+<p>Controlar coisas como o <code class="inline">cursor</code> ou <code class="inline">overflow</code> de um elemento é, geralmente, menos importante e, por isso, tendo a deixá-las mais para o fim. </p>
+
+<p>A ordem que uso é a seguinte: </p>
+
+<ul>
+  <li>Propriedades de Layout (<code class="inline">position</code>, <code class="inline">float</code>, <code class="inline">clear</code>, <code class="inline">display</code>)</li>
+  <li>Propriedades do Modelo de Caixa (<code class="inline">width</code>, <code class="inline">height</code>, <code class="inline">margin</code>, <code class="inline">padding</code>)</li>
+  <li>Propriedades Visuais (<code class="inline">color</code>, <code class="inline">background</code>, <code class="inline">border</code>,<code class="inline"> box-shadow</code>)</li>
+  <li>Propriedades Tipográficas (<code class="inline">font-size</code>, <code class="inline">font-family</code>, <code class="inline">text-align</code>, <code class="inline">text-transform</code>)</li>
+  <li>Outros Propriedades (<code class="inline">cursor</code>, <code class="inline">overflow</code>, <code class="inline">z-index</code>)</li>
+</ul>
+
+<p>Eu sei que a <code class="inline">border</code> se relaciona ao modelo de caixa, e que a propriedade <code class="inline">z-index</code> se relaciona ao posicionamento, mas essa ordem funciona muito bem para mim. Mesmo eu não gostando da ordenação alfabética, há algo que faz todo o sentido em manter o <code class="inline">z-index</code> lá no final...</p>
+
+<h2>Exemplo Prático</h2>
+
+<p>Vejamos como estilizar um módulo de botão. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/399/posts/21685/image/button2.png"/>
+</figure>
+
+<p>Começaremos com uma nomenclatura de classe semântica e legal: <code class="inline">.button</code>. Particularmente, não curto contrações, como <code class="inline">.btn</code>, prefiro as versões longas e mais descritivas sempre que possível - é apenas minha preferência, logo, para você pode ser diferente :)</p>
+
+<pre class="brush: css">/* &lt;a href="#" class="button"&gt;Peça agora &amp;rarr;&lt;/a&gt; */
+.button { }</pre>
+
+<p>Queremos manipular o espaçamento vertical ao redor do botão e, para isso, teremos de alterar a propriedade <code class="inline">display</code> de <code class="inline">inline</code> (o padrão para âncoras) para <code class="inline">inline-block</code>. </p>
+
+<p>Para permitir que o botão cresça em largura de acordo com o conteúdo textual, a propriedade <code class="inline">inline-block</code> é uma escolha mais flexível que <code class="inline">float</code> junto a uma <code class="inline">width</code> configurada.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+}</pre>
+
+<p>Depois disso, precisaremos adicionar algumas características do modelo da caixa, como margens e espaçamento interno (<em>padding</em>). Como as margens estão do lado de fora da caixa e estamos indo “De Fora Para Dentro”, elas vem primeiro.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+    margin:1em 0;
+    padding:1em 4em;
+}</pre>
+
+<p>A próxima coisa a adicionarmos são as cores. Para separar cada grupo de propriedades, gosto de deixar uma linha em branco entre eles, permitindo que cada grupo fique mais vísivel.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+    margin:1em 0;
+    padding:0.5em 3em;
+
+    color:#fff;
+    background:#196e76;
+}</pre>
+
+<p>Agora, adicionaremos as bordas e sombras para dar profundidade. Então, adicionaremos as propriedades tipográficas, novamente, separando através do uso de uma linha em branco.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+    margin:1em 0;
+    padding:1em 4em;
+
+    color:#fff;
+    background:#196e76;
+    border:0.25em solid #196e76;
+    box-shadow:inset 0.25em 0.25em 0.5em rgba(0,0,0,0.3),
+               0.5em 0.5em 0 #444;
+
+    font-size:3em;
+    font-family:Avenir, Helvetica, Arial, sans-serif;
+    text-align:center;
+    text-transform:uppercase;
+    text-decoration:none;
+}</pre>
+
+<h2>Lendo o Código</h2>
+
+<p>Um dos benefícios em se aplicar um sistema como esses é que, uma vez implementado, remove a necessidade de pensar demais nas coisas. Se estou lendo meu código e quero alterar algo relacionado às propriedades mais impactantes do lado de fora do elemento, como a <code class="inline">width</code> ou <code class="inline">position</code>, sei exatamente onde procurar: logo no topo do conjunto de propriedades. Se eu quero ajustar algo como a <code class="inline">text-transform</code> ou <code class="inline">list-style</code>, já olharei mais do meio para baixo do bloco.</p>
+
+<p>Ter o código estruturado dessa forma também vem a calhar quando outras pessoas estiverem lendo seu CSS. Se se depararem com código organizado dessa forma, é bem fácil ver todas as partes que compoem o módulo do botão. Ao criar códigos, é importante tornar o mais fácil possível para outros desenvolvedores lerem. Isso torna o código mais entendível e manutenível.</p>
+
+<h3>Preprocessadores</h3>
+
+<p>Usei CSS puro para explicar meus métodos aqui, mas você pode aplicar o método “De Fora Para Dentro” com Sass, LESS ou Stylus, também.</p>
+
+<h2>Conclusão</h2>
+
+<p>Condificar CSS pode ser algo bem pessoal. Se você usa algum método diferente para organizar seu CSS, seria bem interessante saber sobre ele! Deixe um comentário e continue a discussão.</p>
