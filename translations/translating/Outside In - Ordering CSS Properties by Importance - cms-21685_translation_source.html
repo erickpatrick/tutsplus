@@ -1,0 +1,118 @@
+<h1>“Outside In” — Ordering CSS Properties by Importance</h1>
+
+<p>This article is all about CSS code structure - specifically about a method I've been using for the last few years to bring some logic and consistency to the order in which I write my CSS. It’s a method I call “Outside In”.</p>
+
+<h2>Declaration Order?</h2>
+
+<p>I've heard of various approaches to writing CSS in the past. Some people don't use any particular order at all, others alphabetise declarations by property name, I've even heard of a handful of cases where some order them visually by the length of each <code class="inline">property:value</code> pair! </p>
+
+<p>A <a href="http://css-tricks.com/poll-results-how-do-you-order-your-css-properties/" target="_self">past poll on CSS-Tricks</a> asked this question with a result that I found quite surprising: 39% of over 11,000 people have no specific plan when it comes to ordering CSS.</p>
+
+<figure class="post_image">
+  <img alt="How do you order your CSS properties" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21685/image/chart.png"/>
+  <figcaption>How do you order your CSS properties? Total Voters: 11,093</figcaption>
+</figure>
+
+<p>Grouping by type might suggest <code class="inline">height</code> being next to <code class="inline">width</code>. Alphabetically would see declarations listed from <code class="inline">background</code> through to <code class="inline">z-index</code>, for example.</p>
+
+<p>I use the method of grouping properties by type - although I even use a specific order for ordering by group!</p>
+
+<p>With the exception of the “random method”, there is some degree of order in all of the other approaches. But that order doesn't necessarily map well to anything particularly useful regarding the styling of websites. </p>
+
+<p>If you were collecting data about the height of students in a classroom, ordering them by a length measurement makes sense. If you're categorising a collection of DVDs, alphabetical ordering might make sense.  But would CSS properties ordered in these ways have anything to do with their order of <i>importance</i> when those styles are painted by the browser? </p>
+
+<p>If ordering alphabetically, is an element's <code class="inline">color</code> more important than its <code class="inline">width</code>? Is an element's <code class="inline">border-style</code> more important than whether or not it's in the normal flow of the document? I'd say not.</p>
+
+<h2>Outside In</h2>
+
+<p>The method that I’ve come to love orders CSS properties by how much impact they have on the selected elements or other elements around them. The gist of the technique is to start with big-picture properties which impact stuff outside the element and work in towards the finer details. This is why I call it the “Outside In” method.</p>
+
+<p><code class="inline">position</code> and <code class="inline">float</code> declarations remove elements from their normal flow and have a huge impact on other elements around them. This is something important and I feel it should be made clear right at the top of a block of CSS. </p>
+
+<p>Controlling things like the <code class="inline">cursor</code> or <code class="inline">overflow</code> of an element are (usually) less important and therefore I tend to leave things like this towards the end. </p>
+
+<p>The order I use is as follows: </p>
+
+<ul>
+  <li>Layout Properties (<code class="inline">position</code>, <code class="inline">float</code>, <code class="inline">clear</code>, <code class="inline">display</code>)</li>
+  <li>Box Model Properties (<code class="inline">width</code>, <code class="inline">height</code>, <code class="inline">margin</code>, <code class="inline">padding</code>)</li>
+  <li>Visual Properties (<code class="inline">color</code>, <code class="inline">background</code>, <code class="inline">border</code>,<code class="inline"> box-shadow</code>)</li>
+  <li>Typography Properties (<code class="inline">font-size</code>, <code class="inline">font-family</code>, <code class="inline">text-align</code>, <code class="inline">text-transform</code>)</li>
+  <li>Misc Properties (<code class="inline">cursor</code>, <code class="inline">overflow</code>, <code class="inline">z-index</code>)</li>
+</ul>
+
+<p>I know that <code class="inline">border</code> is a box-model property and <code class="inline">z-index</code> is related to position, but this order works for me. Even though I don't like alphabetical ordering, there's something that just feels right about putting <code class="inline">z-index</code> at the end...</p>
+
+<h2>Practical Example</h2>
+
+<p>Let's take the example of styling a button module. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/399/posts/21685/image/button2.png"/>
+</figure>
+
+<p>Let's start with a nice, meaningful class name like <code class="inline">.button</code>. I personally dislike contracted names like <code class="inline">.btn</code> and tend to favour long, descriptive class names where possible - it's just a personal preference, YMMV :)</p>
+
+<pre class="brush: css">/* &lt;a href="#" class="button"&gt;Order now &amp;rarr;&lt;/a&gt; */
+.button { }</pre>
+
+<p>We want to be able to manipulate vertical spacing around the button so will need to change the <code class="inline">display</code> from <code class="inline">inline</code> (the default for anchor links) to <code class="inline">inline-block</code>. </p>
+
+<p>To allow the button to grow in width depending on the text content, <code class="inline">inline-block</code> is a more flexible choice than <code class="inline">float</code> with a <code class="inline">width</code> set.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+}</pre>
+
+<p>Next, we'll need to add some box-model characteristics like margin and padding. Margin goes outside the box so, going “Outside In”, this should come first.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+    margin:1em 0;
+    padding:1em 4em;
+}</pre>
+
+<p>The next things to add are the colours. To separate out each group of property types, I like to leave a blank line - this makes each section stand out a lot more.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+    margin:1em 0;
+    padding:0.5em 3em;
+
+    color:#fff;
+    background:#196e76;
+}</pre>
+
+<p>Next we can add in the borders and shadows to provide some depth, followed by any typography properties, again separated by a blank line.</p>
+
+<pre class="brush: css">.button {
+display:inline-block;
+    margin:1em 0;
+    padding:1em 4em;
+
+    color:#fff;
+    background:#196e76;
+    border:0.25em solid #196e76;
+    box-shadow:inset 0.25em 0.25em 0.5em rgba(0,0,0,0.3), 
+               0.5em 0.5em 0 #444;
+
+    font-size:3em;
+    font-family:Avenir, Helvetica, Arial, sans-serif;
+    text-align:center;
+    text-transform:uppercase;
+    text-decoration:none;
+}</pre>
+
+<h2>Reading Code</h2>
+
+<p>One benefit of having a system like this is that it removes the need to think too much once it's been implemented. If I'm reading through my code and want to change something big-picture like an element's <code class="inline">width</code> or <code class="inline">position</code>, I know I'll be looking towards the top of a rule.  If I want to adjust something like <code class="inline">text-transform</code> or <code class="inline">list-style</code>, I'll be looking towards the bottom of the block.</p>
+
+<p>Having the code structured like this is also really hand for others reading the CSS; if faced with code organised like this, it's very easy to see all the component parts that make up a button module. When writing code, it's important to make it as easy as possible to our fellow developers to read; this makes code easier to understand and maintain.</p>
+
+<h3>Preprocessors</h3>
+
+<p>I've used vanilla CSS to explain my methods here, but you can apply the “Outside In” approach just as effectively in your Sass, LESS and Stylus.</p>
+
+<h2>Conclusion</h2>
+
+<p>Coding can be a very personal thing. If you use a different method for organising your CSS, it would be great to hear about it! Leave a comment to continue the discussion.</p>

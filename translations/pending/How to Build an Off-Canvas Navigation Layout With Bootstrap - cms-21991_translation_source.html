@@ -1,0 +1,315 @@
+<h1>How to Build an Off-Canvas Navigation Layout With Bootstrap</h1>
+
+<p><a href="http://getbootstrap.com/">Bootstrap</a> is designed to cater for lots of scenarios by providing a handful of commonly-used web components. There are buttons, a responsive navigation bar, tabs, tooltips, carousels, and so forth. Still, even with all the toys Bootstrap gives us, it is still missing a very popular pattern: the off-canvas navigation.</p>
+
+<p>This approach to navigation sets the menu off from the visible area (the canvas), giving more space to focus on the main content. Off-canvas navigation was first made popular in native mobile apps, after which it came to the responsive web (thanks in part to <a href="http://www.lukew.com/ff/entry.asp?1569" target="_self">Luke Wroblewski's article</a>). Commonly, it makes use of jQuery to toggle the state of the navigation.</p>
+
+<p>Speaking of which, Bootstrap being so popular and the community support being so great, developers have created plugins or extensions to include components that are not available in the <i>official</i> Bootstrap. And that includes one for implementing an off-canvas navigation.</p>
+
+<p>In this tutorial, I'll show you how to add an off-canvas navigation to Bootstrap with an extension called <a href="http://jasny.github.io/bootstrap/">Jasny Bootstrap</a> by Arnold Daniels. My two reasons for this option are:</p>
+
+<ul>
+  <li>As the name implies, the extension is specifically built for Bootstrap. Hence, the code base therein falls in line with that from the Bootstrap. It follows Bootstrap conventions in terms of the naming and the methods for implementing components.</li>
+  <li>Jasny Bootstrap ships with the off-canvas navigation plugin, which is flexibly configurable through a series of classes, HTML5 data attributes, and JavaScript initiation.</li>
+</ul>
+
+<h3>A Bit About Bower</h3>
+
+<p>During this tutorial I'll be walking you through a workflow which helps website maintainability using <a href="http://bower.io/">Bower</a>. So, ensure that you have Bower installed already on your system. If you'd rather not use Bower, that's fine, but to get you started we have also published a handful of beginner tutorials on Bower.</p>
+
+<ul>
+  <li><a href="http://code.tutsplus.com/tutorials/meet-bower-a-package-manager-for-the-web--net-27774">Meet Bower: A Package Manager For The Web</a></li>
+  <li><a href="https://webdesign.tutsplus.com/tutorials/quick-tip-what-to-do-when-you-encounter-a-bower-file--cms-21162">Quick Tip: What to do When You Encounter a Bower File</a></li>
+  <li><a href="https://webdesign.tutsplus.com/courses/essential-js-libraries-for-web-design" target="_self">Essential JS Libraries for Web Design</a> (on Tuts+ courses)</li>
+</ul>
+
+<p>Well, let's get started.</p>
+
+<h2><span class="sectionnum">1.</span> Getting Started</h2>
+
+<p>Let's start off the project by creating the working directories where we will place the required bits and pieces.</p>
+
+<pre class="brush: bash">working-dir
+|-- assets
+|   |-- css
+|   |-- img
+|   `-- js
+`-- sources
+|-- js
+    `-- less
+</pre>
+
+<p>We will use the <b>assets</b> folder to save the website assets like the images, stylesheets, JavaScript files, and the likes. The <b>sources</b> folder is where we will put the <em>uncompiled</em> source code of LESS and JavaScript. Afterwards, we will define the project specification — name, version, dependencies, and others — with Bower.</p>
+
+<p>Run <code>bower init</code> command in the working directory and fill out all the prompts.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21991/image/bower-init-prompts.jpg"/>
+  <figcaption>An example of the "bower init" command inputs</figcaption>
+</figure>
+
+<p>You don't have to follow the inputs as shown above precisely; adjust the inputs as per your own requirements. Once it is completed, a new file name <code>bower.json</code> should be present, containing the project specification that we have just filled in.</p>
+
+<h2><span class="sectionnum">2.</span> Installing the Project Dependencies</h2>
+
+<p>This project requires two frameworks; namely Bootstrap and Jasny Bootstrap. Before we install them, let's specify the directory name where Bower will have to install the packages. To do so, create a new file in the root level of the working directory named <code>.bowerrc</code> and put the following lines in to name the folder.</p>
+
+<pre class="brush: bash">{
+	"directory": "components"
+}
+</pre>
+
+<p>Then, include these lines below in <code>bower.json</code>, which will tell Bower that the project dependencies are Bootstrap and Jasny Bootstrap version 3.1.1 or newer.</p>
+
+<pre class="brush: bash">"devDependencies": {
+"bootstrap": "&gt;=3.1.1",
+    "jasny-bootstrap": "&gt;=3.1.1"
+}
+</pre>
+
+<p>In Terminal or Command Prompt, run <code>bower install</code> command to grab the dependencies that swe have specified all at once.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21991/image/bower-install-commands.jpg"/>
+</figure>
+
+<p>As specified in <code>.bowerrc</code>, the project dependencies should now be in a newly generated folder named <code>components</code>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21991/image/project-dependencies.jpg"/>
+</figure>
+
+<h2><span class="sectionnum">3.</span> Organizing the Stylesheets</h2>
+
+<p>With all the dependencies prepared, we can start working on the project! We will kick things off by organizing the stylesheets. There are four LESS stylesheets that we will have to create, namely:</p>
+
+<ul>
+  <li><code>variables.less</code> — as the name says, this stylesheet contains the variables used in Bootstrap. We'll make this copy in case we want to customize the variables, without affecting the original files (copy <a href="http://git.io/iiGDuA">Bootstrap variables from this Gist</a>).</li>
+  <li><code>variables-jasny.less</code> — similarly, this stylesheet contains the variables used in the extension, Jasny Bootstrap (copy <a href="http://git.io/HvCouw">the variables here</a>).</li>
+  <li><code>app.less</code> — this stylesheet contains references to the Bootstrap and Jasny Bootstrap stylesheets we need to build the website (you can <a href="http://git.io/9yTa7A">copy the content here</a>).</li>
+  <li><code>style.less</code> — we will write our very own styles in this stylesheet.</li>
+</ul>
+
+<p>Create and put them together like so:</p>
+
+<pre class="brush: bash">...
+`-- sources
+	|-- js
+	`-- less
+		|-- app.less
+		|-- style.less
+		|-- variables-jasny.less
+		`-- variables.less
+</pre>
+
+<p>The next thing is to compile these stylesheets. To do so, we will be using <a href="http://koala-app.com/">Koala</a> with the following configuration:</p>
+
+<ul>
+  <li>Make sure that the <strong>Auto Compile</strong> option is checked. So Koala will immediately compile LESS files into CSS whenever we make a change.</li>
+  <li>Set the <code>app.less</code> as well as the <code>style.less</code> output destination to <code>assets/css/</code> directory.</li>
+  <li>Select the <b>Source Map</b> option to generate the <code>.map</code> for easier debugging of the stylesheet. If this is the first you've heard about Source Map, check out our tutorial on Tuts+ Code, <a href="https://code.tutsplus.com/tutorials/source-maps-101--net-29173">Source Map 101</a>.</li>
+</ul>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21991/image/koala-config.jpg"/>
+</figure>
+
+<p>Once the configuration are all set, compile the LESS to CSS.</p>
+
+<p><b>Note</b>: bear in mind that you're not obliged to use Koala if you prefer another way to compile your LESS files. </p>
+
+<h2><span class="sectionnum">4.</span> Building the Webpage</h2>
+
+<p>Create a new HTML file named <code>index.html</code>. Aside from the basic HTML5 bare structure, the <code>index.html</code> file will also contain <a href="https://webdesign.tutsplus.com/articles/quick-tip-dont-forget-the-viewport-meta-tag--webdesign-5972">the meta viewport tag</a>, the meta description tag, the title, and the links to the stylesheets, like so:</p>
+
+<pre class="brush: html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+	&lt;meta name="description" content="A demonstration on adding off-canvas menu to Bootstrap with Jasny Bootstrap"&gt;
+	&lt;title&gt;Bootstrap Off-canvas Navigation&lt;/title&gt;
+
+	&lt;link href="assets/css/app.css" rel="stylesheet"&gt;
+&lt;link href="assets/css/style.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h3>The Off-canvas Navigation</h3>
+
+<p>Now let's add the off-canvas navigation. Jasny Bootstrap uses a similar approach to Bootstrap when it comes to the component markup. This is how we start off the off-canvas navigation structure:</p>
+
+<pre class="brush: html">&lt;nav id="offcanvas" class="navmenu navmenu-inverse navmenu-fixed-right navmenu-site offcanvas" role="navigation"&gt;
+&lt;/nav&gt;
+</pre>
+
+<p>It comprises a handful of classes. Three classes namely <code>navmenu</code>, <code>navmenu-inverse</code>, <code>navmenu-fixed-right</code> define the element as a <b>navmenu</b>. The <b>navmenu</b> is one of the Jasny Bootstrap components which sets the assigned element as a vertical navigation. The <code>offcanvas</code> is the class that sets the element off the viewport. Additionally, we've also added a new class, <code>navmenu-site</code>, which will allow us to customize the navigation with our very own styles.</p>
+
+<p>The menu items within the off-canvas navigation can be laid out using the <code>&lt;ul&gt;</code> element along with <code>nav navmenu-nav</code> class, like so.</p>
+
+<pre class="brush: html">&lt;nav id="offcanvas" class="navmenu navmenu-inverse navmenu-fixed-right navmenu-site offcanvas" role="navigation"&gt;
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href="#"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href="#"&gt;Portfolio&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/nav&gt;
+</pre>
+
+<p>You're quite welcome to include original Bootstrap components in conjunction with this markup, such as <a href="http://getbootstrap.com/components/#dropdowns">the Dropdowns</a> and <a href="http://getbootstrap.com/components/#navbar-buttons">the Buttons</a>. </p>
+
+<p>The HTML markup for the navigation that we will add in this tutorial is pretty lengthy. So, for the sake of simplicity, the complete markup can be obtained through <strong><a href="https://gist.github.com/tfirdaus/30209c703e4c4457f520">this Gist</a>.</strong>.</p>
+
+<h3>The Webpage Content</h3>
+
+<p>The following image shows our plan to lay out the webpage content:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21991/image/website-content-blueprint.jpg"/>
+  <figcaption>The website blueprint, showing the layout.</figcaption>
+   
+</figure>
+
+<p>As shown above, the website content will comprise a logo, a toggle button with <a href="https://webdesign.tutsplus.com/tutorials/7-non-raster-approaches-for-making-the-hamburger-menu-icon--cms-21686">the "Hamburger" icon</a> to slide the navigation in and out, and a few lines of catchphrases with a big button — known as a <a href="http://www.smashingmagazine.com/2009/10/13/call-to-action-buttons-examples-and-best-practices/">call-to-action button</a></p>
+
+<p>The HTML markup of the content is similarly lengthy to be pasted within this tutorial. Instead, feel free to copy the whole from <strong><a href="https://gist.github.com/tfirdaus/5bac75b93257852992b0">this Gist</a></strong>.</p>
+
+<h2><span class="sectionnum">5.</span> The Styles</h2>
+
+<p>Many of the styles herein will be merely decorative, revolving around colors, sizes and positions. This decorative style will be achieved by customizing the Bootstrap predefined styles and writing our own styles. So, instead of walking through the steps that might already be obvious, I would like to point out a few key details that matter most.</p>
+
+<p>First of all, before writing a single line, import the <code>app.less</code> stylesheet into the <code>style.less</code>. This will allow us to reuse the Variables and the Mixins within it.</p>
+
+<pre class="brush: css">@import (reference) 'app.less';
+</pre>
+
+<p>Secondly, we create a LESS variable to define the image path. We name the variable <code>@path-img</code>.</p>
+
+<pre class="brush: css">@path-img: '../../assets/img/';
+</pre>
+
+<p>Anytime we will need to refer to an image within the stylesheet, we will include this variable. This example below shows how we use it to point to the logo.</p>
+
+<pre class="brush: css">.masthead-brand {
+margin-top: 10px;
+    margin-bottom: 10px;
+    float: left;
+    text-align: left;
+    margin-top: -15px;
+    a {
+        .text-hide();
+        display: inline-block;
+        background-image: url('@{path-img}logo.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        width: 100px;
+        height: 33px;
+    }
+}
+</pre>
+
+<h3>Vertical Centering</h3>
+
+<p>Lastly, we would like to center the content, the catchphrases and the button, vertically. CSS, at this point, has not yet given us a convenient way to align content vertically using only a single property declaration. Consequently, there are a number of ways to achieve it, and honestly none is better than any other.</p>
+
+<p>In this case, we will align the content using the CSS Table display method. If you take a look at the webpage markup, you will see that we wrap the webpage content with two <code>&lt;div&gt;</code>. Each <code>&lt;div&gt;</code> is assigned with <code>site-wrapper</code> and <code>site-wrapper-inner</code> class, like so.</p>
+
+<pre class="brush: css">&lt;div class="site-wrapper"&gt;
+	&lt;div class="site-wrapper-inner"&gt;
+	...
+	&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>To align the content vertically, we set the <code>display</code> property of <code>site-wrapper</code> to <code>table</code>, and make it span the entire viewport by specifying the <code>width</code> and the <code>height</code> to <code>100%</code>. Then, we set the inner wrapper <code>display</code> property to <code>table-cell</code>. This now allows us to apply <code>vertical-align</code> property to align the content vertically.</p>
+
+<pre class="brush: css">.site-wrapper {
+display: table;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+.site-wrapper-inner {
+    display: table-cell;
+    vertical-align: middle;
+}
+</pre>
+
+<p>Full details of the style rules can be obtained <strong><a href="https://gist.github.com/tfirdaus/c45274dbbcde70c0b1fd">in this Gist</a></strong>.</p>
+
+<h2><span class="sectionnum">6.</span> Make the Webpage Come Alive</h2>
+
+<p>Once we've added the styles, the website should now have the look and feel, as the screenshot below:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21991/image/website-appearance.jpg"/>
+</figure>
+
+<p>However, the website is not yet fully functioning. Try clicking on the "Hamburger" icon; no off-canvas navigation sliding in. This functionality comes from the JavaScript library, hence we have to compile it and add it to the website.</p>
+
+<p>There are four JavaScript libraries we need in order to use the off-canvas navigation, which are <i>jQuery</i>, <i>transition.js</i>, <i>dropdown.js</i> to enable the dropdown menu that we added in the navigation, and lastly the <i>offcanvas.js</i>. To compile them together, create a new JavaScript file in the <b>source/js</b> directory. In this case, we'll name it <i>app.js.</i></p>
+
+<pre class="brush: bash">...
+`-- sources
+	|-- js
+	|	`-- app.js
+	`-- less
+</pre>
+
+<p>Import the JavaScript libraries using the <code>@koala-prepend</code>, like so.</p>
+
+<pre class="brush: bash">//@koala-prepend "../../components/jquery/dist/jquery.js"
+//@koala-prepend "../../components/bootstrap/js/transition.js"
+//@koala-prepend "../../components/jasny-bootstrap/js/offcanvas.js"
+</pre>
+
+<p>Set the output to <b>/assets/js</b> directory, and hit the <b>Compile</b> button. Don't forget to link the compiled file in the web page.</p>
+
+<pre class="brush: html">&lt;script src="assets/js/app.min.js"&gt;&lt;/script&gt;
+</pre>
+
+<p>Now, you should be able to slide the off-canvas navigation in and out. </p>
+
+<h3>Transition</h3>
+
+<p>Additionally, you may also add the following piece of JavaScript at the bottom of the page, which will enable the transition effect of the dropdown menu.</p>
+
+<pre class="brush: html">&lt;script&gt;
+(function() {
+var $offCanvas = $('#offcanvas'),
+        $dropdown  = $offCanvas.find('.dropdown');
+    $dropdown.on('show.bs.dropdown', function() {
+        $(this).find('.dropdown-menu').slideDown(350);
+    }).on('hide.bs.dropdown', function(){
+        $(this).find('.dropdown-menu').slideUp(350);
+    });
+})();
+&lt;/script&gt;
+</pre>
+
+<h2>Conclusion</h2>
+
+<p>In this tutorial, we have included a functioning off-canvas navigation to Bootstrap using an extension called Jasny Bootstrap. </p>
+
+<p>Having used Bower in this tutorial will help us maintain and stay up-to-date with these two libraries. After a while, these two libraries might be updated. With Bower, you can run the <code>bower list</code> command to list all the installed Bower packages and verify whether a new version of each one is available.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21991/image/bower-list-update.jpg"/>
+</figure>
+
+<p>In case a new version is available, simply run the <code>bower update</code> or the <code>bower install</code> command to update the package. It's that easy.</p>
+
+<p>I hope you learned a couple of methods and tricks from this tutorial, if you have any questions feel free to leave them in the comments.</p>
+
+<h2>Further References</h2>
+
+<ul>
+  <li><a href="http://www.smashingmagazine.com/2014/02/24/off-the-beaten-canvas-exploring-the-potential-of-the-off-canvas-pattern/">Off The Beaten Canvas: Exploring the Potential Of The Off-Canvas Pattern</a></li>
+  <li><a href="https://webdesign.tutsplus.com/articles/examining-responsive-navigation-off-canvas-patterns--webdesign-11023">Examining Responsive Navigation: Off Canvas Patterns</a></li>
+  <li><a href="http://bradfrost.github.io/this-is-responsive/patterns.html">Responsive Design Patterns</a></li>
+  <li><a href="https://webdesign.tutsplus.com/tutorials/going-off-canvas-with-zurb-foundation-30--webdesign-7799">Going Off Canvas with Zurb Foundation</a></li>
+</ul>

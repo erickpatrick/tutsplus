@@ -1,0 +1,353 @@
+<h1>How to Build a Page Scroll Progress Indicator With jQuery and SVG</h1>
+
+<p>Today we will be looking at a few techniques we can use to show scroll progress for users who are reading a page. This technique is being used on an increasing number of sites, and for good reason; it provides a contextual understanding of investment needed to consume a particular page. As the user scrolls, they are presented with a sense of current progress in different formats. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/20881/image/ia.png"/>
+  <figcaption>
+    As seen on
+    <a href="http://ia.net/blog/writer-pro/" target="_self">ia.net</a>
+  </figcaption>
+</figure>
+
+<p>Today, we will cover two specific techniques you can employ to show scroll progress, and leave you with a toolset to create your own. Let's get started!</p>
+
+<h2>Setting up the Document</h2>
+
+<p>First, we will set up a mock document which will act as our post page. We will be using <code>normalize.css</code> and jQuery, as well as a Google font. Your empty HTML file should look like this:</p>
+
+<pre class="brush: html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+        &lt;title&gt;Progress Indicator Animation&lt;/title&gt;
+        &lt;link rel="stylesheet" href="css/normalize.css"&gt;
+        &lt;link rel="stylesheet" href="css/style.css"&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;!-- fake post content goes here --&gt;
+        &lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
+        &lt;script src="js/script.js"&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>Next, we will add our fake post content:</p>
+
+<pre class="brush: html">&lt;main&gt;
+&lt;article&gt;
+        &lt;header&gt;
+            &lt;h1&gt;
+                &lt;div class="container"&gt;
+                    How Should We Show Progress While Scrolling a Post?
+                &lt;/div&gt;
+            &lt;/h1&gt;
+        &lt;/header&gt;
+        &lt;div class="article-content"&gt;
+                &lt;h2 class="lead-in"&gt;
+                    &lt;div class="container"&gt;
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    &lt;/div&gt;
+                &lt;/h2&gt;
+            &lt;div class="container"&gt;
+                &lt;p&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus&lt;/p&gt;
+                &lt;!-- add your own additional lorem here --&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/article&gt;
+    &lt;footer&gt;
+        &lt;h3 class="read-next"&gt;&lt;small&gt;Read Next:&lt;/small&gt;&lt;br&gt;How do I Implement a Foobar?&lt;/h3&gt;
+    &lt;/footer&gt;
+&lt;/main&gt;</pre>
+
+<p>This gives us enough content to test our scrolling behaviors.</p>
+
+<h3>Basic Styling</h3>
+
+<p>We're going to use some basic styling to make our post a little more attractive.</p>
+
+<pre class="brush: css">@import url(http://fonts.googleapis.com/css?family=Domine:400,700);
+body {
+font-size: 16px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Domine", sans-serif;
+}
+
+h1 {
+    font-size: 3.5em;
+}
+
+.lead-in {
+    color: #fff;
+    font-weight: 400;
+    padding: 60px 0;
+    background-color: #0082FF;
+}
+
+article header {
+    border-top: 3px solid #777;
+    padding: 80px 0;
+}
+
+.article-content {
+    font-size: 1em;
+    font-weight: 100;
+    line-height: 2.4em;
+}
+
+p {
+    margin: 4em 0;
+}
+
+.container {
+    width: 700px;
+    margin: 0 auto;
+}
+
+
+footer {
+    text-align: center;
+    background-color: #666;
+    color: #fff;
+    padding: 40px 0;
+    margin-top: 60px;
+}
+
+.read-next {
+    font-size: 2em;
+}</pre>
+
+<h2>Scroll Position Calculation</h2>
+
+<p>To calculate our scroll position, we need to understand conceptually what we are tracking. Since JavaScript can track only the top scroll value, we will need to track our scroll value from 0 (at the top, not scrolled) to whatever the final scroll value is. That final scroll value will be equal to the total document length minus the height of the window itself (because the document will scroll until the bottom of the document reaches the bottom of the window).</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/20881/image/height.png"/>
+</figure>
+
+<p>We will use the following JavaScript to calculate this scroll position.</p>
+
+<pre class="brush: javascript">(function(){
+var $w = $(window);
+    var wh = $w.height();
+    var h = $('body').height();
+    var sHeight = h - wh;
+    $w.on('scroll', function(){
+        var perc = Math.max(0, Math.min(1, $w.scrollTop()/sHeight));
+    });
+
+}());</pre>
+
+<p>The above code sets the window height and the body height, and when the user scrolls it uses those values to set a <code>perc</code> variable (short for percentage). We also utilize <code>Math.min</code> and <code>Math.max</code> to limit the values to the 0-100 range.</p>
+
+<p>With this percentage calculation, we can drive the progress indicator.</p>
+
+<h2>Circle Indicator</h2>
+
+<p>The first indicator we will create is an SVG circle. We will utilize the SVG <code>stroke-dasharray</code> and<code>stroke-dashoffset</code> properties to show progress. First, let's add the progress indicator to the document.</p>
+
+<pre class="brush: html">&lt;div class="progress-indicator"&gt;
+&lt;svg&gt;
+        &lt;g&gt;
+            &lt;circle cx="0" cy="0" r="20" class="animated-circle" transform="translate(50,50) rotate(-90)"  /&gt;
+        &lt;/g&gt;
+        &lt;g&gt;
+            &lt;circle cx="0" cy="0" r="38" transform="translate(50,50)"  /&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;
+    &lt;div class="progress-count"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+<p>This markup gives us two circles in an SVG, as well as a containing div to show our percentage count. We need to add style to these elements as well, and then we'll explain how these circles are positioned and animated.</p>
+
+<pre class="brush: css">.progress-indicator {
+position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 100px;
+    height: 100px;
+}
+.progress-count {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 100px;
+    color: #0082FF;
+}
+
+svg {
+    position: absolute;
+}
+circle {
+    fill: rgba(255,255,255,0.9);
+}
+
+svg .animated-circle {
+    fill: transparent;
+    stroke-width: 40px;
+    stroke: #0A74DA;
+    stroke-dasharray: 126;
+    stroke-dashoffset: 126;
+}</pre>
+
+<p>These styles set us up to animate our circle element. Our progress should always be visible, so we set position to fixed on the <code>.progress-indicator</code> class, with positioning and sizing rules. We also set our progress count to be centered both vertically and horizontally inside this div.</p>
+
+<p>The circles are positioned in the center using transform on the SVG elements themselves. We start the center of our circles using transform. We use a technique here that allows us to apply a rotation from the center of our circles in order to start the animation at the top of the circle (rather than the right side of the circle). In SVG, transforms are applied from the top left of an element. This is why we must center our circles at <code>0, 0</code>, and move the circle's center to the center of the SVG itself using <code>translate(50, 50)</code>.</p>
+
+<h3>Using stroke-dasharray and stroke-dashoffset</h3>
+
+<p>The properties <code>stroke-dasharray</code> and<code>stroke-dashoffset</code> allow us to animate the stroke of an SVG. <code>stroke-dasharray</code> defines the visible pieces of a stroke.  <code>stroke-dashoffset</code> moves the start of the stroke. These attributes combined allow us to create a stroke "keyframing" process.</p>
+
+<h3>Updating stroke-dasharray on Scroll</h3>
+
+<p>Next, we will add a function to update the stroke-dasharray on scroll, using our percentage progress previously shown.</p>
+
+<pre class="brush: javascript">(function(){
+var $w = $(window);
+    var $circ = $('.animated-circle');
+    var $progCount = $('.progress-count');
+    var wh = $w.height();
+    var h = $('body').height();
+    var sHeight = h - wh;
+    $w.on('scroll', function(){
+        var perc = Math.max(0, Math.min(1, $w.scrollTop()/sHeight));
+        updateProgress(perc);
+    });
+
+    function updateProgress(perc){
+        var circle_offset = 126 * perc;
+        $circ.css({
+            "stroke-dashoffset" : 126 - circle_offset
+        });
+        $progCount.html(Math.round(perc * 100) + "%");
+    }
+
+}());</pre>
+
+<p>The offset that matches our circle happens to be about 126. It's important to note that this won't work for all circles, as 126 is about the circumference of a circle with a radius of 20. To calculate the stroke-dashoffset for a given circle, mutiply the radius by 2PI. In our case, the exact offset would be <code class="inline">20 * 2PI = 125.66370614359172</code>.</p>
+
+<h2>Horizontal Progress Variation</h2>
+
+<p>For our next example, we'll make a simple horizontal bar fixed to the top of the window. To accomplish this, we'll use an empty progress indicator div.</p>
+
+<pre class="brush: html">&lt;div class="progress-indicator-2"&gt;&lt;/div&gt;</pre>
+
+<p><b>Note:</b> we've added the "-2" to allow us to include this example in the same CSS file.</p>
+
+<p>Next, we'll add our styling for this element.</p>
+
+<pre class="brush: css">.progress-indicator-2 {
+position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background-color: #0A74DA;
+}</pre>
+
+<p>Finally, we will set the width of the progress bar on scroll.</p>
+
+<pre class="brush: javascript">var $prog2 = $('.progress-indicator-2');
+function updateProgress(perc){
+$prog2.css({width : perc*100 + '%'});
+}</pre>
+
+<p>All together, our final JavaScript should look like this:</p>
+
+<pre class="brush: javascript">(function(){
+var $w = $(window);
+    var $circ = $('.animated-circle');
+    var $progCount = $('.progress-count');
+    var $prog2 = $('.progress-indicator-2');
+    var wh = $w.height();
+    var h = $('body').height();
+    var sHeight = h - wh;
+    $w.on('scroll', function(){
+        var perc = Math.max(0, Math.min(1, $w.scrollTop()/sHeight));
+        updateProgress(perc);
+    });
+
+    function updateProgress(perc){
+        var circle_offset = 126 * perc;
+        $circ.css({
+            "stroke-dashoffset" : 126 - circle_offset
+        });
+        $progCount.html(Math.round(perc * 100) + "%");
+
+        $prog2.css({width : perc*100 + '%'});
+    }
+
+}());</pre>
+
+<h2>Other Ideas for Progress Bars</h2>
+
+<p>This article is intended to give you the tools and inspiration to design your own scroll progress solutions. Other ideas for progress bars might include using more descriptive or humanized terms for the progress indication itself, such as "halfway there" or "just getting started". Some implementations (like the ia.net example shown previously) use estimation of an article's read time. This could be estimated using code similar to the following:</p>
+
+<pre class="brush: javascript">var wordsPerMin = 300; // based on this article: http://www.forbes.com/sites/brettnelson/2012/06/04/do-you-read-fast-enough-to-be-successful/
+var wordsArray = $(".article-content").text().split(" ");
+var wordCount = wordsArray.length;
+var minCount = Math.round(wordCount / wordsPerMin);</pre>
+
+<p>You would then use the <code class="inline">minCount</code> in conjunction with the <code>perc</code> variable we are updating on scroll to show the reader their remaining time to read the article. Here's a very basic implementation of this concept.</p>
+
+<pre class="brush: javascript">function updateProgress(perc){
+var minutesCompleted = Math.round(perc * minCount);
+    var remaining = minCount - minutesCompleted;
+    if (remaining){
+        $(".progress-indicator").show().html(remaining + " minutes remaining");
+    } else {
+        $(".progress-indicator").hide();
+    }
+}</pre>
+
+<h2>One Final Piece: Adaptive Screen Sizing</h2>
+
+<p>To ensure that our progress indicator works as it should, we should make sure our math is calculating the right things at the right times. For that to happen, we need to make sure we are re-calculating the heights and updating the progress indicator when the user resizes the window. Here's an adaptation of the JavaScript to make that happen:</p>
+
+<pre class="brush: javascript">(function(){
+var $w = $(window);
+	var $circ = $('.animated-circle');
+	var $progCount = $('.progress-count');
+	var $prog2 = $('.progress-indicator-2');
+
+	var wh, h, sHeight;
+
+	function setSizes(){
+		wh = $w.height();
+		h = $('body').height();
+		sHeight = h - wh;
+	}
+
+	setSizes();
+
+	$w.on('scroll', function(){
+		var perc = Math.max(0, Math.min(1, $w.scrollTop()/sHeight));
+		updateProgress(perc);
+	}).on('resize', function(){
+		setSizes();
+		$w.trigger('scroll');
+	});
+
+	function updateProgress(perc){
+		var circle_offset = 126 * perc;
+		$circ.css({
+			"stroke-dashoffset" : 126 - circle_offset
+		});
+		$progCount.html(Math.round(perc * 100) + "%");
+
+		$prog2.css({width : perc*100 + '%'});
+	}
+
+}());</pre>
+
+<p>This code declares a function which sets the variables we need to calculate the progress at any given screen size, and calls that function on resize. We also re-trigger scroll on window resize so that our <code class="inline">updateProgress</code> function is executed.</p>
+
+<h2>You've Reached the End!</h2>
+
+<p>Having laid the foundation for any number of variants, what can you come up with? What progress indicators have you seen that work? How about indicators that are bad for usability? Share your experiences with us in the comments!</p>

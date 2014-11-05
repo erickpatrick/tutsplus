@@ -1,0 +1,372 @@
+<h1>How to Implement Cross-Browser SVG Sprites</h1>
+
+<p>In this tutorial I’m going to demonstrate a basic implementation of some SVG icons, how to provide a fallback, and how to turn them into an SVG sprite.</p>
+
+<h2>Basic SVG Implementation</h2>
+
+<p>For the purpose of this tutorial I’m going to be using a single page, which will act as a kind of online business card. It will briefly introduce me and display three network profiles relevant to my work.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22427/image/dave.png"/>
+  I
+  <figcaption>
+    cons from
+    <a href="http://www.flaticon.com/" target="_self">flaticon</a>
+  </figcaption>
+</figure>
+
+<p>From the screenshot above you can see that I’m using icons (for Twitter, Dribbble and GitHub) to symbolically reference my network profiles. I downloaded these icons from <a href="http://www.flaticon.com/">flaticon</a>, which has a wide range of icons &amp; symbols in both vector and raster formats. </p>
+
+<h3>PNG and SVG</h3>
+
+<p>We’re going to begin by using the PNG versions of these icons, for the sake of backward compatibility, then we’ll prepare the SVG versions to use in supporting browsers.</p>
+
+<p>I used <a href="http://bohemiancoding.com/">Sketch</a> to output my PNG icons, so I’m going to use it again to prepare my icons for SVG usage.</p>
+
+<figure class="post_image">
+  <img alt="My chosen icons in Sketch with named layers  groups" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/348/posts/22427/image/sketch-screenshot.png"/>
+</figure>
+
+<p>If you look at the screenshot above you’ll notice that I’ve named all my groups and shapes in the left hand panel appropriately (Adobe Illustrator has a similar view in the Layers panel). It’s important to name all your assets correctly, not only to help you remain organised but also for what we’ll be using them for later in this tutorial. </p>
+
+<h3>Exporting SVGs</h3>
+
+<p>Now I’ll export the icons as SVGs, which is straightforward with the slicing tool in Sketch. For more information on how this works take a look at <a href="https://webdesign.tutsplus.com/tutorials/understanding-sketchs-export-options--cms-22207" target="_self">Understanding Sketch’s Export Options</a>. I’ll be exporting them as separate files and placing them into the images directory of my project.</p>
+
+<p>Normally, to show an image on your site you’d reference the asset with a <code class="inline">src</code> attributed element or something similar: </p>
+
+<pre class="brush: html">&lt;img src="path-to-my-image.png" alt="" /&gt;</pre>
+
+<p>However with SVGs there are a number of different ways we can use them within an HTML document. For example, we can use the actual SVG code inline - here’s what that code might look like:</p>
+
+<pre class="brush: xml">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+&lt;svg width="50px" height="41px" viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"&gt;
+&lt;!-- Generator: Sketch 3.1 (8751) - http://www.bohemiancoding.com/sketch --&gt;
+	&lt;title&gt;twitter-icon&lt;/title&gt;
+	&lt;desc&gt;Created with Sketch.&lt;/desc&gt;
+	&lt;defs&gt;&lt;/defs&gt;
+	&lt;g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"&gt;
+		&lt;g id="twitter-icon" sketch:type="MSLayerGroup" fill="#55ACEE"&gt;
+			&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird" sketch:type="MSShapeGroup"&gt;&lt;/path&gt;
+		&lt;/g&gt;
+	&lt;/g&gt;
+&lt;/svg&gt;</pre>
+
+<p>This is one of the icons I exported, in XML format. This code is pretty much just like HTML (it’s a structural format) which means we can slot this straight into the page. </p>
+
+<h3>Adding SVG Inline to the HTML</h3>
+
+<p>Let’s begin with the base HTML page which includes the PNG icons with their anchors, and a container:</p>
+
+<pre class="brush: html">&lt;div class="section"&gt;
+&lt;a href="http://twitter.com/DavidDarnes" title="Twitter profile"&gt;
+    	&lt;img alt="Twitter" width="50" height="51" src="img/twitter-icon.png"&gt;
+	&lt;/a&gt;
+	&lt;a href="http://dribbble.com/DavidDarnes" title="Dribbble profile"&gt;
+		&lt;img alt="Dribbble" width="50" height="51" src="img/dribbble-icon.png"&gt;
+	&lt;/a&gt;
+	&lt;a href="http://github.com/DavidDarnes" title="GitHub profile"&gt;
+		&lt;img alt="GitHub" width="50" height="51" src="img/github-icon.png"&gt;
+	&lt;/a&gt;
+&lt;/div&gt;</pre>
+
+<p>Now I’m going to copy and paste the SVG code, however I’m going to ignore the top line which refers to the file’s character encoding and other file attribute details. The HTML document contains that information already so we needn’t duplicate it.</p>
+
+<pre class="brush: html">&lt;div class="section"&gt;
+&lt;a href="http://twitter.com/DavidDarnes" title="Twitter profile"&gt;
+	&lt;svg width="50px" height="41px" viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"&gt;
+		&lt;!-- Generator: Sketch 3.1 (8751) - http://www.bohemiancoding.com/sketch --&gt;
+		&lt;title&gt;twitter-icon&lt;/title&gt;
+		&lt;desc&gt;Created with Sketch.&lt;/desc&gt;
+		&lt;defs&gt;&lt;/defs&gt;
+		&lt;g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"&gt;
+			&lt;g id="twitter-icon" sketch:type="MSLayerGroup" fill="#55ACEE"&gt;
+				&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird" sketch:type="MSShapeGroup"&gt;&lt;/path&gt;
+			&lt;/g&gt;
+		&lt;/g&gt;
+		&lt;/svg&gt;
+		&lt;img alt="Twitter" width="50" height="51" src="img/twitter-icon.png"&gt;
+	&lt;/a&gt;
+	&lt;a href="http://dribbble.com/DavidDarnes" title="Dribbble profile"&gt;
+		&lt;img alt="Dribbble" width="50" height="51" src="img/dribbble-icon.png"&gt;
+	&lt;/a&gt;
+	&lt;a href="http://github.com/DavidDarnes" title="GitHub profile"&gt;
+		&lt;img alt="GitHub" width="50" height="51" src="img/github-icon.png"&gt;
+	&lt;/a&gt;
+&lt;/div&gt;</pre>
+
+<p>I’ve placed the SVG right above the corresponding PNG icon within the HTML page. For the time being I’m going to wrap the regular PNG image line in a comment tag to stop it appearing next to the SVG version. </p>
+
+<h3>Cleaner SVG</h3>
+
+<p>I’m also going to clean up the code within my SVG. Removing the element attributes is optional as most of the pieces I’m removing won’t change how the SVG will act. Here is a before and after if you wish to do the same with yours:</p>
+
+<pre class="brush: html">&lt;svg width="50px" height="41px" viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"&gt;
+&lt;!-- Generator: Sketch 3.1 (8751) - http://www.bohemiancoding.com/sketch --&gt;
+	&lt;title&gt;twitter-icon&lt;/title&gt;
+	&lt;desc&gt;Created with Sketch.&lt;/desc&gt;
+	&lt;defs&gt;&lt;/defs&gt;
+	&lt;g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"&gt;
+		&lt;g id="twitter-icon" sketch:type="MSLayerGroup" fill="#55ACEE"&gt;
+			&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird" sketch:type="MSShapeGroup"&gt;&lt;/path&gt;
+		&lt;/g&gt;
+	&lt;/g&gt;
+&lt;/svg&gt;</pre>
+
+<pre class="brush: html">&lt;svg width="50px" height="41px" viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g id="twitter-icon" fill="#55ACEE"&gt;
+		&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+	&lt;/g&gt;
+&lt;/svg&gt;</pre>
+
+<p>Take note of the elements I’ve removed. The <code class="inline">&lt;title&gt;</code>, <code class="inline">&lt;desc&gt;</code>, and <code class="inline">&lt;defs&gt;</code> elements aren’t needed now, but we may need them later on in this tutorial. There are also a few <code class="inline">&lt;g&gt;</code> elements which refer to groups, and correspond to the groups created in my Sketch document. By default Sketch places everything inside a page, hence the group element <code class="inline">&lt;g id=”Page-1”…</code> . You can remove this as it doesn’t have a use for us (the group within it is more important). Sketch does provide an <a href="http://bohemiancoding.com/sketch/support/documentation/13-preferences/" target="_self">option to produce cleaner SVGs upon exporting</a>, however there is no harm in cleaning the code up yourself.</p>
+
+<p>The final part of this step is to remove the height and width attributes within the SVG element itself. These will need to be compensated for in my CSS file, as shown below:</p>
+
+<pre class="brush: html">&lt;svg viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g id="twitter-icon" fill="#55ACEE"&gt;
+		&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+	&lt;/g&gt;
+&lt;/svg&gt;</pre>
+
+<pre class="brush: css">.icon {
+max-width: 40px;
+	max-height: 40px;
+	transition: .2s;
+	-webkit-filter: drop-shadow(0 1px 0 #11222d);
+}</pre>
+
+<p>If you’ve followed my steps you should be able to see in the browser a sharp and clean vector version of your graphics. </p>
+
+<p><strong>Tip</strong>: Check if the graphic is actually an SVG by zooming in <strong>Command-+</strong> when viewing it in the browser. The graphic should stay sharp no matter how far you zoom in.</p>
+
+<h2>Providing a Fallback</h2>
+
+<p>If you’re using this for client work you may be wondering what the browser support is like. Inline SVGs work in all browsers except for Internet Explorer 8 (and earlier) and Opera Mini. <a href="http://caniuse.com/#feat=svg-html5">Can I Use</a> currently says that IE8 is used around 4% globally and Opera Mini around 3%. So in your case you might not need to provide a fallback, however I’m going to demonstrate a solution.</p>
+
+<pre class="brush: html">&lt;a href="http://twitter.com/DavidDarnes" title="twitter profile"&gt;
+&lt;svg viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+        &lt;g id="twitter-icon" fill="#55ACEE"&gt;
+            &lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;
+    &lt;!-- &lt;img alt="twitter" width="50" height="51" src="img/twitter-icon.png"&gt; --&gt;
+&lt;/a&gt;</pre>
+
+<p>Here is one of my SVG icons within the page, and you’ll notice that my original PNG icon is still in place but wrapped in comments. This PNG image will be our fallback. </p>
+
+<h3>Remove Comments</h3>
+
+<p>First I’ll remove the comments. We now need to move the <code class="inline">&lt;img&gt;</code> up and into the <code class="inline">&lt;svg&gt;</code> element itself, right after the group containing our actual icon.</p>
+
+<p>Next, I’m going to wrap the <code class="inline">&lt;img&gt;</code> in an SVG-specific element called <a href="http://davidensinger.com/2013/04/inline-svg-with-png-fallback/"><code class="inline">foreignObject</code></a>. If the browser cannot understand the SVG’s vector information then it will refer to the “<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject">foreign object</a>” instead and will proceed to use the <code class="inline">&lt;img&gt;</code> within it. We also need to let the browser know that it should opt for the vector version if it supports it. This is what the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/switch"><code class="inline">&lt;switch&gt;</code></a> element is for, which is what I’ve wrapped both the group and the foreignObject in. </p>
+
+<p>Here’s the updated markup:</p>
+
+<pre class="brush: html">&lt;a href="http://twitter.com/DavidDarnes" title="twitter profile"&gt;
+&lt;svg viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+        &lt;switch&gt;
+            &lt;g id="twitter-icon" fill="#55ACEE"&gt;
+                &lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+            &lt;/g&gt;
+            &lt;foreignObject&gt;
+                &lt;img alt="twitter" width="50" height="51" src="img/twitter-icon.png"&gt;
+            &lt;/foreignObject&gt;
+        &lt;/switch&gt;
+    &lt;/svg&gt;
+&lt;/a&gt;</pre>
+
+<p>If you’ve followed this process and structured your HTML like mine then your graphic should fallback to your original raster image if the browser doesn’t support SVG.</p>
+
+<h2>Creating an SVG Sprite</h2>
+
+<p><a href="http://css-tricks.com/svg-sprites-use-better-icon-fonts/">SVG sprites</a> act pretty much just like <a href="http://en.wikipedia.org/wiki/Sprite_(computer_graphics)">image sprites</a>. In their simplest form sprites are a collection of graphical elements combined into one image. Each image is then picked out using CSS and HTML, normally by specifying coordinates and a viewing “window”. </p>
+
+<p>The two main benefits to this are an improved page load time, better workflow, and consistency between the graphical elements on the page. The second and third points apply very well to SVG sprites. Instead of several blocks of SVG code littered throughout our page, we would only have one place to update our SVGs.</p>
+
+<p>To start with I will make a new <code class="inline">&lt;svg&gt;</code> element within the <code class="inline">&lt;head&gt;</code> element of my page, just before the closing tag. This new SVG will hold all the icons I previously had within the page.</p>
+
+<pre class="brush: html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+		&lt;meta charset="utf-8" /&gt;
+		&lt;title&gt;David Darnes - Web Designer &amp;amp; Front-end Developer&lt;/title&gt;
+		&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+		&lt;!--[if IE]&gt;
+			&lt;script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
+		&lt;![endif]--&gt;
+		&lt;svg version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+
+		&lt;/svg&gt;
+	&lt;/head&gt;</pre>
+
+<p>Next I need to move my icons into it. I don’t need to move the whole SVG, just the group element and its contents. These I can stack within the <code class="inline">&lt;svg&gt;</code> element in the head. </p>
+
+<pre class="brush: html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+		&lt;meta charset="utf-8" /&gt;
+		&lt;title&gt;David Darnes - Web Designer &amp;amp; Front-end Developer&lt;/title&gt;
+		&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+		&lt;!--[if IE]&gt;
+			&lt;script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
+		&lt;![endif]--&gt;
+		&lt;svg display="none" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+			&lt;g id="twitter-icon" fill="#55ACEE"&gt;
+				&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+			&lt;/g&gt;
+			&lt;g id="dribbble-icon"&gt;
+				&lt;path d="M25.0002551,0 C11.1927551,0 0.000255102041,11.1925 0.000255102041,25 C0.000255102041,38.8075 11.1927551,50 25.0002551,50 C38.8077551,50 50.0002551,38.8075 50.0002551,25 C50.0002551,11.1925 38.8077551,0 25.0002551,0 L25.0002551,0 L25.0002551,0 Z" id="ball" fill="#EA4C89"&gt;&lt;/path&gt;
+				&lt;path d="M25.0002551,-0.000510204082 C11.1927551,-0.000510204082 0.000255102041,11.1919898 0.000255102041,24.9994898 C0.000255102041,38.8069898 11.1927551,49.9994898 25.0002551,49.9994898 C38.8077551,49.9994898 50.0002551,38.8069898 50.0002551,24.9994898 C50.0002551,11.1919898 38.8077551,-0.000510204082 25.0002551,-0.000510204082 L25.0002551,-0.000510204082 L25.0002551,-0.000510204082 Z M25.0002551,3.6219898 C30.4465051,3.6219898 35.4177551,5.6594898 39.1927551,9.0119898 C36.4190051,12.6707398 32.2052551,15.1069898 27.9827551,16.7557398 C25.6815051,12.5457398 22.8477551,8.1069898 19.9640051,4.2182398 C21.5777551,3.8282398 23.2640051,3.6219898 25.0002551,3.6219898 L25.0002551,3.6219898 L25.0002551,3.6219898 Z M15.9052551,5.6482398 C18.6915051,9.8169898 21.3915051,13.6832398 23.8590051,18.0594898 C17.6202551,19.6757398 10.5727551,20.6457398 4.0615051,20.6619898 C5.4340051,14.0019898 9.9077551,8.4719898 15.9052551,5.6482398 L15.9052551,5.6482398 L15.9052551,5.6482398 Z M41.5640051,11.4844898 C44.5465051,15.1332398 46.3427551,19.7869898 46.3777551,24.8582398 C41.4327551,23.8844898 36.5140051,23.6282398 31.5077551,24.1332398 C30.9440051,22.7294898 30.2627551,21.3969898 29.6090051,19.9582398 C33.9252551,18.2169898 38.5402551,15.2369898 41.5640051,11.4844898 L41.5640051,11.4844898 L41.5640051,11.4844898 Z M25.5952551,21.3669898 C26.1302551,22.5057398 26.7502551,23.7119898 27.3315051,24.9457398 C20.3690051,28.0157398 12.9640051,32.1182398 9.1190051,39.3107398 C5.7027551,35.5219898 3.6227551,30.5019898 3.6227551,24.9994898 C3.6227551,24.7907398 3.6265051,24.5819898 3.6327551,24.3744898 C11.0890051,24.3382398 18.4077551,23.4057398 25.5952551,21.3669898 L25.5952551,21.3669898 L25.5952551,21.3669898 Z M36.8915051,27.1957398 C39.9990051,27.1857398 43.2102551,27.6194898 46.1115051,28.3832398 C45.1627551,34.3532398 41.7402551,39.5019898 36.9277551,42.7419898 C35.7802551,37.5232398 34.6865051,32.5294898 32.7527551,27.4944898 C34.0865051,27.2957398 35.4790051,27.1994898 36.8915051,27.1957398 L36.8915051,27.1957398 L36.8915051,27.1957398 Z M28.7965051,28.4719898 C30.7677551,33.5619898 32.3140051,39.1994898 33.3515051,44.6857398 C30.7852551,45.7757398 27.9640051,46.3782398 25.0002551,46.3782398 C20.0565051,46.3782398 15.5040051,44.6982398 11.8827551,41.8794898 C15.7540051,35.5982398 21.7502551,30.8457398 28.7965051,28.4719898 L28.7965051,28.4719898 L28.7965051,28.4719898 Z" id="ball-lines" fill="#C32361"&gt;&lt;/path&gt;
+			&lt;/g&gt;
+			&lt;g id="github-icon" fill="#161614"&gt;
+				&lt;path d="M0,25.633467 C0,36.9584555 7.1625894,46.5651047 17.0969029,49.954576 C18.3477086,50.1906116 18.8035237,49.3991056 18.8035237,48.719323 C18.8035237,48.1119247 18.7820375,46.4990147 18.7697597,44.3605321 C11.8158937,45.9089257 10.3486909,40.9238537 10.3486909,40.9238537 C9.21145523,37.9623936 7.57236256,37.1740347 7.57236256,37.1740347 C5.30249547,35.5847282 7.74425243,35.6161996 7.74425243,35.6161996 C10.2535376,35.7971603 11.5734062,38.2582249 11.5734062,38.2582249 C13.8033703,42.1748424 17.4253353,41.0434451 18.8495657,40.3872661 C19.0767059,38.7318697 19.7228276,37.6020459 20.4364775,36.9616026 C14.8853556,36.314865 9.04877375,34.1150132 9.04877375,24.2927848 C9.04877375,21.494976 10.0233279,19.2054306 11.6225176,17.4147071 C11.3646828,16.766396 10.5067682,14.1589893 11.8680745,10.6310438 C11.8680745,10.6310438 13.9660518,9.9418198 18.7421345,13.2589069 C20.73575,12.6892743 22.875165,12.4060315 25.0007674,12.3950166 C27.124835,12.4060315 29.2627152,12.6892743 31.2594002,13.2589069 C36.0324135,9.9418198 38.1273213,10.6310438 38.1273213,10.6310438 C39.4916971,14.1589893 38.6337825,16.766396 38.3774824,17.4147071 C39.9797416,19.2054306 40.9466221,21.494976 40.9466221,24.2927848 C40.9466221,34.1401903 35.1008318,36.3069972 29.5328279,36.9411462 C30.4291108,37.7326523 31.2287056,39.2967816 31.2287056,41.688609 C31.2287056,45.1142725 31.198011,47.8790363 31.198011,48.719323 C31.198011,49.4053999 31.6492219,50.2032002 32.9169097,49.9530025 C42.8435495,46.5556633 50,36.9553083 50,25.633467 C50,11.4760513 38.8056724,0 24.9976979,0 C11.1943276,0 0,11.4760513 0,25.633467 Z" id="octocat"&gt;&lt;/path&gt;
+			&lt;/g&gt;
+		&lt;/svg&gt;
+	&lt;/head&gt;</pre>
+
+<p><strong>Note</strong>: If you're comfortable using Grunt, <a href="https://www.npmjs.org/package/grunt-svg-combine" target="_self">there’s a plugin</a> will automate the combining of all your separate SVG files.</p>
+
+<h3>Hide!</h3>
+
+<p>Now we have all our icons in the head we need to hide them; adding an attribute of <code class="inline">display=”none”</code> to the new <code class="inline">&lt;svg&gt;</code> will mean all the icons won’t appear at the top of the page.</p>
+
+<h3>Defining Each Icon</h3>
+
+<p>Our next step is to define each icon so we can reuse them in the page, which is where the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/defs"><code class="inline">defs</code></a> element we deleted earlier comes back into play. By using it to wrap all the groups, thus wrapping all my icons, I can state that I want to reuse these elsewhere on  the page.</p>
+
+<pre class="brush: html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+		&lt;meta charset="utf-8" /&gt;
+		&lt;title&gt;David Darnes - Web Designer &amp;amp; Front-end Developer&lt;/title&gt;
+		&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+		&lt;!--[if IE]&gt;
+			&lt;script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
+		&lt;![endif]--&gt;
+		&lt;svg display="none" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+			&lt;defs&gt;
+				&lt;g id="twitter-icon" fill="#55ACEE"&gt;
+					&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+				&lt;/g&gt;
+				&lt;g id="dribbble-icon"&gt;
+					&lt;path d="M25.0002551,0 C11.1927551,0 0.000255102041,11.1925 0.000255102041,25 C0.000255102041,38.8075 11.1927551,50 25.0002551,50 C38.8077551,50 50.0002551,38.8075 50.0002551,25 C50.0002551,11.1925 38.8077551,0 25.0002551,0 L25.0002551,0 L25.0002551,0 Z" id="ball" fill="#EA4C89"&gt;&lt;/path&gt;
+					&lt;path d="M25.0002551,-0.000510204082 C11.1927551,-0.000510204082 0.000255102041,11.1919898 0.000255102041,24.9994898 C0.000255102041,38.8069898 11.1927551,49.9994898 25.0002551,49.9994898 C38.8077551,49.9994898 50.0002551,38.8069898 50.0002551,24.9994898 C50.0002551,11.1919898 38.8077551,-0.000510204082 25.0002551,-0.000510204082 L25.0002551,-0.000510204082 L25.0002551,-0.000510204082 Z M25.0002551,3.6219898 C30.4465051,3.6219898 35.4177551,5.6594898 39.1927551,9.0119898 C36.4190051,12.6707398 32.2052551,15.1069898 27.9827551,16.7557398 C25.6815051,12.5457398 22.8477551,8.1069898 19.9640051,4.2182398 C21.5777551,3.8282398 23.2640051,3.6219898 25.0002551,3.6219898 L25.0002551,3.6219898 L25.0002551,3.6219898 Z M15.9052551,5.6482398 C18.6915051,9.8169898 21.3915051,13.6832398 23.8590051,18.0594898 C17.6202551,19.6757398 10.5727551,20.6457398 4.0615051,20.6619898 C5.4340051,14.0019898 9.9077551,8.4719898 15.9052551,5.6482398 L15.9052551,5.6482398 L15.9052551,5.6482398 Z M41.5640051,11.4844898 C44.5465051,15.1332398 46.3427551,19.7869898 46.3777551,24.8582398 C41.4327551,23.8844898 36.5140051,23.6282398 31.5077551,24.1332398 C30.9440051,22.7294898 30.2627551,21.3969898 29.6090051,19.9582398 C33.9252551,18.2169898 38.5402551,15.2369898 41.5640051,11.4844898 L41.5640051,11.4844898 L41.5640051,11.4844898 Z M25.5952551,21.3669898 C26.1302551,22.5057398 26.7502551,23.7119898 27.3315051,24.9457398 C20.3690051,28.0157398 12.9640051,32.1182398 9.1190051,39.3107398 C5.7027551,35.5219898 3.6227551,30.5019898 3.6227551,24.9994898 C3.6227551,24.7907398 3.6265051,24.5819898 3.6327551,24.3744898 C11.0890051,24.3382398 18.4077551,23.4057398 25.5952551,21.3669898 L25.5952551,21.3669898 L25.5952551,21.3669898 Z M36.8915051,27.1957398 C39.9990051,27.1857398 43.2102551,27.6194898 46.1115051,28.3832398 C45.1627551,34.3532398 41.7402551,39.5019898 36.9277551,42.7419898 C35.7802551,37.5232398 34.6865051,32.5294898 32.7527551,27.4944898 C34.0865051,27.2957398 35.4790051,27.1994898 36.8915051,27.1957398 L36.8915051,27.1957398 L36.8915051,27.1957398 Z M28.7965051,28.4719898 C30.7677551,33.5619898 32.3140051,39.1994898 33.3515051,44.6857398 C30.7852551,45.7757398 27.9640051,46.3782398 25.0002551,46.3782398 C20.0565051,46.3782398 15.5040051,44.6982398 11.8827551,41.8794898 C15.7540051,35.5982398 21.7502551,30.8457398 28.7965051,28.4719898 L28.7965051,28.4719898 L28.7965051,28.4719898 Z" id="ball-lines" fill="#C32361"&gt;&lt;/path&gt;
+				&lt;/g&gt;
+				&lt;g id="github-icon" fill="#161614"&gt;
+					&lt;path d="M0,25.633467 C0,36.9584555 7.1625894,46.5651047 17.0969029,49.954576 C18.3477086,50.1906116 18.8035237,49.3991056 18.8035237,48.719323 C18.8035237,48.1119247 18.7820375,46.4990147 18.7697597,44.3605321 C11.8158937,45.9089257 10.3486909,40.9238537 10.3486909,40.9238537 C9.21145523,37.9623936 7.57236256,37.1740347 7.57236256,37.1740347 C5.30249547,35.5847282 7.74425243,35.6161996 7.74425243,35.6161996 C10.2535376,35.7971603 11.5734062,38.2582249 11.5734062,38.2582249 C13.8033703,42.1748424 17.4253353,41.0434451 18.8495657,40.3872661 C19.0767059,38.7318697 19.7228276,37.6020459 20.4364775,36.9616026 C14.8853556,36.314865 9.04877375,34.1150132 9.04877375,24.2927848 C9.04877375,21.494976 10.0233279,19.2054306 11.6225176,17.4147071 C11.3646828,16.766396 10.5067682,14.1589893 11.8680745,10.6310438 C11.8680745,10.6310438 13.9660518,9.9418198 18.7421345,13.2589069 C20.73575,12.6892743 22.875165,12.4060315 25.0007674,12.3950166 C27.124835,12.4060315 29.2627152,12.6892743 31.2594002,13.2589069 C36.0324135,9.9418198 38.1273213,10.6310438 38.1273213,10.6310438 C39.4916971,14.1589893 38.6337825,16.766396 38.3774824,17.4147071 C39.9797416,19.2054306 40.9466221,21.494976 40.9466221,24.2927848 C40.9466221,34.1401903 35.1008318,36.3069972 29.5328279,36.9411462 C30.4291108,37.7326523 31.2287056,39.2967816 31.2287056,41.688609 C31.2287056,45.1142725 31.198011,47.8790363 31.198011,48.719323 C31.198011,49.4053999 31.6492219,50.2032002 32.9169097,49.9530025 C42.8435495,46.5556633 50,36.9553083 50,25.633467 C50,11.4760513 38.8056724,0 24.9976979,0 C11.1943276,0 0,11.4760513 0,25.633467 Z" id="octocat"&gt;&lt;/path&gt;
+				&lt;/g&gt;
+			&lt;/defs&gt;
+		&lt;/svg&gt;
+	&lt;/head&gt;</pre>
+
+<h3>Using the Icons</h3>
+
+<p>The icons are now defined but we need a method of using them, which is what the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use"><code class="inline">use</code></a> element is for. The <code class="inline">&lt;use&gt;</code> element allows us to take any element within the <code class="inline">&lt;defs&gt;</code> element and pull it through to anywhere on our page. The way we pick the element is by using its ID, which is why is was important to name our icons in the initial Sketch document. </p>
+
+<p>Take note of the IDs in the example above and then see how I’m referencing each one with the use element like so <code class="inline">&lt;use xlink:href="#twitter-icon"&gt;&lt;/use&gt;</code>.</p>
+
+<pre class="brush: html">&lt;div class="section"&gt;
+&lt;a href="http://twitter.com/DavidDarnes" title="Twitter profile"&gt;
+		&lt;svg class="icon" viewBox="0 0 50 41"&gt;
+			&lt;switch&gt;
+				&lt;use xlink:href="#twitter-icon"&gt;&lt;/use&gt;
+				&lt;foreignObject&gt;
+					&lt;img class="icon" src="img/twitter-icon.png" alt="Twitter"&gt;
+				&lt;/foreignObject&gt;
+			&lt;/switch&gt;
+		&lt;/svg&gt;
+	&lt;/a&gt;
+	&lt;a href="http://dribbble.com/DavidDarnes" title="Dribbble profile"&gt;
+		&lt;svg class="icon" viewBox="0 0 50 50"&gt;
+			&lt;switch&gt;
+				&lt;use xlink:href="#dribbble-icon"&gt;&lt;/use&gt;
+				&lt;foreignObject&gt;
+					&lt;img class="icon" src="img/dribbble-icon.png" alt="Dribbble"&gt;
+				&lt;/foreignObject&gt;
+			&lt;/switch&gt;
+		&lt;/svg&gt;
+	&lt;/a&gt;
+	&lt;a href="http://github.com/DavidDarnes" title="GitHub profile"&gt;
+		&lt;svg class="icon" viewBox="0 0 50 50"&gt;
+			&lt;switch&gt;
+				&lt;use xlink:href="#github-icon"&gt;&lt;/use&gt;
+				&lt;foreignObject&gt;
+					&lt;img class="icon" src="img/github-icon.png" alt="GitHub"&gt;
+				&lt;/foreignObject&gt;
+			&lt;/switch&gt;
+		&lt;/svg&gt;
+	&lt;/a&gt;
+&lt;/div&gt;</pre>
+
+<p>If you’ve followed the steps correctly you won’t see any change to how your graphics appear, however you can now reuse them (at whatever size you wish) and apply each one multiple times on the page.</p>
+
+<h2>Perfecting Your SVG Sprite</h2>
+
+<p>One plus point to using SVG sprites is that your visible page code is much cleaner and can be read more easily by other people working with your code. We can improve on this even more. </p>
+
+<p>Below I’ve changed the <code class="inline">&lt;g&gt;</code> elements in my SVG sprite to the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol"><code class="inline">symbol</code></a> element, plus I’ve moved the <code class="inline">viewbox</code> attribute from the SVG elements in the page to the new symbol elements.</p>
+
+<pre class="brush: html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+		&lt;meta charset="utf-8" /&gt;
+		&lt;title&gt;David Darnes - Web Designer &amp;amp; Front-end Developer&lt;/title&gt;
+		&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+		&lt;!--[if IE]&gt;
+			&lt;script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
+		&lt;![endif]--&gt;
+		&lt;svg display="none" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+			&lt;defs&gt;
+				&lt;symbol id="twitter-icon" viewBox="0 0 50 41" fill="#55ACEE"&gt;
+					&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+				&lt;/symbol&gt;
+				&lt;symbol id="dribbble-icon" viewBox="0 0 50 50"&gt;
+					&lt;path d="M25.0002551,0 C11.1927551,0 0.000255102041,11.1925 0.000255102041,25 C0.000255102041,38.8075 11.1927551,50 25.0002551,50 C38.8077551,50 50.0002551,38.8075 50.0002551,25 C50.0002551,11.1925 38.8077551,0 25.0002551,0 L25.0002551,0 L25.0002551,0 Z" id="ball" fill="#EA4C89"&gt;&lt;/path&gt;
+					&lt;path d="M25.0002551,-0.000510204082 C11.1927551,-0.000510204082 0.000255102041,11.1919898 0.000255102041,24.9994898 C0.000255102041,38.8069898 11.1927551,49.9994898 25.0002551,49.9994898 C38.8077551,49.9994898 50.0002551,38.8069898 50.0002551,24.9994898 C50.0002551,11.1919898 38.8077551,-0.000510204082 25.0002551,-0.000510204082 L25.0002551,-0.000510204082 L25.0002551,-0.000510204082 Z M25.0002551,3.6219898 C30.4465051,3.6219898 35.4177551,5.6594898 39.1927551,9.0119898 C36.4190051,12.6707398 32.2052551,15.1069898 27.9827551,16.7557398 C25.6815051,12.5457398 22.8477551,8.1069898 19.9640051,4.2182398 C21.5777551,3.8282398 23.2640051,3.6219898 25.0002551,3.6219898 L25.0002551,3.6219898 L25.0002551,3.6219898 Z M15.9052551,5.6482398 C18.6915051,9.8169898 21.3915051,13.6832398 23.8590051,18.0594898 C17.6202551,19.6757398 10.5727551,20.6457398 4.0615051,20.6619898 C5.4340051,14.0019898 9.9077551,8.4719898 15.9052551,5.6482398 L15.9052551,5.6482398 L15.9052551,5.6482398 Z M41.5640051,11.4844898 C44.5465051,15.1332398 46.3427551,19.7869898 46.3777551,24.8582398 C41.4327551,23.8844898 36.5140051,23.6282398 31.5077551,24.1332398 C30.9440051,22.7294898 30.2627551,21.3969898 29.6090051,19.9582398 C33.9252551,18.2169898 38.5402551,15.2369898 41.5640051,11.4844898 L41.5640051,11.4844898 L41.5640051,11.4844898 Z M25.5952551,21.3669898 C26.1302551,22.5057398 26.7502551,23.7119898 27.3315051,24.9457398 C20.3690051,28.0157398 12.9640051,32.1182398 9.1190051,39.3107398 C5.7027551,35.5219898 3.6227551,30.5019898 3.6227551,24.9994898 C3.6227551,24.7907398 3.6265051,24.5819898 3.6327551,24.3744898 C11.0890051,24.3382398 18.4077551,23.4057398 25.5952551,21.3669898 L25.5952551,21.3669898 L25.5952551,21.3669898 Z M36.8915051,27.1957398 C39.9990051,27.1857398 43.2102551,27.6194898 46.1115051,28.3832398 C45.1627551,34.3532398 41.7402551,39.5019898 36.9277551,42.7419898 C35.7802551,37.5232398 34.6865051,32.5294898 32.7527551,27.4944898 C34.0865051,27.2957398 35.4790051,27.1994898 36.8915051,27.1957398 L36.8915051,27.1957398 L36.8915051,27.1957398 Z M28.7965051,28.4719898 C30.7677551,33.5619898 32.3140051,39.1994898 33.3515051,44.6857398 C30.7852551,45.7757398 27.9640051,46.3782398 25.0002551,46.3782398 C20.0565051,46.3782398 15.5040051,44.6982398 11.8827551,41.8794898 C15.7540051,35.5982398 21.7502551,30.8457398 28.7965051,28.4719898 L28.7965051,28.4719898 L28.7965051,28.4719898 Z" id="ball-lines" fill="#C32361"&gt;&lt;/path&gt;
+				&lt;/symbol&gt;
+				&lt;symbol id="github-icon" viewBox="0 0 50 50" fill="#161614"&gt;
+					&lt;path d="M0,25.633467 C0,36.9584555 7.1625894,46.5651047 17.0969029,49.954576 C18.3477086,50.1906116 18.8035237,49.3991056 18.8035237,48.719323 C18.8035237,48.1119247 18.7820375,46.4990147 18.7697597,44.3605321 C11.8158937,45.9089257 10.3486909,40.9238537 10.3486909,40.9238537 C9.21145523,37.9623936 7.57236256,37.1740347 7.57236256,37.1740347 C5.30249547,35.5847282 7.74425243,35.6161996 7.74425243,35.6161996 C10.2535376,35.7971603 11.5734062,38.2582249 11.5734062,38.2582249 C13.8033703,42.1748424 17.4253353,41.0434451 18.8495657,40.3872661 C19.0767059,38.7318697 19.7228276,37.6020459 20.4364775,36.9616026 C14.8853556,36.314865 9.04877375,34.1150132 9.04877375,24.2927848 C9.04877375,21.494976 10.0233279,19.2054306 11.6225176,17.4147071 C11.3646828,16.766396 10.5067682,14.1589893 11.8680745,10.6310438 C11.8680745,10.6310438 13.9660518,9.9418198 18.7421345,13.2589069 C20.73575,12.6892743 22.875165,12.4060315 25.0007674,12.3950166 C27.124835,12.4060315 29.2627152,12.6892743 31.2594002,13.2589069 C36.0324135,9.9418198 38.1273213,10.6310438 38.1273213,10.6310438 C39.4916971,14.1589893 38.6337825,16.766396 38.3774824,17.4147071 C39.9797416,19.2054306 40.9466221,21.494976 40.9466221,24.2927848 C40.9466221,34.1401903 35.1008318,36.3069972 29.5328279,36.9411462 C30.4291108,37.7326523 31.2287056,39.2967816 31.2287056,41.688609 C31.2287056,45.1142725 31.198011,47.8790363 31.198011,48.719323 C31.198011,49.4053999 31.6492219,50.2032002 32.9169097,49.9530025 C42.8435495,46.5556633 50,36.9553083 50,25.633467 C50,11.4760513 38.8056724,0 24.9976979,0 C11.1943276,0 0,11.4760513 0,25.633467 Z" id="octocat"&gt;&lt;/path&gt;
+				&lt;/symbol&gt;
+			&lt;/defs&gt;
+		&lt;/svg&gt;
+	&lt;/head&gt;</pre>
+
+<p>Using <code class="inline">&lt;symbol&gt;</code> is not only more semantic, at least in my example, but it also saves us repeating the <code class="inline">viewbox</code> attribute along with our <code class="inline">&lt;svg&gt;</code> and <code class="inline">&lt;use&gt;</code> elements. We can bring back the <code class="inline">title</code> and <code class="inline">desc</code> elements we removed before and use them to improve accessibility on our icons.</p>
+
+<p><strong>Note</strong>: Bear in mind that the contents of the <code class="inline">&lt;desc&gt;</code> elements are displayed by default in IE7.</p>
+
+<pre class="brush: html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+		&lt;meta charset="utf-8" /&gt;
+		&lt;title&gt;David Darnes - Web Designer &amp;amp; Front-end Developer&lt;/title&gt;
+		&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+		&lt;!--[if IE]&gt;
+			&lt;script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"&gt;&lt;/script&gt;
+		&lt;![endif]--&gt;
+		&lt;svg display="none" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+			&lt;symbol id="twitter-icon" viewBox="0 0 50 41" fill="#55ACEE"&gt;
+				&lt;title&gt;Twitter&lt;/title&gt;
+				&lt;desc&gt;Twitter account&lt;/desc&gt;
+				&lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
+			&lt;/symbol&gt;
+			&lt;symbol id="dribbble-icon" viewBox="0 0 50 50"&gt;
+				&lt;title&gt;Dribbble&lt;/title&gt;
+				&lt;desc&gt;Dribbble portfolio&lt;/desc&gt;
+				&lt;path d="M25.0002551,0 C11.1927551,0 0.000255102041,11.1925 0.000255102041,25 C0.000255102041,38.8075 11.1927551,50 25.0002551,50 C38.8077551,50 50.0002551,38.8075 50.0002551,25 C50.0002551,11.1925 38.8077551,0 25.0002551,0 L25.0002551,0 L25.0002551,0 Z" id="ball" fill="#EA4C89"&gt;&lt;/path&gt;
+				&lt;path d="M25.0002551,-0.000510204082 C11.1927551,-0.000510204082 0.000255102041,11.1919898 0.000255102041,24.9994898 C0.000255102041,38.8069898 11.1927551,49.9994898 25.0002551,49.9994898 C38.8077551,49.9994898 50.0002551,38.8069898 50.0002551,24.9994898 C50.0002551,11.1919898 38.8077551,-0.000510204082 25.0002551,-0.000510204082 L25.0002551,-0.000510204082 L25.0002551,-0.000510204082 Z M25.0002551,3.6219898 C30.4465051,3.6219898 35.4177551,5.6594898 39.1927551,9.0119898 C36.4190051,12.6707398 32.2052551,15.1069898 27.9827551,16.7557398 C25.6815051,12.5457398 22.8477551,8.1069898 19.9640051,4.2182398 C21.5777551,3.8282398 23.2640051,3.6219898 25.0002551,3.6219898 L25.0002551,3.6219898 L25.0002551,3.6219898 Z M15.9052551,5.6482398 C18.6915051,9.8169898 21.3915051,13.6832398 23.8590051,18.0594898 C17.6202551,19.6757398 10.5727551,20.6457398 4.0615051,20.6619898 C5.4340051,14.0019898 9.9077551,8.4719898 15.9052551,5.6482398 L15.9052551,5.6482398 L15.9052551,5.6482398 Z M41.5640051,11.4844898 C44.5465051,15.1332398 46.3427551,19.7869898 46.3777551,24.8582398 C41.4327551,23.8844898 36.5140051,23.6282398 31.5077551,24.1332398 C30.9440051,22.7294898 30.2627551,21.3969898 29.6090051,19.9582398 C33.9252551,18.2169898 38.5402551,15.2369898 41.5640051,11.4844898 L41.5640051,11.4844898 L41.5640051,11.4844898 Z M25.5952551,21.3669898 C26.1302551,22.5057398 26.7502551,23.7119898 27.3315051,24.9457398 C20.3690051,28.0157398 12.9640051,32.1182398 9.1190051,39.3107398 C5.7027551,35.5219898 3.6227551,30.5019898 3.6227551,24.9994898 C3.6227551,24.7907398 3.6265051,24.5819898 3.6327551,24.3744898 C11.0890051,24.3382398 18.4077551,23.4057398 25.5952551,21.3669898 L25.5952551,21.3669898 L25.5952551,21.3669898 Z M36.8915051,27.1957398 C39.9990051,27.1857398 43.2102551,27.6194898 46.1115051,28.3832398 C45.1627551,34.3532398 41.7402551,39.5019898 36.9277551,42.7419898 C35.7802551,37.5232398 34.6865051,32.5294898 32.7527551,27.4944898 C34.0865051,27.2957398 35.4790051,27.1994898 36.8915051,27.1957398 L36.8915051,27.1957398 L36.8915051,27.1957398 Z M28.7965051,28.4719898 C30.7677551,33.5619898 32.3140051,39.1994898 33.3515051,44.6857398 C30.7852551,45.7757398 27.9640051,46.3782398 25.0002551,46.3782398 C20.0565051,46.3782398 15.5040051,44.6982398 11.8827551,41.8794898 C15.7540051,35.5982398 21.7502551,30.8457398 28.7965051,28.4719898 L28.7965051,28.4719898 L28.7965051,28.4719898 Z" id="ball-lines" fill="#C32361"&gt;&lt;/path&gt;
+			&lt;/symbol&gt;
+			&lt;symbol id="github-icon" viewBox="0 0 50 50" fill="#161614"&gt;
+				&lt;title&gt;GitHub&lt;/title&gt;
+				&lt;desc&gt;GitHub account&lt;/desc&gt;
+				&lt;path d="M0,25.633467 C0,36.9584555 7.1625894,46.5651047 17.0969029,49.954576 C18.3477086,50.1906116 18.8035237,49.3991056 18.8035237,48.719323 C18.8035237,48.1119247 18.7820375,46.4990147 18.7697597,44.3605321 C11.8158937,45.9089257 10.3486909,40.9238537 10.3486909,40.9238537 C9.21145523,37.9623936 7.57236256,37.1740347 7.57236256,37.1740347 C5.30249547,35.5847282 7.74425243,35.6161996 7.74425243,35.6161996 C10.2535376,35.7971603 11.5734062,38.2582249 11.5734062,38.2582249 C13.8033703,42.1748424 17.4253353,41.0434451 18.8495657,40.3872661 C19.0767059,38.7318697 19.7228276,37.6020459 20.4364775,36.9616026 C14.8853556,36.314865 9.04877375,34.1150132 9.04877375,24.2927848 C9.04877375,21.494976 10.0233279,19.2054306 11.6225176,17.4147071 C11.3646828,16.766396 10.5067682,14.1589893 11.8680745,10.6310438 C11.8680745,10.6310438 13.9660518,9.9418198 18.7421345,13.2589069 C20.73575,12.6892743 22.875165,12.4060315 25.0007674,12.3950166 C27.124835,12.4060315 29.2627152,12.6892743 31.2594002,13.2589069 C36.0324135,9.9418198 38.1273213,10.6310438 38.1273213,10.6310438 C39.4916971,14.1589893 38.6337825,16.766396 38.3774824,17.4147071 C39.9797416,19.2054306 40.9466221,21.494976 40.9466221,24.2927848 C40.9466221,34.1401903 35.1008318,36.3069972 29.5328279,36.9411462 C30.4291108,37.7326523 31.2287056,39.2967816 31.2287056,41.688609 C31.2287056,45.1142725 31.198011,47.8790363 31.198011,48.719323 C31.198011,49.4053999 31.6492219,50.2032002 32.9169097,49.9530025 C42.8435495,46.5556633 50,36.9553083 50,25.633467 C50,11.4760513 38.8056724,0 24.9976979,0 C11.1943276,0 0,11.4760513 0,25.633467 Z" id="octocat"&gt;&lt;/path&gt;
+			&lt;/symbol&gt;
+		&lt;/svg&gt;
+	&lt;/head&gt;</pre>
+
+<p>By changing the group element to a symbol we were able to make <a href="http://css-tricks.com/svg-symbol-good-choice-icons/">all of these enhancements</a>. We can remove the <code class="inline">&lt;defs&gt;</code> element from the SVG sprite as well, thus making our code even cleaner.</p>
+
+<h2>Conclusion</h2>
+
+<p>And there you have it, what started out as mere raster-based icons have now become extremely powerful vector-based icons which can be reused and resized with ease. I hope you enjoyed this tutorial and enjoy playing with SVGs in your next project.</p>
