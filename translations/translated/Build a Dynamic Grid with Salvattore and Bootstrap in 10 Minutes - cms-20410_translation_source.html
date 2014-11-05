@@ -1,0 +1,205 @@
+<h1>Crie Grades Dinâmicas com Salvattore e Bootstrap em Apenas 10 Minutos</h1>
+
+<p>A <a href="http://salvattore.com/">Salvattore</a> proclama-se uma alternativa ao <a href="http://masonry.desandro.com/">jQuery Masonry</a> com uma importante diferença: usar configurações através do CSS ao invés do JavaScript. Esse tipo de grade (<em>grid</em>) pode ser visto por toda a web, provavelmente, a mais famosa de todas é a do <a href="http://www.pinterest.com/" target="_self">Pinterest</a>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/20410/image/pinterest.png"/>
+</figure>
+
+<p>Hoje, usarei a Salvattore juntamente do Twitter Bootstrap 3 para criar uma maravilhosa estrutura de grade responsiva.</p>
+
+<h2>Começando: O Que É Preciso</h2>
+
+<p>Primeiro, precisará de uma cópia da biblioteca JavaScript Salvattore (<a href="https://raw.github.com/rnmp/salvattore/master/dist/salvattore.min.js" target="_self">reduzida</a> ou <a href="https://raw.github.com/rnmp/salvattore/master/dist/salvattore.js">original</a>). Depois, precisará buscar o CSS do Twitter Bootstrap. Ao invés de baixar e mantermos nossa própria cópia, usaremos a versão do BootstrapCDN, pela NetDNA.</p>
+
+<pre class="brush: html">&lt;html&gt;
+&lt;head&gt;
+        &lt;link rel="stylesheet" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"&gt;
+        &lt;title&gt;Salvattore + Bootstrap&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+
+    &lt;!-- É aqui onde a mágica acontece! --&gt;
+
+    &lt;script src="salvattore.js"&gt;&lt;/script&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>Uma vez feito isso, estamos pronto para começar a configuração da Salvattore! </p>
+
+<p>Agora, você precisará ou de uma folha de estilo externa ou de uma <em>tag</em> <code>&lt;style type='text/css'&gt;</code> dentro do elemento <code>head</code>. A maior parte do nosso trabalho será feito dentro da folha de estilo. </p>
+
+<p><b>Nota</b>: você precisa incluir os atributos<code>type</code> e <code>rel</code> para que a Salvattore funcione apropriadamente.</p>
+
+<h2>Um Resumo Rápido Sobre a Grade do Bootstrap</h2>
+
+<p>O Twitter Bootstrap provê uma <a href="http://getbootstrap.com/examples/grid/" target="_self">estrutura de grades flexível</a> que segue a abordagem <em>Mobile First</em>.</p>
+
+<pre class="brush: html">&lt;div class="row"&gt;
+&lt;div class="col-xs-12 col-md-4"&gt;&lt;/div&gt;
+    &lt;div class="col-xs-6 col-sm-3 col-md-4"&gt;&lt;/div&gt;
+    &lt;div class="col-xs-6 col-sm-3 col-md-4"&gt;&lt;/div&gt;
+    &lt;div class="col-xs-12 col-sm-3 col-md-4"&gt;&lt;/div&gt;
+    &lt;div class="col-xs-6 col-md-4"&gt;&lt;/div&gt;
+    &lt;div class="col-xs-6 col-md-4"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+<p>Você deve ter notado o padrão <code class="inline">col-[size]-[column number]</code> no trecho de código acima. Com os tamanhos <code>xs</code>, <code>sm</code>,<code>md</code> e <code>lg</code> disponíveis, somos capazes de configurar diferentes tamanhos de colunas para diferentes pontos de quebra do layout (<em>breakpoints</em>), sem precisar escrever uma <em>media query</em> sequer. Veja só <a href="http://codepen.io/jcutrell/pen/owLvF/">esse exemplo</a> que mostra como as colunas funcionam nos diferentes tamanhos de tela.</p>
+
+<h2>Painéis do Bootstrap</h2>
+
+<p>Nós criaremos uma grade flutuante usando o componente Painel do Bootstrap. O código usado para criar o painel é mais ou menos assim:</p>
+
+<pre class="brush: html">&lt;div class="panel panel-primary"&gt;
+&lt;div class="panel-heading"&gt;Cabeçalho de painel sem título&lt;/div&gt;
+    &lt;div class="panel-body"&gt;Conteúdo do painel&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+<h2>Juntando Tudo e Usando a Mágica do Salvattore</h2>
+
+<p>Agora que temos as peças necessárias do Bootstrap, juntaremos tudo ao Salvattore. Por hora, começaremos com seis painéis vazios. Mais para frente, faremos tudo dinamicamente para dar algum conteúdo para cada painel.</p>
+
+<p>Para o Salvattore funcionar corretamente, o recipiente (<em>container</em>) da nossa grade precisa de um atributo <code>data-columns</code>. Eis como o código ficará:</p>
+
+<pre class="brush: html">&lt;div id="grid" data-columns&gt;
+&lt;div class="panel panel-primary"&gt;
+        &lt;div class="panel-heading"&gt;Cabeçalho de painel sem título&lt;/div&gt;
+        &lt;div class="panel-body"&gt; Conteúdo do painel &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- replique o painel tantas vezes quanto quiser --&gt;
+
+&lt;/div&gt;</pre>
+
+<p>O próximo passo é abrir nossa folha de estilos e adicionar as seguintes etiquetas através de pseudo-elementos:</p>
+
+<pre class="brush: css">@media screen and (min-width: 1px) and (max-width: 767px){
+#columns[data-columns]::before {
+        content: '2 .col-xs-6';
+    }
+}
+@media screen and (min-width:768px) and (max-width: 991px){
+    #columns[data-columns]::before {
+        content: '3 .col-sm-4';
+    }
+}
+@media screen and (min-width:992px) and (max-width: 9999px){
+    #columns[data-columns]::before {
+        content: '4 .col-md-3';
+    }
+}
+</pre>
+
+<p>Os pontos de quebra escolhidos espelham diretamente as <em>media queries</em> do Bootstrap. A Salvattore usa o pseudo-elemento <code>::before</code> e o atributo <code>content</code> para definir as classes das colunas criadas e, então, tenta dividi-los em colunas iguais.</p>
+
+<h2>Tornando Dinâmico</h2>
+
+<p>Mantivemos tudo restrito ao CSS, até agora, mas se quiser ir além, usar JavaScript permite algumas coisas bem bacanas.</p>
+
+<p>A Salvattore eleva o nível ao oferecer funcionalidades adicionais. Com essas funções e uma conexão com uma API para preencher os painéis (usaremos a <a href="https://developers.google.com/books/" target="_self">API do Google Book</a> para buscar livros do autor <a href="http://en.wikipedia.org/wiki/Ernest_Hemingway" target="_self">Ernest Hemingway</a>), podemos construir uma grade dinâmica. Eis o código JavaScript que usaremos:</p>
+
+<pre class="brush: javascript">function append(title, content) {
+// constroi/seleciona nossos elementos
+    var grid = $('#columns')[0];
+    var item = document.createElement('div');
+    // build the html
+    var h = '&lt;div class="panel panel-primary"&gt;';
+    h += '&lt;div class="panel-heading"&gt;';
+    h += title;
+    h += '&lt;/div&gt;';
+    h += '&lt;div class="panel-body"&gt;';
+    h += content;
+    h += '&lt;/div&gt;';
+    h += '&lt;/div&gt;';
+    salvattore['append_elements'](grid, [item])
+    item.outerHTML = h;
+}
+$.getJSON("https://www.googleapis.com/books/v1/volumes?q=inauthor:Ernest+Hemingway&amp;callback=?", function (data) {
+    $(data.items).each(function (i, book) {
+        append(book.volumeInfo.title, book.volumeInfo.description);
+    });
+});</pre>
+
+<p><b>Nota:</b> É necessário usar o jQuery</p>
+
+<p>Primeiro, criamos uma função chamada <code class="inline">append</code> que terá como parâmetro nossos título e conteúdo, e os envolvemos no código do painel. E então, usamos a função <code>salvattore['append_elements'](grid, [item])</code> para adicionar o item à nossa grade. Por fim, executamos a chamada AJAX para buscar os dados dinamicamente.</p>
+
+<p>Para que isso funcione corretamente, teremos de remover todo o conteúdo do recipiente da grade.</p>
+
+<pre class="brush: html">&lt;div id="grid" data-columns&gt;&lt;/div&gt;</pre>
+
+<p>A Salvattore preencherá as colunas por nós.</p>
+
+<p>Nosso código finalizado parecerá com isso:</p>
+
+<pre class="brush: html">&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"&gt;
+    &lt;style type="text/css"&gt;
+        @media screen and min-width 1px and max-width 767px {
+            #columns[data-columns]::before {
+                content: '2 .col-xs-6';
+            }
+
+        }
+
+        @media screen and min-width768px and max-width 991px {
+            #columns[data-columns]::before {
+                content: '3 .col-sm-4';
+            }
+
+        }
+
+        @media screen and min-width992px and max-width 9999px {
+            #columns[data-columns]::before {
+                content: '4 .col-md-3';
+            }
+
+        }
+    &lt;/style&gt;
+
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1 class="col-xs-12"&gt;Livros por Ernest Hemingway&lt;/h1&gt;
+
+        &lt;div data-columns="" id="columns"&gt;
+            &lt;div&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script src="http://code.jquery.com/jquery-1.10.1.min.js"&gt;&lt;/script&gt;
+    &lt;script src="salvattore.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        function append(title, content) {
+            var grid = document.querySelector('#columns');
+            var item = document.createElement('div');
+            var h = '&lt;div class="panel panel-primary"&gt;';
+            h += '&lt;div class="panel-heading"&gt;';
+            h += title;
+            h += '&lt;/div&gt;';
+            h += '&lt;div class="panel-body"&gt;';
+            h += content;
+            h += '&lt;/div&gt;';
+            h += '&lt;/div&gt;';
+            salvattore['append_elements'](grid, [item]) item.outerHTML = h;
+        }
+        $.getJSON("https://www.googleapis.com/books/v1/volumes?q=inauthor:Ernest+Hemingway&amp;callback=?", function (data) {
+            $(data.items).each(function (i, book) {
+                append(book.volumeInfo.title, book.volumeInfo.description);
+            });
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<h2>Conclusão</h2>
+
+<p>A <a href="http://salvattore.com/" target="_self">Salvattore</a> torna a criação de grades dinâmicas no estilo da Masonry bem fácil, mesmo para quem não sabe muito de JavaScript. Dito isso, com um pouco de JavaScript, criar grades dinâmicas atreladas a conteúdo dinâmico é muito simples. Por último, o Bootstrap provê uma estrutura de nomenclatura de classes que facilita a construção de grades para quaisquer pontos de quebra.</p>
