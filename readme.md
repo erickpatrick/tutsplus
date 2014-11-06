@@ -76,6 +76,7 @@ Web  Design
 - [Observações D'Além da Barreira: O Estado da Arte do Web Design Chinês](https://webdesign.tutsplus.com/pt/articles/notes-from-behind-the-firewall-the-state-of-web-design-in-china--cms-22281)
 - [“De Fora Para Dentro” — Ordenando Propriedades CSS por Importância](http://webdesign.tutsplus.com/pt/articles/outside-in-ordering-css-properties-by-importance--cms-21685)
 - [Crie Grades Dinâmicas com Salvattore e Bootstrap em Apenas 10 Minutos](http://webdesign.tutsplus.com/pt/tutorials/build-a-dynamic-grid-with-salvattore-and-bootstrap-in-10-minutes--cms-20410)
+- [Coisas Ruins Acontecem Quando O Conteúdo Não Vem Em Primeiro Lugar](http://webdesign.tutsplus.com/pt/articles/bad-things-happen-when-you-dont-put-content-first--cms-21197)
 
 Fotografia
 ----------
