@@ -1,0 +1,566 @@
+<h1>Uma Grade Simples, Ainda Melhor Com Sass</h1>
+
+<p>Nesse tutorial, construiremos um sistema de grades (<em>grids</em>) simples, porém responsivo, usando CSS. Uma vez que estejamos familiarizados com suas funcionalidades, aprimoraremos ele utilizando Sass, enquanto aprenderemos algumas das funcionalidades padrão do Sass.</p>
+
+<h2>Iniciando Com o CSS</h2>
+
+<p>Vejamos como nosso sistema de grades ficará. Há maneiras mais interessantes de se construir grades, inclusive, algumas são menos intrusivas e requerem menos código. Contudo, essa grade nos possibilita práticar as várias técnicas simples, porém bastante úteis, do Sass. A grade usa um elemento recipiente, com elementos internos que agem como linhas que, por sua vez, tem elementos internos que agem como colunas.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21540/image/grid.png"/>
+  <figcaption>Um pouco estranho, mas é possível entender</figcaption>
+</figure>
+
+<h3>Grid.css</h3>
+
+<p>Para começar, tudo que precisaremos é de um arquivo CSS, então crie um novo documento no seu editor preferido e chame-o de "grid.css".</p>
+
+<p>A primeira coisa que adicionaremos será um reconfigurador global (<em>css reset</em>) e a regra de <code>box-sizing</code>. Isso garantirá que o espaçamento interno (<em>padding</em>) aplicado ao nosso elemento seja considerado no cálculo de suas dimensões, dando-nos muito mais liberdade para definir a largura das colunas.</p>
+
+<pre class="brush: css">*,
+*:after,
+*:before {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	}
+</pre>
+
+<p>O próximo passo é adicionar a regra que faz com que as imagens se comportem fluidamente.</p>
+
+<pre class="brush: css">img {
+	width: auto;
+	max-width: 100%;
+	height: auto !important;
+	}
+</pre>
+
+<h3>O Recipiente</h3>
+
+<p>Agora, criaremos algumas regras para fazer com que nosso recipiente se comporte.</p>
+
+<pre class="brush: css">.wrapper {
+	width: 100%;
+	margin: 0 auto;
+}
+</pre>
+
+<p><strong>Nota:</strong> Tenha em mente que trabalharemos levando em conta os dispositivos móveis em primeiro lugar. Nosso recipiente começa com largura de 100% da área de visualização, mas alteraremos isso para telas maiores.</p>
+
+<h3>As Linhas</h3>
+
+<p>Nossos elementos de linha servirão apenas para conter as colunas, garantindo que os grupos de colunas estejam bem ajustadas. Adicionaremos algumas regras gerais de <code>.clearfix</code> aos nossos elementos recipiente e às linhas.</p>
+
+<pre class="brush: css">.wrapper:after,
+.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	  }
+</pre>
+
+<p><strong>Nota:</strong> Não precisamos nomear esse elementos como <code>.wrapper</code>, <code>.row</code> e <code>.column</code>, podemos ser muito mais criativos que isso. Esses nomes são usados, simplesmente, para facilitar esse tutorial.</p>
+
+<h3>As Colunas</h3>
+
+<p>Teremos um conjunto vasto de classes de colunas, dependendo do tamanho de cada um (por exemplo <code>.column-1</code> e <code>.column-6</code>). Usemos um seletor de atributos para selecionar e estilizar todas essas classes de uma só vez.</p>
+
+<pre class="brush: css">[class*='column-'] {
+	float: left;
+	padding: 1em;
+	width: 100%;
+	min-height: 1px;
+	}
+</pre>
+
+<p>Esse seletor diz: pegue todos os elementos que contenham uma classe iniciada com <code>column-</code> e aplique os estilos a seguir. Dessa forma, todos os elementos colunares flutuarão para a esquerda, terão espaçamento interno de <code>1em</code> (isso dá um espaçamento horizontal e vertical interessante) e preencherá 100% da largura da área de visualização (lembre-se, dispositivos móveis em primeiro lugar). Por último, a propriedade <code>min-height: 1px</code> garante que a coluna se mostre apropriadamente, mesmo que não tenha conteúdo.</p>
+
+<p>Acredite ou não, já temos uma grade! O código HTML abaixo é tudo que precisamos.</p>
+
+<pre class="brush: html">&lt;section class="wrapper"&gt;
+
+&lt;div class="row"&gt;
+
+		&lt;div class="column-3"&gt;&lt;/div&gt;
+		&lt;div class="column-3"&gt;&lt;/div&gt;
+		&lt;div class="column-6"&gt;&lt;/div&gt;
+
+	&lt;/div&gt;
+
+&lt;/section&gt;</pre>
+
+<p>Podemos usar qualquer combinação de colunas dentro das linhas, <a href="http://tutsplus.github.io/a-simple-responsive-grid-made-even-better-with-sass/demo-1/" target="_self">veja a demonstração</a> para ver o que já temos.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21540/image/simple-grid.png"/>
+  <figcaption>Essa captura de tela mostra muito mais colunas que na demonstração acima</figcaption>
+</figure>
+
+<h2>Hora do Responsivo</h2>
+
+<p>A parte para dispositivos móveis está pronta, é hora de adicionar as <em>media queries</em> para gerar <em>layouts</em> diferentes para telas maiores. Você terá de determinar os pontos de quebra para sua própria grade, mas usaremos um ponto de quebra arbitrário de <code>30em</code>.</p>
+
+<pre class="brush: css">@media only screen and (min-width: 30em) {
+
+}
+</pre>
+
+<p>Quaisquer estilos que colocarmos dentro da <em>media query</em> afetarão telas com largura de <code>30em</code> ou mais. Nós usaremos esse ponto para começar a dar as larguras corretas de nossas colunas.</p>
+
+<h3>Larguras em %</h3>
+
+<p>O quão larga devem ser cada coluna? Depende de quantas colunas temos. Para essa demonstração, usarei doze colunas, então, cada uma deve ter um doze avos (1/12) da largura do recipiente. Para uma coluna que terá duas dessas larguras, será 2/12, e por aí vai. Eis o código:</p>
+
+<pre class="brush: css">@media only screen and (min-width: 30em) {
+
+	.wrapper {
+		width: 95%;
+		max-width: 65em;
+		}
+
+	.column-1 {
+		width: 8.33333%;
+		}
+
+	.column-2 {
+		width: 16.66667%;
+		}
+
+	.column-3 {
+		width: 25%;
+		}
+
+	.column-4 {
+		width: 33.33333%;
+		}
+
+	.column-5 {
+		width: 41.66667%;
+		}
+
+	.column-6 {
+		width: 50%;
+		}
+
+	.column-7 {
+		width: 58.33333%;
+		}
+
+	.column-8 {
+		width: 66.66667%;
+		}
+
+	.column-9 {
+		width: 75%;
+		}
+
+	.column-10 {
+		width: 83.33333%;
+		}
+
+	.column-11 {
+		width: 91.66667%;
+		}
+
+	.column-12 {
+		width: 100%;
+		}
+
+}
+</pre>
+
+<p>Você também verá que tornamos o elemento recipiente <code>.wrapper</code> menor que a totalidade da largura da tela, configurando a propriedade <code>max-width</code> dele. Veja como está <a href="http://tutsplus.github.io/a-simple-responsive-grid-made-even-better-with-sass/demo-2/" target="_self">nossa grade</a>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/21540/image/grid-media-query.png"/>
+  <figcaption>Talvez queira selecionar um espaçamento interno mais apropriado para sua grade</figcaption>
+</figure>
+
+<h2>Limpando As Coisas Com Sass</h2>
+
+<p>A nossa grade funciona, mas o que aconteceria se quiséssemos que ela tivesse 16 colunas? Ou quem sabe até mais? Teríamos de recalcular cada coluna todas as vezes que precisássemos. Sem mencionar que nosso CSS ficaria muito maior e mais difícil de manter. Felizmente, o Sass (ou qualquer outro pré-processador) pode nos ajudar.</p>
+
+<h3>Configurando o Sass</h3>
+
+<p>Esse tutorial não é sobre como configurar o Sass, assim, assumimos que você já sabe fazê-lo. Se não é o seu caso e precisa aprender como fazer isso, dê uma olhada no <a href="https://code.tutsplus.com/articles/mastering-sass-lesson-1--net-19032">Dominando Sass: Lição 1</a> ou <a href="https://webdesign.tutsplus.com/articles/sass-and-compass-for-web-designers-introduction--webdesign-5561">SASS e Compass para Web Designers: Introdução</a>.
+
+</p>
+
+<p>Uma vez que seu projeto em Sass esteja configurado, vá para o próximo passo.</p>
+
+<h3>Definindo Variáveis</h3>
+
+<p>O Sass ajuda a limpar nosso CSS de todas as formas, mas a primeira coisa que faremos é extrair quaisquer valores úteis e guardá-los em variáveis. Comece por um novo arquivo <i>parcial</i> chamado "_variables.scss"; esse arquivo parcial não será compilado diretamente em CSS, mas o referenciaremos em outros arquivos.</p>
+
+<pre class="brush: css">// variáveis da grade
+$grid-columns: 12;
+$grid-max-width: 65em;
+
+
+// breakpoints
+$breakpoint-small: "only screen and (min-width: 20em)";
+$breakpoint-medium: "only screen and (min-width: 30em)";
+</pre>
+
+<p>Essas variáveis nos dão a quantidade de colunas que trabalharemos, 12 nesse momento, mas poderiam ser 16 ou, quem sabe, 32. Qualquer quantidade que quiser. Também salvamos alguns pontos de quebra como cadeias de caracteres dentro de variáveis, mesmo que estejamos usando apenas uma, até agora.</p>
+
+<p>Nós as usaremos logo-logo, mas configuremos as <em>mixins</em> primeiro.</p>
+
+<h3><em>Mixins</em></h3>
+
+<p>As <em>mixins</em> do Sass são trechos de código que definimos uma vez e reusamos em qualquer outro lugar do nosso projeto. Por exemplo, poderíamos transformar nosso primeiro conjunto de regras, onde configuramos a <code>border-box</code>, em uma <em>mixin</em>. Comecemos:</p>
+
+<pre class="brush: css">*,
+*:after,
+*:before {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	}
+</pre>
+
+<p>Agora, peguemos a parte dele que podemos reusar, criando uma <em>mixin</em> que chamaremos de <code>border-box</code>:</p>
+
+<pre class="brush: css">@mixin border-box {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	}
+</pre>
+
+<p>Então, poderemos usar o comando <code>@import</code> de nossas variáveis e <em>mixins</em> dentro do arquivo <code>grid.scss</code>, usando a <em>mixin</em> através da declaração <code>@include</code>.</p>
+
+<pre class="brush: css">@import "variables";
+@import "mixins";
+
+*,
+*:after,
+*:before {
+	margin: 0;
+	padding: 0;
+
+	@include border-box;
+
+	}
+</pre>
+
+<h3>@extend do Clearfix</h3>
+
+<p>Podemos fazer algo parecido com as regras de <em>clearfix</em>, como <a href="http://zerosixthree.se/8-sass-mixins-you-must-have-in-your-toolbox/">sugerido por Sebastian Ekström</a>. Nesse caso, pegamos as regras recomendadas por <a href="https://twitter.com/necolas" target="_self">Nicolas Gallagher</a> e as adicionaremos no arquivo de nossas <em>mixins</em> como um <em>seletor de espaço reservado</em> (<code>%</code>):
+
+</p>
+
+<pre class="brush: css">%clearfix {
+	*zoom: 1;
+	&amp;:before,
+	&amp;:after {
+		content: " ";
+		display: table;
+	}
+	&amp;:after {
+		clear: both;
+	}
+}
+</pre>
+
+<p>O seletor de espaço reservado nos permite definir trechos de código que só gerarão algo caso o estendamos em algum lugar, dessa forma:</p>
+
+<pre class="brush: css">.wrapper,
+.row {
+	@extend %clearfix;
+}
+</pre>
+
+<p>Quando compilado, essas poucas linhas gerarão algo assim:</p>
+
+<pre class="brush: css">.wrapper,
+.row {
+	*zoom: 1;
+	}
+.wrapper:before,
+.row:before,
+.wrapper:after,
+.row:after {
+	content: " ";
+	display: table;
+	}
+.wrapper:after,
+.row:after {
+	clear: both;
+	}
+</pre>
+
+<h3>Usando Nossas Variáveis</h3>
+
+<p>Que tal usarmos algumas dessas variáveis que configuramos? Para começar, podemos substituir o valor de <code>max-width</code> no elemento recipiente. Isso:</p>
+
+<pre class="brush: css">.wrapper {
+	width: 95%;
+	max-width: 65em;
+	}
+</pre>
+
+<p>torna-se isso:</p>
+
+<pre class="brush: css">.wrapper {
+	width: 95%;
+	max-width: $grid-max-width;
+	}
+</pre>
+
+<p>Agora, façamos o mesmo com nossa <em>media query</em>. Isso:</p>
+
+<pre class="brush: css">@media only screen and (min-width: 30em) {
+</pre>
+
+<p>será aprimorado com nossa variável <code>$breakpoint-medium</code> e virará isso:</p>
+
+<pre class="brush: css">@media #{$breakpoint-medium} {
+</pre>
+
+<p><strong>Nota:</strong> você deve ter pecebido que envolvemos a variável em <code>#{}</code>. Isso é chamado de <em>interpolação</em>. Isso é necessário caso precisemos mostrar o valor de uma variável dentro de outra. Contudo, nesse caso é necessário porque o compilador do Sass acusará problemas na <em>media query</em> caso o <code>@media</code> não seja diretamente seguido por um par de <code>()</code>. Você pode ler mais sobre isso no artigo de Hugo Giraudel, <a href="https://webdesign.tutsplus.com/tutorials/all-you-ever-need-to-know-about-sass-interpolation--cms-21375">Tudo Que Você Sempre Quis Saber Sobre Interpolação no Sass</a>.
+
+</p>
+
+<p>Para usar nossa variável <code>$grid-columns</code>, precisamos lançar mão de mais uma funcionalidade do Sass; laços (<em>loops</em>).</p>
+
+<h3>Laços no Sass</h3>
+
+<p>Nossas definições de colunas são todas da mesma forma, exceto pelo valor da propriedade. É muito mais simples imprimir todas as definições de coluna que forem necessárias para a grade, alterando o valor para cada um. Para isso, usaremos o laço <code>@for</code> do Sass, que é mais ou menos assim:</p>
+
+<pre class="brush: css">@for $i from 1 through 12 {
+// conteúdo repetido
+}
+</pre>
+
+<p>Isso se reptirá pode 12 vezes e, em cada vez, o valor da variável <code>$i</code> refletirá naquele laço. Podemos retornar <code>$i</code> dessa forma:</p>
+
+<pre class="brush: css">@for $i from 1 through 12 {
+
+	.column-#{$i} {
+
+		}
+
+}
+</pre>
+
+<p>Novamente, você perceberá que interpolamos <code>$i</code> com <code>#{}</code> para retornar o valor como uma cadeia de caracteres que anexaremos ao seletor <code>.column-</code>. Isso gerará o seguinte CSS:</p>
+
+<pre class="brush: css">.column-1 {
+
+	}
+
+.column-2 {
+
+	}
+
+.column-3 {
+
+	}
+
+.column-4 {
+
+	}
+
+.column-5 {
+
+	}
+
+.column-6 {
+
+	}
+
+.column-7 {
+
+	}
+
+.column-8 {
+
+	}
+
+.column-9 {
+
+	}
+
+.column-10 {
+
+	}
+
+.column-11 {
+
+	}
+
+.column-12 {
+
+	}
+</pre>
+
+<p>Perfeito! Agora, faremos alguns cálculos para retornar o valor correto de cada estilo dentro desses seletores.</p>
+
+<h3>Operadores do Sass</h3>
+
+<p>Estamos indo bem, mas precisamos retornar algo parecido com o seletor abaixo:</p>
+
+<pre class="brush: css">.column-5 {
+	width: 41.66667%;
+	}
+</pre>
+
+<p>A largura dessa coluna é obtido através da divisão de 100% pela quantidade de colunas total e multiplicado pelo número da coluna em questão. Nesse caso, seria <code>100% / 12 * 5 =  41.66667%</code>. Assim, esse é o cálculo que precisamos usar, substituindo os respectivos valores por variáveis.</p>
+
+<pre class="brush: css">@for $i from 1 through 12 {
+
+	.column-#{$i} {
+		width: 100% / 12 * $i;
+	}
+
+}
+</pre>
+
+<p>O Sass fará o cálculo por nós e retornará algo assim:</p>
+
+<pre class="brush: css">.column-1 {
+	width: 8.33333%;
+}
+
+.column-2 {
+	width: 16.66667%;
+}
+
+.column-3 {
+	width: 25%;
+}
+
+.column-4 {
+	width: 33.33333%;
+}
+
+.column-5 {
+	width: 41.66667%;
+}
+
+.column-6 {
+	width: 50%;
+}
+
+.column-7 {
+	width: 58.33333%;
+}
+
+.column-8 {
+	width: 66.66667%;
+}
+
+.column-9 {
+	width: 75%;
+}
+
+.column-10 {
+	width: 83.33333%;
+}
+
+.column-11 {
+	width: 91.66667%;
+}
+
+.column-12 {
+	width: 100%;
+}
+</pre>
+
+<p>Como passo final, podemo usar a variável <code>$grid-columns</code> ao invés do valor <code class="inline">12</code>:</p>
+
+<pre class="brush: css">@for $i from 1 through $grid-columns {
+
+	.column-#{$i} {
+		width: 100% / $grid-columns * $i;
+	}
+
+}
+</pre>
+
+<p>Agora, se quisermos mudar o número de colunas, simplesmente mudaremos o valor da variável e os cálculos serão realizados, automaticamente, para nós! Por exemplo, alterando <code class="inline">$grid-columns</code> para o valor <code class="inline">4</code> nos retornará o seguinte CSS:</p>
+
+<pre class="brush: css">@media only screen and (min-width: 30em) {
+  .wrapper {
+width: 95%;
+    max-width: 65em; }
+
+  .column-1 {
+    width: 25%; }
+
+  .column-2 {
+    width: 50%; }
+
+  .column-3 {
+    width: 75%; }
+
+  .column-4 {
+    width: 100%; }
+}</pre>
+
+<h2>Conclusão</h2>
+
+<p>Nosso <code>grid.scss</code> finalizado contém, apenas, 42 linhas de código. Bem menos que nosso CSS inicial.</p>
+
+<pre class="brush: css">@import "variables";
+@import "mixins";
+
+*, *:after, *:before {
+	margin: 0;
+	padding: 0;
+	@include border-box;
+	}
+
+img {
+	width: auto;
+	max-width: 100%;
+	height: auto !important;
+	}
+
+.wrapper {
+	width: 100%;
+	margin: 0 auto;
+	}
+
+.wrapper, .row {
+	@extend %clearfix;
+	}
+
+[class*='column-'] {
+	float: left;
+	padding: 1em;
+	width: 100%;
+	min-height: 1px;
+	}
+
+@media #{$breakpoint-medium} {
+	.wrapper {
+		width: 95%;
+		max-width: $grid-max-width;
+		}
+	@for $i from 1 through $grid-columns {
+	  	.column-#{$i} {
+	  		width: 100% / $grid-columns * $i;
+	  		}
+	  	}
+	}
+</pre>
+
+<p>Através desse processo, aprendemos como usar as variáveis, mixins, espaços reservados, extensões, laços, operadores e até interpolação no Sass. Esse é um conjunto muito poderoso de funcionalidades e um belo começo para aprender o
+Sass.</p>
+
+<p>Como mais poderíamos aprimorar <a href="http://tutsplus.github.io/a-simple-responsive-grid-made-even-better-with-sass/demo-3/" target="_self">a grade que construímos</a>? O que mais poderia ser adicionado ou removido? Deixe seu comentário!</p>
+
+<h3>Leitura Adicional</h3>
+
+<ul>
+  <li><a href="http://zerosixthree.se/8-sass-mixins-you-must-have-in-your-toolbox/" target="_self">8 <em>mixins</em> do Sass que você tem de aprender</a></li>
+  <li><a href="https://webdesign.tutsplus.com/articles/sass-and-compass-for-web-designers-introduction--webdesign-5561" target="_self">SASS e Compass para Web Designers: Introdução</a></li>
+  <li><a href="https://webdesign.tutsplus.com/tutorials/stir-up-your-own-delicious-sass-mixins--webdesign-10576" target="_self">Misture Suas Próprias e Deliciosas <em>Mixins</em> no Sass</a></li>
+  <li>Anything by <a href="https://tutsplus.com/authors/hugo-giraudel" target="_self">Hugo Giraudel</a></li>
+</ul>
