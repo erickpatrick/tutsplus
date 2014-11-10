@@ -78,6 +78,7 @@ Web  Design
 - [Crie Grades Dinâmicas com Salvattore e Bootstrap em Apenas 10 Minutos](http://webdesign.tutsplus.com/pt/tutorials/build-a-dynamic-grid-with-salvattore-and-bootstrap-in-10-minutes--cms-20410)
 - [Coisas Ruins Acontecem Quando O Conteúdo Não Vem Em Primeiro Lugar](http://webdesign.tutsplus.com/pt/articles/bad-things-happen-when-you-dont-put-content-first--cms-21197)
 - [Como Criar um Indicador de Rolagem de Página com jQuery e SVG](http://webdesign.tutsplus.com/pt/tutorials/how-to-build-a-page-scroll-progress-indicator-with-jquery-and-svg--cms-20881)
+- [Uma Grade Simples, Ainda Melhor Com Sass](http://webdesign.tutsplus.com/pt/tutorials/a-simple-responsive-grid-made-even-better-with-sass--cms-21540)
 
 Fotografia
 ----------
