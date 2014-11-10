@@ -24,6 +24,7 @@ PHP
 - [Orientação a Objetos no WordPress: Introdução](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-an-introduction--cms-19916)
 - [Orientação a Objetos no WordPress: Classes](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-classes--cms-20021)
 - [Orientação a Objetos no WordPress: Tipos](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-types--cms-20299)
+- [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
 
 HTML & CSS
 ----------
