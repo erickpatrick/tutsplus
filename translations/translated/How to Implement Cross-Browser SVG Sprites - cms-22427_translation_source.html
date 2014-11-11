@@ -1,43 +1,41 @@
-<h1>How to Implement Cross-Browser SVG Sprites</h1>
+<h1>Como Implementar Sprites em SVG para Vários Navegadores</h1>
 
-<p>In this tutorial I’m going to demonstrate a basic implementation of some SVG icons, how to provide a fallback, and how to turn them into an SVG sprite.</p>
+<p>Nesse tutorial, mostrarei uma implementação básica de alguns ícones em SVG, como prover uma versão alternativa e como torná-los em um <em>sprite</em> SVG.</p>
 
-<h2>Basic SVG Implementation</h2>
+<h2>Implementação Básica em SVG</h2>
 
-<p>For the purpose of this tutorial I’m going to be using a single page, which will act as a kind of online business card. It will briefly introduce me and display three network profiles relevant to my work.</p>
+<p>Para esse tutorial, usarei uma página única, que agirá parecido com um cartão de visitas/negócios. Ele apresentará minha pessoa e mostrará três perfis de rede sociais relevante ao meu trabalho.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22427/image/dave.png"/>
-  I
   <figcaption>
-    cons from
-    <a href="http://www.flaticon.com/" target="_self">flaticon</a>
+    Ícones da <a href="http://www.flaticon.com/" target="_self">flaticon</a>
   </figcaption>
 </figure>
 
-<p>From the screenshot above you can see that I’m using icons (for Twitter, Dribbble and GitHub) to symbolically reference my network profiles. I downloaded these icons from <a href="http://www.flaticon.com/">flaticon</a>, which has a wide range of icons &amp; symbols in both vector and raster formats. </p>
+<p>Da captura de tela acima, você pode ver que estou usando ícones (para Twitter, Dribbble e GitHub) para referenciar simbolicamente meus perfis nessas redes sociais. Baixei os ícones da <a href="http://www.flaticon.com/">flaticon</a>, que possuir uma grande variedade de ícones &amp; símbolos, tanto em formato vetor quanto rasterizado. </p>
 
-<h3>PNG and SVG</h3>
+<h3>PNG e SVG</h3>
 
-<p>We’re going to begin by using the PNG versions of these icons, for the sake of backward compatibility, then we’ll prepare the SVG versions to use in supporting browsers.</p>
+<p>Começaremos usando as versões PNG desses ícones, pelo fato da retro compatibilidade, e depois prepararemos as versões em SVG para usar nos navegadores que dão suporte à tecnologia.</p>
 
-<p>I used <a href="http://bohemiancoding.com/">Sketch</a> to output my PNG icons, so I’m going to use it again to prepare my icons for SVG usage.</p>
+<p>Usei o <a href="http://bohemiancoding.com/">Sketch</a> para gerar as versões PNG dos meus ícones, então usarei ele novamente para preparar os ícones para uso no SVG.</p>
 
 <figure class="post_image">
   <img alt="My chosen icons in Sketch with named layers  groups" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/348/posts/22427/image/sketch-screenshot.png"/>
 </figure>
 
-<p>If you look at the screenshot above you’ll notice that I’ve named all my groups and shapes in the left hand panel appropriately (Adobe Illustrator has a similar view in the Layers panel). It’s important to name all your assets correctly, not only to help you remain organised but also for what we’ll be using them for later in this tutorial. </p>
+<p>Se prestar atenção na captura de tela acima, perceberá que nomeei, apropriadamente, todos os grupos e formas no painel do lado esquerdo (O Adobe Illustrator tem uma visão parecida no painel de Camadas). É importante nomear todos os seus recursos corretamente, uma vez que, além de ajudar a manter a organização, também ajudará na hora que formos usá-los num passo mais a frente, nesse tutorial. </p>
 
-<h3>Exporting SVGs</h3>
+<h3>Exportando os SVGs</h3>
 
-<p>Now I’ll export the icons as SVGs, which is straightforward with the slicing tool in Sketch. For more information on how this works take a look at <a href="https://webdesign.tutsplus.com/tutorials/understanding-sketchs-export-options--cms-22207" target="_self">Understanding Sketch’s Export Options</a>. I’ll be exporting them as separate files and placing them into the images directory of my project.</p>
+<p>Agora, exportarei os ícones como SVGs, que é bem simples, usando a ferramenta de recorte (<em>slicing tool</em>) no Sketch. Para maiores informações sobre como isso funciona, leia: <a href="https://webdesign.tutsplus.com/tutorials/understanding-sketchs-export-options--cms-22206" target="_self">Entendendo as Opções de Exportação do Sketch</a>. Exportarei como arquivos separados e os colocarei dentro do diretório de imagens do meu projeto.</p>
 
-<p>Normally, to show an image on your site you’d reference the asset with a <code class="inline">src</code> attributed element or something similar: </p>
+<p>Normalmente, para mostrar uma imagem em seu site, você a referenciaria através do atributo <code class="inline">src</code> de um elemento ou algo similar: </p>
 
-<pre class="brush: html">&lt;img src="path-to-my-image.png" alt="" /&gt;</pre>
+<pre class="brush: html">&lt;img src="caminho-para-a-imagem.png" alt="" /&gt;</pre>
 
-<p>However with SVGs there are a number of different ways we can use them within an HTML document. For example, we can use the actual SVG code inline - here’s what that code might look like:</p>
+<p>Entretanto, com SVG, há inúmeras formas de usá-lo dentro de um documento HTML. Por exemplo, podemos usar o código SVG diretamente na página - eis como o código se parece:</p>
 
 <pre class="brush: xml">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
 &lt;svg width="50px" height="41px" viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"&gt;
@@ -52,28 +50,28 @@
 	&lt;/g&gt;
 &lt;/svg&gt;</pre>
 
-<p>This is one of the icons I exported, in XML format. This code is pretty much just like HTML (it’s a structural format) which means we can slot this straight into the page. </p>
+<p>Esse é um dos ícones que exportei, no formato XML. Esse código é bem parecido com o HTML (é um formato estrutural), significando que podemos colá-lo diretamente na página. </p>
 
-<h3>Adding SVG Inline to the HTML</h3>
+<h3>Adicionando SVG diretamente no HTML</h3>
 
-<p>Let’s begin with the base HTML page which includes the PNG icons with their anchors, and a container:</p>
+<p>Comecemos com o HTML base da página, que inclui os ícones em PNG com suas âncoras e um container:</p>
 
 <pre class="brush: html">&lt;div class="section"&gt;
-&lt;a href="http://twitter.com/DavidDarnes" title="Twitter profile"&gt;
+&lt;a href="http://twitter.com/DavidDarnes" title="Perfil do Twitter"&gt;
     	&lt;img alt="Twitter" width="50" height="51" src="img/twitter-icon.png"&gt;
 	&lt;/a&gt;
-	&lt;a href="http://dribbble.com/DavidDarnes" title="Dribbble profile"&gt;
+	&lt;a href="http://dribbble.com/DavidDarnes" title="Perfil do Dribbble"&gt;
 		&lt;img alt="Dribbble" width="50" height="51" src="img/dribbble-icon.png"&gt;
 	&lt;/a&gt;
-	&lt;a href="http://github.com/DavidDarnes" title="GitHub profile"&gt;
+	&lt;a href="http://github.com/DavidDarnes" title="Perfil do GitHub"&gt;
 		&lt;img alt="GitHub" width="50" height="51" src="img/github-icon.png"&gt;
 	&lt;/a&gt;
 &lt;/div&gt;</pre>
 
-<p>Now I’m going to copy and paste the SVG code, however I’m going to ignore the top line which refers to the file’s character encoding and other file attribute details. The HTML document contains that information already so we needn’t duplicate it.</p>
+<p>Agora, copiarei e colarei o código SVG, contudo, ignorarei a linha inicial, que se refere à codificação dos caracteres do arquivo, além de outros detalhes. Como o HTML já contém essa informação, não precisamos duplicá-la.</p>
 
 <pre class="brush: html">&lt;div class="section"&gt;
-&lt;a href="http://twitter.com/DavidDarnes" title="Twitter profile"&gt;
+&lt;a href="http://twitter.com/DavidDarnes" title="Perfil do Twitter"&gt;
 	&lt;svg width="50px" height="41px" viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"&gt;
 		&lt;!-- Generator: Sketch 3.1 (8751) - http://www.bohemiancoding.com/sketch --&gt;
 		&lt;title&gt;twitter-icon&lt;/title&gt;
@@ -87,19 +85,19 @@
 		&lt;/svg&gt;
 		&lt;img alt="Twitter" width="50" height="51" src="img/twitter-icon.png"&gt;
 	&lt;/a&gt;
-	&lt;a href="http://dribbble.com/DavidDarnes" title="Dribbble profile"&gt;
+	&lt;a href="http://dribbble.com/DavidDarnes" title="Perfil do Dribbble"&gt;
 		&lt;img alt="Dribbble" width="50" height="51" src="img/dribbble-icon.png"&gt;
 	&lt;/a&gt;
-	&lt;a href="http://github.com/DavidDarnes" title="GitHub profile"&gt;
+	&lt;a href="http://github.com/DavidDarnes" title="Perfil do GitHub"&gt;
 		&lt;img alt="GitHub" width="50" height="51" src="img/github-icon.png"&gt;
 	&lt;/a&gt;
 &lt;/div&gt;</pre>
 
-<p>I’ve placed the SVG right above the corresponding PNG icon within the HTML page. For the time being I’m going to wrap the regular PNG image line in a comment tag to stop it appearing next to the SVG version. </p>
+<p>Coloquei o SVG logo acima do ícone PNG correspondente. Por hora, comentarei o código da tag do ícone em PNG para que ele não apareça ao lado da versão em SVG. </p>
 
-<h3>Cleaner SVG</h3>
+<h3>SVG Mais Limpo</h3>
 
-<p>I’m also going to clean up the code within my SVG. Removing the element attributes is optional as most of the pieces I’m removing won’t change how the SVG will act. Here is a before and after if you wish to do the same with yours:</p>
+<p>Também limparei um pouco o código do SVG. Remover atributos dos elementos é opcional, uma vez que a maioria dos trechos que estou removendo não afetarão como o SVG se comportará. Eis o antes e o depois, caso queira fazer o mesmo com o seu:</p>
 
 <pre class="brush: html">&lt;svg width="50px" height="41px" viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"&gt;
 &lt;!-- Generator: Sketch 3.1 (8751) - http://www.bohemiancoding.com/sketch --&gt;
@@ -119,9 +117,9 @@
 	&lt;/g&gt;
 &lt;/svg&gt;</pre>
 
-<p>Take note of the elements I’ve removed. The <code class="inline">&lt;title&gt;</code>, <code class="inline">&lt;desc&gt;</code>, and <code class="inline">&lt;defs&gt;</code> elements aren’t needed now, but we may need them later on in this tutorial. There are also a few <code class="inline">&lt;g&gt;</code> elements which refer to groups, and correspond to the groups created in my Sketch document. By default Sketch places everything inside a page, hence the group element <code class="inline">&lt;g id=”Page-1”…</code> . You can remove this as it doesn’t have a use for us (the group within it is more important). Sketch does provide an <a href="http://bohemiancoding.com/sketch/support/documentation/13-preferences/" target="_self">option to produce cleaner SVGs upon exporting</a>, however there is no harm in cleaning the code up yourself.</p>
+<p>Veja os elementos que removi. Os elementos <code class="inline">&lt;title&gt;</code>, <code class="inline">&lt;desc&gt;</code>, e <code class="inline">&lt;defs&gt;</code> não são necessários agora, mas precisaremos deles mais tarde. Também tem alguns elementos <code class="inline">&lt;g&gt;</code> que se referem aos grupos, correspondendo aos grupos criados no documento do Sketch. Por padrão, o Sketch coloca tudo dentro de uma página, por isso o nome do elemento de grupo <code class="inline">&lt;g id=”Page-1”…</code>. Você pode remover isso, uma vez que não tem uso para nós (o grupo dentro dele é bem mais importante). O Sketch dá suporte a uma <a href="http://bohemiancoding.com/sketch/support/documentation/13-preferences/" target="_self">opção de gerar SVGs mais limpos durante a exportação</a>, entretanto, não há mal algum em limpar o código por conta própria.</p>
 
-<p>The final part of this step is to remove the height and width attributes within the SVG element itself. These will need to be compensated for in my CSS file, as shown below:</p>
+<p>O último ponto é remover os atributos de altura e largura dentro do próprio elemento SVG. Eles precisarão ser compensados no arquivo CSS, como mostrado abaixo:</p>
 
 <pre class="brush: html">&lt;svg viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g id="twitter-icon" fill="#55ACEE"&gt;
@@ -136,15 +134,15 @@ max-width: 40px;
 	-webkit-filter: drop-shadow(0 1px 0 #11222d);
 }</pre>
 
-<p>If you’ve followed my steps you should be able to see in the browser a sharp and clean vector version of your graphics. </p>
+<p>Se seguiu todos os passos, você deve ser capaz de ver uma versão vetorizada e precisa do seu ícone, usando seu navegador. </p>
 
-<p><strong>Tip</strong>: Check if the graphic is actually an SVG by zooming in <strong>Command-+</strong> when viewing it in the browser. The graphic should stay sharp no matter how far you zoom in.</p>
+<p><strong>Dica</strong>: Verifique se o gráfico é um SVG de verdade, dando <em>zoom</em>, usando <strong>Command-+</strong> (ou <strong>CTRL-+</strong>) quando visualizá-lo em seu navegador. O ícone deve permanecer preciso, independentemente da quantidade <em>zoom</em>.</p>
 
-<h2>Providing a Fallback</h2>
+<h2>Provendo Uma Versão Alternativa</h2>
 
-<p>If you’re using this for client work you may be wondering what the browser support is like. Inline SVGs work in all browsers except for Internet Explorer 8 (and earlier) and Opera Mini. <a href="http://caniuse.com/#feat=svg-html5">Can I Use</a> currently says that IE8 is used around 4% globally and Opera Mini around 3%. So in your case you might not need to provide a fallback, however I’m going to demonstrate a solution.</p>
+<p>Se estiver usando essa técnica para um serviço de terceiro, talvez esteja em dúvida qual o suporte dos navegadores para ela. SVG direto no documento é suportado por todos os navegadores, exceto pelo Internet Explorer 8 (ou anterior) e Opera Mini. O <a href="http://caniuse.com/#feat=svg-html5">Can I Use</a> aponta que o IE8 é usado por cerca de 4% dos usuários e o Opera Mini pro cerca de 3%. Talvez você não precise criar uma versão alternativa, porém, demonstrarei essa possibilidade.</p>
 
-<pre class="brush: html">&lt;a href="http://twitter.com/DavidDarnes" title="twitter profile"&gt;
+<pre class="brush: html">&lt;a href="http://twitter.com/DavidDarnes" title="Perfil do Twitter"&gt;
 &lt;svg viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
         &lt;g id="twitter-icon" fill="#55ACEE"&gt;
             &lt;path d="M0,36.3461306 C0.803663004,36.4417973 1.62142857,36.4907387 2.45054945,36.4907387 C7.26336996,36.4907387 11.6928571,34.8346712 15.2086081,32.0564595 C10.71337,31.9727973 6.91959707,28.9779505 5.61245421,24.8624369 C6.23956044,24.9834054 6.88315018,25.0482297 7.54505495,25.0482297 C8.48205128,25.0482297 9.38956044,24.9217207 10.2516484,24.684955 C5.55201465,23.7334595 2.01117216,19.5466577 2.01117216,14.5276667 C2.01117216,14.4840811 2.01117216,14.4406802 2.01190476,14.397464 C3.3970696,15.1733243 4.98095238,15.6392838 6.66501832,15.693027 C3.90860806,13.8354685 2.09487179,10.6648018 2.09487179,7.07102252 C2.09487179,5.17264865 2.6014652,3.39321171 3.48571429,1.86328378 C8.55238095,8.13037387 16.1217949,12.2543829 24.6595238,12.6863604 C24.4844322,11.9282297 24.3934066,11.1375946 24.3934066,10.3257207 C24.3934066,4.60511261 28.9930403,-0.0328738739 34.6664835,-0.0328738739 C37.6210623,-0.0328738739 40.2908425,1.2251982 42.1648352,3.23844595 C44.5047619,2.77377928 46.7032967,1.91167117 48.6880952,0.724702703 C47.9210623,3.14351802 46.2923077,5.17357207 44.1712454,6.45565315 C46.2492674,6.20522072 48.2291209,5.6483964 50.0714286,4.82451802 C48.6941392,6.90185135 46.952381,8.72635135 44.9454212,10.1868378 C44.9652015,10.6310045 44.9750916,11.0777568 44.9750916,11.5269099 C44.9750916,25.2155541 34.6424908,41 15.7472527,41 C9.9459707,41 4.54615385,39.2852027 0,36.3461306 L0,36.3461306 Z" id="bird"&gt;&lt;/path&gt;
@@ -153,17 +151,17 @@ max-width: 40px;
     &lt;!-- &lt;img alt="twitter" width="50" height="51" src="img/twitter-icon.png"&gt; --&gt;
 &lt;/a&gt;</pre>
 
-<p>Here is one of my SVG icons within the page, and you’ll notice that my original PNG icon is still in place but wrapped in comments. This PNG image will be our fallback. </p>
+<p>Eis um dos meus ícones em SVG dentro da página. Perceberá que o ícone original em PNG ainda está lá, comentado. Esse PNG será nossa versão alternativa. </p>
 
-<h3>Remove Comments</h3>
+<h3>Removendo os Comentários</h3>
 
-<p>First I’ll remove the comments. We now need to move the <code class="inline">&lt;img&gt;</code> up and into the <code class="inline">&lt;svg&gt;</code> element itself, right after the group containing our actual icon.</p>
+<p>Primeiro, removerei os comentários. Agora, precisamos mover o elemento <code class="inline">&lt;img&gt;</code> para cima, para dentro do elemento <code class="inline">&lt;svg&gt;</code>, logo após o grupo que contém o ícone em SVG.</p>
 
-<p>Next, I’m going to wrap the <code class="inline">&lt;img&gt;</code> in an SVG-specific element called <a href="http://davidensinger.com/2013/04/inline-svg-with-png-fallback/"><code class="inline">foreignObject</code></a>. If the browser cannot understand the SVG’s vector information then it will refer to the “<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject">foreign object</a>” instead and will proceed to use the <code class="inline">&lt;img&gt;</code> within it. We also need to let the browser know that it should opt for the vector version if it supports it. This is what the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/switch"><code class="inline">&lt;switch&gt;</code></a> element is for, which is what I’ve wrapped both the group and the foreignObject in. </p>
+<p>O próximo passo é envolver o elemento <code class="inline">&lt;img&gt;</code> em um elemento específico ao SVG, chamado <a href="http://davidensinger.com/2013/04/inline-svg-with-png-fallback/"><code class="inline">foreignObject</code></a>. Se seu navegador não é capaz de compreender a informação dentro do código do SVG, ele referenciará o “<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject">objeto externo</a>” e, nesse caso, usará o elemento <code class="inline">&lt;img&gt;</code> dentro dele. Também devemos informar ao navegador para optar pela versão vetorizada, caso suporte. Essa é a tarefa do elemento <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/switch"><code class="inline">&lt;switch&gt;</code></a>, o qual usei para envolver tanto o grupo do SVG quanto o <code>foreignObject</code>. </p>
 
-<p>Here’s the updated markup:</p>
+<p>Eis o código atualizado:</p>
 
-<pre class="brush: html">&lt;a href="http://twitter.com/DavidDarnes" title="twitter profile"&gt;
+<pre class="brush: html">&lt;a href="http://twitter.com/DavidDarnes" title="Perfil do Twitter"&gt;
 &lt;svg viewBox="0 0 50 41" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
         &lt;switch&gt;
             &lt;g id="twitter-icon" fill="#55ACEE"&gt;
@@ -176,15 +174,15 @@ max-width: 40px;
     &lt;/svg&gt;
 &lt;/a&gt;</pre>
 
-<p>If you’ve followed this process and structured your HTML like mine then your graphic should fallback to your original raster image if the browser doesn’t support SVG.</p>
+<p>Se estiver seguindo o processo e estruturando seu HTML tal qual o meu, caso o navegador usado não dê suporte a vetores, ele deverá usar a versão rasterizada no lugar.</p>
 
-<h2>Creating an SVG Sprite</h2>
+<h2>Criando um <em>Sprite</em> em SVG</h2>
 
-<p><a href="http://css-tricks.com/svg-sprites-use-better-icon-fonts/">SVG sprites</a> act pretty much just like <a href="http://en.wikipedia.org/wiki/Sprite_(computer_graphics)">image sprites</a>. In their simplest form sprites are a collection of graphical elements combined into one image. Each image is then picked out using CSS and HTML, normally by specifying coordinates and a viewing “window”. </p>
+<p><a href="http://css-tricks.com/svg-sprites-use-better-icon-fonts/"><em>Sprites</em> em SVG </a> agem da mesma forma que <a href="http://en.wikipedia.org/wiki/Sprite_(computer_graphics)"><em>sprites</em> de imagens</a>. De forma simples, <em>sprites</em> são coleções de elementos gráficos combinados em uma única imagem. Cada imagem é escolhida através do uso do CSS e HTML, geralmente, especificando coordenadas e a área de visualização. </p>
 
-<p>The two main benefits to this are an improved page load time, better workflow, and consistency between the graphical elements on the page. The second and third points apply very well to SVG sprites. Instead of several blocks of SVG code littered throughout our page, we would only have one place to update our SVGs.</p>
+<p>Os principais benefícios disso são o tempo de carregamento aprimorado da página, melhor fluxo de trabalho e consistência entre os elementos gráficos da página. Os segundo e terceiro pontos aplicam-se muito bem aos <em>sprites</em> em SVG. Ao invés de vários blocos de código SVG injetados diretamente na página, teríamos apenas um único lugar para atualizar nossos SVGs.</p>
 
-<p>To start with I will make a new <code class="inline">&lt;svg&gt;</code> element within the <code class="inline">&lt;head&gt;</code> element of my page, just before the closing tag. This new SVG will hold all the icons I previously had within the page.</p>
+<p>Para começar, criarei um novo elemento <code class="inline">&lt;svg&gt;</code> dentro do elemento <code class="inline">&lt;head&gt;</code> da minha página, logo antes da <em>tag</em> de fechamento desse elemento. Esse novo SVG guardará todos os ícones anteriormente colocados na página.</p>
 
 <pre class="brush: html">&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
@@ -200,7 +198,7 @@ max-width: 40px;
 		&lt;/svg&gt;
 	&lt;/head&gt;</pre>
 
-<p>Next I need to move my icons into it. I don’t need to move the whole SVG, just the group element and its contents. These I can stack within the <code class="inline">&lt;svg&gt;</code> element in the head. </p>
+<p>Depois, precisarei mover os ícones para dentro dele. Não preciso mover todo o SVG, apenas o grupo do elemento e seu conteúdo. Dessa forma, posso empilhá-los dentro do elemento <code class="inline">&lt;svg&gt;</code> recém criado. </p>
 
 <pre class="brush: html">&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
@@ -225,15 +223,15 @@ max-width: 40px;
 		&lt;/svg&gt;
 	&lt;/head&gt;</pre>
 
-<p><strong>Note</strong>: If you're comfortable using Grunt, <a href="https://www.npmjs.org/package/grunt-svg-combine" target="_self">there’s a plugin</a> will automate the combining of all your separate SVG files.</p>
+<p><strong>Nota</strong>: Se você for acostumado a usar o Grunt, <a href="https://www.npmjs.org/package/grunt-svg-combine" target="_self">há um <em>plugin</em></a> que automatizará a união de todos seus arquivos SVGs separados.</p>
 
-<h3>Hide!</h3>
+<h3>Esconda!</h3>
 
-<p>Now we have all our icons in the head we need to hide them; adding an attribute of <code class="inline">display=”none”</code> to the new <code class="inline">&lt;svg&gt;</code> will mean all the icons won’t appear at the top of the page.</p>
+<p>Agora que temos todos nossos ícones no elemento <code>head</code>, temos de escondê-lo: adicionar o atributo <code class="inline">display=”none”</code> ao novo <code class="inline">&lt;svg&gt;</code> indicará que todos os ícones não aparecerão no topo da página.</p>
 
-<h3>Defining Each Icon</h3>
+<h3>Definindo Cada Ícone</h3>
 
-<p>Our next step is to define each icon so we can reuse them in the page, which is where the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/defs"><code class="inline">defs</code></a> element we deleted earlier comes back into play. By using it to wrap all the groups, thus wrapping all my icons, I can state that I want to reuse these elsewhere on  the page.</p>
+<p>Nosso próximo passo é definir cada ícone de modo que possamos reusá-lo na página. É aqui que os elementos <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/defs"><code class="inline">defs</code></a> que removemos anteriormente, voltam à ação. Ao usá-lo para envolver todos os grupos, dessa forma, envolvendo todos os ícones, sou capaz de indicar que quero reutilizá-los em outras partes da página.</p>
 
 <pre class="brush: html">&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
@@ -260,14 +258,14 @@ max-width: 40px;
 		&lt;/svg&gt;
 	&lt;/head&gt;</pre>
 
-<h3>Using the Icons</h3>
+<h3>Usando os Ícones</h3>
 
-<p>The icons are now defined but we need a method of using them, which is what the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use"><code class="inline">use</code></a> element is for. The <code class="inline">&lt;use&gt;</code> element allows us to take any element within the <code class="inline">&lt;defs&gt;</code> element and pull it through to anywhere on our page. The way we pick the element is by using its ID, which is why is was important to name our icons in the initial Sketch document. </p>
+<p>Os ícones estão definidos mas precisamos de algum método para usá-los. Essa é a tarefa do elemento <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use"><code class="inline">use</code></a>. O elemento <code class="inline">&lt;use&gt;</code> permite-nos usar qualquer elemento dentro do elemento <code class="inline">&lt;defs&gt;</code> em qualquer lugar de nossa página. A forma que usaremos para pegar os elementos é através de seus IDs. Por isso que é importante nomear nossos ícones no documento inicial do Sketch. </p>
 
-<p>Take note of the IDs in the example above and then see how I’m referencing each one with the use element like so <code class="inline">&lt;use xlink:href="#twitter-icon"&gt;&lt;/use&gt;</code>.</p>
+<p>Anote os IDs do exemplo acima e veja que estou referenciando cada um usando o elemento <code>use</code>, dessa forma <code class="inline">&lt;use xlink:href="#twitter-icon"&gt;&lt;/use&gt;</code>.</p>
 
 <pre class="brush: html">&lt;div class="section"&gt;
-&lt;a href="http://twitter.com/DavidDarnes" title="Twitter profile"&gt;
+&lt;a href="http://twitter.com/DavidDarnes" title="Perfil do Twitter"&gt;
 		&lt;svg class="icon" viewBox="0 0 50 41"&gt;
 			&lt;switch&gt;
 				&lt;use xlink:href="#twitter-icon"&gt;&lt;/use&gt;
@@ -277,7 +275,7 @@ max-width: 40px;
 			&lt;/switch&gt;
 		&lt;/svg&gt;
 	&lt;/a&gt;
-	&lt;a href="http://dribbble.com/DavidDarnes" title="Dribbble profile"&gt;
+	&lt;a href="http://dribbble.com/DavidDarnes" title="Perfil do Dribbble"&gt;
 		&lt;svg class="icon" viewBox="0 0 50 50"&gt;
 			&lt;switch&gt;
 				&lt;use xlink:href="#dribbble-icon"&gt;&lt;/use&gt;
@@ -287,7 +285,7 @@ max-width: 40px;
 			&lt;/switch&gt;
 		&lt;/svg&gt;
 	&lt;/a&gt;
-	&lt;a href="http://github.com/DavidDarnes" title="GitHub profile"&gt;
+	&lt;a href="http://github.com/DavidDarnes" title="Perfil do GitHub"&gt;
 		&lt;svg class="icon" viewBox="0 0 50 50"&gt;
 			&lt;switch&gt;
 				&lt;use xlink:href="#github-icon"&gt;&lt;/use&gt;
@@ -299,13 +297,13 @@ max-width: 40px;
 	&lt;/a&gt;
 &lt;/div&gt;</pre>
 
-<p>If you’ve followed the steps correctly you won’t see any change to how your graphics appear, however you can now reuse them (at whatever size you wish) and apply each one multiple times on the page.</p>
+<p>Se tiver seguido corretamente os passos, você não verá qualquer mudança nos gráficos que aparecem na página, contudo, você poderá reusá-los (em qualquer tamanho que quiser) quantas vezes quiser.</p>
 
-<h2>Perfecting Your SVG Sprite</h2>
+<h2>Aperfeiçoando Seu <em>Sprite</em> SVG</h2>
 
-<p>One plus point to using SVG sprites is that your visible page code is much cleaner and can be read more easily by other people working with your code. We can improve on this even more. </p>
+<p>Um ponto interessante do uso de <em>sprites</em> SVG é que o código visível da sua página é bem limpo e pode ser lido mais facilmente por outras pessoas trabalhando com seu código. Porém, podemos aprimorar mais ainda. </p>
 
-<p>Below I’ve changed the <code class="inline">&lt;g&gt;</code> elements in my SVG sprite to the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol"><code class="inline">symbol</code></a> element, plus I’ve moved the <code class="inline">viewbox</code> attribute from the SVG elements in the page to the new symbol elements.</p>
+<p>Logo abaixo, mudei os elementos <code class="inline">&lt;g&gt;</code> no meu <em>sprite</em> SVG pelo elemento <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol"><code class="inline">symbol</code></a>, além disso, movi o atributo <code class="inline">viewbox</code> dos elementos SVG na página para os novos elementos <code>symbol</code>.</p>
 
 <pre class="brush: html">&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
@@ -332,9 +330,9 @@ max-width: 40px;
 		&lt;/svg&gt;
 	&lt;/head&gt;</pre>
 
-<p>Using <code class="inline">&lt;symbol&gt;</code> is not only more semantic, at least in my example, but it also saves us repeating the <code class="inline">viewbox</code> attribute along with our <code class="inline">&lt;svg&gt;</code> and <code class="inline">&lt;use&gt;</code> elements. We can bring back the <code class="inline">title</code> and <code class="inline">desc</code> elements we removed before and use them to improve accessibility on our icons.</p>
+<p>Usar o elemento <code class="inline">&lt;symbol&gt;</code> não é apenas mais semântico, pelo menos nesse exemplo, também nos evita a repetição do atributo <code class="inline">viewbox</code> em nossos elementos <code class="inline">&lt;svg&gt;</code> e <code class="inline">&lt;use&gt;</code>. Podemos trazer de voltas os elementos <code class="inline">title</code> e <code class="inline">desc</code> que removemos e usá-los para aprimorar a acessibilidade de nossos ícones.</p>
 
-<p><strong>Note</strong>: Bear in mind that the contents of the <code class="inline">&lt;desc&gt;</code> elements are displayed by default in IE7.</p>
+<p><strong>Nota</strong>: Tenha em mente que o conteúdo dos elementos <code class="inline">&lt;desc&gt;</code>, por padrão no IE7, são mostrados ao usuário.</p>
 
 <pre class="brush: html">&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
@@ -365,8 +363,8 @@ max-width: 40px;
 		&lt;/svg&gt;
 	&lt;/head&gt;</pre>
 
-<p>By changing the group element to a symbol we were able to make <a href="http://css-tricks.com/svg-symbol-good-choice-icons/">all of these enhancements</a>. We can remove the <code class="inline">&lt;defs&gt;</code> element from the SVG sprite as well, thus making our code even cleaner.</p>
+<p>Ao alterar o elemento <code>g</code> por um <code>symbol</code>, fomos capazes de realizar <a href="http://css-tricks.com/svg-symbol-good-choice-icons/">todos esses aprimoramentos</a>. Também podemos remover o elemento <code class="inline">&lt;defs&gt;</code> <em>sprite</em> SVG, tornando nosso código ainda mais limpo.</p>
 
-<h2>Conclusion</h2>
+<h2>Conclusão</h2>
 
-<p>And there you have it, what started out as mere raster-based icons have now become extremely powerful vector-based icons which can be reused and resized with ease. I hope you enjoyed this tutorial and enjoy playing with SVGs in your next project.</p>
+<p>E terminamos! O que começou apenas como ícones rasterizados, tornou-se em uma solução extremamente poderosa usando ícones vetorizados, que podem ser reusados e redimensionados facilmente. Espero que tenha curtido esse tutorial e que curta brincar mais e mais com SVGs em seus próximos projetos.</p>
