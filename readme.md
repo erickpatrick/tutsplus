@@ -80,7 +80,9 @@ Web  Design
 - [Coisas Ruins Acontecem Quando O Conteúdo Não Vem Em Primeiro Lugar](http://webdesign.tutsplus.com/pt/articles/bad-things-happen-when-you-dont-put-content-first--cms-21197)
 - [Como Criar um Indicador de Rolagem de Página com jQuery e SVG](http://webdesign.tutsplus.com/pt/tutorials/how-to-build-a-page-scroll-progress-indicator-with-jquery-and-svg--cms-20881)
 - [Uma Grade Simples, Ainda Melhor Com Sass](http://webdesign.tutsplus.com/pt/tutorials/a-simple-responsive-grid-made-even-better-with-sass--cms-21540)
-- [How to Build an Off-Canvas Navigation Layout With Bootstrap](http://webdesign.tutsplus.com/pt/tutorials/how-to-build-an-off-canvas-navigation-layout-with-bootstrap--cms-21991)
+- [Como Criar um Layout Com Navegação Off-Canvas Usando Bootstrap](http://webdesign.tutsplus.com/pt/tutorials/how-to-build-an-off-canvas-navigation-layout-with-bootstrap--cms-21991)
+- [Como Implementar Sprites em SVG para Vários Navegadores](http://webdesign.tutsplus.com/pt/tutorials/how-to-implement-cross-browser-svg-sprites--cms-22427)
+- [O Guia de Seleção de Fotos para Web Designers](http://webdesign.tutsplus.com/pt/tutorials/the-web-designers-guide-to-photo-selection--cms-21592)
 
 Fotografia
 ----------
