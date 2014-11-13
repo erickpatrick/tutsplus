@@ -1,0 +1,662 @@
+<h1>Entendendo a Pontuação Deslocada</h1>
+
+<p>A Pontuação Deslocada é uma ferramenta tipográfica poderosa para a criação de corpos de texto opticamente alinhados. Infelizmente, ela foi renegada pela web… até agora. Veremos o valor da pontuação deslocada e como você pode implementá-la parcialmente, usando um pouco de JavaScript e uma regra de CSS que existe há anos.</p>
+
+<h2>Pontuação Deslocada: O Básico</h2>
+
+<p>Quando <a href="http://en.wikipedia.org/wiki/Johannes_Gutenberg" target="_self">Gutenberg</a> estava criando sua Bíblia, por volta de 1400, ele desenvolveu um estilo de composição de sinais de pontuação que perdura até hoje, chamada de “Pontuação Deslocada” (também conhecida como alinhamento ótico).</p>
+
+<h3>O Que É Pontuação Deslocada?</h3>
+
+<p>Pontuação deslocada é um método de configurar os sinais de pontuação <i>fora</i> das margens do corpo do texto. Isso cria a aparência de bordas uniformes no texto e permite um fluxo ótico melhor.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/hung-not-hung.png"/>
+</figure>
+
+<p>A pontuação deslocada impacta na forma que você percebe o traçado do texto em uma página.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/hanging-punctuation-example.gif"/>
+</figure>
+
+<h3>Onde A Pontuação Deslocada Acontece</h3>
+
+<p>Pontuação deslocada acontece nas margens, fora do alinhamento do resto do texto. Você pode deslocar a pontuação em textos alinhados à esquerda, direta ou justificados.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/alignment.gif"/>
+</figure>
+
+<h3>Por Que Deslocamos a Pontuação?</h3>
+
+<p>A teoria do porque deslocar a pontuação ser importante, é mais ou menos assim:</p>
+
+<p>Os sinais de pontuação no texto só ocupam uma parte da altura das (letras) maiúsculas. Geralmente, isso não é um problema, mas, quando o sinal de pontuação é o primeiro caractere na parte reta da lateral do corpo de um texto, ele consome uma quantidade considerável de espaçamento vertical, o que pode atrapalhar o fluxo visual do corpo de texto.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/cap-height.png"/>
+</figure>
+
+<p>A pontuação deslocada acaba com isso. Naturalmente, alguns sinais acabam na lateral de um texto. Ao invés de deixá-los ali, atrapalhando o fluxo ótico do texto, o tipógrafo alivia essa ruptura, deslocando os sinais de pontuação para as margens.</p>
+
+<h3>Quais Sinais de Pontuação Podem Ser Alinhados Oticamente?</h3>
+
+<p>Como os sinais de pontuação aliviam as rupturas causadas pelos sinais de pontuação de versaletes (<em>small caps</em>), tem-se que, geralmente, deve-se deslocar esses sinais de pontuação, como as aspas simples e duplas (” “ ’ ‘) e hifens (– —). Você deveria evitar deslocar pontuações de altura completa, como o ponto de exclamação (!) e o de interrogação (?).</p>
+
+<h2>Pontuação Deslocada: Impressa e na Web</h2>
+
+<p>O suporte a pontuação deslocada já existe em programas de publicação para computadores há um tempo, como no Adobe InDesign. O InDesign provê ótimas ferramentas para pontuação deslocada em corpos de texto. Claro, isso é ótimo para quem trabalha com aplicativos de publicação impressa, mas como ficam os <em>designers</em> para web?</p>
+
+<p>O problema em se aplicar a pontuação deslocada na web é que tudo nela se baseia em caixas. As regras de estilização no CSS usam o “modelo de caixa” que envolve todos os elementos HTML em caixas. Essas caixas possuem margens, bordas, espaçamento interno e conteúdo.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/box-model.png"/>
+</figure>
+
+<p>Por padrão, todos os caracteres ficam dentro de uma caixa. Pontuação deslocada, por outro lado, requer que os caracteres estejam <i>fora</i> da caixa. Isso tem sido um grande problema para se resolver com programas, assim, a implementação desse truque da pontuação deslocada tem sido ignorada na web, pelos projetistas e pelos criadores de navegadores. <a href="http://www.markboulton.co.uk/journal/five-simple-steps-to-better-typography-part-2">Mark Boulton afirma</a> que é uma vergonha que esse aspecto tão importante da composição tipográfica venha sendo relegado.</p>
+
+<h2>Pontuação Deslocada e a Especificação</h2>
+
+<p>Pode até surpreender você, mas a pontuação deslocada faz parte do <a href="http://www.w3.org/TR/css3-text/#hanging-punctuation-property">módulo de texto do CSS3</a>. A propriedade da pontuação deslocada, contudo, está marcada como opcional, contribuindo para a sua não implementação. Na verdade, se não for implementada, essa propriedade “corre o risco de ser removida da especificação durante o período de revisão (<em>CR</em>) devido a não existência de implementações (corretas)”.</p>
+
+<p>Uma vez que os navegadores não implementaram essa propriedade ainda, não entraremos em maiores detalhes sobre a propriedade <code>hanging-punctuation</code>. Contudo, se você estiver curioso, pode ler <a href="http://www.w3.org/TR/css3-text/#hanging-punctuation-property">a especificação</a> ou a <a href="http://css-tricks.com/almanac/properties/h/hanging-punctuation/">visão geral do Chris Coyer para o CSS Tricks</a>.</p>
+
+<h3>Sinais de Pontuação para Deslocamento</h3>
+
+<p>Há um pouco de informação interessante que podemos pegar da especificação. Ela detalha quais sinais de pontuação deveriam ser deslocados:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>U+002C</td>
+      <td>,</td>
+      <td>Vírgula</td>
+    </tr>
+    <tr>
+      <td>U+002E</td>
+      <td>.</td>
+      <td>Ponto Final</td>
+    </tr>
+    <tr>
+      <td>U+060C</td>
+      <td>،</td>
+      <td>Vírgula Arábica</td>
+    </tr>
+    <tr>
+      <td>U+06D4</td>
+      <td>۔</td>
+      <td>Ponto Final Arábico</td>
+    </tr>
+    <tr>
+      <td>U+3001</td>
+      <td>、</td>
+      <td>Vírgula Ideográfica</td>
+    </tr>
+    <tr>
+      <td>U+3002</td>
+      <td>。</td>
+      <td>Ponto Final Ideográfico</td>
+    </tr>
+    <tr>
+      <td>U+FF0C</td>
+      <td>，</td>
+      <td>Vírgula de Largura Completa</td>
+    </tr>
+    <tr>
+      <td>U+FF0E</td>
+      <td>．</td>
+      <td>Ponto Final de Largura Completa</td>
+    </tr>
+    <tr>
+      <td>U+FE50</td>
+      <td>﹐</td>
+      <td>Vírgula Pequena</td>
+    </tr>
+    <tr>
+      <td>U+FE51</td>
+      <td>﹑</td>
+      <td>Vírgula Pequena Ideográfica</td>
+    </tr>
+    <tr>
+      <td>U+FE52</td>
+      <td>﹒</td>
+      <td>Ponto Final Pequeno</td>
+    </tr>
+    <tr>
+      <td>U+FF61</td>
+      <td>｡</td>
+      <td>Ponto Final Ideográfico de Meia Largura</td>
+    </tr>
+    <tr>
+      <td>U+FF64</td>
+      <td>､</td>
+      <td>Vírgula Ideográfica de Meia Largura</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A especificação ainda diz que outros caracteres podem ser deslocados, se necessário, o que é bom, uma vez que essa lista não é final. Por exemplo, a especificação não menciona travessões, os quais a tipografia tradicional costuma deslocar.</p>
+
+<p>Como recomendado em <a href="http://recoveringphysicist.com/21/">The Recovering Physicist</a>, é muito provável que os idiomas ocidentais tradicionais só desloquem os seguintes sinais de pontuação:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Código do Sinal</th>
+      <th>Caractere</th>
+      <th>Nome</th>
+      <th>Entidade HTML</th>
+      <th>Categoria Unicode</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U+00AB</td>
+      <td>«</td>
+      <td>Aspa Angular Dupla para a Esquerda</td>
+      <td>&amp;laquo;</td>
+      <td>Pi</td>
+    </tr>
+    <tr>
+      <td>U+00BB</td>
+      <td>»</td>
+      <td>Aspa Angular Dupla para a Direita</td>
+      <td>&amp;raquo;</td>
+      <td>Pf</td>
+    </tr>
+    <tr>
+      <td>U+2018</td>
+      <td>’</td>
+      <td>Aspa Simples a Direita</td>
+      <td>&amp;rsquo;</td>
+      <td>Pi</td>
+    </tr>
+    <tr>
+      <td>U+2018</td>
+      <td>‘</td>
+      <td>Aspa Simples a Esquerda</td>
+      <td>&amp;lsquo;</td>
+      <td>Pf</td>
+    </tr>
+    <tr>
+      <td>U+201C</td>
+      <td>“</td>
+      <td>Aspas Duplas a Esquerda</td>
+      <td>&amp;ldquo;</td>
+      <td>Pi</td>
+    </tr>
+    <tr>
+      <td>U+201D</td>
+      <td>”</td>
+      <td>Aspas Duplas a Direita</td>
+      <td>&amp;rdquo;</td>
+      <td>Pf</td>
+    </tr>
+    <tr>
+      <td>U+2039</td>
+      <td>‹</td>
+      <td>Aspa Angular Simples para a Esquerda</td>
+      <td>&amp;lsaquo;</td>
+      <td>Pi</td>
+    </tr>
+    <tr>
+      <td>U+203A</td>
+      <td>›</td>
+      <td>Aspa Angular Simples para a Direita</td>
+      <td>&amp;rsaquo;</td>
+      <td>Pf</td>
+    </tr>
+    <tr>
+      <td>U+2010</td>
+      <td>‐</td>
+      <td>Hífen</td>
+      <td>&amp;#x2010;</td>
+      <td>PD</td>
+    </tr>
+    <tr>
+      <td>U+2013</td>
+      <td>–</td>
+      <td>Meia Risca</td>
+      <td>&amp;ndash;</td>
+      <td>PD</td>
+    </tr>
+    <tr>
+      <td>U+2014</td>
+      <td>—</td>
+      <td>Travessão</td>
+      <td>&amp;mdash;</td>
+      <td>PD</td>
+    </tr>
+  </tbody>
+  <tbody>
+</tbody>
+</table>
+
+<p>Para idiomas ocidentais, sinais de pontuação como travessão, pontos, vírgulas, dois pontos, ponto e vírgula, etc, são, geralmente, deslocados à direita da margem, uma vez que eles, normalmente, não começam parágrafos ou aparecem na margem esquerda.</p>
+
+<h2>Trazendo A Pontuação Deslocada Para a Web</h2>
+
+<p>Idealmente, você deslocaria todas os sinais de pontuação qualificados que estivessem em um parágrafo de texto, mas estamos falando da web. O suporte incompleto ao CSS dificulta a implementação do deslocamento em textos alinhados à esquerda, direita e a textos justificados.</p>
+
+<p>Pode ser mais fácil aplicar a pontuação deslocada em uma única margem. Por exemplo, na margem esquerda para textos alinhados à esquerda. Elementos do tipo bloco, como as <em>tags</em> <code>&lt;blockquote&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code> até o <code>&lt;h5&gt;</code> que comecem com sinais de pontuação qualificados, podem usar valores negativos para <code>text-indent</code> para deslocar a pontuação.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/negative-indent.png"/>
+</figure>
+
+<p>É interessante notar que a pontuação deslocada usando valores negativos para <code>text-indent</code> só permitirá deslocar sinais no começo do parágrafo. Por conta do refluxo do texto na web por contas dos variados tamanhos de tela, você nunca saberá onde sinais de pontuação ficarão. O sinal de pontuação inicial é a única pontuação que você pode ter certeza.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/hung-beginning.png"/>
+</figure>
+
+<p>Em relação a esse tipo de situação, explorar as possibilidades de deslocamento da pontuação inicial pode ainda ser valioso. É uma escolha tipográfica que você, como <em>designer</em> pode fazer.</p>
+
+<p>Veremos nesse tutorial como deslocar uma pontuação inicial nos textos ocidentais tradicionais alinhados a esquerda. Lembre-se que o código é maleável. Você pode pegar os exemplos nesse tutorial e modificá-los para adequar-se a qualquer necessidade que tiver. Tomara que, no futuro, os navegadores tenham uma forma melhor de resolver esse problema de sinais de pontuação deslocados.</p>
+
+<h2>Passo 1: Visão Geral Rápida</h2>
+
+<p>A ideia por traz da implementação da pontuação deslocada para texto alinhado a esquerda é bem simples. Use o JavaScript para encontrar todos os elementos da DOM elegíveis, isso é, que comecem com um sinal de pontuação passível de deslocamento. Quando encontrado, aplique uma classe HTML com valor negativo de <code>text-indent</code> ao elemento em questão.</p>
+
+<h2>Passo 2: Examine O Código</h2>
+
+<p>Vejamos um exemplo básico de código usado em um artigo simples de blog. O texto do artigo estaria disposto em títulos, subtítulos, listas e citações, todos como elementos parentes, dessa forma:</p>
+
+<pre class="brush: html">&lt;article class="post"&gt;
+&lt;h1&gt;Título do Artigo&lt;/h1&gt;
+    &lt;p&gt;Algum texto aqui ...&lt;/p&gt;
+    &lt;p&gt;"Um parágrafo" que começa com uma pontuação deslocável ...&lt;/p&gt;
+    &lt;h2&gt;Um subtítulo para um Artigo&lt;/h2&gt;
+    &lt;p&gt;Texto aqui ...&lt;/p&gt;
+    &lt;blockquote&gt;
+        &lt;p&gt;Texto em citação ...&lt;/p&gt;
+        &lt;p&gt;Com múltiplos parágrafos ...&lt;/p&gt;
+    &lt;/blockquote&gt;
+    &lt;p&gt;Mais texto ...&lt;/p&gt;
+    &lt;h2&gt;"Um subtítulo" começando com Pontuação&lt;/h2&gt;
+    &lt;p&gt;Mais texto ...&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;Texto em lista ...&lt;/li&gt;
+        &lt;li&gt;Segundo item da lista&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;Mais texto ...&lt;/p&gt;
+    &lt;p&gt;Último parágrafo.&lt;/p&gt;
+&lt;/article&gt;
+</pre>
+
+<p>Seu código pode e variará disso, que, no caso, você pode alterar depois para ajustar o JavaScript para encontrar os elementos DOM de acordo com seu código. Para esse tutorial, usaremos esse código.</p>
+
+<p>Para deslocar a pontuação inicial dentro do bloco de texto, devemos primeiro delimitar quais sinais de pontuação podem ser deslocados, os quais analisamos anteriormente nesse tutorial. É importante lembrar que idiomas diferentes usam <a href="http://webdesign.tutsplus.com/articles/start-using-quotation-marks-the-correct-way--webdesign-16905" target="_self">aspas (e pontuação)</a> de formas bem diferentes. Por exemplo, vejam como o inglês e o galês usam aspas primárias e secundárias:</p>
+
+<ul>
+  <li><strong>Inglês</strong>: Falei para o João, “O Marcos uma vez disse, ‘Se disser a verdade, não terá de lembrar de qualquer coisa.’”</li>
+  <li><strong>Galês</strong>: Falei para o João, ‘O Marcos uma vez disse, “Se disser a verdade, não terá de lembrar de qualquer coisa.”’</li>
+</ul>
+
+<p>Percebeu como são totalmente opostos? Essas diferenças são apenas o começo. Veja esses exemplos de uso de aspas primárias e secundárias em vários idiomas (você pode ver uma compilação completa na <a href="http://en.wikipedia.org/wiki/International_variation_in_quotation_marks&#10;">Wikipedia</a>):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Idioma</th>
+      <th>Primária</th>
+      <th>Secundária</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Inglês</td>
+      <td>“…”</td>
+      <td>‘…’</td>
+    </tr>
+    <tr>
+      <td>Galês</td>
+      <td>‘…’</td>
+      <td>“…”</td>
+    </tr>
+    <tr>
+      <td>Croácio</td>
+      <td>„…”</td>
+      <td>‚…’</td>
+    </tr>
+    <tr>
+      <td>Alemão</td>
+      <td>„…“</td>
+      <td>‚…‘</td>
+    </tr>
+    <tr>
+      <td>Grego</td>
+      <td>«…»</td>
+      <td>“…”</td>
+    </tr>
+    <tr>
+      <td>Francês</td>
+      <td>«…»</td>
+      <td>‹…›</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>É interessante saber dessas diferenças, caso tenha de trabalhar com idiomas além do inglês ocidental. Assim saberá o que e como deslocar.</p>
+
+<h2>Passo 3: Preparando o CSS</h2>
+
+<p>Agora já temos um mínimo de código para nosso <em>layout</em>. Usaremos o JavaScript para analisar cada um dos objetos da DOM e encontrar aqueles que iniciam com pontuação passível de deslocamento. Para esses, aplicaremos uma classe HTML que possui uma regra de <code>text-indent</code> com valor negativo, que irá deslocar a pontuação para a margem esquerda.</p>
+
+<p>A parte complicada começa na definição do valor para a regra <code>text-indent</code>. Fontes diferentes requerem valores diferentes, logo, isso requererá bastante teste e customização da sua parte. Por exemplo, uma aspa dupla inteligente (“) tem largura maior que a aspa simples inteligente (‘). Assim, se você tiver de deslocar a pontuação, o elemento da DOM que iniciar com uma aspa dupla precisará ter um valor maior para a regra <code>text-indent</code> que um elemento DOM começando com uma aspa simples.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/text-indent-compare.png"/>
+</figure>
+
+<h3>Uma Nota Sobre Fontes</h3>
+
+<p>Não apenas o valor do <code>text-indent</code> será diferente dependendo do sinal de pontuação que você tiver de deslocar, também dependerá da fonte que você escolher usar. Claro, estamos falando da web, e você pode nunca ter certeza que um usuário terá uma fonte em questão. Contudo, fontes tradicionais para a web são ubíquas, enquanto as fontes não tradicionais possuem <a href="http://www.fontspring.com/blog/the-new-bulletproof-font-face-syntax">meios alternativos e garantidos</a> de entrega aos clientes. De qualquer forma, você pode chegar bem próximo de ter certeza que todos usam a mesma fonte.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/punctuation-sizes.png"/>
+</figure>
+
+<p>Qualquer fonte ou conjunto de fonte que usar, é interessante testar valores de <code>text-indent</code> com ela (e, preferivelmente, em vários tamanhos). Isso garante que suas pontuações deslocadas alinharão corretamente.</p>
+
+<h3>Classes de Pontuação Deslocada</h3>
+
+<p>Assumindo que todos os elementos de nosso artigo usam a mesma fonte, podemos configurar três classes de larguras: <em>small</em> (pequena), <em>medium</em> (média), e <em>large</em> (grande). Dependendo do tipo de pontuação que o parágrafo começar, nosso JavaScript aplicará uma dessas três classes ao elemento da DOM, criando, dessa forma, a pontuação deslocada!</p>
+
+<pre class="brush: css">.indent-small {text-indent: -.2325em}
+.indent-medium {text-indent: -.4125em}
+.indent-large {text-indent: -.6125em}
+</pre>
+
+<p>Perceba que estamos usando valores de medida em <code><a href="http://webdesign.tutsplus.com/articles/taking-the-erm-out-of-ems--webdesign-12321" target="_self">em</a></code>. Isso garante que o <code>text-indent</code> sempre será relativo ao valor de <code>font-size</code> do texto do artigo. Assim, se a fonte aumentar, você não terá de alterar os valores de <code>text-indent</code>.</p>
+
+<h3>Classes de Pontuação Deslocada: Duas Fontes</h3>
+
+<p>E se estiver usando duas fontes diferentes em seu <em>layout</em>? Nesse exemplo, os elementos de texto do corpo (<code>&lt;p&gt;, &lt;ul&gt; e &lt;blockquote&gt;</code>) usam uma fonte sem serifa (Helvetica Neue, Arial e alternativas) enquanto os títulos (<code>&lt;h1&gt;, &lt;h2&gt; e &lt;h3&gt;</code>) usam uma outra fonte sem serifa (Source Sans Pro). Os sinais de pontuação de Source Sans Pro são, pelo <em>design</em>, mais largos que os da Helvetica Neue e Arial. Assim, os elementos DOM configurados com Source Sans Pro (títulos) precisam de um valor uma pouco maior para <code>text-indent</code> que os elementos DOM configurados com Helvetica Neue (listas, parágrafos, etc).</p>
+
+<p>Isso é bem simples de ajustar, bastando criar classes adicionais específicas para os títulos. Ajustaremos o JavaScript para detectar o tipo do elemento e, então, aplicar a classe apropriada.</p>
+
+<pre class="brush: css">.indent-header-small {text-indent: -.325em}
+.indent-header-medium {text-indent: -.5125em}
+.indent-header-large {text-indent: -.7125em}
+</pre>
+
+<h2>Passo 4: Configurar Uma Função no JavaScript</h2>
+
+<p>Agora que já temos o HTML e o CSS que precisamos, usaremos o JavaScript para descobrir quais elementos da DOM são descendentes diretos do recipiente do nosso artigo. Checaremos, então, se esses elementos DOM começam com um sinal de pontuação que deve ser deslocado.</p>
+
+<p>Para começar, criaremos uma função que conterá todo nosso código. Essa função receberá um argumento, que é o elemento DOM contendo o texto que queremos analisar em busca de pontuação a deslocar, por exemplo o recipiente do artigo de um blog.</p>
+
+<pre class="brush: javascript">/*
+ * Pontuação Deslocada
+ * Essa função aceita um elemento DOM
+ * pesquisa em cada um de seus descendentes e
+ * se o elemento começar com uma pontuação deslocável,
+ * a classe HTML apropriada é aplicada ao elemento.
+ *
+ * Então, o elemento DOM recebe uma classe para ativar as classes
+ * que aplicamos.
+ */
+function hangPunctuation(container) {
+// o código vai aqui
+}
+</pre>
+
+<p><strong>Nota</strong>: pontuação deslocada é um dos aspectos do aprimoramento progressivo. Nesse exemplo, usaremos JavaScript nativo que não é totalmente suportado em navegadores antigos (estou olhando para você, IE). Se quisesse fazer isso funcionar em navegadores antigos, você poderia. A maioria das coisas que faremos será em relação a seleção de elementos da DOM e alterar suas classes. Você poderia usar a jQuery para isso ou poderia usar alguma função auxiliar lá do site <a href="http://youmightnotneedjquery.com">youmightnotneedjquery.com</a></p>
+
+<h2>Passo 5: Definindo os Caracteres de Pontuação</h2>
+
+<p>Precisamos criar uma lista das pontuações deslocáveis. Usando os caracteres que definimos antes como referência, podemos criar um objeto JavaScript definindo nossos sinais de pontuação (a partir de seus caracteres Unicode):</p>
+
+<pre class="brush: javascript">// Sinais de pontuação qualificados
+var marks = {
+    '\u201c': 'medium',     // “ - ldquo - aspa dupla inteligente da esquerda
+    '\u2018': 'small',      // ‘ - lsquo - aspa simples inteligente da
+    '\u0022': 'medium',     // " - ldquo - aspa dupla normal esquerda
+    '\u0027': 'small',      // ' - lsquo - aspa simples normal esquerda
+    '\u00AB': 'large',      // « - laquo - aspa dupla angular esquerda
+    '\u2039': 'medium',     // ‹ - lsaquo - aspa simples angular esquerda
+    '\u201E': 'medium',     // „ - bdquo - aspa dupla inteligente esquerda e baixa
+    '\u201A': 'small',      // ‚ - sbquo - aspa simples inteligente e baixa
+};
+</pre>
+
+<p>Como pode ver, definimos a lista de sinais de pontuação que queremos deslocar com a definição de largura correspondente que combine com nossas classes HTML. Esse objeto nos diz qual sinal de pontuação a usar no deslocamento e quão negativo deve ser o valor do <code>text-indent</code>. Essa lista não está completa. A beleza é que iteraremos por toda lista, assim, você pode adicionar sinais de pontuação adicionais a essa lista, se necessário.</p>
+
+<h2>Passo 6: Iterando por Cada Elemento da Lista</h2>
+
+<p>Agora, iteraremos por todos os descendentes do elemento recipiente (passado como parâmetro para a função). Para tanto, primeiramente, prepararemos a iteração a partir de um laço <code>for</code>:</p>
+
+<pre class="brush: javascript">// Itera sobre todos os descendentes diretos do recipiente
+// Se for uma citação, itera sobre todos descendentes diretos também
+for(i=0; i&lt;container.children.length; i++) {
+// código vai aqui
+}
+</pre>
+
+<p>O próximo passo (dentro do laço <code>for</code>) criaremos uma variável chamada <code>el</code> que representará cada elemento descendente direto do recipiente que estamos iterando (obtenha os descendentes do elemento usando a propriedade <code>.children</code>):</p>
+
+<pre class="brush: javascript">var el = container.children[i];</pre>
+
+<p>Agora, passaremos nossa variável <code>el</code> para outra função (<code>hangIfEligible()</code>), que checará se o elemento começa com algum sinal de pontuação que pode ser deslocado. Se sim, outra função aplicará a classe ao elemento.</p>
+
+<pre class="brush: javascript">if (el.tagName === 'BLOCKQUOTE') {
+for (var k = 0; k &lt; el.children.length; k++) {
+        hangIfEligible(el.children[k]);
+    };
+}
+else {
+    hangIfEligible(el);
+}
+</pre>
+
+<p>Notou o que fizemos com a <em>tag</em> <code>blockquote</code>? Uma vez que o elemento <code>blockquote</code> tem seus próprios elementos que podem começar com pontuação passível de deslocamento (como uma <em>tag</em> <code>&lt;p&gt;</code> tag), precisamos iterar sobre seus filhos também. Logo, se o elemento atual que estamos iterando é um <code>blockquote</code>, iteraremos sobre cada um de seus filhos e os passaremos para a função <code>hangIfEligible()</code>. Se não for um <code>blockquote</code>, simplesmente passaremos o próprio elemento à função <code>hangIfEligible()</code>.</p>
+
+<p>Se não iterarmos, especificamente, pelos filhos do <code>blockquote</code>, provavelmente deixaríamos de deslocar as pontuações neles.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19890/image/blockquote.png"/>
+</figure>
+
+<p>Nosso laço <code>for</code> deve parecer com isso:</p>
+
+<pre class="brush: javascript">// Itera por todos os descendentes diretos do recipiente
+// se for uma citação, itera por todos seus descendentes diretos
+for(i=0; i&lt;container.children.length; i++) {
+
+var el = container.children[i];
+
+    if (el.tagName === 'BLOCKQUOTE') {
+        for (var k = 0; k &lt; el.children.length; k++) {
+            hangIfEligible(el.children[k]);
+        };
+    }
+    else {
+        hangIfEligible(el);
+    }
+}
+</pre>
+
+<h2>Passo 7: Deslocando a Pontuação</h2>
+
+<p>Passamos o elemento filho atual para a função <code>hangIfEligible()</code>. É a hora de definirmos como ela funciona:</p>
+
+<pre class="brush: javascript">// Verifica se o elemento passado
+// começa com um sinal de pontuação qualificado
+// Se começar, aplica a classe apropriada, dependendo do tipo da tag
+function hangIfEligible(el) {
+// código vai aqui
+}
+</pre>
+
+<p>Como pode ver, temos uma função chamada <code>hangIfEligible()</code> que leva um parâmetro: o elemento DOM que verificaremos se começa em pontuação.</p>
+
+<h3>Obtendo o Texto do Elemento</h3>
+
+<p>Agora, criaremos as variáveis que precisamos. Primeiro, precisaremos pegar o texto de dentro do elemento DOM. Para tanto, usaremos a propriedade <code>innerText</code> do JavaScript. Como isso não funciona no Firefox, também usaremos a propriedade <code>textContent</code>, que funciona.</p>
+
+<pre class="brush: javascript">var text = el.innerText || el.textContent;
+</pre>
+
+<h3>Preparando o Nome da Classe HTML</h3>
+
+<p>Como nosso exemplo usa duas fontes diferentes (uma para títulos e outra para o corpo do texto), precisaremos de duas classes diferentes para os dois tipos de elementos.</p>
+
+<p>Se você se lembra, nossas classes HTML que controlam os valores negativos de <code>text-indent</code> seguem o padrão <code>indent-</code> para nomeação, e o de largura para sinais de pontuação (<em>small</em>, <em>medium</em>, ou <em>large</em>). Se o elemento é um título, adicionaremos <code>header-</code> entre eles. Assim, a classe para sinais de pontuação pequenos é a <code>indent-small</code> no texto normal, e <code>indent-header-small</code> para títulos.</p>
+
+<p>Em nosso JavaScript, criaremos uma variável para nossa classe HTML e anexaremos <code class="inline">header-</code> depois se a <em>tag</em> atual é um título.</p>
+
+<pre class="brush: javascript">var htmlClass = 'indent-';
+</pre>
+
+<h3>Verificando Se o Elemento Começa com Pontuação</h3>
+
+<p>Verificaremos e veremos se o texto em nosso elemento começa com um dos sinais de pontuação definidos anteriormente. Para tanto, iteraremos sobre cada valor em nossa variável <code>marks</code> onde definimos os sinais de pontuação que queremos deslocar. E, então, usaremos a propriedade <code>indexOf</code> do JavaScript para verificar e ver se o primeiro caractere do elemento de texto combina com nossos sinais de pontuação.</p>
+
+<pre class="brush: javascript">for(var mark in marks) {
+if ( text.indexOf(mark) === 0 ){
+        // se combinar, codifique aqui
+    }
+}
+</pre>
+
+<p>Explicando o <code>indexOf</code>: O <code>indexOf</code> do JavaScript verifica uma cadeia de caracteres onde cada caractere é um elemento de um vetor. Por exemplo, <code>var text = 'A String'</code> seria o equivalente a <code>['A', ' ', 'S', 't', 'r', 'i', 'n', 'g']</code>. A propriedade <code>indexOf</code> leva como parâmetro um caractere e busca o vetor completo em busca daquele caractere. Se ele encontra, retorna a posição do primeiro elemento encontrado no vetor. Assim, em nosso caso, buscamos por algum sinal de pontuação. Se for encontrado na primeira posição do vetor (índice 0) então, nosso texto começa com uma pontuação deslocável.</p>
+
+<h3>Adicionando uma Classe</h3>
+
+<p>Tudo que temos de fazer agora é adicionar a classe ao elemento se o primeiro caractere do seu texto combina com um dos sinais de pontuação.</p>
+
+<p>Em nosso exemplo, se o elemento começa com um sinal de pontuação qualificado, precisaremos verificar se o elemento atual é um título (uma vez que nossos títulos precisam de classes HTML diferenciadas). Logo, na parte que adicionamos esse comentário <code>// se combinar, codifique aqui</code>, substituiremos pelo trecho a seguir:</p>
+
+<pre>if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'H4' || el.tagName === 'H5' )
+htmlClass += 'header-';
+el.classList.add(htmlClass + marks[mark]);
+</pre>
+
+<p>Viu o que fizemos? Se o elemento for qualquer tipo de título, adicionaremos <code>header-</code> ao nome da classe. A classe HTML que será adicionada a nossa DOM é construída dessa forma:</p>
+
+<ul>
+  <li><code>indent-</code> por padrão</li>
+  <li><code>header-</code> anexado se o elemento atual é um título</li>
+  <li><code>small</code>, <code>medium</code>, ou <code>large</code> são adicionados dependendo da largura do sinal de pontuação atual</li>
+</ul>
+
+<h3>Todo o Código Junto</h3>
+
+<p>All of that code together would look like this:</p>
+
+<pre class="brush: javascript">// Verifica se o elemento passado
+// começa com um sinal de pontuação qualificado
+// Se começar, aplica a classe apropriada, dependendo do tipo da tag
+function hangIfEligible(el) {
+var text = el.innerText || el.textContent;
+    var htmlClass = 'indent-';
+
+    for(var mark in marks) {
+        if ( text.indexOf(mark) === 0 ){
+            if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'H4' || el.tagName === 'H5' )
+                htmlClass += 'header-';
+            el.classList.add(htmlClass + marks[mark]);
+        }
+    }
+}
+</pre>
+
+<h2>Passo 8: Execute a Função Assim Que a Página Carregar</h2>
+
+<p>Tudo que temos de fazer agora é executar a função quando a página carregar. Você pode fazer isso com algumas poucas linhas de código:</p>
+
+<pre class="brush: javascript">window.onload = function() {
+var container = document.querySelector('.post')
+    hangPunctuation( container );
+    container.classList.add('hang-punctuation');
+}
+</pre>
+
+<p>Viu o que fizemos? Invoque a função <code>hangPunctuation</code> e passe o elemento DOM do texto o qual você quer descolar a pontuação.</p>
+
+<p>Note que adicionamos a classe ao elemento recipiente. Você pode usar essa classe para deslocar listas <code>&lt;ul&gt;</code>, também. Simplesmente adicione um CSS como: <code>.hang-punctuation ul {margin:0; padding:0: list-style-position: outside;}</code></p>
+
+<h2>O Código Final</h2>
+
+<p>E é isso! Finalizamos! Eis o código final:</p>
+
+<pre class="brush: javascript">/*
+ * Pontuação Deslocada
+ * Essa função aceita um elemento DOM
+ * pesquisa em cada um de seus descendentes e
+ * se o elemento começar com uma pontuação deslocável,
+ * a classe HTML apropriada é aplicada ao elemento.
+ *
+ * Então, o elemento DOM recebe uma classe para ativar as classes
+ * que aplicamos.
+ */
+function hangPunctuation(container) {
+
+    // Sinais de pontuação qualificados
+    var marks = {
+        '\u201c': 'medium',     // “ - ldquo - aspa dupla inteligente da esquerda
+        '\u2018': 'small',      // ‘ - lsquo - aspa simples inteligente da
+        '\u0022': 'medium',     // " - ldquo - aspa dupla normal esquerda
+        '\u0027': 'small',      // ' - lsquo - aspa simples normal esquerda
+        '\u00AB': 'large',      // « - laquo - aspa dupla angular esquerda
+        '\u2039': 'medium',     // ‹ - lsaquo - aspa simples angular esquerda
+        '\u201E': 'medium',     // „ - bdquo - aspa dupla inteligente esquerda e baixa
+        '\u201A': 'small',      // ‚ - sbquo - aspa simples inteligente e baixa
+    };
+
+    // Itera por todos os descendentes diretos do recipiente
+    // se for uma citação, itera por todos seus descendentes diretos
+    for(i=0; i&lt;container.children.length; i++) {
+
+        var el = container.children[i];
+
+        if (el.tagName === 'BLOCKQUOTE') {
+            for (var k = 0; k &lt; el.children.length; k++) {
+                hangIfEligible(el.children[k]);
+            };
+        }
+        else {
+            hangIfEligible(el);
+        }
+    }
+
+    // Verifica se o elemento passado
+    // começa com um sinal de pontuação qualificado
+    // Se começar, aplica a classe apropriada, dependendo do tipo da tag
+    function hangIfEligible(el) {
+        var text = el.innerText || el.textContent;
+        var htmlClass = 'indent-';
+
+        for(var mark in marks) {
+            if ( text.indexOf(mark) === 0 ){
+                if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'H4' || el.tagName === 'H5' )
+                    htmlClass += 'header-';
+                el.classList.add(htmlClass + marks[mark]);
+            }
+        }
+    }
+}
+
+window.onload = function() {
+    var container = document.querySelector('.post')
+    hangPunctuation( container );
+    container.classList.add('hang-punctuation');
+}
+</pre>
+
+<p>É bom lembrar que essa solução não é completa. Provavelmente, requererá alguns ajustes para cada projeto que for usada, porque cada projeto diferente nas escolhas de fontes, estrutura de código, etc. Entretanto, se estiver estruturando um texto longo, essa solução pode ajudar a adicionar um pouco de refinamento tipográfico ao seu <em>layout</em>.</p>
+
+<h3>Leitura Suplementar:</h3>
+
+<ul>
+  <li><a href="http://css-tricks.com/almanac/properties/h/hanging-punctuation/">Pontuação Deslocada no CSS Tricks</a></li>
+  <li><a href="http://www.markboulton.co.uk/journal/five-simple-steps-to-better-typography-part-2">Mark Boulton sobre Pontuação Deslocada</a></li>
+  <li><a href="http://recoveringphysicist.com/21/">Pontuação Deslocada no CSS3, por <em>The Recovering Physicist</em></a></li>
+  <li><a href="http://coding.smashingmagazine.com/2011/03/14/technical-web-typography-guidelines-and-techniques/">Harry Roberts fala sobre marcadores de listas e citações deslocadas no Smashing Magazine</a></li>
+</ul>
+
+<h3>Uma Abordagem Alternativa</h3>
+
+<p>Desde a publicação desse artigo, outros aparecerão com suas ideias. Dê uma olhada nos comentários e verá a técnica inspiradora de <a href="https://twitter.com/g16n" target="_self">Gunnar Bittersmann</a>. O <a href="https://twitter.com/laneolson" target="_self">Lane Olson</a> até combinou essa técnica com meu JavaScript <a href="http://codepen.io/Lane/pen/kufHo/" target="_self">para criar uma demonstração no Codepen</a>.</p>
