@@ -83,6 +83,7 @@ Web  Design
 - [Como Criar um Layout Com Navegação Off-Canvas Usando Bootstrap](http://webdesign.tutsplus.com/pt/tutorials/how-to-build-an-off-canvas-navigation-layout-with-bootstrap--cms-21991)
 - [Como Implementar Sprites em SVG para Vários Navegadores](http://webdesign.tutsplus.com/pt/tutorials/how-to-implement-cross-browser-svg-sprites--cms-22427)
 - [O Guia de Seleção de Fotos para Web Designers](http://webdesign.tutsplus.com/pt/tutorials/the-web-designers-guide-to-photo-selection--cms-21592)
+- [Entendendo a Pontuação Deslocada](http://webdesign.tutsplus.com/pt/articles/getting-the-hang-of-hanging-punctuation--cms-19890)
 
 Fotografia
 ----------
