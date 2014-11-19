@@ -25,6 +25,7 @@ PHP
 - [Orientação a Objetos no WordPress: Classes](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-classes--cms-20021)
 - [Orientação a Objetos no WordPress: Tipos](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-types--cms-20299)
 - [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
+- [Configurando o W3 Total Cache: Cache Avançado de Base de Dados](http://code.tutsplus.com/pt/tutorials/configuring-w3-total-cache-advance-database-cache--cms-21783)
 
 HTML & CSS
 ----------
@@ -58,6 +59,7 @@ Habilidades com Computadores
 - [O Que Fazer Quando o Disco de Inicialização do Seu Mac Está Cheio](https://computers.tutsplus.com/pt/tutorials/what-to-do-when-your-macs-startup-disk-is-almost-full--mac-31780)
 - [Como Usar VPN em Seu Mac](https://computers.tutsplus.com/pt/tutorials/how-to-use-vpn-on-your-mac--mac-46053)
 - [Os 10 Comandos do Terminal Que Todo Usuário de Mac Deveria Saber](http://computers.tutsplus.com/pt/tutorials/10-terminal-commands-that-every-mac-user-should-know--mac-4825)
+- [Configure e Use o Apple Pay](http://computers.tutsplus.com/pt/tutorials/setup-and-use-apple-pay--cms-22603)
 
 Design E Ilustração
 -------------------
