@@ -84,6 +84,7 @@ Web  Design
 - [Como Implementar Sprites em SVG para Vários Navegadores](http://webdesign.tutsplus.com/pt/tutorials/how-to-implement-cross-browser-svg-sprites--cms-22427)
 - [O Guia de Seleção de Fotos para Web Designers](http://webdesign.tutsplus.com/pt/tutorials/the-web-designers-guide-to-photo-selection--cms-21592)
 - [Entendendo a Pontuação Deslocada](http://webdesign.tutsplus.com/pt/articles/getting-the-hang-of-hanging-punctuation--cms-19890)
+- [Realizando Uma Pesquisa Bem Sucedida Para Um Projeto Web](http://webdesign.tutsplus.com/pt/articles/carrying-out-successful-research-for-a-web-project--cms-20828)
 
 Fotografia
 ----------

@@ -1,0 +1,296 @@
+<h1>Introduction to Generators & Koa.js: Part 1</h1>
+
+<p><a href="http://koajs.com/" target="_self">Koa.js</a> is an expressive next-generation web framework written for <a href="http://nodejs.org/" target="_self">Node.js</a> by the people behind the Express and Connect frameworks. Koa.js leverages generators, which are a bleeding edge feature of JavaScript, and have not yet been made into stable versions of Node.js. Koa aims to use generators to save developers from the spaghetti of callbacks, making it less error-prone and thus more manageable.</p>
+
+<p>With just 550 lines of code, Koa is an extremely light framework. Even after that, Koa packs in an elegant suite of methods such as content-negotiation, redirections, proxy support etc., giving you ease and speed of development along with the granular control over your node application.</p>
+
+<h2>Installing Node</h2>
+
+<p>Now before we begin, you will need to have at least Node version <code class="inline">0.11.x</code> or greater.</p>
+
+<p>You can install the latest version of Node using the N module :</p>
+
+<pre class="brush: bash">sudo npm install -g n
+sudo n stable </pre>
+
+<p>You can also use other community modules like nvm or build it from source. Please note that N is also a community module.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p>To run a JS file which makes use of generators, you need to provide the <code class="inline">--harmony</code> flag when you run it.</p>
+
+<p>For example, to run <code class="inline">app.js</code>, enter in the following command:</p>
+
+<pre class="brush: bash">node --harmony app.js</pre>
+
+<div/>
+
+<p>Or to save yourself from entering this flag every time,  you can create an alias using the following command:</p>
+
+<pre class="brush: bash">alias node="node --harmony"</pre>
+
+<div/>
+
+<p>Now to run your application using generators, just enter:</p>
+
+<pre class="brush: bash">node app.js</pre>
+
+<p>Very good! Also keep in mind that all of the code in this article is available on <a href="https://github.com/bhanuc/koa-article" target="_self">GitHub</a>. Feel free to fork and play with it.</p>
+
+<p>Now to understand Koa, you must first understand generators which form the spine of the framework.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<b><h2>What Are Generators?</h2>
+</b>
+
+<p>With ES-6, generators have finally landed in the magical land of JavaScript. If you have prior experience with generators in Lua, Python, Scheme, Smalltalk etc., then you would be glad to know that a very similar thing has been implemented in JavaScript. </p>
+
+<p> Generators are first class co-routines in JavaScript which, simply put, introduces a pause and play interface in the language. Before generators, the whole script used to <i>usually</i> execute in a top to bottom order, without an easy way to stop code execution and resuming with the same stack later. Now lets get our hands dirty with some examples.</p>
+
+<p>As per the current draft ES-6 specification, we need to use a different version of the function definition to create a generator function. It looks like this:</p>
+
+<pre class="brush: javascript">var generator_func = function* () { };</pre>
+
+<p>Here <code class="inline">generator_func</code> is just an empty  generator function.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p>So what we can do is use the <code class="inline">yield</code> keyword in the function to stop the execution and save the current stack.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p>Here's a simple example demonstrating the Sum of an infinite AP:</p>
+
+<pre class="brush: javascript">var r = 3;
+
+function* infinite_ap(a) {
+ for( ; ; ) {
+        a = a + r;
+        yield a;
+      }
+}
+
+var sum = infinite_ap(5);
+
+console.log(sum.next()); // returns { value : 8, done : false }
+console.log(sum.next()); // returns { value : 11, done: false }</pre>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p>In the above code, we initially create an iterator instance named <code class="inline">infinite_ap</code> which includes an infinite loop and if run under normal conditions, can freeze the execution.</p>
+
+<p>Next we store an iterator instance in the <code class="inline">sum</code> variable.</p>
+
+<p>Now when we call <code class="inline">sum.next()</code>, it returns <code class="inline">{ value: 8, done: false }</code>  which means it stopped its execution on the <code class="inline">yield</code> statement returning the <code class="inline">value</code> as 'a' and <code class="inline">done</code> as 'false' .</p>
+
+<p>Here <code class="inline">done</code> returns false until the execution is unfinished. Once the execution is complete (in the aforementioned case, it never happens) the function returns <code class="inline">{value: undefined, done: true}</code> .</p>
+
+<p>Here is a small modification of the previous code to demonstrate the end of execution:</p>
+
+<pre class="brush: plain">var r = 3;
+
+function* infinite_ap(a) {
+for( var i = 0; i &lt; 3 ; i++) {
+       a = a + r ;
+       yield a;
+    }
+}
+
+var sum = infinite_ap(5);
+
+console.log(sum.next()); // returns { value : 8, done : false }
+console.log(sum.next()); // returns { value : 11, done: false }
+console.log(sum.next()); // returns { value : 14, done: false }
+console.log(sum.next()); //return { value: undefined, done: true } </pre>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p>In more complex programs, you would check and use the values returned and the <code class="inline">done</code> status.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p><i>Note</i>: Using <code class="inline">yield</code> without <code class="inline">function*</code> would lead to an early error.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<h2>Available Generators Methods</h2>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p>Here are some common methods that will come in handy when you deal with vanilla generators.</p>
+
+<p>Each of the methods below is available only in a generator function and would throw an error otherwise.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<b><h3><code class="inline">next()</code></h3>
+</b>
+
+<p>This is used to resume the execution along with passing an argument. If nothing is passed, then undefined gets passed as the first argument.</p>
+
+<p>Example: <code class="inline">sum.next(5);</code></p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<b><h3><code class="inline">throw()</code></h3>
+</b>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<p>This is used to throw an error or exception at any step. It makes error handling much easier. Throwing an error can result in stopping execution of the file, if it is not handled somewhere. The simplest way to handle an error is to use a try and catch statement. This method takes a single argument which can be anything.</p>
+
+<p>Example: <code class="inline">sum.throw(new Error("this is an error"));</code> </p>
+
+<b><i>
+</i></b>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+
+
+<h3><b>Delegating <code class="inline">yield</code></b></h3>
+
+<p>Generator delegation is used to yield a generator from within an existing generator and can be used to compose generators or even iterate over a generator.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium"><p>On delegating to another generator, the current generator stops producing a value itself and starts yielding values of the delegated generator until it is exhausted. Upon exhaustion of the delegated generator, the generator resumes returning its own value.</p>
+</span></span>
+
+<p>It is very much like using a <code class="inline">for-in</code> loop over a generator, but the exceptions of the delegated generator are propagated and thrown via the outer generator's <code class="inline">throw</code> method and should be handled likewise. Here's an example:</p>
+
+<pre class="brush: javascript">var consoleLogThunk = function(msg) {
+return function() {
+        console.log(msg);
+      }
+}
+
+var generator = function*() {
+    yield consoleLogThunk("Yo");
+    yield consoleLogThunk("Dawg");
+    yield consoleLogThunk("!!!");
+}
+
+var delegator_function = function* () {
+    yield consoleLogThunk("I yielded before delegated yield");
+    yield* generator();
+    yield consoleLogThunk("I yielded after delegated yield");
+}
+
+var k = delegator_function();
+
+k.next().value();
+k.next().value();
+k.next().value();
+
+console.log(k.next()); // If you call k.next() , it will throw an Type error , as value is undefined which is not a function
+
+</pre>
+
+<p>Now that you have a brief understanding of generators in Javascript , you can use them for writing much clearer and less error-prone applications where you can block on I/O, without actually blocking the process. </p>
+
+<p>Let's now move on to the installation of Koa and a very simple application based on Koa.js.</p>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<b><div/><h2>Koa.js:</h2>
+</b>
+
+<p>Koa is an object which contains an array of middleware generator functions, all of which are composed and executed in a stack-like manner upon each request.</p>
+
+<h3><b>Installing Koa</b></h3>
+
+<p>In your project directory, execute the following command.</p>
+
+<pre class="brush: bash">npm install koa --save</pre>
+
+<p>Koa will automatically be downloaded and saved in a <code class="inline">package.json</code> file, if it exists.</p>
+
+<p>Despite Koa's very small footprint, it includes methods for tasks like cache freshness, content-negotiation, redirections, proxy support etc., with no middleware bundled in.</p>
+
+<p>Here's an example hello-world application:</p>
+
+<pre class="brush: javascript">var koa = require('koa');
+var app = koa();
+
+app.use(function *(){
+this.body = "Hello World !!!";
+});
+
+app.listen(3000);</pre>
+
+<h3>Koa's Control Flow</h3>
+
+<p>Now<b>, </b>Koa also implements downstreaming followed by upstreaming of control flow. At first it can be hard to gasp, but once you go through the example below, things will get clearer.</p>
+
+<p>Here's an example of control flow in Koa:</p>
+
+<pre class="brush: javascript">var koa = require('koa')();
+
+koa.use(function* (next) {
+//do something before yielding/passing to next generator function in line which will be 1st event in downstream
+    console.log("A");
+    yield next;
+
+    // do something when the execution returns upstream, this will be last event in upstream
+    console.log("B");
+});
+
+koa.use(function* (next) {
+    // do something before yielding/passing to the next generator function in line, this shall be 2nd event downstream
+    console.log("C");
+
+    yield next;
+
+    // do something when the execution returns upstream and this would be 2nd event upstream
+    console.log("D");
+});
+
+koa.use(function* () { // do something before yielding/passing to next generator function in line. Here it would be last function downstream
+    console.log("E");
+    this.body = "hey guys";
+    console.log("F"); // First event of upstream (from the last to first)
+
+});
+
+koa.listen(3000);
+</pre>
+
+<p>The code above is pretty simple. Note that not all <code class="inline">console.log</code> statements are required but they will help you to clearly understand the downstream and upstream execution flow of Koa.js .</p>
+
+<h4>Understanding the Examples' Execution Flow</h4>
+
+<p>When we run this application and open up <code class="inline">localhost:3000</code> in the browser, we can observe that the <code class="inline">console.logs</code> in the terminal are not in the order of <b>A-B-C-D-E-F</b>. Nor are they in the order of <b>A-C-E-B-D-F</b>.</p>
+
+<p>The order is actually <b>A-C-E-F-D-B</b> which depicts the downstream of yields and upstream behavior of the execution in a Koa app.</p>
+
+<p>You might notice that it is printed twice. This is due to a double request sent by the browser to fetch the favicon.</p>
+
+
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium"><p><i>Tip</i>: The <code class="inline">koa.use(function)</code> adds the middleware function to the application.</p>
+</span></span>
+
+<span class="wysiwyg-font-size-medium"><span class="wysiwyg-font-size-medium">
+</span></span>
+
+<div/>
+
+<h2>In Conclusion</h2>
+
+<p>So that's it for part one of this tutorial on JavaScript generators and Koa.js. You've learned about most of the prerequisites such as what generators are, how to use use them, how to use delegating yield and how control flow works in Koa.js.</p>
+
+<p>In the next part of this tutorial, we will dive deeper into Koa and learn how to build a CRUD application. If you have any questions or comments, feel free to contact me or just drop a comment below. </p>

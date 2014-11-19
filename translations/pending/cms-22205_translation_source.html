@@ -1,0 +1,212 @@
+<h1>Getting Started with Intel XDK</h1>
+
+<p>Mobile development with web technologies is nothing new. Thanks to tools like PhoneGap and Appcelerator Titanium, web developers can create hybrid apps that have access to the device's hardware. A new solution for HTML5/CSS/JavaScript development is Intel's XDK. In this article, I'll tell you why it's worth giving it a try.</p>
+
+<p/>
+
+<h2><span class="sectionnum">1.</span> What is it?</h2>
+
+<p>If you are involved with mobile development, you've probably heard of or used tools such as <a href="http://phonegap.com/" rel="external" target="_blank">PhoneGap </a>or <a href="http://www.appcelerator.com/titanium/" rel="external" target="_blank">Appcelerator Titanium</a>. These tools allow web developers to use their web development skills to create hybrid mobile apps.</p>
+
+<p>Last year, <a href="http://www.intel.com/content/www/us/en/homepage.html" rel="external" target="_blank">Intel</a> purchased <a href="http://www.appmobi.com/" rel="external" target="_blank">appMobi</a> and packaged their development tools into the <a href="http://xdk-software.intel.com/" rel="external" target="_blank">Intel XDK</a>. This streamlined, unified product is a complete toolset for mobile development. A developer can go from the first lines of code to a fully compiled application in with just one set of tools. And best of all, the XDK is free to download.</p>
+
+<h2><span class="sectionnum">2.</span> Features</h2>
+
+<p>The first thing you'll notice about the XDK is how easy it is to install. PhoneGap requires extensive configuration and Titanium has specific requirements with regards to installed libraries. To get up and running with the XDK, you download it and install it.</p>
+
+<p>The beauty of XDK is that you can build applications for any platform. With other tools, you are limited to the platform you are developing on. Since Apple won't let Xcode tools run on anything but a machine running OS X, you must have a Mac to develop for iOS.</p>
+
+<p>Intel XDK lets you develop on any platform, because compiling is done in the cloud. PhoneGap offers a similar service for cross platform development, but it's limited. And with the XDK you aren't limited to mobile platforms. Do you plan to build Chrome, Facebook, Amazon, or Nook apps? The XDK can build for those targets as well as the option to compile with XDK or <a href="http://cordova.apache.org/" rel="external" target="_blank">Cordova</a> (PhoneGap) API's.</p>
+
+<p>The XDK ships with the open source <a href="http://brackets.io/" rel="external" target="_blank">Brackets</a> editor from Adobe. Titanium has a decent editor, but I prefer the XDK solution. Additionally, you have access to some of the extensions available to Brackets. The only drawback is that you can't update the Brackets editor that's integrated with the XDK. However, it's still a step up from Titanium, and PhoneGap doesn't even come with an editor.</p>
+
+<p>The XDK also includes a graphical editor, which is sorely missing in all of the HTML5 mobile platforms. It stands to reason using HTML components would benefit from a WYSIWYG editor. It also supports frameworks such as <a href="http://getbootstrap.com/" rel="external" target="_blank">Bootstrap</a> and <a href="http://jquerymobile.com/" rel="external" target="_blank">jQuery Mobile</a>. These user interface components allow you to quickly build out the interface of your app.</p>
+
+<p>Once your app is created, you need a way to test out its functionality. Intel XDK includes the best emulator for mobile devices I've seen to date. It includes the capability to test on real devices and profile performance without having to install anything.</p>
+
+<h2><span class="sectionnum">3.</span> Build a Mobile App with Intel XDK</h2>
+
+<h3>Step 1: Download and install</h3>
+
+<p>Go to the <a href="http://xdk-software.intel.com/" rel="external" target="_blank">Intel XDK download page</a> and get the latest version of XDK. After downloading the package, install it with the default options.</p>
+
+<h3>Step 2: Create a New Project</h3>
+
+<p>We're going to build a small picture app. Start the XDK and choose <strong>Start a New Project</strong>. Some of the options you have are:</p>
+
+<ul>
+  <li><strong>Start with a Demo:</strong> This option allows you to use one of the many demo projects Intel offers. This is good to help understand how to develop with the XDK.</li>
+  <li><strong>Start with a Template</strong><strong>:</strong> This option offers a number of templates for various user interface styles. It also has a blank Cordova template to get you started.</li>
+  <li><strong>Import an Existing HTML5 Project:</strong> With this option, you can import a project made outside the XDK, such as a PhoneGap project coded in your editor of choice. It also lets you import XDK projects.</li>
+  <li><strong>Use App Starter/Start with App Designer:</strong> App Starter can be considered App Designer Lite. Both are graphical interfaces to go along with the Brackets editor. App Starter uses <a href="http://app-framework-software.intel.com/" rel="external" target="_blank">App Framework</a>. App Designer adds options for the Bootstrap, jQuery Mobile, and Topcoat user interface frameworks.</li>
+  <li><strong>Start with a Blank Project:</strong> As the name implies, this option gives us a blank project with a template to get us started. This is the option we will choose for this tutorial.</li>
+</ul>
+
+<p>Give your project a name and click <strong>Create</strong>. The XDK will create your project as well as a folder structure.</p>
+
+<h3>Step 3: Project Structure</h3>
+
+<p>Even though we started a blank project, the XDK includes some files to get you started. We are going to edit these files for our project. </p>
+
+<h4>init-dev.js </h4>
+
+<p>This file is used to detect ready events from the various libraries in use. This file will be used as is. It includes many log statements for debugging purposes and to better understand how the file works. The part we are most concerned with starts at line <strong>106</strong>.</p>
+
+<pre class="brush: javascript">var evt = document.createEvent("Event") ;
+evt.initEvent("app.Ready", false, false) ;
+document.dispatchEvent(evt) ;</pre>
+
+<p>The first line creates a new event object. We initialize this object with the value <code class="inline">"app.ready"</code>. The last line dispatches the event to the DOM.</p>
+
+<h4>init-app.js</h4>
+
+<p>I've deleted most of this file's contents, except for the part we need. We make sure that the libraries we need have been loaded and that the device is ready before we execute any of our code. Remember the <code class="inline">app.ready</code> event from the previous file?</p>
+
+<pre class="brush: plain">document.addEventListener("app.Ready", app.initEvents, false) ;</pre>
+
+<p>The event listener listens for the <code class="inline">app.ready</code> event and calls the <code class="inline">initEvents</code> function on the <code class="inline">app</code> object.</p>
+
+<pre class="brush: plain">app.initEvents = function() {
+"use strict" ;
+    var fName = "app.initEvents():" ;
+    console.log(fName, "entry") ;
+    $(".take").bind("click", takePic);
+    document.addEventListener("intel.xdk.camera.picture.add",onSuccess); 
+} ;</pre>
+
+<p>The <code class="inline">initEvents</code> function does two things. First, it binds a click event listener to a button using <a href="http://jquery.com/" rel="external" target="_blank">jQuery</a>. Second, it adds an event listener for the XDK <code class="inline">intel.xdk.camera.picture.add</code> event.</p>
+
+<h4>app.js</h4>
+
+<p>This file contains the meat of our app and contains the functions that runs our app. The <code class="inline">replacer</code> function uses jQuery to replace the image on the page with the most recent picture taken.</p>
+
+<pre class="brush: plain">function replacer(pic) {
+$("img").replaceWith(pic);
+}</pre>
+
+<p>The name of the <code class="inline">takePic</code> function says it all. It uses the XDK framework to take a picture.</p>
+
+<pre class="brush: plain">function takePic() {
+intel.xdk.camera.takePicture(50,false,"jpg");
+}
+</pre>
+
+<p>The <code class="inline">onSuccess</code> function fires when a <code class="inline">intel.xdk.camera.picture.add</code> event is detected. If a picture was successfully taken, it will replace the current image on the page using the <code class="inline">replacer</code> function we saw earlier. If the app was not able to take a picture, it will display an error message.</p>
+
+<pre class="brush: plain">function onSuccess(evt) {
+if (evt.success == true) {
+        var image = document.createElement('img');
+        image.src=intel.xdk.camera.getPictureURL(evt.filename);
+        image.setAttribute ("style","width:100%;height:200px;");
+        image.id=evt.filename;
+        replacer(image);
+    }
+    else {
+        if (evt.message != undefined) {
+            alert(evt.message);
+    }
+    else
+    {
+        alert("error capturing picture");
+    }
+  }
+}</pre>
+
+<h4>index.html</h4>
+
+<p>This file contains the main page of our app. It's a simple HTML file in which we pull in jQuery and jQuery Mobile.</p>
+
+<pre class="brush: plain">&lt;script src="lib/jquery-2.1.1.js"&gt;&lt;/script&gt;
+&lt;script src="lib/jquery.mobile-1.4.4/jquery.mobile-1.4.4.js"&gt;&lt;/script&gt; 
+</pre>
+
+<p>We also import a few stylesheets to style the app. The custom stylesheet, <strong>app.css</strong>, has very little in the way of styling. That is because I use the <a href="http://themeroller.jquerymobile.com/" rel="external" target="_blank">jQuery Mobile theme roller</a> to style the app.</p>
+
+<pre class="brush: plain">&lt;link rel="stylesheet" href="lib/jquery.mobile-1.4.4/jquery.mobile-1.4.4.css"&gt;
+&lt;link rel="stylesheet" href="css/themes/selfi.css"&gt;
+&lt;link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css"&gt;
+&lt;link rel="stylesheet" href="css/app.css"&gt;</pre>
+
+<p>The page itself is a standard jQuery Mobile page with a header, content, and footer section. Notice the image inside the <code class="inline">div#info</code> tag. This is the image that's replaced by the picture taken by the camera.</p>
+
+<pre class="brush: plain">&lt;div data-role="page"&gt;
+   &lt;div data-role="header"&gt;
+           &lt;h1&gt;Selfi&lt;/h1&gt;
+       &lt;/div&gt;
+       &lt;div data-role="main" class="ui-content"&gt;
+           &lt;div id="info"&gt;&lt;img src="img/vader-selfie.jpg"&gt;&lt;/div&gt;
+           &lt;a class="take" data-role="button"&gt;Take Selfi!&lt;/a&gt;
+           &lt;/div&gt;
+       &lt;div data-role="footer" data-position="fixed"&gt;
+           &lt;h1&gt;&lt;/h1&gt;
+       &lt;/div&gt;
+    &lt;/div&gt;</pre>
+
+<p>This is a script used for debugging apps using app preview.</p>
+
+<pre class="brush: plain">&lt;script src="http://debug-software.intel.com/target/target-script-min.js#Agu5iaiuw-i47vL-2_lk5pDOu3XL6fZm9sAm4apb__w"&gt;&lt;/script&gt;</pre>
+
+<p>We also import a number of key scripts that make the app tick, such as Cordova and Intel XDK, and <strong>app.js</strong>.</p>
+
+<pre class="brush: plain">&lt;script src="intelxdk.js"&gt;&lt;/script&gt;     &lt;!-- phantom library, needed for XDK api calls --&gt;
+&lt;script src="cordova.js"&gt;&lt;/script&gt;          &lt;!-- phantom library, needed for Cordova api calls --&gt;
+&lt;script src="xhr.js"&gt;&lt;/script&gt;              &lt;!-- phantom library, needed for XDK CORS --&gt;
+&lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;script src="js/init-dev.js"&gt;&lt;/script&gt;
+&lt;script src="js/init-app.js"&gt;&lt;/script&gt;</pre>
+
+<h2><span class="sectionnum">4.</span> Enabling Plugins</h2>
+
+<p>We're going to be using the Intel XDK API to take pictures. To make this work, we have to enable a few plugins. Open the <strong>Projects</strong> tab and, in the middle, you'll see <strong>CORDOVA 3.X HYBRID MOBILE APP SETTINGS</strong>. Click the plus button next to plugins and permissions. On the right, under <strong>Intel XDK Plugins</strong>, check <strong>Camera</strong>.</p>
+
+<figure class="post_image">
+  <img alt="Camera plugin" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/454/posts/22205/image/xdk-cameraplug-page.png"/>
+  <figcaption>Camera plugin </figcaption>
+</figure>
+
+<h2><span class="sectionnum">5.</span> Using the Emulator</h2>
+
+<p>Click the <strong>Emulate</strong> tab and try out the functionality of the app. When you click on the <strong>Take Selfi</strong> button, it should bring up the picture window. After taking a picture, the picture should replace the placeholder image.</p>
+
+<figure class="post_image">
+  <img alt="Emulate" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/454/posts/22205/image/xdk-emulate-page.png"/>
+  <figcaption>Emulator</figcaption>
+</figure>
+
+<h2><span class="sectionnum">6.</span> Testing the App</h2>
+
+<p>Download and install the Intel App Preview app from <a href="https://play.google.com/store/apps/details?id=com.intel.html5tools.apppreview&amp;hl=en" rel="external" target="_blank">Google Play</a> or <a href="https://itunes.apple.com/app/intel-app-preview/id725023841?mt=8" rel="external" target="_blank">Apple's App Store</a>. Go to the <strong>Test</strong> tabs and copy the <strong>weinre</strong> script tag if you want to perform debugging with App Preview. Click on the <strong>PUSH FILES</strong> button to upload your app to Intel's servers. Log on to App Preview with your credentials from the Intel XDK and choose the app you uploaded.</p>
+
+<figure class="post_image">
+  <img alt="Push" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/454/posts/22205/image/xdk-push.png"/>
+</figure>
+
+<h2><span class="sectionnum">7.</span> Building the App</h2>
+
+<p>Now that we have tested the app, the last task is to build it for distribution. Click on the <strong>Build </strong>tab to display your options. As you can see, we have a wide range of targets to build for.</p>
+
+<figure class="post_image">
+  <img alt="Build choices" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/454/posts/22205/image/xdk-bld.png"/>
+</figure>
+
+<p> Since we used the Camera API, which is <strong>Legacy</strong>, we will choose the <strong>Legacy Hybrid</strong> app. This brings us to the build page as shown below.</p>
+
+<figure class="post_image">
+  <img alt="Build options" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/454/posts/22205/image/xdk-options.png"/>
+</figure>
+
+<p>Clicking on <strong>Details</strong> shows you options for in-app billing, streaming audio, etc.</p>
+
+<figure class="post_image">
+  <img alt="Details" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/454/posts/22205/image/xdk-detail.png"/>
+</figure>
+
+<p>After choosing the options for your app, click on the build button. After a few moments, the file is built and you will get a dialog that lets you download your app.</p>
+
+<figure class="post_image">
+  <img alt="Success" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/454/posts/22205/image/xdk-success.png"/>
+</figure>
+
+<h2>Conclusion</h2>
+
+<p>I hope you agree that it's easy to create an app with Intel XDK. Whether you're a veteran, full stack web developer or just starting to get into development, Intel XDK has an entry point for you. It's easy to pick up and I encourage you to give the Intel XDK a try.</p>

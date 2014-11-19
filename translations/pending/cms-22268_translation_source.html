@@ -1,0 +1,175 @@
+<h1>Prototyping an Interactive iOS Product Tour With Framer.js</h1>
+
+<p>Framer.js and its accompanying ecosystem <a href="http://framerjs.com/" rel="external" target="_blank">Framer Studio</a> are great tools for composing, presenting and iterating upon interaction design. In this post, I'll walk you through constructing an interactive prototype for a fictional iOS App’s Product Tour using Adobe Photoshop CC 2014 and Framer Studio 1.9.29. We’ll assume that we are creating a news feed app, in which updates from the user’s network are displayed in a timeline, while settings and additional options are displayed in a sidebar.</p>
+
+<figure class="post_image">
+  <img alt="framer studio" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/framer-studio.png"/>
+</figure>
+
+<p>Play with the prototype on <a href="http://tutsplus.github.io/product-tour-with-photoshop-and-framerjs/tour.framer/" target="_self">the demo page</a> (webkit-based browsers—Chrome, Safari, etc—are supported).</p>
+
+<h2><span class="sectionnum">1.</span> Initial Setup</h2>
+
+<h3>Create Assets in Photoshop</h3>
+
+<p>First, create your assets in Photoshop. The Product Tour will consist of four steps:</p>
+
+<ol>
+  <li>Introduction to the App</li>
+  <li>Introduction to the News Feed</li>
+  <li>Introduction to the Sidebar</li>
+  <li>Login Screen</li>
+</ol>
+
+<p>When working with Framer, it is important to note that only grouped, visible Photoshop layers will be imported into Framer Studio. Group your layers by interaction (i.e. things that have the same interaction should be grouped together), as you'll access things by their group name when you're working in Framer. For this product tour, I have grouped my layers by their function:</p>
+
+<figure class="post_image">
+  <img alt="photoshop layers" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/Screenshot.png"/>
+</figure>
+
+<p>These layers will be accessible in the code later via <code class="inline">myLayers.doneButton</code>, <code class="inline">myLayers.dots</code>, etc. </p>
+
+<h3>Import Into Framer Studio</h3>
+
+<p>Next, import your assets from Photoshop into Framer Studio. Your Photoshop document must be open and saved when performing an import. Click the <strong>Import</strong> button, and you will see a dialog which looks something like this:</p>
+
+<figure class="post_image">
+  <img alt="import" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/import.png"/>
+</figure>
+
+<p>Framer will flatten your groups into images when importing, and your assets will be accessible in Framer after the import is complete.</p>
+
+<h3>Use Variables to Easily Manipulate Later</h3>
+
+<p>It is best practice to turn your imported grouped objects into variables once you have imported into Framer, as it will make it easier for you to manipulate the prototype later if you need. </p>
+
+<p>For example, at a later date, you may want to use a different Photoshop file with differently named groups, but with the same interactions you've already created. This will be much easier if you structure your interactions around variable names, as you can simply switch the variable’s reference on one line and have it reflected throughout the rest of the document:</p>
+
+<pre class="brush: javascript"># This imports all the layers for "tour" into tourLayers
+ly = Framer.Importer.load "imported/tour"
+
+## ------------------- VARIABLES ---------------------
+welcome = ly.welcome
+dots = ly.dots
+moveDot = ly.movingDot
+done = ly.doneButton
+login = ly.login
+logo = ly.logo
+news = ly.newsFeed
+siderbar = ly.siderbar
+gradient = ly.gradient
+background = ly.background
+feedDescription. ly.feedDescription</pre>
+
+<p>Now that we have some assets to work with, you can begin creating the interactions that will bring your prototype to life. </p>
+
+<h3>Use States</h3>
+
+<p>If you have assets that will have different interactions within your composition, states are a powerful way to structure your code. In this prototype, the four steps of the tour will each use different assets in different ways. States will allow us the flexibility to define each piece of the composition independently, increasing the modularity and readability of the code. </p>
+
+<p>For example, our news feed screen will have four states: </p>
+
+<ol>
+  <li>Original (right side of the screen, not visible)</li>
+  <li>Shown (center of the screen)</li>
+  <li>Sidebar (far right side of screen)</li>
+  <li>Hidden (left side of the screen, not visible)</li>
+</ol>
+
+<p>Our states will reflect these positions by setting different <code class="inline">x</code> values based on where the news feed should be in a given part of the tour:</p>
+
+<pre class="brush: javascript">news.states.add
+origin: { x: 750 }
+    shown: { x: news.originX }
+    sidebar: { x: 655 }
+    hidden: { x; -750 }</pre>
+
+<h2><span class="sectionnum">2.</span> Structure Interactions in Framer</h2>
+
+<h3>Enable Dragging on Layers</h3>
+
+<p>For the product tour, we want to illustrate different areas of the app after a user has swiped left to get to the next part of the product tour. To do this, first enable dragging on the layers where you'd like to allow it.</p>
+
+<p>Create an array:</p>
+
+<pre class="brush: plain">dragLayers = [welcome, gradient, gradient2]</pre>
+
+<p>Then create a <code class="inline">for</code> loop to iterate through this array, adding draggable properties to these layers:</p>
+
+<pre class="brush: plain">for drag in dragLayers
+# Enable dragging
+    drag.draggable.enabled = true
+    drag.draggable.speedY = 0
+    # Prevent dragging left to right
+    drag.draggable.maxDragFrame = drag.frame
+    drag.draggable.maxDragFrame.width *= 2
+    drag.draggable.maxDragFrame.x = drag.x-drag.width</pre>
+
+<ul>
+  <li><code class="inline">enabled = true</code> allows the layer to be dragged</li>
+  <li><code class="inline">speedY = 0</code> disables dragging along the Y axis</li>
+  <li><code class="inline">maxDragFrame = drag.frame</code> sets the frame within which one can drag to stay within the layer itself</li>
+  <li><code class="inline">maxDragFrame.x = drag.x-drag.width</code> allows the frame to be dragged along the x axis negatively (i.e. right-to-left)</li>
+</ul>
+
+<h3>Change States When Dragged Beyond a Certain Point</h3>
+
+<p>After enabling dragging on the layers that you wish, target the layers and change your assets’ states when they are dragged a certain degree.</p>
+
+<pre class="brush: plain">welcome.on Events.DragEnd, -&gt;
+if welcome.screenFrame.x &lt; -150</pre>
+
+<p>When the user has finished dragging the <b>welcome</b> layer, if they have dragged it beyond 150 pixels to the left (<code class="inline">screenFrame.x &lt; -150</code>), then change the states of the prototype to the news feed state:</p>
+
+<pre class="brush: javascript">welcome.on EventsDragEnd, -&gt;
+if welcome.screenframe.x &lt; -150
+		welcome.states.switch "hidden"
+		news.states.switch "shown"
+		moveDot.states.switch "second"
+		gradient.states.switch "shown"</pre>
+
+<p>The states of other elements will need to change accordingly (hide the welcome state, move the dot at the bottom to reflect step 2 of the tour, etc.). Then we repeat for the other draggable layers (gradient, gradient2) and change the states accordingly. Continuing in this fashion, we can create a fully fleshed-out prototype for our product tour. </p>
+
+<h3>Animate Layers in an Array Individually, Adding a Slight Delay</h3>
+
+<p>Animating the individual status updates in the News Feed rather than the entire group will give the prototype a sleeker feel, as demonstrated in the (very small) animated gif below:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/framer4.gif"/>
+</figure>
+
+<p>First, create an array of the layers you want to animate:</p>
+
+<pre class="brush: plain">newsLayers = [ly.celeb1, ly.celeb2, ly.celeb3, ly.celeb4, ly.celeb5, ly.celeb6]</pre>
+
+<p>Then, create a function to animate each layer to the desired <code class="inline">x</code> location, adding a delay of <code class="inline">0.1</code> between each animation:</p>
+
+<pre class="brush: plain">newsCurve = 'spring(50, 30, 30)'
+newsAnimation = -&gt;
+for i in [0 .. newsLayers.length-1]
+		newsLayers[i].animate
+			delay: i * 0.1
+			properties:
+				x: 0
+			curve: newsCurve</pre>
+
+<h3>Pro Tip: Create Functions for Your Interactions</h3>
+
+<p>If you are going to be re-using certain interactions at various places throughout your prototype, consider creating functions so that you can re-use them later on. So rather than writing your animation multiple times, write it once and re-use it where necessary. Create an animation that can be re-used using a method such as:</p>
+
+<pre class="brush: javascript">Layer::fadeOut = -&gt;
+this.animate
+	    properties: 
+			opacity: 0
+		curve: 'ease-in-out'
+		time: 0.5</pre>
+
+<p>Then, afterwards, you can "fadeOut" any layer by calling: <code class="inline">myLayer.fadeOut()</code> </p>
+
+<h2>Conclusion</h2>
+
+<p>Framer is a great tool for creating modern, silky, highly-interactive prototypes rapidly. Incorporating it into your workflow—creating your layouts in Photoshop (or Sketch), then manipulating via Framer—will allow you to create robust prototypes much more quickly. </p>
+
+<p>You will also be able to modify your designs in your visual layout tool and then import directly into Framer, allowing for more efficient iteration as development progresses. If you have properly set up your document with variables, then your interactions will apply to the newly imported assets, allowing for rapid iteration upon interaction and visual design ideas. If you were to deliver static interaction design, you would need to update multiple static comps with new visual elements. Using this workflow, however, you just make a change in a single parent document, re-import to Framer, and voila!</p>
+
+<p>Stay tuned for more tutorials on prototyping. Also, feel free to comment below, and I will get back to you as soon as possible. Happy prototyping!</p>

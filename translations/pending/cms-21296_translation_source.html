@@ -1,0 +1,284 @@
+<h1>50 Filters of WordPress: Filters 11-20</h1>
+
+<p>In the previous part of this series, we started going through 50 WordPress filters. Selected among hundreds, we started by reviewing 10 of them.</p>
+
+<p>In this tutorial, we're going to see another batch of them and review some examples of each.</p>
+
+<p>Let's begin!</p>
+
+<h2>Playing With Translatable Data in WordPress</h2>
+
+<p>One of the coolest features of WordPress is having every bit of text ready to be translated. If your website's language is English, however, you don't need this feature - or do you? </p>
+
+<p>The <code>gettext</code> filter might work for you in a different way. Let's see an interesting example.</p>
+
+<h3>Example: Correct Another Developer's Grammar!</h3>
+
+<p>Suppose you found a nice plugin to work with, but you realize that its owner doesn't speak English very well, and you see some poorly written text inside the code. Luckily the strings are translatable, so you're going to be able to change those strings with the help of the <code>gettext</code> filter. </p>
+
+<p>Let's see how:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'gettext', 'gettext_example', 20, 3 );
+
+function gettext_example( $translated_text, $text, $domain ) {
+	switch ( $translated_text ) {
+		case 'E-meil Adress' :
+			$translated_text = __( 'Email Address', 'plugin_text_domain' );
+			break;
+	}
+	return $translated_text
+}
+
+// Example source: http://speakinginbytes.com/2013/10/gettext-filter-wordpress/
+
+?&gt;</pre>
+
+<h2>Cleaning Up the Slug</h2>
+
+<p>WordPress uses a function named <code>sanitize_title()</code> to clean up the titles, replaces spaces with hyphens and makes them ready to save as slugs. With the filter <code>sanitize_title</code> (yep, same name) you can extend this function.</p>
+
+<h3>Example: Removing the "The" Words from the Slug</h3>
+
+<p>If you don't want the word "the" in your slugs, you can delete them with the code snippet below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'sanitize_title', 'sanitize_title_example' );
+
+function sanitize_title_example( $title ) {
+	$title = str_replace( '-the-', '-', $title );
+	$title = preg_replace( '/^the-/', '', $title );
+	return $title;
+}
+
+?&gt;</pre>
+
+<p>A simple and elegant solution.</p>
+
+<h2>Setting Exceptions for Shortcode Texturization</h2>
+
+<p>This handy filter "allows you to specify which shortcodes should <strong>not</strong> be run through the <code>wptexturize()</code> function", as said <a href="http://codex.wordpress.org/Plugin_API/Filter_Reference/no_texturize_shortcodes">in the Codex</a>.</p>
+
+<h3>Example: Exclude Your Shortcode from Texturization</h3>
+
+<p>If you want the shortcode you built to exempt from texturization, use this code to add your shortcode name to the "do not texturize" list:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'no_texturize_shortcodes', 'no_texturize_shortcodes_example' );
+
+function no_texturize_shortcodes_example( $shortcodes ) {
+	$shortcodes[] = 'myshortcode';
+	return $shortcodes;
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/no_texturize_shortcodes
+
+?&gt;</pre>
+
+<p>Pretty easy, right?</p>
+
+<h2>Filtering a Comment's Approval Status</h2>
+
+<p>WordPress has its own checks for comments (which may be a little too easy against spammers) before deciding whether the comment should be marked as spam, be sent to the moderation queue or be approved. The <code>pre_comment_approve</code> filter lets plugins help with this decision.</p>
+
+<h3>Example: Marking Comments With Long Author Names as Spam</h3>
+
+<p>In my country, Turkey, WordPress comment spammers usually use reeeaaally long names, sometimes the URL itself. </p>
+
+<p>With the code snippet below, you can automatically eliminate spammers who use names like "Domestic and International Shipping With Extremely Low Prices (Click Here for More Information)":</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'pre_comment_approved', 'pre_comment_approved_example', 99, 2 );
+
+function pre_comment_approved_example( $approved, $commentdata ) {
+	return ( strlen( $commentdata['comment_author'] ) &gt; 75 ) ? 'spam' : $approved;
+}
+
+// Example source: https://gist.github.com/norcross/5468979
+
+?&gt;</pre>
+
+<p>Special thanks to <a href="http://twitter.com/norcross/" rel="external" target="_blank">Andrew Norcross</a> for the idea!</p>
+
+<p>Bonus tip: If you want to eliminate spam by checking the length of the comment author's URL, use 'comment_author_url' instead of 'comment_author'. Andrew Norcross used the URL in his original tip, by the way.</p>
+
+<h2>Configuring the "Post By Email" Feature</h2>
+
+<p>Did you know that you can post to your WordPress blog via email? WordPress offers this seldom used feature and it allows you to turn it on or off with the <code>enable_post_by_email_configuration</code> filter.</p>
+
+<h3>Example: Turning the "Post By Email" Feature On and Off</h3>
+
+<p>For some reason (such as security, maybe) you might want to turn off this feature. And you can do it with just one line of code:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'enable_post_by_email_configuration', '__return_false', 100 );
+
+?&gt;</pre>
+
+<p>Or if you're on WordPress Multisite and you need to enable this feature (since it's disabled by default on Multisite), you can use the <code>__return_true()</code> function:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'enable_post_by_email_configuration', '__return_true', 100 );
+
+?&gt;</pre>
+
+<h2>Filtering Your Page Titles</h2>
+
+<p>The <code>wp_title()</code> function outputs the page titles, the ones that we see on our tab handles in browsers. And the wp_title function allows us to tamper with those titles.</p>
+
+<h3>Example: Rewriting Your Page Titles – <em>The Right Way</em></h3>
+
+<p>A respected WordPress "guru" (and editor at Tuts+ Code) Tom McFarlin <a href="http://tommcfarlin.com/filter-wp-title/">explains us in his blog</a> how to rewrite our page titles properly with the <code>wp_title()</code> function and the filter with the same name:</p>
+
+<blockquote>
+  <p>Since wp_title is a filtered function, this means that we're able to provide a custom hook that allows us to define the schema for displaying our titles not only more precisely, but also correctly.</p>
+</blockquote>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'wp_title', 'wp_title_example', 10, 2 );
+
+function wp_title_example( $title, $sep ) {
+	global $paged, $page;
+
+	if ( is_feed() )
+		return $title;
+
+	// Add the site name.
+	$title .= get_bloginfo( 'name' );
+
+	// Add the site description for the home/front page.
+	$site_description = get_bloginfo( 'description', 'display' );
+	if ( $site_description &amp;&amp; ( is_home() || is_front_page() ) )
+		$title = "$title $sep $site_description";
+
+	// Add a page number if necessary.
+	if ( $paged &gt;= 2 || $page &gt;= 2 )
+		$title = sprintf( __( 'Page %s', 'tuts_filter_example' ), max( $paged, $page ) ) . " $sep $title";
+
+	return $title;
+}
+
+// Example source: http://tommcfarlin.com/filter-wp-title/
+
+?&gt;</pre>
+
+<p><a href="http://tommcfarlin.com/filter-wp-title/" rel="external" target="_blank">Be sure to check out his article.</a> Thanks, Tom!</p>
+
+<h2>Processing Comments Before They're Saved to the Database</h2>
+
+<p>If you need any help changing the comments' data (the post ID of the comment, author's name, author's email address, author's website, type of the comment, user's ID if the commenter is a user, type of the comment and comment content), <code>preprocess_comment</code> can help you.</p>
+
+<h3>Example: Turn Down the Volume of Yellers</h3>
+
+<p>DO YOU GET A LOT OF COMMENTS IN WHICH EVERY SINGLE WORD IS UPPERCASE? If you do, you can automatically make those letters lowercase with the code snippet below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'preprocess_comment', 'preprocess_comment_example' );
+
+function preprocess_comment_example( $commentdata ) {
+	if( $commentdata['comment_content'] == strtoupper( $commentdata['comment_content'] ))
+		$commentdata['comment_content'] = strtolower( $commentdata['comment_content'] );
+	return $commentdata;
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/preprocess_comment
+
+?&gt;</pre>
+
+<p>Cool, huh?</p>
+
+<h2>Managing Redirection After Login</h2>
+
+<p>This little filter allows us to set redirects (other than the administration panel) following the login process, which can be pretty useful in some cases.</p>
+
+<h3>Example: Redirect Subscribers to Website Home</h3>
+
+<p>If you don't want your users (with the role "Subscriber") to see your admin panel after they login, you can redirect them to your website's homepage:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'login_redirect', 'login_redirect_example', 10, 3 );
+
+function login_redirect_example( $redirect_to, $request, $user ) {
+	global $user;
+	if ( isset( $user-&gt;roles ) &amp;&amp; is_array( $user-&gt;roles ) ) {
+		if ( in_array( 'subscriber', $user-&gt;roles ) ) {
+			return home_url();
+		} else {
+			return $redirect_to;
+        }
+	}
+	return;
+}
+
+?&gt;</pre>
+
+<p>The <a href="http://codex.wordpress.org/Plugin_API/Filter_Reference/login_redirect">Codex warns us</a> about one thing: "Make sure you use <code>add_filter</code> outside of <code>is_admin()</code>, since that function is not available when the filter is called."</p>
+
+<h2>Creating Action Links for Your Plugin</h2>
+
+<p>If you're developing a plugin, you might wonder how other developers have managed to add links under their plugins' names in the Plugins page. Well, they use this filter.</p>
+
+<h3>Example: Adding a "Settings" Link to Display in the Plugins Page</h3>
+
+<p>To add custom action links under your plugin's name at the list in the Plugin page, you can use this function and hook it to the filter:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'plugin_action_links_example' );
+
+function plugin_action_links_example( $links ) {
+	$links[] = '&lt;a href="' . get_admin_url( null, 'options-general.php?page=my_plugin_settings' ) . '"&gt;' . __( 'Settings' ) . '&lt;/a&gt;';
+	return $links;
+}
+
+// Example source: https://codex.wordpress.org/Plugin_API/Filter_Reference/plugin_action_links_(plugin_file_name)
+
+?&gt;</pre>
+
+<p>Notice that we're using the <code>__FILE__</code> constant to hook our function to the filter with your plugin's name. Neat, huh?</p>
+
+<p>Use this with caution: If you abuse that area to fill there with links, people will remember you as a spammer.</p>
+
+<h2>Filtering the Content Inside the Post Editor</h2>
+
+<p>Ever wanted to <em>pre-fill</em> the post editor to start writing with a post template, or leaving notes for your authors? You can, thanks to the <code>the_editor_content</code> filter.</p>
+
+<h3>Example: Leaving Reminders for Your Authors</h3>
+
+<p>Let's do the "leaving notes for authors" example: If you have a bunch of things to remind the writers of your blog, you can fill the post editor with HTML by using this code:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'the_editor_content', 'the_editor_content_example' );
+
+function the_editor_content_example( $content ) {
+	// Only return the filtered content if it's empty
+	if ( empty( $content ) ) {
+		$template  = 'Hey! Don\'t forget to...' . "\n\n";
+		$template .= '&lt;ul&gt;&lt;li&gt;Come up with good tags for the post,&lt;/li&gt;&lt;li&gt;Set the publish time to 08:00 tomorrow morning,&lt;/li&gt;&lt;li&gt;Change the slug to a SEO-friendly slug,&lt;/li&gt;&lt;li&gt;And delete this text, hehe.&lt;/li&gt;&lt;/ul&gt;' . "\n\n";
+		$template .= 'Bye!';
+		return $template;
+	} else
+		return $content;
+}
+
+// Example source: http://wpfilte.rs/the_editor_content/
+
+?&gt;</pre>
+
+<p>Change the <code>$template</code> variable with anything you like and you're good to go!</p>
+
+<h2>End of Part Two</h2>
+
+<p>We went through the second batch of 50 filters in this article. I hope you liked and learned new things from it. See you in the next one!</p>
+
+<p>I want to hear your thoughts, too. What do you think about these filters? Post your comments below; and if you liked the article, don't forget to share it!</p>

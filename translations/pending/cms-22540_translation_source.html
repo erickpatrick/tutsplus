@@ -1,0 +1,197 @@
+<h1>A Sneek Peak at the Next Foundation for Apps</h1>
+
+<p><a href="http://zurb.com/" target="_self">ZURB</a> is always working on the next big tool to help web designers and developers alike. They make our programming days a little easier and a lot more fun. The <a href="http://foundation.zurb.com/" target="_self">Foundation framework</a> is arguably the most well known, and soon there will be a new member to the family: Foundation for Apps.</p>
+
+<p>With a scheduled release of Tuesday December 2nd, now’s a great time to see what Foundation for Apps will have to offer, its major features and what we can expect in the near future. Recently I was given the opportunity to chat with <a href="https://twitter.com/Brandon_Arnold" target="_self">Brandon Arnold</a>, lead design, and <a href="https://twitter.com/geoffkimball" target="_self">Geoff Kimball</a>, product designer at ZURB. They showed me first hand some of its powerful features, and today I’ll show you what you’ll be able to do with it.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22540/image/NG-JS.png"/>
+</figure>
+
+<h2>Features</h2>
+
+<p>The main goal of Foundation for Apps is to provide a means to quickly prototype complex web apps and a framework to build those web apps upon. To make all that possible, it comes with some extremely useful features, most notably:</p>
+
+<h3>1. Motion UI</h3>
+
+<p>The new age of flat design has, in many ways, taken something away from our interfaces: hierarchy and structure due to the lack of gradients, skeuomorphic elements, shadows and depth. Foundation for Apps tackles this problem by using a rich Motion UI library with tons of animations and transitions ready for you to use. You won’t have to mess about with Sass or JavaScript, because ZURB has done the hard work for you. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22540/image/Foundation-for-Apps-Final-Image.gif"/>
+</figure>
+
+<p>This is what we can expect:</p>
+
+<p><strong>Animations</strong>: CSS keyframe animations will allow you to add subtle movement and effects to your app. This will provide users with feedback informing them how your app is structured and how they should interact with it. Details like this are great for giving extra attention to a notification, an error or a call to action.</p>
+
+<figure class="post_image">
+  <img alt="Motion UI - Animations" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Motion-UI-Animations.gif"/>
+</figure>
+
+<p><strong>Transitions</strong>: Transitions can be used for all sorts of fancy stuff, from smoothly shifting an object from one position to another, to replacing content and showing new content, like off-canvas navigation and drop-downs.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Motion-UI-Transitions.gif"/>
+</figure>
+
+<p><strong>Motion Modifiers</strong>: These are used to influence the direction, speed, iteration, ease and delay of your objects. Together with animations you have huge possibilities to create a smooth user experience.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Motion-UI-Motion-Modifiers.gif"/>
+</figure>
+
+<p>Combined, all these components make for an immersive and lively experience for your users, all with the ease of predefined classes. They’ll save you loads of work and get that prototype up and running in no time.</p>
+
+<h3>2. Flexbox Grid</h3>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Flexbox-Grid.gif"/>
+</figure>
+
+<p>Foundation for Apps will be using CSS Flexbox to define its Grid. Flexbox provides a way to order your elements in HTML anyway you want, regardless of the markup. You can place your content literately anywhere, from top to bottom, left to right, center and middle. Using Flexbox brings several benefits:</p>
+
+<ul>
+  <li>There’s no more need for fixed positioning, which can often be unreliable on mobile devices.</li>
+  <li>Regardless of the markup you can place your content anywhere you want.</li>
+  <li>Instead of just stacking your content vertically, you can create a full page web app, with separate scrolling sections when more content is needed.</li>
+  <li>There’s no need to clear floats.</li>
+  <li>You’ll be able to create a complex web app layout in minutes.</li>
+</ul>
+
+<p>A different syntax<strong> </strong>will be required for the grid, as rows and columns don’t make sense when using vertical scrolling of different content sections in your layout. This is what you’ll be using to create your own web app layout:</p>
+
+<ul>
+  <li><strong>Groups</strong>: Groups will be used as layout objects which can contain more groups or blocks. They are somewhat similar to rows in Foundation 5.</li>
+  <li><strong>Blocks</strong>: These contain content only. You won’t be using them for your layout, but instead they’ll contain other elements and components. Imagine them as being like the columns in Foundation 5.</li>
+  <li><strong>Frames</strong>: With frames you’ll be able to carve up the screen into sections, as frames take up 100% width and height of the screen. This allows you to create areas that are independently scroll-able.</li>
+</ul>
+
+<h3>3. Single-Page Apps</h3>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Single-Page-Apps.jpg"/>
+</figure>
+
+<blockquote>
+  The future of web apps will involve states rather than entirely new pages, and showing that has been one of our main goals for Foundation for Apps - Brandon Arnold, Lead Design
+  
+</blockquote>
+
+<p>With Foundation for Apps we can see a shift in the way we’ll be presenting content to our users. Instead of just reloading the page after every action users take, the content can be shown or hidden depending on what the user wants to see.</p>
+
+<p>This approach will make your web app feel more like a native app; users will get their content faster and they’ll know intuitively where it’s coming from. It’s up to you to decide what content is relevant, what should be shown and what should be removed when it’s not needed.</p>
+
+<h3>4. Templates AngularJS Routes</h3>
+
+<p>Foundation for Apps will be using <a href="https://code.tutsplus.com/courses/building-a-web-app-from-scratch-with-angularjs?utm_source=Tuts+&amp;utm_medium=referral&amp;utm_campaign=teaserpost&amp;utm_content=CRS-200086&amp;WT.mc_id=Tuts+_referral_teaserpost_CRS-200086" target="_self">Angular</a> as its MVC framework to do the heavy lifting. Let’s find out how:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Templates-AngularJS%20Routes.jpg"/>
+</figure>
+
+<blockquote>
+  With Foundation for Apps, we’re also trying to make Angular accessible for designers and developers - Brandon Arnold, Lead Design
+  
+</blockquote>
+
+<p>When using Foundation for Apps for your upcoming projects, you won’t actually have to know much about Angular at all. To simplify matters such as using different animations and defining your URLs of your templates, Foundation for Apps uses <a href="http://angular-ui.github.io/ui-router/site/#/api/ui.router.router.$urlRouter" rel="external" target="_blank">UI routing</a>. You can define your URL and animations in your HTML file and with the help of a little <a href="http://gulpjs.com/" rel="external" target="_blank">Gulp</a> magic, the template tags are parsed and the correct code chunks are added to your template.</p>
+
+<p>In this way you can create a single-page web app without even having to touch a single line of JavaScript. For example, this is what you’ll write in your template:</p>
+
+<pre class="brush: html">---
+name: home
+url: /home
+animationIn: bounceIn
+animationOut: bounceOut
+---</pre>
+
+<p>And this is what all the Foundation for Apps magic parses out for you:</p>
+
+<pre class="brush: javascript">var routerApp = angular.module(’routerApp’, [’ui.router’]);
+ 
+routerApp.config(function($stateProvider, $urlRouterProvider) {
+$urlRouterProvider.otherwise(’/home’);
+ 
+    $stateProvider
+        .state(’home’, {
+        url: ’/url’,
+        templateUrl: ’partial-home.html’,
+        controller: ’PageController’, //default controller
+        data: { vars: {
+            name: home,
+            url: /home,
+            animationIn: bounceIn,
+            animationOut: bounceOut
+        }}
+    });
+});</pre>
+
+<p>Not only will this save you a bunch of time when you’re developing a prototype or your actual product, it even makes building a web app accessible to those who aren’t comfortable with more complex front-end development.</p>
+
+<h3>5. Component Driven Code</h3>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Component-Driven-Code.jpg"/>
+</figure>
+
+<p>Instead of using code like <code class="inline">&lt;div class="modal" data-modal&gt;</code>, Foundation for Apps will be using Angular directives, to spin things around and make something easy to remember out of it. Instead, you’ll write something like <code class="inline">&lt;fa-modal&gt;</code>, to get the same result.</p>
+
+<p>This makes for cleaner markup, which allows for better consistency in your workflow and that of your team. Instead of thinking about whether a tag should be a <code class="inline">header</code>, a <code class="inline">footer</code>, a <code class="inline">div</code> or a <code class="inline">section</code> for example, you’ll just be writing <code class="inline">&lt;fa-yourtag&gt;</code>. Easy right?</p>
+
+<p>Additionally, this <em>Component Driven Code</em>, makes it possible to integrate Foundation Motion UI classes to build up animations and apply them to your different views.</p>
+
+<h3>Other features</h3>
+
+<p>Check out some of the other features that will be included in Foundation for Apps:</p>
+
+<ul>
+  <li>Off-canvas</li>
+  <li>Panels</li>
+  <li>Block lists</li>
+  <li>Popup menus</li>
+  <li>Icon bar</li>
+  <li>Modals</li>
+  <li>Alerts</li>
+  <li>Forms</li>
+  <li>Interchange</li>
+</ul>
+
+<h2>Things we can Expect</h2>
+
+<p>Firstly, we can expect Foundation for Apps to be the next exciting and useful installment of the Foundation family. The guys at ZURB are on top of every new technology and trend and with their years of experience in product design, they are again delivering a great product for the community to use. Just like <em>Foundation for Sites</em> and the soon to be named <em>Foundation for Email</em>, Foundation for Apps is completely open source and, will continuously be optimized by ZURB and the community to work across multiple devices.</p>
+
+<h3>The Future of Foundation</h3>
+
+<p>With Foundation for Apps coming soon and <a href="http://zurb.com/ink/" target="_self">Ink</a> becoming Foundation for Email, we can see the beginnings of a set of tools that suit the need of various jobs we have as web designers and developers. Soon we’ll be talking about these three different products:</p>
+
+<ul>
+  <li><strong>Foundation for Sites</strong>: We all know this one! Foundation for sites is and will always be great for content and marketing sites. It’s a rapid prototyping tool and a truly awesome framework for building mobile first, responsive websites.</li>
+  <li><strong>Foundation for Apps</strong>: The new kid on the block, suiting our needs for the upcoming trends of web apps taking over the web! With its flexible grid, powerful animations and single-page design, Foundation for Apps provides the tools necessary for (rapidly) building and prototyping your web apps.</li>
+  <li><strong>Foundation for Email</strong>: Responsive email has always been a massive headache. With Foundation for Email, ZURB offers you the tools for a good base on which to build email templates.</li>
+</ul>
+
+<p>Foundation for Apps will be <strong>launched on Tuesday December 2nd</strong>, so be sure to keep an eye out for it!</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-What-to-Expect.jpg"/>
+</figure>
+
+<h2>Conclusion</h2>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/72/posts/22540/image/Foundation-for-Apps-Conclusion.jpg"/>
+</figure>
+
+<p>Truly, Foundation is becoming an all-in-one solution for your front-end web development. Foundation for Apps will let designers and developers easily create multi-view prototypes, complete with partial swapping and animations, great for setting up demo’s to impress your team and clients. </p>
+
+<h2>Resources</h2>
+
+<ul>
+  <li><a href="http://responsivedesign.is/articles/screencast-zurb-foundation-for-apps">Foundation for Apps demo screencast</a></li>
+  <li><a href="http://zurb.com/article/1333/foundation-a-new-grid">Foundation: A New Grid</a></li>
+  <li><a href="http://zurb.com/article/1340/foundation-for-apps-motion-ui-is-the-new-">Foundation: Motion UI is the New Flat</a></li>
+  <li><a href="http://zurb.com/article/1345/design-amazing-single-page-apps-with-the-">Foundation: Single-Page Apps with AngularJS</a></li>
+  <li><a href="http://foundation.zurb.com/" target="_self">Foundation for Sites</a></li>
+  <li><a href="https://github.com/zurb/foundation-apps" target="_self">Foundation for Apps (github)</a></li>
+  <li><a href="http://zurb.com/ink/" target="_self">Foundation for Email</a></li>
+</ul>

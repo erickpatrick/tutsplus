@@ -1,0 +1,281 @@
+<h1>50 Filters of WordPress: 31-40</h1>
+
+<p>In the previous parts of this series, we went through 20 WordPress filters. In this tutorial, we're going to continue the trend and review another batch of them and follow along examples with each.</p>
+
+<p>Let's begin!</p>
+
+<h2>Filtering the Default Gallery Style</h2>
+
+<p>WordPress styles the <code>[gallery]</code> shortcode with some pre-defined CSS. You can change this behavior with the <code>use_default_gallery_style</code> filter.</p>
+
+<h3>Example: Disable the Default CSS</h3>
+
+<p>If you already have styled your galleries in your theme's <code>style.css</code> file and don't need the default CSS rules, you can disable them by using the code below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'use_default_gallery_style', '__return_false' );
+
+?&gt;</pre>
+
+<p>Done! Now WordPress won't add a <code>&lt;style&gt;</code> tag with a bunch of CSS rules before your <code>[gallery]</code> shortcodes.</p>
+
+<h2>Filtering the Attachment URLs</h2>
+
+<p>This filter applies to the attachment URL retreived by the function with the same name, <code>wp_get_attachment_url()</code>.</p>
+
+<h3>Example: Avoiding "Mixed Content" Warnings</h3>
+
+<p>If you're using SSL encyription in your website, the <code>wp_get_attachment_url()</code> function may return a URL with HTTP instead of HTTPS, which results with a "mixed content" warning for visitors. With the function below, you can prevent this warning to be shown:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'wp_get_attachment_url', 'wp_get_attachment_url_example' );
+
+function wp_get_attachment_url_example( $url ) {
+	$http  = site_url( false, 'http'  );
+	$https = site_url( false, 'https' );
+
+	if ( $_SERVER['HTTPS'] == 'on' )
+		return str_replace( $http, $https, $url );
+	else
+		return $url;
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/wp_get_attachment_url
+
+?&gt;</pre>
+
+<h2>Setting the Default Content Type for Email</h2>
+
+<p>You can only send plain text emails in WordPress by default, since the <code>wp_mail()</code> function uses <code>text/plain</code> as content type. With the <code>wp_mail_content_type</code> filter, you can change that.</p>
+
+<h3>Example: Send Emails With WordPress Using HTML</h3>
+
+<p>If you want to be able to send HTML emails, you can use the code snippet below to change WordPress' content type for emails:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'wp_mail_content_type', 'wp_mail_content_type_example' );
+
+function wp_mail_content_type_example( $content_type ) {
+	return 'text/html';
+}
+
+?&gt;</pre>
+
+<h2>Saving the IP Address of the Commenter</h2>
+
+<p>WordPress saves the IP address of each commenter in the comments table of your database. If you want to tamper with them, you can use the <code>pre_comment_user_ip</code> filter.</p>
+
+<h3>Example: Saving the <em>Real</em> IP Address of the Commenter</h3>
+
+<p>If a commenter uses a proxy server to submit a comment, WordPress will record the proxy server's IP address instead of the commenter's real IP. The real IP is served with another HTTP header, <code>X-Forwarded-For</code>. The code snippet below has the function to take that record, extract the real IP address and save it in your database:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'pre_comment_user_ip', 'pre_comment_user_ip_example' );
+
+function pre_comment_user_ip_example() {
+	$REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
+	if ( !empty( $_SERVER['X_FORWARDED_FOR'] ) ) {
+		$X_FORWARDED_FOR = explode( ',', $_SERVER['X_FORWARDED_FOR'] );
+		if ( !empty( $X_FORWARDED_FOR ) )
+			$REMOTE_ADDR = trim( $X_FORWARDED_FOR[0] );
+	} elseif( !empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		$HTTP_X_FORWARDED_FOR = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		if ( !empty( $HTTP_X_FORWARDED_FOR ) )
+			$REMOTE_ADDR = trim( $HTTP_X_FORWARDED_FOR[0] );
+	}
+	return preg_replace( '/[^0-9a-f:\., ]/si', '', $REMOTE_ADDR );
+}
+
+// Example source: https://codex.wordpress.org/Plugin_API/Filter_Reference/pre_comment_user_ip
+
+?&gt;</pre>
+
+<p>In case you ever wonder about the <code>X-Forwarded-For</code> HTTP header, <a href="http://en.wikipedia.org/wiki/X-Forwarded-For">visit Wikipedia for additional information</a>.</p>
+
+<h2>Changing the Number of Revisions to Save for Posts</h2>
+
+<p>You probably know WordPress has a feature that lets us keep "revisions" of our posts, and maybe you also know that you can change how many revisions to keep by adding the constant (<code>WP_POST_REVISIONS</code>) into the <code>wp-config.php</code> file. </p>
+
+<p>But did you know that you can change the number of revisions for different post types, even for different posts? Yep, that's what the <code>wp_revisions_to_keep</code> filter is for.</p>
+
+<h3>Example: Disabling Revisions for a Specific Custom Post Type</h3>
+
+<p>You can basically change how many revisions to keep by playing with the <code>$post</code> variable, but we're going to keep things simple and limit the number of revisions for a custom post type named "event" in this example:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'wp_revisions_to_keep', 'wp_revisions_to_keep_example', 10, 2 );
+
+function wp_revisions_to_keep_example( $num, $post ) {
+	if ( 'event' == $post-&gt;post_type ) {
+		return 0;
+}
+	return $num;
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/wp_revisions_to_keep
+
+?&gt;</pre>
+
+<p><a href="http://codex.wordpress.org/Class_Reference/WP_Post">You can see a quick reference for the <code>$post</code> variable in the Codex</a> to find new ways to use this filter. Don't forget to comment and share your idea with us, if you have a good one!</p>
+
+<h2>Rewriting the <code>[caption]</code> Shortcode</h2>
+
+<p>The <code>[caption]</code> shortcode simply lets you wrap your images with captions. If you ever need to change the output of the shortcode, you can use this filter.</p>
+
+<h3>Example: Image Captions With HTML5 Markup</h3>
+
+<p>HTML5 introduces us with two new image-related tags: <code>&lt;figure&gt;</code> and <code>&lt;figcaption&gt;</code>. In this example, we're going to rewrite the markup of the <code>[caption]</code> with these tags:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'img_caption_shortcode', 'img_caption_shortcode_example', 10, 3 );
+
+function img_caption_shortcode_example( $empty, $attr, $content ) {
+	$attr = shortcode_atts( array(
+		'id'	  =&gt; '',
+		'align'   =&gt; 'alignnone',
+		'width'   =&gt; '',
+		'caption' =&gt; ''
+	), $attr );
+
+	if ( 1 &gt; (int) $attr['width'] || empty( $attr['caption'] ) ) {
+		return '';
+	}
+
+	if ( $attr['id'] ) {
+		$attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
+	}
+	
+	$figure_atts	= $attr['id']
+					. ' class="caption ' . esc_attr( $attr['align'] )
+					. '" ' . 'style="max-width: ' . ( 10 + (int) $attr['width'] ) . 'px;"';
+	
+	$output  = '&lt;figure ' . $figure_atts . '&gt;';
+	$output .= do_shortcode( $content );
+	$output .= '&lt;figcaption&gt;' . $attr['caption'] . '&lt;/figcaption&gt;';
+	$output .= '&lt;/figure&gt;';
+	
+	return $output;
+
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/img_caption_shortcode
+
+?&gt;</pre>
+
+<p>Play with the code as you like – you might not like to use IDs for the <code>&lt;figure&gt;</code> tag, for example. Other than that, it work out of the box!</p>
+
+<h2>Adding Post Classes</h2>
+
+<p>The <code>body_class</code> filter (and the function) is recognizable among WordPress developers. How about <code>post_class</code>, did you know that there was a filter (and a function) for adding classes to post containers?</p>
+
+<h3>Example: Adding a Special Class for the First Post in the Loop</h3>
+
+<p>A perfect example would be adding a custom class just for the first post in the Loop. Let's see how:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'post_class', 'post_class_example' );
+
+function post_class_example( $classes ) {
+	global $wp_query;
+	if ( 0 == $wp_query-&gt;current_post ) {
+		$classes[] = 'first-post';
+}
+	return $classes;
+}
+
+// Example source: http://www.billerickson.net/code/first-post-class/
+
+?&gt;</pre>
+
+<p>From now on, you don't have to use the <code>:first</code> pseudo-class in CSS and worry about cross-browser compatibility – just use the <code>.first-post</code> class!</p>
+
+<h2>Adding Custom Fields for Attachments</h2>
+
+<p>In WordPress, attachments are essentially very similar to custom post types that can be extended like any other post type – just a bit more differently. The filter <code>attachment_fields_to_edit</code> lets us play with the fields when we upload or edit attachments.</p>
+
+<h3>Example: Adding License Information to Your Uploaded Images</h3>
+
+<p>Let's say you have a photography-related blog and you need to set licenses for every single photo that you upload as an attachment. With the help of "actions" this time, we can add a "License" field for your attachments:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'attachment_fields_to_edit', 'attachment_fields_to_edit_example', 10, 2 );
+
+function attachment_fields_to_edit_example( $form_fields, $post ) {
+	$field_value = get_post_meta( $post-&gt;ID, 'license', true );
+	$form_fields['license'] = array(
+		'value' =&gt; $field_value ? $field_value : '',
+		'label' =&gt; __( 'License' ),
+		'helps' =&gt; __( 'Specify the license type used for this image' )
+	);
+	return $form_fields;
+}
+
+add_action( 'edit_attachment', 'save_new_attachment_field' );
+
+function save_new_attachment_field( $attachment_id ) {
+	$license = $_REQUEST['attachments'][$attachment_id]['license'];
+	if ( isset( $license ) ) {
+		update_post_meta( $attachment_id, 'license', $license );
+	}
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/attachment_fields_to_edit
+
+?&gt;</pre>
+
+<p>An amazing example how we can extend core WordPress functions without editing any code in core.</p>
+
+<h2>Changing the Automatic Excerpt Length</h2>
+
+<p>By default, automatic excerpts are made by cutting of 55 words of each post and remove their formatting. An odd number, if you ask me. If you want to change it, the <code>excerpt_length</code> filter allows you to do it.</p>
+
+<h3>Example: Change the Automatic Excerpt Length</h3>
+
+<p>Let's say I want only 15 words because I'm doing a Pinterest-style layout and I don't have much space for summaries. All I need to do is return the number in a function and hook the function to this tiny filter:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'excerpt_length', 'excerpt_length_example' );
+
+function excerpt_length_example( $words ) {
+	return 15;
+}
+
+?&gt;</pre>
+
+<p>Easy, right?</p>
+
+<h2>Playing With Bulk Actions in Admin Screens</h2>
+
+<p>Right above the item lists in the WordPress admin pages (like Posts, Pages, Users, Media and so on), there are some "bulk actions" where you select a bunch of items and do things. This handly filter lets us monkey with that little dropdown menu.</p>
+
+<h3>Example: Disabling Bulk Post Trashing</h3>
+
+<p>You own a news website and you're sick of your editor accidentally trashing the posts he needs to update. If you don't even need the bulk-trash feature, you can turn it off:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'bulk_actions-edit-post', 'bulk_actions_edit_post_example' );
+
+function bulk_actions_edit_post_example( $actions ) {
+	unset( $actions['trash'] );
+	return $actions;
+}
+
+?&gt;</pre>
+
+<p>[tip]The <code>$screenid</code> variable in the filter name is the screen name of the admin page you're going to change. You can find a list of these screen names on the "<a href="http://codex.wordpress.org/Plugin_API/Admin_Screen_Reference">Admin Screen Reference @ Plugin API</a>" page of Codex.[/tip]</p>
+
+<h2>End of Part Four</h2>
+
+<p>We went through the third batch of 50 filters in this article. I hope you liked and learned new things from it. See you in the next one!</p>
+
+<p>I want to hear your thoughts, too. What do you think about these filters? Post your comments below; and if you liked the article, don't forget to share it!</p>

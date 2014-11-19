@@ -1,0 +1,377 @@
+<h1>Building With the Twitter API: OAuth, Reading and Posting</h1>
+
+<p><i>This post is the second of a three part series on using the Twitter API. If you missed part one, you can </i><a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-getting-started--cms-22192" target="_self"><i>read it here</i></a><i>.</i></p>
+
+<h2>Authenticating With Twitter via OAuth</h2>
+
+<p><a href="http://jeffreifman.com/birdhouse/birdcage" target="_self">Birdcage</a> uses a Yii extension called <a href="http://www.yiiframework.com/extension/twitter/" target="_self">Yii Twitter</a> by <a href="https://github.com/willwharton" target="_self">Will Wharton</a>, which makes use of the open-source PHP OAuth Twitter library by <a href="https://github.com/abraham" target="_self">Abraham Williams</a>.</p>
+
+<p>I place the extension in the Yii tree under <code class="inline">/app/protected/extensions/yiitwitteroauth</code>. In Yii, you configure extension properties in the <code class="inline">main.php</code> configuration file like so:</p>
+
+<pre class="brush: php">// application components
+	'components'=&gt;array(
+	  'twitter' =&gt; array(
+    				'class' =&gt; 'ext.yiitwitteroauth.YiiTwitter',
+    				'consumer_key' =&gt; '',
+    				'consumer_secret' =&gt; '',
+    				'callback' =&gt; '',
+    			),
+</pre>
+
+<p>Normally, I'd load these settings from my Yii .ini file, but to make the Birdcage setup simpler, I'm configuring the application keys from the <code class="inline">UserSettings</code> model. I've extended <code class="inline">YiiTwitter.php</code> to load the default user's application keys during initialization:</p>
+
+<pre class="brush: php">public function init() {
+	  // load twitter app keys from UserSetting table
+    $result = UserSetting::model()-&gt;loadPrimarySettings();
+    $this-&gt;consumer_key = $result['twitter_key'];
+    $this-&gt;consumer_secret = $result['twitter_secret'];
+    $this-&gt;callback = $result['twitter_url'];
+		$this-&gt;registerScripts();
+		parent::init();	
+	}	
+</pre>
+
+<p>Once you've installed and configured the application settings, you'll need to visit the <strong>Accounts</strong> menu and click <strong>Add Your Twitter Account</strong>. </p>
+
+<figure class="post_image">
+  <img alt="Mange Accounts in the Birdcage application" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22193/image/accounts.jpg"/>
+</figure>
+
+<p>When you click on the Twitter icon, it executes the <code class="inline">Connect</code> method of the Birdcage Twitter controller:</p>
+
+<pre class="brush: plain">  public function actionConnect()
+   {
+        unset(Yii::app()-&gt;session['account_id']);
+        Yii::app()-&gt;session['account_id']=$_GET['id'];
+       $twitter = Yii::app()-&gt;twitter-&gt;getTwitter();  
+       $request_token = $twitter-&gt;getRequestToken();
+       //set some session info
+       Yii::app()-&gt;session['oauth_token'] = $token =$request_token['oauth_token'];
+       Yii::app()-&gt;session['oauth_token_secret'] = $request_token['oauth_token_secret'];
+
+          if ($twitter-&gt;http_code == 200) {
+              //get twitter connect url
+              $url = $twitter-&gt;getAuthorizeURL($token);
+              //send them              
+              Yii::app()-&gt;request-&gt;redirect($url);
+          }else{
+              //error here
+              $this-&gt;redirect(Yii::app()-&gt;homeUrl);
+          }
+      }</pre>
+
+<p>This will take you back to Twitter via OAuth to authenticate your Twitter account:</p>
+
+<figure class="post_image">
+  <img alt="Twitter OAuth Challenge Screen" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22193/image/oauth-at-twitter.jpg"/>
+</figure>
+
+<p>Once you've logged in, Twitter will ask you to authorize the Birdcage application:</p>
+
+<figure class="post_image">
+  <img alt="Authorize app for Twitter API" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22193/image/oauth-authorize.jpg"/>
+</figure>
+
+<p>Twitter will return the browser to your callback URL, our Twitter Controller Callback method. It will save your Twitter user OAuth token and secret in the account table:</p>
+
+<pre class="brush: php">  public function actionCallback() {
+/* If the oauth_token is old redirect to the connect page. */
+            if (isset($_REQUEST['oauth_token']) &amp;&amp; Yii::app()-&gt;session['oauth_token'] !== $_REQUEST['oauth_token']) {
+                Yii::app()-&gt;session['oauth_status'] = 'oldtoken';
+            }
+/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
+            $twitter = Yii::app()-&gt;twitter-&gt;getTwitterTokened(Yii::app()-&gt;session['oauth_token'], Yii::app()-&gt;session['oauth_token_secret']);   
+            /* Request access tokens from twitter */
+            $access_token = $twitter-&gt;getAccessToken($_REQUEST['oauth_verifier']);
+      /* Save the access tokens. Normally these would be saved in a database for future use. */            
+            Yii::app()-&gt;session['access_token'] = $access_token;
+            $account = Account::model()-&gt;findByAttributes(array('user_id'=&gt;Yii::app()-&gt;user-&gt;id,'id'=&gt;Yii::app()-&gt;session['account_id']));
+            $account['oauth_token'] = $access_token['oauth_token'];
+            $account['oauth_token_secret'] = $access_token['oauth_token_secret'];
+$account-&gt;save();
+            
+            /* Remove no longer needed request tokens */
+            unset(Yii::app()-&gt;session['oauth_token']);
+            unset(Yii::app()-&gt;session['oauth_token_secret']);
+
+            if (200 == $twitter-&gt;http_code) {
+          /* The user has been verified and the access tokens can be saved for future use */
+                Yii::app()-&gt;session['status'] = 'verified';
+                $this-&gt;redirect(array('account/admin'));
+
+            } else {
+                /* Save HTTP status for error dialog on connnect page.*/
+                //header('Location: /clearsessions.php');
+                $this-&gt;redirect(Yii::app()-&gt;homeUrl);
+            } 
+       }
+</pre>
+
+<p>Now, Birdcage is ready to begin making requests for Twitter data via the API on behalf of your user account.</p>
+
+<p>As you'll see ahead, a simple call with the tokens allows access to the API:</p>
+
+<pre class="brush: php">$twitter = Yii::app()-&gt;twitter-&gt;getTwitterTokened($account['oauth_token'], $account['oauth_token_secret']);
+</pre>
+
+<h2>Processing Tweets in the Background</h2>
+
+<p>For part two of our tutorial, we're using the Twitter REST API. Part three will delve into the real-time, always-on Streaming API:</p>
+
+<figure class="post_image">
+  <img alt="Using the Twitter REST API" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22193/image/streaming-intro-1_1.png"/>
+</figure>
+
+<h3>Retrieving Twitter Timelines</h3>
+
+<p>Twitter timelines are an ever-expanding stack of tweets, so monitoring activity is a bit more complicated than your average REST API. You can learn more about the <a href="https://dev.twitter.com/rest/public/timelines" target="_self">unique problem Twitter timelines present here</a>. Essentially, as you're trying to read the timeline history, more tweets are being added all the time:</p>
+
+<figure class="post_image">
+  <img alt="The Ever Expanding Twitter Timeline" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22193/image/tweet-stack.jpg"/>
+</figure>
+
+<p>Twitter provides a relatively simple way to manage this. You can follow the code that performs this in Birdcage's Tweet model, <code class="inline">getRecentTweets()</code>.</p>
+
+<p>First, we look up the highest (most recent) <code class="inline">tweet_id</code> in our database, and return an incremented value:</p>
+
+<pre class="brush: php">  public function getLastTweet($account_id) {
+// get highest tweet_it where account_id = $account_id
+    $criteria=new CDbCriteria;
+    $criteria-&gt;select='max(tweet_id) AS max_tweet_id';
+    $criteria-&gt;condition="account_id = ".$account_id;
+    $row = Tweet::model()-&gt;find($criteria);
+    if ($row['max_tweet_id'] ==0)
+      return 1;
+    else
+      return $row['max_tweet_id']+1;
+  }</pre>
+
+<p>Then, we request some number (e.g. 100) of tweets since the highest previously processed one. The Twitter API recognizes the <code class="inline">since_id</code> as a pointer to the place in the timeline you wish to start retrieving from. It will return all the tweets more recent than <code class="inline">since_id</code>. In the example below, we're querying the REST API <a href="https://dev.twitter.com/rest/reference/get/statuses/home_timeline" target="_self">statuses/home_timeline method</a>. The home timeline is what a user sees on their main Twitter screen.</p>
+
+<pre class="brush: php">$since_id = $this-&gt;getLastTweet($account-&gt;id);
+    echo 'since: '.$since_id;lb();
+    // retrieve tweets up until that last stored one
+    $tweets= $twitter-&gt;get("statuses/home_timeline",array('count'=&gt;100,'since_id'=&gt;$since_id)); 
+    if (count($tweets)==0) return false; // nothing returned
+</pre>
+
+<p>It's also important to check if we've been <a href="https://dev.twitter.com/rest/public/rate-limiting" target="_self">rate limited by Twitter</a>. Each application-user request is allowed 180 requests to a user's home timeline per 15-minute window—but <a href="https://dev.twitter.com/rest/public/rate-limits" target="_self">rate limits vary by activity</a>, so you're programming mileage may vary.</p>
+
+<p>For each tweet received, we call our <code class="inline">Parse()</code> method to process the data and store it in our various database tables. During the process, we track the oldest/lowest <code class="inline">tweet_id</code> that we've received from Twitter:</p>
+
+<pre class="brush: php">foreach ($tweets as $i) {
+      if ($low_id==0)
+        $low_id = intval($i-&gt;id_str);
+      else
+        $low_id = min(intval($i-&gt;id_str),$low_id);
+      Tweet::model()-&gt;parse($account-&gt;id,$i);
+    }</pre>
+
+<p>The parse method adds the referenced Twitter user information and then the tweet itself. There's more detail in the <code class="inline">Parse.php</code> model.</p>
+
+<pre class="brush: php">  public function parse($account_id,$tweet) {
+  // add user
+      $tu = TwitterUser::model()-&gt;add($tweet-&gt;user);
+      // add tweet
+      $tweet_obj = $this-&gt;add($account_id,$tweet);</pre>
+
+<p>Then, we continue to request blocks of tweets using the lowest ID from the last request as a <code class="inline">max_id</code> parameter which we send to Twitter. We make these subsequent requests using the <code class="inline">since_id</code> of the tweet we began with <i>and</i> the <code class="inline">max_id</code> from the last oldest tweet we retrieved.</p>
+
+<pre class="brush: php">// retrieve next block until our code limit reached
+    while ($count_tweets &lt;= $limit) {
+      lb(2);
+      $max_id = $low_id-1;
+      $tweets= $twitter-&gt;get("statuses/home_timeline",array('count'=&gt;100,'max_id'=&gt;$max_id,'since_id'=&gt;$since_id));
+      if (count($tweets)==0) break;
+      if ($this-&gt;isRateLimited($tweets)) return false;
+      echo 'count'.count($tweets);lb();
+      $count_tweets+=count($tweets);
+      foreach ($tweets as $i) {
+        $low_id = min(intval($i-&gt;id_str),$low_id);
+        Tweet::model()-&gt;parse($account-&gt;id,$i);
+      }              
+    }</pre>
+
+<p>So, for example, as newer tweets come in, we don't see them—because Twitter is only sending us tweets since the initial highest <code class="inline">tweet_id</code> (<code class="inline">since_id</code>) from our database. We'll have to come back later to get newer tweets, which are higher than our initial <code class="inline">since_id</code>.</p>
+
+<p>It's important to note that we do not receive an infinite number of older tweets. Twitter returns to us only the number of tweets we request that are older than the previous low ID or (<code class="inline">max_id</code> in our next call).</p>
+
+<p>Once you get used to the model and nomenclature, it's quite simple.</p>
+
+<p>While there is a <code class="inline">Fetch</code> menu command which will run this operation, we also configure a <code class="inline">cron</code> job to call our <code class="inline">DaemonController</code> method every five minutes:</p>
+
+<pre class="brush: bash"># To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# m h  dom mon dow   command
+*/5 * * * * wget -O /dev/null http://birdcage.yourdomain.com/daemon/index</pre>
+
+<p>This in turn calls our <code class="inline">getStreams</code> method which performs the operations described above (note, the streams' functionality will be described in part three of this series):</p>
+
+<pre class="brush: php">public function actionIndex() {
+	  // if not using twitter streams, we'll process tweets by REST API
+	  if (!Yii::app()-&gt;params['twitter_stream']) {
+	    Tweet::model()-&gt;getStreams();	    
+	  } else {
+	    Stream::model()-&gt;process();
+	  }
+  }</pre>
+
+<p>The end result looks something like this:</p>
+
+<figure class="post_image">
+  <img alt="Birdcage statuses home_timeline via Twitter API" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22193/image/birdcage-tweets.jpg"/>
+</figure>
+
+<p>One time I did run into some Twitter API reliability problems. You can check the <a href="https://dev.twitter.com/overview/status" target="_self">status of the Twitter API services here</a>.</p>
+
+<h2>Posting a Tweet</h2>
+
+<p>Posting tweets to your Twitter account is actually quite straightforward. We just need to make use of the <a href="https://dev.twitter.com/rest/reference/post/statuses/update" target="_self">statuses/update REST method</a>. It takes a bit more work to perform accurate character counts. </p>
+
+<p>Twitter resolves all URLs into <a href="http://t.co">http://t.co</a> shortcuts, so all URLs are counted as 20 characters. I needed JavaScript that would count characters and adjust for any URL by 20 characters regardless of the length of a URL. I settled on a combination of jQuery and JavaScript solutions, which I'll detail below.</p>
+
+<p>I chose to create a model specifically for composing tweets called <code class="inline">Status.php</code>. This made it easier to work with Yii to generate forms for posting to the API. </p>
+
+<p>When you click on <strong>Compose</strong> in the Birdcage menu, it will take you to the <code class="inline">Compose</code> method of the <code class="inline">StatusController</code>:</p>
+
+<pre class="brush: php">public function actionCompose($id=0)
+	{	  
+	  if (!UserSetting::model()-&gt;checkConfiguration(Yii::app()-&gt;user-&gt;id)) {
+      Yii::app()-&gt;user-&gt;setFlash('warning','Please configure your Twitter settings.');
+			$this-&gt;redirect(array('/usersetting/update'));					    
+	  }
+		
+		$model=new Status;
+		$model-&gt;account_id = $id;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this-&gt;performAjaxValidation($model);
+
+		if(isset($_POST['Status']))
+		{
+			$model-&gt;attributes=$_POST['Status'];
+			if ($model-&gt;account_id=='' or $model-&gt;account_id==0) {
+		    Yii::app()-&gt;user-&gt;setFlash('no_account','You must select an account before tweeting.'); 			  
+			  $this-&gt;redirect(array('status/compose'));
+			}
+      $model-&gt;created_at =new CDbExpression('NOW()'); 
+      $model-&gt;modified_at =new CDbExpression('NOW()');
+
+			if($model-&gt;save()) {
+			  $account = Account::model()-&gt;findByPK($model-&gt;account_id);
+			  $twitter = Yii::app()-&gt;twitter-&gt;getTwitterTokened($account['oauth_token'], $account['oauth_token_secret']);
+        // retrieve tweets up until that last stored one
+        $tweets= $twitter-&gt;post("statuses/update",array('status'=&gt;$model-&gt;tweet_text)); 
+				$this-&gt;redirect(array('view','id'=&gt;$model-&gt;id));
+        
+			}
+		}
+
+		$this-&gt;render('compose',array(
+			'model'=&gt;$model,
+		));
+	}</pre>
+
+<p>This will load the HTML form for creating a Status item. Check out the <code class="inline">_form.php</code> in <code class="inline">/app/protected/views/status/</code>.</p>
+
+<p>First, I'll load several jQuery and JavaScript libraries for character counting:</p>
+
+<pre class="brush: php">$baseUrl = Yii::app()-&gt;baseUrl; 
+$cs = Yii::app()-&gt;getClientScript();
+$cs-&gt;registerScriptFile($baseUrl.'/js/jquery.simplyCountable.js');
+$cs-&gt;registerScriptFile($baseUrl.'/js/twitter-text.js');
+$cs-&gt;registerScriptFile($baseUrl.'/js/twitter_count.js');
+</pre>
+
+<p>I used a combination of the <a href="https://github.com/aaronrussell/jquery-simply-countable" target="_self">jQuery simplyCountable plugin</a>, <a href="https://github.com/twitter/twitter-text-js" target="_self">twitter-text.js</a> (a JavaScript-based Twitter text-processing script) and a script that did the heavy lifting of URL adjustments: <a href="http://blog.pay4tweet.com/2012/04/27/twitter-lifts-140-character-limit/" target="_self">twitter_count.js.</a></p>
+
+<p>The following code then creates the remainder of the compose form and activates the character counting scripts:</p>
+
+<pre class="brush: php">&lt;?php $form=$this-&gt;beginWidget('bootstrap.widgets.TbActiveForm',array(
+'id'=&gt;'status-form',
+	'enableAjaxValidation'=&gt;false,
+)); ?&gt;
+
+&lt;?php 
+  if(Yii::app()-&gt;user-&gt;hasFlash('no_account')
+    ) {
+  $this-&gt;widget('bootstrap.widgets.TbAlert', array(
+      'alerts'=&gt;array( // configurations per alert type
+  	    'no_account'=&gt;array('block'=&gt;true, 'fade'=&gt;true, 'closeText'=&gt;'×'), 
+      ),
+  ));
+}
+?&gt;
+
+	&lt;p class="help-block"&gt;Fields with &lt;span class="required"&gt;*&lt;/span&gt; are required.&lt;/p&gt;
+
+	&lt;?php echo $form-&gt;errorSummary($model); ?&gt;
+
+  &lt;?php 
+    if ($model-&gt;account_id == 0 ) {
+      echo CHtml::activeLabel($model,'account_id',array('label'=&gt;'Tweet with Account:')); 
+      $model-&gt;account_id = 1;
+      echo CHtml::activeDropDownList($model,'account_id',Account::model()-&gt;getList(),array('empty'=&gt;'Select an Account'));
+    } else {
+      echo CHtml::hiddenField('account_id',$model-&gt;account_id);
+        }
+  ?&gt;
+
+  &lt;br /&gt;
+	&lt;?php 
+	echo $form-&gt;textAreaRow($model,'tweet_text',array('id'=&gt;'tweet_text','rows'=&gt;6, 'cols'=&gt;50, 'class'=&gt;'span8'));
+   ?&gt;
+   &lt;p class="right"&gt;Remaining: &lt;span id="counter2"&gt;0&lt;/span&gt;&lt;/p&gt;
+
+	&lt;div class="form-actions"&gt;
+		&lt;?php $this-&gt;widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=&gt;'submit',
+			'type'=&gt;'primary',
+			'label'=&gt;$model-&gt;isNewRecord ? 'Create' : 'Save',
+		)); ?&gt;
+	&lt;/div&gt;
+
+&lt;?php $this-&gt;endWidget(); ?&gt;
+&lt;script type="text/javascript" charset="utf-8"&gt;
+	$(document).ready(function()
+	{
+	  $('#tweet_text').simplyCountable({
+	    counter: '#counter2',
+      maxCount: 140,
+      countDirection: 'down'
+	  });
+	});
+&lt;/script&gt;
+</pre>
+
+<p>The result looks like this:</p>
+
+<figure class="post_image">
+  <img alt="The Birdcage Compose a Tweet PHP Twitter API Example" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22193/image/feature-b.jpg"/>
+</figure>
+
+<p>When the tweet is saved, it executes this code in the StatusController—which posts the resulting <code class="inline">tweet_text</code> to Twitter via OAuth:</p>
+
+<pre class="brush: php">		if($model-&gt;save()) {
+			  $account = Account::model()-&gt;findByPK($model-&gt;account_id);
+			  $twitter = Yii::app()-&gt;twitter-&gt;getTwitterTokened($account['oauth_token'], $account['oauth_token_secret']);
+        // retrieve tweets up until that last stored one
+        $tweets= $twitter-&gt;post("statuses/update",array('status'=&gt;$model-&gt;tweet_text)); 
+				$this-&gt;redirect(array('view','id'=&gt;$model-&gt;id));        
+			}</pre>
+
+<h2>Next Steps</h2>
+
+<p>In this part of the series, we've reviewed how to authenticate with the Twitter API via OAuth, how to query for ranges of tweets in the user's timeline, and how to count characters and post tweets via the API. I hope you've found this useful.</p>
+
+<p>Part three will cover using the Twitter Streaming API and the open source Phirehose streaming implementation.</p>
+
+<p>Please post any comments, corrections, or additional ideas below. You can browse my other Tuts+ tutorials on <a href="http://tutsplus.com/authors/jeff-reifman" target="_self">my author page</a> or follow me on <a href="https://twitter.com/intent/user?screen_name=reifman" target="_self">Twitter @reifman</a>.</p>
