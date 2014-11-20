@@ -92,9 +92,11 @@ Fotografia
 ----------
 - [7 Técnicas de Pose Para Pessoas Comuns](http://photography.tutsplus.com/pt/tutorials/7-posing-techniques-for-non-models--photo-15608)
 - [100 Ações Grátis Para O Photoshop (E Como Criar A Sua)](http://photography.tutsplus.com/pt/articles/100-free-photoshop-actions-and-how-to-make-your-own--photo-3502)
+- [Dica Rápida: 2 Técnicas De Divisão De Tons No Adobe Photoshop](http://photography.tutsplus.com/pt/tutorials/quick-tip-2-split-toning-techniques-in-adobe-photoshop--photo-4425)
 
 Artesanato e DIY
 ----------------
 - [Como Decorar Uma Caneca de Café Usando Marcador para Porcelana](http://crafts.tutsplus.com/pt/tutorials/how-to-decorate-a-coffee-mug-using-a-porcelain-marker--craft-7454)
 - [Fundamentos de Joalheria: Tranças Kumihimo](https://crafts.tutsplus.com/pt/tutorials/jewellery-fundamentals-how-to-kumihimo-braid--cms-21848)
 - [Como Fazer Uma Barra de Sabão Feltrada](http://crafts.tutsplus.com/pt/tutorials/how-to-make-a-bar-of-felted-soap--cms-21090)
+- [Como Construir Uma Prateleira Em Forma de Hexágono](http://crafts.tutsplus.com/pt/tutorials/how-to-make-a-hexagon-display-shelf--cms-20387)
