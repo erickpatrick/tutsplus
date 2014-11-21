@@ -87,12 +87,14 @@ Web  Design
 - [O Guia de Seleção de Fotos para Web Designers](http://webdesign.tutsplus.com/pt/tutorials/the-web-designers-guide-to-photo-selection--cms-21592)
 - [Entendendo a Pontuação Deslocada](http://webdesign.tutsplus.com/pt/articles/getting-the-hang-of-hanging-punctuation--cms-19890)
 - [Realizando Uma Pesquisa Bem Sucedida Para Um Projeto Web](http://webdesign.tutsplus.com/pt/articles/carrying-out-successful-research-for-a-web-project--cms-20828)
+- [Pare de Colocar Personas de Usuários Na Gaveta](http://webdesign.tutsplus.com/pt/articles/stop-putting-user-personas-in-your-desk-drawer--cms-22625)
 
 Fotografia
 ----------
 - [7 Técnicas de Pose Para Pessoas Comuns](http://photography.tutsplus.com/pt/tutorials/7-posing-techniques-for-non-models--photo-15608)
 - [100 Ações Grátis Para O Photoshop (E Como Criar A Sua)](http://photography.tutsplus.com/pt/articles/100-free-photoshop-actions-and-how-to-make-your-own--photo-3502)
 - [Dica Rápida: 2 Técnicas De Divisão De Tons No Adobe Photoshop](http://photography.tutsplus.com/pt/tutorials/quick-tip-2-split-toning-techniques-in-adobe-photoshop--photo-4425)
+- [Como Usar Seu iPhone Como Profissional: Adereços de Hardware](http://photography.tutsplus.com/pt/tutorials/how-to-use-your-iphone-like-a-pro-hardware-add-ons--cms-22659)
 
 Artesanato e DIY
 ----------------
