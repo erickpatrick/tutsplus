@@ -1,0 +1,351 @@
+<h1>Modern Debugging Experience: Part 2</h1>
+
+<p>In part 1, we saw how to write and execute JavaScript using the DevTools. In part 2, we'll look at debugging JavaScript and adopting a workflow such that solving JavaScript errors and diagnosing problems becomes more efficient.</p>
+
+<h2> Debugging JavaScript Using the DevTools</h2>
+
+<h3>Debugger Keyword</h3>
+
+<p>You can use the debugger keyword directly in your code to invoke the debugging capabilities (if any) of the JavaScript runtime. The effect of adding the keyword <code>debugger</code> in your code is identical to manually setting a breakpoint via the DevTools UI. In Chrome, the <code>debugger</code> keyword has no effect while DevTools is closed.</p>
+
+<h3>Debugger Controls</h3>
+
+<p>The debugger controls provide fine grained control over the debugging flow. Use these when paused at a breakpoint to effectively navigate your way through JavaScript code. Each debugger control listed in this section corresponds to a button in the DevTools that you can select while paused at a breakpoint.</p>
+
+<h4>Continue</h4>
+
+<p>Leaves the current breakpoint and resume code execution as normal. This does not affect other breakpoints which have not been paused yet.</p>
+
+<p>Use <code class="inline">Continue</code> when the current paused breakpoint is not helpful and you want code execution to resume as normal.</p>
+
+<h4>Step Over</h4>
+
+<p>Step through code line-by-line (one line per click) until a function call is reached. At this point, the function call is stepped "over" and you do not step into that particular function call.</p>
+
+<p>Use <code class="inline">Step Over</code> when what you are trying to solve is scoped with the current function, and you have no need to look at external function calls.</p>
+
+<h4><a name="user-content-step-into" href="https://github.com/valueof/beautifuljavascript/blob/master/modern-debugging-experience.asciidoc#step-into"/><strong>Step Into</strong></h4>
+
+<p>Similar to <code class="inline">Step Over</code>, except that in this case, you navigate to external function calls by going to their first line.</p>
+
+<p>Use <code class="inline">Step Into</code> when you are interested in line by line execution as well as any external function calls.</p>
+
+<h4><strong>Step Out</strong></h4>
+
+<p>When you step into a function, <code class="inline">Step Out</code> will continue to execute the rest that functions code however it is not debugged.</p>
+
+<p>Use <code class="inline">Step Out</code> when you have no interest in the remainder of the current function and wish to continue debugging outside it.</p>
+
+<h3>The Call Stack</h3>
+
+<p>The call stack is active when paused at a breakpoint. The execution path which leads to the currently paused breakpoint is shown in the call stack, the top call being the most recent.</p>
+
+<p>Each call within the stack contains:</p>
+
+<ul>
+  <li>function name</li>
+  <li>file name containing the function</li>
+  <li>the line of code where the function exists</li>
+</ul>
+
+<p>Click on any call within the stack to navigate to its point in the source code with the relevant line highlighted. To copy a stack trace to your clipboard, <strong>right-click</strong> on a call and select <strong>Copy stack trace</strong>. In the call stack context menu, you can also select <strong>Restart Frame</strong>.</p>
+
+<h3>Rewriting Functions While Paused at a Breakpoint</h3>
+
+<p>Consider the use case that the debugger has paused midway through a callback function triggered by a click event handler, and you are trying to debug why the retrieval of the <code>target</code> does not seem to be working as expected. </p>
+
+<p>You see an attempt has been made to access the target property as part of the <code>this</code> keyword, but you then recall it’s a property part of the event object passed as an argument to the callback function. </p>
+
+<p>You can rewrite the function using Live Edit to verify that your changes work, and the new JavaScript is injected into the V8 engine.</p>
+
+<h3>monitorEvents</h3>
+
+<p>When you are writing an event handler for an event such as scroll, you may start by using <code>console.log</code> to see what the passed argument (the event object) looks like. A quick tip to accomplish this is to use the <code>monitorEvents</code> shortcut. Paste the following code in the <strong>Console Panel </strong>and then scroll the page:</p>
+
+<pre class="brush: javascript">monitorEvents(window, "resize");</pre>
+
+<p>Notice that the event object is logged to the console ready for inspection.</p>
+
+<h3>Debug</h3>
+
+<p>When you want the debugger to pause on the first line of a function during its execution, you can do either of the following:</p>
+
+<ul>
+  <li>Add a breakpoint via the DevTools UI.</li>
+  <li>Add a debugger statement to the function.</li>
+</ul>
+
+<p>Another technique is to execute <code>debug(fn)</code> which is part of the Command Line API. The function takes the function that you wish to debug as its argument, and will break on the first line of that function's execution.</p>
+
+<h3>Break on Property Access</h3>
+
+<p>This technique enables you to pause the debugger when a property of an object you have interest in is accessed in any way (a read or write). To break when a property of an object is read or written to, execute the following (via the <strong>Console Panel</strong> or <strong>Snippets</strong>):</p>
+
+<pre class="brush: javascript">Object.defineProperty(document.body, 'scrollTop', {
+	get: function () {
+		debugger;
+	},
+	set: function (val) {
+		debugger;
+	}
+});</pre>
+
+<p>This applies a getter and setter to the <code class="inline">scrollTop</code> property of the <code>document.body</code> object. In the custom getter and setter, the debugger statement exists. You can also use <code>Object.observe</code> to break on property additions for a specified object:</p>
+
+<pre class="brush: javascript">var watchMe = {};
+Object.observe(watchMe, function() {
+  debugger;
+});</pre>
+
+<h3>Conditional Breakpoints Using console.log</h3>
+
+<p>The debugger keyword aside, to set a breakpoint via DevTools, you can click on the line of code you wish to break at within the line gutter. This method of setting a breakpoint has extra functionality: You set a conditional breakpoint which will instruct the DevTools to pause at a breakpoint only if a certain expression evaluates to true. For example, you can set a conditional breakpoint to pause only if an error argument exists.</p>
+
+<p>To set a conditional breakpoint:</p>
+
+<ol>
+  <li><strong>Right-click</strong> within the line gutter.</li>
+  <li>Select <strong>Add conditional breakpoint</strong>.</li>
+  <li>Enter the expression that you want DevTools to evaluate.</li>
+  <li>Press <strong>Enter</strong>.</li>
+</ol>
+
+<figure class="post_image">
+  <img alt="Add conditional breakpoint" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-conditional-breakpoint.png"/>
+</figure>
+
+<p>You can also use the conditional breakpoint technique to quickly insert a <code>console.log</code> statement as the expression to evaluate. Since <code>console.log</code> evaluates to <code>undefined</code>, DevTools doesn’t pause, but since the expression is still executed, you can inspect the value of variables this way.</p>
+
+<h3>Using Watch Expressions</h3>
+
+<p>When the debugger is paused at a breakpoint, you can bring up the <strong>Console Panel</strong> in Drawer Mode using the <strong>Escape</strong> key. The code you enter is evaluated in the same context as the point at which you are paused, meaning that variables which are scoped will be accessible to you.</p>
+
+<figure class="post_image">
+  <img alt="Watch expressions" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-watch-expressions.png"/>
+</figure>
+
+<p>A Watch Expression is a tool to simplify the technique of regular inspection (via <code>console.log</code> for example) of scoped variables. Watch Expressions is a pane within the Sources Panel. You can add or remove Watch Expressions using the <strong>Plus</strong> and <strong>Minus</strong> buttons. A typical object to watch for is the <code>this</code> object; notice how it refers to a global window object when you are not paused at a breakpoint.</p>
+
+<p>Watch Expressions will usually update while you step through code. If it does not, however, click the <strong>Refresh</strong> button.</p>
+
+<h4>Exceptions</h4>
+
+<p>Consider the following script:</p>
+
+<pre class="brush: javascript">function a() {
+return b();
+}
+
+function b() {
+    return c();
+}
+
+function c() {
+    console.trace('The Trace');
+    return 42;
+}
+
+a();</pre>
+
+<figure class="post_image">
+  <img alt="Exceptions" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-console-trace.png"/>
+</figure>
+
+<p>There are three declared functions. Function <code>a</code> calls function <code>b</code>, then function <code>b</code> calls function <code>c</code>. The script initiates the chain with a call to function <code>a</code>. The <code>console.trace</code> statement logs to the console a stack trace from the point where the method was called. Using console.trace displays the output of using <code class="inline">console.trace</code>.</p>
+
+<p>Note that function names and the lines where they are called are shown in the trace message. You can click on the line number to be taken to its point in the Source Code via the Sources Panel. This technique also works for snippets.</p>
+
+<p>The debugger offers various modes for dealing with Exceptions:</p>
+
+<ul>
+  <li>Pause on uncaught exceptions.</li>
+  <li>Pause on caught and uncaught exceptions.</li>
+  <li>Don’t pause on exceptions.</li>
+</ul>
+
+<h2><span class="sectionnum">2.</span> Debugging From the Outside In</h2>
+
+<p>When you have to debug a site which you have little insight into, you can use a different technique of debugging. In this approach, you hook into events you believe will trigger, and request DevTools breaks on such events if and when they occur. There are two categories of "outside &gt; in" entry points:</p>
+
+<ul>
+  <li>DOM modifications</li>
+  <li>Event Listener breakpoints</li>
+</ul>
+
+<h3>Break on DOM Modifications</h3>
+
+<p>You have the task of debugging a web page, specifically the DOM. Nodes are added and removed during the lifecycle of the page, and you need to inspect the JavaScript which makes this happen. Set a DOM breakpoint with the following steps:</p>
+
+<ul>
+  <li>Right click on a DOM node in the Elements Panel.</li>
+  <li>Select a preferred DOM breakpoint from the <strong>Break on</strong> context menu.</li>
+  <li>While you are paused at a breakpoint, you can see a message which explains the reason the debugger has paused, as shown in Reason for pausing at a breakpoint.</li>
+</ul>
+
+<figure class="post_image">
+  <img alt="DOM modifications" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-debugger-reason.png"/>
+</figure>
+
+<p>Every time you set a DOM breakpoint, you can easily toggle it on and off at the <strong>DOM breakpoints</strong> pane in the <strong>Elements Panel</strong>. In this pane, each breakpoint you set is listed, and you can interact with this pane in the following ways:</p>
+
+<ul>
+  <li>Toggle the checkbox on and off to enable or disable the breakpoint.</li>
+  <li>Click on the Node name (which is underlined) to navigate to it in the DOM tree view.</li>
+  <li><strong>Right-click</strong> and select <strong>Remove All DOM breakpoints</strong> to disable and remove all DOM breakpoints.</li>
+</ul>
+
+<figure class="post_image">
+  <img alt="DOM breakpoints" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-dom-breakpoints-pane.png"/>
+</figure>
+
+<h4><strong>Subtree Modifications</strong> </h4>
+
+<p><em>Description:</em> A Subtree modification occurs when the tree of a root node (which has the breakpoint set) is changed. This can include the addition or removal of nodes.</p>
+
+<p><em>Use case:</em> An empty <code class="inline">div</code> container is present in the DOM, and an Ajax request happens on page load which appends some new nodes the the original container. Add a Subtree modification breakpoint on the container to see the exact point in code which adds new nodes to the DOM.</p>
+
+<p><em>Message examples:</em> Paused on a <code class="inline">Subtree Modified</code> breakpoint set on <code class="inline">body</code>, because its descendant <code class="inline">p</code> was removed. Or: Paused on a <code class="inline">Subtree Modified</code> breakpoint set on <code class="inline">div#parent</code>, because a new child was added to that node.</p>
+
+<h4><strong>Attributes Modifications</strong> </h4>
+
+<p><em>Description:</em> An Attribute modification triggers when an attribute name or value on a node is added, removed or modified. This includes all attributes, such as <code>class</code>, <code>data-*</code>, or <code>style</code>.</p>
+
+<p><em>Use case:</em> A visual change happens on the page at a seemingly random point in time, and you narrow this down to a class which is dynamically set on the body element. You wish to investigate the cause of this dynamic class addition.</p>
+
+<p><em>Message example:</em> Paused on an <code class="inline">Attribute Modified</code> breakpoint set on <code class="inline">p</code>.</p>
+
+<h4><strong>Node Removal</strong> </h4>
+
+<p><em>Description:</em> A node removal breakpoint triggers at the point where a node is removed from the parent containing the set breakpoint.</p>
+
+<p><em>Use case:</em> You are building a to-do list app and wish to verify that when a user deletes a to-do item, it is also removed from the DOM. You can set a node removal breakpoint to ensure this behaviour is occurs.</p>
+
+<p><em>Message example:</em> Paused on a <code class="inline">Node Removed</code> <code class="inline">div#container</code>.</p>
+
+<h3>Event Listener Breakpoints</h3>
+
+<p>In the DevTools, a number of predefined Event Listener Breakpoints are available for you to enable. These offer entry points into the JavaScript that belongs to a page.</p>
+
+<p>Consider a simple <code class="inline">about:blank</code> page. Set a <code>click</code> event listener breakpoint on this page with the following steps:</p>
+
+<ul>
+  <li>Navigate to the <strong>Event Listener Breakpoints</strong> pane in the <strong>Sources Panel</strong>.</li>
+  <li>Open the <code class="inline">Mouse</code> Event Listener category.</li>
+  <li>Enable the <code class="inline">Click</code> event listener.</li>
+</ul>
+
+<p>You have now set a breakpoint. If you click on the page, notice that nothing happens. Now execute the following piece of JavaScript code in the <strong>Console Panel</strong>.</p>
+
+<pre class="brush: javascript">document.addEventListener('click', console.log.bind(console))</pre>
+
+<p>When you set a breakpoint for the same event you have registered an event listener for, the debugger pauses before the point where your event listener callback is executed.</p>
+
+<p>You can register breakpoints for many types of events such as timers, touch events and more, which are listed in the table below.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event Category</th>
+      <th>Event examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p>Animation</p></td>
+      <td><p>requestAnimationFrame, cancelAnimationFrame, animationFrameFired</p></td>
+    </tr>
+    <tr>
+      <td><p>Control</p></td>
+      <td><p>resize, scroll, zoom, focus, blur, select, change, submit, reset</p></td>
+    </tr>
+    <tr>
+      <td><p>Clipboard</p></td>
+      <td><p>copy, cut, paste, beforecopy, beforecut, beforepaste</p></td>
+    </tr>
+    <tr>
+      <td><p>DOM Mutation</p></td>
+      <td><p>DOMActivate, DOMFocusIn, DOMFocusOut, DOMAttrModified, DOMCharacterDataModified, DOMNodeInserted, DOMNodeInsertedIntoDocument, DOMNodeRemoved, DOMNodeRemovedFromDocument, DOMSubtreeModified, DOMContentLoaded</p></td>
+    </tr>
+    <tr>
+      <td><p>Device</p></td>
+      <td><p>deviceorientation, devicemotion</p></td>
+    </tr>
+    <tr>
+      <td><p>Drag / drop</p></td>
+      <td><p>dragenter, dragover, dragleave, drop</p></td>
+    </tr>
+    <tr>
+      <td><p>Keyboard</p></td>
+      <td><p>keydown, keyup, keypress, input</p></td>
+    </tr>
+    <tr>
+      <td><p>Load</p></td>
+      <td><p>load, beforeunload, unload, abort, error, hashchange, popstate</p></td>
+    </tr>
+    <tr>
+      <td><p>Mouse</p></td>
+      <td><p>click, dblclick, mousedown, mouseup, mouseover, mousemove, mouseout, mousewheel, wheel</p></td>
+    </tr>
+    <tr>
+      <td><p>Timer</p></td>
+      <td><p>setTimer, clearTimer, timerFired</p></td>
+    </tr>
+    <tr>
+      <td><p>Touch</p></td>
+      <td><p>touchstart, touchmove, touchend, touchcancel</p></td>
+    </tr>
+    <tr>
+      <td><p>WebGL</p></td>
+      <td><p>webglErrorFired, webglWarningFired</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The "debugging from the outside in" technique can be useful when you need to debug a third-party website whose functionality has broken, or even when you are curious as to how something on a page you are viewing is working.</p>
+
+<h2><span class="sectionnum">3.</span> Extensions</h2>
+
+<p>A number of Chrome extensions exist, many of which enhance DevTools functionality. A featured list is found on the <a href="https://developer.chrome.com/devtools/docs/extensions-gallery">DevTools Extensions Gallery</a>.</p>
+
+<h3>DevTools JavaScript Preprocessing</h3>
+
+<p>For DevTools Extension authors, the <a href="https://code.google.com/p/chromium/wiki/ScriptPreprocessor">JavaScript preprocessing feature</a> is a worthwhile topic to learn about. The preprocessor can intercept JavaScript source code before it enters the V8 engine, meaning JavaScript source code can be modified via DevTools before it enters the VM, all from an extension. </p>
+
+<p>In addition to interception capabilities, the preprocessing API has programmatic access for reloading of script sources. An extension can, at any point during its lifecycle, reload a JavaScript source without reloading the original web page.</p>
+
+<h2><span class="sectionnum">4.</span> Node</h2>
+
+<p>This section covers a few tools which offer some level of integration between <a href="http://nodejs.org/">Node.js</a> and the Chrome DevTools.</p>
+
+<h3>Node Inspector</h3>
+
+<p>There are two parts to the DevTools:</p>
+
+<ul>
+  <li><strong>Front-end</strong>: This is what you use and interact with. It is composed of HTML, CSS, and JavaScript.</li>
+  <li><strong>Back-end</strong>: In the case of inspecting a page in Google Chrome, the back-end is within the Chrome internals. Messages are passed back and forth via the <a href="https://developer.chrome.com/devtools/docs/debugger-protocol">Remote Debugging Protocol</a>.</li>
+</ul>
+
+<p>Any application can implement communication over the remote debugging protocol and allow its users to debug via DevTools. <a href="https://github.com/node-inspector/node-inspector">Node Inspector</a> is one such tool. After installing, you can run any node script using Node Inspector. The tool starts a web server which hosts the DevTools front-end. This special version of the DevTools doesn’t use the Chrome back-end, but rather Node Inspector’s own one.</p>
+
+<figure class="post_image">
+  <img alt="Node Inspector" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-node-inspector.png"/>
+</figure>
+
+<p>As you can see in Node Inspector, DevTools is paused at a breakpoint. The call stack refers to the calls executed in Node.js. The browser's only involvement here is for the DevTools UI.</p>
+
+<h3>Node Heapdump</h3>
+
+<p>Use <a href="https://github.com/bnoordhuis/node-heapdump">Node Heapdump</a> to take a snapshot of the V8 heap at a point in time in your code. The current state of the V8 heap is serialized and output to a file.</p>
+
+<figure class="post_image">
+  <img alt="Node Heapdump" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-node-heapdump.png"/>
+</figure>
+
+<p>Compare two heap snapshots to discover which objects are not being garbage collected. This is useful for catching memory leaks.</p>
+
+<h3>Conclusion</h3>
+
+<p>That's it for this two-part series on a modern debugging experience. Hopefully at this point, you're comfortable with authoring and debugging JavaScript within the Chrome DevTools. You're familiar with workflows which can aid debugging and you know some tips and tricks when dealing with a production site you've not worked on before. Be sure to try some of the techniques you learnt here the next time you need to debug.</p>
+
+<p>Thank you for reading!</p>
