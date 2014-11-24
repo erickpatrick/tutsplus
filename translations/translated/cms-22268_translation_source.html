@@ -1,0 +1,175 @@
+<h1>Prototipando um Tour Interativo de um Produto para iOS com Framer.js</h1>
+
+<p>O Framer.js e o ecossistema que o acompanha, o <a href="http://framerjs.com/" rel="external" target="_blank">Framer Studio</a>, são ótimas ferramentas para composição, apresentação e iteração de projetos de interação. Nesse artigo, mostrarei como construir um protótipo interativo para um tour de um aplicativo fictício para iOS, usando o Adobe Photoshop CC 2014 e o Framer Studio 1.9.29. Assumamos que queremos construir um aplicativo de <em>feed</em> de notícias, no qual as atualizações da rede de um usuário são apresentadas em uma linha do tempo, enquanto as configurações e opções adicionais são mostradas em uma barra lateral.</p>
+
+<figure class="post_image">
+  <img alt="framer studio" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/framer-studio.png"/>
+</figure>
+
+<p>Brinque um pouco com o protótipo na <a href="http://tutsplus.github.io/product-tour-with-photoshop-and-framerjs/tour.framer/" target="_self">página de demonstração</a> (suportado apenas por navegadores baseados no Webkit, como o Chrome, Safari, etc).</p>
+
+<h2><span class="sectionnum">1.</span> Preparação Inicial</h2>
+
+<h3>Criando os Recursos no Photoshop</h3>
+
+<p>Primeiro, criaremos os recursos necessários para o protótipo no Photoshop. O tour do produto consistirá de quatro passos:</p>
+
+<ol>
+  <li>Apresentação do App</li>
+  <li>Apresentação do <em>Feed</em> de Notícias</li>
+  <li>Apresentação da Barra Lateral</li>
+  <li>Tela de Login</li>
+</ol>
+
+<p>Ao trabalhar com o Framer, é importante notar que só as camadas agrupadas e visíveis serão importadas para o Framer Studio. Agrupe suas camadas pelas interações (por exemplo: coisas que tem a mesma interação deveriam ser agrupadas juntas), uma vez que as acessará através do nome do grupo ao qual pertencem quando trabalhar com o Framer. Para o tour desse produto, agrupei minhas camadas por função:</p>
+
+<figure class="post_image">
+  <img alt="photoshop layers" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/Screenshot.png"/>
+</figure>
+
+<p>Essas camadas serão acessadas no código, dessa forma:  <code class="inline">myLayers.doneButton</code>, <code class="inline">myLayers.dots</code>, etc. </p>
+
+<h3>Importando Para o Framer Studio</h3>
+
+<p>O próximo passo é importar seus recursos do Photoshop para o Framer Studio. Seu documento do Photoshop deve estar aberto e salvo ao realizar a importação. Clique no botão <strong>Import</strong> e você verá uma caixa de diálogo que parece mais ou menos com isso:</p>
+
+<figure class="post_image">
+  <img alt="import" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/import.png"/>
+</figure>
+
+<p>O Framer achatará seus grupos em imagens ao importá-los, e seus recursos estarão acessíveis pelo Framer depois que a importação estiver finalizada.</p>
+
+<h3>Use Variáveis para Facilitar Manipulação Posterior</h3>
+
+<p>É uma boa prática transformar seus objetos em variáveis, uma vez que os tenha importado para o Framer, já que isso facilitará seu trabalho quando for manipular o protótipo mais tarde, se for preciso. </p>
+
+<p>Por exemplo, em uma data posterior, você pode querer usar um arquivo diferente do Photoshop com grupos nomeados diferentes, mas usando as mesmas interações criadas. Será muito mais fácil se você estruturar as interações em relação aos nomes das variáveis, uma vez que você pode, simplesmente, alterar a referência da variável em uma linha e isso refletirá pelo resto do documento:</p>
+
+<pre class="brush: javascript"># Isso importa todas as camadas para o tour para tourLayers
+ly = Framer.Importer.load "imported/tour"
+
+## ------------------- VARIÁVEIS ---------------------
+welcome = ly.welcome
+dots = ly.dots
+moveDot = ly.movingDot
+done = ly.doneButton
+login = ly.login
+logo = ly.logo
+news = ly.newsFeed
+siderbar = ly.siderbar
+gradient = ly.gradient
+background = ly.background
+feedDescription. ly.feedDescription</pre>
+
+<p>Agora que temos alguns recursos para usar no trabalho, você pode começar a criar as interações que trarão seu protótipo à vida. </p>
+
+<h3>Use os Estados</h3>
+
+<p>Se tiver recursos que terão diferentes interações dentro da sua composição, os estados são uma forma muito poderosa de estruturar seu código. Nesse protótipo, cada um dos quatro passos usará diferentes recursos de formas diferentes. Os estados nos darão a flexibilidade de definir cada peça da composição de forma independente, aumentando a modularidade e facilidade de leitura do código. </p>
+
+<p>Por exemplo, a tela do <em>feed</em> de notícias terá quatro estados: </p>
+
+<ol>
+  <li>Original (lado direito da tela, não visível)</li>
+  <li>Visível (centro da tela)</li>
+  <li>Barra Lateral (lado direito mais distante da tela)</li>
+  <li>Escondido (lado esquerdo da tela, não visível)</li>
+</ol>
+
+<p>Nossos estados refletirão essas posições através da configuração de diferentes valores para <code class="inline">x</code> baseado no local onde nosso <em>feed</em> de notícias deveria estar em dada parte do tour:</p>
+
+<pre class="brush: javascript">news.states.add
+origin: { x: 750 }
+    shown: { x: news.originX }
+    sidebar: { x: 655 }
+    hidden: { x; -750 }</pre>
+
+<h2><span class="sectionnum">2.</span> Estruturando Interações no Framer</h2>
+
+<h3>Habilitando Movimento de Arrastar nas Camadas</h3>
+
+<p>Para o tour do produto, queremos ilustrar as diferentes áreas do app após o usuário ter feito o movimento de deslizar para a esquerda para chegar até a próxima parte do tour do produto. Para isso, temos que habilitar a possibilidade de arrastar as camadas onde você quiser que haja esse movimento.</p>
+
+<p>Crie um vetor:</p>
+
+<pre class="brush: plain">dragLayers = [welcome, gradient, gradient2]</pre>
+
+<p>Agora, crie um laço <code class="inline">for</code> para iterar por esse vetor, adicionando a propriedade de arrastável a essas camadas:</p>
+
+<pre class="brush: plain">for drag in dragLayers
+# habilita o arrastar
+    drag.draggable.enabled = true
+    drag.draggable.speedY = 0
+    # Previne o arrastar da esquerda para direita
+    drag.draggable.maxDragFrame = drag.frame
+    drag.draggable.maxDragFrame.width *= 2
+    drag.draggable.maxDragFrame.x = drag.x-drag.width</pre>
+
+<ul>
+  <li><code class="inline">enabled = true</code> permite que a camada seja arrastada</li>
+  <li><code class="inline">speedY = 0</code> desabilita o arrastar pelo eixo Y</li>
+  <li><code class="inline">maxDragFrame = drag.frame</code> configura o quadro o qual pode ser arrastado para ficar dentro da própria camada</li>
+  <li><code class="inline">maxDragFrame.x = drag.x-drag.width</code> permite que o quadro possa ser arrastado pelo eixo X com valores negativos (ou seja, da direita para esquerda)</li>
+</ul>
+
+<h3>Mude os Estados Quando Arrastada Após Certo Ponto</h3>
+
+<p>Após habilitar o arrastar das camadas, mire as camadas e altere o estado dos recursos quando elas passarem de um determinado ponto.</p>
+
+<pre class="brush: plain">welcome.on Events.DragEnd, -&gt;
+if welcome.screenFrame.x &lt; -150</pre>
+
+<p>Quando o usuário terminar de arrastar a camada <b>welcome</b>, se ele tiver passado de 150 pixels para a esquerda (<code class="inline">screenFrame.x &lt; -150</code>), então altere o estado do protótipo para o estado do <em>feed</em> de notícias:</p>
+
+<pre class="brush: javascript">welcome.on EventsDragEnd, -&gt;
+if welcome.screenframe.x &lt; -150
+		welcome.states.switch "hidden"
+		news.states.switch "shown"
+		moveDot.states.switch "second"
+		gradient.states.switch "shown"</pre>
+
+<p>Os estados dos outros elementos deveram ser alterados também (esconda o estado <b>welcome</b>, mova o ponto na parte inferior para indicar o segundo passo do tour, etc.). Então, repetiremos esse processo para as outras camadas arrastáveis (gradient, gradient2) e altere os estados de acordo. Continue assim e terá criado o protótipo do produto em pouquíssimo tempo. </p>
+
+<h3>Anime as Camadas em um Vetor, Individualmente, Adicionando um Pequeno Atraso</h3>
+
+<p>Animar as atualizações do <em>Feed</em> de Notícias, individualmente, ao invés do grupo completo, dará ao seu protótipo um ar mais profissional, como demonstrado nesse (pequeno) gif animado abaixo:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/22268/image/framer4.gif"/>
+</figure>
+
+<p>Primeiro, crie um vetor com as camadas que você quer animar:</p>
+
+<pre class="brush: plain">newsLayers = [ly.celeb1, ly.celeb2, ly.celeb3, ly.celeb4, ly.celeb5, ly.celeb6]</pre>
+
+<p>Após isso, crie uma função para animar cada camada para a posição <code class="inline">x</code> desejada, adicionando um pouco de atraso (algo como <code class="inline">0.1</code>s) entre cada animação:</p>
+
+<pre class="brush: plain">newsCurve = 'spring(50, 30, 30)'
+newsAnimation = -&gt;
+for i in [0 .. newsLayers.length-1]
+		newsLayers[i].animate
+			delay: i * 0.1
+			properties:
+				x: 0
+			curve: newsCurve</pre>
+
+<h3>Dica de Profissional: Crie Funções para Suas Animações</h3>
+
+<p>Se você for reusar certas interações em vários lugares do seu protótipo, pense em criar funções que você pode reusá-las depois. Assim, ao invés de escrever a animação várias vezes, só precisará escrever uma vez e reusá-la quando necessário. Crie uma animação que pode ser reutilizada através de uma função, dessa forma:</p>
+
+<pre class="brush: javascript">Layer::fadeOut = -&gt;
+this.animate
+	    properties:
+			opacity: 0
+		curve: 'ease-in-out'
+		time: 0.5</pre>
+
+<p>Depois, quando precisar, você pode chamar "fadeOut" em qualquer camada, dessa forma: <code class="inline">myLayer.fadeOut()</code> </p>
+
+<h2>Conclusão</h2>
+
+<p>O Framer é uma ótima ferramenta para a criação rápida de protótipos modernos, interativos e bonitos. Incorporá-lo em seu fluxo de trabalho, criando seus <em>layouts</em> no Photoshop (ou Sketch) e depois manipulando através do Framer, permitirá a você criar protótipos mais robustos de forma mais rápida. </p>
+
+<p>Você também será capaz de modificar seus projetos na ferramenta de <em>layout</em> visual e importá-las diretamente no Framer, permitindo para uma iteração mais eficiente de acordo com que o desenvolvimento progride. Se tiver configurado corretamente seu documento com variáveis, suas interações serão aplicadas os novos recursos importados, permitindo uma iteração rápida em relação às ideias do projeto visual e da interação. Se tivesse de entregar protótipos estáticos, teria de criar várias composições estáticas paracada novo elemento visual. Usando esse novo fluxo de trabalho, porém, só precisará fazer uma mudança em um único documento pai, reimportar para o Framer e pronto!</p>
+
+<p>Fique ligado para mais tutoriais sobre prototipação. Também fique à vontade para comentar abaixo, e responderei a você tão logo quanto possível. Ótimas prototipações!</p>
