@@ -26,6 +26,7 @@ PHP
 - [Orientação a Objetos no WordPress: Tipos](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-types--cms-20299)
 - [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
 - [Configurando o W3 Total Cache: Cache Avançado de Base de Dados](http://code.tutsplus.com/pt/tutorials/configuring-w3-total-cache-advance-database-cache--cms-21783)
+- [Integrando o Zendesk com o WordPress](http://code.tutsplus.com/pt/tutorials/integrating-zendesk-with-wordpress--cms-21411)
 
 HTML & CSS
 ----------
@@ -88,6 +89,7 @@ Web  Design
 - [Entendendo a Pontuação Deslocada](http://webdesign.tutsplus.com/pt/articles/getting-the-hang-of-hanging-punctuation--cms-19890)
 - [Realizando Uma Pesquisa Bem Sucedida Para Um Projeto Web](http://webdesign.tutsplus.com/pt/articles/carrying-out-successful-research-for-a-web-project--cms-20828)
 - [Pare de Colocar Personas de Usuários Na Gaveta](http://webdesign.tutsplus.com/pt/articles/stop-putting-user-personas-in-your-desk-drawer--cms-22625)
+- [Prototipando um Tour Interativo de um Produto para iOS com Framer.js](http://webdesign.tutsplus.com/pt/tutorials/prototyping-an-interactive-ios-product-tour-with-framerjs--cms-22268)
 
 Fotografia
 ----------
