@@ -27,6 +27,7 @@ PHP
 - [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
 - [Configurando o W3 Total Cache: Cache Avançado de Base de Dados](http://code.tutsplus.com/pt/tutorials/configuring-w3-total-cache-advance-database-cache--cms-21783)
 - [Integrando o Zendesk com o WordPress](http://code.tutsplus.com/pt/tutorials/integrating-zendesk-with-wordpress--cms-21411)
+- [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
 
 HTML & CSS
 ----------
@@ -97,6 +98,7 @@ Fotografia
 - [100 Ações Grátis Para O Photoshop (E Como Criar A Sua)](http://photography.tutsplus.com/pt/articles/100-free-photoshop-actions-and-how-to-make-your-own--photo-3502)
 - [Dica Rápida: 2 Técnicas De Divisão De Tons No Adobe Photoshop](http://photography.tutsplus.com/pt/tutorials/quick-tip-2-split-toning-techniques-in-adobe-photoshop--photo-4425)
 - [Como Usar Seu iPhone Como Profissional: Adereços de Hardware](http://photography.tutsplus.com/pt/tutorials/how-to-use-your-iphone-like-a-pro-hardware-add-ons--cms-22659)
+- [Divisão de Tons em Imagens Coloridas com Photoshop: Teoria e Prática](http://photography.tutsplus.com/pt/tutorials/split-toning-colour-pictures-in-photoshop-theory-and-practice--cms-22568)
 
 Artesanato e DIY
 ----------------
