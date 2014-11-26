@@ -28,6 +28,7 @@ PHP
 - [Configurando o W3 Total Cache: Cache Avançado de Base de Dados](http://code.tutsplus.com/pt/tutorials/configuring-w3-total-cache-advance-database-cache--cms-21783)
 - [Integrando o Zendesk com o WordPress](http://code.tutsplus.com/pt/tutorials/integrating-zendesk-with-wordpress--cms-21411)
 - [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
+- [Decida Como Desenvolver Sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/deciding-how-to-develop-your-wordpress-theme-framework--cms-21562)
 
 HTML & CSS
 ----------
