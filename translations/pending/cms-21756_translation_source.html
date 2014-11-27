@@ -1,38 +1,38 @@
-<h1>Introduction to Generators & Koa.js: Part 2</h1>
+<h1>Introdução a Geradores & Koa.js: Parte 2</h1>
 
-<p>Welcome to the second part of our series on generators and Koa. If you missed it you can read <a href="http://goo.gl/mkO57l" target="_self">read part 1 here</a>. Before starting with the development process, make sure that you have installed Node.js 0.11.9 or higher.</p>
+<p>Bem vindo à segunda parte da nossa série sobre geradores e Koa. Se você perdeu a primeira parte, <a href="http://goo.gl/mkO57l" target="_self">pode lê-la aqui</a>. Antes de começarmos com o processo de desenvolvimento, tenha certeza de ter isntalado a versão 0.11.9, ou mais recente, do Node.js.</p>
 
-<p>In this part, we will be creating a dictionary API using Koa.js, and you'll learn about routing, compressing, logging, rate-limiting, and error handling in Koa.js. We will also use Mongo as our datastore and learn briefly about importing data into Mongo and the ease that comes with querying in Koa. Finally, we'll look into debugging Koa apps.</p>
+<p>Nesta parte, começaremos a criar nossa API usando o Koa.js e você aprenderá sobre roteamento, compressão, registros de log, limitação de uso e manipulação de erros no Koa.js. Também usaremos o Mongo como nosso armazenamento de dados e aprenderemos rapidamente sobre a importação de dados para o Mongo, e o quão fácil é selecionar dados usando o Koa. Finalmente, veremos como depurar apps no Koa.</p>
 
-<h2>Understanding Koa</h2>
+<h2>Entendendo o Koa</h2>
 
-<p>Koa has radical changes built under its hood which leverage the generator goodness of ES6. Apart from the change in the control flow, Koa introduces its own custom objects, such as <code class="inline">this</code>, <code class="inline">this.request</code>, and <code class="inline">this.response</code>, which conveniently act as a syntactic-sugar layer built on top of Node's req and res objects, giving you access to various convenience methods and getters/setters. </p>
+<p>Koa tem mudanças substanciais por trás dos panos, fazendo uso das maravilhas dos geradores do EcmaScript 6. Fora a mudança de fluxo de controle, o Koa introduz seus próprios objetos customizados, como o <code class="inline">this</code>, <code class="inline">this.request</code> e o<code class="inline">this.response</code>, que funcionam como uma camada de açucar sintático sobre os objetos <code class="inline">req</code> e <code class="inline">res</code> do Node, dando-lhe acesso a vários métodos convenientes e vários <code class="inline">getters/setters</code>. </p>
 
-<p>Apart from convenience, Koa also cleans up the middleware which, in Express, relied on ugly hacks which often modified core objects. It also provides better stream handling.</p>
+<p>Além das conveniências, o Koa também faz uma limpeza nos mediadores que, no Express, dependia de <em>hacks</em> horrorosos que quase sempre modificavam os objetos base. Também fornece uma melhor manipulação de fluxo de dados.</p>
 
-<h2>Wait, What's a Middleware?</h2>
+<h2>Espere, O Que É Um Mediador?</h2>
 
-<p>A middleware is a pluggable function that adds or removes a particular piece of functionality by doing some work in the request/response objects in Node.js.</p>
+<p>Um mediador é uma função plugável que adiciona ou remover alguma funcionalidade específica ao realizar alguma tarefa nos objetos de requisição/resposta do Node.js.</p>
 
-<h3>Koa's Middleware</h3>
+<h3>Mediadores do Koa</h3>
 
-<p>A Koa middleware is essentially a generator function that returns one generator function and accepts another. Usually, an application has a series of middleware that are run for each request. </p>
+<p>Essencialmente, um mediador do Koa é uma função geradora que retorna uma função geradora e que aceita uma outra função geradora. Geralmente, uma aplicação possui uma série de mediadores que são executados a cada requisição. </p>
 
-<p>Also, a middleware must yield to the next 'downstream' middleware if it is run by an 'upstream middleware'. We will discuss more about this in the error handling section.</p>
+<p>Além disso, um mediador deve retornar para o próximo mediador abaixo no fluxo de controle, caso seja executado por um mediador mais alto. Discutiremos mais sobre isso na seção de manipulação de erros.</p>
 
-<h3>Building Middleware</h3>
+<h3>Construindo Mediadores</h3>
 
-<p>Just one last thing: To add a middleware to your Koa application, we use the <code class="inline">koa.use()</code> method and supply the middleware function as the argument. Example: <code class="inline">app.use(koa-logger)</code> adds <code class="inline">koa-logger</code> to the list of middleware that our application uses.</p>
+<p>Uma última coisa: Para adicionar um mediador à sua aplicação Koa, usaremos o método <code class="inline">koa.use()</code> e prover uma função mediadora (geradora) como argumento. Exemplo: <code class="inline">app.use(koa-logger)</code> adiciona o <code class="inline">koa-logger</code> à lista de mediadores que nossa aplicação usa.</p>
 
-<h2>Building the Application</h2>
+<h2>Construindo a Aplicação</h2>
 
-<p>To start with the dictionary API, we need a working set of definitions. To recreate this real-life scenario, we decided to go with a real dataset. We took the definition dump from Wikipedia and loaded it into Mongo. The set consisted of about 700,000 words as we imported only the English dump. Each record (or document) consists of a word, its type, and its meaning. You can read more about the importing process in the <code class="inline">import.txt</code> file in the repository.</p>
+<p>Para começar com a API do dicionário, precisamos de conjunto funcional de definições. Para recriar esse cenário da vida real, decidimos ir com uma conjunto de dados real. Baixamos a lista de definições da Wikipedia e carregamos no Mongo. O conjunto tem cerca de 700.000 palavras, uma vez que importamos somente a lista de definições em inglês. Cada registro (ou documento) consiste de uma palavra, seu tipo e seu significado. Você pode ler mais sobre o processo de importação no arquivo <code class="inline">import.txt</code> do repositório.</p>
 
-<p>To move along the development process, clone the repository and check your progress by switching to different commits. To clone the repo, use the following command:</p>
+<p>Continuando com o processo de desenvolvimento, clone o repositório e verifique seu progresso, navegando pelos diferentes <em>commits</em>. Para clonar o repositório, use o comando a seguir:</p>
 
 <pre class="brush: bash">$ git clone https://github.com/bhanuc/dictapi.git</pre>
 
-<p>We can start by creating a base server Koa:</p>
+<p>Comecemos criando um servidor base do Koa:</p>
 
 <pre class="brush: javascript">var koa = require('koa');
 var app = koa();
@@ -40,34 +40,34 @@ var app = koa();
 app.use(function *(next){
 this.type = 'json';
     this.status = 200;
-    this.body = {'Welcome': 'This is a level 2 Hello World Application!!'};
+    this.body = {'Welcome': 'Essa é uma aplicação Olá Mundo de nível 2!!'};
 });
 
 if (!module.parent) app.listen(3000);
-console.log('Hello World is Running on http://localhost:3000/');
+console.log('Olá Mundo executando em http://localhost:3000/');
 
 </pre>
 
-<p>In the first line, we import Koa and save an instance in the app variable. Then we add a single middleware in line 5, which is an anonymous generator function that takes the next variable as a parameter. Here, we set the type and status code of the response, which is also automatically determined, but we can also set those manually. Then finally we set the body of the response. </p>
+<p>Na primeira linha, importamos o Koa e salvamos uma instância na variável <code class="inline">app</code>. Então, adicionamos um único mediador na linha 5, que é uma função geradora anônima que recebe a variável <code class="inline">next</code> como parâmetro. Aqui, atribuímos o tipo e o estado da resposta, que é determinado automaticamente, mas também podemos configurá-lo manualmente. Finalmente, configuramos o corpo da resposta. </p>
 
-<p>Since we have set the body in our first middleware, this will mark the end of each request cycle and no other middleware will be involved. Lastly, we start the server by calling its <code class="inline">listen</code> method and pass on the port number as a parameter.</p>
+<p>Já que configuramos o corpo de nosso primeiro mediador, ele marcará o fim de cada ciclo de requisição e não envolveremos qualquer outro mediador. Por último, iniciamos o servidor, executando seu método <code class="inline">listen</code> e passando um número de porta como parâmetro.</p>
 
-<p>We can start the server by running the script via:</p>
+<p>Podemos iniciar o servidor através da execução do <em>script</em>, dessa forma:</p>
 
 <pre class="brush: bash">$ npm install koa
 $ node --harmony index.js</pre>
 
-<p>You can directly reach this stage by moving to commit <code class="inline">6858ae0</code>:</p>
+<p>Você pode ir direto para esse ponto, buscando o <em>commit</em>  <code class="inline">6858ae0</code>:</p>
 
 <pre class="brush: bash">$ git checkout 6858ae0</pre>
 
-<h3>Adding Routing Capabilities</h3>
+<h3>Adicionando Capacidade de Roteamento</h3>
 
-<p>Routing allows us to redirect different requests to different functions on the basis of request type and URL. For example, we might want to respond to <code class="inline">/login</code> differently than <code class="inline">signup</code>. This can be done by adding a middleware, which manually checks the URL of the request received and runs corresponding functions. Or, instead of manually writing that middleware, we can use a community-made middleware, also known as a middleware module.</p>
+<p>Roteamento permite-nos redirecionar diferentes requisições a diferentes funções, baseado no tipo da requisição e na URL requisitada. Por exemplo, podemos querer responder a <code class="inline">/login</code> diferentemente de <code class="inline">signup</code>. Isso pode ser feito a partir da adição de um mediador, que verifica manualmente a URL da requisição recebida e executa as funções correspondentes. Ou, ao invés de escrever o mediador manualmente, podemos usar um mediador criado pela comunidade, também conhecido como módulo mediador.</p>
 
-<p>To add routing capability to our application, we will use a community module named <code class="inline">koa-router</code>. </p>
+<p>Para adicionar a capacidade de roteamento à nossa aplicação, usaremos um módulo da comunidade chamado de <code class="inline">koa-router</code>. </p>
 
-<p>To use <code class="inline">koa-router</code>, we will modify the existing code to the code shown below: </p>
+<p>Para usar o <code class="inline">koa-router</code>, modificaremos o código que já temos para algo parecido com isso: </p>
 
 <pre class="brush: javascript">var koa = require('koa');
 var app = koa();
@@ -77,7 +77,7 @@ var mount = require('koa-mount');
 var handler = function *(next){
 this.type = 'json';
     this.status = 200;
-    this.body = {'Welcome': 'This is a level 2 Hello World Application!!'};
+    this.body = {'Welcome': 'Essa é uma aplicação Olá Mundo de nível 2!!'};
 };
 
 var APIv1 = new router();
@@ -85,23 +85,23 @@ APIv1.get('/all', handler);
 
 app.use(mount('/v1', APIv1.middleware()));
 if (!module.parent) app.listen(3000);
-console.log('Hello World is Running on http://localhost:3000/');
+console.log('Olá Mundo executando em http://localhost:3000/');
 
 </pre>
 
-<p>Here we have imported two modules, where <code class="inline">router</code> stores <code class="inline">koa-router</code> and <code class="inline">mount</code> stores the <code class="inline">koa-mount</code> module, allowing us to use the router in our Koa application.</p>
+<p>Nós importamos dois módulos aqui, onde a variável <code class="inline">router</code> guarda o <code class="inline">koa-router</code> e a variável <code class="inline">mount</code> guarda o módulo <code class="inline">koa-mount</code>, permitindo-nos usar o roteador em nossa aplicação Koa.</p>
 
-<p>On line 6, we have defined our <code class="inline">handler</code> function, which is the same function as before but here we have given it a name. On line 12, we save an instance of the router in <code class="inline">APIv1</code>, and on line 13 we register our handler for all the <code class="inline">GET</code> requests on route <code class="inline">/all</code>. </p>
+<p>Na linha 6, definomos nossa função <code class="inline">handler</code> function, que é a mesma função de antes mas, dessa vez, demos um nome a ela. Na linha 12, guardamos uma instância do roteador em <code class="inline">APIv1</code> e na linha 13 registrarmos nosso manipulador para requisições <code class="inline">GET</code> na rota <code class="inline">/all</code>. </p>
 
-<p>So all the requests except when a get request is sent to <code class="inline">localhost:3000/all</code> will return "not found". Finally on line 15 , we use <code class="inline">mount</code> middleware, which gives a usable generator function that can be fed to <code class="inline">app.use()</code>.</p>
+<p>Assim, todas as requisições retornarão "not found", exceto aquelas que foram feitas para <code class="inline">localhost:3000/all</code>. Finalmente, na linha 15, usamos o mediador <code class="inline">mount</code>, que nos fornece uma função gerador que pode ser passada para <code class="inline">app.use()</code>.</p>
 
-<p>To directly reach this step or compare your application, execute the following command in the cloned repo:</p>
+<p>Para ver esse passo em específico ou comparar sua aplicação, execute o seguinte comando no repositório clonado:</p>
 
 <pre class="brush: bash">$ git checkout 8f0d4e8</pre>
 
-<p>Before we run our application, now we need to install <code class="inline">koa-router</code> and <code class="inline">koa-mount</code> using <code class="inline">npm</code>. We observe that as the complexity of our application increases, the number of modules/dependencies also increases. </p>
+<p>Antes de executarmos nossa aplicação, precisamos instalar o <code class="inline">koa-router</code> e o <code class="inline">koa-mount</code> usando o <code class="inline">npm</code>. De acordo com o auumento da complexidade da aplicação, o número de módulos/dependências também aumenta. </p>
 
-<p>To keep track of all the information regarding the project and make that data available to <code class="inline">npm</code>, we store all the information in <code class="inline">package.json</code> including all the dependencies. You can create package.json manually or by using an interactive command line interface which is opened using the <code class="inline">$ npm init </code><i> </i>command.</p>
+<p>Para manter o controle de todas as informações relacionadas ao projeto e disponibilizar esses dados no <code class="inline">npm</code>, guardamos toda a informação em um arquivo <code class="inline">package.json</code>, incluindo todas as dependências. Você pode criar um arquivo <code class="inline">package.json</code> manualmente or usar a interface interativa de linha de comando, que abrimos com o comando <code class="inline">$ npm init </code>.</p>
 
 <pre class="brush: javascript">{
 "name": "koa-api-dictionary",
@@ -259,8 +259,8 @@ app.use(logger());</pre>
 <p>Here, options can be an empty object or can be configured as per the requirement.</p>
 
 <pre class="brush: javascript">var compress = require('koa-compress');
-var opts =  { 
-filter: function (content_type) { return /text/i.test(content_type) }, // filter requests to be compressed using regex 
+var opts =  {
+filter: function (content_type) { return /text/i.test(content_type) }, // filter requests to be compressed using regex
     threshold: 2048, //minimum size to compress
     flush: require('zlib').Z_SYNC_FLUSH };
             }
@@ -295,7 +295,7 @@ var app = api;
     request(app.listen())
     .get('/v1/all')
     .query({ word: 'new' })
-    .set('Accept-Encoding', 'gzip')    
+    .set('Accept-Encoding', 'gzip')
     .expect('Content-Type', /json/)
     .expect(200)
     .end(done);
