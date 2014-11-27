@@ -56,6 +56,7 @@ JavaScript
 - [Aprenda a Criar um Blog Usando Parse.js: Trabalhando com Dados](http://code.tutsplus.com/pt/tutorials/get-started-building-your-blog-with-parsejs-working-with-data--cms-22047)
 - [Use O Grunt Para Deixar Seu Fluxo de Criação de E-mails Legal De Novo](https://webdesign.tutsplus.com/pt/tutorials/using-grunt-to-make-your-email-design-workflow-fun-again--cms-22223)
 - [Um Aplicativo Lista de Tarefas de Página Única Usando Backbone.js](https://code.tutsplus.com/pt/tutorials/single-page-todo-application-with-backbonejs--cms-21417)
+- [Introdução a Geradores & Koa.js: Parte 1](http://code.tutsplus.com/pt/tutorials/introduction-to-generators-koajs-part-1--cms-21615)
 
 Habilidades com Computadores
 ----------------------------
