@@ -93,6 +93,10 @@ Web  Design
 - [Pare de Colocar Personas de Usuários Na Gaveta](http://webdesign.tutsplus.com/pt/articles/stop-putting-user-personas-in-your-desk-drawer--cms-22625)
 - [Prototipando um Tour Interativo de um Produto para iOS com Framer.js](http://webdesign.tutsplus.com/pt/tutorials/prototyping-an-interactive-ios-product-tour-with-framerjs--cms-22268)
 
+Games
+-----
+- [Entendendo Licenças ou “Posso Usar Esse Recurso No Meu Jogo?”](http://gamedevelopment.tutsplus.com/pt/articles/understanding-licenses-or-can-i-use-this-asset-in-my-game--cms-22510)
+
 Fotografia
 ----------
 - [7 Técnicas de Pose Para Pessoas Comuns](http://photography.tutsplus.com/pt/tutorials/7-posing-techniques-for-non-models--photo-15608)
