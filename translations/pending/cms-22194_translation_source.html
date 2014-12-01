@@ -1,51 +1,58 @@
-<h1>Building With the Twitter API: Using Real-Time Streams</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Construindo Com a API do Twitter: Usando Fluxos de Tempo Real</h1>
 
-<p>While the <a href="https://dev.twitter.com/rest/public" target="_self">Twitter REST API</a> is suitable for many applications, if you want immediate updates and access to a broader array of notifications, the <a href="https://dev.twitter.com/streaming/overview" target="_self">Twitter Streaming API</a> is essential. For example, only the streaming API will tell you when another user favorites one of your tweets.</p>
+<p>Enquanto a <a href="https://dev.twitter.com/rest/public" target="_self">API REST do Twitter</a> é ótima para várias aplicações, se quiser atualizações imediatas e acesso a um conjunto maior de notificações, a <a href="https://dev.twitter.com/streaming/overview" target="_self">API de Fluxos do Twitter</a> (<em>Twitter Streaming API</em>) é essencial. Por exemplo, somente a API de fluxos dirá que outro usuário favoritou um de seus <em>tweets</em>.</p>
 
-<p>Using the Streaming API requires a persistent, keep-alive connection between your web server and Twitter. This type of implementation may be unfamiliar to many PHP developers. As soon as tweets come in, Twitter notifies your server in real time, allowing you to store them into your database without the delay of polling the REST API. Use of the Streaming API is also not subject to Twitter's API rate limits.</p>
+<p>Para usar a API de Fluxos é preciso uma conexão ativa e persistente (<em>keep-alive</em>) entre seu servidor e o Twitter. Esse tipo de implementação pode ser bem estranha para vários programadores PHP. Assim que um <em>tweet</em> é realizado, o Twitter notifica seu servidor em tempo real, permitindo você guardá-lo em sua base de dados sem o atraso da fila da API REST. O uso da API de fluxos também não está sujeito ao limite de uso da API do Twitter.</p>
 
-<p>Here's a visualization of how it works:</p>
+<p>Eis uma visualização de como o processo funciona:</p>
 
 <figure class="post_image">
   <img alt="How the Twitter Streaming API works" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22194/image/streaming-intro-2_1.png"/>
 </figure>
 
-<p>There are three variations of the Twitter Streaming API:</p>
+<p>Há três variações da API de Fluxos do Twitter:</p>
 
 <ol>
-  <li><a href="https://dev.twitter.com/streaming/public" target="_self">The Public Stream</a>. This allows your application to monitor public data on Twitter, such as public tweets, hashtag filters, et al. </li>
-  <li><a href="https://dev.twitter.com/streaming/userstreams" target="_self">The User Stream</a>. This allows you to track a user's tweet stream in real time. Part three of this series will focus on the user stream. </li>
-  <li><a href="https://dev.twitter.com/streaming/sitestreams" target="_self">Site Streams</a>. Site streams allow your application to monitor real-time Twitter feeds for a large number of users. </li>
+  <li><a href="https://dev.twitter.com/streaming/public" target="_self">O Fluxo Público</a>. Essa daqui permite que sua aplicação monitore dados públicos no Twitter, como <em>tweets</em> públicos, filtros de <em>tags</em>, etc.; </li>
+  <li><a href="https://dev.twitter.com/streaming/userstreams" target="_self">O Fluxo do Usuário</a>. Essa permite você rastrear o fluxo de <em>tweets</em> de um usuário, em tempo real. A parte três desta série focará no fluxo do usuário. </li>
+  <li><a href="https://dev.twitter.com/streaming/sitestreams" target="_self">Fluxos de Site</a>. Fluxos de site permitem sua aplicação monitorar os <em>feeds</em> de Twitter de vários usuários, em tempo real. </li>
 </ol>
 
-<p>The job of your streaming implementation is to log the incoming events as quickly as possible and process them in the background using the REST API as necessary to harvest deeper data. Site streams require <a href="https://dev.twitter.com/streaming/sitestreams#applyingforaccess" target="_self">prior approval from Twitter</a>, which are likely reserved for larger companies and developers.</p>
+<p>O trabalho da sua implementação de fluxo é registrar os eventos que chegam tão logo eles apareçam e processá-los em plano de fundo, usando a API REST quando necessário, para obter mais dados. Fluxos de Site requerem <a href="https://dev.twitter.com/streaming/sitestreams#applyingforaccess" target="_self">aprovação prévia do Twitter</a>, que, geralmente, é reservada para grandes empresas e desenvolvedores.</p>
 
-<p>Fortunately, there is a free, open-source library called <a href="https://github.com/tutsplus/phirehose" target="_self">Phirehose</a>, which implements most of the streaming API requirements. This tutorial will describe how to integrate Phirehose into our open-source Birdcage application.</p>
+<p>Felizmente, há uma pequena biblioteca de código aberto, chamada <a href="https://github.com/tutsplus/phirehose" target="_self">Phirehose</a>, que implementa a maioria dos requerimentos da API de fluxos. Esse tutorial descreverá como integrar a Phirehose em sua aplicação de código aberto, Birdcage.</p>
 
-<h2>The Phirehose Library</h2>
+<h2>A Biblioteca Phirehose</h2>
 
-<p>Phirehose is a fantastic open-source PHP implementation of the Twitter Stream API requirements written by <a href="https://github.com/fennb" target="_self">Fenn Bailey</a>. As he describes it, Phirehose is meant to:</p>
+<p>A Phirehose é uma implementação fantástica em PHP e de código aberto dos requerimentos da API de Fluxos do Twitter, escrita por <a href="https://github.com/fennb" target="_self">Fenn Bailey</a>. Como descrito por ele, a Phirehose serve para:</p>
 
 <ul class="task-list">
-  <li>provide a simple interface to the Twitter Streaming API for PHP applications</li>
-  <li>comply with Streaming API recommendations for error handling, reconnection, etc.</li>
-  <li>encourage well-behaved streaming API clients</li>
-  <li>operate independently of PHP extensions (i.e. shared memory, PCNTL, etc.)</li>
+  <li>prover uma interface simples para a API de Fluxos do Twitter, para aplicações em PHP;</li>
+  <li>obedecer as recomendações de manipulação de erros, reconexão, etc., da API de Fluxos;</li>
+  <li>encorajar bons comportamentos de clientes da API de Fluxos</li>
+  <li>operar independente de extensões PHP (por exemplo: <em>shared memory</em>, PCNTL, etc.)</li>
 </ul>
 
-<p>I've found the library to operate quite flawlessly. There's more <a href="https://github.com/fennb/phirehose/wiki/Introduction" target="_self">Phirehose documentation here</a>.</p>
+<p>Pelo meu uso, ela opera praticamente sem erros. Veja a <a href="https://github.com/fennb/phirehose/wiki/Introduction" target="_self">documentação da Phirehose aqui</a>.</p>
 
-<p>It's meant to maintain the connection with Twitter and respond to Twitter's data feed while operating indefinitely without interruption. It's not meant to perform detailed tweet processing and data hydrating, which we've described in <a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-oauth-reading-and-posting--cms-22193" target="_self">part two of this series</a>. This can be done separately.</p>
+<p>Ela foi criada para manter a conexão com o Twitter e responder ao <em>feed</em> de dados do Twitter enquanto opera de forma indefinida, sem interrupções. Não foi criada para processar dados minuciosos de <em>tweets</em> ou hidratação de dados, que foram descritos na <a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-oauth-reading-and-posting--cms-22193" target="_self">parte dois desta série</a>. Isso pode ser feito separadamente.</p>
 
-<h2>Running Phirehose Indefinitely</h2>
+<h2>Executando a Phirehose Indefinidamente</h2>
 
-<p>Generally, you can't run a typical web-based cron task as an indefinite keep-alive operation. It's better to create a command line daemon.</p>
+<p>Geralmente, você não pode executar uma tarefa <em>cron</em> da web como uma operação persistente por tempo indefinido. É melhor criar um <em>daemon</em> de linha de comando.</p>
 
-<p>One of the powerful features <a href="http://code.tutsplus.com/articles/introduction-to-the-yii-framework--cms-20948" target="_self">Yii</a> offers is the ability to run console-based applications from the command line. This will allow us to run a keep-alive command line application that utilizes the entire Birdcage PHP and MySQL framework that we've built.</p>
+<p>Uma das poderosas funcionalidades que o <em>framework</em> <a href="http://code.tutsplus.com/articles/introduction-to-the-yii-framework--cms-20948" target="_self">Yii</a> oferece é a possibilidade de executar aplicações de linha de comando. Isso nos permitirá executar aplicações de linha de comando persistentes, criadas por nós, e que utilizam o <em>framework</em> PHP Birdcage e MySQL.</p>
 
-<h3>Building a Yii Console Command</h3>
+<h3>Construindo uma Comando para Linha de Comando no Yii</h3>
 
-<p>In the <code class="inline">/app/</code> directory, outside the web accessible root, we'll add a <code class="inline">stream.php</code> file that runs our Phirehose streaming console command:</p>
+<p>No diretório <code class="inline">/app/</code>, fora da pasta raiz acessível pela web, adicionaremos um arquivo <code class="inline">stream.php</code> que executará nosso comando de fluxo com o Phirehose, na linha de comando:</p>
 
 <pre class="brush: php">&lt;?php
 defined('YII_DEBUG') or define('YII_DEBUG',true);
@@ -54,18 +61,18 @@ $config=dirname(__FILE__).'/protected/config/main.php';
 require_once($yii);
 Yii::createConsoleApplication($config)-&gt;run();</pre>
 
-<p>Next, we'll build the actual command file, <code class="inline">StreamCommand.php</code>, in the <code class="inline">/app/protected/commands</code> directory:</p>
+<p>O próximo passo é construirmo o arquivo de comando, <code class="inline">StreamCommand.php</code>, no diretório <code class="inline">/app/protected/commands</code>:</p>
 
 <pre class="brush: php">&lt;?php
 class StreamCommand extends CConsoleCommand
 {
-    // test with php ./app/stream.php Stream
+    // teste com o Fluxo ./app/stream.php
     public function run($args)
     {
-        // get Twitter user account keys
+        // obtem as chaves de usuário do Twitter
         $result = Account::model()-&gt;findByPk(1);
         $c = new Consumer($result['oauth_token'],$result['oauth_token_secret'],Phirehose::METHOD_USER);
-        // load Twitter App keys
+        // carrega as chaves do app do Twitter
         $app = UserSetting::model()-&gt;loadPrimarySettings();
         $c-&gt;consumerKey = $app['twitter_key'];
         $c-&gt;consumerSecret = $app['twitter_secret'];
@@ -73,24 +80,24 @@ class StreamCommand extends CConsoleCommand
     }
 }</pre>
 
-<p>It will launch the Phirehose process, Consumer, using our Twitter application and user keys.</p>
+<p>Ele lançará o processo do Phirehose, o Consumer, usando nossas chaves de aplicação e usuário do Twitter.</p>
 
-<p><i>Note: For purposes of the Birdcage streaming example, we assume there is only one Twitter account registered and hardcode loading the credentials, e.g. account_id = 1.</i></p>
+<p><i>Nota: Para o exemplo do fluxo do Birdcage, assumiremos que apenas uma conta de Twitter foi registrado e está fixa no código (account_id = 1).</i></p>
 
-<h3>Integrating Phirehose</h3>
+<h3>Integrando o Phirehose</h3>
 
-<p>To integrate Phirehose into Birdcage, I moved <code class="inline">OAuthPhirehose.php</code> and <code class="inline">UserstreamPhirehose.php</code> into the <code class="inline">/app/protected/components</code> directory. In my <code class="inline">main.php</code> configuration file, I added <code class="inline">phirehose</code> to the list of loaded components:</p>
+<p>Para integrar o Phirehose no Birdcage, movi os arquivos <code class="inline">OAuthPhirehose.php</code> e <code class="inline">UserstreamPhirehose.php</code> para o diretório <code class="inline">/app/protected/components</code>. No meu arquivo de configuração, <code class="inline">main.php</code>, adicionei o <code class="inline">phirehose</code> à lista de componentes carregados:</p>
 
 <pre class="brush: php">'preload'=&gt;array(
-	  'log',
-	  'bootstrap',
-	  'mailgun',
-	  'phirehose',
-  	  'advanced'
-	  ),
+    'log',
+    'bootstrap',
+    'mailgun',
+    'phirehose',
+      'advanced'
+    ),
 </pre>
 
-<p>Then, I created a database migration to create a table to store raw data from the Twitter stream:</p>
+<p>Então, criei uma migração para a base de dados, criando uma tabela para gravar os dados originais do fluxo do Twitter:</p>
 
 <pre class="brush: php">class m140919_193106_create_stream_table extends CDbMigration
 {
@@ -105,8 +112,8 @@ class StreamCommand extends CConsoleCommand
      }
 
        public function safeUp()
-   	{
-   	  $this-&gt;before();
+    {
+      $this-&gt;before();
       $this-&gt;createTable($this-&gt;tableName, array(
                'id' =&gt; 'pk',
                'tweet_id' =&gt; 'bigint(20) unsigned NOT NULL',
@@ -115,19 +122,19 @@ class StreamCommand extends CConsoleCommand
                'created_at' =&gt; 'DATETIME NOT NULL DEFAULT 0',
                'modified_at' =&gt; 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
                  ), $this-&gt;MySqlOptions);
-                 $this-&gt;createIndex('tweet_id', $this-&gt;tableName , 'tweet_id', true);               
+                 $this-&gt;createIndex('tweet_id', $this-&gt;tableName , 'tweet_id', true);
 
-   	}</pre>
+    }</pre>
 
-<p>I also created a new model called <code class="inline">Consumer.php</code> which extends <code class="inline">OauthPhirehose</code> with its required <code class="inline">enqueueStatus</code> method. </p>
+<p>Também criei um modelo chamado <code class="inline">Consumer.php</code> que estende <code class="inline">OauthPhirehose</code> com o método <code class="inline">enqueueStatus</code> obrigatório. </p>
 
-<p>We want to minimize the amount of processing the real-time response needs to perform. Essentially, we just want to record the data received from Twitter to our database—and nothing else. We can do other processing in our own background tasks without slowing Phirehose's streaming connection. My function just takes tweet data from the incoming stream and stores it in the stream table:</p>
+<p>Queremos minimizar a quantidade de processamento que a resposta em tempo real precisa realizar. Essencialmente, apenas queremos guardar os dados recebidos do Twitter em nossa base de dados e nada mais. Também podemos realizar outros processamentos em nossas próprias tarefas de plano de fundo sem atrapalhar a conexão do Phirehose. Minha função apenas pega os dados do <em>tweet</em> e o guarda na tabela <em>stream</em>:</p>
 
 <pre class="brush: plain">&lt;?php
   class Consumer extends OauthPhirehose
   {
-// This function is called automatically by the Phirehose class
-    // when a new tweet is received with the JSON data in $status
+// Essa função é chamada automaticamente pela classe Phirehose
+    // Quando um novo tweet é recebido com os dados JSON em $status
     public function enqueueStatus($status) {
       $stream_item = json_decode($status);
       if (!(isset($stream_item-&gt;id_str))) { return;}
@@ -135,8 +142,8 @@ class StreamCommand extends CConsoleCommand
       $s-&gt;tweet_id = $stream_item-&gt;id_str;
       $s-&gt;code = base64_encode(serialize($stream_item));
       $s-&gt;is_processed=0;
-      $s-&gt;created_at = new CDbExpression('NOW()');          
-      $s-&gt;modified_at =new CDbExpression('NOW()');          
+      $s-&gt;created_at = new CDbExpression('NOW()');
+      $s-&gt;modified_at =new CDbExpression('NOW()');
       $s-&gt;save();
       var_dump($stream_item);
     }
@@ -144,90 +151,91 @@ class StreamCommand extends CConsoleCommand
   ?&gt;
 </pre>
 
-<p>We'll rely on background tasks run by our <code class="inline">DaemonController</code> to process the data into the Bircdcage Tweet model. This is described further below.</p>
+<p>Nós dependeremos das tarefas de plano de fundo executadas pelo nosso <code class="inline">DaemonController</code> para processar os dados no modelo de <em>Tweet</em> do Bircdcage. Isso será descrito logo abaixo.</p>
 
-<h3>Activating Phirehose</h3>
+<h3>Ativando o Phirehose</h3>
 
-<p>You can test Phirehose using the PHP console command:</p>
+<p>Você pode testar o Pirehose usando o terminal de comandos do PHP:</p>
 
 <p><code class="inline">php ./app/stream.php Stream</code></p>
 
-<p>Twitter will send a stream of follower information for the user account, followed by real-time data as it arrives.</p>
+<p>O Twitter enviará o fluxo informação de seguidores da conta do usuário, seguida pelos dados em tempo real, assim que chegar.</p>
 
-<p>To activate Phirehose as a keep-alive, always-on console command, we'll use the <a href="http://manpages.ubuntu.com/manpages/hardy/man1/nohup.1.html" target="_self">nohup command</a>, e.g. no hangup, and redirect output to dev/null:</p>
+<p>Para ativar o Phirehose como um comando de terminal sempre ativo e intermitente, usaremos o <a href="http://manpages.ubuntu.com/manpages/hardy/man1/nohup.1.html" target="_self">comando nohup</a>, por exemplo sem espera e redirecionamento do retorno para dev/null:</p>
 
 <p><code class="inline">nohup php ./app/stream.php Stream &gt; /dev/null 2&gt;&amp;1&amp;</code></p>
 
-<p>Ubuntu will respond with a job id of your process for future monitoring and termination:</p>
+<p>O Ubuntu retornará o id do seu processo para futuros monitoramento e finalização:</p>
 
 <p><code class="inline">[1] 9768</code></p>
 
-<p>If you wish to check that the process is running, scan the task list for the job id:</p>
+<p>Se quiser verificar se o processo está em execução, escaneie a lista de tarefas pelo id do processo:</p>
 
 <p><code class="inline">ps -e all | grep 9768</code></p>
 
-<p>You should see something like this:</p>
+<p>Você deve ver algo mais ou menos assim:</p>
 
 <p><code class="inline">0  1000  9768  9743  20   0 273112 16916 poll_s S    pts/0      0:00 php ./app/stream.php Stream</code></p>
 
-<p>And you can terminate Phirehose by killing the job id:</p>
+<p>E você também pode finalizar o Phirehose eliminando-o através do id do processo:</p>
 
 <p><code class="inline">kill 9768</code></p>
 
-<p>In my experience, Phirehose has worked flawlessly with this technique operating without interruption for the past two weeks.</p>
+<p>Pela minha experiência, o Phirehose funcionou perfeitamente com essa técnica, operando sem interrupções durante as duas últimas semanas.</p>
 
-<h2>Processing the Streaming Data</h2>
+<h2>Processando os Dados do Fluxo</h2>
 
-<p>We also need to create a background process in Birdcage which will process the streaming data into our Tweet, Mention, URL and Hashtag tables—as if it had come from the REST API.</p>
+<p>Também precisamos criar um processo de plano de fundo no Birdcage que processará os dados do fluxo das tabelas <em>Tweet</em>, <em>Mention</em>, <em>URL</em> e <em>Hashtag</em>—como se tivessem vindo da API REST.</p>
 
-<p>Change your <code class="inline">twitter.ini</code> file setting to use streams:</p>
+<p>Altere seu arquivo de configuração <code class="inline">twitter.ini</code> para que ele use os fluxos:</p>
 
 <pre class="brush: bash">twitter_stream = true</pre>
 
-<p>And, we can use the same cron job from part two to run this operation:</p>
+<p>E podemos usar a mesma tarefa <em>cron</em> da parte dois, para executar essa operação:</p>
 
-<pre class="brush: bash"># To define the time you can provide concrete values for
-# minute (m), hour (h), day of month (dom), month (mon),
-# and day of week (dow) or use '*' in these fields (for 'any').# 
-# Notice that tasks will be started based on the cron's system
-# daemon's notion of time and timezones.
-# 
-# For example, you can run a backup of all your user accounts
-# at 5 a.m every week with:
+<pre class="brush: bash"># Para definir o temp, você proverá valores reais para
+# minutos (m), horas (h), dia do mês (dom), mês (mon),
+# e dia da semana (dow) ou usar '*' nesses campos (para 'qualquer um').#
+# Perceba que as tarefas serão inicializadas de acordo a noção de tempo e
+# fuso horários do sistema de daemon.
+#
+# Por exemplo, você pode executar um backup de todas as contas de usuário
+# às 5 da manhã a cada semana:
 # 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
-# 
+#
 # m h  dom mon dow   command
 */5 * * * * wget -O /dev/null http://birdcage.yourdomain.com/daemon/index</pre>
 
-<p>Then, when DaemonController is called, it will activate the Stream <code class="inline">model()</code> process method:</p>
+<p>Assim, quando o DaemonController for chamado, ele ativará o método de processo <code class="inline">model()</code> de Stream:</p>
 
 <pre class="brush: php">public function actionIndex() {
-	  // if not using twitter streams, we'll process tweets by REST API
-	  if (!Yii::app()-&gt;params['twitter_stream']) {
-	    Tweet::model()-&gt;getStreams();	    
-	  } else {
-	    Stream::model()-&gt;process();
-	  }
+    // Se não usar fluxos do twitter, processaremos pela API REST
+    if (!Yii::app()-&gt;params['twitter_stream']) {
+      Tweet::model()-&gt;getStreams();
+    } else {
+      Stream::model()-&gt;process();
+    }
   }</pre>
 
-<p>The process method unpacks the encoded stream data and parses each entry just as we did with content from the REST API:</p>
+<p>O método do processo descompacta os dados de fluxo codificados e analisa cada entrada, da mesma forma que fizemos com a API REST:</p>
 
 <pre class="brush: php">public function process() {
-	  // get unprocessed tweets from stream engine
-	  // to do 
-	  $account_id = 1;
-	  $items = Stream::model()-&gt;unprocessed()-&gt;findAll();
-	  foreach ($items as $i) {
-	    $tweet = unserialize(base64_decode($i['code']));
+    // obtem tweets não processados da máquina de fluxos
+    $account_id = 1;
+    $items = Stream::model()-&gt;unprocessed()-&gt;findAll();
+    foreach ($items as $i) {
+      $tweet = unserialize(base64_decode($i['code']));
       Tweet::model()-&gt;parse($account_id,$tweet);
-      $this-&gt;setStatus($i['id'],self::STREAM_PROCESSED);      
-	  }
-	}</pre>
+      $this-&gt;setStatus($i['id'],self::STREAM_PROCESSED);
+    }
+  }</pre>
 
-<p>Birdcage currently ignores data from the stream that's not a tweet, e.g. notifications, direct messages, etc. I'll leave that to you to expand—or you can check out my expanded application, <a href="http://jeffreifman.com/birdhouse" target="_self">Birdhouse</a>.</p>
+<p>Atualmente, o Birdcage ignora os dados do fluxo que não seja um tweet, por exemplo, notificações, mensagens diretas, etc. Deixarei essa parte como tarefa para você—ou você pode verificar minha aplicação expandida, <a href="http://jeffreifman.com/birdhouse" target="_self">Birdhouse</a>.</p>
 
-<h2>In Closing</h2>
+<h2>Finalizando</h2>
 
-<p>I hope you've found this three-part Twitter API series informative and useful. By now, you've learned about OAuth, the REST API, the Streaming API, building a database for Twitter, processing the timeline with both types of APIs, properly counting characters in tweets and posting them, and more.</p>
+<p>Espero que tenha achado essa série em três partes sobre a API do Twitter bem informativa e útil. Você deve ter aprendido sobre OAuth, a API REST, a API de Fluxos, a construir uma base de dados para o Twitter, processar a linha do tempo com ambos os tipos de API, contar corretamente a quantidade de caracteres em um tweet e publicá-lo, e mais.</p>
 
-<p>Please post any comments, corrections, or additional ideas below. You can browse my other Tuts+ tutorials on <a href="http://tutsplus.com/authors/jeff-reifman" target="_self">my author page</a> or follow me on <a href="https://twitter.com/intent/user?screen_name=reifman" target="_self">Twitter @reifman</a>.</p>
+<p>Deixe quaisquer comentários, correções ou ideias a mais. Você pode navegar todos os meus outros tutoriais no Tuts+ em <a href="http://tutsplus.com/authors/jeff-reifman" target="_self">minha página daqui</a> ou seguir-me no  <a href="https://twitter.com/intent/user?screen_name=reifman" target="_self">Twitter, em @reifman</a>.</p>
+</body>
+</html>
