@@ -1,7 +1,7 @@
 Traduções para o Tuts+
 ======================
 
-[![Tradutor oficial Tuts+ para Português](images/300x60-2.png "Tradutor oficial Tuts+ para Português")](http://tutsplus.com/)
+[![Tradutor oficial Tuts+ para Português](images/300x60-2.png "Tradutor oficial Tuts+ para Português")](http://tutsplus.com/authors/erick-patrick?view=grid)
 
 Esse repositório serve como versionamento para os arquivos temporários de tradução, bem como listagem de todos os posts que traduzi para lá. É uma espécie de portfolio de tradução que tenho mantido, juntamente ao [Repositório Traduções](https://github.com/erickpatrick/traducoes), também de minha autoria.
 
