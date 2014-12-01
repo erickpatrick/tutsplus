@@ -16,24 +16,34 @@ PHP
 - [Desconstruindo Laravel: Session, Auth e Cache](https://code.tutsplus.com/pt/tutorials/laravel-unwrapped-session-auth-and-cache--cms-19952)
 - [Testando Controladores no Laravel](https://code.tutsplus.com/pt/tutorials/testing-laravel-controllers--net-31456)
 - [PHP Orientado a Objetos para Iniciantes](https://code.tutsplus.com/pt/tutorials/object-oriented-php-for-beginners--net-12762)
-- [Dica Rápida: Restaurando os Separadores dos Menus do Painel Administrativo](https://code.tutsplus.com/pt/articles/quick-tip-restore-admin-menu-separators--wp-34850)
 - [Princípios SOLID Parte 1 - O Princípio da Responsabilidade Única](http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074)
 - [Princípios SOLID Parte 2 - Princípio do Aberto para Expensão, Fechado para Modificação](http://code.tutsplus.com/pt/tutorials/solid-part-2-the-openclosed-principle--net-36600)
 - [Princípios SOLID Parte 3 - Princípios da Substituição de Liskov e Segregação de Interfaces](http://code.tutsplus.com/pt/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710)
 - [Princípos SOLID Parte 4 - Princípio da Inversão de Dependência](https://code.tutsplus.com/pt/tutorials/solid-part-4-the-dependency-inversion-principle--net-36872)
+
+WordPress
+---------
+- [Dica Rápida: Restaurando os Separadores dos Menus do Painel Administrativo](https://code.tutsplus.com/pt/articles/quick-tip-restore-admin-menu-separators--wp-34850)
 - [Orientação a Objetos no WordPress: Introdução](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-an-introduction--cms-19916)
 - [Orientação a Objetos no WordPress: Classes](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-classes--cms-20021)
 - [Orientação a Objetos no WordPress: Tipos](http://code.tutsplus.com/pt/tutorials/object-oriented-programming-in-wordpress-types--cms-20299)
-- [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
 - [Configurando o W3 Total Cache: Cache Avançado de Base de Dados](http://code.tutsplus.com/pt/tutorials/configuring-w3-total-cache-advance-database-cache--cms-21783)
 - [Integrando o Zendesk com o WordPress](http://code.tutsplus.com/pt/tutorials/integrating-zendesk-with-wordpress--cms-21411)
-- [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
+- [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
 - [Decida Como Desenvolver Sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/deciding-how-to-develop-your-wordpress-theme-framework--cms-21562)
+- [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
+- [50 Filtros Para WordPress: Filtros 11 a 20](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-11-20--cms-21296)
 
 HTML & CSS
 ----------
 - [Os 30 Seletores CSS Que Você Deve Memorizar](https://code.tutsplus.com/pt/tutorials/the-30-css-selectors-you-must-memorize--net-16048)
 - [28 Recursos, Dicas e Técnicas Para HTML5 Que Você Deve Saber](http://code.tutsplus.com/pt/tutorials/28-html5-features-tips-and-techniques-you-must-know--net-13520)
+- [Entendo O Tal do Em](http://webdesign.tutsplus.com/pt/articles/taking-the-erm-out-of-ems--webdesign-12321)
+- [O Santo Graal da Centralização com CSS](http://webdesign.tutsplus.com/pt/tutorials/the-holy-grail-of-css-centering--cms-22114)
+- [Criando Pré-Carregadores em CSS3](http://webdesign.tutsplus.com/pt/tutorials/creating-a-collection-of-css3-animated-pre-loaders--cms-21978)
+- [Construa um Modelo de E-mail em HTML a Partir do Zero](http://webdesign.tutsplus.com/pt/articles/build-an-html-email-template-from-scratch--webdesign-12770)
+- [Uma Introdução À Metodologia BEM](http://webdesign.tutsplus.com/pt/articles/an-introduction-to-the-bem-methodology--cms-19403)
+- [“De Fora Para Dentro” — Ordenando Propriedades CSS por Importância](http://webdesign.tutsplus.com/pt/articles/outside-in-ordering-css-properties-by-importance--cms-21685)
 
 JavaScript
 ----------
@@ -75,14 +85,8 @@ Web  Design
 - [Um Guia Para Iniciantes Sobre Como Combinar Fontes](https://webdesign.tutsplus.com/pt/articles/a-beginners-guide-to-pairing-fonts--webdesign-5706)
 - [Criando E-Mails HTML Responsivos](http://webdesign.tutsplus.com/pt/articles/creating-a-simple-responsive-html-email--webdesign-12978)
 - [Aprendendo o Google Web Starter Kit](http://webdesign.tutsplus.com/pt/tutorials/get-up-and-running-with-google-web-starter-kit--cms-21495)
-- [Entendo O Tal do Em](http://webdesign.tutsplus.com/pt/articles/taking-the-erm-out-of-ems--webdesign-12321)
-- [O Santo Graal da Centralização com CSS](http://webdesign.tutsplus.com/pt/tutorials/the-holy-grail-of-css-centering--cms-22114)
-- [Criando Pré-Carregadores em CSS3](http://webdesign.tutsplus.com/pt/tutorials/creating-a-collection-of-css3-animated-pre-loaders--cms-21978)
-- [Construa um Modelo de E-mail em HTML a Partir do Zero](http://webdesign.tutsplus.com/pt/articles/build-an-html-email-template-from-scratch--webdesign-12770)
-- [Uma Introdução À Metodologia BEM](http://webdesign.tutsplus.com/pt/articles/an-introduction-to-the-bem-methodology--cms-19403)
 - [Entendendo O Layout Divido no Web Design](http://webdesign.tutsplus.com/pt/articles/understanding-the-split-layout-in-web-design--webdesign-9551)
 - [Observações D'Além da Barreira: O Estado da Arte do Web Design Chinês](https://webdesign.tutsplus.com/pt/articles/notes-from-behind-the-firewall-the-state-of-web-design-in-china--cms-22281)
-- [“De Fora Para Dentro” — Ordenando Propriedades CSS por Importância](http://webdesign.tutsplus.com/pt/articles/outside-in-ordering-css-properties-by-importance--cms-21685)
 - [Crie Grades Dinâmicas com Salvattore e Bootstrap em Apenas 10 Minutos](http://webdesign.tutsplus.com/pt/tutorials/build-a-dynamic-grid-with-salvattore-and-bootstrap-in-10-minutes--cms-20410)
 - [Coisas Ruins Acontecem Quando O Conteúdo Não Vem Em Primeiro Lugar](http://webdesign.tutsplus.com/pt/articles/bad-things-happen-when-you-dont-put-content-first--cms-21197)
 - [Como Criar um Indicador de Rolagem de Página com jQuery e SVG](http://webdesign.tutsplus.com/pt/tutorials/how-to-build-a-page-scroll-progress-indicator-with-jquery-and-svg--cms-20881)
