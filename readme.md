@@ -71,6 +71,7 @@ JavaScript
 - [Um Aplicativo Lista de Tarefas de Página Única Usando Backbone.js](https://code.tutsplus.com/pt/tutorials/single-page-todo-application-with-backbonejs--cms-21417)
 - [Introdução a Geradores & Koa.js: Parte 1](http://code.tutsplus.com/pt/tutorials/introduction-to-generators-koajs-part-1--cms-21615)
 - [Introdução a Geradores & Koa.js: Parte 2](http://code.tutsplus.com/pt/tutorials/introduction-to-generators-koajs-part-2--cms-21756)
+- [Uma Olhada No Foundation for Apps](http://webdesign.tutsplus.com/pt/articles/a-sneak-peek-at-the-next-foundation-for-apps--cms-22540)
 
 Habilidades com Computadores
 ----------------------------
