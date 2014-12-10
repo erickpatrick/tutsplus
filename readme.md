@@ -74,6 +74,7 @@ JavaScript
 - [Introdução a Geradores & Koa.js: Parte 1](http://code.tutsplus.com/pt/tutorials/introduction-to-generators-koajs-part-1--cms-21615)
 - [Introdução a Geradores & Koa.js: Parte 2](http://code.tutsplus.com/pt/tutorials/introduction-to-generators-koajs-part-2--cms-21756)
 - [Uma Olhada No Foundation for Apps](http://webdesign.tutsplus.com/pt/articles/a-sneak-peek-at-the-next-foundation-for-apps--cms-22540)
+- [Iniciando Com o Intel XDK](http://code.tutsplus.com/pt/articles/getting-started-with-intel-xdk--cms-22205)
 
 Habilidades com Computadores
 ----------------------------
