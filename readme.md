@@ -33,6 +33,7 @@ WordPress
 - [Integrando o Zendesk com o WordPress](http://code.tutsplus.com/pt/tutorials/integrating-zendesk-with-wordpress--cms-21411)
 - [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
 - [Decida Como Desenvolver Sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/deciding-how-to-develop-your-wordpress-theme-framework--cms-21562)
+- [Adicionando Ganchos de Ação à Sua Framework para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/adding-action-hooks-to-your-wordpress-theme-framework--cms-21664)
 - [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
 - [50 Filtros Para WordPress: Filtros 11 a 20](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-11-20--cms-21296)
 - [50 Filtros Para WordPress: Filtros 21 a 30](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-21-30--cms-21298)
@@ -115,6 +116,7 @@ Fotografia
 - [Dica Rápida: 2 Técnicas De Divisão De Tons No Adobe Photoshop](http://photography.tutsplus.com/pt/tutorials/quick-tip-2-split-toning-techniques-in-adobe-photoshop--photo-4425)
 - [Como Usar Seu iPhone Como Profissional: Adereços de Hardware](http://photography.tutsplus.com/pt/tutorials/how-to-use-your-iphone-like-a-pro-hardware-add-ons--cms-22659)
 - [Divisão de Tons em Imagens Coloridas com Photoshop: Teoria e Prática](http://photography.tutsplus.com/pt/tutorials/split-toning-colour-pictures-in-photoshop-theory-and-practice--cms-22568)
+- [O Guia do Tuts+ Para Participação em Competições Fotográficas](http://photography.tutsplus.com/pt/articles/the-tuts-guide-to-applying-to-photography-contests--cms-22635)
 
 Artesanato e DIY
 ----------------
