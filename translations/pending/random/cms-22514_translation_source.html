@@ -1,0 +1,107 @@
+<h1>Focusing on a Team Workflow With Git</h1>
+
+<p>Git provides numerous benefits for the solo developer, but it also really shines when it comes to team collaboration.</p>
+
+<p>The key to establishing a great team workflow with Git is communication. Git is versatile, flexible, and can accommodate a variety of usage patterns. Deciding the workflow “rules of the road” ahead of time will help eliminate friction and confusion, and allow a team to take advantage of what Git does best: boost productivity.</p>
+
+<p>That being said, this wouldn’t be much of a tutorial if it didn’t provide a tangible Git-based team workflow for you to review. The following example is based on a very popular Git workflow crafted by Vincent Driessen called <a href="http://nvie.com/posts/a-successful-git-branching-model/" rel="external" target="_blank">Git-Flow</a>, though it differs in certain key ways. There are several popular Git workflows floating around the web—I’d suggest reading as many as you can so your team can pick a ruleset that feels best for it.</p>
+
+<p>Let's kick off your research with the following workflow:</p>
+
+<h2>The Rule Above All Else</h2>
+
+<p>The <code class="inline">master</code> branch is always deployable. <em>Always.</em></p>
+
+<p>A deployable <code class="inline">master</code> branch is important for many reasons. First, it enables anyone new to a project to pull and build immediately without errors. Nothing is so frustrating as not being able to build an unfamiliar project.</p>
+
+<p>Second, <code class="inline">master</code> shows the current state of production and/or the shipped product. If hotfixes need to be made, it is clear where to branch from.</p>
+
+<p>Lastly, a deployable <code class="inline">master</code> is a safety net. If <code class="inline">master</code> is always deployable, then we can deploy without worry. Worry causes stress, and stress causes indigestion. Nobody needs that.</p>
+
+<h2>Branching Strategies</h2>
+
+<p>The <code class="inline">develop</code> branch should be the main branch of ongoing development. Feature branches are created from and merged back into <code class="inline">develop</code>, and <code class="inline">develop</code> represents the bleeding edge of our codebase.</p>
+
+<p>Since both <code class="inline">master</code> and <code class="inline">develop</code> are permanent and highly-trafficked branches, they should never be worked in directly. Instead, all work should be done in feature branches. When implementing a new feature, branch from <code class="inline">develop</code> and hack out the feature.</p>
+
+<h2>What’s in a Name?</h2>
+
+<p>There are no hard-and-fast rules on branch naming, especially for feature branches. If a branch is a fix, it is probably best to prepend "fix-" to it. If a branch is a release, it is generally encouraged for the branch to follow this format: "release-X.X.X".</p>
+
+<p>In general, branch names should be descriptive. And perhaps funny. The occasional and timely pun wouldn't go amiss.</p>
+
+<h2>You Say “Merge”, I Say “Rebase”</h2>
+
+<p>Once your new awesome feature is coded, it's time to get it back into a shared branch (let's assume we're merging into <code class="inline">develop</code>). But before merging into <code class="inline">develop</code>, make sure that your feature branch has the latest changes from <code class="inline">develop</code> because there may be conflicts.</p>
+
+<p>All conflict resolution should happen in your feature branch. If you branched to make a small change/fix and <em>you have not pushed the branch to the remote</em>, rebase <code class="inline">develop</code> into your feature branch, and then merge your feature branch into <code class="inline">develop</code>. Push and then feel free to delete your local feature branch.</p>
+
+<p>If you have pushed your branch to the remote, first merge <code class="inline">develop</code> into your branch (resolving conflicts), and then merge your branch into <code class="inline">develop</code>. Push and feel free to delete both the local and remote feature branch.</p>
+
+<p>When rebasing, keep in mind that it is a <em>destructive</em> action. Meaning... be careful! Rebasing is really useful for cleaning up commit histories, but you don't want to rewrite history on anything that has been shared with someone else.</p>
+
+<p>Here are a couple of rules to keep you safe when rebasing:</p>
+
+<ul>
+  <li>Never rebase anything that has been pushed to the remote. Is the branch you're on <em>only</em> local? Then it is good to rebase. Otherwise, <em>no rebasing</em>.</li>
+  <li>Rebase shared branches in local branches. <code class="inline">develop</code> is a shared branch. <code class="inline">my‑awesome-feature</code> is a local branch. Now I'm ready to merge <code class="inline">my‑awesome‑feature</code> into develop, but I want to make sure any changes that have happened in <code class="inline">develop</code> are merged into my feature branch first:</li>
+</ul>
+
+<pre class="brush: bash">git checkout my-awesome-feature
+git rebase develop
+git checkout develop
+git merge my-awesome-feature</pre>
+
+<h2>Peer It Up</h2>
+
+<p>Say we’ve branched, we’ve coded, we’ve merged/rebased from <code class="inline">develop</code>, and now we're ready to merge our new code back into <code class="inline">develop</code>. But should we? Perhaps someone should review our changes first...</p>
+
+<p>Code reviews are a good thing! They allow you to get valuable feedback on the work you’ve done, and—if nothing else—increase the probability of mistakes being caught and fixed.</p>
+
+<p>This is where Git’s pull requests (and <a href="https://bitbucket.org" rel="external" target="_blank">Bitbucket’s</a> interface) come in handy. (For a refresher on opening and managing pull requests in Bitbucket, check out part two of this series, <a href="http://code.tutsplus.com/tutorials/using-pull-requests-as-code-reviews--cms-21959" rel="external" target="_blank">Using Pull Requests as Code Reviews</a>.) Pull requests can be much more than just reviewing changed code. Since pull requests are brand-based, they can become threads for discussing and collaborating on individual features. You can embed photos to share designs, comment directly on lines of code, and even use GIFs and emojis to have some fun.</p>
+
+<p>When it comes to merging pull requests, it is preferable for the merge to be authored by the same person who opened the pull request, because that is likely the person who wrote the new code. To achieve this, reviewers should leave a comment approving the new code, but not actually hit the merge button. Once a teammate gives the code a “thumbs up” (either figuratively, or literally with a <code class="inline">:thumbsup:</code> emoji), the pull request opener can then go ahead and merge. Peer review plus clean logs—a wonderful thing!</p>
+
+<h2>I Like to Ship It, Ship It</h2>
+
+<p>Once <code class="inline">develop</code> is ready for a release, do a merge into <code class="inline">master</code>:</p>
+
+<pre class="brush: bash">git checkout master
+git merge --no-ff develop</pre>
+
+<p>Notice that <code class="inline">--no-ff</code> flag? That makes sure the merge won't be a fast-forward, so it will create a fresh commit. Why do we want that? So we can tag it! Tag that commit as the new version:</p>
+
+<pre class="brush: bash">git tag -a vX.X.X -m 'Version X.X.X'</pre>
+
+<p>Then merge <code class="inline">master</code> back into <code class="inline">develop</code> so that <code class="inline">develop</code> has the version commit.</p>
+
+<p>Speaking of versions, we should use <a href="http://semver.org/" rel="external" target="_blank">semantic versioning</a>. That breaks down to <code class="inline">MAJOR.MINOR.PATCH</code>. In general, <code class="inline">MAJOR</code> is a whole version number—it is used for massive changes and/or milestones. It is allowed to break backwards compatibility. <code class="inline">MINOR</code> is used for new features. It should not break any backwards compatibility. <code class="inline">PATCH</code> is for small changes and fixes, and should not break any backwards compatibility. We should be in a pre-release (<code class="inline">0.x.x</code>) until we launch.</p>
+
+<h2>Fix It Like It’s Hot</h2>
+
+<p>We should never ship mistakes.</p>
+
+<p>...but when we do, it's best to fix them fast. Since <code class="inline">develop</code> may include unfinished features, hotfixes should be branched from the current release—which is <code class="inline">master</code> (because <code class="inline">master</code> is always deployable!).</p>
+
+<p>To make a hotfix, branch off <code class="inline">master</code>, make the fix, then do a <em>non-fast-forward</em> merge into <code class="inline">master</code>. Tag it, then merge <code class="inline">master</code> back into <code class="inline">develop</code> (because we'll want <code class="inline">develop</code> to have the fix too). Feel free to delete the hotfix branch.</p>
+
+<h2>It’s Time for a Commitment</h2>
+
+<p>Let's talk about Git commit messages. Adhering to a common format will make it much easier to peruse our logs. Here are some good rules:</p>
+
+<ul>
+  <li>Commit messages should be written in the present (imperative) tense: "Fix bug..." instead of "Fixed bug..." or "Fixes bug...".</li>
+  <li>The first line (or subject line) should be a short summary of the commit (preferably 50 characters or less) with the first word capitalized.</li>
+  <li>If the summary line needs elaboration, you can, after a blank line, write a description. The description should be in paragraph form, with proper capitalization and punctuation.</li>
+  <li>Commit messages should wrap at 72 columns so that logs in our terminals look pretty.</li>
+</ul>
+
+<p>If you want to read some more about proper Git commit message writing, take a look at Tim Pope's <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html" rel="external" target="_blank">post</a>.</p>
+
+<h2>Make It Your Own</h2>
+
+<p>Let me once again note that the workflow outlined above is meant to be a guideline, not hard-and-fast rules you should strictly implement for your teams. If you like them all, use ‘em! If something doesn’t work for you, tweak away! </p>
+
+<p>What’s most important is that your team agrees upon a defined Git workflow, and then sticks to it. Once that happens, collaboration will follow, and you'll be taking advantage of the benefits Git has to offer when working as a team.</p>
+
+<p>Check out some alternatives to the Git-Flow workflow in <a href="https://www.google.com/url?q=https%3A%2F%2Fwww.atlassian.com%2Fgit%2Ftutorials%2Fcomparing-workflows%2F&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNHfUzu6BVLPT5kHunEPG8oTJrARRw" rel="external" target="_blank">Atlassian's Git workflows guide</a>.</p>

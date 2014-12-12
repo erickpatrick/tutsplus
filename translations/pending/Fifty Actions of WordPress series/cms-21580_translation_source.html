@@ -1,0 +1,307 @@
+<h1>Fifty Actions of WordPress – 50 Examples (21 to 30)</h1>
+
+<p>In this series, we're taking a look at WordPress actions: a type of hook that the application offers that allows us to customize execution. In <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-11-to-20--cms-21579" rel="external" target="_blank">the last article</a>, we looked at the second set of 10 actions bringing us up to 20 that we've covered thus far.</p>
+
+<p>In keeping with the spirit of the previous articles, we're going to take a look at another 10 actions along with examples of each. </p>
+
+<p>With that said, let's resume.</p>
+
+<p>Manipulating <code>get_posts()</code> Before It's Processed</p>
+
+<p>The <code>pre_get_posts</code> action handles one of the most important query functions: <code>get_posts()</code>.</p>
+
+<h3>Including Custom Post Types to the Search Results</h3>
+
+<p>Let's say you run a movie review blog and you need the "Movies" post type to show up in the search results. You can include any post type you want with the help of the following lines of code:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'pre_get_posts', 'pre_get_posts_example' );
+function pre_get_posts_example( $query ) {
+
+	if ( ! is_admin() &amp;&amp; $query-&gt;is_main_query() ) {
+
+		if ( $query-&gt;is_search ) {
+			$query-&gt;set( 'post_type', array( 'post', 'movie' ) );
+        }
+
+    }
+}
+
+// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts
+?&gt;</pre>
+
+<p>Voilà! Now your website's search results will include the "Movies" post type in addition to regular posts.</p>
+
+<h2>Working With Post Status Changes</h2>
+
+<p>There are actually many actions for post status transitions – <code>draft_to_publish</code>, <code>new_to_future</code>, <code>publish_to_private</code> and so on. WordPress gathers this set of actions and <a href="http://codex.wordpress.org/Post_Status_Transitions">calls it <code>{$old_status}_to_{$new_status}</code> in the Codex</a>.</p>
+
+<p>But if you need an action to keep an eye on all status changes, you can use the <code>transition_post_status</code> action.</p>
+
+<h3>Emailing the Administrator Each Time a Post Status Has Been Changed</h3>
+
+<p>Imagine you're running a multi-author blog with three editors, and you need information about each post status change. If that's the case, you can use the code snippet below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'transition_post_status', 'transition_post_status_example', 10, 3 );
+function transition_post_status_example( $new_status, $old_status, $post ) {
+
+if( $post-&gt;post_type !== 'post' ) {
+        return;
+    }
+
+	$title		= $post-&gt;post_title;
+	$to			= get_option( 'admin_email' );
+	$subject	= 'Post status changed';
+	$body		= "Hey,\n\nThe status of the post \"$title\" has been changed from \"$old_status\" to \"$new_status\".\n\nCheers!";
+
+	wp_mail( $to, $subject, $body );
+}
+
+?&gt;</pre>
+
+<h2>Enqueuing Scripts for Admin Pages</h2>
+
+<p>If you ever need to inject a JavaScript file into the administration panel of your website, the <code>admin_enqueue_scripts</code> action is for you: This handy little action is responsible for the enqueuing of the scripts (and the styles) inside the WordPress dashboard.</p>
+
+<h3>Injecting a Script for the Post Add/Edit Screens</h3>
+
+<p>Let's say you created a special meta box but you need a JavaScript file in your plugin's folder to make the meta box work. What do you do? You don't print a <code>&lt;script&gt;</code> tag in your code – you use the code below!</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'admin_enqueue_scripts', 'admin_enqueue_scripts_example' );
+function admin_enqueue_scripts_example( $hook ) {
+
+	if( 'edit.php' != $hook ) {
+		return;
+}
+    
+	wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . 'myscript.js' );
+}
+
+// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
+
+?&gt;</pre>
+
+<h2>Controlling the Process of Saving Posts</h2>
+
+<p>As its name suggests, this useful action is called when a post is saved to the database.</p>
+
+<h3>Require a Featured Image Before Post Publishing or Scheduling</h3>
+
+<p>Sometimes, I forget to set a featured image for my posts, although all my posts should have one. While searching for an answer for my problem, I stumbled accross this elegant solution:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'save_post', 'save_post_example' );
+add_action( 'admin_notices', 'admin_notices_example' );
+function save_post_example( $post_id ) {
+
+	// change to any custom post type 
+	if( get_post_type( $post_id ) != 'post' ) {
+    return;
+    }
+	 
+	if ( ! has_post_thumbnail( $post_id ) ) {
+    
+		// set a transient to show the users an admin message
+		set_transient( 'has_post_thumbnail', 'no' );
+        
+		// unhook this function so it doesn't loop infinitely
+		remove_action( 'save_post', 'wpds_check_thumbnail' );
+        
+		// update the post set it to draft
+		wp_update_post( array( 'ID' =&gt; $post_id, 'post_status' =&gt; 'draft' ) );
+		add_action( 'save_post', 'wpds_check_thumbnail' );
+        
+	} else {
+        delete_transient( 'has_post_thumbnail' );
+    }
+    
+}
+ 
+function admin_notices_example() {
+
+	// check if the transient is set, and display the error message
+	if ( get_transient( 'has_post_thumbnail' ) == 'no' ) {
+		echo '&lt;div id="message" class="error"&gt;&lt;p&gt;You must select a featured image for your post.&lt;/p&gt;&lt;/div&gt;';
+		delete_transient( 'has_post_thumbnail' );
+    }
+ 
+}
+
+// Example Source: http://wpdevsnippets.com/require-post-thumbnail-uploaded-before-publishing/
+
+?&gt;</pre>
+
+<p>A long but awesome example, am I right?</p>
+
+<h2>Adding Meta Boxes for Post Types</h2>
+
+<p>Meta boxes are arguably one of the fundamental reasons WordPress is the most flexible content management system in the world. It's true: You can crate almost anything as a meta box and let your users create post data with them. And the <code>add_meta_boxes</code> action is the main hook we use to create meta boxes.</p>
+
+<h3> Creating a Simple Meta Box</h3>
+
+<p>We're going through actions and I don't want to digress from the topic, so I'm just going to show you how the action is used: By filling a function with the <code>add_meta_box()</code> function(s) and hooking it to the <code>add_meta_boxes</code> action:</p>
+
+<pre class="brush: php">&lt;?php
+
+// action for the 'post' post type
+add_action( 'add_meta_boxes', 'add_meta_boxes_example', 10, 2 );
+
+// action for the 'event' post type
+add_action( 'add_meta_boxes_event', 'add_meta_boxes_example', 10, 2 );
+
+function add_meta_boxes_example( $post_type, $post ) {
+
+add_meta_box( 
+        'my-meta-box',
+        __( 'My Meta Box' ),
+        'render_my_meta_box',
+        'post',
+        'normal',
+        'default'
+    );
+}
+
+function render_my_meta_box() {
+	// code to create the meta box
+}
+
+// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
+
+?&gt;</pre>
+
+<p>[tip]If you want to learn more about creating custom meta boxes, <a href="http://code.tutsplus.com/tutorials/how-to-create-custom-wordpress-writemeta-boxes--wp-20336">check out this amazing tutorial on this topic</a> written by Christopher Davis.[/tip]</p>
+
+<h2>Toying with the "At a Glance" Section</h2>
+
+<p>The "At a Glance" section, formerly named "Right Now", is the primary widget of the dashboard of every WordPress installation. With the <code>activity_box_end</code> action, you can safely play with that area.</p>
+
+<h3>Putting Your Contact Information Under the "At a Glance" Section</h3>
+
+<p>Let's say you're a freelance WordPress developer and you want your clients to remember your phone number. With the code snippet below, you can leave a note for them and put your phone number under the "At a Glance" section:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'activity_box_end', 'activity_box_end_example' );
+
+function activity_box_end_example() {
+   _e( "If you have any questions, you can reach the webmaster at +1-999-526-0130. Have a nice day!" );
+}
+
+?&gt;</pre>
+
+<p>Don't put your personal number, though: You wouldn't want to be called up at 11 p.m. on Saturday.</p>
+
+<h2>Manipulating the Default "Meta" Widget</h2>
+
+<p>There are many default widgets that WordPress offer in its core, and the "Meta" widget is one of them. With the help of the <code>wp_meta</code> action, we can customize the widget any way you like.</p>
+
+<h3>Adding a "Follow Us on Twitter" Link to the "Meta" Widget</h3>
+
+<p>Granted, the "Meta" widget isn't the most popular one among WordPress' default widgets, but you can make it more functional and appealing by adding extra lines and links to it, like so:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_meta', 'wp_meta_example' );
+
+function wp_meta_example() {
+
+	$twitter_username = 'BarisUnver';
+	echo '&lt;li&gt;Follow us on Twitter:&lt;a href="https://twitter.com/' . $twitter_username . '"&gt;' . $twitter_username . '&lt;/a&gt;&lt;/li&gt;';
+
+}
+
+?&gt;</pre>
+
+<p>Of course, this is just a cheesy example but hey, it works!</p>
+
+<h2>Playing With the Dashboard</h2>
+
+<p>The "dashboard" is the main page of the administration panel of every WordPress installation. With the <code>wp_dashboard_setup</code> action, you can customize the dashboard any way you like.</p>
+
+<h3>Displaying Latest Disqus Comments in a Dashboard Widget</h3>
+
+<p>If you use Disqus in your comments section (without the official plugin) and want to see latest comments in your dashboard, you can use the code snippet below to add a dashboard widget:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_dashboard_setup', 'wp_dashboard_setup_example' );
+
+function wp_dashboard_setup_example() {
+
+	$disqus_username = 'USERNAME';
+	$number_of_comments = 5;
+
+	wp_add_dashboard_widget( 'disqus-feed', 'Latest Disqus Comments', 'acme_display_disqus_comments' );
+}
+
+function acme_display_disqus_comments() {
+    echo '&lt;div id="recentcomments" class="dsq-widget"&gt;' . '&lt;script src="//' . $disqus_username . '.disqus.com/recent_comments_widget.js?num_items=' . $number_of_comments . '"&gt;&lt;/script&gt;&lt;/div&gt;';
+}
+
+?&gt;</pre>
+
+<p>Change the variables <code>$disqus_username</code> <code>$number_of_comments</code> and you're good to go!</p>
+
+<h2>Setting the Current User</h2>
+
+<p>Oh look, an action for a pluggable function! WordPress defines "pluggable functions" like this:</p>
+
+<blockquote>
+  <p>These functions can be replaced via plugins. If plugins do not redefine these functions, then these will be used instead.</p>
+</blockquote>
+
+<p>And this handy little action is a part of the pluggable <code>wp_set_current_user</code> core function, which changes the current user by ID or name.</p>
+
+<h3>Removing the Toolbar to Subscribers</h3>
+
+<p>We're not going to change the user now, but instead we're going to take advantage of the action and check the capabilities of the current user, then disable the toolbar if the user is just a subscriber:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'set_current_user', 'set_current_user_example' );
+function set_current_user_example() {
+
+	if ( ! current_user_can( 'edit_posts' ) ) {
+    show_admin_bar( false );
+    }
+    
+}
+
+?&gt;</pre>
+
+<h2>Loading Plugins</h2>
+
+<p>If you need things done after WordPress finishes loading activated plugins, you can count on the <code>plugins_loaded</code> action.</p>
+
+<h3>Start Your Plugin</h3>
+
+<p>The correct way to initialize your plugin and make it run is hooking its main function to the <code>plugins_loaded</code> action. Here, we have the simplest example in the world:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'plugins_loaded', 'plugins_loaded_example' );
+function plugins_loaded_example() {
+	add_action( 'wp_footer', 'display_message', 100 );
+}
+
+function display_message() {
+	echo '&lt;p&gt;This is some dummy text!&lt;/p&gt;';
+}
+
+// Example Source: http://www.scratchinginfo.com/common-wordpress-action-hooks-for-plugin-development/
+
+?&gt;</pre>
+
+<p>If you need a better example, and I'm sure you do, <a href="https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate">you should definitely check out Tom McFarlin's "WordPress Plugin Boilerplate"</a> which has everything you need to build a WordPress plugin with the concept of object-oriented programming in mind.</p>
+
+<h2>End of Part Three</h2>
+
+<p>We went through the third batch of 50 actions in this article. I hope you liked and learned new things from it. See you in the next one!</p>
+
+<p>I want to hear your thoughts, too. What do you think about these actions? Post your comments below; and if you liked the article, don't forget to share it!</p>

@@ -1,0 +1,303 @@
+<h1>Fifty Actions of WordPress – 50 Examples (31 to 40)</h1>
+
+<p>If you're just joining us, we're currently working through 50 (of the many) actions that are available in WordPress. <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-21-to-30--cms-21580" rel="external" target="_blank">In the last post</a>, we covered 21 - 30 so we'll keep the pace going with another set in this post.</p>
+
+<p>If you haven't already, I recommend going back and reading the <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577" rel="external" target="_blank">introduction</a> and then reading through the following post so that you're brought up to speed with everything that we've covered thus far.</p>
+
+<p>With that said, let's begin!</p>
+
+<h2>Controlling the Default JavaScript Code</h2>
+
+<p>WordPress has many scripts in its core that we can load. The <code>wp_default_scripts</code> action lets us interact with the default JavaScript files.</p>
+
+<h3>Removing "jQuery Migrate" From a WordPress Website</h3>
+
+<p>If you use jQuery code and you're absolutely sure that your code is compatible with jQuery version 1.9 or later, then you don't need the jQuery Migrate plugin which supports deprecated jQuery code. Here's how you can deregister it:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_default_scripts', 'wp_default_scripts_example' );
+function wp_default_scripts_example( &amp;$scripts ) {
+	
+if ( ! is_admin() ) {
+    
+        $scripts-&gt;remove( 'jquery' );
+        $scripts-&gt;add( 'jquery', false, array( 'jquery-core' ) );
+        
+	}
+    
+}
+
+// Example Source: http://aahacreative.com/2013/08/05/remove-jquery-migrate-wordpress-36/
+
+?&gt;</pre>
+
+<p>Just to be sure, test every jQuery-related output in your frontend and make sure they still work. You don't want to break your website.</p>
+
+<h2>The <code>&lt;head&gt;</code> of Your Front-End</h2>
+
+<p>This action is fired off in the <code>wp_head()</code> function so you could insert stuff into the <code>&lt;head&gt;</code> element of the front-end pages of your website.</p>
+
+<h3>Utilizing Open Graph in Your Website</h3>
+
+<p><a href="http://ogp.me/">Open Graph</a> is a very important protocol to help big guys like Facebook, Google, and Twitter understand your pages. If you provide information with the Open Graph protocol, you can define featured images, titles, summaries and such, and help them build structured and valid data for your pages.</p>
+
+<p>Let's see how we can utilize this neat protocol and inject Open Graph-related metadata in our pages' <code>&lt;head&gt;</code>s:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_head', 'wp_head_example' );
+
+function wp_head_example() {
+	global $post;
+	
+	// default image
+	$site_logo = get_stylesheet_directory_uri() . '/images/logo.png';
+	
+	// homepage
+	if ( is_home() ) {
+		echo '&lt;meta property="og:type" content="website" /&gt;';
+		echo '&lt;meta property="og:url" content="' . get_bloginfo( 'url' ) . '" /&gt;';
+		echo '&lt;meta property="og:title" content="' . esc_attr( get_bloginfo( 'name' ) ) . '" /&gt;';
+		echo '&lt;meta property="og:image" content="' . $site_logo . '" /&gt;';
+		echo '&lt;meta property="og:description" content="' . esc_attr( get_bloginfo( 'description' ) ) . '" /&gt;';
+	}
+	
+	// single post or page
+	elseif ( is_singular() ) {
+		echo '&lt;meta property="og:type" content="article" /&gt;';
+		echo '&lt;meta property="og:url" content="' . get_permalink() . '" /&gt;';
+		echo '&lt;meta property="og:title" content="' . esc_attr( get_the_title() ) . '" /&gt;';
+		if ( has_post_thumbnail( $post-&gt;ID ) ) {
+			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post-&gt;ID ), 'large' );
+			echo '&lt;meta property="og:image" content="' . esc_attr( $image[0] ) . '" /&gt;';
+		} else
+			echo '&lt;meta property="og:image" content="' . $site_logo . '" /&gt;';
+		echo '&lt;meta property="og:description" content="' . esc_attr( get_the_excerpt() ) . '" /&gt;';
+	}
+}
+
+// Example Source: http://wpdevsnippets.com/set-opengraph-meta-tags-fix-facebook-share/
+
+?&gt;</pre>
+
+<h2>Initializing the Theme</h2>
+
+<p>Each time a theme's files has been loaded for a WordPress page, the <code>after_setup_theme</code> action is fired off. Since it's called on every page request, you can hook theme-related functions to this action.</p>
+
+<h3>Setting Up Theme-Specific WordPress Features</h3>
+
+<p>There are ways to enable WordPress features for themes like post formats or featured images, but the correct way would be to create a function for them and hook the function to the <code>after_setup_theme</code> action.</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'after_setup_theme', 'after_setup_theme_example' );
+
+function after_setup_theme_example() {
+
+	add_editor_style();
+	add_theme_support( 'post-formats', array( 'video', 'gallery' ) );
+	add_theme_support( 'post-thumbnails' );
+
+}
+
+?&gt;</pre>
+
+<p>See, now our theme can have featured images, we can post videos or galleries, and our "Visual Editor" can have its own style file to make it feel more like the front-end.</p>
+
+<h2>Adding Custom Columns to the Media List</h2>
+
+<p>The <code>manage_media_custom_column</code> action helps us add custom columns to the list of uploaded files in the Media Library.</p>
+
+<h3>Displaying the ID of Each Upload in a Column</h3>
+
+<p>I <em>hate</em> the process of looking up the ID of a featured image that needs to be excluded from a gallery in the same post. I really do. Luckily, I found this code snippet to show me the IDs of uploaded files in the Media Library:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'manage_media_columns', 'manage_media_columns_example' );
+add_action( 'manage_media_custom_column', 'manage_media_custom_column_example', 10, 2 );
+
+function manage_media_columns_example( $columns ) {
+	$columns[ 'wps_post_attachments_id' ] = __( 'ID', 'theme-name' );
+	return $columns;
+}
+
+function manage_media_custom_column_example( $column_name, $attachment_id ){
+
+	if ( 'wps_post_attachments_id' === $column_name ) {
+		echo $attachment_id;
+}
+}
+
+// Example Source: http://wpsnipp.com/index.php/functions-php/media-library-admin-columns-with-attachment-id/
+
+?&gt;</pre>
+
+<p>Hope you like it, too!</p>
+
+<h2>Comment Status Transitions</h2>
+
+<p>Every time a comment status changes ('approved', 'unapproved', 'spam' or 'trash'), an action hook named <code>transition_comment_status</code> will be fired. After that, another action will be called with variables in its name: <code>comment_(old_status)_to_(new_status)</code>. Let's see how the second action works.</p>
+
+<h3>E-Mailing the Commenter After Their Comment Is Approved</h3>
+
+<p>Suppose you prevent comments to be published without you approving them first; but you also need to inform your visitors about their comments being published when they do. You can email them the good news by using these lines of code as a plugin:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'comment_unapproved_to_approved', 'comment_unapproved_to_approved_example' ); 
+
+function comment_unapproved_to_approved_example( $comment ) {
+
+	$commenter_email = $comment-&gt;comment_author_email;
+	$commenter_name  = $comment-&gt;comment_author;
+	$post_url = get_comment_link( $comment );
+	$subject = "Your comment is up!";
+	$message = "Hello $commenter_name,\n\nYour comment has been approved!You can view it below:\n\n$post_url\n\nThank you for sharing your ideas with us!";
+
+wp_mail( $commenter_email, $subject, $message );
+}
+
+?&gt;</pre>
+
+<p>Now the commenters will be informed when their comments are up. From there, they may visit your post to see their comments and maybe read others. A fantastic (and easy) way to get returning visitors!</p>
+
+<h2>Handling the Loading of Page Templates</h2>
+
+<p>WordPress uses what we call "page templates" to display different types of pages like a single post, the homepage, a 404 error, search results, archives and such. And the <code>template_redirect</code> action fires off when WordPress decides which template will be used.</p>
+
+<h3>Redirecting to the Post Permalink if There's Only One Result</h3>
+
+<p>Want to save your visitors a click? The code below helps you in a unique way: If there's only one post in the search results, the user will see the page of the post instead of the search result. </p>
+
+<p>A neat trick, if you ask me:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'template_redirect', 'template_redirect_example' );
+function template_redirect_example() {
+
+	if ( is_search() ) {
+
+		global $wp_query;
+        
+		if ( 1 == $wp_query-&gt;post_count &amp;&amp; 1 == $wp_query-&gt;max_num_pages ) {
+			wp_redirect( get_permalink( $wp_query-&gt;posts['0']-&gt;ID ) );
+			exit;
+		}
+        
+	}
+    
+}
+
+// Example Source: http://www.elegantthemes.com/blog/tips-tricks/eight-useful-code-snippets-for-wordpress
+
+?&gt;</pre>
+
+<p>Now, if someone searches for "guacamole" and there's just one post that mentions guacamole, the visitor will automatically be redirected to that post. </p>
+
+<p>Cool, huh?</p>
+
+<h2>Handling WordPress Feeds</h2>
+
+<p>Feeds are one of the oldest features in WordPress and they still work like a clock. With the <code>do_feed</code> action (and other relevant actions), you can control how feeds are handled.</p>
+
+<h3>Removing WordPress Feeds Altogether</h3>
+
+<p>Removing feed links make feeds inaccessible for almost everyone, but if a visitor knows that you're using WordPress and they have knowledge how feeds work in WordPress, they might just try to add <code>/feed/</code> after your website URL and reach the feeds. What if you actually need to disable the feeds? This code snippet will help you disable the feeds altogether:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'do_feed',  'do_feed_example', 1 );
+add_action( 'do_feed_atom', 'do_feed_example', 1 );
+add_action( 'do_feed_rdf',  'do_feed_example', 1 );
+add_action( 'do_feed_rss2', 'do_feed_example', 1 );
+add_action( 'do_feed_rss',  'do_feed_example', 1 );
+
+function do_feed_example() {
+    wp_die( __( '&lt;h1&gt;Feed not available, please visit our &lt;a href="' . get_bloginfo( 'url' ) . '"&gt;Home Page&lt;/a&gt;!&lt;/h1&gt;' ) );
+}
+
+// Example Source: http://wpdevsnippets.com/disable-rss-feed/
+
+?&gt;</pre>
+
+<p>Easy, right?</p>
+
+<h2>Manipulating the Toolbar</h2>
+
+<p>The Toolbar (formerly Admin Bar) was introduced in version 3.1 of WordPress and has become the target for both hatred and love – some wants to remove it completely, some can't live without it. Anyway, the <code>admin_bar_menu</code> action is the main hook for the Toolbar which loads necessary items into the bar.</p>
+
+<h3>Always Show the Toolbar to Everyone</h3>
+
+<p>The toolbar might come in handy if it doesn't look too bad with your website design – you can use the built-in search box and add new menu items like a link to log in or a link to the contact page.</p>
+
+<p>The code snippet below demonstrates a toolbar which is always shown whether the visitor is logged in or not:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'admin_bar_menu', 'admin_bar_menu_example' );
+add_filter( 'show_admin_bar', '__return_true' , 1000 );
+
+function admin_bar_menu_example( $wp_admin_bar ) {
+
+	if ( ! is_user_logged_in() ) {
+
+		$wp_admin_bar-&gt;add_menu( array( 'title' =&gt; __( 'Log In' ), 'href' =&gt; wp_login_url() ) );
+		$wp_admin_bar-&gt;add_menu( array( 'title' =&gt; __( 'Contact' ), 'href' =&gt; 'http://www.mywebsite.com/contact/' ) );
+        
+	}
+    
+}
+
+// Example source: http://blog.ftwr.co.uk/archives/2011/01/05/always-show-admin-bar/
+
+?&gt;</pre>
+
+<p>See how easy it is? Now your visitors can see "Log In" and "Contact" links along with the default search box.</p>
+
+<h2>Controlling the Default "Categories" Widget</h2>
+
+<p>You can display a list of categories with the <code>wp_list_categories()</code> function. And this action (which has the same name with the function) helps us customize the output.</p>
+
+<h3>Removing the <code>title</code> Attributes of Category Links</h3>
+
+<p>If you don't think that you need the <code>title</code> attributes of the category links in the widget, you can remove them by using these lines of code in your project:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_list_categories', 'wp_list_categories_example' );
+
+function wp_list_categories_example() {
+return preg_replace( '` title="(.+)"`', '', $output );    
+}
+
+// Example Source: http://wpsnipp.com/index.php/cat/remove-title-attribute-from-wp_list_categories/
+
+?&gt;</pre>
+
+<h2>Handling the Search Form Before Processing</h2>
+
+<p>In order to use the built-in search feature, you need to use the <code>get_search_form()</code> function. If you want to monkey with the function <em>before</em> the output is displayed, the <code>pre_get_search_form()</code> is your guy.</p>
+
+<h3>Prepending Informational Text Before the Search Form</h3>
+
+<p>Let's say you have a blog where you review hundreds, maybe thousands of commercial products. To inform your visitors about they can enter their barcode numbers to get to the product they need, use the following code to add some informational text before the search box.</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'pre_get_search_form', 'pre_get_search_form_example' );
+function pre_get_search_form_example( $form ) {
+	echo '&lt;div class="search-info"&gt;Enter your barcode number below to access the item you want.&lt;/div&gt;';
+}
+
+?&gt;</pre>
+
+<p>Note that you can use this example with the example of the <code>template_redirect</code> action so when visitors enters a barcode number, they automatically go to the product review.</p>
+
+<h2>End of Part Four</h2>
+
+<p>We went through the fourth batch of 50 actions in this article. I hope you liked and learned new things from it. Play around with what you've seen and then I'll see you in the next article.</p>
+
+<p>I want to hear your thoughts, too. What do you think about these actions? Post your comments below. If you liked the article, don't forget to share it!</p>

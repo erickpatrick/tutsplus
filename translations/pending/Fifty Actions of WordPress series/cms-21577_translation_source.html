@@ -1,0 +1,162 @@
+<h1>Fifty Actions of WordPress – An Introduction</h1>
+
+<p>The reason of WordPress being the most popular content management system in the world is, of course, its flexibility. The beautifully simple structure of "hooks" gives WordPress this ability. Without filter hooks and action hooks, WordPress wouldn't be extendible as much and we wouldn't be able to have such a large spectrum of WordPress plugins or themes.</p>
+
+<p>In this series, we're going to go through actions, one of the two kinds of WordPress hooks. Over the course of the series, we'll cover almost everything there is to know about actions:</p>
+
+<ul>
+  <li>In the first part,<strong> </strong>which also happens to be this article, we're going to learn what WordPress actions are and how to use actions with seven core functions.</li>
+  <li>In the next five parts, we're going to see a whopping set of examples about WordPress actions. In each part, we're going to go through 10 actions by learning what they're good for and doing one example for each action.</li>
+  <li>In the series finale, we'll be recapping what we learned and the 50 action examples we did.</li>
+</ul>
+
+<p>It's going to be long, incredible ride. Buckle up!</p>
+
+<h2>What is a WordPress Action?</h2>
+
+<p><a href="http://codex.wordpress.org/Plugin_API#Actions">In the Codex</a>, actions are defined as follows:</p>
+
+<blockquote>
+  <p>Actions are triggered by specific events that take place in WordPress, such as publishing a post, changing themes, or displaying an <a href="http://codex.wordpress.org/Administration_Screens">administration screen</a>. Action is a custom PHP function defined in your plugin (or theme) and <i>hooked</i>, i.e. set to respond, to some of these events.</p>
+</blockquote>
+
+<p>So, in essence, actions are functions triggered by a WordPress event and run before or after the event. Actions are one of the two kinds of "hooks" in WordPress – the other one is called "filters" which we covered a while ago – <a>check out the "Fifty Filters of WordPress"</a> if you want to learn more about WordPress filters.</p>
+
+<h2>Using Actions in WordPress</h2>
+
+<p>Defining what actions are is the easiest thing we'll do in this series. Luckily, learning how to create and use actions is almost as easy. Let's see how we hook functions to actions, create new actions, remove existing ones and other action-related functions in the WordPress core.</p>
+
+<h3>Hooking a Function to an Action</h3>
+
+<p>Probably the easiest function among these is this one: It's used to hook our function to the action hook we're going to use:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( $hook_name, $function_name, $priority, $arguments );
+
+?&gt;</pre>
+
+<p>Let's see what those parameters mean:</p>
+
+<ul>
+  <li><code>$hook_name</code> is the name of the action hook we're going to use</li>
+  <li><code>$function_name</code> is the name of our function</li>
+  <li><code>$priority</code> is an integer we specify to set how early the function's going to be run in the action hook</li>
+  <li><code>$arguments</code> is the number of arguments that our function uses and the action hook allows</li>
+</ul>
+
+<p>Let's see a quick example:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'add_meta_boxes', 'my_function', 10, 2 );
+
+function my_function( $post_type, $post ) {
+	// do stuff with $post_type and $post
+}
+
+?&gt;</pre>
+
+<p>Almost too easy, right?</p>
+
+<h3>Removing Functions from an Action Hook</h3>
+
+<p>We have two functions to remove functions from action hooks: <code>remove_action()</code> and <code>remove_all_actions()</code>. Let's see how we use them:</p>
+
+<pre class="brush: php">&lt;?php
+
+// remove_action( $hook_name, $function_name, $priority );
+remove_action( 'login_enqueue_scripts', 'some_function', 10 );
+
+// remove_all_actions( $hook_name, $priority
+remove_all_actions( 'wp_enqueue_scripts', 10 );
+
+?&gt;</pre>
+
+<p>The <code>remove_action()</code> function has three parameters: the name of the hook, the name of the function that we're going to remove <em>from</em> the hook, and the priority that's been set while using <code>add_action()</code>. The <code>remove_all_actions()</code> function doesn't have the <code>$function_name</code> parameter, since it removes all functions hooked to the action.</p>
+
+<h3>Creating an Action Hook</h3>
+
+<p>If you develop WordPress plugins or themes, its good practice to create some hooks in your code so that other developers can <em>extend</em> your plugin or theme. To do so, we have two functions again: <code>do_action()</code> and <code>do_action_ref_array()</code>. Let's see how the first one works:</p>
+
+<pre class="brush: php">&lt;?php
+
+do_action( $hook_name, $arg1, $arg2, /* ... */ $argN );
+
+/*
+ * Usage:
+ * 
+ * add_action( hook_name, my_function )
+ * 
+ * function my_function( $arg1, $arg2 ) {
+ * // do stuff with $arg1, $arg2 and so on
+ * }
+ * 
+ */
+
+?&gt;</pre>
+
+<p>As you can see, the function virtually has an infinite number of parameters since you can define as many arguments as you need. If you need to keep your arguments in an array, though, you need to use the second function:</p>
+
+<pre class="brush: php">&lt;?php
+
+$args = array( $arg1, $arg2, /* ... */ $argN );
+
+do_action_ref_array( $hook_name, $args );
+
+/*
+ * Usage:
+ * 
+ * add_action( hook_name, my_function )
+ * 
+ * function my_function( $args ) {
+ * // do stuff with $args[0], $args[1] and so on
+ * }
+ * 
+ */
+
+?&gt;</pre>
+
+<h3>Retrieving the Number of Times an Action Is Fired</h3>
+
+<p>If you ever need to know how many times an action is called, you can use this handy function to count action calls:</p>
+
+<pre class="brush: php">&lt;?php
+
+function tuts_foo() {
+	$action_count = did_action( 'some_action_name' );
+	if ( 1 === $action_count ) {
+		// run code if 'some_action_name' has been fired only once
+	}
+}
+
+?&gt;</pre>
+
+<p>As you can see, the only parameter the function has is the name of the action hook.</p>
+
+<h3>Checking if Anything's Hooked to an Action</h3>
+
+<p>Imagine you're developing an extension for a popular WordPress plugin and you need to check if the user has installed the plugin or not. (After all, your plugin will not work if the other one is not installed and activated.) </p>
+
+<p>To check it, you can use the <code>has_action()</code> function to make sure that the popular plugin's action is available:</p>
+
+<pre class="brush: php">&lt;?php
+
+if( has_action( 'some_popular_plugin_action' ) {
+	add_action( 'some_popular_plugin_action', 'extension_to_the_some_popular_plugin' );
+} else {
+	wp_die( 'Sorry to kill your website but I need "Some Popular Plugin" to work with.' );
+	// CAUTION: This is a joke. Don't shut down a website because your plugin can't work with it.
+}
+
+?&gt;</pre>
+
+<p>Just like the <code>did_action()</code> function, the <code>has_action()</code> function has only one parameter: the name of the action hook.</p>
+
+<h2>Conclusion</h2>
+
+<p>Now we've covered pretty much everything about creating and using actions, we can continue to a five-articles-long journey of action examples. We'll be reviewing <em>only</em> fifty of them but if you're curious, you can find hundreds more in the core.</p>
+
+<p>I hope you'll enjoy this series as much as I did while creating the whole thing. If you think you can help me with the tutorials by suggesting more actions and asking for more examples, don't hesitate to tell me and share your thoughts by commenting below. And if you liked what you read in this series, don't forget to share the articles!</p>
+
+<p>See you in the next tutorial!</p>

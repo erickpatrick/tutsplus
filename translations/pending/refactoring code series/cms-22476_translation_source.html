@@ -1,0 +1,486 @@
+<h1>Refactoring Legacy Code - Part 11: The End?</h1>
+
+<p>In our previous lesson we've learned a new way to understand and make code better by extracting till we drop. While that tutorial was a good way to learn the techniques, it was hardly the ideal example to understand the benefits of it. In this lesson we will extract till we drop on all of our trivia game related code and we will analyze the final result.</p>
+
+<p>This lesson will also conclude our series about refactoring. If you think we missed something, feel free to comment with a proposed topic. If good ideas gather, I will continue with extra tutorials based on your requests.</p>
+
+
+
+<h2>Attacking Our Longest Method</h2>
+
+<p>What better way to start our article than by taking our longest method and extracting it in tiny pieces. Testing first, as usual, will make this procedure not only efficient but also fun.</p>
+
+<p>As usually, you have the code as it was when I started this tutorial in the <code>php_start</code> folder, while the end result is in the <code>php</code> folder.</p>
+
+<pre>function wasCorrectlyAnswered() {
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isGettingOutOfPenaltyBox) {
+			$this-&gt;display-&gt;correctAnswer();
+			$this-&gt;purses[$this-&gt;currentPlayer]++;
+
+			$this-&gt;display-&gt;playerCoins($this-&gt;players[$this-&gt;currentPlayer], $this-&gt;purses[$this-&gt;currentPlayer]);
+
+			$winner = $this-&gt;didPlayerNotWin();
+			$this-&gt;currentPlayer++;
+			if ($this-&gt;shouldResetCurrentPlayer()) {
+				$this-&gt;currentPlayer = 0;
+			}
+
+			return $winner;
+		} else {
+			$this-&gt;currentPlayer++;
+			if ($this-&gt;shouldResetCurrentPlayer()) {
+				$this-&gt;currentPlayer = 0;
+			}
+			return true;
+		}
+
+	} else {
+
+		$this-&gt;display-&gt;correctAnswerWithTypo();
+		$this-&gt;purses[$this-&gt;currentPlayer]++;
+		$this-&gt;display-&gt;playerCoins($this-&gt;players[$this-&gt;currentPlayer], $this-&gt;purses[$this-&gt;currentPlayer]);
+
+		$winner = $this-&gt;didPlayerNotWin();
+		$this-&gt;currentPlayer++;
+		if ($this-&gt;shouldResetCurrentPlayer()) {
+			$this-&gt;currentPlayer = 0;
+		}
+
+		return $winner;
+	}
+}</pre>
+
+<p>This method, <code>wasCorrectlyAnswered()</code>, is our first victim.</p>
+
+
+
+<h2>Getting wasCorrectlyAnswered() Under Test</h2>
+
+<p>As we learned from previous lessons, the first step when modifying legacy code is to get it under test. This can be a difficult process. Fortunately for us, the <code>wasCorrectlyAnswered()</code> method is pretty straightforward. It is composed of several <code class="inline">if-else</code> statements. Each branch of the code returns a value. When we have a return value, we can always speculate that testing is doable. Not necessary easy, but at least possible.</p>
+
+<pre>function testWasCorrectlyAnsweredAndGettingOutOfPenaltyBoxWhileBeingAWinner() {
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+	$this-&gt;game-&gt;isGettingOutOfPenaltyBox = true;
+	$this-&gt;game-&gt;purses[$this-&gt;game-&gt;currentPlayer] = Game::$numberOfCoinsToWin;
+
+	$this-&gt;assertTrue($this-&gt;game-&gt;wasCorrectlyAnswered());
+}</pre>
+
+<p>There is no definite rule on what test to write first. We've just chosen the first path of execution here. We actually had a nice surprise and we reused one of the private methods we extracted a lot of tutorials before. But we are not yet done. All green, so it's time for refactoring.</p>
+
+<pre>function testWasCorrectlyAnsweredAndGettingOutOfPenaltyBoxWhileBeingAWinner() {
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+	$this-&gt;currentPlayerWillLeavePenaltyBox();
+	$this-&gt;setCurrentPlayerAWinner();
+
+	$this-&gt;assertTrue($this-&gt;game-&gt;wasCorrectlyAnswered());
+}</pre>
+
+<p>This is easier to read and significantly more descriptive. You can find the extracted methods in the attached code.</p>
+
+<pre>function testWasCorrectlyAnsweredAndGettingOutOfPenaltyBoxWhileNOTBeingAWinner() {
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+	$this-&gt;currentPlayerWillLeavePenaltyBox();
+	$this-&gt;setCurrentPlayerNotAWinner();
+
+	$this-&gt;assertFalse($this-&gt;game-&gt;wasCorrectlyAnswered());
+}
+
+private function setCurrentPlayerNotAWinner() {
+	$this-&gt;game-&gt;purses[$this-&gt;game-&gt;currentPlayer] = 0;
+}</pre>
+
+<p>We were expecting this to pass, but it fails. The reasons are not clear at all. A closer look at <code>didPlayerNotWin()</code> may be helpful.</p>
+
+<pre>function didPlayerNotWin() {
+	return !($this-&gt;purses[$this-&gt;currentPlayer] == self::$numberOfCoinsToWin);
+}</pre>
+
+<p>The method actually returns true when a player did not win. Maybe we could rename our variable but first, tests must pass.</p>
+
+<pre>private function setCurrentPlayerAWinner() {
+	$this-&gt;game-&gt;purses[$this-&gt;game-&gt;currentPlayer] = Game::$numberOfCoinsToWin;
+}
+
+private function setCurrentPlayerNotAWinner() {
+	$this-&gt;game-&gt;purses[$this-&gt;game-&gt;currentPlayer] = 0;
+}</pre>
+
+<p>On a closer inspection we can see that we mixed up the values here. Our confusion between the method name and the variable name made us reverse the conditions.</p>
+
+<pre>private function setCurrentPlayerAWinner() {
+	$this-&gt;game-&gt;purses[$this-&gt;game-&gt;currentPlayer] = 0;
+}
+
+private function setCurrentPlayerNotAWinner() {
+	$this-&gt;game-&gt;purses[$this-&gt;game-&gt;currentPlayer] = Game::$numberOfCoinsToWin - 1;
+}</pre>
+
+<p>This is working. While analyzing <code>didPlayerNotWin()</code> we also observed that it uses equality to determine the winner. We must set our value to one less because the value is incremented in the production code we test.</p>
+
+<p>The remaining three tests are simple to write. They are just variations of the first two. You can find them in the attached code.</p>
+
+
+
+<h2>Extract and Rename Till We Drop the wasCorrectlyAnswered() Method</h2>
+
+<p>The most confusing problem is the misleading <code>$winner</code> variable name. That should be <code>$notAWinner</code>.</p>
+
+<pre>$notAWinner = $this-&gt;didPlayerNotWin();
+$this-&gt;currentPlayer++;
+if ($this-&gt;shouldResetCurrentPlayer()) {
+	$this-&gt;currentPlayer = 0;
+}
+return $notAWinner;
+</pre>
+
+<p>We can observe that the <code>$notAWinner</code> variable is used only to return a value. Could we call the <code>didPlayerNotWin()</code> method directly in the return statement?</p>
+
+<pre>$this-&gt;currentPlayer++;
+if ($this-&gt;shouldResetCurrentPlayer()) {
+	$this-&gt;currentPlayer = 0;
+}
+return $this-&gt;didPlayerNotWin();
+</pre>
+
+<p>This still passes our unit test, but if we run our Golden Master tests, they will fail with "not enough memory" error. In fact, the change makes the game never finish.</p>
+
+<p>What is happening is that current player is updated to the next player. As we had a single player, we always reused the same player. That's how testing is. You never know when you discover a hidden logic in difficult code.</p>
+
+<pre>function testWasCorrectlyAnsweredAndGettingOutOfPenaltyBoxWhileBeingAWinner() {
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+	$this-&gt;game-&gt;add('Another Player');
+	$this-&gt;currentPlayerWillLeavePenaltyBox();
+	$this-&gt;setCurrentPlayerAWinner();
+
+	$this-&gt;assertTrue($this-&gt;game-&gt;wasCorrectlyAnswered());
+}</pre>
+
+<p>By just adding another player in each of our tests related to this method we can make sure the logic is covered. This test will make the changed return statement above to fail.</p>
+
+<pre>private function selectNextPlayer() {
+	$this-&gt;currentPlayer++;
+	if ($this-&gt;shouldResetCurrentPlayer()) {
+		$this-&gt;currentPlayer = 0;
+	}
+}</pre>
+
+<p>We can immediately spot that the selection of next player is identical on both paths of the condition. We can move it into a method of its own. The name we chose for this method is <code>selectNextPlayer()</code>. This name helps in highlighting the fact that the current player's value will be changed. It also suggests that <code>didPlayerNotWin()</code> could be renamed in something that reflect the relation to the current player.</p>
+
+<pre>function wasCorrectlyAnswered() {
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isGettingOutOfPenaltyBox) {
+			$this-&gt;display-&gt;correctAnswer();
+			$this-&gt;purses[$this-&gt;currentPlayer]++;
+
+			$this-&gt;display-&gt;playerCoins($this-&gt;players[$this-&gt;currentPlayer], $this-&gt;purses[$this-&gt;currentPlayer]);
+
+			$notAWinner = $this-&gt;didCurrentPlayerNotWin();
+			$this-&gt;selectNextPlayer();
+			return $notAWinner;
+		} else {
+			$this-&gt;selectNextPlayer();
+			return true;
+		}
+
+	} else {
+
+		$this-&gt;display-&gt;correctAnswerWithTypo();
+		$this-&gt;purses[$this-&gt;currentPlayer]++;
+		$this-&gt;display-&gt;playerCoins($this-&gt;players[$this-&gt;currentPlayer], $this-&gt;purses[$this-&gt;currentPlayer]);
+
+		$notAWinner = $this-&gt;didCurrentPlayerNotWin();
+		$this-&gt;selectNextPlayer();
+
+		return $notAWinner;
+	}
+}</pre>
+
+<p>Our code is getting shorter and more expressive. What could we do next? We could change the weird name of the "not winner" logic and change the method to a positive logic instead of a negative one. Or we could continue extracting and deal with the negative logic confusion later. I don't think there is one definite way to go. So, I'll leave the negative logic problem as an exercise for you and we will continue with the extraction.</p>
+
+<pre>function wasCorrectlyAnswered() {
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		return $this-&gt;getCorrectlyAnsweredForPlayersInPenaltyBox();
+	} else {
+		return $this-&gt;getCorrectlyAnsweredForPlayersNotInPenaltyBox();
+	}
+}</pre>
+
+<blockquote>As a rule of thumb, try to have a single line of code on each path of a decision logic.</blockquote>
+
+<p>We extracted the whole block of code in each part of our <code>if</code> statement. This is an important step, and something you should always think about. When you have a decision path or a loop in your code, inside of it should be only a single statement. The person reading this method will most probably not care about the implementation details. He or she will care about the decision logic, the <code>if</code> statement.</p>
+
+<pre>function wasCorrectlyAnswered() {
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		return $this-&gt;getCorrectlyAnsweredForPlayersInPenaltyBox();
+	}
+
+	return $this-&gt;getCorrectlyAnsweredForPlayersNotInPenaltyBox();
+}</pre>
+
+<p>And if we can get rid of any extra code, we should. Removing the <code>else</code> and still keeping the logic the same we made a little economy. I like this solution better because it highlights what is the "default" behavior of the function. The code that is in the function's interior directly (the last line of code here). The <code>if</code> statement is the exceptional functionality added to the default one.</p>
+
+<p>I heard reasonings that writing the conditions this way may hide the fact that the default does not execute if the <code>if</code> statement activates. I can only agree with this, and if you prefer to keep the <code>else</code> part there for clarity, please do so.</p>
+
+<pre>private function getCorrectlyAnsweredForPlayersInPenaltyBox() {
+	if ($this-&gt;isGettingOutOfPenaltyBox) {
+		return $this-&gt;getCorrectlyAnsweredForPlayerGettingOutOfPenaltyBox();
+	} else {
+		return $this-&gt;getCorrectlyAnsweredForPlayerStayingInPenaltyBox();
+	}
+}</pre>
+
+<p>We can continue to extract inside our newly created private methods. Applying the same principle to our next conditional statement leads to the code above.</p>
+
+<pre>private function giveCurrentUserACoin() {
+	$this-&gt;purses[$this-&gt;currentPlayer]++;
+}</pre>
+
+<p>By looking at our private methods <code>getCorrectlyAnsweredForPlayersNotInPenaltyBox()</code> and <code>getCorrectlyAnsweredForPlayerGettingOutOfPenaltyBox()</code> we can immediately observe that a simple assignment is duplicated. That assignment may be obvious for someone like us who already knows what's with the purses and coins, but not for a newcomer. Extracting that single line into a method <code>giveCurrentUserACoin()</code> is a good idea.</p>
+
+<p>It helps with duplication also. If in the future we change the way we give players coins, we will need to change code only inside this private method.</p>
+
+<pre>private function getCorrectlyAnsweredForPlayersNotInPenaltyBox() {
+	$this-&gt;display-&gt;correctAnswerWithTypo();
+	return $this-&gt;getCorrectlyAnsweredForAPlayer();
+}
+
+private function getCorrectlyAnsweredForPlayerGettingOutOfPenaltyBox() {
+	$this-&gt;display-&gt;correctAnswer();
+	return $this-&gt;getCorrectlyAnsweredForAPlayer();
+}
+
+private function getCorrectlyAnsweredForAPlayer() {
+	$this-&gt;giveCurrentUserACoin();
+	$this-&gt;display-&gt;playerCoins($this-&gt;players[$this-&gt;currentPlayer], $this-&gt;purses[$this-&gt;currentPlayer]);
+
+	$notAWinner = $this-&gt;didCurrentPlayerNotWin();
+	$this-&gt;selectNextPlayer();
+	return $notAWinner;
+}</pre>
+
+<p>Then the two correctly answered methods are identical, except that one of them outputs something with a typo. We extracted the duplicate code and kept the differences in each method. You may think that we could have used the extracted method with a parameter in the caller code, and output once normally and once with a typo. However, the solution proposed above has an advantage: It keeps separated the two concepts of not in penalty box and getting out of penalty box.</p>
+
+<p>This concludes the work on <code>wasCorrectlyAnswered()</code>.</p>
+
+
+
+<h2>What About the worngAnswer() Method?</h2>
+
+<pre>function wrongAnswer() {
+	$this-&gt;display-&gt;incorrectAnswer();
+	$currentPlayer = $this-&gt;players[$this-&gt;currentPlayer];
+	$this-&gt;display-&gt;playerSentToPenaltyBox($currentPlayer);
+	$this-&gt;inPenaltyBox[$this-&gt;currentPlayer] = true;
+
+	$this-&gt;currentPlayer++;
+	if ($this-&gt;shouldResetCurrentPlayer()) {
+		$this-&gt;currentPlayer = 0;
+	}
+	return true;
+}</pre>
+
+<p>At 11 lines this method is not huge, but certainly large. Do you remember the magic number seven plus minus two research? It states that our brain can simultaneously think about 7+-2 things. That is, we have a limited capacity. So in order to easily and fully understand a method, we want the logic inside it to fit in that range. With a total of 11 line, and a content of 9 lines, this method is kind of at the limit. You may argue that actually there is an empty line and another one with just a brace. That would make it 7 lines of logic only.</p>
+
+<p>While braces and spaces are short in space, they have a meaning for us. They separate parts of the logic, they have a meaning, so our brain must process them. Yes, it is easier compared to a full line o comparison logic, but still.</p>
+
+<p>That is why our target for lines of logic inside a method is 4 lines. That is below the minimum of the above theory, so both a genius and a mediocre programmer should be able to comprehend the method.</p>
+
+<pre>$this-&gt;currentPlayer++;
+if ($this-&gt;shouldResetCurrentPlayer()) {
+	$this-&gt;currentPlayer = 0;
+}</pre>
+
+<p>We already have a method for this piece of code, so we should use it.</p>
+
+<pre>function wrongAnswer() {
+	$this-&gt;display-&gt;incorrectAnswer();
+	$currentPlayer = $this-&gt;players[$this-&gt;currentPlayer];
+	$this-&gt;display-&gt;playerSentToPenaltyBox($currentPlayer);
+	$this-&gt;inPenaltyBox[$this-&gt;currentPlayer] = true;
+	$this-&gt;selectNextPlayer();
+	return true;
+}</pre>
+
+<p>Better, but should we drop or continue?</p>
+
+<pre>$currentPlayer = $this-&gt;players[$this-&gt;currentPlayer];
+$this-&gt;display-&gt;playerSentToPenaltyBox($currentPlayer);</pre>
+
+<p>We could inline the variable from these two lines. <code>$this-&gt;currentPlayer</code> is obviously returning the current player, so no need to repeat the logic. We learn nothing new or abstract nothing new by using the local variable.</p>
+
+<pre>function wrongAnswer() {
+	$this-&gt;display-&gt;incorrectAnswer();
+	$this-&gt;display-&gt;playerSentToPenaltyBox($this-&gt;players[$this-&gt;currentPlayer]);
+	$this-&gt;inPenaltyBox[$this-&gt;currentPlayer] = true;
+	$this-&gt;selectNextPlayer();
+	return true;
+}</pre>
+
+<p>We are down to 5 lines. Anything else in there?</p>
+
+<pre>$this-&gt;inPenaltyBox[$this-&gt;currentPlayer] = true;</pre>
+
+<p>We can extract the line above into its own method. It will help explain what is happening and isolate the logic about sending current player into the penalty box in its own place.</p>
+
+<pre>function wrongAnswer() {
+	$this-&gt;display-&gt;incorrectAnswer();
+	$this-&gt;display-&gt;playerSentToPenaltyBox($this-&gt;players[$this-&gt;currentPlayer]);
+	$this-&gt;sendCurrentPlayerToPenaltyBox();
+	$this-&gt;selectNextPlayer();
+	return true;
+}</pre>
+
+<p>Still 5 lines, but all method calls. The first two one are displaying things. The next two are related to our logic. The last line just returns true. I see no way to make this method easier to understand without introducing complexity by the extractions we could make, for example by extracting the two display methods into a private one. If we would to do so, where should that method go? Into this <code>Game</code> class, or into <code>Display</code>? I think this is already a too complex question to deserve to be considered in respect to the sheer simplicity of our method.</p>
+
+
+
+<h2>Final Thoughts and Some Stats</h2>
+
+<p>Let's do some statistics by checking out this great tool from the writer of PHPUnit <a href="https://github.com/sebastianbergmann/phploc.git">https://github.com/sebastianbergmann/phploc.git</a></p>
+
+<h3>Stats on the Original Trivia Game Code</h3>
+
+<pre class="brush: bash">./phploc ../Refactoring\ Legacy\ Code\ -\ Part\ 1\:\ The\ Golden\ Master/Source/trivia/php/
+phploc 2.1-gca70e70 by Sebastian Bergmann.
+
+Size
+  Lines of Code (LOC)                          232
+  Comment Lines of Code (CLOC)                       0 (0.00%)
+  Non-Comment Lines of Code (NCLOC)                232 (100.00%)
+  Logical Lines of Code (LLOC)                      99 (42.67%)
+    Classes                                         88 (88.89%)
+      Average Class Length                          88
+        Minimum Class Length                        88
+        Maximum Class Length                        88
+      Average Method Length                          7
+        Minimum Method Length                        1
+        Maximum Method Length                       17
+    Functions                                        1 (1.01%)
+      Average Function Length                        1
+    Not in classes or functions                     10 (10.10%)
+
+Cyclomatic Complexity
+  Average Complexity per LLOC                     0.26
+  Average Complexity per Class                   25.00
+    Minimum Class Complexity                     25.00
+    Maximum Class Complexity                     25.00
+  Average Complexity per Method                   3.18
+    Minimum Method Complexity                     1.00
+    Maximum Method Complexity                    10.00
+
+Dependencies
+  Global Accesses                                    0
+    Global Constants                                 0 (0.00%)
+    Global Variables                                 0 (0.00%)
+    Super-Global Variables                           0 (0.00%)
+  Attribute Accesses                               115
+    Non-Static                                     115 (100.00%)
+    Static                                           0 (0.00%)
+  Method Calls                                      21
+    Non-Static                                      21 (100.00%)
+    Static                                           0 (0.00%)
+
+Structure
+  Namespaces                                         0
+  Interfaces                                         0
+  Traits                                             0
+  Classes                                            1
+    Abstract Classes                                 0 (0.00%)
+    Concrete Classes                                 1 (100.00%)
+  Methods                                           11
+    Scope
+      Non-Static Methods                            11 (100.00%)
+      Static Methods                                 0 (0.00%)
+    Visibility
+      Public Methods                                11 (100.00%)
+      Non-Public Methods                             0 (0.00%)
+  Functions                                          1
+    Named Functions                                  1 (100.00%)
+    Anonymous Functions                              0 (0.00%)
+  Constants                                          0
+    Global Constants                                 0 (0.00%)
+    Class Constants                                  0 (0.00%)</pre>
+
+<h3>Stats on the Refactored Trivia Game Code</h3>
+
+<pre>./phploc ../Refactoring\ Legacy\ Code\ -\ Part\ 11\:\ The\ End\?/Source/trivia/php
+phploc 2.1-gca70e70 by Sebastian Bergmann.
+
+Size
+  Lines of Code (LOC)                          371
+  Comment Lines of Code (CLOC)                       0 (0.00%)
+  Non-Comment Lines of Code (NCLOC)                371 (100.00%)
+  Logical Lines of Code (LLOC)                     151 (40.70%)
+    Classes                                        145 (96.03%)
+      Average Class Length                          36
+        Minimum Class Length                         8
+        Maximum Class Length                        89
+      Average Method Length                          2
+        Minimum Method Length                        1
+        Maximum Method Length                       14
+    Functions                                        0 (0.00%)
+      Average Function Length                        0
+    Not in classes or functions                      6 (3.97%)
+
+Cyclomatic Complexity
+  Average Complexity per LLOC                     0.15
+  Average Complexity per Class                    6.50
+    Minimum Class Complexity                      1.00
+    Maximum Class Complexity                     17.00
+  Average Complexity per Method                   1.46
+    Minimum Method Complexity                     1.00
+    Maximum Method Complexity                    10.00
+
+Dependencies
+  Global Accesses                                    0
+    Global Constants                                 0 (0.00%)
+    Global Variables                                 0 (0.00%)
+    Super-Global Variables                           0 (0.00%)
+  Attribute Accesses                                96
+    Non-Static                                      94 (97.92%)
+    Static                                           2 (2.08%)
+  Method Calls                                      74
+    Non-Static                                      74 (100.00%)
+    Static                                           0 (0.00%)
+
+Structure
+  Namespaces                                         0
+  Interfaces                                         1
+  Traits                                             0
+  Classes                                            3
+    Abstract Classes                                 0 (0.00%)
+    Concrete Classes                                 3 (100.00%)
+  Methods                                           59
+    Scope
+      Non-Static Methods                            59 (100.00%)
+      Static Methods                                 0 (0.00%)
+    Visibility
+      Public Methods                                35 (59.32%)
+      Non-Public Methods                            24 (40.68%)
+  Functions                                          0
+    Named Functions                                  0 (0.00%)
+    Anonymous Functions                              0 (0.00%)
+  Constants                                          3
+    Global Constants                                 0 (0.00%)
+    Class Constants                                  3 (100.00%)
+</pre>
+
+<h3>Analyzes</h3>
+
+<p>Brute data is just as good as we can understand and analyze it.</p>
+
+<p>The number of logical lines of code increased quite significantly from 99 to 151. But this number should not trick you into thinking that our code became more complex. This is a natural tendency of well refactored code, because of the increase in the number of methods and calls to them.</p>
+
+<p>As soon as we look at the average class length we can see a dramatic drop in lines of code, from 88 to 36.</p>
+
+<p>And it is just amazing how method length went down from an average of seven lines to just only two lines of code.</p>
+
+<p>While number of lines are a good indicator of code volume per measurement unit, the real gain is in the analyzes of cyclomatic complexity. Every time we make a decision in our code, we increase the cyclomatic complexity. When we chain <code class="inline">if</code> statements one inside the other, the cyclomatic complexity of that method rises exponentially. Our continued extractions led to methods with only a single decision in them, thus reducing their average complexity per method from 3.18 to 1.00. You can read this as "our refactored methods are 3.18 times simpler than the original code". At the class level, the drop in complexity is even more amazing. It wen down from 25.00 to 6.50.</p>
+
+<h3>The End?</h3>
+
+<p>Well. That's it. End of the series. Please feel free to express your opinions and if you think we missed any refactoring topic ask for them in comments below. If they are interesting I will transform them in extra parts of this series. </p>
+
+<p>Thank you for your undivided attention.</p>

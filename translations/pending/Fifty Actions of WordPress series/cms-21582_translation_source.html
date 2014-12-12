@@ -1,0 +1,275 @@
+<h1>Fifty Actions of WordPress – 50 Examples (41 to 50)</h1>
+
+<p>If you've been following with us through this series, then you know we're in the homestretch in looking at our 50 actions of WordPress. For those who are just joining us, I urge you to check out <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-31-to-40--cms-21581" rel="external" target="_blank">the previous article</a> (as this picks up right where it left off) as well as the articles linked from each one prior.</p>
+
+<p>That will bring you up to speed with where we're headed now.</p>
+
+<p>Let's begin!</p>
+
+<h2>Injecting to the <code>&lt;head&gt;</code> of Plugin Admin Pages</h2>
+
+<p>Plugins have needs, too: They may need in-page scripts or styles for their own option pages. With the <code>admin_head-(plugin_page)</code> action, it's possible to inject things into the <code>&lt;head&gt;</code> tag for specific plugin pages.</p>
+
+<h3>Adding Styling to Your Plugin Admin Page</h3>
+
+<p>If you ever need to add some CSS styling to your plugin's options page, the code below will help you with that:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'admin_head-tools_page_myplugin/myplugin', 'admin_head_plugin_page_example' );
+
+function admin_head_plugin_page_example() {
+echo '&lt;style type="text/css"&gt;'
+       . '/* your style here */'
+       . '&lt;/style&gt;';
+}
+
+// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/admin_head-(plugin_page)
+
+?&gt;</pre>
+
+<p>Change the commented-out line with your CSS code, replace the second part of the action name (<code>tools_page_myplugin/myplugin</code>) with your own plugin and you're good to go!</p>
+
+<h2>Handling Pings Before They're Processed</h2>
+
+<p>"Pings" are one of the oldest features of WordPress and the <code>pre_ping</code> action lets us handle the pings before they're processed.</p>
+
+<h3>Disable Self-Pings</h3>
+
+<p>WordPress doesn't distinguish internal links from external links, when it comes to pings. To disable self-pings, you can utilize this handy little code snippet:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'pre_ping', 'pre_ping_example' );
+function pre_ping_example( &amp;$links ) {
+
+	foreach ( $links as $l =&gt; $link ) {
+
+        if ( 0 === strpos( $link, get_home_url() ) ) {
+            unset( $links[ $l ] );
+        }
+        
+	}
+    
+}
+
+// Example Source: http://wpdevsnippets.com/remove-slef-pings/
+
+?&gt;</pre>
+
+<p>From now on, your WordPress installation will not ping its own posts.</p>
+
+<h2>Working With the <code>get_header()</code> Function</h2>
+
+<p>The <code>get_header</code> action is called when the template calls the <code>get_header()</code> function, making it perfect for functions that modify the header of WordPress' front-end.</p>
+
+<h3>Activate a Simple Maintenance Mode</h3>
+
+<p>If you're in a hurry and don't have time to install a "maintenance mode" plugin and set its options, you can simply use the code below and give a <code>wp_die()</code> error to everyone except administrators:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'get_header', 'get_header_example' );
+
+function get_header_example() {
+
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		wp_die( 'The website will be back soon.' );
+}
+    
+}
+
+// Example Source: http://wp-snippets.com/articles/7-code-snippets-you-should-use-on-every-site/
+
+?&gt;</pre>
+
+<p>Since only administrators (and super admins) have the <code>'activate_plugins'</code> capability, the website will be shut down to everyone except admins.</p>
+
+<h2>Tampering With the <code>&lt;head&gt;</code> of the Login Page</h2>
+
+<p>The <code>login_head</code> action helps us control the <code>&lt;head&gt;</code> tag on the login page.</p>
+
+<h3>Removing the Shake Effect for Incorrect Credentials</h3>
+
+<p>If you don't like that "shake" effect when a user submits incorrect login information, you can use the function below to remove it:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'login_head', 'login_head_example' );
+function login_head_example() {
+remove_action( 'login_head', 'wp_shake_js', 12 );
+}
+
+// Example Source: http://wordpress.org/support/topic/plugin-simplemodal-login-remove-shake-effect
+
+?&gt;</pre>
+
+<p>I like the effect, though.</p>
+
+<h2>Working With the Footer of the Dashboard</h2>
+
+<p>On occasion, we might want to control the footer of our admin panels – not the footer section per se, but the part before the  <code>&lt;/body&gt;</code> tag. The <code>admin_footer</code> action does exactly that.</p>
+
+<h3>Adding Quick Styles for Post Statuses</h3>
+
+<p>Having a consistent set of colors is one of the reasons that makes WordPress' admin panel beautiful, but I don't think there's any harm in some color-coding for things that need to be separated visually – like different post statuses. </p>
+
+<p>If you're like me and want to be able to distinguish published posts from drafts or other post statuses, use the code below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'admin_footer', 'admin_footer_example' );
+function admin_footer_example() {
+
+	echo '&lt;style type="text/css"&gt;
+	.status-draft	{ background-color: #FCE3F2; }
+	.status-pending	{ background-color: #87C5D6; }
+	.status-future	{ background-color: #C6EBF5; }
+	.status-private	{ background-color: #F2D46F; }
+	&lt;/style&gt;';
+
+}
+
+// Example Source: http://wpsnipp.com/index.php/functions-php/change-admin-postpage-color-by-status-draft-pending-published-future-private/
+
+?&gt;</pre>
+
+<h2>Enqueuing Scripts and Styles in the Login Page</h2>
+
+<p>We can enqueue stuff to the frontend with <code>wp_enqueue_scripts</code>, and we can enqueue stuff to the back end with <code>admin_enqueue_scripts</code>. What about the login page? You guessed it: This time the <code>login_enqueue_scripts</code> is our hook!</p>
+
+<h3>Changing the Logo Above the Login Form</h3>
+
+<p>I like the WordPress logo, but I don't think it should be shown every time my users log in to my websites. If you think the same way, you can replace the WordPress logo with your own by using this useful code snippet below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'login_enqueue_scripts', 'login_enqueue_scripts_example' );
+function login_enqueue_scripts_example() {
+
+	echo '&lt;style type="text/css"&gt;'
+			. '#login h1 a {'
+				. 'background-image: url(' . get_bloginfo( 'template_directory' ) . '/images/login-logo.png);'
+				. 'padding-bottom: 30px;'
+			. '}'
+		. '&lt;/style&gt;';
+    
+}
+
+// Example Source: http://wpsnippy.com/add-custom-login-logo-in-your-wordpress-blog/
+
+?&gt;</pre>
+
+<p>Put the <code>login-logo.png</code> file into the <code>/images/</code> folder of your theme and you're good to go!</p>
+
+<h2>Adding Custom Columns to the Users List</h2>
+
+<p>You know the user list in the "All Users" page in the admin panel? The <code>manage_users_custom_column</code> action allows us add new custom columns to that list with the help of an accompanying filter.</p>
+
+<h3>Displaying Registration Dates of Users in a Column</h3>
+
+<p>Suppose you need to see your members' registration dates in bulk. You can check your database records each time you need that information, or you can use this code snippet to add an extra column to the Users list:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'manage_users_custom_column', 'manage_users_custom_column_example', 10, 3 );
+add_filter( 'manage_users_columns', 'manage_users_columns_example' );
+
+// create a new column named "Zip Code"
+function manage_users_columns_example( $columns ) {
+
+	$columns['user_registered'] = __( 'Registration Date', 'theme-name' );
+	return $columns;
+
+}
+
+// fill the column cells with the registration dates
+function manage_users_custom_column_example( $value, $column_name, $user_id ) {
+
+	if ( 'user_registered' == $column_name ) {
+    
+		$userdata = get_userdata( $user_id );
+		return $userdata-&gt;user_registered;
+        
+	}
+    
+}
+
+// Example Source (Idea): http://tommcfarlin.com/add-custom-user-meta-during-registration/
+
+?&gt;</pre>
+
+<p>Now you know more about your members.</p>
+
+<h2>Working With Plugin Activations</h2>
+
+<p>What do you do when you need to check when a plugin is activated in WordPress? Well, you use the <code>activated_plugin</code> hook: This handy little action is fired on plugin activation.</p>
+
+<h3>Sending an Email to the Admin Each Time a Plugin Is Activated</h3>
+
+<p>Suppose you have lots of client websites (which were installed with your email address) and you need to be informed when clients installs and activates a new plugin on their websites. </p>
+
+<p>Just use this function and hook it to <code>activated_plugins</code> and you're good to go:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'activated_plugin', 'activated_plugin_example', 10, 2);
+function activated_plugin_example( $plugin, $network_activation ) {
+	
+$to			= get_option( 'admin_email' );
+	$subject	= 'A plugin has been activated';
+	$body		= "Hey,\n\nThe following plugin has just been activated:\n\n$plugin\n\nCheers!";
+	
+    wp_mail( $to, $subject, $body );
+}
+
+?&gt;</pre>
+
+<h2>Handling the Color Scheme Options</h2>
+
+<p>Since WordPress 3.0, we have "color schemes" for the admin panel and we're allowed to edit, add or remove the color schemes. And the <code>admin_color_scheme_picker</code> action makes it possible for users to change the color scheme.</p>
+
+<h3>Removing the Option to Change Color Schemes</h3>
+
+<p>This example doesn't need much introduction: If you ever need to take away the right to change color schemes from your users (say, because you have a special color scheme and you don't want your users to change it back to the default), use the code snippet below to remove the option:</p>
+
+<pre class="brush: php">&lt;?php
+
+if( is_admin() ) {
+	remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
+}
+
+// Example Source: http://wpsnipp.com/index.php/functions-php/remove-admin-color-scheme-picker-from-profile/
+
+?&gt;</pre>
+
+<p>Hey, we just removed a function from an action hook with the same name. I know, it's weird.</p>
+
+<h2>Handling the Process of Logging Out</h2>
+
+<p>Users log in, users log out, and when they log out, the <code>wp_logout</code> action is called.</p>
+
+<h3>Redirecting User to the Homepage After Logout</h3>
+
+<p>Logging out from a WordPress website is kind of weird: You're redirected to the login page, like WordPress needs you to log in again. Here's how you fix the situation and redirect users to homepage when they log out:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_logout', 'wp_logout_example' );
+
+function wp_logout_example() {
+	wp_redirect( home_url() );
+	exit();
+}
+
+// Example Source: http://wpsnippy.com/auto-redirect-users-after-logout/
+
+?&gt;</pre>
+
+<p>Now each time a user logs out, they will see the the homepage instead of the login form.</p>
+
+<h2>End of Part Five</h2>
+
+<p>We've just completed through through the last batch of 50 actions in this article. I hope you liked and learned new things from it. In the next article, we're going to have a quick look at what we've seen and close the series. </p>
+
+<p>I want to hear your thoughts, too. What do you think about these actions? Post your comments below. If you liked the article, don't forget to share it!</p>

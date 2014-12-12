@@ -1,0 +1,254 @@
+<h1>Refactoring Legacy Code: Part 9 - Analyzing Concerns</h1>
+
+<p>In this tutorial, we will continue to focus on our business logic. We will evaluate if <code>RunnerFunctions.php</code> belongs to a class and if so, to which class? We will think about concerns and where methods belong. Finally, we will learn a little bit more about the concept of mocking. So, what are you waiting for? Read on.</p>
+
+
+
+<h2><code class="inline">RunnerFunctions</code> - From Procedural to Object Oriented</h2>
+
+<p>Even though we have most of our code in object oriented form, nicely organized in classes, some functions are just simply sitting in a file. We need to take some in order to give the functions <code>RunnerFunctions.php</code> in a more object oriented aspect.</p>
+
+<pre class="brush: php">const WRONG_ANSWER_ID = 7;
+const MIN_ANSWER_ID = 0;
+const MAX_ANSWER_ID = 9;
+
+function isCurrentAnswerCorrect($minAnswerId = MIN_ANSWER_ID, $maxAnswerId = MAX_ANSWER_ID) {
+	return rand($minAnswerId, $maxAnswerId) != WRONG_ANSWER_ID;
+}
+
+function run() {
+	$display = new CLIDisplay();
+	$aGame = new Game($display);
+	$aGame-&gt;add("Chet");
+	$aGame-&gt;add("Pat");
+	$aGame-&gt;add("Sue");
+
+	do {
+		$dice = rand(0, 5) + 1;
+		$aGame-&gt;roll($dice);
+	} while (!didSomebodyWin($aGame, isCurrentAnswerCorrect()));
+}
+
+function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+	if ($isCurrentAnswerCorrect) {
+		return ! $aGame-&gt;wasCorrectlyAnswered();
+	} else {
+		return ! $aGame-&gt;wrongAnswer();
+	}
+}</pre>
+
+<p>My first instinct is to just wrap them in a class. This is nothing genius, but it is something that makes us start changing things. Let's see if the idea can actually work.</p>
+
+<pre class="brush: php">const WRONG_ANSWER_ID = 7;
+const MIN_ANSWER_ID = 0;
+const MAX_ANSWER_ID = 9;
+
+class RunnerFunctions {
+
+	function isCurrentAnswerCorrect($minAnswerId = MIN_ANSWER_ID, $maxAnswerId = MAX_ANSWER_ID) {
+		return rand($minAnswerId, $maxAnswerId) != WRONG_ANSWER_ID;
+	}
+
+	function run() {
+		// ... //
+	}
+
+	function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+		// ... //
+	}
+}</pre>
+
+<p>If we do that, we need to modify our tests and our <code>GameRunner.php</code> to use the new class. We called the class something generic for the time being, renaming it will be easy when needed. We don't even know if this class will exist on its own or will be assimilated into <code>Game</code>. So don't worry about naming just yet.</p>
+
+<pre class="brush: php">private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	(new RunnerFunctions())-&gt;run();
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<p>In our <code>GoldenMasterTest.php</code> file, we must modify the way we run our code. The function is <code>generateOutput()</code> and its third line needs to be modified to create a new object and call <code>run()</code> on it. But this fails.</p>
+
+<pre class="brush: bash">PHP Fatal error:  Call to undefined function didSomebodyWin() in ...</pre>
+
+<p>We now need to modify our new class further.</p>
+
+<pre class="brush: php">do {
+	$dice = rand(0, 5) + 1;
+	$aGame-&gt;roll($dice);
+} while (!$this-&gt;didSomebodyWin($aGame, $this-&gt;isCurrentAnswerCorrect()));</pre>
+
+<p>We only needed to change the condition of the <code>while</code> statement in the <code>run()</code> method. The new code calls <code>didSomebodyWin()</code> and <code>isCurrentAnswerCorrect()</code> from the current class, by prepending <code>$this-&gt;</code> to them.</p>
+
+<p>This makes the golden master pass, but it brakes the runner tests.</p>
+
+<pre class="brush: php">PHP Fatal error:  Call to undefined function isCurrentAnswerCorrect() in /.../RunnerFunctionsTest.php on line 25</pre>
+
+<p>The problem is in <code>assertAnswersAreCorrectFor()</code>, but easily fixable by creating a runner object first.</p>
+
+<pre class="brush: php">private function assertAnswersAreCorrectFor($correctAnserIDs) {
+	$runner = new RunnerFunctions();
+	foreach ($correctAnserIDs as $id) {
+		$this-&gt;assertTrue($runner-&gt;isCurrentAnswerCorrect($id, $id));
+	}
+}</pre>
+
+<p>This same issue needs to be addressed in three other functions as well.</p>
+
+<pre class="brush: php">function testItCanFindWrongAnswer() {
+	$runner = new RunnerFunctions();
+	$this-&gt;assertFalse($runner-&gt;isCurrentAnswerCorrect(WRONG_ANSWER_ID, WRONG_ANSWER_ID));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
+	$runner = new RunnerFunctions();
+	$this-&gt;assertTrue($runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aCorrectAnswer()));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
+	$runner = new RunnerFunctions();
+	$this-&gt;assertFalse($runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aWrongAnswer()));
+}</pre>
+
+<p>While this makes the code pass, it introduces a bit of code duplication. As we are now with all tests on green, we can extract the runner creation into a <code>setUp()</code> method.</p>
+
+<pre class="brush: php">private $runner;
+
+function setUp() {
+	$this-&gt;runner = new Runner();
+}
+
+function testItCanFindCorrectAnswer() {
+	$this-&gt;assertAnswersAreCorrectFor($this-&gt;getCorrectAnswerIDs());
+}
+
+function testItCanFindWrongAnswer() {
+	$this-&gt;assertFalse($this-&gt;runner-&gt;isCurrentAnswerCorrect(WRONG_ANSWER_ID, WRONG_ANSWER_ID));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
+	$this-&gt;assertTrue($this-&gt;runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aCorrectAnswer()));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
+	$this-&gt;assertFalse($this-&gt;runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aWrongAnswer()));
+}
+
+private function assertAnswersAreCorrectFor($correctAnserIDs) {
+	foreach ($correctAnserIDs as $id) {
+		$this-&gt;assertTrue($this-&gt;runner-&gt;isCurrentAnswerCorrect($id, $id));
+	}
+}</pre>
+
+<p>Nice. All these new creations and refactorings got me thinking. We named our variable <code>runner</code>. Maybe our class could be called the same. Let's refactor it. It should be easy.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21760/image/runner-rename.png"/>
+</figure>
+
+<p>If you didn't check "<strong>Search for text occurrences</strong>" in the box above, don't forget to change your includes manually, because the refactoring will rename the file also.</p>
+
+<p>Now we have a file called <code>GameRunner.php</code>, another one named <code>Runner.php</code> and a third one named <code>Game.php</code>. I don't know about you, but this seems extremely confusing to me. If I was to see these three files for the first time in my life, I would have no idea which one does what. We need to get rid of at least one of them.</p>
+
+<p>The reason we created the <code>RunnerFunctions.php</code> file in the early stages of our refactoring, was to build up a way to include all the methods and files for testing. We needed access to everything, but not run everything unless in a prepared environment in our golden master. We can still do the same thing, just not run our code from <code>GameRunner.php</code>. We need to update the includes and create a class inside, before we continue.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/Display.php';
+require_once __DIR__ . '/Runner.php';
+(new Runner())-&gt;run();</pre>
+
+<p>That will do it. We need to include <code>Display.php</code> explicitly, so when <code>Runner</code> tries to create a new <code>CLIDisplay</code>, it will know what to implement.</p>
+
+
+
+<h2>Analyzing Concerns</h2>
+
+<p>I believe that one of the most important characteristics of object oriented programming is defining concerns. I always ask myself questions like, "is this class doing what its name says?", "Is this method of concern for this object?", "Should my object care about that specific value?"</p>
+
+<p>Surprisingly, these types of questions have a great power in clarifying both business domain and software architecture. We are asking and answering these types of questions in a group at Syneto. Many times when a programmer has a dilemma, he or she just stands up, asks for two minutes of attention from the team in order to find our opinion on a subject. Those who are familiar with the code architecture will answer from a software point of view, while others, more familiar with the business domain may shed light on some essential insights about commercial aspects.</p>
+
+<p>Let's try to think about concerns in our case. We can continue to focus on the <code>Runner</code> class. It is hugely more probable to eliminate or transform this class, than <code>Game</code>.</p>
+
+<p>First, should a runner care about how <code>isCurrentAnswerCorrect()</code> working? Should a runner have any knowledge about questions and answers?</p>
+
+<p>It really seems like this method would be better off in <code>Game</code>. I strongly believe that a <code>Game</code> about trivia should care if an answer is correct or not. I truly believe a <code>Game</code> must be concerned about providing the result of the answer for the current question.</p>
+
+<p>It's time to act. We will do a <em>move method</em> refactoring. As we've seen this all before from my previous tutorials, I will just show you the end result.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/CLIDisplay.php';
+include_once __DIR__ . '/Game.php';
+
+class Runner {
+
+	function run() {
+		//...//
+	}
+
+	function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+		//...//
+	}
+}</pre>
+
+<p>It is essential to note that not only the method went away, but the constant defining the answer's limits also.</p>
+
+<p>But what about <code>didSomebodyWin()</code>? Should a runner decide when someone has won? If we look at the method's body, we can see a problem highlighting like a flashlight in the dark.</p>
+
+<pre class="brush: php">function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+	if ($isCurrentAnswerCorrect) {
+		return !$aGame-&gt;wasCorrectlyAnswered();
+	} else {
+		return !$aGame-&gt;wrongAnswer();
+	}
+}</pre>
+
+<p>Whatever this method does, it does it on a <code>Game</code> object only. It verifies the current answer returned by game. Then it returns whatever a game object returns in its <code>wasCorrectlyAnswered()</code> or <code>wrongAnswer()</code> methods. This method effectively does nothing on its own. All it cares about is <code>Game</code>. This is a classic example of a code smell called <em>Feature Envy</em>. A class does something that another class should do. Time to move it.</p>
+
+<pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
+
+	private $runner;
+
+	function setUp() {
+		$this-&gt;runner = new Runner();
+	}
+
+}</pre>
+
+<p>As usual, we moved the tests first. TDD? Anyone?</p>
+
+<p>This leaves us with no more tests to run, so this file can go now. Deleting is my favorite part of programming.</p>
+
+<p>And when we run our tests, we get a nice error.</p>
+
+<pre class="brush: bash">Fatal error: Call to undefined method Game::didSomebodyWin()</pre>
+
+<p>It's now time to change the code as well. Copying and pasting the method into <code>Game</code> will magically make all the tests pass. Both the old ones and the ones moved to <code>GameTest</code>. But while this puts the method in the right place, it has two problems: the runner also needs to be changed and we send in a fake <code>Game</code> object which we do not need to do anymore since it is part of <code>Game</code>.</p>
+
+<pre class="brush: php">do {
+	$dice = rand(0, 5) + 1;
+	$aGame-&gt;roll($dice);
+} while (!$aGame-&gt;didSomebodyWin($aGame, $this-&gt;isCurrentAnswerCorrect()));</pre>
+
+<p>Fixing the runner is very easy. We just change <code>$this-&gt;didSomebodyWin(...)</code> into <code>$aGame-&gt;didSomebodyWin(...)</code>. We will need to come back here and change it again, after our next step. The test refactoring.</p>
+
+<pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
+	$aGame = \Mockery::mock('Game[wasCorrectlyAnswered]');
+	$aGame-&gt;shouldReceive('wasCorrectlyAnswered')-&gt;once()-&gt;andReturn(false);
+	$this-&gt;assertTrue($aGame-&gt;didSomebodyWin($this-&gt;aCorrectAnswer()));
+}</pre>
+
+<p>It's time for some mocking! Instead of using our fake class, defined at the end of our tests, we will use <a href="http://code.tutsplus.com/tutorials/mockery-a-better-way--net-28097">Mockery</a>. It allows us to easily overwrite a method on <code>Game</code>, expect it to be called and return the value we want. Of course, we could to this by making our fake class extend <code>Game</code> and overwrite the method ourselves. But why do a job for which a tool exists?</p>
+
+<pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
+	$aGame = \Mockery::mock('Game[wrongAnswer]');
+	$aGame-&gt;shouldReceive('wrongAnswer')-&gt;once()-&gt;andReturn(true);
+	$this-&gt;assertFalse($aGame-&gt;didSomebodyWin($this-&gt;aWrongAnswer()));
+}</pre>
+
+<p>After our second method is rewritten, we can get rid of the fake game class and any methods that initialized it. Problems solved!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>Even though we managed to think about only the <code>Runner</code>, we made great progress today. We learned about responsibilities, we identified methods and variables that belong to another class. We thought on a higher level and we evolved toward a better solution. In the Syneto team, there is a strong belief that there are ways to write code well and never commit a change unless it made the code at least a little bit cleaner. This is a technique that in time, can lead to a much nicer codebase, with less dependencies, more tests and eventually less bugs.</p>
+
+<p>Thank you for your time.</p>

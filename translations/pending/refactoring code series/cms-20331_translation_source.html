@@ -1,0 +1,430 @@
+<h1>Refactoring Legacy Code: Part 1 - The Golden Master</h1>
+
+<p>Old code. Ugly code. Complicated code. Spaghetti code. Jibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+
+<p>In an ideal world, you would write only new code. You would write it beautiful and perfect. You would never have to revisit your code and you will never have to maintain projects ten years old. In an ideal world...</p>
+
+<p>Unfortunately, we live in a reality that is not ideal. We have to understand, modify and enhance ages-old code. We have to work with legacy code. So what are you waiting for? Let's get our heads into this first tutorial, get the code, understand it a little bit and create a safety net for our future modifications.</p>
+
+<h2>Definition of Legacy Code</h2>
+
+<p>Legacy code was defined in so many ways it is impossible to find a single, commonly accepted definition for it. The few examples at the start of this tutorial are just the tip of the iceberg. So I won't give you any official definition. Instead, I will quote you my favorite one.</p>
+
+<blockquote>
+  To me,
+  <em>legacy code</em>
+  is simply code without tests. ~ Michael Feathers
+</blockquote>
+
+<p>Well, that is the first formal definition of the expression <em>legacy code</em>, published by Michael Feathers in his book <a href="http://www.goodreads.com/book/show/44919.Working_Effectively_with_Legacy_Code?from_search=true">Working Effectively with Legacy Code</a>. Of course, the industry used the expression for ages, basically for any code that is difficult to change. However this definition has something different to tell. It explains the problem very clearly, so that the solution becomes obvious. "Difficult to change" is so vague. What should we do to make it easy to change? We have no idea! "Code without tests" on the other hand is very concrete. And the answer to our previous question is simple, make code testable and test it. So let's get started.</p>
+
+<h2>Getting Our Legacy Code</h2>
+
+<p>This series will be based on the exceptional Trivia Game by <a href="http://www.jbrains.ca/">J.B. Rainsberger</a> designed for <a href="http://legacycoderetreat.typepad.com/">Legacy Code Retreat</a> events. It is made to be like real legacy code and to also offer opportunities for a wide variety of refactoring, at a decent level of difficulty.</p>
+
+<h3>Check Out the Source Code</h3>
+
+<p>The Trivia Game is hosted on GitHub and it is GPLv3 licensed, so you can play around with it freely. We will start this series by checking out the official repository. The code is also attached to this tutorial with all the modifications we will make, so if you get confused at some point, you can take a sneak peek at the end result.</p>
+
+<pre class="brush: bash"> $ git clone https://github.com/jbrains/trivia.git
+Cloning into 'trivia'...
+remote: Counting objects: 429, done.
+remote: Compressing objects: 100% (262/262), done.
+remote: Total 429 (delta 100), reused 419 (delta 93)
+Receiving objects: 100% (429/429), 848.33 KiB | 305.00 KiB/s, done.
+Resolving deltas: 100% (100/100), done.
+Checking connectivity... done.</pre>
+
+<p>When you open the <code>trivia</code> directory you will see our code in several programming languages. We will work in PHP, but you are free to choose your favorite one and apply the techniques presented here.</p>
+
+<h2>Understanding the Code</h2>
+
+<p>By definition, legacy code is difficult to understand, especially if we don't even know what it's supposed to do. So the first step is to run the code and make some kind of reasoning, what it is about.</p>
+
+<p>We have two files in our directory.</p>
+
+<pre class="brush: bash">$ cd php/
+$ ls -al
+total 20
+drwxr-xr-x  2 csaba csaba 4096 Mar 10 21:05 .
+drwxr-xr-x 26 csaba csaba 4096 Mar 10 21:05 ..
+-rw-r--r--  1 csaba csaba 5568 Mar 10 21:05 Game.php
+-rw-r--r--  1 csaba csaba  410 Mar 10 21:05 GameRunner.php</pre>
+
+<p><code>GameRunner.php</code> seems to be a good candidate for our attempt to run the code.</p>
+
+<pre class="brush: bash">$ php ./GameRunner.php
+Chet was added
+They are player number 1
+Pat was added
+They are player number 2
+Sue was added
+They are player number 3
+Chet is the current player
+They have rolled a 4
+Chet's new location is 4
+The category is Pop
+Pop Question 0
+Answer was corrent!!!!
+Chet now has 1 Gold Coins.
+Pat is the current player
+They have rolled a 2
+Pat's new location is 2
+The category is Sports
+Sports Question 0
+Answer was corrent!!!!
+Pat now has 1 Gold Coins.
+Sue is the current player
+They have rolled a 1
+Sue's new location is 1
+The category is Science
+Science Question 0
+Answer was corrent!!!!
+Sue now has 1 Gold Coins.
+Chet is the current player
+They have rolled a 4
+
+## Some lines removed to keep
+## the tutorial at a reasonable size
+
+Answer was corrent!!!!
+Sue now has 5 Gold Coins.
+Chet is the current player
+They have rolled a 3
+Chet is getting out of the penalty box
+Chet's new location is 11
+The category is Rock
+Rock Question 5
+Answer was correct!!!!
+Chet now has 5 Gold Coins.
+Pat is the current player
+They have rolled a 1
+Pat's new location is 10
+The category is Sports
+Sports Question 1
+Answer was corrent!!!!
+Pat now has 6 Gold Coins.</pre>
+
+<p>OK. Our guess was correct. Our code ran and produced some output. Analyzing this output will help us deduce some basic idea about what the code does.</p>
+
+<ol>
+  <li>We know it's a Trivia game. We knew it when we checked out the source code.</li>
+  <li>Our example has three players: Chet, Pat and Sue.</li>
+  <li>There is some kind of rolling of a dice or similar concept.</li>
+  <li>There is a current location for a player. Possibly on some kind of board?</li>
+  <li>There are various categories from which questions are asked.</li>
+  <li>Users answer questions.</li>
+  <li>Correct answers give players gold.</li>
+  <li>Wrong answers send players to the penalty box.</li>
+  <li>Players can get out of penalty box, based on some not quite clear logic.</li>
+  <li>It seems like the user that first reaches six gold coins wins.</li>
+</ol>
+
+<p>Now that is a lot of knowledge. We could figure out most of the basic behavior of the application by just looking at the output. In real life applications, the output may not be text on the screen, but it can be a web page, an error log, a database, a network communication, a dump file and so on. In other cases, the module you need to modify can not be run isolated. If so, you will need to run it through other modules of the bigger application. Just try to add the minimum, to get some reasonable output from your legacy code.</p>
+
+<h2>Scanning the Code</h2>
+
+<p>Now that we have an idea about what the code outputs, we can start looking at it. We will start with the runner.</p>
+
+<h3>The Game Runner</h3>
+
+<p>I like to start with running all the code through the formatter of my IDE. This greatly improves readability by making the code's form familiar with what I am used to. So this:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gamerunner-form-before.png"/>
+</figure>
+
+<p>... will become this:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gamerunner-form-after.png"/>
+</figure>
+
+<p>... which is somewhat better. It may not be a huge difference with this small amount of code, but it will be on our next file.</p>
+
+<p>Looking at our <code>GameRunner.php</code> file, we can easily identify some key aspects we observed in the output. We can see the lines that add the users (9-11), that a roll() method is called and a winner is selected. Of course, these are far from the inner secrets of the logic of the game, but at least we could start by identifying key methods that will help us discover the rest of the code.</p>
+
+<h3>The Game File</h3>
+
+<p>We should do the same formatting on the <code>Game.php</code> file also.</p>
+
+<p>This file is much larger; About 200 lines of code. Most of the methods are appropriately sized, but some of them are quite large and after the formatting, we can see that in two places the code indentation goes beyond four levels. High levels of indentation usually means lots of complex decisions, so for now, we can assume that those points in our code will be more complex and more sensible to change. </p>
+
+<h2>The Golden Master</h2>
+
+<p>And the thought of change leads us to our lack of tests. The methods we saw in <code>Game.php</code> are quite complex. Don't worry if you don't understand them. At this point, they are a mystery for me also. Legacy code is a mystery that we need to solve and understand. We made our first step to understand it and it is now time for our second one.</p>
+
+<h3>So What Is This Golden Master?</h3>
+
+<p>When working with legacy code, it is almost impossible to understand it and to write code that will surely exercise all the logical paths through the code. For that kind of testing, we would need to understand the code, but we do not yet. So we need to take another approach.</p>
+
+<p>Instead of trying to figure out what to test, we can test everything, a lot of times, so that we end up with a huge amount of output, about which we can almost certainly assume that it was produced by exercising all parts of our legacy code. It is recommended to run the code at least 10,000 (ten thousand) times. We will write a test to run it twice as much and save the output.</p>
+
+<h3>Writing the Golden Master Generator</h3>
+
+<p>We can think ahead and start by creating a generator and a test as separate files for future testing, but is it really necessary? We don't know that yet for certain. So why not just start with a basic test file that will run our code once and build our logic up from there.</p>
+
+<p>You will find in the attached code archive, inside the <code>source</code> folder but outside the <code>trivia</code> folder our <code>Test</code> folder. In this folder, we create a file: <code>GoldenMasterTest.php</code>.</p>
+
+<pre class="brush: php">class GoldenMasterTest extends PHPUnit_Framework_TestCase {
+
+	function testGenerateOutput() {
+		ob_start();
+		require_once __DIR__ . '/../trivia/php/GameRunner.php';
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		var_dump($output);
+	}
+
+}</pre>
+
+<p>We could do this in many ways. We could, for example, run our code from the console and redirect its output to a file. However, having it in a test that is easily run inside our IDE is an advantage we should not ignore.</p>
+
+<p>The code is quite simple, it buffers the output and puts it into the <code>$output</code> variable. The <code>require_once()</code> will also run all the code inside the the included file. In our var dump we will see some already familiar output.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-first-run.png"/>
+</figure>
+
+<p>However on a second run, we can observe something odd:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-second-run.png"/>
+</figure>
+
+<p>... the outputs differ. Even though we ran the same code, the output is different. The rolled numbers are different, the players' positions are different.</p>
+
+<h3>Seeding the Random Generator</h3>
+
+<pre class="brush: php">do {
+
+	$aGame-&gt;roll(rand(0, 5) + 1);
+
+	if (rand(0, 9) == 7) {
+		$notAWinner = $aGame-&gt;wrongAnswer();
+	} else {
+		$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+	}
+
+} while ($notAWinner);</pre>
+
+<p>By analyzing the essential code from the runner, we can see that it uses a the function <code>rand()</code> to generate random numbers. Our next stop is the official PHP documentation to research this <code>rand()</code> function.</p>
+
+<blockquote>The random number generator is seeded automatically.</blockquote>
+
+<p>The documentation tells us that seeding happens automatically. Now we have another task. We need to find a way to control the seed. The <code>srand()</code> function can help with that. Here is its definition from the documentation.</p>
+
+<blockquote>Seeds the random number generator with seed or with a random value if no seed is given.</blockquote>
+
+<p>It tells us, that if we run this before any call to <code>rand()</code>, we should always end up with the same results.</p>
+
+<pre class="brush: php">function testGenerateOutput() {
+	ob_start();
+	srand(1);
+	require_once __DIR__ . '/../trivia/php/GameRunner.php';
+	$output = ob_get_contents();
+	ob_end_clean();
+
+	var_dump($output);
+}</pre>
+
+<p>We put <code>srand(1)</code> before our <code>require_once()</code>. Now the output is always the same.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded.png"/>
+</figure>
+
+<h3>Put the Output in a File</h3>
+
+<pre class="brush: php">class GoldenMasterTest extends PHPUnit_Framework_TestCase {
+
+	function testGenerateOutput() {
+		file_put_contents('/tmp/gm.txt', $this-&gt;generateOutput());
+		$file_content = file_get_contents('/tmp/gm.txt');
+		$this-&gt;assertEquals($file_content, $this-&gt;generateOutput());
+	}
+
+	private function generateOutput() {
+		ob_start();
+		srand(1);
+		require_once __DIR__ . '/../trivia/php/GameRunner.php';
+		$output = ob_get_contents();
+		ob_end_clean();
+		return $output;
+	}
+
+}</pre>
+
+<p>This change looks reasonable. Right? We extracted the code generation into a method, run it twice, and expected the output to be equal. However they won't be.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-runonce.png"/>
+</figure>
+
+<p>The reason is that <code>require_once()</code> will not require the same file twice. The second call to the <code>generateOutput()</code> method will produce an empty string. So, what could we do? What if we simply <code>require()</code>? That should be run each time.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-cannotredecalre.png"/>
+</figure>
+
+<p>Well, that leads to another problem: <code>"Cannot redeclare echoln()"</code>. But where is that coming from? It is right at the beginning of the <code>Game.php</code> file. The reason why this error is occurring is because in <code>GameRunner.php</code> we have <code>include  __DIR__ . '/Game.php';</code>, which tries to include the Game file twice, each time when we call the <code>generateOutput()</code> method.</p>
+
+<pre class="brush: php">include_once __DIR__ . '/Game.php';</pre>
+
+<p>Using <code>include_once</code> in <code>GameRunner.php</code> will solve our problem. Yes, we needed to modify <code>GameRunner.php</code> without having tests for it, yet! However, we can be 99% sure that our change will not break the code itself. It is a small and simple enough change to not scare us very much. And most importantly, it makes the tests pass.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-onerung-working.png"/>
+</figure>
+
+<h3>Run It Several Times</h3>
+
+<p>Now that we have code we can run many times, it's time to generate some output.</p>
+
+<pre class="brush: php">function testGenerateOutput() {
+	$this-&gt;generateMany(20, '/tmp/gm.txt');
+	$this-&gt;generateMany(20, '/tmp/gm2.txt');
+	$file_content_gm = file_get_contents('/tmp/gm.txt');
+	$file_content_gm2 = file_get_contents('/tmp/gm2.txt');
+	$this-&gt;assertEquals($file_content_gm, $file_content_gm2);
+}
+
+private function generateMany($times, $fileName) {
+	$first = true;
+	while ($times) {
+		if ($first) {
+			file_put_contents($fileName, $this-&gt;generateOutput());
+			$first = false;
+		} else {
+			file_put_contents($fileName, $this-&gt;generateOutput(), FILE_APPEND);
+		}
+		$times--;
+	}
+}</pre>
+
+<p>We extracted another method here: <code>generateMany()</code>. It has two parameters. One for the number of times we want to run our generator, the other is a destination file. It will put the generated output in the files. On the first run it empties the files, and for the rest of the iterations, it appends the data. You can look into the file to see the generated output 20 times.</p>
+
+<p>But wait! The same player wins every time? Is that possible?</p>
+
+<pre class="brush: bash">cat /tmp/gm.txt | grep "has 6 Gold Coins."
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.</pre>
+
+<p>Yes! It is possible! It is more than possible. It is a sure thing. We have the same seed for our random function. We play the same game over and over again.</p>
+
+<h3>Run It Differently Each Time</h3>
+
+<p>We need to play different games, otherwise it is almost certain that only a small part of our legacy code is actually exercised over and over again. The scope of the golden master is to exercise as much as possible. We need to re-seed the random generator each time, but in a controlled way. One option is to use our counter as the seed value.</p>
+
+<pre class="brush: php">private function generateMany($times, $fileName) {
+	$first = true;
+	while ($times) {
+		if ($first) {
+			file_put_contents($fileName, $this-&gt;generateOutput($times));
+			$first = false;
+		} else {
+			file_put_contents($fileName, $this-&gt;generateOutput($times), FILE_APPEND);
+		}
+		$times--;
+	}
+}
+
+private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	require __DIR__ . '/../trivia/php/GameRunner.php';
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<p>This still keeps our test passing, so we are sure we generate the same complete output each time, while the output plays a different game for each iteration. </p>
+
+<pre class="brush: bash">cat /tmp/gm.txt | grep "has 6 Gold Coins."
+Sue now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Pat now has 6 Gold Coins.
+Pat now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Sue now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Sue now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Sue now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Pat now has 6 Gold Coins.
+Chet now has 6 Gold Coins.
+Chet now has 6 Gold Coins.</pre>
+
+<p>There are various winners for the game in a random fashion. This looks good.</p>
+
+<h3>Getting to 20,000</h3>
+
+<p>The first thing you may try is to run our code for 20,000 game iterations.</p>
+
+<pre class="brush: php">function testGenerateOutput() {
+	$times = 20000;
+	$this-&gt;generateMany($times, '/tmp/gm.txt');
+	$this-&gt;generateMany($times, '/tmp/gm2.txt');
+	$file_content_gm = file_get_contents('/tmp/gm.txt');
+	$file_content_gm2 = file_get_contents('/tmp/gm2.txt');
+	$this-&gt;assertEquals($file_content_gm, $file_content_gm2);
+}</pre>
+
+<p>This will almost work. Two 55MB files will be generated.</p>
+
+<pre class="brush: bash">ls -alh /tmp/gm*
+-rw-r--r-- 1 csaba csaba 55M Mar 14 20:38 /tmp/gm2.txt
+-rw-r--r-- 1 csaba csaba 55M Mar 14 20:38 /tmp/gm.txt</pre>
+
+<p>On the other hand, the test will fail with an insufficient memory error. It doesn't matter how much RAM you have, this will fail. I have 8GB plus a 4GB swap and it fails. The two strings are just too big to be compared in our assertion.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-20000runs-memoryexhausted.png"/>
+</figure>
+
+<p>In other words, we generate good files, but PHPUnit cannot compare them. We need a work-around.</p>
+
+<pre class="brush: php">$this-&gt;assertFileEquals('/tmp/gm.txt', '/tmp/gm2.txt');</pre>
+
+<p>That seems to be a good candidate, but it still fails. What a shame. We need to research the situation further.</p>
+
+<pre class="brush: php">$this-&gt;assertTrue($file_content_gm == $file_content_gm2);</pre>
+
+<p>This however, is working.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-20001runs-ok.png"/>
+</figure>
+
+<div>
+  <p>It can compare the two strings and fail if they are different. It has however, a small price. It won't be able to exactly tell what is wrong when the strings differ. It will just simply say <code>"Failed asserting that false is true."</code>. But we will deal with that in an upcoming tutorial.</p>
+  <h2>Final Thoughts</h2>
+  <p>We are done for this tutorial. We have learned quite a lot for our first lesson and we are on a good start for our future work. We met the code, we analyzed it in different ways and we mostly understood its essential logic. Then we created a set of tests to ensure it is exercised as much as possible. Yes. The tests are very slow. It takes them 24 seconds on my Core i7 CPU to generate the output twice. Fortunately in our future development, we will keep the <code>gm.txt</code> file untouched and generate another one only once per run. But 12 seconds is still a huge amount of time for such a small code base. </p>
+  <p>By the time we finish this series, our tests should run in less than a second and test all the code properly. So, stay tuned for our next tutorial when we will tackle problems like magic constants, magic strings and complex conditionals. Thanks for reading.</p>
+</div>

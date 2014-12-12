@@ -1,0 +1,306 @@
+<h1>Refactoring Legacy Code: Part 3 - Complex Conditionals</h1>
+
+<p>Old code. Ugly code. Complicated code. Spaghetti code. Gibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+
+<p>I like to think about code just as I think about prose. Long, nested, composed sentences with exotic words are hard to understand. From time to time you need one, but most of the time, you can just use plain simple words in short sentences. This is very true for source code also. Complex conditionals are hard to understand. Long methods are like endless sentences.</p>
+
+<h2>From Prose to Code</h2>
+
+<p>Here is a "prosaic" example to cheer you up. First, the all-in-one sentence. The ugly one.</p>
+
+<p><em>If temperature in the server room is below five degrees, and humidity rises over fifty percent but remains under eighty, and the air pressure is steady, then the senior technician John, who has at least three years of work experience in networking and servers administration should be notified, and he must wake up in the middle of the night, dress up, go out, take his car or call a cab if he does not have a car, drive to the office, enter the building, start the air conditioning and wait until temperature raises over ten degrees and humidity falls below twenty percent.</em></p>
+
+<p>If you can understand, comprehend, and remember that paragraph without re-reading it, I give you a medal (virtual of course). Long, entangled paragraphs written in a single complicated sentence are difficult to understand. Unfortunately, I don't know enough exotic English words to make that even harder to understand.</p>
+
+<h3>Simplification</h3>
+
+<p>Let's find a way to simplify it a little bit. All of its first part, up until the "then" is a condition. Yes, it is complicated but we could sum it up like this: <em>If environmental conditions represent a risk...</em> ... then something should be done. The complicated expression says we should notify someone who satisfies a lot of conditions: <em>then notify level three tech support</em>. Finally, a whole process is described from waking up the tech guy until all is fixed: <em>and expect environment to be restored within normal parameters.</em> Let's put it all together.</p>
+
+<p><em>If environmental conditions represent a risk, notify level three tech support and expect environment to be restored within normal parameters.</em></p>
+
+<p>Now, that's only about 20% in length compared to the original text. We don't know the details and in the significant majority of the cases, we don't care. And this is very true for source code also. How many times did you care about the implementation details of a <code>logInfo("Some message");</code> method? Probably once, if and when you implemented it. Then it just logs the message into the "info" category. Or when a user purchases one of your products, do you care how to invoice him? No. All you want to care about is <em>if the product was bought, discard it from inventory and invoice it to the buyer</em>. The examples could be endless. They are basically how we write correct software.</p>
+
+<h2>Complex Conditionals</h2>
+
+<p>In this section we will try to apply the prose philosophy to our trivia game. One step at a time. Starting with complex conditionals. Let's begin with some easy code. Just to warm up.</p>
+
+<p>Line twenty of the <code>GameRunner.php</code> file reads like this:</p>
+
+<pre class="brush: php">if (rand($minAnswerId, $maxAnswerId) == $wrongAnswerId)</pre>
+
+<p>How would that sound in prose? <em>If a random number between minimum answer ID and maximum answer ID equals the wrong answer's ID, then...</em></p>
+
+<p>This is not very complicated, but we can still make it simpler. What about this? <em>If wrong answer is selected, then...</em> Better, isn't it?</p>
+
+<h3>The Extract Method Refactoring</h3>
+
+<p>We need a way, a procedure, a technique to move that conditional statement somewhere else. That destination can easily be a method. Or in our case, since we are not inside a class here, a function. This moving of behavior into a new method or function is called the "Extract Method" refactoring. Below are the steps, as defined by Martin Fowler in his excellent book Refactoring: Improving the Design of Existing Code. If you didn't read this book, you should put it on your "To read" list now. It is one of the most essential books for a modern day programmer.</p>
+
+<p>For our tutorial, I have taken the original steps and simplified them a little bit to better fit our needs and our type of tutorial.</p>
+
+<ol>
+  <li>Create a new method and name it after what it does, not how it does it.</li>
+  <li>Copy the code from the extracted place, into the method. Please note, this is <em>copy</em>, do not yet delete the original code.</li>
+  <li>Scan the extracted code for any variables that are local. They must be made parameters for the method.</li>
+  <li>See if any temporary variables are used inside the extracted method. If so, declare them inside it and drop the extra parameter.</li>
+  <li>Pass into the target method the variables as parameters.</li>
+  <li>Replace the extracted code with the call to the target method.</li>
+  <li>Run your tests.</li>
+</ol>
+
+<p>Now this is quite complicated. However, the extract method is arguably the most frequently used refactoring, except for renaming maybe. So you must understand its mechanics.</p>
+
+<p>Luckily for us, modern day IDEs like PHPStorm provide great refactoring tools, as we've seen in the tutorial <a href="http://code.tutsplus.com/tutorials/phpstorm-when-the-ide-really-matters--cms-20787">PHPStorm: When the IDE Really Matters</a>. So we will use the features we have at our fingertips, instead of doing it all by hand. This is less error prone and much, much faster.</p>
+
+<p>Just select the desired part of the code and <strong>right-click</strong> it.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/extract-method-phpstorm.png"/>
+</figure>
+
+<p>The IDE will automatically understand that we need three parameters to run our code and it will propose the following solution.</p>
+
+<pre class="brush: php">// ... //
+$minAnswerId = 0;
+$maxAnswerId = 9;
+$wrongAnswerId = 7;
+function isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId) {
+	return rand($minAnswerId, $maxAnswerId) == $wrongAnswerId;
+}
+
+do {
+	$dice = rand(0, 5) + 1;
+	$aGame-&gt;roll($dice);
+
+	if (isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId)) {
+		$notAWinner = $aGame-&gt;wrongAnswer();
+	} else {
+		$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+	}
+
+} while ($notAWinner);</pre>
+
+<p>While this code is syntactically correct, it will break our tests. Between all the noise shown to us in red, blue and black colors, we can spot the reason why:</p>
+
+<pre class="brush: bash">Fatal error: Cannot redeclare isCurrentAnswerWrong()
+(previously declared in /home/csaba/Personal/Programming/NetTuts
+/Refactoring Legacy Code - Part 3: Complex Conditionals and Long Methods
+/Source/trivia/php/GameRunner.php:16)
+in /home/csaba/Personal/Programming/NetTuts
+/Refactoring Legacy Code - Part 3: Complex Conditionals and Long Methods
+/Source/trivia/php/GameRunner.php on line 18</pre>
+
+<p>It basically says that we want to declare the function twice. But how can that happen? We have it only once in our <code>GameRunner.php</code>!</p>
+
+<p>Take a look at the tests. There is a <code>generateOutput()</code> method that does a <code>require()</code> on our <code>GameRunner.php</code>. It is called at least twice. Here is the source of the error.</p>
+
+<p>Now we have a dilemma. Because of the seeding of the random generator, we need to call this code with controlled values.</p>
+
+<pre class="brush: php">private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	require __DIR__ . '/../trivia/php/GameRunner.php';
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<p>But there is no way to declare a function twice in PHP, so we need another solution. We start to feel the burden of our golden master testing. Running the whole thing 20000 times, every time we change a piece of code, may not be a solution for the long term. Besides the fact that it takes ages to run, it forces us to change our code to accommodate the way we test it. This is usually a sign of bad tests. The code should change and still make the test pass, but the changes should have reasons to change, coming only from the source code.</p>
+
+<p>But enough talk, we need a solution, even a temporary one will do for now. Migrating to unit tests will start with our next lesson.</p>
+
+<p>One way to solve our problem is to take all the rest of the code in <code>GameRunner.php</code> and put it in a function. Let's say <code>run()</code></p>
+
+<pre class="brush: php">include_once __DIR__ . '/Game.php';
+
+function isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId) {
+	return rand($minAnswerId, $maxAnswerId) == $wrongAnswerId;
+}
+
+function run() {
+	$notAWinner;
+
+	$aGame = new Game();
+
+	$aGame-&gt;add("Chet");
+	$aGame-&gt;add("Pat");
+	$aGame-&gt;add("Sue");
+
+	$minAnswerId = 0;
+	$maxAnswerId = 9;
+	$wrongAnswerId = 7;
+	do {
+		$dice = rand(0, 5) + 1;
+		$aGame-&gt;roll($dice);
+
+		if (isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId)) {
+			$notAWinner = $aGame-&gt;wrongAnswer();
+		} else {
+			$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+		}
+
+	} while ($notAWinner);
+}</pre>
+
+<p>This will allow us to test it, but be aware that running the code from the console will not run the game. We did a slight change in behavior. We gained testability at the cost of a behavioral change, which we did not want to do in the first place. If you want to run the code from the console, now you will need another PHP file that includes or requires the runner and then explicitly calls the run method on it. Not that big of a change but a must to remember, especially if you have third parties using your existing code.</p>
+
+<p>On the other hand, we can now just include the file in our test.</p>
+
+<pre class="brush: php">require __DIR__ . '/../trivia/php/GameRunner.php';</pre>
+
+<p>And then call <code>run()</code> inside the generateOutput() method.</p>
+
+<pre class="brush: php">private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	run();
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<h3>Directory Structure, Files, &amp; Naming</h3>
+
+<p>Maybe this is a good opportunity to think about the structure of our directories and files. There are no more complex conditionals in our <code>GameRunner.php</code>, but before we continue to the <code>Game.php</code> file, we must not leave a mess behind us. Our <code>GameRunner.php</code> is not running anything, anymore and we needed to hack methods together to make it testable, which broke our public interface. The reason for this, is that maybe we are testing the wrong thing.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/testing-deps-schema.png"/>
+</figure>
+
+<p>Our test calls <code>run()</code> in the <code>GameRunner.php</code> file, which includes <code>Game.php</code>, plays the game and a new golden master file is generated. What if we introduce another file? We make the <code>GameRunner.php</code> to actually run the game by calling <code>run()</code> and nothing else. So what if there's no logic in there that could go wrong and no tests are needed, and then we move our current code into another file?</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/testing-deps-with-new-runner.png"/>
+</figure>
+
+<p>Now this is a whole different story. Now our tests are accessing the code just under the runner. Basically, our tests are just runners. And of course in our new <code>GameRunner.php</code> there will only be a call to run the game. This is a true runner, it does nothing else but call the <code>run()</code> method. No logic means no tests are needed.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/RunnerFunctions.php';
+run();</pre>
+
+<p>There are other questions we could ask ourselves at this point. Do we really need a <code>RunnerFunctions.php</code>? Couldn't we just take the functions from there and move them to <code>Game.php</code>? We probably could, but with our current understanding of, what function belongs where? Is not enough. We will find a place for our method in an upcoming lesson.</p>
+
+<p>We also tried to name our files according to what the code inside them is doing. One is just a bunch of functions for the runner, functions we, at this point consider to belong together, in order to satisfy the needs of the runner. Will this become a class at one point in the future? Maybe. Maybe not. For now, it is good enough.</p>
+
+<h3>Cleaning Up RunnerFunctions</h3>
+
+<p>If we take a look at the <code>RunnerFunctions.php</code> file, there is a little bit of a mess that we've introduced.</p>
+
+<p>We define:</p>
+
+<pre class="brush: php">$minAnswerId = 0;
+$maxAnswerId = 9;
+$wrongAnswerId = 7;</pre>
+
+<p>... inside the <code>run()</code> method. They have a single reason to exist and a single place where they are used. Why not just define them inside that method and get rid of the parameters altogether?</p>
+
+<pre class="brush: php">function isCurrentAnswerWrong() {
+	$minAnswerId = 0;
+	$maxAnswerId = 9;
+	$wrongAnswerId = 7;
+	return rand($minAnswerId, $maxAnswerId) == $wrongAnswerId;
+}</pre>
+
+<p>Ok, the tests are passing and the code is much nicer. But not good enough.</p>
+
+<h3>Negative Conditionals</h3>
+
+<p>It is much easier, for the human mind, to comprehend positive reasoning. So if you can avoid negative conditionals, you should always take that path. In our current example, the method checks for a wrong answer. It would be much easier to understand a method that checks for a validity and negate that, when needed.</p>
+
+<pre class="brush: php">function isCurrentAnswerCorrect() {
+	$minAnswerId = 0;
+	$maxAnswerId = 9;
+	$wrongAnswerId = 7;
+	return rand($minAnswerId, $maxAnswerId) != $wrongAnswerId;
+}</pre>
+
+<p>We used the Rename Method refactoring. This is again, pretty complicated if used by hand, but in any IDE it is as simple as hitting <strong>CTRL+r</strong>, or selecting the appropriate option in the menu. To make our tests pass, we also need to update our conditional statement with a negation.</p>
+
+<pre class="brush: php">if (!isCurrentAnswerCorrect()) {
+	$notAWinner = $aGame-&gt;wrongAnswer();
+} else {
+	$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+}</pre>
+
+<p>This brings us one step closer to our understanding of the conditional. Using <code>!</code> in an <code>if()</code> statement, actually helps. It stands out and highlights the fact that something is actually negated there. But can we reverse this in order, to avoid negation completely? Yes we can.</p>
+
+<pre class="brush: php">if (isCurrentAnswerCorrect()) {
+	$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+} else {
+	$notAWinner = $aGame-&gt;wrongAnswer();
+}</pre>
+
+<p>Now we have no logical negation by using <code>!</code>, nor lexical negation by naming and returning the wrong things. All these steps made our conditional much, much more easier to comprehend.</p>
+
+<h2>Conditionals in <code>Game.php</code></h2>
+
+<p>We simplified to the extreme, <code>RunnerFunctions.php</code>. Let's attack our <code>Game.php</code> file now. There are several ways you can search for conditionals. If you prefer, you can just scan the code by simply looking at it. This is slower, but has the added value of forcing you to try to understand it sequentially.</p>
+
+<p>The second obvious way to search for conditionals, is to just do a find for "if" or "if (". If you formatted your code with the built-in features of your IDE, you can be sure that all conditional statements have the same specific form. In my case, there is a space between the "if" and the parenthesis. Also, if you use the built-in search, the found results will be highlighted in a strident color, in my case yellow.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/ide-find-highlights.png"/>
+</figure>
+
+<p>Now that we have all of them lighting up our code like a Christmas tree, we can take them one by one. We know the drill, we know the techniques we can use, it's time to apply them.</p>
+
+<pre class="brush: php">if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer])</pre>
+
+<p>This seems pretty reasonable. We could extract it into a method, but would there be a name for that method in order to make the condition clearer?</p>
+
+<pre class="brush: php">if ($roll % 2 != 0) </pre>
+
+<p>I bet 90% of all programmers can understand the problem in the above <code>if</code> statement. We are trying to concentrate on what our current method does. And our brain is wired into the domain of the problem. We don't want to "start another thread" to compute that mathematical expression in order to understand that it just checks if a number is odd. This is one of those small distractions that can ruin a difficult logical deduction. So I say let's extract it.</p>
+
+<pre class="brush: php">if ($this-&gt;isOdd($roll))</pre>
+
+<p>That is better because it is about the problem's domain and requires no additional brain power.</p>
+
+<pre class="brush: php">if ($this-&gt;places[$this-&gt;currentPlayer] &gt; $lastPositionOnTheBoard)</pre>
+
+<p>This seems to be another good candidate. It is not that difficult to understand as a mathematical expression, but again, it is an expression that needs side-processing. I am asking myself, what does it mean if the current player's position reached the end of the board? Can't we express this state in a more concise way? We probably can.</p>
+
+<pre class="brush: php">if ($this-&gt;playerReachedEndOfBoard($lastPositionOnTheBoard))</pre>
+
+<p>This is better. But what actually happens inside the <code>if</code>? The player is repositioned at the beginning of the board. The player starts a new "lap" in the race. What if in the future, we will have a different reason for starting a new lap? Should our <code>if</code> statement change when we change the underlying logic in the private method? Absolutely not! So, let's rename this method into what the <code>if</code> represents, into what happens, not what we are checking for. </p>
+
+<pre class="brush: php">if ($this-&gt;playerShouldStartANewLap($lastPositionOnTheBoard))</pre>
+
+<p>When you try to name methods and variables, always think about what the code should do and not what state or condition it represents. Once you get this right, renaming actions in your code will drop significantly. But still, even an experienced programmer needs to rename a method at least three to five times before finding its correct name. So don't be afraid to hit <strong>CTRL+r</strong> and rename frequently. Never commit your changes to the project's VCS if you did not scan the names of your newly added methods and your code does not read like well written prose. Renaming is so cheap in our days, that you can rename things just to try out various versions and revert with a single hit of a button.</p>
+
+<p>The <code>if</code> statement at line 90 is the same as our previous one. We can just reuse our extracted method. Voila, duplication eliminated! And don't forget to run your tests now-and-then, even when you refactor by using your IDE's magic. Which leads us to our next observation. Magic, sometimes, fails. Check out line 65.</p>
+
+<pre class="brush: php">$lastPositionOnTheBoard = 11;</pre>
+
+<p>We declare a variable and use it only in a single place, as a parameter to our newly extracted method. This strongly suggests that the variable should be inside the method.</p>
+
+<pre class="brush: php">private function playerShouldStartANewLap() {
+	$lastPositionOnTheBoard = 11;
+	return $this-&gt;places[$this-&gt;currentPlayer] &gt; $lastPositionOnTheBoard;
+}</pre>
+
+<p>And don't forget to call the method without any parameters in your <code>if</code> statements.</p>
+
+<pre class="brush: php">if ($this-&gt;playerShouldStartANewLap())</pre>
+
+<p>The <code>if</code> statements in the <code>askQuestion()</code> method seem to be all right, as well as the ones in <code>currentCategory()</code>.</p>
+
+<pre class="brush: php">if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer])</pre>
+
+<p>This is a little bit more complicated, but in the domain and expressive enough.</p>
+
+<pre class="brush: php">if ($this-&gt;currentPlayer == count($this-&gt;players))</pre>
+
+<p>We can work on this one. It is obvious the comparison means, if the current player is out of bound. But as we learned above, we want intention not state. </p>
+
+<pre class="brush: php">if ($this-&gt;shouldResetCurrentPlayer())</pre>
+
+<p>That's much better, and we will reuse it at line 172, 189 and 203. Duplication, I mean triplication, I mean quadruplication, eliminated!</p>
+
+<p>Tests are passing and all <code>if</code> statements were evaluated for complexity.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>There are several lessons that can be learned from refactoring conditionals. First of all, they help better understand the intent of the code. Then if you name the extracted method to represent the intent correctly, you will avoid future name changes. Finding duplication in logic is more difficult than finding duplicated lines of simple code. You may have thought we should do a conscious duplication, but I prefer to deal with duplication when I have unit tests I can trust my life with. The Golden Master is good, but it is at most a safety net, not a parachute.</p>
+
+<p>Thanks for reading and stay tuned for our next tutorial when we will introduce our first unit tests.</p>

@@ -1,0 +1,363 @@
+<h1>Refactoring Legacy Code: Part 5 - Game's Testable Methods</h1>
+
+<p>Old code. Ugly code. Complicated code. Spaghetti code. Gibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+
+<p>In our previous tutorial, we tested our Runner functions. In this lesson, it is time to continue where we left off by testing our <code>Game</code> class. Now, when you start with such a big chunk of code like we have here, it is tempting to start to test in a top-down manner, method by method. This is, most of the time, impossible. It is much better to start testing it by its short, testable methods. This is what we'll do in this lesson: find and test those methods.</p>
+
+<h2>Creating a Game</h2>
+
+<p>In order to test a class we need to initialize an object of that specific type. We can consider that our first test is to create such a new object. You will be surprised how many secrets constructors can hide.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/../trivia/php/Game.php';
+
+class GameTest extends PHPUnit_Framework_TestCase {
+
+	function testWeCanCreateAGame() {
+		$game = new Game();
+	}
+
+}</pre>
+
+<p>To our surprise, <code>Game</code> can actually be created quite easily. No problems while running just <code>new Game()</code>. Nothing breaks. This is a very good start, especially considering that <code>Game</code>'s constructor is quite large and it does a lot of things.</p>
+
+<h2>Finding the First Testable Method</h2>
+
+<p>It is tempting to simplify the constructor right now. But we have only the golden master to make sure we do not break anything. Before we go to the constructor, we need to test most of the rest of the class. So, where should we start?</p>
+
+<p>Look for the first method that returns a value and ask yourself, "Can I call and control the return value of this method?". If the answer is yes, it is a good candidate for our test.</p>
+
+<pre class="brush: php">function isPlayable() {
+	$minimumNumberOfPlayers = 2;
+	return ($this-&gt;howManyPlayers() &gt;= $minimumNumberOfPlayers);
+}</pre>
+
+<p>What about this method? It seems like a good candidate. Only two lines and it returns a boolean value. But wait, it calls another method, <code>howManyPlayers()</code>.</p>
+
+<pre class="brush: php">function howManyPlayers() {
+	return count($this-&gt;players);
+}</pre>
+
+<p>This is basically just a method that counts the elements in the class' <code>players</code> array. OK, so if we do not add any players, it should be zero. <code>isPlayable()</code> should return false. Let's see if our assumption is correct.</p>
+
+<pre class="brush: php">function testAJustCreatedNewGameIsNotPlayable() {
+	$game = new Game();
+	$this-&gt;assertFalse($game-&gt;isPlayable());
+}</pre>
+
+<p>We renamed our previous test method to reflect what we really want to test. Then we just asserted the game is not playable. The test passes. But false positives are common in many cases. So for piece of mind, we can assert true and make sure the test fails.</p>
+
+<pre class="brush: php">$this-&gt;assertTrue($game-&gt;isPlayable());</pre>
+
+<p>And it does!</p>
+
+<pre class="brush: bash">PHPUnit_Framework_ExpectationFailedException :
+Failed asserting that false is true.</pre>
+
+<p>So far, pretty promising. We managed to test the method's initial return value, the value represented by the initial <em>state</em> of the <code>Game</code> class. Please note the emphasized word: "state". We need to find a way to control the state of the game. We need to change it, so it will have the minimum number of players.</p>
+
+<p>If we analyze <code>Game</code>'s <code>add()</code> method, we will see that it adds elements to our array.</p>
+
+<pre class="brush: php">array_push($this-&gt;players, $playerName);</pre>
+
+<p>Our assumption is enforced by the way the <code>add()</code> method is used in <code>RunnerFunctions.php</code>.</p>
+
+<pre class="brush: php">function run() {
+
+	$aGame = new Game();
+	$aGame-&gt;add("Chet");
+	$aGame-&gt;add("Pat");
+	$aGame-&gt;add("Sue");
+
+	// ... //
+}</pre>
+
+<p>Based on these observations, we can conclude that by using <code>add()</code> twice, we should be able to bring our <code>Game</code> into a state with two players.</p>
+
+<pre class="brush: php">function testAfterAddingTwoPlayersToANewGameItIsPlayable() {
+	$game = new Game();
+	$game-&gt;add('First Player');
+	$game-&gt;add('Second Player');
+	$this-&gt;assertTrue($game-&gt;isPlayable());
+}</pre>
+
+<p>By adding this second test method, we can ensure <code>isPlayable()</code> returns true, if conditions are met.</p>
+
+<p>But you may think this is not quite a unit test. We use the <code>add()</code> method! We exercise more than the bare minimum of code. We could instead just add the elements to the <code>$players</code> array and not rely on the <code>add()</code> method at all.</p>
+
+<p>Well, the answer is yes and no. We could do that, from a technical point of view. It will have the advantage of direct control over the array. However, it will have the disadvantage of code duplication between code and tests. So, pick one of the bad options that you think you can live with and use that one. I personally prefer to reuse methods like <code>add()</code>.</p>
+
+<h3>Refactoring Tests</h3>
+
+<p>We are on green, we refactor. Can we make our tests better? Well yes, we can. We could transform our first test to verify all conditions of not enough players.</p>
+
+<pre class="brush: php">function testAGameWithNotEnoughPlayersIsNotPlayable() {
+	$game = new Game();
+	$this-&gt;assertFalse($game-&gt;isPlayable());
+	$game-&gt;add('A player');
+	$this-&gt;assertFalse($game-&gt;isPlayable());
+}</pre>
+
+<p>You may have heard about the concept of, "One assertion per test". I mostly agree with it, but if you have a test that verifies a single concept and requires multiple assertions to do its verification, I think it is acceptable to use more than one assertion. This view is also strongly promoted by Robert C. Martin in his teachings.</p>
+
+<p>But what about our second test method? Is that good enough? I say no.</p>
+
+<pre class="brush: php">$game-&gt;add('First Player');
+$game-&gt;add('Second Player');</pre>
+
+<p>These two calls bother me a little. They are a detailed implementation without an explicit explanation in our method. Why not extract them into a private method?</p>
+
+<pre class="brush: php">function testAfterAddingEnoughPlayersToANewGameItIsPlayable() {
+	$game = new Game();
+	$this-&gt;addEnoughPlayers($game);
+	$this-&gt;assertTrue($game-&gt;isPlayable());
+}
+
+private function addEnoughPlayers($game) {
+	$game-&gt;add('First Player');
+	$game-&gt;add('Second Player');
+}</pre>
+
+<p>This is much better and it also leads us to another concept that we missed. In both tests, we expressed in one way or another the concept of "enough players". But how much is enough? Is it two? Yes, for now it is. But do we want our test to fail if the <code>Game</code>'s logic will require at least three players? We do not want this to happen. We can introduce a public static class field for it.</p>
+
+<pre class="brush: php">class Game {
+	static $minimumNumberOfPlayers = 2;
+
+	// ... //
+
+	function  __construct() {
+		// ... //
+	}
+
+	function isPlayable() {
+		return ($this-&gt;howManyPlayers() &gt;= self::$minimumNumberOfPlayers);
+	}
+
+	// ... //
+}</pre>
+
+<p>This will allow us to use it in our tests.</p>
+
+<pre class="brush: php">private function addEnoughPlayers($game) {
+	for($i = 0; $i &lt; Game::$minimumNumberOfPlayers; $i++) {
+		$game-&gt;add('A Player');
+	}
+}</pre>
+
+<p>Our little helper method will just add players until enough is added. We can even create another such method for our first test, so we add almost enough players.</p>
+
+<pre class="brush: php">function testAGameWithNotEnoughPlayersIsNotPlayable() {
+	$game = new Game();
+	$this-&gt;assertFalse($game-&gt;isPlayable());
+	$this-&gt;addJustNothEnoughPlayers($game);
+	$this-&gt;assertFalse($game-&gt;isPlayable());
+}
+
+private function addJustNothEnoughPlayers($game) {
+	for($i = 0; $i &lt; Game::$minimumNumberOfPlayers - 1; $i++) {
+		$game-&gt;add('A player');
+	}
+}</pre>
+
+<p>But this introduced some duplication. Our two helper methods are fairly similar. Can't we extract a third one from them?</p>
+
+<pre class="brush: php">private function addEnoughPlayers($game) {
+	$this-&gt;addManyPlayers($game, Game::$minimumNumberOfPlayers);
+}
+
+private function addJustNothEnoughPlayers($game) {
+	$this-&gt;addManyPlayers($game, Game::$minimumNumberOfPlayers - 1);
+}
+
+private function addManyPlayers($game, $numberOfPlayers) {
+	for ($i = 0; $i &lt; $numberOfPlayers; $i++) {
+		$game-&gt;add('A Player');
+	}
+}</pre>
+
+<p>That is better, but it introduces a different problem. We reduced duplication in these methods, but our <code>$game</code> object is now passed down three levels. It is getting difficult to manage. It's time to initialize it in the test's <code>setUp()</code> method and reuse it.</p>
+
+<pre class="brush: php">class GameTest extends PHPUnit_Framework_TestCase {
+
+	private $game;
+
+	function setUp() {
+		$this-&gt;game = new Game;
+	}
+
+	function testAGameWithNotEnoughPlayersIsNotPlayable() {
+		$this-&gt;assertFalse($this-&gt;game-&gt;isPlayable());
+		$this-&gt;addJustNothEnoughPlayers();
+		$this-&gt;assertFalse($this-&gt;game-&gt;isPlayable());
+	}
+
+	function testAfterAddingEnoughPlayersToANewGameItIsPlayable() {
+		$this-&gt;addEnoughPlayers($this-&gt;game);
+		$this-&gt;assertTrue($this-&gt;game-&gt;isPlayable());
+	}
+
+	private function addEnoughPlayers() {
+		$this-&gt;addManyPlayers(Game::$minimumNumberOfPlayers);
+	}
+
+	private function addJustNothEnoughPlayers() {
+		$this-&gt;addManyPlayers(Game::$minimumNumberOfPlayers - 1);
+	}
+
+	private function addManyPlayers($numberOfPlayers) {
+		for ($i = 0; $i &lt; $numberOfPlayers; $i++) {
+			$this-&gt;game-&gt;add('A Player');
+		}
+	}
+
+}</pre>
+
+<p>Much better. All irrelevant code is in private methods, <code>$game</code> is initialized in <code>setUp()</code> and a lot of pollution was removed from the test methods. However, we did have to make a compromise here. In our first test, we start with an assertion. This presumes that <code>setUp()</code> will always create an empty game. This is OK for now. But at the end of the day, you must realize there is no such thing as perfect code. There is just code with compromises that you are willing to live with.</p>
+
+<h2>The Second Testable Method</h2>
+
+<p>If we are scanning our <code>Game</code> class from the top towards the bottom, the next method on our list is <code>add()</code>. Yes, the same method we used in our tests in the previous paragraph. But can we test it?</p>
+
+<pre class="brush: php">function testItCanAddANewPlayer() {
+	$this-&gt;game-&gt;add('A player');
+	$this-&gt;assertEquals(1, count($this-&gt;game-&gt;players));
+}</pre>
+
+<p>Now this is a different way of testing objects. We call our method and then we verify the object's state. As <code>add()</code> always returns <code>true</code>, there is no way we can test its output. But we can start with an empty <code>Game</code> object and then check if there is a single user after we add one. But is that enough verification?</p>
+
+<pre class="brush: php">function testItCanAddANewPlayer() {
+	$this-&gt;assertEquals(0, count($this-&gt;game-&gt;players));
+	$this-&gt;game-&gt;add('A player');
+	$this-&gt;assertEquals(1, count($this-&gt;game-&gt;players));
+}</pre>
+
+<p>Wouldn't it be better to also verify if there are no players before we call <code>add()</code>? Well, it may be a little bit too much here, but as you can see in the code above, we could do it. And whenever you are not sure of the initial state, you should do an assertion on it. This also protects you from future code changes that may change your object's initial state.</p>
+
+<p>But are we testing all of the things the <code>add()</code> method does? I say no. Besides adding a user, it also sets a lot of settings for it. We should also check for those.</p>
+
+<pre class="brush: php">function testItCanAddANewPlayer() {
+	$this-&gt;assertEquals(0, count($this-&gt;game-&gt;players));
+	$this-&gt;game-&gt;add('A player');
+	$this-&gt;assertEquals(1, count($this-&gt;game-&gt;players));
+	$this-&gt;assertEquals(0, $this-&gt;game-&gt;places[1]);
+	$this-&gt;assertEquals(0, $this-&gt;game-&gt;purses[1]);
+	$this-&gt;assertFalse($this-&gt;game-&gt;inPenaltyBox[1]);
+}</pre>
+
+<p>This is better. We verify each action that the <code>add()</code> method does. This time, I preferred to directly test the <code>$players</code> array. Why? We could have used the <code>howManyPlayers()</code> method which basically does the same thing, right? Well, in this case we considered that it is more important to describe our assertions by the effects that the <code>add()</code> method has on the state of the object. If we need to change <code>add()</code>, we would expect that the test which is testing its strict behavior, will fail. I've had endless debates with my colleagues at Syneto about this. Especially because this type of testing introduces a strong coupling between the test and how the <code>add()</code> method is actually implemented. So, if you prefer to test it the other way around, that does not mean your ideas are wrong.</p>
+
+<p> We can safely ignore the testing of the output, the <code>echoln()</code> lines. They are just outputting content on the screen. We don't want to touch these methods, yet. Our golden master totally relies on this output.</p>
+
+<h3>Refactoring Tests (Bis)</h3>
+
+<p>We have another tested method with a brand new passing test. It's time to refactor both of them, just a little bit. Let's start with our tests. Aren't the last three assertions a little bit confusing? They don't seem to be related strictly to adding a player. Let's change it:</p>
+
+<pre class="brush: php">function testItCanAddANewPlayer() {
+	$this-&gt;assertEquals(0, count($this-&gt;game-&gt;players));
+	$this-&gt;game-&gt;add('A player');
+	$this-&gt;assertEquals(1, count($this-&gt;game-&gt;players));
+	$this-&gt;assertDefaultPlayerParametersAreSetFor(1);
+}</pre>
+
+<p>That's better. The method is now more abstract, reusable, expressively named and hides all of the unimportant details.</p>
+
+<h3>Refactoring the <code>add()</code> Method</h3>
+
+<p>We can do something similar with our production code.</p>
+
+<pre class="brush: php">function add($playerName) {
+	array_push($this-&gt;players, $playerName);
+	$this-&gt;setDefaultPlayerParametersFor($this-&gt;howManyPlayers());
+
+	echoln($playerName . " was added");
+	echoln("They are player number " . count($this-&gt;players));
+	return true;
+}</pre>
+
+<p>We extracted the unimportant details into <code>setDefaultPlayerParametersFor()</code>.</p>
+
+<pre class="brush: php">private function setDefaultPlayerParametersFor($playerId) {
+	$this-&gt;places[$playerId] = 0;
+	$this-&gt;purses[$playerId] = 0;
+	$this-&gt;inPenaltyBox[$playerId] = false;
+}</pre>
+
+<p>Actually this idea came to me after I wrote the test. This is another nice example of how tests force us to think about our code from a different point of view. This different angle on the problem, is what we must exploit and let our tests guide our design of the production code.</p>
+
+<h2>The Third Testable Method</h2>
+
+<p>Let's find our third candidate for testing. <code>howManyPlayers()</code> is too simple and indirectly already tested. <code>roll()</code> is too complex to be tested directly. Plus it returns <code>null</code>. <code>askQuestions()</code> seems to be interesting at first sight, but it is all presentation, no return value.</p>
+
+<p><code>currentCategory()</code> is testable, but it is pretty <em>difficult</em> to test. It is a huge selector with ten conditions. We need a ten lines long test and then we need to seriously refactor this method and most certainly the tests as well. We should take note of this method and come back to it after we are finished with the easier ones. For us, this will be in our next tutorial.</p>
+
+<p><code>wasCorrectlyAnswered()</code> is to complicated again. We will need to extract from it, small pieces of code that are testable. However, <code>wrongAnswer()</code> seems promising. It outputs stuff on the screen, but it also changes the state of our object. Let's see if we can control it and test it.</p>
+
+<pre class="brush: php">function testWhenAPlayerEntersAWrongAnswerItIsSentToThePenaltyBox() {
+	$this-&gt;game-&gt;add('A player');
+	$this-&gt;game-&gt;currentPlayer = 0;
+	$this-&gt;game-&gt;wrongAnswer();
+	$this-&gt;assertTrue($this-&gt;game-&gt;inPenaltyBox[0]);
+}</pre>
+
+<p>Grrr... It was quite hard to write this test method. <code>wrongAnswer()</code> relies on <code>$this-&gt;currentPlayer</code> for its behavioral logic, but it also uses <code>$this-&gt;players</code> in its presentation part. One ugly example of why you should not mix logic and presentation. We will deal with this in a future tutorial. For now, we tested that the user enters the penalty box. We must also observe that there is an <code>if()</code> statement in the method. This is a condition that we do not yet test, as we only have a single player and thus we are not satisfying the condition. We could test for the final value of <code>$currentPlayer</code> though. But adding this line of code to the test will make it fail.</p>
+
+<pre class="brush: php">$this-&gt;assertEquals(1, $this-&gt;game-&gt;currentPlayer);</pre>
+
+<p>A closer look at the private method <code>shouldResetCurrentPlayer()</code> reveals the problem. If the index of the current player equals with the number of players, it will be reset to zero. Aaaahhh! We actually enter the <code>if()</code>!</p>
+
+<pre class="brush: php">function testWhenAPlayerEntersAWrongAnswerItIsSentToThePenaltyBox() {
+	$this-&gt;game-&gt;add('A player');
+	$this-&gt;game-&gt;currentPlayer = 0;
+	$this-&gt;game-&gt;wrongAnswer();
+	$this-&gt;assertTrue($this-&gt;game-&gt;inPenaltyBox[0]);
+	$this-&gt;assertEquals(0, $this-&gt;game-&gt;currentPlayer);
+}
+
+function testCurrentPlayerIsNotResetAfterWrongAnswerIfOtherPlayersDidNotYetPlay() {
+	$this-&gt;addManyPlayers(2);
+	$this-&gt;game-&gt;currentPlayer = 0;
+	$this-&gt;game-&gt;wrongAnswer();
+	$this-&gt;assertEquals(1, $this-&gt;game-&gt;currentPlayer);
+}</pre>
+
+<p>Good. We created a second test, to test the specific case when there are still players who did not play. We don't care about the <code>inPenaltyBox</code> state for the second test. We are only interested in the index of the current player.</p>
+
+<h2>The Final Testable Method</h2>
+
+<p>The last method we can test and then refactor is <code>didPlayerWin()</code>.</p>
+
+<pre class="brush: php">function didPlayerWin() {
+	$numberOfCoinsToWin = 6;
+	return !($this-&gt;purses[$this-&gt;currentPlayer] == $numberOfCoinsToWin);
+}</pre>
+
+<p>We can immediately observe that its code structure is very similar to <code>isPlayable()</code>, the method we tested first. Our solution should be something similar as well. When your code is so short, only two to three lines, doing more than one tiny step is not that big of a risk. In worst case scenarios, you revert three lines of code. So let's do this in a single step.</p>
+
+<pre class="brush: php">function testTestPlayerWinsWithTheCorrectNumberOfCoins() {
+	$this-&gt;game-&gt;currentPlayer = 0;
+	$this-&gt;game-&gt;purses[0] = Game::$numberOfCoinsToWin;
+	$this-&gt;assertTrue($this-&gt;game-&gt;didPlayerWin());
+}</pre>
+
+<p>But wait! That fails. How is that possible? Shouldn't it pass? We provided the correct number of coins. If we study our method, we'll discover a little misleading fact.</p>
+
+<pre class="brush: php">return !($this-&gt;purses[$this-&gt;currentPlayer] == $numberOfCoinsToWin);</pre>
+
+<p>The return value is actually negated. So the method is not telling us if a player won, it tells us if a player did not win the game. We could go in and find the places where this method is used and negate its value there. Then change its behavior here, to not falsely negate the answer. But it is used in <code>wasCorrectlyAnswered()</code>, a method we can not yet unit test. Maybe for the time being, a simple renaming to highlight the correct functionality will be enough.</p>
+
+<pre class="brush: php">function didPlayerNotWin() {
+	return !($this-&gt;purses[$this-&gt;currentPlayer] == self::$numberOfCoinsToWin);
+}</pre>
+
+<h2>Thoughts &amp; Conclusion</h2>
+
+<p>So this about wraps up the tutorial. While we do not like the negation in the name, this is a compromise we can make at this point. This name will surely change when we start refactoring other parts of the code. Additionally, if you take a look at our tests, they look odd now:</p>
+
+<pre class="brush: php">function testTestPlayerWinsWithTheCorrectNumberOfCoins() {
+	$this-&gt;game-&gt;currentPlayer = 0;
+	$this-&gt;game-&gt;purses[0] = Game::$numberOfCoinsToWin;
+	$this-&gt;assertFalse($this-&gt;game-&gt;didPlayerNotWin());
+}</pre>
+
+<p>By testing false on a negated method, exercised with a value that suggests a true result, we introduced quite a lot of confusion to our codes readability. But this is good for now, as we do need to stop at some point, right?</p>
+
+<p>In our next tutorial, we will start working on some of the more difficult methods within the <code>Game</code> class. Thank you for reading.</p>

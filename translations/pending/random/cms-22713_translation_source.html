@@ -1,0 +1,118 @@
+<h1>Advantages and Disadvantages of WordPress Frameworks</h1>
+
+<p>The concept of a framework is something that's very common both within the modern web and within the software development environments. For the front-end, we have frameworks like <a href="http://getbootstrap.com" rel="external" target="_blank">Bootstrap</a> and <a href="http://foundation.zurb.com" rel="external" target="_blank">Foundation</a>, for web applications we have frameworks like <a href="http://www.yiiframework.com" rel="external" target="_blank">Yii</a> and <a href="http://rubyonrails.org" rel="external" target="_blank">Rails</a>, and for desktop (and even some web applications) we have frameworks like <a href="http://www.microsoft.com/net" rel="external" target="_blank">.NET</a>. And these are just to name a very small and select few.</p>
+
+<p>Generally speaking, frameworks are good: They provide a level of abstraction with which we, as developers, can work with in order to easily create generic functionality - such as user login and authentication - along with more specific code, such as logic that's specific to whatever the problem is that the software is aiming to solve.</p>
+
+<p>In short, Wikipedia defines a framework <a href="http://en.wikipedia.org/wiki/Software_framework" rel="external" target="_blank">as follows</a>:</p>
+
+<blockquote>
+  A software framework is a universal, reusable software environment that provides particular functionality as part of a larger software platform to facilitate development of software applications, products and solutions. Software frameworks may include support programs, compilers, code libraries, tool sets, and application programming interfaces (APIs) that bring together all the different components to enable development of a project or solution.
+  
+</blockquote>
+
+<p>As with many modern platforms, WordPress is no different. Of course, WordPress itself is not a framework - its an application that can be extended through the use of its many APIs. But there are a number of different frameworks that are available all of which aim to help ease the burden of writing a lot of repetitive code.</p>
+
+<p>But is this a good thing? That is, does it make sense to have so many choices of frameworks from which to choose as it relates to building WordPress themes, plugins, or web applications based on the platform?</p>
+
+<p>Usually, it depends on what you're trying to do. </p>
+
+<p>Throughout the Tuts+ properties, we try to cover as many frameworks as possible - some for WordPress, some for the various languages and platforms that were mentioned earlier - but in this article, we're not going to be looking at a specific framework.</p>
+
+<p>Instead, we're going to be looking at the advantages and disadvantages of selecting a framework when working with WordPress to help make better decisions as it relates to building sites, applications, and other projects on top of WordPress.</p>
+
+<p>With WordPress, it's completely possible to mix various frameworks in order to achieve your end result, this article assumes that you're evaluating whether or not to use a single framework in order to help with your work.</p>
+
+<h2>Comparing Frameworks</h2>
+
+<p>As far as WordPress is concerned, there are currently (and generally) two types of frameworks:</p>
+
+<ol>
+  <li>Drag and Drop Frameworks</li>
+  <li>Options Frameworks</li>
+</ol>
+
+<p>Drag and Drop frameworks are usually related to building the user interface of a website. Often times, these come in the form of various pages in the WordPress Dashboard that allow you to arrange pre-defined elements on a page and have them render in said arrangement for the user to see.</p>
+
+<p>Options Frameworks, on the other hand, are usually used for code-specific functionality and usually provide some type of abstraction for one or more of the WordPress APIs. This includes, but is not limited to, the Settings API, the Meta Data API (for Posts, Users, Comments, and so on), and even some of the APIs related to templates.</p>
+
+<p>Whatever the case, there are both advantages and disadvantages that come with choosing a framework all of which are important to consider when determining whether or not you're going to work with or without a framework.</p>
+
+<h3>Advantages</h3>
+
+<h4>Rapid Development</h4>
+
+<p>One of the major advantages of using a framework is the speed at which you're able to assemble functionality. </p>
+
+<p>Sometimes, people will refer to this as rapid prototyping, but WordPress frameworks have matured to a point such that you can often get away with creating full on interfaces, sites, and applications - not <em>just</em> prototypes - when working with the API.</p>
+
+<p>Though building content-driven sites with WordPress out-of-the-box is straightforward enough, many frameworks - especially drag and drop frameworks - make it that much faster to create more elaborate page layouts.</p>
+
+<h4>Abstraction</h4>
+
+<p>For frameworks that primarily deal with WordPress' APIs, frameworks can provide a nice level of abstraction such that much of the repetitive code that we're used to writing is tucked away within the framework.</p>
+
+<p>Perhaps one of the best examples comes when looking at frameworks for the <a href="http://codex.wordpress.org/Settings_API" rel="external" target="_blank">Settings API</a>. The Settings API, although powerful, is also verbose and cumbersome when it comes to getting elements to display on the screen. Frameworks seek to solve this problem by providing a way to more easily create settings, options, and settings with fewer function calls and clearer code.</p>
+
+<p>Of course, abstractions comes not just with the Settings API but for other APIs, as well. Opting to use one of these frameworks can save a lot of time and help ease the tedious nature that comes with working with some of the more repetitive aspects of WordPress-based code.</p>
+
+<h4>Visual Representation</h4>
+
+<p>Another advantage of using frameworks is that it helps bridge the gap between what we're expecting to happen and what really happens. </p>
+
+<p>This is most easily seen within drag and drop frameworks: You have a predefined set of regions with which to work such as headers, sidebars, content areas, and footer areas, and then you place the regions where you'd like within a container. Once done, said regions appear exactly on the front-end as you've arranged them on the back-end.</p>
+
+<p>The same can also be said for API-specific frameworks, too. Although the visual nature of writing code isn't as clear as working with a page template editor, good frameworks can often provide clear classes, function names, and other facilities all of which help to more easily understand how all of the moving pieces of the software fit together.</p>
+
+<p>One such example may come in the form of creating a setting in the WordPress Dashboard. Say, for example, you want to introduce a <code class="inline">textarea</code> that is only going to support plain-text (that is, no markup or scripts allowed), and you need to label it, sanitize its data, validate its data, and display its data.</p>
+
+<p>Using a framework, what may take three different function calls and at least two callbacks to do can be done in a single function call with perhaps one or two callbacks. On top of that, the function names are a bit clearer and are more indicative of the work they're doing and the type of elements with which they're doing it.</p>
+
+<h3>Disadvantages</h3>
+
+<h4>Dependency Management</h4>
+
+<p>On the flip-side, if you opt to use a framework then you're automatically creating a dependency between yourself, third-party code, and WordPress.</p>
+
+<p>This means that if your code is based on a framework, and that framework is based on WordPress, then the abilities of the framework are limited only by the most recent version of WordPress that it supports.</p>
+
+<p>If the framework stays up to date with WordPress as it undergoes development, and the framework is released along with the major updates of WordPress, then keeping your code in sync with the most recent developments is easy.</p>
+
+<p>On the other hand, if the framework lags behind the most recent version of WordPress, then your code can only be as updated (and as secure and reliable) as the most recent version of WordPress that your framework supports.</p>
+
+<h4>Deprecation</h4>
+
+<p>Another challenge that comes with using frameworks is that, many times, frameworks are elaborate wrappers for existing functionality that exists within WordPress. To that end, there are going to be times where frameworks provide access to functions that may not always be available as WordPress is updated.</p>
+
+<p>Say, for example, you have a framework that provides access to a certain API that becomes deprecated in the latest version of the core application. Furthermore, the framework does not properly deprecate its code until another release cycle.</p>
+
+<p>This means that the code that you've written based on the framework is using deprecated function calls. For a release or two, this may not be a big deal, but once that functionality is gone from the core application and the framework hasn't addressed this, then you may not be able to use the latest version of WordPress or some of its newer features because the framework hasn't properly deprecated its code with that of core.</p>
+
+<h3>Feature Limitation</h3>
+
+<p>Frameworks can be really powerful, but when it comes to using them, it's often times a good idea to go "all-in." That is to say that when you use a framework, it's usually nice to write all of your code using the framework rather than <em>some</em> of the code using the framework and <em>some</em> of the code using the WordPress APIs. </p>
+
+<p>In other words, you don't want to mix the code that you're writing such that you have a bit of a hodgepodge of code that's sort of based on a framework and sort of, you know, not based on a framework.</p>
+
+<p>After all, the purpose of a framework as defined earlier is to provide an abstraction for generic functionality.</p>
+
+<p>To that end, if a framework is incomplete or lacking functionality specifically for something that's provided with WordPress core, then you're left with one of two options:</p>
+
+<ol>
+  <li>Forgo the feature that you want to use and wait for the framework to make it available,</li>
+  <li>Side-step the framework and use core WordPress code alongside your framework-based code in order to achieve the desired result.</li>
+</ol>
+
+<p>Initially, it seems clear that if the framework doesn't offer something that you need, then simply use what WordPress provides. But when you do this, you're mixing the type of code that you're writing such that you're introducing a level of complexity when it comes to maintaining the software.</p>
+
+<p>If a framework later introduces a set of features that cover what you once wrote as vanilla WordPress code, you'll be tasked with updating said code to conform to that of the framework. From there, if the framework isn't continually updated to stay current with WordPress, then you're back at the dependency and deprecation problems.</p>
+
+<h2>Conclusion</h2>
+
+<p>It's not easy to outline all of the advantages and disadvantages that come with using a framework let alone make a choice on whether or not you should even use one, but the points mentioned above are some of the most common considerations anyone working with WordPress and frameworks should consider before selecting a framework and going all-in with it.</p>
+
+<p>Furthermore and as previously mentioned, this article isn't meant to provide an argument for or against using frameworks with WordPress. Instead, it's meant to provide both advantages and disadvantages for using frameworks in order to help you make a better decision as it relates to your work in WordPress.</p>
+
+<p>As with anything in development, there are going to be tradeoffs. It often comes down to <em>what</em> you're willing to tradeoff in favor of functionality, dependencies, and stability while balancing the core software that's always under development and has major releases roughly every six months.</p>
+
+<p>Depending on the nature of your work, a framework might be the way to go; for others, not so much. Whatever the case, make sure that you do your due diligence when deciding whether or not to use a framework in your current or upcoming projects.</p>

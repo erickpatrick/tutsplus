@@ -1,0 +1,602 @@
+<h1>Refactoring Legacy Code: Part 6 - Attacking Complex Methods</h1>
+
+<p>Old code. Ugly code. Complicated code. Spaghetti code. Gibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+
+<p>In our previous five lessons we invested quite a lot of time in understanding our legacy system, in writing tests for whatever testable piece of code we could find. We reached a point to where we have quite a few tested methods but we still avoided the complex, hard to understand logic. It's now time for some serious coding.</p>
+
+<h2>Understanding the <code>roll()</code> Method</h2>
+
+<p>Our first candidate is the <code>roll()</code> method. As it returns no value, it seems to be unclear what it does and how to test it. When I am not sure how to start testing a piece of code, I try to read it line by line and understand it step by step. Some times this is doable, other times the code is just too complicated.</p>
+
+<p>While under this read-and-learn process, I also do small refactorings which I know my IDE can do safely. These are mostly renamings of variables and methods that I think I understand and I want to make them more obvious for me and any future reader. And as a second thought, our golden master is still there for occasional testing.</p>
+
+<p>Looking at the method's signature: <code>roll($roll)</code>, I am wondering what the <code>$roll</code> parameter stands for? Is it an object? Is it an action? Is it a number? My IDE can be helpful here. By just putting the cursor on the <code>$roll</code> parameter, all its usages will be slightly highlighted with a blueish color.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-parameter-highlighted.png"/>
+</figure>
+
+<p>We can observe the highlighted <code>$roll</code> variables at lines 63, 67, 71. And these are only the occurrences that fit in the screen. Even though there may be several other uses below, these three are good candidates to help us figure out the role of the <code>$roll</code> variable.</p>
+
+<p>At line 63 it is used for printing text to the screen. <code>echoln("They have rolled a " . $roll);</code>. This line is actually quite easy to understand, and it is really helpful for us. It tells us that some player rolled a "$roll". So what do you roll? You roll a number. Maybe we could rename <code>$roll</code> into <code>$number</code>. That would make our method signature look pretty natural: <code>roll($number)</code>.</p>
+
+<p>But what about line 67? Does the conditional statement still have a meaning in the context of the function, if we rename <code>$roll</code> into <code>$number</code>?</p>
+
+<pre class="brush: php">if ($this-&gt;isOdd($number)) { ... }</pre>
+
+<p>I don't like that, if I look only at this piece of code I don't understand what <code>$number</code> stands for. The method's definition is five lines above. I may have forgotten it, or maybe I did not even read it. We are also in the third level of indentation, our initial context has shifted so much already. Maybe a more descriptive name is required. What about <code>$rolledNumber</code>? That would explain the fact that it is a number, and will also keep its source in its name. We know it is a number rolled by a player. We know it can be between one and six. Is that important? Maybe, after all, we are trying to understand a legacy system.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-rename.png"/>
+</figure>
+
+<p>Now that we have resolved the parameter naming issues and we understand the next two lines that are just outputting text, we can move on to and analyze our first if statement. There is also a variable assignment just before it, but we don't care about that, yet.</p>
+
+<p>The first part of the <code>if</code> statement is quite large. More precisely 20 lines long, from line 66 to line 86. That is quite a lot of information to take in. Maybe the "else" part is shorter. We could scroll down and see if it is easy enough to be understood. This part is only about 10-12 lines long. And half of them are lines outputting stuff, or empty, so we can spot that there is not that much logic in there. Maybe it deserves to be analyzed. </p>
+
+<pre class="brush: php">} else {
+
+	$this-&gt;places[$this-&gt;currentPlayer] = $this-&gt;places[$this-&gt;currentPlayer] + $rolledNumber;
+	if ($this-&gt;playerShouldStartANewLap()) {
+		$this-&gt;places[$this-&gt;currentPlayer] = $this-&gt;places[$this-&gt;currentPlayer] - $boardSize;
+	}
+
+	echoln($this-&gt;players[$this-&gt;currentPlayer]
+		. "'s new location is "
+		. $this-&gt;places[$this-&gt;currentPlayer]);
+	echoln("The category is " . $this-&gt;currentCategory());
+	$this-&gt;askQuestion();
+}</pre>
+
+<p>The first line in the <code>if</code> seems to be positioning the current player to a new place on the board. It advances the player, by the rolled number. This is typical for board games and sounds pretty logical.</p>
+
+<p>Then we have a condition again, but it is just a simple <code>if</code>, checking if the player is starting a new lap. If it does, we put the current player to the according position. Do you remember back when we simplified that <code>if</code> statement, extracted a method and called it <code>playerShouldStartANewLap()</code>? It was probably more than two months ago. How helpful that small step is now, to understand this logic!</p>
+
+<p>Finally, some things are displayed and the question is asked on the last line of code.</p>
+
+<p>Wow. I just realized that we could explain what is happening here in a single sentence: <em>"Player is placed to the next position based on the rolled number, information is told to the user, and we ask a question"</em>. When I can do that, I feel an urge to quickly create a method for each part that I just identified. Three simple methods are already roaming in my mind. While I could rely solely on my IDEs capabilities to extract methods, I would surely feel much more comfortable having some tests for this part of the code. Can we, somehow, prepare a game object with just the right players, in the right conditions, so that the second part of the <code>if</code> statement is triggered?</p>
+
+
+
+<h2>Testing <code>roll()</code>'s Second Part</h2>
+
+<p>One of the difficulties in testing legacy code, is to get the SUT (System Under Test) into the proper state, so that we can verify the state we are interested in. We already know that initializing a <code>Game</code> class is easy. No constructor parameters are required. Then, if we look at the list of class variables. They are simply defined using the <code>var</code> keyword. In PHP this means they are considered public variables. And we already used <code>currentPlayer</code> in our previous tests, so we can be sure we can access the variables from outside the object.</p>
+
+<p>At this point, I like to start writing a test. Not a complete test, just enough so that I can figure out how to exercise the SUT.</p>
+
+<pre class="brush: php">function testSecondPartOfRollLogic() {
+	$this-&gt;game-&gt;currentPlayer = 0;
+	$this-&gt;game-&gt;players[$this-&gt;game-&gt;currentPlayer] = 'John';
+	$this-&gt;game-&gt;inPenaltyBox[$this-&gt;game-&gt;currentPlayer] = false;
+
+	$this-&gt;game-&gt;roll(1);
+}</pre>
+
+<p>The test's name is not very specific yet. We figured out that three things are happening inside the <code>else</code> part of the <code>if</code> statement, but it is not really clear how we'd define this in just two to three words. So, for the time being, we can use something to describe our target piece of code that we want to exercise. We will have time to refactor the name later, if needed.</p>
+
+<p>Then we set the variables required by the code. Basically, I copy-pasted the variables and added <code>game</code> after each <code>$this-&gt;</code>. Then I called <code>roll()</code> with a number. The number is irrelevant at this point, I just chose the number one, arbitrarily. </p>
+
+<p>While this code has no assertions, we can figure out what part of the code is run, by looking at the output.</p>
+
+<pre class="brush: bash">John is the current player
+They have rolled a 1
+John's new location is 1
+The category is Science
+Science Question 0</pre>
+
+<p>We can observe that "John" is our current player, exactly as we defined it in our test a few lines above, then we can identify the key strings that are present only in the <code>else</code> part of the <code>if</code> statement: "new location is".</p>
+
+<p>So, the output helped us make sure we are, where we are supposed to be. The next step is to figure out what we should verify inside our test.</p>
+
+<p>We could verify the player's next position of when it should not start a new lap.</p>
+
+<pre class="brush: php">function testSecondPartOfRollLogic() {
+	$currentPlace = 2;
+	$rolledNumber = 1;
+
+	$this-&gt;game-&gt;currentPlayer = 0;
+	$this-&gt;game-&gt;players[$this-&gt;game-&gt;currentPlayer] = 'John';
+	$this-&gt;game-&gt;inPenaltyBox[$this-&gt;game-&gt;currentPlayer] = false;
+	$this-&gt;game-&gt;places[$this-&gt;game-&gt;currentPlayer] = $currentPlace;
+
+	$this-&gt;game-&gt;roll($rolledNumber);
+
+	$this-&gt;assertEquals('3', $this-&gt;game-&gt;places[$this-&gt;game-&gt;currentPlayer], 'Player was expected at position 3');
+}</pre>
+
+<p>OK. We wrote quite a few new lines there. First of all, we defined the current place and rolled number variables. Then we set the current player's place on the board, to the position specified above. After the roll, we can verify that the new position of the player, which is when the player doesn't need to start a new lap, is the sum of the two numbers.</p>
+
+<p>As our tests are passing, it's time to do a little refactoring. We can't do much on the production code, yet, but our test requires a little love.</p>
+
+<pre class="brush: php">function testSecondPartOfRollLogic() {
+	$currentPlace = 2;
+	$rolledNumber = 1;
+
+	$this-&gt;setAPlayerThatIsNotInThePenaltyBox();
+	$this-&gt;setCurrentPlayersPosition($currentPlace);
+
+	$this-&gt;game-&gt;roll($rolledNumber);
+
+	$this-&gt;assertEquals('3', $this-&gt;getCurrentPlayersPosition(), 'Player was expected at position 3');
+}</pre>
+
+<p>Nothing fancy this time, just a few extract methods to hide the ugly parameter calls that spammed our class. This is easier to understand, and if we need to change the way the needed information is set or read back from <code>Game</code>, we will not need to modify the test method. We will modify the private method only. </p>
+
+<p>Next question is: "What else could we test from that production code?" We don't want to enter the <code>if</code> when a player needs to start a new lap. That will be the topic of another test. The two <code>echoln()</code> statements are outputting to standard output. There is little we can test about those. We could capture the output and test it, but it is presentation. We can already feel that there is a presentation layer embedded into business logic here, but we can not clearly see how to safely extract it. So, for the time being, just let it be there, untested. Then there is a call to <code>askQuestion()</code>. We must verify <em>what</em> this method does? And if we can test it somehow.</p>
+
+<p><code>askQuestion()</code> verifies the current category and then outputs a string to the user with the question. The current category is determined by the <code>currentCategory()</code> method, which simply tests the current position, and if it corresponds to a specific number, a category is selected. The number three we used in our test corresponds to the "Rock" category. <code>askQuestion()</code> only outputs to the screen. Another presentation thing we don't want to test, yet. But <code>currentCategory()</code> returns a string, a string that is essential to <code>askQuestion()</code>. Maybe we could call <code>currentCategory()</code> and make sure the right category is returned?</p>
+
+<pre class="brush: php">function testSecondPartOfRollLogic() {
+	$currentPlace = 2;
+	$rolledNumber = 1;
+
+	$this-&gt;setAPlayerThatIsNotInThePenaltyBox();
+	$this-&gt;setCurrentPlayersPosition($currentPlace);
+
+	$this-&gt;game-&gt;roll($rolledNumber);
+
+	$this-&gt;assertEquals('3', $this-&gt;getCurrentPlayersPosition(), 'Player was expected at position 3');
+	$this-&gt;assertEquals('Rock', $this-&gt;game-&gt;currentCategory());
+}</pre>
+
+<p>The last line we added does exactly this. It seems like we managed to test all the functionality of our targeted piece of code. Now, we may want to start refactoring the production code.</p>
+
+<p>But wait! What about the case when we need to start a new lap? Shouldn't we test that also, before touching the production code? I think it is a good idea to continue with the tests for now and refactor the production code only when we are as sure as possible, that we don't break anything.</p>
+
+<pre class="brush: php">function testAPlayerWillStartANewLapWhenNeeded() {
+	$currentPlace = 11;
+	$rolledNumber = 2;
+
+	$this-&gt;setAPlayerThatIsNotInThePenaltyBox();
+	$this-&gt;setCurrentPlayersPosition($currentPlace);
+
+	$this-&gt;game-&gt;roll($rolledNumber);
+
+	$this-&gt;assertEquals('1', $this-&gt;getCurrentPlayersPosition(), 'Player was expected at position 3');
+	$this-&gt;assertEquals('Rock', $this-&gt;game-&gt;currentCategory());
+}</pre>
+
+<p>We copy-pasted the previous test, renamed it accordingly and specified different places and a rolled number. We know the board's size is 12 places. We rolled two from place 11 so we end up at position one. The board numbering starts with position zero.</p>
+
+<p>But our second assertion fails. The category is "Science". This test highlighted a couple of problems with our approach: 1) We need to rename our first test, and 2) We need to test category in a different test. So refactoring time again.</p>
+
+<pre class="brush: php">function testAPlayersNextPositionIsCorrectlyDeterminedWhenNoNewLapIsInvolved() {
+	// ... //
+	$this-&gt;assertEquals('3', $this-&gt;getCurrentPlayersPosition(), 'Player was expected at position 3');
+}
+
+function testAPlayerWillStartANewLapWhenNeeded() {
+	// ... //
+	$this-&gt;assertEquals('1', $this-&gt;getCurrentPlayersPosition(), 'Player was expected at position 3');
+}
+
+function testRockCategoryCanBeDetermined() {
+	$currentPlaces = [3];
+
+	foreach($currentPlaces as $currentPlace) {
+		$this-&gt;setAPlayerThatIsNotInThePenaltyBox();
+		$this-&gt;setCurrentPlayersPosition($currentPlace);
+		$foundCategory = $this-&gt;game-&gt;currentCategory();
+		$this-&gt;assertEquals('Rock', $foundCategory,
+			'Expected rock category for position ' . $currentPlace .
+			' but got ' . $foundCategory);
+	}
+}
+
+function testScienceCategoryCanBeDetermined() {
+	$currentPlaces = [1];
+
+	foreach($currentPlaces as $currentPlace) {
+		$this-&gt;setAPlayerThatIsNotInThePenaltyBox();
+		$this-&gt;setCurrentPlayersPosition($currentPlace);
+		$foundCategory = $this-&gt;game-&gt;currentCategory();
+		$this-&gt;assertEquals('Science', $foundCategory,
+			'Expected rock category for position ' . $currentPlace .
+			' but got ' . $foundCategory);
+	}
+}</pre>
+
+<p>We renamed the first test to reflect the exact thing that is verified. In both tests we removed the category verification. We know that we have two different categories and two positions. Based on our knowledge and the structure of the <code>currentCategory()</code> method, we can deduce that there will be several places for various categories. First we define the places in arrays and then we expect the two different values for the two categories.</p>
+
+<p>At this point our target is not to test the <code>currentCategory()</code> method. We could stop our current process and write tests for all the combination of places and categories. But I don't want to do that yet. Now, we must remain focused on our roll method and our small piece of code. We can still remove the duplication between the two tests and extract the verification into a private method. This will help us in the future when writing the <code>currentCategory()</code> tests.</p>
+
+<pre class="brush: php">function testRockCategoryCanBeDetermined() {
+	$currentPlaces = [3];
+	$expectedCategory = 'Rock';
+	$this-&gt;assertCorrectCategoryForGivenPlaces($expectedCategory, $currentPlaces);
+}
+
+function testScienceCategoryCanBeDetermined() {
+	$currentPlaces = [1];
+	$expectedCategory = 'Science';
+	$this-&gt;assertCorrectCategoryForGivenPlaces($expectedCategory, $currentPlaces);
+}</pre>
+
+
+
+<h2>Refactoring <code>roll()</code>'s Second Part</h2>
+
+<p>Now that all of our tests are beautifully written and passing, modifying the source code is the next logical step. The <code>if</code> statement with the player-moving logic must go first.</p>
+
+<pre class="brush: php">} else {
+
+	$this-&gt;movePlayer($boardSize, $rolledNumber);
+
+	echoln($this-&gt;players[$this-&gt;currentPlayer]
+		. "'s new location is "
+		. $this-&gt;places[$this-&gt;currentPlayer]);
+	echoln("The category is " . $this-&gt;currentCategory());
+	$this-&gt;askQuestion();
+}</pre>
+
+<p>It seems like our method will need two parameters at least. The board's size and the rolled number. The rest of the used information is from class variables, so they don't need to be passed along as parameters. However, the board's size also looks like a value that belongs to the method, rather than to the game class. Later, we'll see if we can move it into the method.</p>
+
+<pre class="brush: php">} else {
+	$this-&gt;movePlayer($boardSize, $rolledNumber);
+	$this-&gt;displayPlayersNewLocation();
+	$this-&gt;displayCurrentCategory();
+	$this-&gt;askQuestion();
+}</pre>
+
+<p>Next, the lines displaying things for the user must go into their own small specialized methods. We could have put all the display stuff into a single method, but it would have been difficult to name it. It is preferable to have better named and smaller methods.</p>
+
+<pre class="brush: php">private function displayPlayersNewLocation() {
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . "'s new location is " . $this-&gt;places[$this-&gt;currentPlayer]);
+}
+
+private function displayCurrentCategory() {
+	echoln("The category is " . $this-&gt;currentCategory());
+}</pre>
+
+<p>With that, we are done with this part of the code. But what about the rest of the <code>roll()</code> method?</p>
+
+
+
+<h2>Two Programmers, Two Different Threads</h2>
+
+<p>Up until now, this tutorial has focused on small pieces of code. Our level of zoom was very close to the code. We did a lot of things thinking about eight to ten lines of code or less. We concentrated on small things like variable names or moving one to two lines of code, from one place to another.</p>
+
+<p>We at Syneto do a lot of pair programming. Basically every time there is at least a moderately difficult task to be done, we do it as a pair. And refactoring is quite a difficult task, so most of the time there are two pairs of eyes looking at the code. This allows us to understand and think about what we are doing by looking at the code from two different zoom levels. While one programmer does the tiny changes and concentrates on character or line-level details, the other one can see the code from a distance.</p>
+
+<p>While the format of these webpages does not allow a lot of horizontal space, in reality, any programmer should have at least a 25" display, with a decent resolution that permits the view of the code from a higher zoom level. Here is how I see the <code>roll()</code> method on my 27" inch display.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-full-view.png"/>
+</figure>
+
+<p>At this level, a person can observe form, indentation, and relief.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-full-view-relief.png"/>
+</figure>
+
+<p>This person can think about complexity, code design, and possible methods that could be extracted. This person can evaluate the complexity of <em>logic</em>, while the other person doing the small changes can deal with the complexity of <em>code</em>. The higher view can also highlight duplication quite effectively.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-full-view-duplicate-code.png"/>
+</figure>
+
+<p>Isn't that cool? Did you observe the huge duplication before this image? Were you able to concentrate both on tiny details and on a high level view? Maybe you were. Some people have a natural talent to understand code, but most of us can't concentrate effectively on more than one level.</p>
+
+<p>And the best part of it? <em>You can do it alone also!</em> That is, if you don't have the opportunity to pair with another programmer, you can still zoom in and out. But you have to do it sequentially in order to be effective. Something like this is what we did at the beginning. We looked at the method from a higher level, we identified the small piece of code we could attack, and we zoomed in. The change of focus effectively switched our mindset and our way of thinking. We stayed in this zoomed in state, without thinking about the rest of the code until we finished refactoring it. Now we can zoom out again, change our mindset again and continue.</p>
+
+
+
+<h2>Refactoring the First Part of <code>roll()</code></h2>
+
+<p>Some people change mindsets and views easily, in less than a minute. Others need more time to "forget" the details and zoom out, or vice versa, to give up on thinking about form and start reading the code one character at a time. If you need ten or 15 minutes, it's not as uncommon as you may think. Try to organize your work in a way that will allow you to take your next ten minute break just between zooms.</p>
+
+<p>And again, change of mindset, we need to zoom in on the first part of the <code>if</code> statement, when the user is in the penalty box.</p>
+
+<p>This code starts with another <code>if()</code> statement checking if the rolled number is odd. If it is, it does something complicated. If it is an even number, it does something much simpler. It just keeps the player in the penalty box.</p>
+
+<pre class="brush: php">} else {
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . " is not getting out of the penalty box");
+	$this-&gt;isGettingOutOfPenaltyBox = false;
+}</pre>
+
+<p>That should be easy to test and it will also force us to define ways of setting up our SUT.</p>
+
+<pre class="brush: php">function testAPlayerWhoIsPenalizedAndRollsAnEvenNumberWillStayInThePenaltyBox() {
+	$rolledNumber = 2;
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+
+	$this-&gt;game-&gt;roll($rolledNumber);
+
+	$this-&gt;assertFalse($this-&gt;game-&gt;isGettingOutOfPenaltyBox);
+}</pre>
+
+<p>Yes. It was easy. A nice four line long test method. And the <code>setAPlayerThatIsInThePenaltyBox()</code> method is very similar with its counterpart. The only difference being the penalty box state.</p>
+
+<p>We can now start building the test, or tests, for the first part of the if, when the rolled number is odd.</p>
+
+<pre class="brush: php">function testAPlayerWhoIsPenalizedAndRollsAnOddNumberWillGetOutOfThePenaltyBox() {
+	$rolledNumber = 1;
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+
+	$this-&gt;game-&gt;roll($rolledNumber);
+
+	$this-&gt;assertTrue($this-&gt;game-&gt;isGettingOutOfPenaltyBox);
+}</pre>
+
+<p>That's a promising start. The first line: tested. The rest will be similar to the tests for the <code>else</code> part of the first level <code>if</code>.</p>
+
+
+
+<h2>Pairs Should Be Pairs Till the End</h2>
+
+<p>One dilemma my colleagues and I at Syneto faced when doing paired programming or refactorings like this, was that when the task becomes clear and comes close to being finished, one of the programmers is tempted to leave. </p>
+
+<p>If you are the one concentrating on writing tests and moving small pieces of code, your pair may be tempted to think that his role is over. He saw the high level problems, communicated them to you, now it's your turn to fix the code. When he tries to leave, stop him. Tell him all tasks started as a pair should be finished as a pair. Tell him to help you think about the tests, names, structures, so you can concentrate on the procedures and steps required by the refactoring techniques that need to be used, the steps we learned in previous lessons.</p>
+
+<p>For example, he could think of test names, while you are occupied with copy/pasting and modifying the previous tests, to force the entry on this part of the if.</p>
+
+<pre class="brush: php">function testPlayerGettingOutOfPenaltyNextPositionWithoutNewLap() {
+	$currentPlace = 2;
+	$numberRequiredToGetOutOfPenaltyBox = 1;
+
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+	$this-&gt;setCurrentPlayersPosition($currentPlace);
+
+	$this-&gt;game-&gt;roll($numberRequiredToGetOutOfPenaltyBox);
+
+	$this-&gt;assertEquals('3', $this-&gt;getCurrentPlayersPosition(), 'Player was expected at position 3');
+}
+
+function testPlayerGettingOutOfPenaltyNextPositionWithNewLap() {
+	$currentPlace = 11;
+	$numberRequiredToGetOutOfPenaltyBox = 3;
+
+	$this-&gt;setAPlayerThatIsInThePenaltyBox();
+	$this-&gt;setCurrentPlayersPosition($currentPlace);
+
+	$this-&gt;game-&gt;roll($numberRequiredToGetOutOfPenaltyBox);
+
+	$this-&gt;assertEquals('2', $this-&gt;getCurrentPlayersPosition(), 'Player was expected at position 3');
+}</pre>
+
+<p>On the other hand, if your pair decides that after discovering all the duplication and cool high level problems, he should be entitled to write the tests and refactor the code, you may feel that you have nothing else to do. But you are wrong. You can stay and help him with naming, low level duplication, and other small things. You can also help him when he stumbles or misses some small steps or when he remains stuck at failing tests because of a stupid little typo.</p>
+
+<p>This is how tests will be named well, like <code>testPlayerGettingOutOfPenaltyNextPositionWithNewLap()</code> and variables will express what they represent for the current test and not what they did for the previous test that you copied over: <code>$numberRequiredToGetOutOfPenaltyBox</code>.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . " is the current player");
+	echoln("They have rolled a " . $rolledNumber);
+
+	$boardSize = 12;
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isOdd($rolledNumber)) {
+			$this-&gt;isGettingOutOfPenaltyBox = true;
+			$this-&gt;movePlayer($boardSize,$rolledNumber);
+			$this-&gt;displayPlayersNewLocation();
+			$this-&gt;displayCurrentCategory();
+			$this-&gt;askQuestion();
+		} else {
+			echoln($this-&gt;players[$this-&gt;currentPlayer] . " is not getting out of the penalty box");
+			$this-&gt;isGettingOutOfPenaltyBox = false;
+		}
+
+	} else {
+		$this-&gt;movePlayer($boardSize, $rolledNumber);
+		$this-&gt;displayPlayersNewLocation();
+		$this-&gt;displayCurrentCategory();
+		$this-&gt;askQuestion();
+	}
+
+}</pre>
+
+<p>Isn't that better than before? All unit tests are passing. But I feel we've moved around a lot of code that is responsible for the presentation. Maybe we should run our golden master test?</p>
+
+
+
+<h2>Taking a Step Backward</h2>
+
+<pre class="brush: bash">PHPUnit_Framework_ExpectationFailedException : Failed asserting that false is true.
+Time: 18.93 seconds, Memory: 112.50Mb
+
+FAILURES!
+Tests: 20, Assertions: 33, Failures: 1, Skipped: 1.</pre>
+
+<p>And it fails. It has been quite some time since we ran our golden master tests, but all of our modifications were localized in the <code>roll()</code> method. So the worst thing that can happen is that we revert our changes.</p>
+
+<p>Let's start with a small step back. I suspect that where we saw duplication in the output, there was a small difference. Maybe a letter or a space we did not observe. We could revert the outputting in the first part of <code>roll()</code> and see if it works.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . " is the current player");
+	echoln("They have rolled a " . $rolledNumber);
+
+	$boardSize = 12;
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isOdd($rolledNumber)) {
+			$this-&gt;isGettingOutOfPenaltyBox = true;
+			$this-&gt;movePlayer($boardSize,$rolledNumber);
+			echoln($this-&gt;players[$this-&gt;currentPlayer]
+				. "'s new location is "
+				. $this-&gt;places[$this-&gt;currentPlayer]);
+			echoln("The category is " . $this-&gt;currentCategory());
+			$this-&gt;askQuestion();
+		} else {
+			echoln($this-&gt;players[$this-&gt;currentPlayer] . " is not getting out of the penalty box");
+			$this-&gt;isGettingOutOfPenaltyBox = false;
+		}
+
+	} else {
+		$this-&gt;movePlayer($boardSize, $rolledNumber);
+		$this-&gt;displayPlayersNewLocation();
+		$this-&gt;displayCurrentCategory();
+		$this-&gt;askQuestion();
+	}
+
+}</pre>
+
+<p>That still fails. As our first suspicion was wrong, we may want to take a bigger step back. Did our golden master pass before we started our work? Maybe next time we should start by running it. Now we need to take our changes, put them in a safe place and revert all the code to verify our hypothesis.</p>
+
+<p>The reverting to the original state of <code>roll()</code> makes the golden master pass. Good to know. So we broke it. But when? Where?</p>
+
+<p>Now that our code is reverted to the original, we could observe the output, put it in a text file and compare it with the refactored one.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/test-output-orig-vs-refactored-diff-lines.png"/>
+</figure>
+
+<p>As we can immediately observe, we missed some lines in the refactored version. The strings telling us that the player is getting out of the penalty box are missing. Hmm...</p>
+
+<p>Let's take a look at the code that we started with, again. Aha!!! There it is!</p>
+
+<pre class="brush: php">echoln($this-&gt;players[$this-&gt;currentPlayer] . " is getting out of the penalty box");
+$this-&gt;places[$this-&gt;currentPlayer] = $this-&gt;places[$this-&gt;currentPlayer] + $roll;
+if ($this-&gt;playerShouldStartANewLap()) {
+	$this-&gt;places[$this-&gt;currentPlayer] = $this-&gt;places[$this-&gt;currentPlayer] - $boardSize;
+}</pre>
+
+<p>An <code>echoln()</code> stuck at the top of the moving logic. An honest, simple mistake. We didn't observe it and just took all that block of code and replaced it with the method call.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . " is the current player");
+	echoln("They have rolled a " . $rolledNumber);
+
+	$boardSize = 12;
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isOdd($rolledNumber)) {
+			$this-&gt;isGettingOutOfPenaltyBox = true;
+			echoln($this-&gt;players[$this-&gt;currentPlayer] . " is getting out of the penalty box");
+			$this-&gt;movePlayer($boardSize,$rolledNumber);
+			$this-&gt;displayPlayersNewLocation();
+			$this-&gt;displayCurrentCategory();
+			$this-&gt;askQuestion();
+		} else {
+			echoln($this-&gt;players[$this-&gt;currentPlayer] . " is not getting out of the penalty box");
+			$this-&gt;isGettingOutOfPenaltyBox = false;
+		}
+
+	} else {
+		$this-&gt;movePlayer($boardSize, $rolledNumber);
+		$this-&gt;displayPlayersNewLocation();
+		$this-&gt;displayCurrentCategory();
+		$this-&gt;askQuestion();
+	}
+
+}</pre>
+
+<p>This makes all the tests pass. Thank goodness that I had a pair to help me figure this out. Even though mine was a teddy bear, as I write these articles alone, many times it helps just to tell someone your problem. It will make your mind replay all the thoughts and remake the process. More than not, this makes you realize stupid mistakes and observe things you would otherwise miss.</p>
+
+
+
+<h2>Adding the Final Touch</h2>
+
+<p>Before we conclude this tutorial, we should make sure we leave our <code>roll()</code> method in the best shape that we can. First, all the <code>echoln()</code> calls can go into private methods.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	$this-&gt;displayCurrentPlayer();
+	$this-&gt;displayRolledNumber($rolledNumber);
+
+	$boardSize = 12;
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isOdd($rolledNumber)) {
+			$this-&gt;isGettingOutOfPenaltyBox = true;
+			$this-&gt;displayPlayerGettingOutOfPenaltyBox();
+			$this-&gt;movePlayer($boardSize,$rolledNumber);
+			$this-&gt;displayPlayersNewLocation();
+			$this-&gt;displayCurrentCategory();
+			$this-&gt;askQuestion();
+		} else {
+			$this-&gt;displayPlayerStaysInPenaltyBox();
+			$this-&gt;isGettingOutOfPenaltyBox = false;
+		}
+
+	} else {
+		$this-&gt;movePlayer($boardSize, $rolledNumber);
+		$this-&gt;displayPlayersNewLocation();
+		$this-&gt;displayCurrentCategory();
+		$this-&gt;askQuestion();
+	}
+
+}</pre>
+
+<p>The above is a step in the right direction, but my pair says we can do better.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/20140620_232541_HDR.jpg"/>
+</figure>
+
+<p>We can group the consecutive display functions into other display functions.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	$this-&gt;displayStatusAfterRoll($rolledNumber);
+
+	$boardSize = 12;
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isOdd($rolledNumber)) {
+			$this-&gt;isGettingOutOfPenaltyBox = true;
+			$this-&gt;movePlayer($boardSize,$rolledNumber);
+			$this-&gt;displayStatusAfterPlayerGettingOutOfPenaltyBox();
+			$this-&gt;askQuestion();
+		} else {
+			$this-&gt;displayPlayerStaysInPenaltyBox();
+			$this-&gt;isGettingOutOfPenaltyBox = false;
+		}
+	} else {
+		$this-&gt;movePlayer($boardSize, $rolledNumber);
+		$this-&gt;displayStatusAfterNonPenalizedPlayerMove();
+		$this-&gt;askQuestion();
+	}
+}</pre>
+
+<p>Isn't that better? Only one display call with each path our method can follow.</p>
+
+<p>Do you remember <code>$boardSize</code>? Can we move it inside <code>movePlayer()</code> now? Yes we can. So, let's do it.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	$this-&gt;displayStatusAfterRoll($rolledNumber);
+
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isOdd($rolledNumber)) {
+			$this-&gt;isGettingOutOfPenaltyBox = true;
+			$this-&gt;movePlayer($rolledNumber);
+			$this-&gt;displayStatusAfterPlayerGettingOutOfPenaltyBox();
+			$this-&gt;askQuestion();
+		} else {
+			$this-&gt;displayPlayerStaysInPenaltyBox();
+			$this-&gt;isGettingOutOfPenaltyBox = false;
+		}
+	} else {
+		$this-&gt;movePlayer($rolledNumber);
+		$this-&gt;displayStatusAfterNonPenalizedPlayerMove();
+		$this-&gt;askQuestion();
+	}
+}</pre>
+
+<p>Our code's getting pretty minimal. But still, this method is 18 lines long. That's a lot. Do you remember Robert C. Martin's teachings or the "Magic number seven plus minus two"? Our methods would be better if they would contain only about four lines of code.</p>
+
+<p>The first step in this direction, is to reduce it to a single function call for each possible path.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	$this-&gt;displayStatusAfterRoll($rolledNumber);
+
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		if ($this-&gt;isOdd($rolledNumber)) {
+			$this-&gt;getPlayerOutOfPenaltyBoxAndPlayNextMove($rolledNumber);
+		} else {
+			$this-&gt;keepPlayerInPenaltyBox();
+		}
+	} else {
+		$this-&gt;playNextMove($rolledNumber);
+	}
+}</pre>
+
+<p>We are now down to 12 lines of code. But we can do even better. The innermost <code>if</code> can go into its own method.</p>
+
+<pre class="brush: php">function  roll($rolledNumber) {
+	$this-&gt;displayStatusAfterRoll($rolledNumber);
+	if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
+		$this-&gt;playNextMoveForPlayerInPenaltyBox($rolledNumber);
+	} else {
+		$this-&gt;playNextMove($rolledNumber);
+	}
+}</pre>
+
+<h2>We're Finished!</h2>
+
+<p>With that we're down to seven lines of code in our method. Only five inside the method, with only four actually doing some kind of logic. Now this is a reasonable looking method, and it's at a point at which, I would feel good about stopping at. Also, this is not just an example. This is <em>"Extract till you drop"</em> and is how most of our methods look in our projects at Syneto. This is a real life example and is where you should end up, day by day, in all of your code. This is also where we stop for this lesson.</p>
+
+<p>Stay tuned for the next tutorial, where we will talk about layers and we will start to separate concerns.</p>

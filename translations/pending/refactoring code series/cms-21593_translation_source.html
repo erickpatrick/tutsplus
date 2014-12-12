@@ -1,0 +1,373 @@
+<h1>Refactoring Legacy Code: Part 7 - Identifying the Presentation Layer</h1>
+
+<p>Old code. Ugly code. Complicated code. Spaghetti code. Gibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+
+<p>In this seventh chapter of our refactoring tutorials, we will do a different type of refactoring. We observed in the past lessons that there is presentation related code scattered all over our legacy code. We will try to identify all the presentation related code that we can and we will then take the necessary steps to separate it from business logic.</p>
+
+<h2>The Driving Force</h2>
+
+<p>Whenever we do a refactoring change to our code, we do so guided by some principles. These principles and rules help us identify the problems and in many cases, they are pointing us in the right direction in order to make the code better.</p>
+
+<h3>The Single Responsibility Principle (SRP)</h3>
+
+<p>SRP is one of the SOLID principles we talked about in great detail in a previous tutorial: <a href="http://code.tutsplus.com/tutorials/solid-part-1-the-single-responsibility-principle--net-36074">SOLID: Part 1 - The Single Responsibility Principle</a>. If you want to dive into the details, I recommend you read the article, otherwise just continue reading on and see a summary of the Single Responsibility Principle below.</p>
+
+<p>SRP basically says that any module, class, or method should have a single responsibility. Such a responsibility is defined as an axes of change. An axes of change is a direction, a reason to change. So, SRP means our class should have a single reason to change.</p>
+
+<p>While that sounds pretty simple, how do you define a "reason for change"? We must think of it from the point of view of the users of our code, both ordinary end users as well as various software departments. These users can be represented as actors. When an actor wants us to change our code, that's a reason of change that determines an axis of change. Such a request should affect only one of our modules, classes, or even methods if possible.</p>
+
+<p>One very obvious example would be if our UI design team would require us to provide all information that needs to be presented in a way that our application can be delivered over an HTML web page, instead of our current command line interface.</p>
+
+<p>As our code stands today, we could just send all the text to some external smart object that would transform it into HTML. But that may work only because HTML is mostly text based. What if our UI team wants to present our trivia game as a desktop UI, with windows, buttons, and various tables?</p>
+
+<p>What if our users want to see the game on a virtual game board represented as a city with streets, and the players as people walking around the block?</p>
+
+<p>We could identify these people as the UI Actor. And we must realize that as our code stands today, we would need to modify our trivia class and almost all of its methods. Does it sound logical to modify the <code>wasCorrectlyAnswered()</code> method from the <code>Game</code> class if I want to fix a typo on the screen in a text, or if I want to present our trivia software as a virtual game board? No. The answer is absolutely not. </p>
+
+<h3>Clean Architecture</h3>
+
+<p>Clean Architecture is a concept promoted mostly by Robert C. Martin. Basically it says that our business logic should be well defined and clearly separated by boundaries from other modules not related to the core functionality of our system. This leads to decoupled and highly testable code.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21593/image/High-Level-Clean-Architecture.png"/>
+</figure>
+
+<p>You may have seen this drawing throughout my tutorials and courses. I consider it so important, that I never write code or talk about code without thinking about it. It totally changed the way we write code at Syneto, and how our project looks. Before we had all our code in an MVC framework, with business logic in the Models. This was both difficult to understand and hard to test. Plus the business logic was totally coupled to that specific MVC framework. While doing this may work with small pet-projects, when it comes to a large project on which the future of a company depends, including all its employees in a way, you must stop playing around with MVC frameworks, and you must start thinking about how to organize your code. Once you do this, and get it right, you will never want to return to the ways you architected your projects before.</p>
+
+<h2>Observing Belonging</h2>
+
+<p>We already started to separate our business logic from presentation in the previous few tutorials. We sometimes observed some printing functions and extracted them into private methods in the same <code>Game</code> class. This was our unconscious mind telling us to push presentation out of business logic at the method level.</p>
+
+<p>Now it is time to analyze and observe.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21593/image/all-functions.png"/>
+</figure>
+
+<p>This is the list of all variables, methods, and functions from our <code>Game.php</code> file. The things marked with an orange "f" are variables. The red "m" means method. If it is followed by a green lock, it is public. It it is followed by red lock it is private. And from that list, all that we are interested in, is the following part.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21593/image/display-functions.png"/>
+</figure>
+
+<p>All the selected methods have something in common. All their names start with "display" ... something. They are all methods related to printing things on the screen. They were all identified by us in previous tutorials and seamlessly extracted, one at a time. Now we must observe that they are a group of methods that belong together. A group that does one specific thing, satisfies one single responsibility, displays information on the screen.</p>
+
+<h2>The Extract Class Refactoring</h2>
+
+<p>Best exemplified and explained in <a href="https://www.goodreads.com/book/show/44936.Refactoring">Refactoring - Improving the Design of Existing Code</a> by Martin Fowler, the basic idea of the Extract Class refactoring is that after you realize that your class does work and that it should be done by two classes, you take actions to make two classes. There are specific mechanics to this, as explained in the quote below from the above mentioned book.</p>
+
+<ul>
+  <li>Decide how to split the responsibilities of the class.</li>
+  <li>Create a new class to express the split-off responsibilities.
+		<ul>
+			<li>If the responsibilities of the old class no longer match its name,
+	rename the old class.</li>
+		</ul>
+	</li>
+  <li>Make a link from the old to the new class.
+		<ul>
+			<li>You may need a two-way link. But don't make the back link until
+	you find you need it.</li>
+		</ul>
+	</li>
+  <li>Use Move Field on each field you wish to move.</li>
+  <li>Compile and test after each move.</li>
+  <li>Use Move Method to move methods over from old to new. Start with lower-level
+	methods (called rather than calling) and build to the higher level.</li>
+  <li>Compile and test after each move.</li>
+  <li>Review and reduce the interfaces of each class.
+		<ul>
+			<li>If you did have a two-way link, examine to see whether it can be
+made into a one way.</li>
+		</ul>
+	</li>
+  <li>Decide whether to expose the new class. If you do expose the class, decide whether to
+expose it as a reference object or as an immutable value object.</li>
+</ul>
+
+<h2>Applying the Extract Class</h2>
+
+<p>Unfortunately at the moment of writing this article, there is no IDE in PHP that can do an extract class by just selecting a group of methods and applying an option from the menu.</p>
+
+<p>As it never hurts to know the mechanics of the processes that imply working with code, we will take the steps above, one by one and apply them to our code.</p>
+
+<h3>Deciding How to Split the Responsibilities</h3>
+
+<p>We already know this. We want to break presentation from business logic. We want to take outputting, displaying functions and other code, and move them somewhere else.</p>
+
+<h3>Create a New Class</h3>
+
+<p>Our first action is to create a new, empty class.</p>
+
+<pre class="brush: php">class Display {
+
+} </pre>
+
+<p>Yep. That's all for now. And finding a proper name for it was also quite easy. <code>Display</code> is the word all our methods we are interested in start with. It is the common denominator of their names. It is a very powerful suggestion about their common behavior, the behavior after which we named our new class.</p>
+
+<p>If you prefer and your programming language supports it, PHP does, you can create the new class inside the same file as the old one. Or, you can create a new file for it from the start. I personally found no definitive reason to go either way or to forbid any of the two ways. So its up to you. Just decide and go ahead.</p>
+
+<h3>Linking from the Old Class to the New Class</h3>
+
+<p>This step may not sound very familiar. What it means is to declare a class variable in the old class and make it an instance of the new one.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/Display.php';
+
+function echoln($string) {
+	echo $string . "\n";
+}
+
+class Game {
+	static $minimumNumberOfPlayers = 2;
+	static $numberOfCoinsToWin = 6;
+
+	private $display;
+
+	// ... //
+
+	function  __construct() {
+
+		//...//
+
+		$this-&gt;display = new Display();
+	}
+
+	// ... all the other methods ... //
+}</pre>
+
+<p>Simple. Isn't it? In <code>Game</code>'s constructor we just initialized a private class variable that we named the same as the new class, <code>display</code>. We also needed to include the <code>Display.php</code> file in our <code>Game.php</code> file. We don't yet have an autoloader. Maybe in a future tutorial we will introduce one if needed.</p>
+
+<p>And as usual, don't forget to run your tests. Unit tests are enough at this stage, just to make sure there are no typos in the newly added code.</p>
+
+<h3>The Move Field and Compile / Test</h3>
+
+<p>Let's take these two steps at once. What fields can we identify that should go from <code>Game</code> to <code>Display</code>?</p>
+
+<p>By just looking at the list...</p>
+
+<pre class="brush: php">static $minimumNumberOfPlayers = 2;
+static $numberOfCoinsToWin = 6;
+
+private $display;
+
+var $players;
+var $places;
+var $purses;
+var $inPenaltyBox;
+
+var $popQuestions;
+var $scienceQuestions;
+var $sportsQuestions;
+var $rockQuestions;
+
+var $currentPlayer = 0;
+var $isGettingOutOfPenaltyBox;
+</pre>
+
+<p>... we can't find any variable / field that must belong to <code>Display</code>. Maybe some will emerge in time. So nothing to do for this step. And about the tests, we already ran them a moment ago. Time to move on. </p>
+
+<h3>Move Methods to the New Class</h3>
+
+<p>This is in itself, another refactoring. You can do it in several ways and you will find a nice definition of it in the same book that we talked about earlier.</p>
+
+<p>As mentioned above, we should start with the lowermost level of methods. Those that are not calling other methods. Instead they are called.</p>
+
+<pre class="brush: php">private function displayPlayersNewLocation() {
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . "'s new location is " . $this-&gt;places[$this-&gt;currentPlayer]);
+}</pre>
+
+<p><code>displayPlayersNewLocation()</code> seems to be a good candidate. Let's analyze what it does.</p>
+
+<p>We can see that it does not call other methods on <code>Game</code>. Instead, it uses three fields: <code>players</code>, <code>currentPlayer</code>, and <code>places</code>. Those can turn into two or three parameters. So far pretty nice. But what about <code>echoln()</code>, the only function call in our method? Where is this <code>echoln()</code> coming from? </p>
+
+<p>It is at the top of our <code>Game.php</code> file, outside of the <code>Game</code> class itself.</p>
+
+<pre class="brush: php">function echoln($string) {
+	echo $string . "\n";
+}</pre>
+
+<p>It definitely does what it says. Echoes a string with a new line at the end. And this is pure presentation. It should go into the <code>Display</code> class. So let's copy it over there.</p>
+
+<pre class="brush: php">class Display {
+
+	function echoln($string) {
+		echo $string . "\n";
+	}
+
+}</pre>
+
+<p>Run our tests again. We can keep the golden master disabled until we finish extracting all the presentation to the new <code>Display</code> class. At any time, if you feel that output may have been modified, re-run the golden master tests also. At this point, the tests will attest that we did not introduce typos or duplicate function declarations, or any other errors for that matter, by copying the function to its new place.</p>
+
+<p>Now, go and delete <code>echoln()</code> from the <code>Game.php</code> file, run our tests, and expect them to fail.</p>
+
+<pre class="brush: bash">PHP Fatal error:  Call to undefined function echoln() in /.../Game.php on line 55</pre>
+
+<p>Nice! Our unit test is of great help here. It runs very fast and it tells us the exact position of the problem. We go to line 55.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21593/image/line-55.png"/>
+</figure>
+
+<p>Look! There is an <code>echoln()</code> call there. Tests never lie. Let's fix it by calling <code>$this-&gt;dipslay-&gt;echoln()</code> instead.</p>
+
+<pre class="brush: php">function add($playerName) {
+	array_push($this-&gt;players, $playerName);
+	$this-&gt;setDefaultPlayerParametersFor($this-&gt;howManyPlayers());
+
+	$this-&gt;display-&gt;echoln($playerName . " was added");
+	echoln("They are player number " . count($this-&gt;players));
+	return true;
+}</pre>
+
+<p>That makes the test pass through line 55 and fail on 56.</p>
+
+<pre class="brush: bash">PHP Fatal error:  Call to undefined function echoln() in /.../Game.php on line 56</pre>
+
+<p>And the solution is obvious. This is a tedious process, but it is at least easy.</p>
+
+<pre class="brush: php">function add($playerName) {
+	array_push($this-&gt;players, $playerName);
+	$this-&gt;setDefaultPlayerParametersFor($this-&gt;howManyPlayers());
+
+	$this-&gt;display-&gt;echoln($playerName . " was added");
+	$this-&gt;display-&gt;echoln("They are player number " . count($this-&gt;players));
+	return true;
+}</pre>
+
+<p>That actually makes the first three tests pass and also tells us the next place where there is a call which we should change.</p>
+
+<pre class="brush: bash">PHP Fatal error:  Call to undefined function echoln() in /.../Game.php on line 169</pre>
+
+<p>That is in <code>wrongAnswer()</code>.</p>
+
+<pre class="brush: php">function wrongAnswer() {
+	echoln("Question was incorrectly answered");
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . " was sent to the penalty box");
+	$this-&gt;inPenaltyBox[$this-&gt;currentPlayer] = true;
+
+	$this-&gt;currentPlayer++;
+	if ($this-&gt;shouldResetCurrentPlayer()) {
+		$this-&gt;currentPlayer = 0;
+	}
+	return true;
+}</pre>
+
+<p>Fixing these two calls, pushes our error down to line 228.</p>
+
+<pre class="brush: php">private function displayCurrentPlayer() {
+	echoln($this-&gt;players[$this-&gt;currentPlayer] . " is the current player");
+}</pre>
+
+<p>A <code>display</code> method! Maybe this should be our first method to move. We try to do a little test driven development (TDD) here. And when the tests fail, we are not allowed to write any more production code that isn't absolutely necessary to make the test pass. And all that entails is just changing the <code>echoln()</code> calls until all our unit tests pass.</p>
+
+<p>You can speed up this process by using your IDE's or editor's search and replace functionality. Just run all the tests, including the golden master after you are done with this replacement. Our unit tests do not cover all the code, and all the <code>echoln()</code> calls.</p>
+
+<p>We can start with out first candidate, <code>displayCurrentPlayer()</code>. Copy it over to <code>Display</code> and run your tests. </p>
+
+<p>Then, make it public on <code>Display</code> and in <code>displayCurrentPlayer()</code> in <code>Game</code> call <code>$this-&gt;display-&gt;displayCurrentPlayer()</code> instead of directly doing an <code>echoln()</code>. Finally, run your tests.</p>
+
+<p>They will fail. But by doing the change this way, we've ensured that we changed only one thing that could fail. All other methods are still calling <code>Game</code>'s <code>displayCurrentPlayer()</code>. And this is the one delegating to <code>Display</code>.</p>
+
+<pre class="brush: bash"> Undefined property: Display::$display</pre>
+
+<p>Our method uses class fields. These need to be made parameters to the function. If you follow your test errors, you should end up with something like this in <code>Game</code>.</p>
+
+<pre class="brush: php">private function displayCurrentPlayer() {
+	$this-&gt;display-&gt;displayCurrentPlayer($this-&gt;players[$this-&gt;currentPlayer]);
+}</pre>
+
+<p>And this in <code>Display</code>.</p>
+
+<pre class="brush: php">function displayCurrentPlayer($currentPlayer) {
+	$this-&gt;echoln($currentPlayer . " is the current player");
+}</pre>
+
+<p>Replace calls in <code>Game</code> to the local method with the one in <code>Display</code>. Don't forget about moving the parameters up one level, also.</p>
+
+<pre class="brush: php">private function displayStatusAfterRoll($rolledNumber) {
+	$this-&gt;display-&gt;displayCurrentPlayer($this-&gt;players[$this-&gt;currentPlayer]);
+	$this-&gt;displayRolledNumber($rolledNumber);
+}</pre>
+
+<p>Finally, remove the unused method from <code>Game</code>. And run your tests to make sure all is OK.</p>
+
+<p>This is a tedious process. You can speed it up a little bit by taking several methods at once and using whatever your IDE can do to help move and replace code between classes. The rest of the methods will remain an exercise for you or you can read on more this chapter with the highlights of the process. The finished code attached to this article will contain the complete <code>Display</code> class.</p>
+
+<p>Ah, and don't forget about the code that is not yet extracted in the "display" methods inside <code>Game</code>. You may move those <code>echoln()</code> calls to display directly. Our goal is to not call <code>echoln()</code> at all from <code>Game</code>, and make it private on <code>Display</code>.</p>
+
+<p>After just a half an hour or so of work, <code>Display</code> starts to look nice.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21593/image/display-function-st1.png"/>
+</figure>
+
+<p>All the display  methods from <code>Game</code> are in <code>Display</code>. Now we can look for all <code>echoln</code> calls that remained in <code>Game</code> and move them, too. Tests are passing, of course.</p>
+
+<p>But as soon as we are faced with the <code>askQuestion()</code> method, we realize it is just presentation code as well. And that means that the various question arrays should also go to <code>Display</code>.</p>
+
+<pre class="brush: php">class Display {
+	private $popQuestions = [];
+	private $scienceQuestions = [];
+	private $sportsQuestions = [];
+	private $rockQuestions = [];
+
+	function __construct() {
+		$this-&gt;initializeQuestions();
+	}
+	// ... //
+	private function initializeQuestions() {
+		$categorySize = 50;
+		for ($i = 0; $i &lt; $categorySize; $i++) {
+			array_push($this-&gt;popQuestions, "Pop Question " . $i);
+			array_push($this-&gt;scienceQuestions, ("Science Question " . $i));
+			array_push($this-&gt;sportsQuestions, ("Sports Question " . $i));
+			array_push($this-&gt;rockQuestions, "Rock Question " . $i);
+		}
+	}
+}</pre>
+
+<p>That looks fitting. Questions are just strings, we present them and they fit better here. When we do this kind of refactoring, it is also a good opportunity to refactor the newly moved code. We defined initial values in the declaration of fields, we also made them private, and created a method with the code that needs to be executed so that it is not just lingering in the constructor. Instead, it is hidden at the bottom of the class, out of the way.</p>
+
+<p>After extracting the next two methods, we realize that it is nicer to name them, inside the <code>Display</code> class, without the "display" prefix.</p>
+
+<pre class="brush: php">function correctAnswer() {
+	$this-&gt;echoln("Answer was correct!!!!");
+}
+
+function playerCoins($currentPlayer, $playerCoins) {
+	$this-&gt;echoln($currentPlayer . " now has " . $playerCoins . " Gold Coins.");
+}</pre>
+
+<p>With our tests green and doing well, we can now refactor and rename our methods. PHPStorm can handle the rename refactorings quite well. It will rename function calls in <code>Game</code> accordingly. Then there is this piece of code.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21593/image/typo-corrent.png"/>
+</figure>
+
+<p>Look carefully at the selected line, 119. That looks just like our recently extracted method in <code>Display</code>.</p>
+
+<pre class="brush: php">function correctAnswer() {
+	$this-&gt;echoln("Answer was correct!!!!");
+}</pre>
+
+<p>But if we call it instead of the code, the test will fail. Yes! There is a typo. And NO! You should not fix it. We are refactoring. We must keep the functionality unchanged, even if there is a bug.</p>
+
+<p>The rest of the method represents no special challange.</p>
+
+<h3>Review and Reduce the Interfaces</h3>
+
+<p>Now that all presentation functionality is in <code>Display</code>, we must review the methods and keep public only the ones used in <code>Game</code>. This step is also motivated by the <a href="http://code.tutsplus.com/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710">Interface Segregation Principle</a> that we talked about in a past tutorial.</p>
+
+<p>In our case, the easiest way to figure out what methods need to be public or private, is to just make each one private at a time, run the tests, and if they fail revert to public.</p>
+
+<p>Because golden master tests run slow, we can also rely on our IDE to help us speed up the process. PHPStorm is smart enough to figure out if a method is unused. If we make a method private, and it suddenly becomes unused, it is clear it was used outside of <code>Display</code> and needs to remain public.</p>
+
+<p>Finally, we can reorganize <code>Display</code> so that private methods are at the end of the class.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21593/image/display-done.png"/>
+</figure>
+
+<h2>Final Thoughts</h2>
+
+<p>Now, the last step of the Extract Class Refactoring principle is irrelevant in our case. So with that, this concludes the tutorial, but this does not yet conclude the series. Stay tuned for our next article where we will work further toward a Clean Architecture and invert dependencies.</p>

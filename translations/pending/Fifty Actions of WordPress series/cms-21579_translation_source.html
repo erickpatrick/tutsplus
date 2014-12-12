@@ -1,0 +1,295 @@
+<h1>Fifty Actions of WordPress – 50 Examples (11 to 20)</h1>
+
+<p><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-1-to-10--cms-21578" rel="external" target="_blank">In the previous part of this series</a>, we started going through 50 WordPress actions, selected among hundreds and we started by reviewing 10 of them. In this tutorial, we're going to see another batch and do examples with each.</p>
+
+<p>Let's begin!</p>
+
+<h2>Handling Default WordPress Styles</h2>
+
+<p>WordPress has many CSS files for its back-end and front-end to use. With the <code>wp_default_styles</code> action, we can monkey with the default styles of WordPress.</p>
+
+<h3>Removing <code>ie.css</code> From the WordPress Admin Panel</h3>
+
+<p>If you're the only one using the administration panel of your WordPress website and you're not using Internet Explorer, there's no need to load the IE-fixer CSS file, right? </p>
+
+<p>You can use the code below to get rid of the <code>ie.css</code>:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_default_styles', 'wp_default_styles_example' );
+
+function wp_default_styles_example( $wp_styles ) {
+$wp_styles-&gt;remove( 'ie' );
+}
+
+?&gt;</pre>
+
+<p>Actually, I'm not even sure that WordPress needs this file anymore – after all, <code>ie.css</code> fixes things that looks bad on IE7 and below and as far as I know, the usage percentage of IE7 has dropped below 1%. </p>
+
+<p>We should <a href="http://code.tutsplus.com/tutorials/creating-and-submitting-a-patch-to-wordpress-core--cms-20658">suggest a patch</a>, don't you think?</p>
+
+<h2>Handling the <code>get_footer()</code> Function</h2>
+
+<p>If you need to work with the <code>get_footer()</code> function, you don't need to look any further – you can use the action with the same name, <code>get_footer</code>!</p>
+
+<h3>Injecting In-page JavaScript Into the Footer</h3>
+
+<p>Let's say you have some jQuery goodness you need to print at the footer of your web pages. You can use these bits of code to make it work:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'get_footer', 'get_footer_example' );
+
+function get_footer_example( $name ) {
+	if ( 'new' == $name ) { ?&gt;
+		&lt;script&gt;
+			(function( $ ) {
+				//put all your jQuery goodness in here.
+			})( jQuery );
+		&lt;/script&gt;
+	&lt;?php
+	}
+}
+
+// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/get_footer
+
+?&gt;</pre>
+
+<p>There. We used some JavaScript code for this example but you can practically run any code to your footer.</p>
+
+<h2>Initializing the Admin Panel</h2>
+
+<p>This handy little function fires every time an admin page is visited, so it has many different uses. Get creative!</p>
+
+<h3>Keeping Non-Admin Users Away From the Admin Panel</h3>
+
+<p>Let's say you don't want your subscribers to be able to visit the administration panel and you don't have any contributors, authors or editors. To redirect all the non-admin users to homepage, you can use the code snippet below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'admin_init', 'admin_init_example', 1 );
+
+function admin_init_example() {
+	if ( ! current_user_can( 'manage_options' ) &amp;&amp; ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+		wp_redirect( site_url() ); 
+		exit;
+	}
+}
+
+// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/admin_init
+
+?&gt;</pre>
+
+<p>If you want, you can change the redirection adddress from your homepage to something else: Just delete the <code>site_url()</code> bit and enter the desired address with single quotes (like <code>'http://www.google.com/'</code>).</p>
+
+<h2>Stepping in to the Process of Authentication</h2>
+
+<p>The inline documentation defines this action simply with these sentence: "Runs to authenticate a user when they log in."</p>
+
+<h3>Allowing Email Addresses as Usernames While Logging In</h3>
+
+<p>WordPress doesn't allow users to log in with their email addresses – you have to remember your username. If your user base tends to forget their usernames, you can use the code snippet below and tell your users that they can log in with their email addresses, too:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_authenticate', 'wp_authenticate_example' );
+
+function wp_authenticate_example( $username ) {
+	$user = get_user_by( 'email', $username );
+	if ( ! empty( $user-&gt;user_login ) ) {
+		$username = $user-&gt;user_login;
+}
+	return $username;
+}
+
+// Example Source: http://bavotasan.com/2011/log-in-to-wordpress-using-an-email-address/
+
+?&gt;</pre>
+
+<p>Now, your users can enter their email addresses instead of their usernames.</p>
+
+<h2>Playing With the Login Form</h2>
+
+<p>The <code>login_form</code> action lets us manipulate the output of the classic WordPress login form.</p>
+
+<h3>Displaying a Warning in the Login Form</h3>
+
+<p>In the previous example, we showed you how to let your users use their email addresses instead of usernames. If you're not a fan of this behavior, however, you can warn your users about the fact that they can't use their email addresses:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'login_form', 'login_form_example' );
+
+function login_form_example() {
+	echo '&lt;p&gt;&lt;strong&gt;Remember:&lt;/strong&gt; You must enter your username, not your email address!&lt;/p&gt;';
+}
+
+?&gt;</pre>
+
+<p>Of course, you can put other warnings like "Don't click on the 'Remember Me' checkbox if you're on a shared computer!" or a funny one like "If you're under threat by a robber while you're logging in, enter your password backwards and WordPress will automatically call the police – but wait, if you're reading this, then the bad guy will read it too... RUN!". You can also use HTML.</p>
+
+<h2>Handling Admin Menu Items</h2>
+
+<p>Defined as "runs after the basic admin panel menu structure is in place", the <code>admin_menu</code> action lets us add or remove menu items (and sub-menu items) into/from the WordPress admin panel's menu.</p>
+
+<h3>Removing Menu Items That Shouldn't Be Seen by Clients</h3>
+
+<p>It's a familiar scenario for freelance WordPress developers: A client needs access to a certain plugin's "Options" page, but they shouldn't be touching any settings in WordPress' own "Options" pages. </p>
+
+<p>In short, there are pages that clients need to access and there are ones that they shouldn't access. The example below helps us remove menu items from the main admin menu:</p>
+
+<pre class="brush: php">&lt;?php
+
+if ( ! current_user_can( 'manage_options' ) ) {
+	add_action( 'admin_menu', 'admin_menu_example' );
+}
+
+function admin_menu_example() {
+  remove_menu_page( 'index.php' );              //Dashboard
+  remove_menu_page( 'edit.php' );                   //Posts
+  remove_menu_page( 'upload.php' );                 //Media
+  remove_menu_page( 'edit.php?post_type=page' );    //Pages
+  remove_menu_page( 'edit-comments.php' );          //Comments
+  remove_menu_page( 'themes.php' );                 //Appearance
+  remove_menu_page( 'plugins.php' );                //Plugins
+  remove_menu_page( 'users.php' );                  //Users
+  remove_menu_page( 'tools.php' );                  //Tools
+  remove_menu_page( 'options-general.php' );        //Settings
+  
+}
+
+// Example Source: http://wpsnippy.com/remove-top-level-wordpress-dashboard-menu/
+
+?&gt;</pre>
+
+<p>Comment out or delete the lines you don't want, and you're good to go!</p>
+
+<h2>Working With the <code>wp()</code> Function</h2>
+
+<p>Let's see what the documentation says about this action:</p>
+
+<blockquote>
+  <p>"Executes after the query has been parsed and post(s) loaded, but before any template execution, inside the main WordPress function wp(). Useful if you need to have access to post data but can't use templates for output."</p>
+</blockquote>
+
+<p>In short, it fires off after the query's been loaded. Simple, like its name.</p>
+
+<h3>A Quick Way to Schedule Cron Jobs in WordPress</h3>
+
+<p>While cron jobs are usually hooked to a <a href="http://codex.wordpress.org/Function_Reference/register_activation_hook">plugin activation hook</a>, we can also use the <code>wp</code> action to hook our cron jobs to. Let's see the example provided by the Codex:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp', 'prefix_setup_schedule' );
+
+/**
+ * On an early action hook, check if the hook is scheduled - if not, schedule it.
+ */
+function prefix_setup_schedule() {
+	if ( ! wp_next_scheduled( 'prefix_hourly_event' ) ) {
+		wp_schedule_event( time(), 'hourly', 'prefix_hourly_event');
+	}
+}
+
+add_action( 'prefix_hourly_event', 'prefix_do_this_hourly' );
+
+/**
+ * On the scheduled action hook, run a function.
+ */
+function prefix_do_this_hourly() {
+	// do something every hour
+}
+
+// Example Source: http://codex.wordpress.org/Function_Reference/wp_schedule_event
+
+?&gt;</pre>
+
+<p>Notice that there's another action named <code>prefix_hourly_event</code> – that action is created automatically in the same code snippet, right inside the <code>wp_schedule_event()</code> function, as its third parameter.</p>
+
+<h2>Controlling the <code>&lt;head&gt;</code> in the Admin Panel Pages</h2>
+
+<p>There are various hooks (actions <em>and</em> filters) that have "variables" in their names. The <code>admin_head-(page_name)</code> action is one of them, which is called in the <code>&lt;head&gt;</code> for a specific admin page which is defined in the variable.</p>
+
+<h3>Changing the Columns Count in the Dashboard</h3>
+
+<p>I use a 22'' monitor and since WordPress version 3.8, I'm forced to use 4-column Dashboard which is kind of annoying for me. I'm not sure why I can't set a number of columns like I could earlier, but I found a quick solution to the issue:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'admin_head-index.php', 'admin_head_index_php_example' );
+
+function admin_head_index_php_example() {
+add_screen_option(
+        'layout_columns',
+        array(
+            'max'     =&gt; 3,
+            'default' =&gt; 3
+        )
+    );
+}
+
+// Example Source: http://wpsnippy.com/bring-back-dashboard-screen-layout-options-wordpress-3-8/
+
+?&gt;</pre>
+
+<p>Now I can change the number of columns like we used to – as long as my screen width allows. I still can't choose over 2 columns on my laptop, but I think I can live with that.</p>
+
+<h2>Modify the Toolbar Before It's Rendered</h2>
+
+<p>The WordPress Toolbar, formerly Admin Bar, is a great and useful navigation element that helps us in both front-end and back-end. And the <code>wp_before_admin_bar_render</code> action helps us interact with it before it's rendered.</p>
+
+<h3>Adding a New Item to the Toolbar</h3>
+
+<p>If you want to provide a quick link for your clients to reach you, you can use these lines of code to add a link to their site's Toolbar:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'wp_before_admin_bar_render', 'wp_before_admin_bar_render_example' ); 
+
+function wp_before_admin_bar_render_example() {
+	global $wp_admin_bar;
+	$wp_admin_bar-&gt;add_node( array(
+		'id'=&gt; 'contact-designer',
+		'title' =&gt; 'Contact Designer',
+		'href'  =&gt; 'http://barisunver.com.tr/contact/',
+		'meta'  =&gt; array( 'target' =&gt; '_blank' )
+	) );
+}
+
+?&gt;</pre>
+
+<p>Easy, right? You can use the <code>add_node()</code> function again to create as many links you like.</p>
+
+<h2>Processing Profile Updates</h2>
+
+<p>The <code>profile_update</code> hook lets us fetch and work with the user data right after it's updated in the database.</p>
+
+<h3>Informing the User About the Profile Update</h3>
+
+<p>Let's say that you want to inform users each time they update their profiles. With the help of our handy action and a small function, you can do it:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_action( 'profile_update', 'profile_update_example' );
+
+function profile_update_example( $user_id ) {
+	$site_url = get_bloginfo( 'name' );
+	$user_info = get_userdata( $user_id );
+	$user_name = $user_info-&gt;display_name;
+	$user_email = $user_info-&gt;user_email;
+	$subject = "Profile updated";
+	$message = "Hello $user_name,\n\nYour profile has been updated! Please contact us if you're not the one who changed your profile.\n\nThank you for visiting $site_name.";
+	wp_mail( $user_email, $subject, $message );
+}
+
+// Example Source: http://wpsnipp.com/index.php/functions-php/send-email-notification-when-profile-updates/
+
+?&gt;</pre>
+
+<p>In my opinion, this is a simple yet effective security measure. That said, it wouldn't be effective at all if a potential hacker changes the user's email address, since the email will be sent to the new email address.</p>
+
+<h2>End of Part Two</h2>
+
+<p>We went through the second batch of 50 actions in this article. I hope you liked and learned new things from it. See you in the next one!</p>
+
+<p>I want to hear your thoughts, too. What do you think about these actions? Post your comments below. If you liked the article, don't forget to share it!</p>

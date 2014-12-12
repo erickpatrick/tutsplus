@@ -1,0 +1,117 @@
+<h1>Fifty Actions of WordPress – Series Finale</h1>
+
+<p>Welcome to the series finale of "Fifty Actions of WordPress!" Over the last few weeks, we've been looking at WordPress actions - what they are, how to use them, and 50 of those that exist along with examples of how to put them to work for us.</p>
+
+<p>In this last part, we're going to review what we learned and summarize all the 50 actions with a couple of words for each one.</p>
+
+<p>Let's begin!</p>
+
+<h2>Part One: An Introduction to WordPress Actions</h2>
+
+<p>We started with a simple <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577" rel="external" target="_blank">introduction</a> to the world of actions in WordPress. Since the whole system is actually pretty easy, it wasn't hard to introduce it at all. We learned the following seven essential functions:</p>
+
+<ul>
+  <li><code>add_action()</code> which allows us to hook our functions to existing action hooks,</li>
+  <li><code>remove_action()</code> which removes a function from an existing action hook,</li>
+  <li><code>remove_all_actions()</code> which removes <em>all functions</em> from an action hook,</li>
+  <li><code>do_action()</code> which lets us create new action hooks,</li>
+  <li><code>do_action_ref_array()</code> which lets us create new action hooks using an array for arguments,</li>
+  <li><code>did_action()</code> which counts the number of times an action is fired,</li>
+  <li>and <code>has_action()</code> which checks if anything's hooked to an action.</li>
+</ul>
+
+<h2>50 Great Examples for 50 Great Actions</h2>
+
+<p>Over the course of the following five articles, we were introduced to 10 actions in the core with examples for every single one of them. </p>
+
+<p>Let's remember what each one was good for:</p>
+
+<h3><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-1-to-10--cms-21578" rel="external" target="_blank">Part Two</a>: Fifty Actions of WordPress – 50 Examples (1 to 10)</h3>
+
+<ol>
+  <li><code>init</code> handles the initialization of WordPress – just before the headers are sent.</li>
+  <li><code>send_headers</code> sends the headers and lets us add extra HTTP headers.</li>
+  <li><code>after_switch_theme</code> is fired off right after the user switches themes.</li>
+  <li><code>manage_posts_custom_column</code> gives us the possibility to add custom columns to the "All Posts" page in the admin panel.</li>
+  <li><code>admin_head</code> allows us to inject code to the <code>&lt;head&gt;</code> of the pages in the admin panel.</li>
+  <li><code>wp_footer</code> makes it possible for us to run code through the <code>wp_footer()</code> function.</li>
+  <li><code>wp_enqueue_scripts</code> is the action to enqueue scripts and styles correctly to the front-end.</li>
+  <li><code>admin_notices</code> lets us display admin notices in the back-end.</li>
+  <li><code>widgets_init</code> initializes the widgets of WordPress and allows us to modify it.</li>
+  <li><code>delete_user</code> is called right after a user is deleted from the database.</li>
+</ol>
+
+<h3><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-11-to-20--cms-21579" rel="external" target="_blank">Part Three</a>: Fifty Actions of WordPress – 50 Examples (11 to 20)</h3>
+
+<ol>
+  <li><code>wp_default_styles</code> controls the process of loading of the default WordPress styles.</li>
+  <li><code>get_footer</code> makes it possible for us to tamper with the <code>get_footer()</code> function.</li>
+  <li><code>admin_init</code> is fired off each time an admin page is loaded, giving us the opportunity to get creative with it!</li>
+  <li><code>wp_authenticate</code> runs to authenticate a user when they log in.</li>
+  <li><code>login_form</code> handles the login form, giving us the chance to customize it.</li>
+  <li><code>admin_menu</code> lets us add/remove menu items (or sub-menu items) to the main administration menu.</li>
+  <li><code>wp</code>, the action with the shortest name, runs after a query is parsed but before any template is executed.</li>
+  <li><code>admin_head-(page_name)</code> allows us to control the <code>&lt;head&gt;</code> of the admin page which is specified in the name of the action (<code>page_name</code>).</li>
+  <li><code>wp_before_admin_bar_render</code>, as its name suggests, runs <em>before</em> the Toolbar (formerly Admin Bar) is rendered.</li>
+  <li><code>profile_update</code> is called right after a profile is updated in the database.</li>
+</ol>
+
+<h3><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-21-to-30--cms-21580" rel="external" target="_blank">Part Four</a>: Fifty Actions of WordPress – 50 Examples (21 to 30)</h3>
+
+<ol>
+  <li><code>pre_get_posts</code> is fired off before the <code>get_posts()</code> function, allowing us to play with the query.</li>
+  <li><code>transition_post_status</code> is the action that controls the transition of post statuses, like "draft to publish", "future to private" and such.</li>
+  <li><code>admin_enqueue_scripts</code> is used to enqueue scripts and styles correctly in the admin panel.</li>
+  <li><code>save_post</code> executes right after a post is saved to the database.</li>
+  <li><code>add_meta_boxes_(post_type)</code> lets us add meta boxes to a custom post type's post edit screen.</li>
+  <li><code>activity_box_end</code> is fired off at the end of the "At a Glance" (formerly "Right Now") section.</li>
+  <li><code>wp_meta</code> is the action that allows us to tamper with the default "Meta" widget.</li>
+  <li><code>wp_dashboard_setup</code> initializes the Dashboard, the homepage of the admin panel, and makes it possible for us to monkey with it.</li>
+  <li><code>set_current_user</code> is part of the pluggable <code>wp_set_current_user</code> function which changes the current user by ID or name.</li>
+  <li><code>plugins_loaded</code> runs right after all the activated plugin files are loaded.</li>
+</ol>
+
+<h3><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-31-to-40--cms-21581" rel="external" target="_blank">Part Five</a>: Fifty Actions of WordPress – 50 Examples (31 to 40)</h3>
+
+<ol>
+  <li><code>wp_default_scripts</code> handles the execution of default WordPress scripts and lets us tamper with the process.</li>
+  <li><code>wp_head</code> makes it possible for us to run code in the <code>wp_head()</code> function.</li>
+  <li><code>after_setup_theme</code> is called each time a file of the activated theme is loaded.</li>
+  <li><code>manage_media_custom_column</code> gives us the opportunity to add extra columns to the file list in the Media Library.</li>
+  <li><code>comment_(old_status)_to_(new_status)</code>, which has two variables in its name, executes after a comment's status is changed in the database.</li>
+  <li><code>template_redirect</code> is called when a "page template" is loaded.</li>
+  <li><code>do_feed</code> handles the feeds of your WordPress installation.</li>
+  <li><code>admin_bar_menu</code> allows us to manipulate the Toolbar.</li>
+  <li><code>wp_list_categories</code> makes it possible for us to control the behavior of the default "Categories" widget.</li>
+  <li><code>pre_get_search_form</code> runs just before the search form in your theme is loaded.</li>
+</ol>
+
+<h3><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-41-to-50--cms-21582" rel="external" target="_blank">Part Six</a>: Fifty Actions of WordPress – 50 Examples (41 to 50)</h3>
+
+<ol>
+  <li><code>admin_head-(plugin_page)</code> runs in the <code>&lt;head&gt;</code> of the plugin pages you specify.</li>
+  <li><code>pre_ping</code> is called before a ping is processed.</li>
+  <li><code>get_header</code> makes it possible for us to run code in the <code>get_header()</code> function.</li>
+  <li><code>login_head</code> executes in the <code>&lt;head&gt;</code> of the login page and lets us control it.</li>
+  <li><code>admin_footer</code> is fired before the <code>&lt;/body&gt;</code> tag in admin pages.</li>
+  <li><code>login_enqueue_scripts</code> is used to enqueue scripts and styles correctly in the login page.</li>
+  <li><code>manage_users_custom_column</code> gives us the chance to add custom columns to the Users table in the "All Users" page.</li>
+  <li><code>activated_plugin</code> is fired off each time a plugin is activated.</li>
+  <li><code>admin_color_scheme_picker</code> controls the behaviour of the "color schemes" picker in the user profile editing pages.</li>
+  <li><code>wp_logout</code> runs when a user logs out.</li>
+</ol>
+
+<h2>Part Seven: The End</h2>
+
+<p>You guessed it, you're reading part seven right now! Joking aside, here we are at the end of the series. I really, really hope you enjoyed this series as much as I did while writing the whole thing.</p>
+
+<p>Contributions of all types are appreciated, by the way. You can:</p>
+
+<ol>
+  <li>Share your thoughts on this series by commenting below,</li>
+  <li>Suggest new filters and example ideas for an "addendum" part or two,</li>
+  <li>Offer ways to improve my writing if you caught a mistake, incoherency or ambiguity in my posts,</li>
+  <li>And share these tutorials anywhere for everyone to see and learn about WordPress filters!</li>
+</ol>
+
+<p>Thank you for taking time to read the series - hopefully it serves as a point of education and of reference moving forward!</p>

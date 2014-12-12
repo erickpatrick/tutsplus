@@ -1,0 +1,292 @@
+<h1>Refactoring Legacy Code: Part 8 - Inverting Dependencies for a Clean Architecture</h1>
+
+<p>Old code. Ugly code. Complicated code. Spaghetti code. Gibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+
+<p>It's now time to talk about architecture and how we organize our newly found layers of code. It's time to take our application and try to map it to theoretical architectural design.</p>
+
+<h2>Clean Architecture</h2>
+
+<p>This is something we've seen throughout our articles and tutorials. Clean architecture.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/High Level Clean Architecture.png"/>
+</figure>
+
+<p>At a high level, it looks like the schema above and I am sure you are already familiar with it. It is, a proposed architectural solution by Robert C. Martin.</p>
+
+<p>In the center of our architecture is our business logic. These are the classes representing the business processes our application tries to solve. These are the entities and interactions representing the domain of our problem.</p>
+
+<p>Then, there are several other types of modules or classes around our business logic. These can be seen as simple helping auxiliary modules. They have various purposes and most of them are indispensable. They provide the connection between the user and our application through a delivery mechanism. In our case, this is a command line interface. There is another set of auxiliary classes which are connecting our business logic to our persistence layer and to all the data in that layer, but we don't have such a layer in our application. Then there are helping classes like factories and builders which are constructing and providing new objects to our business logic. Finally there are the classes representing the entry point to our system. In our case, <code>GameRunner</code> can be considered such a class, or all of our tests are also entry points in their own way.</p>
+
+<p>What is most important to notice on the diagram, is the dependency direction. All the auxiliary classes depend on the business logic. The business logic does not depend on anything else. If all the objects in our business logic could magically appear, with all the data in them, and we could see whatever happens inside our computer directly, they should be able to function. Our business logic must be able to function without a UI or without a persistence layer. Our business logic must exist isolated, in a bubble of a logical universe.</p>
+
+<h2>The Dependency Inversion Principle</h2>
+
+<blockquote>
+  <p>A. High-level modules should not depend on low-level modules. Both should depend on abstractions.
+B. Abstractions should not depend upon details. Details should depend upon abstractions.</p>
+</blockquote>
+
+<p>This is it, the last SOLID principle and probably the one with the greatest effect on your code. It is both pretty simple to understand and pretty simple to implement.</p>
+
+<p>In simple terms, it says that concrete things should always depend on abstract things. Your database is very concrete, so it should depend on something more abstract. Your UI is very concrete, so it should depend on something more abstract. Your factories are very concrete again. But what about your business logic. Inside your business logic you should continue applying these ideas, so that the classes that are closer to the boundaries are depending on classes that are more abstract, more at the heart of your business logic.</p>
+
+<p>A pure business logic, represents in an abstract way, the processes and behaviors of a defined domain or business model. Such a business logic does not contain specifics (concrete things) like values, money, account names, passwords, the size of a button or the number of fields in a form. The business logic shouldn't care about concrete things. It should only care about your business processes.</p>
+
+<h3>The Technical Trick</h3>
+
+<p>So, the Dependency Inversion Principle (DIP) says we should invert our dependencies whenever there is code that depends on something concrete. Right now our dependency structure looks like this.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/initial-dependency.png"/>
+</figure>
+
+<p><code>GameRunner</code>, using the functions in <code>RunnerFunctions.php</code> is creating a <code>Game</code> class and then uses it. On the other hand, our <code>Game</code> class, representing our business logic, creates and uses a <code>Display</code> object.</p>
+
+<p>So, the runner depends on our business logic. That is correct. On the other hand, our <code>Game</code> depends on <code>Display</code>, which is not good. Our business logic should never depend on our presentation.</p>
+
+<p>The simplest technical trick we can do is to make use of the abstract constructs in our programming language. A traditional class is more concrete than an abstract class, which is more concrete than an interface.</p>
+
+<p>An <em>Abstract Class</em> is a special type that can not be initialized. It contains only definitions and partial implementations . An abstract base class usually has several child classes. These child classes are inheriting the common partial functionality from the abstract parent, they are adding their own extended behavior, and they must implement all the methods defined in the abstract parent but not implemented in it.</p>
+
+<p>An <em>Interface</em> is a special type that allows only the definition of methods and variables. It is the most abstract construct in object oriented programming. Any implementation must always implement all the methods of its parent interface. A concrete class can implement several interfaces.</p>
+
+<p>Except for the C family object oriented languages, the others like Java or PHP do not allow multiple inheritance. So a concrete class can extend a single abstract class but it can implement several interfaces, even at the same time if needed. Or put from an another perspective, an single abstract class can have many implementations, while many interfaces can have many implementations.</p>
+
+<p>For a more complete explanation of the DIP, please read the <a href="http://code.tutsplus.com/tutorials/solid-part-4-the-dependency-inversion-principle--net-36872">tutorial dedicated to this SOLID principle</a>.</p>
+
+<h3>Inverting Dependency Using an Interface</h3>
+
+<p>PHP fully supports interfaces. Starting from the <code>Display</code> class as our model, we could define an interface with the public methods all classes responsible with displaying data will need to implement.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/display-done.png"/>
+</figure>
+
+<p>Looking at <code>Display</code>'s list of methods, there are 12 public methods, including the constructor. This is quite a large interface, you should keep this number as low as possible, exposing interfaces as clients need them. The <a href="http://code.tutsplus.com/tutorials/solid-part-3-liskov-substitution-interface-segregation-principles--net-36710">Interface Segregation Principle</a> has some good ideas about this. Maybe we will try to deal with this problem in a future tutorial.</p>
+
+<p>What we want to achieve now is an architecture like the one below.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/dependency-inverted-with-interface.png"/>
+</figure>
+
+<p>This way, instead of <code>Game</code> depending on the more concrete <code>Display</code>, they both depend on the very abstract interface. <code>Game</code> uses the interface, while <code>Display</code> implements it.</p>
+
+<h3>Naming Interfaces</h3>
+
+<p>Phil Karlton said, "There are only two hard things in Computer Science: cache invalidation and naming things."</p>
+
+<p>While we do not care about caches, we need to name our classes, variables, and methods. Naming interfaces can be quite a challenge.</p>
+
+<p>In the old days of the Hungarian Notation, we would have done it this way.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/naming-hun-notation.png"/>
+</figure>
+
+<p>For this diagram, we used the actual class/file names and the actual capitalization. The interface is called "IDisplay" with a capital "I" in front of "Display". There were actually programming languages requiring such a naming for interfaces. I am sure there are a few readers still using them and smiling right now.</p>
+
+<p>The problem with this naming scheme is the misplaced concern. Interfaces belong to their clients. Our interface belongs to <code>Game</code>. Thus <code>Game</code> must not know it uses an interface or a real object. <code>Game</code> must not be concerned about the implementation it actually gets. From <code>Game</code>'s point of view, it just uses a "Display", that's all.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/naming-display-impl.png"/>
+</figure>
+
+<p>This solves the <code>Game</code> to <code>Display</code> naming problem. Using the "Impl" suffix for the implementation is somewhat better. It helps eliminate the concern from <code>Game</code>.</p>
+
+<p>It is also much more effective for us. Think of <code>Game</code> as it looks right now. It uses a <code>Display</code> object and knows how to use it. If we name our interface "Display", we will reduce the number of changes needed in <code>Game</code>.</p>
+
+<p>But still, this naming is just marginally better than the previous one. It allows only one implementation for <code>Display</code> and the name of the implementation won't tell us what kind of display we are talking about.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/naming-display-cli.png"/>
+</figure>
+
+<p>Now that is considerably better. Our implementation was named "CLIDisplay", as it outputs to the CLI. If we want an HTML output or a Windows desktop UI, we can easily add all that to our architecture.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/naming-multiple-implementations.png"/>
+</figure>
+
+<h2>Show Me the Code</h2>
+
+<p>As we have two types of tests, the slow golden master and the fast unit tests, we want to rely on unit tests as much as we can, and on golden master as little as we can. So let's mark our golden master tests as skipped and try to rely on our unit tests. They are passing right now and we want to make a change that will keep them passing. But how can we do such a thing, without doing all the changes proposed above?</p>
+
+<p>Is there a way of testing that would allow us to take a smaller step?</p>
+
+<h3>Mocking Saves the Day</h3>
+
+<p>There is such a way. In testing, there is a concept called "Mocking".</p>
+
+<p>Wikipedia defines Mocking as such, "In object-oriented programming, mock objects are simulated objects that mimic the behavior of real objects in controlled ways."</p>
+
+<p>Such an object would be of great help for us. In fact, we don't even need something as complex as simulating all the behavior. All we need is a fake, stupid object that we can send to <code>Game</code> instead of the real display logic.</p>
+
+<h3>Creating the Interface</h3>
+
+<p>Let's create an interface called <code>Display</code> with all the public methods of the current concrete class.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/create-interface.png"/>
+</figure>
+
+<p>As you can observe, the old <code>Display.php</code> was renamed to <code>DisplayOld.php</code>. This is just a temporary step, that allows us to take it out of the way and concentrate on the interface.</p>
+
+<pre class="brush: php">interface Display {
+
+} </pre>
+
+<p>That's all there is to creating an interface. You can see that it is defined as "interface" and not as a "class". Let's add the methods.</p>
+
+<pre class="brush: php">interface Display {
+	function statusAfterRoll($rolledNumber, $currentPlayer);
+	function playerSentToPenaltyBox($currentPlayer);
+	function playerStaysInPenaltyBox($currentPlayer);
+	function statusAfterNonPenalizedPlayerMove($currentPlayer, $currentPlace, $currentCategory);
+	function statusAfterPlayerGettingOutOfPenaltyBox($currentPlayer, $currentPlace, $currentCategory);
+	function playerAdded($playerName, $numberOfPlayers);
+	function  askQuestion($currentCategory);
+	function correctAnswer();
+	function correctAnswerWithTypo();
+	function incorrectAnswer();
+	function playerCoins($currentPlayer, $playerCoins);
+} </pre>
+
+<p>Yes. An interface is just a bunch of function declarations. Imagine it as a C header file. No implementations, just declarations. It can not hold an implementation at all. If you try to implement any of the methods, it will result in an error.</p>
+
+<p>But these very abstract definitions allow us something wonderful. Our <code>Game</code> class now depends on them, instead of a concrete implementation. However, if we try to run our tests, they will fail.</p>
+
+<pre class="brush: php">Fatal error: Cannot instantiate interface Display</pre>
+
+<p>That is because <code>Game</code> tries to create a new display on its own at line 25, in the constructor.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/creates-display-in-constructor.png"/>
+</figure>
+
+<p>We know we can't do that. An interface or an abstract class can not be instantiated. We need a real object.</p>
+
+<h3>Dependency Injection</h3>
+
+<p>We need a dummy object to be used in our tests. A simple class, implementing all the methods of the <code>Display</code> interface, but doing nothing. Let's write it directly inside our unit test. If your programming language does not allow several classes in the same file, feel free to create a new file for your dummy class.</p>
+
+<pre class="brush: php">class DummyDisplay implements Display {
+
+	function statusAfterRoll($rolledNumber, $currentPlayer) {
+		// TODO: Implement statusAfterRoll() method.
+	}
+
+	function playerSentToPenaltyBox($currentPlayer) {
+		// TODO: Implement playerSentToPenaltyBox() method.
+	}
+
+	function playerStaysInPenaltyBox($currentPlayer) {
+		// TODO: Implement playerStaysInPenaltyBox() method.
+	}
+
+	function statusAfterNonPenalizedPlayerMove($currentPlayer, $currentPlace, $currentCategory) {
+		// TODO: Implement statusAfterNonPenalizedPlayerMove() method.
+	}
+
+	function statusAfterPlayerGettingOutOfPenaltyBox($currentPlayer, $currentPlace, $currentCategory) {
+		// TODO: Implement statusAfterPlayerGettingOutOfPenaltyBox() method.
+	}
+
+	function playerAdded($playerName, $numberOfPlayers) {
+		// TODO: Implement playerAdded() method.
+	}
+
+	function  askQuestion($currentCategory) {
+		// TODO: Implement askQuestion() method.
+	}
+
+	function correctAnswer() {
+		// TODO: Implement correctAnswer() method.
+	}
+
+	function correctAnswerWithTypo() {
+		// TODO: Implement correctAnswerWithTypo() method.
+	}
+
+	function incorrectAnswer() {
+		// TODO: Implement incorrectAnswer() method.
+	}
+
+	function playerCoins($currentPlayer, $playerCoins) {
+		// TODO: Implement playerCoins() method.
+	}
+}</pre>
+
+<p>As soon as you say your class implements an interface, the IDE will allow you to automatically fill in the missing methods. This makes creating such objects very fast, in just a few seconds.</p>
+
+<p>Now let's use it in <code>Game</code> by initializing it in its constructor.</p>
+
+<pre class="brush: php">function  __construct() {
+
+	$this-&gt;players = array();
+	$this-&gt;places = array(0);
+	$this-&gt;purses = array(0);
+	$this-&gt;inPenaltyBox = array(0);
+
+	$this-&gt;display = new DummyDisplay();
+}</pre>
+
+<p>This makes the test pass, but introduces a huge problem. <code>Game</code> must know about its test. We really don't want this. A test is just another entry point. The <code>DummyDisplay</code> is just another user interface. Our business logic, the <code>Game</code> class, should not depend on the UI. So let's make it depend only on the interface.</p>
+
+<pre class="brush: php">function  __construct(Display $display) {
+
+	$this-&gt;players = array();
+	$this-&gt;places = array(0);
+	$this-&gt;purses = array(0);
+	$this-&gt;inPenaltyBox = array(0);
+
+	$this-&gt;display = $display;
+}</pre>
+
+<p>But in order to test <code>Game</code>, we need to send in the dummy display from our tests.</p>
+
+<pre class="brush: php">function setUp() {
+	$this-&gt;game = new Game(new DummyDisplay());
+}</pre>
+
+<p>That's it. We needed to modify a single line in our unit tests. In the setup, we shell send in, as a parameter, a new instance of <code>DummyDisplay</code>. That is a dependency injection. Using interfaces and dependency injection helps especially if you are working in a team. We at Syneto observed that specifying an interface type for a class and injecting it, will help us communicate much better the intentions of the client code. Anyone looking at the client will know what type of object is used in the parameters. And a cool bonus is that your IDE will autocomplete the methods for those parameters because it can determine their types.</p>
+
+<h3>A Real Implementation for Golden Master</h3>
+
+<p>The golden master test, runs our code as in the real world. In order to make it pass, we need to transform our old display class into a real implementation of the interface and send it in into our business logic. Here is one way to do it.</p>
+
+<pre class="brush: php">class CLIDisplay implements Display {
+	// ... //
+}</pre>
+
+<p>Rename it to <code>CLIDisplay</code> and make it implement <code>Display</code>.</p>
+
+<pre class="brush: php">function run() {
+	$display = new CLIDisplay();
+	$aGame = new Game($display);
+	$aGame-&gt;add("Chet");
+	$aGame-&gt;add("Pat");
+	$aGame-&gt;add("Sue");
+
+	do {
+		$dice = rand(0, 5) + 1;
+		$aGame-&gt;roll($dice);
+	} while (!didSomebodyWin($aGame, isCurrentAnswerCorrect()));
+}</pre>
+
+<p>In <code>RunnerFunctions.php</code>, in the <code>run()</code> function, create a new display for CLI and pass it to <code>Game</code> when it is created.</p>
+
+<p>Uncomment and run your golden master tests. They will pass.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>This solution effectively leads to an architecture like in the diagram below.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/final-architecture.png"/>
+</figure>
+
+<p>So now our game runner, which is the entry point to our application, creates a concrete <code>CLIDisplay</code> and thus depends on it. <code>CLIDisplay</code> depends only on the interface which sits on the boundary between presentation and business logic. Our runner also directly depends on the business logic. This is how our application looks like when projected on to the clean architecture that we started this article with.</p>
+
+<p>Thank you for reading, and don't miss the next tutorial when we will talk about mocking and class interaction in more details.</p>

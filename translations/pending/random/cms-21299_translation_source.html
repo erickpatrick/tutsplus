@@ -1,0 +1,300 @@
+<h1>50 Filters of WordPress: Filters 41-50</h1>
+
+<p>In the previous parts of this series, we went through 40 WordPress filters. In this tutorial, we're going to see the last 10 filters and do examples with each.</p>
+
+<p>Let's begin!</p>
+
+<h2>Filtering the Script Loader Source</h2>
+
+<p>WordPress has its own script loader, <code>wp_enqueue_script()</code>, which allows us to "queue" JavaScript files and not hard-code them. And this little filter called <code>script_loader_src</code> lets us <em>how</em> the scripts will be queued and outputted.</p>
+
+<h3>Example: Remove the Version Parameter from Scripts</h3>
+
+<p>Google Page Speed, Yahoo YSlow and other website performance measurement tools usually <strong>hate</strong> URL parameters in JavaScript files. And they're right, too: Scripts with parameters at the end of their URLs don't get cached by "proxy servers" (<a href="https://developers.google.com/speed/docs/best-practices/caching#LeverageProxyCaching">more info on this topic here</a>) and sadly, WordPress enables "version" parameters for scripts (and styles, too) by default. Luckily, we can simply remove those <code>ver</code> parameters with a few lines of code:</p>
+
+<pre class="brush: php">&lt;?php
+
+function script_loader_src_example( $src ) {
+	return remove_query_arg( 'ver', $src );
+}
+
+add_filter( 'script_loader_src', 'script_loader_src_example' );
+// Tiny bonus: You can do it with styles, too!
+add_filter( 'style_loader_src', 'script_loader_src_example' );
+
+// Example source: http://www.wpmayor.com/15-practical-ways-boost-wordpress-speed/
+
+?&gt;</pre>
+
+<p>Done! Your JavaScript (and CSS) files will not have any version parameters anymore.</p>
+
+<p>If you want to learn more about proper JavaScript usage with WordPress, be sure to <a href="http://code.tutsplus.com/articles/the-complete-guide-to-proper-javascript-usage-with-wordpress--wp-32172">check out my article on this topic</a>.</p>
+
+<h2>Adding HTML to the "Featured Image" metabox</h2>
+
+<p>The <code>admin_post_thumbnail_html</code> filter, as its name suggests, allows you to add HTML content inside the "Featured Image" metabox. The HTML will appear right below the "Set featured image" link.</p>
+
+<h3>Example: How to Help Your Client Set Featured Images Correctly</h3>
+
+<p>Imagine that you're making a personal blog for your client, but he insisted on maintaining the blog on his own instead of hiring an assistant. He always forgets how to add a featured image (He calls it "top image".) and you need to leave a reminder on the New Post page. Here's how you do it:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'admin_post_thumbnail_html', 'admin_post_thumbnail_html_example' );
+
+function admin_post_thumbnail_html_example( $html ) {
+	return $html .= '&lt;p&gt;Hi Mr. Smith! Click above to add an image to be displayed at the top of your post. Remember: &lt;strong&gt;The width of the image should be at least 900px&lt;/strong&gt;!&lt;/p&gt;';
+
+}
+
+?&gt;</pre>
+
+<p>With your helpful reminder, your client will never forget to set a "top image" with a minimum width of 900 pixels.</p>
+
+<h2>Controlling Comment Flooding Attacks - <a href="http://codex.wordpress.org/Plugin_API/Filter_Reference/comment_flood_filter"><code>comment_flood_filter</code></a></h2>
+
+<p>By default, WordPress prevents "comment flooders" who repeatedly comments on your posts. For example, if a visitor posts a comment to a post in your website, they must wait 15 seconds (default value) before posting another comment. This filter lets you change the time setting to another value – or disable flood checking altogether.</p>
+
+<h3>Example: Making Commenters Wait Longer</h3>
+
+<p>As I said, WordPress makes visitors wait for 15 seconds before posting another comment. In some scenarios, you might need to increase this time limit to, say, 60 seconds. Here's how you do it:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'comment_flood_filter', 'comment_flood_filter_example', 10, 3 );
+
+function comment_flood_filter_example( $flood_control, $time_last, $time_new ) {
+	$seconds = 60;
+	if ( ( $time_new - $time_last ) &lt; $seconds )
+		return true;
+	return false;
+}
+
+// Example source: http://codex.wordpress.org/FAQ_Working_with_WordPress#How_do_I_prevent_comment_flooding.3F
+
+?&gt;</pre>
+
+<p>Change the value "60" above to anything you want.</p>
+
+<h3>Bonus Example: Disabling Comment Flood Checking</h3>
+
+<p>If you don't care about visitors speed-commenting, you can disable checking for flooding by using the two simple lines below:</p>
+
+<pre class="brush: php">&lt;?php
+
+remove_all_filters( 'comment_flood_filter' );
+add_filter( 'comment_flood_filter', '__return_false', 10, 3 );
+
+?&gt;</pre>
+
+<p>Notice the <code>remove_all_filters()</code> function? As its name suggests, it removes all filtering functions from a filter hook.</p>
+
+<h2>Changing the Items at the "At a Glance" Section </h2>
+
+<p>The "At a Glance" section (formerly named "Right Now") keeps us up to date about how many posts, pages and comments are there in the database of your website. The <code>dashboard_glance_items</code> filter helps us show additional information there, like the number of posts of a custom post type.</p>
+
+<h3>Example: Showing Your "Events" Post Type at the "At a Glance" Section</h3>
+
+<p>Let's imagine that you have an "event blog" where you keep your visitors informed by new local events which you post as a custom post type named "Events" (and with the id <code>event</code>). To be able to see the count of events in your blog, you can use the function below and hook it to the <code>dashboard_glance_items</code> filter like so:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'dashboard_glance_items', 'dashboard_glance_items_example' );
+
+function dashboard_glance_items_example( $items = array() ) {
+	$post_types = array( 'event' );
+	foreach( $post_types as $type ) {
+		if( ! post_type_exists( $type ) ) continue;
+		$num_posts = wp_count_posts( $type );
+		if( $num_posts ) {
+			$published = intval( $num_posts-&gt;publish );
+			$post_type = get_post_type_object( $type );
+			$text = _n( '%s ' . $post_type-&gt;labels-&gt;singular_name, '%s ' . $post_type-&gt;labels-&gt;name, $published, 'your_textdomain' );
+			$text = sprintf( $text, number_format_i18n( $published ) );
+			if ( current_user_can( $post_type-&gt;cap-&gt;edit_posts ) ) {
+			$output = '&lt;a href="edit.php?post_type=' . $post_type-&gt;name . '"&gt;' . $text . '&lt;/a&gt;';
+				echo '&lt;li class="post-count ' . $post_type-&gt;name . '-count"&gt;' . $output . '&lt;/li&gt;';
+			} else {
+			$output = '&lt;span&gt;' . $text . '&lt;/span&gt;';
+				echo '&lt;li class="post-count ' . $post_type-&gt;name . '-count"&gt;' . $output . '&lt;/li&gt;';
+			}
+		}
+	}
+	return $items;
+}
+
+// Example source: http://www.trickspanda.com/2014/03/add-custom-post-types-glance-dashboard-widget-wordpress/
+
+?&gt;</pre>
+
+<p>Easy, right? Change the value of the <code>$post_types</code> variable (array) to suit your needs.</p>
+
+<h2>Changing the Default Login Form Messages</h2>
+
+<p>The <code>login_message</code> filter allows us to edit default messages that's outputted right above the login forms of our WordPress installations. (Not "errors", just neutral messages.)</p>
+
+<h3>Example: Changing the Default "Lost Password" Messages</h3>
+
+<p>If you ever need to simplify the default "lost password" instructions ("Please enter your username or email address. You will receive a link to create a new password via email."), you can change it like so:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'login_message', 'login_message_example' );
+
+function login_message_example( $message ) {
+	$action = $_REQUEST['action'];
+	if( $action == 'lostpassword' ) {
+		$message = '&lt;p class="message"&gt;Enter your email address, then check your inbox for the "reset password" link!&lt;/p&gt;';
+		return $message;
+	}
+	return;
+}
+
+// Example source: http://www.pypelineweb.com/blog/change-wordpress-login-message-filter-it-out/
+
+?&gt;</pre>
+
+<p>There are a number of <code>action</code>s that can be found in the <code>wp-login.php</code> file:</p>
+
+<ul>
+  <li><code>logout</code></li>
+  <li><code>lostpassword</code> and <code>retreivepassword</code> (alias)</li>
+  <li><code>resetpass</code> and <code>rp</code> (alias)</li>
+  <li><code>register</code></li>
+  <li><code>login</code></li>
+</ul>
+
+<p>Just like the one we did in the example, you can write different messages for different <code>action</code>.</p>
+
+<h2>Changing Bulk Update Messages</h2>
+
+<p>There are messages displayed when you update, trash, untrash, or delete posts. If you want to edit those messages, the <code>bulk_post_updated_messages</code> is your guy.</p>
+
+<h3>Example: Editing Custom Messages for a Custom Post Type</h3>
+
+<p>Let's say you don't like the way those messages are displayed for bulk actions of your custom post type "event" and you want to change them. Here's how you do it:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'bulk_post_updated_messages', 'bulk_post_updated_messages_example', 10, 2 );
+
+function bulk_post_updated_messages_example( $bulk_messages, $bulk_counts ) {
+	$bulk_messages['event'] = array(
+		'updated'   =&gt; _n( '%s event updated.', '%s events updated.', $bulk_counts['updated'] ),
+		'locked'	=&gt; _n( '%s event not updated, somebody is editing it.', '%s events not updated, somebody is editing them.', $bulk_counts['locked'] ),
+		'deleted'   =&gt; _n( '%s event permanently deleted.', '%s events permanently deleted.', $bulk_counts['deleted'] ),
+		'trashed'   =&gt; _n( '%s event moved to the Trash.', '%s events moved to the Trash.', $bulk_counts['trashed'] ),
+		'untrashed' =&gt; _n( '%s event restored from the Trash.', '%s events restored from the Trash.', $bulk_counts['untrashed'] ),
+	);
+
+	return $bulk_messages;
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/bulk_post_updated_messages
+
+?&gt;</pre>
+
+<p>Easy, right? Remember to <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Strings_for_Translation">make the strings translatable</a> if you're not the only one to use the plugin or theme.</p>
+
+<h2>Filtering the Default Categories Widget</h2>
+
+<p>In some cases, you may need to tamper with the core Categories widget. With the <code>widget_categories_args</code> filter, you can do that.</p>
+
+<h3>Example: Excluding Categories From the Widget</h3>
+
+<p>If you ever need to "hide" some categories in the Categories widget, use this code snippet:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'widget_categories_args', 'widget_categories_args_example' );
+
+function widget_categories_args_example( $cat_args ) {
+	$exclude_arr = array( 4, 10 );
+
+	if( isset( $cat_args['exclude'] ) &amp;&amp; !empty( $cat_args['exclude'] ) )
+		$exclude_arr = array_unique( array_merge( explode( ',', $cat_args['exclude'] ), $exclude_arr ) );
+	$cat_args['exclude'] = implode( ',', $exclude_arr );
+	return $cat_args;
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/widget_categories_args
+
+?&gt;</pre>
+
+<p>Change the <code>$exclude_arr</code> array items with the IDs of your "unwanted" categories and you're good to go.</p>
+
+<h2>Redirecting the User Upon Successful Registration</h2>
+
+<p>By default, WordPress just reminds you to check your email after registration and doesn't redirect you anywhere. With the <code>registration_redirect</code> filter, however, you can set a custom <em>safe</em> address to redirect upon successful registrations.</p>
+
+<h3>Example: Letting New Users Download Your Awesome E-book</h3>
+
+<p>If you offer a free e-book to your visitors if they sign up for your website, you can redirect them to the page with the download link of your e-book by using this simple code snippet:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'registration_redirect', 'registration_redirect_example' );
+
+function registration_redirect_example() {
+	return home_url( '/your-free-ebook/' );	
+}
+
+// Example source: http://wpsnipp.com/index.php/functions-php/redirect-a-successful-registration-page/
+
+?&gt;</pre>
+
+<p>Remember, the redirection is done with the <code>wp_safe_redirect()</code> function which means that you can't redirect to an external site <strong>unless</strong> you used the <code>allowed_redirect_hosts</code> filter to specify external and "safe" hosts. We went through that filter in the first batch of these examples, be sure to read that tutorial if you haven't yet.</p>
+
+<h2>Altering Fields of the Comment Form</h2>
+
+<p>WordPress has the <code>comment_form()</code> function for displaying the comment form, and you can change its field by <a href="http://codex.wordpress.org/Function_Reference/comment_form">using the function's arguments</a>. If you're developing a plugin, however, you won't be able to change any parameters of the function. This little filter allows us to change the HTML code of the default form fields – or remove them.</p>
+
+<h3>Example: Removing the URL Field in the Comment Form</h3>
+
+<p>Let's say you, as a freelance web designer, are making a "default adjustments plugin" for all your clients and for security purposes, you want to remove the URL fields in the comment forms of all your websites. You can add a really simple function (and hook it to a filter) to make it happen:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'comment_form_default_fields', 'comment_form_default_fields_example' );
+
+function comment_form_default_fields_example( $fields ) {
+	unset( $fields['url'] );
+	return $fields;
+}
+
+// Example source: http://wpsnipp.com/index.php/comment/remove-unset-url-field-from-comment-form/
+
+?&gt;</pre>
+
+<p>Paste this lines into your plugin file and you're done!</p>
+
+<h2>Altering the List of Acceptable File Types</h2>
+
+<p>By default, you can upload a number of file types into WordPress' Media Library – <a href="http://codex.wordpress.org/Uploading_Files">check out the full list of file types here.</a> With the help of the <code>upload_mime</code> filter, you can make changes with the list of allowed file types.</p>
+
+<h3>Example: Prevent Uploading GIFs</h3>
+
+<p>Ah, GIFs... They were popular in 1999 and they're still popular at 2014. Did you know that one of the first <strong>meme</strong>s was <a href="http://knowyourmeme.com/memes/dancing-baby">a GIF of a dancing baby</a>? Those were simpler times when we created "homepages" in Yahoo! Geocities and enjoying the annoying monkey sound of ICQ every time a friend IMed us...</p>
+
+<p>Ahem, anyways... If you want to end this nonsense and stop your users to upload GIFs into your website's Media Library, you can disable GIF uploads with a simple code snippet like below:</p>
+
+<pre class="brush: php">&lt;?php
+
+add_filter( 'upload_mimes', 'upload_mimes_example' );
+
+function upload_mimes_example( $existing_mimes = array() ) {
+	unset( $existing_mimes['gif'] );
+	return $existing_mimes;
+}
+
+// Example source: http://codex.wordpress.org/Plugin_API/Filter_Reference/upload_mimes
+
+?&gt;</pre>
+
+<p>Bye bye, four-second movie clips that doesn't need to be seen more than one time but keeps repeating endlessly!</p>
+
+<h2>End of Part Five</h2>
+
+<p>We went through the last batch of 50 filters in this article. I hope you liked and learned new things from it. In the next article, we're going to have a quick look at what we've seen and close the series. See you there!</p>
+
+<p>I want to hear your thoughts, too. What do you think about these filters? Post your comments below; and if you liked the article, don't forget to share it!</p>
