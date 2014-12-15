@@ -5,6 +5,10 @@ Traduções para o Tuts+
 
 Esse repositório serve como versionamento para os arquivos temporários de tradução, bem como listagem de todos os posts que traduzi para lá. É uma espécie de portfolio de tradução que tenho mantido, juntamente ao [Repositório Traduções](https://github.com/erickpatrick/traducoes), também de minha autoria.
 
+Código
+------
+- [Básico Do Pivotal Tracker Para Desenvolvedores](http://code.tutsplus.com/pt/tutorials/pivotal-tracker-101-for-developers--cms-22588)
+
 PHP
 ---
 - [BDD com Behat](https://code.tutsplus.com/pt/tutorials/bdd-with-behat--net-36171)
@@ -77,6 +81,7 @@ JavaScript
 - [Introdução a Geradores & Koa.js: Parte 2](http://code.tutsplus.com/pt/tutorials/introduction-to-generators-koajs-part-2--cms-21756)
 - [Uma Olhada No Foundation for Apps](http://webdesign.tutsplus.com/pt/articles/a-sneak-peek-at-the-next-foundation-for-apps--cms-22540)
 - [Iniciando Com o Intel XDK](http://code.tutsplus.com/pt/articles/getting-started-with-intel-xdk--cms-22205)
+- [Contato com Depuração Moderna: Parte 1](http://code.tutsplus.com/pt/tutorials/modern-debugging-experience-part-1--cms-22571)
 
 Habilidades com Computadores
 ----------------------------
