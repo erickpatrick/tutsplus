@@ -22,6 +22,7 @@ PHP
 - [Princípos SOLID Parte 4 - Princípio da Inversão de Dependência](https://code.tutsplus.com/pt/tutorials/solid-part-4-the-dependency-inversion-principle--net-36872)
 - [Construindo Com a API do Twitter: OAuth, Leitura e Publicação](http://code.tutsplus.com/pt/tutorials/building-with-the-twitter-api-oauth-reading-and-posting--cms-22193)
 - [Construindo Com a API do Twitter: Usando Fluxos de Tempo Real](http://code.tutsplus.com/pt/tutorials/building-with-the-twitter-api-using-real-time-streams--cms-22194)
+- [Refatorando Código Legado: Parte 1 - O Resultado Esperado](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331)
 
 WordPress
 ---------
@@ -38,6 +39,7 @@ WordPress
 - [50 Filtros Para WordPress: Filtros 11 a 20](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-11-20--cms-21296)
 - [50 Filtros Para WordPress: Filtros 21 a 30](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-21-30--cms-21298)
 - [50 Filtros Para WordPress: Filtros 31 a 40](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-31-40--cms-21297)
+- [50 Ações Para WordPress – Introdução](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577)
 
 HTML & CSS
 ----------
