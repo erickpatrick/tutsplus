@@ -1,0 +1,430 @@
+<h1>Refatorando Código Legado: Parte 1 - O Resultado Esperado</h1>
+
+<p>Código velho. Código feio. Código complicado. Código macarrônico. Código sem sentido. Em outras palavras, <em>Código Legado</em>. Esta é uma série que ajudará você a trabalhar e lidar com esse tipo de código.</p>
+
+<p>Em um mundo ideal, você só escreveria código novo, do zero. Você escreveria ele lindo e perfeito. Nunca teria de revê-lo e nunca teria de manter projetos com mais de dez anos. Isso em um mundo ideal...</p>
+
+<p>Infelizmente, vivemos em uma realidade que não é a ideal. Temos de entender, modificar e aprimorar código de eras atrás. Temos de trabalhar com código legado. O que está esperando? Comecemos com o primeiro tutorial pegando o código, entendendo um pouco do que ele faz e criaremos uma rede de segurança para modificações futuras.</p>
+
+<h2>Definição de Código Legado</h2>
+
+<p>Código legado foi definido de tantas formas, que é impossível encontrar definição única e aceita. Os poucos exemplos do começo deste tutorial são só a ponta geleira. Assim, não darei qualquer definição oficial. Ao invés disso, citarei a minha favorita.</p>
+
+<blockquote>
+  Para mim,
+  <em>código legado</em>
+  não passa de código sem testes. ~ Michael Feathers
+</blockquote>
+
+<p>Pois bem, essa é a primeira definição formal para a expressão <em>código legado</em>, publicada por Michael Feathers em seu livro <a href="http://www.goodreads.com/book/show/44919.Working_Effectively_with_Legacy_Code?from_search=true">Trabalhando Eficientemente com Código Legado</a>. Claro, a indústria tem usado essa expressão por anos, basicamente para qualquer código que seja difícil de alterar. Entretanto, essa definição tem algo mais. Ela explica o problema claramente, de modo que a solução se torna óbvia. "Díficil de alterar" é muito vago. O que deveríamos fazer para tornar mais fácil a alteração? Não tenho ideia! "Código sem testes", por outro lado, é bem mais concreto. E a resposta para nossa pergunta é simples, crie código testável e coloque-o sob test. Então, comecemos.</p>
+
+<h2>Obtendo Nosso Código Legado</h2>
+
+<p>Esta série será baseada no excepcional jogo <em>Trivia Game</em> do <a href="http://www.jbrains.ca/">J.B. Rainsberger</a> projetado para os eventos <a href="http://legacycoderetreat.typepad.com/">Legacy Code Retreat</a>. Ele foi criado para parecer com código legado de verdade e também oferece oportunidades para uma grande variedade de refatoração, com um nível razoável de dificuldade.</p>
+
+<h3>Baixe o Código Fonte</h3>
+
+<p>O <em>Trivia Game</em> está hospedado no GitHub sob a licença GPLv3. Assim, você pode brincar com ele sem problemas. Começaremos essa série verificando o repositório oficial. O código também está atrelado a este tutorial com todas as modificações que fizermos. Se ficar confuso em algum ponto, dê uma olhada no resultado final.</p>
+
+<pre class="brush: bash"> $ git clone https://github.com/jbrains/trivia.git
+Cloning into 'trivia'...
+remote: Counting objects: 429, done.
+remote: Compressing objects: 100% (262/262), done.
+remote: Total 429 (delta 100), reused 419 (delta 93)
+Receiving objects: 100% (429/429), 848.33 KiB | 305.00 KiB/s, done.
+Resolving deltas: 100% (100/100), done.
+Checking connectivity... done.</pre>
+
+<p>Ao abrir o diretório <code>trivia</code>, você verá nosso código em várias linguagens de programação. Trabalharemos com o PHP, mas sinta-se livre para escolher sua linguagem favorita e aplicar as técnicas apresentadas aqui.</p>
+
+<h2>Entendendo o Código</h2>
+
+<p>Por definição, código legado é difícil de entender, especialmente se não sabemos o que ele deve fazer. Assim, o primeiro passo é executar o código e realizar uma análise para saber do que ele trata.</p>
+
+<p>Temos dois arquivos em nosso diretório.</p>
+
+<pre class="brush: bash">$ cd php/
+$ ls -al
+total 20
+drwxr-xr-x  2 csaba csaba 4096 Mar 10 21:05 .
+drwxr-xr-x 26 csaba csaba 4096 Mar 10 21:05 ..
+-rw-r--r--  1 csaba csaba 5568 Mar 10 21:05 Game.php
+-rw-r--r--  1 csaba csaba  410 Mar 10 21:05 GameRunner.php</pre>
+
+<p>O arquivo <code>GameRunner.php</code> parece um ótimo candidato para tentarmos executar o código.</p>
+
+<pre class="brush: bash">$ php ./GameRunner.php
+Chet foi adicionado
+Eles são o jogador número 1
+Pat foi adicionado
+Eles são o jogador número 2
+Sue foi adicionado
+Eles são o jogador número 3
+Chet é o jogador atual
+Eles tiraram um 4
+Chet está na nova posição 4
+A categoria é Pop
+Pergunta sobre Pop 0
+Resposta correta!!!!
+Chet agora tem 1 Moedas de Ouro.
+Pat é o jogador atual
+Eles tiraram um 2
+Pat está na nova posição 2
+A categoria é Esportes
+Pergunta sobre Esportes 0
+Resposta correta!!!!
+Pat agora tem 1 Moedas de Ouro.
+Sue é o jogador atual
+Eles tiraram um 1
+Sue está na nova posição 1
+A categoria é Ciências
+Pergunta sobre Ciências 0
+Resposta correta!!!!
+Sue agora tem 1 Moedas de Ouro.
+Chet é o jogador atual
+Eles tiraram um 4
+
+## Algumas linhas removidas para manter
+## o tutorial em um tamanho razoável
+
+Resposta correta!!!!
+Sue agora tem 5 Moedas de Ouro.
+Chet é o jogador atual
+Eles tiraram um 3
+Chet está saindo da área de penalidades
+Chet está na nova posição 11
+A categoria é Rock
+Pergunta sobre Rock 5
+Resposta correta!!!!
+Chet agora tem 5 Moedas de Ouro.
+Pat é o jogador atual
+Eles tiraram um 1
+Pat está na nova posição 10
+A categoria é Esportes
+Pergunta sobre Esportes 1
+Resposta correta!!!!
+Pat agora tem 6 Moedas de Ouro.</pre>
+
+<p>Certo. Nossa suposição estava correta. Nosso código executou e produziu algum resultado. Analisar esse resultado nos ajudará a deduzir alguma ideia sobre o que o código faz.</p>
+
+<ol>
+  <li>Sabemos que é um Jogo de Perguntas e Respostas. Descobrimos ao ver os códigos fonte.</li>
+  <li>Nosso exemplo tem três jogadores: Chet, Pat e Sue.</li>
+  <li>Há algum tipo de rolagem de dados ou coisa parecida.</li>
+  <li>Há posicionamento de jogadores. Será algum tipo de tabuleiro?</li>
+  <li>Há várias categorias de perguntas a serem feitas.</li>
+  <li>Usuários respondem questões.</li>
+  <li>Respostas corretas dão ouro para os jogadores.</li>
+  <li>Respostas erradas mandam os jogadores para a área de penalidades.</li>
+  <li>Jogadores podem sair da área de penalidades, baseada em uma lógica não tão óbvia.</li>
+  <li>Aparentemente, aquele usuário que alcançar seis moedas é o vencedor.</li>
+</ol>
+
+<p>Isso é bastante coisa. Fomos capazes de descobrir a maior parte do comportamento da aplicação apenas olhando o seu retorno. Em aplicações reais, o retorno pode não ser texto em uma tela, mas pode ser uma página na web, um registro de erro, uma base de dados, uma comunicação de rede, um arquivo geração e por aí vai. Em outros casos, o módulo que precisa de mudanças não pode ser executado isoladamente. Se for o caso, você precisará executá-lo a partir dos outros módulos da aplicação maior. Apenas tente adicionar o mínimo para obter uma quantidade suficiente de retorno do seu código legado.</p>
+
+<h2>Escaneando o Código</h2>
+
+<p>Agora que temos uma ideia sobre o que o código faz, podemos começar a verificá-lo. Começaremos com o executador.</p>
+
+<h3>O Executador do Jogo</h3>
+
+<p>Gosto de começar passando o código pelo formatador de código da minha IDE. Isso aprimora bastante a leitura tornando o código mais familiar ao que estou acostumado. Assim, isso:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gamerunner-form-before.png"/>
+</figure>
+
+<p>... virará isso:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gamerunner-form-after.png"/>
+</figure>
+
+<p>... que, de certa forma, é melhor. Pode não ter sido uma grande diferença em uma mínima quantidade de código, mas fará muita diferença em nosso próximo arquivo.</p>
+
+<p>Olhando o arquivo <code>GameRunner.php</code>, podemos identificar, facilmente, alguns aspectos chave que observamos do retorno da execução. Podemos ver as linhas que adicionam os usuários (9-11), que um método <code>roll()</code> é executado e um vencedor é selecionado. Claro, eles estão além dos segredos mais profundos da lógica do jogo, mas, pelo menos, começamos a identificar os métodos principais que nos ajudarão a descobrir o resto do código.</p>
+
+<h3>O Arquivo <em>Game</em></h3>
+
+<p>Devemos fazer o mesmo processo de formatação no arquivo <code>Game.php</code>.</p>
+
+<p>Esse arquivo é muito maior: Cerca de 200 linhas de código. A maioria dos métodos tem um tamanho bom, mas alguns deles são bem grandes e, após a formatação, veremos que tem dois pontos em que a indentação do código vai além de quatro níveis. Geralmente, altos níveis de indentação indicam várias decisões complexas. Por hora, podemos assumir que esses pontos em nosso código serão mais complexos e mais sensíveis a alterações.</p>
+
+<h2>O Resultado Esperado</h2>
+
+<p>E em pensar em mudança leva-nos à nossa falta de testes. Os métodos que vimos no arquivo <code>Game.php</code> são bem complexos. Não se preocupe em entendê-los. A essa altura, eles também são um mistério para mim, também. Código legado é um mistério que precisamos resolver e entender. Tomamos nosso primeiro passo para entendê-lo e chegou a hora de tomarmos o segundo.</p>
+
+<h3>E o Que É o Resultado Esperado?</h3>
+
+<p>Ao trabalhar com código legado, é quase impossível de entendê-lo e escreve algum código que exercitará todos os caminhos lógicos do código. Para esse tipo de teste, precisaremos entender o código, mas não ainda. Assim, tomaremos outra abordagem.</p>
+
+<p>Ao invés de tentar descobrir o que testar, podemos testar tudo, inúmeras vezes, para que obtenhamos uma grande quantidade de retorno, sobre o qual podemos assumir que ele foi produzido exercitando todas as partes do nosso código. É recomendado que execute o código, pelo menos 10.000 (dez mil) vezes. Escreveremos testes para executar pelo menos duas vezes mais e salvar o retorno.</p>
+
+<h3>Escrevendo o Gerador do Resultado Esperado</h3>
+
+<p>Podemos pensar além e começar criando arquivos separados para o gerador e para o teste. Mas isso é realmente necessário? Ainda não temos certeza disso. Então, que tal começarmos comum arquivo de testes básico que executará nosso código uma vez e construiremos nossa lógica a partir dele.</p>
+
+<p>Você encontrará a pasta <code>Test</code> nos arquivos anexados, dentro da pasta <code>source</code>, fora do diretório <code>trivia</code>. Nesse diretório, criaremos um arquivo chamado: <code>GoldenMasterTest.php</code>.</p>
+
+<pre class="brush: php">class GoldenMasterTest extends PHPUnit_Framework_TestCase {
+
+	function testGenerateOutput() {
+		ob_start();
+		require_once __DIR__ . '/../trivia/php/GameRunner.php';
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		var_dump($output);
+	}
+
+}</pre>
+
+<p>Poderíamos fazer isso de várias formas. Por exemplo, poderíamos executar nosso código através da linha de comando e redirecionar seu retorno para esse arquivo. Entretanto, colocá-lo em teste que seja facilmente executável em nossa IDE, é uma vantagem que não devemos ignorar.</p>
+
+<p>O código é bem simples, ele carrega o retorno e o guarda na variável <code>$output</code>. A função <code>require_once()</code> também executará todo o código dentro dos arquivos incluídos. Em nossa função <code>var_dump()</code> veremos um retorno já familiar.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-first-run.png"/>
+</figure>
+
+<p>Porém, em uma segunda execução, poderemos observar algumas coisas estranhas:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-second-run.png"/>
+</figure>
+
+<p>... o retorno está diferente. Mesmo que executemos o mesmo código, o retorno é diferente. Os números obtidos são diferentes, as posições dos jogadores são diferentes....</p>
+
+<h3>Alimentando o Gerador Randômico</h3>
+
+<pre class="brush: php">do {
+
+	$aGame-&gt;roll(rand(0, 5) + 1);
+
+	if (rand(0, 9) == 7) {
+		$notAWinner = $aGame-&gt;wrongAnswer();
+	} else {
+		$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+	}
+
+} while ($notAWinner);</pre>
+
+<p>Ao analisar o código essencial do executador, podemos ver que ele usa uma função <code>rand()</code> para gerar números aleatórios. Nossa próxima parada é na documentação oficial do PHP para pesquisarmos sobre essa função <code>rand()</code>.</p>
+
+<blockquote>O gerador de números aleatórios é alimentado automaticamente.</blockquote>
+
+<p>A documentação informa que a alimentação acontece automaticamente. Agora, temos outra tarefa. Precisamos de uma maneira de controlar essa alimentação. A função <code>srand()</code> pode ajudar com isso. Eis a definição dela na documentação.</p>
+
+<blockquote>Alimenta o gerador de números aleatórios com uma semente ou com um valor aleatório caso não passe algum valor para a semente.</blockquote>
+
+<p>Isso nos diz que, se executarmos essa função antes de qualquer chamada a <code>rand()</code>, nós sempre teremos os mesmos resultados.</p>
+
+<pre class="brush: php">function testGenerateOutput() {
+	ob_start();
+	srand(1);
+	require_once __DIR__ . '/../trivia/php/GameRunner.php';
+	$output = ob_get_contents();
+	ob_end_clean();
+
+	var_dump($output);
+}</pre>
+
+<p>Colocamos <code>srand(1)</code> antes de nosso <code>require_once()</code>. Agora, o resultado sempre será o mesmo.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded.png"/>
+</figure>
+
+<h3>Colocando o Retorno em Um Arquivo</h3>
+
+<pre class="brush: php">class GoldenMasterTest extends PHPUnit_Framework_TestCase {
+
+	function testGenerateOutput() {
+		file_put_contents('/tmp/gm.txt', $this-&gt;generateOutput());
+		$file_content = file_get_contents('/tmp/gm.txt');
+		$this-&gt;assertEquals($file_content, $this-&gt;generateOutput());
+	}
+
+	private function generateOutput() {
+		ob_start();
+		srand(1);
+		require_once __DIR__ . '/../trivia/php/GameRunner.php';
+		$output = ob_get_contents();
+		ob_end_clean();
+		return $output;
+	}
+
+}</pre>
+
+<p>Essa alteração parece bem razoável. Certo? Nós extraímos a geração de código para um método, executamos ele duas vezes, e esperamos que o retorno seja igual. Contudo, não serão.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-runonce.png"/>
+</figure>
+
+<p>O que acontece é: <code>require_once()</code> não carregará o mesmo arquivo duas vezes. A segunda chamada ao método <code>generateOutput()</code> produzirá uma cadeia de caracteres vazia. E o que podemos fazer? E se usarmos apenas <code>require()</code>? O arquivo será executado cada vez.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-cannotredecalre.png"/>
+</figure>
+
+<p>Bem, isso leva a outro problema: <code>"Cannot redeclare echoln()"</code>. Mas, de onde isso veio? Está bem no começo do arquivo <code>Game.php</code>. O motivo desse erro acontecer é porque no arquivo <code>GameRunner.php</code> colocamos o comando <code>include  __DIR__ . '/Game.php';</code>, que tenta incluir o arquivo <code>Game.php</code> duas vezes, uma para cada chamada do método <code>generateOutput()</code>.</p>
+
+<pre class="brush: php">include_once __DIR__ . '/Game.php';</pre>
+
+<p>Usando <code>include_once</code> no arquivo <code>GameRunner.php</code> resolverá nosso problema. Sim, precisamos mudar o arquivo <code>GameRunner.php</code>, mesmo sem ter testes para ele, ainda! Contudo, podemos ter 99% de chances que isso não bagunçara o código em si. É uma mudança simples e pequena o suficiente que não nos amedrontará muito. E o mais importante, faz os testes passar.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-onerung-working.png"/>
+</figure>
+
+<h3>Execute-o Inúmeras Vezes</h3>
+
+<p>Agora que temos código que pode ser executado diversas vezes, é hora de gerar algum retorno.</p>
+
+<pre class="brush: php">function testGenerateOutput() {
+	$this-&gt;generateMany(20, '/tmp/gm.txt');
+	$this-&gt;generateMany(20, '/tmp/gm2.txt');
+	$file_content_gm = file_get_contents('/tmp/gm.txt');
+	$file_content_gm2 = file_get_contents('/tmp/gm2.txt');
+	$this-&gt;assertEquals($file_content_gm, $file_content_gm2);
+}
+
+private function generateMany($times, $fileName) {
+	$first = true;
+	while ($times) {
+		if ($first) {
+			file_put_contents($fileName, $this-&gt;generateOutput());
+			$first = false;
+		} else {
+			file_put_contents($fileName, $this-&gt;generateOutput(), FILE_APPEND);
+		}
+		$times--;
+	}
+}</pre>
+
+<p>Extraímos outro método aqui: <code>generateMany()</code>. Ele possui dois parâmetros: Um para o número de vezes que queremos executar o gerador e outro para o arquivo de destino. Ele colocará o retorno gerado em arquivos. Na primeira execução, ele limpa o arquivo e em todas as outras iterações, acrescenta os dados. Você pode olhar o arquivo e ver o retorno gerado 20 vezes.</p>
+
+<p>Mas, espere! O mesmo jogador ganhará sempre? Isso é possível?</p>
+
+<pre class="brush: bash">cat /tmp/gm.txt | grep "tem 6 Moedas de Ouro."
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.</pre>
+
+<p>Sim! É possível. É algo certo! Sempre temos a mesma semente para nossa função randômica. Nós jogamos o mesmo jogo várias vezes.</p>
+
+<h3>Execute-o de Forma Diferente Cada Vez</h3>
+
+<p>Precisamos jogar vários jogos diferentes, senão, é quase certeza que só uma parte de nosso código legado será exercitado repetidamente. O escopo do resultado esperado é exercitar o máximo possível. Precisamos realimentar o gerador randômico cada vez, mas de forma controlada. Uma opção é usar nosso contado como o valor da semente.</p>
+
+<pre class="brush: php">private function generateMany($times, $fileName) {
+	$first = true;
+	while ($times) {
+		if ($first) {
+			file_put_contents($fileName, $this-&gt;generateOutput($times));
+			$first = false;
+		} else {
+			file_put_contents($fileName, $this-&gt;generateOutput($times), FILE_APPEND);
+		}
+		$times--;
+	}
+}
+
+private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	require __DIR__ . '/../trivia/php/GameRunner.php';
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<p>Isso ainda mantem nossos testes passando, assim, temos certeza que sempre geramos o mesmo retorno completo todas as vezes, enquanto são jogadas partidas diferentes a cada iteração. </p>
+
+<pre class="brush: bash">cat /tmp/gm.txt | grep "tem 6 Moedas de Ouro."
+Sue agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Pat agora tem 6 Moedas de Ouro.
+Pat agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Sue agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Sue agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Sue agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Pat agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.
+Chet agora tem 6 Moedas de Ouro.</pre>
+
+<p>Existem vários vencedores para os variados jogos, de forma aleatória. Parece bom.</p>
+
+<h3>Obtendo os 20.000</h3>
+
+<p>A primeira coisa que podemos fazer é tentar executar nosso código por 20.000 iterações.</p>
+
+<pre class="brush: php">function testGenerateOutput() {
+	$times = 20000;
+	$this-&gt;generateMany($times, '/tmp/gm.txt');
+	$this-&gt;generateMany($times, '/tmp/gm2.txt');
+	$file_content_gm = file_get_contents('/tmp/gm.txt');
+	$file_content_gm2 = file_get_contents('/tmp/gm2.txt');
+	$this-&gt;assertEquals($file_content_gm, $file_content_gm2);
+}</pre>
+
+<p>Isso quase funcionará. Dois arquivos de 55MB serão gerados.</p>
+
+<pre class="brush: bash">ls -alh /tmp/gm*
+-rw-r--r-- 1 csaba csaba 55M Mar 14 20:38 /tmp/gm2.txt
+-rw-r--r-- 1 csaba csaba 55M Mar 14 20:38 /tmp/gm.txt</pre>
+
+<p>Por outro lado, o teste falhará por conta de memória insuficiente. Não importa o tanto de memória RAM você tenha, o teste falhará. Eu tenho 8Gb além de 4GB e memória <em>swap</em> e ele falha. As duas cadeias de caracteres são muito grandes para serem comparadas em nossas asserções.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-20000runs-memoryexhausted.png"/>
+</figure>
+
+<p>Em outras palavras, geramos arquivos certos, mas o PHPUnit não pode compará-los. Precisamos de uma alternativa.</p>
+
+<pre class="brush: php">$this-&gt;assertFileEquals('/tmp/gm.txt', '/tmp/gm2.txt');</pre>
+
+<p>Isso parece ser uma boa alternativa, mas, ainda assim, falha... Precisamos pesquisar um pouco mais para essa situação.</p>
+
+<pre class="brush: php">$this-&gt;assertTrue($file_content_gm == $file_content_gm2);</pre>
+
+<p>Isso funciona!</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20331/image/gm-seeded-into-file-20001runs-ok.png"/>
+</figure>
+
+<p>Isso pode comparar as duas cadeias de caracteres e falhar caso sejam diferentes. Porém, tem seu pequeno preço: não será possível precisar o que está diferente entre as duas cadeias de caracteres. Simplesmente dirá <code>"Failed asserting that false is true."</code> (Falha em confirmar que <em>false</em> é <em>true</em>). Trataremos disso em um tutorial futuro.</p>
+
+<h2>Considerações Finais</h2>
+<p>Acabamos por hoje. Aprendemos muitas coisas para nossa primeira seção e começamos bem para um trabalho futuro. Vimos códigos, analizamos de diversas formas e entendemos a maior parte da lógica essencial. Então, criamos um conjunto de testes para garantir que ele seja executador ao máximo. Sim. Os testes são bem lentos. Leva 24 segundos em um computador Core i7 para gerar o retorno duas vezes. Felizmente, em nosso desenvolvimento posterior, manteremos o arquivo <code>gm.txt</code> intocado e geraremos apenas um outro por execução. Mas 12 segundos ainda é muito tempo para uma base de código tão pequena. </p>
+
+<p>Ao terminarmos essa série, nossos testes serão executados em menos de um segundo e testará todo o código de forma apropriada. Assim, fique ligado em nosso próximo tutorial, que nós traremos problemas como constantes mágicas, cadeias de caracteres mágicos e condicionais complexos. Obrigado pela leitura.</p>
