@@ -1,34 +1,34 @@
-<h1>Fifty Actions of WordPress – An Introduction</h1>
+<h1>50 Ações Para WordPress – Introdução</h1>
 
-<p>The reason of WordPress being the most popular content management system in the world is, of course, its flexibility. The beautifully simple structure of "hooks" gives WordPress this ability. Without filter hooks and action hooks, WordPress wouldn't be extendible as much and we wouldn't be able to have such a large spectrum of WordPress plugins or themes.</p>
+<p>O motivo do WordPress ser o sistema de administração de conteúdo mais popular do mundo é sua flexibilidade, claro. A bela e simples estrutura dos "ganchos" dá ao WordPress essa capacidade. Sem os ganchos de filtro ou os de ação, o WordPress não seria tão extensível quanto é e nós não seríamos capazes de ter esse conjunto tão grande e diverso de temas e <em>plugins</em> para WordPress.</p>
 
-<p>In this series, we're going to go through actions, one of the two kinds of WordPress hooks. Over the course of the series, we'll cover almost everything there is to know about actions:</p>
+<p>Nesta série, nós aprenderemos sobre as ações, o segundo tipo de gancho que o WordPress oferece. Durante a série, falaremos praticamente tudo que existe sobre ações:</p>
 
 <ul>
-  <li>In the first part,<strong> </strong>which also happens to be this article, we're going to learn what WordPress actions are and how to use actions with seven core functions.</li>
-  <li>In the next five parts, we're going to see a whopping set of examples about WordPress actions. In each part, we're going to go through 10 actions by learning what they're good for and doing one example for each action.</li>
-  <li>In the series finale, we'll be recapping what we learned and the 50 action examples we did.</li>
+  <li>Na primeira parte, que é esse artigo, aprenderemos o que são as ações do WordPress e como usá-las com sete funções padrão do WordPress.</li>
+  <li>Na próxima parte, veremos um conjunto de exemplos de ações para WordPress. Em cada parte, veremos um grupo de 10 ações, aprendendo para que servem e trabalhando com um exemplo de cada uma.</li>
+  <li>No final da série, recapitularemos o que aprendemos, bem como as 50 ações que fizemos.</li>
 </ul>
 
-<p>It's going to be long, incredible ride. Buckle up!</p>
+<p>Será uma grande e incrível caminha. Prepare-se!</p>
 
-<h2>What is a WordPress Action?</h2>
+<h2>O Que É Uma Ação para WordPress?</h2>
 
-<p><a href="http://codex.wordpress.org/Plugin_API#Actions">In the Codex</a>, actions are defined as follows:</p>
+<p>As ações são definidas dessa maneira, <a href="http://codex.wordpress.org/Plugin_API#Actions">no Codex</a>:</p>
 
 <blockquote>
-  <p>Actions are triggered by specific events that take place in WordPress, such as publishing a post, changing themes, or displaying an <a href="http://codex.wordpress.org/Administration_Screens">administration screen</a>. Action is a custom PHP function defined in your plugin (or theme) and <i>hooked</i>, i.e. set to respond, to some of these events.</p>
+  <p>Ações são ativadas por eventos específicos que acontecem no WordPress, como a publicação de um artigo, alteração de um tema, ou apresentação de uma <a href="http://codex.wordpress.org/Administration_Screens">tela administrativa</a>. Uma ação é uma função PHP customizada, definida em seu <em>plugin</em> (ou tema) e que é <em>atrelada</em>, ou seja, responde a alguns eventos.</p>
 </blockquote>
 
-<p>So, in essence, actions are functions triggered by a WordPress event and run before or after the event. Actions are one of the two kinds of "hooks" in WordPress – the other one is called "filters" which we covered a while ago – <a>check out the "Fifty Filters of WordPress"</a> if you want to learn more about WordPress filters.</p>
+<p>Assim, ações são funções ativadas por um evento do WordPress que são executadas antes ou depois deste evento. Ações são um dos dois tipos de "gancho" no WordPress – o outro tipo é chamado de "filtros", o qual já falamos um tempo atrás – <a href="http://code.tutsplus.com/tutorials/50-filters-of-wordpress-an-introduction-to-filters--cms-21294" title="50 Filters of WordPress: An Introduction to Filters">leia o "50 Filtros para WordPress"</a>, se quiser aprender mais sobre os filtros para WordPress.</p>
 
-<h2>Using Actions in WordPress</h2>
+<h2>Usando Ações no WordPress</h2>
 
-<p>Defining what actions are is the easiest thing we'll do in this series. Luckily, learning how to create and use actions is almost as easy. Let's see how we hook functions to actions, create new actions, remove existing ones and other action-related functions in the WordPress core.</p>
+<p>Definir o que as ações são é a parte mais fácil desta série. Por sorte, aprender como criar e usar ações é quase tão fácil quanto. Vejamos como atrelar funções a ações, criar novas ações, remover algumas existentes e fazer outras coisas relacionadas a funções de ações na base do WordPress.</p>
 
-<h3>Hooking a Function to an Action</h3>
+<h3>Atrelando uma Função a uma Ação</h3>
 
-<p>Probably the easiest function among these is this one: It's used to hook our function to the action hook we're going to use:</p>
+<p>Esta deve ser a função mais fácil dentre todas: Ela é usada para atrelar nossa função a um gancho que usaremos:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -36,32 +36,32 @@ add_action( $hook_name, $function_name, $priority, $arguments );
 
 ?&gt;</pre>
 
-<p>Let's see what those parameters mean:</p>
+<p>Vejamos o que esses parâmetros significam:</p>
 
 <ul>
-  <li><code>$hook_name</code> is the name of the action hook we're going to use</li>
-  <li><code>$function_name</code> is the name of our function</li>
-  <li><code>$priority</code> is an integer we specify to set how early the function's going to be run in the action hook</li>
-  <li><code>$arguments</code> is the number of arguments that our function uses and the action hook allows</li>
+  <li><code>$hook_name</code> é o nome do gancho de ação que usaremos</li>
+  <li><code>$function_name</code> é o nome da nossa função</li>
+  <li><code>$priority</code> é um número inteiro que especificamos para configurar o momento que a função deverá ser executada em seu gancho</li>
+  <li><code>$arguments</code> é o número de argumentos que nossa função usa e que o gancho de ação permite</li>
 </ul>
 
-<p>Let's see a quick example:</p>
+<p>Vejamos um exemplo rápido:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'add_meta_boxes', 'my_function', 10, 2 );
 
 function my_function( $post_type, $post ) {
-	// do stuff with $post_type and $post
+	// faça alguma coisa com $post_type e $post
 }
 
 ?&gt;</pre>
 
-<p>Almost too easy, right?</p>
+<p>Quase muito fácil, não é?</p>
 
-<h3>Removing Functions from an Action Hook</h3>
+<h3>Removendo Funções de um Gancho de Ação</h3>
 
-<p>We have two functions to remove functions from action hooks: <code>remove_action()</code> and <code>remove_all_actions()</code>. Let's see how we use them:</p>
+<p>Nós temos duas funções para remover outras funções de ganchos de ação: <code>remove_action()</code> e <code>remove_all_actions()</code>. Vejamos como usá-las:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -73,30 +73,30 @@ remove_all_actions( 'wp_enqueue_scripts', 10 );
 
 ?&gt;</pre>
 
-<p>The <code>remove_action()</code> function has three parameters: the name of the hook, the name of the function that we're going to remove <em>from</em> the hook, and the priority that's been set while using <code>add_action()</code>. The <code>remove_all_actions()</code> function doesn't have the <code>$function_name</code> parameter, since it removes all functions hooked to the action.</p>
+<p>A função <code>remove_action()</code> leva três argumentos: o nome do gancho, o nome da função que removeremos <em>do</em> gancho, e a prioridade configurada ao usar a função <code>add_action()</code>. A função <code>remove_all_actions()</code> não tem o parâmetro <code>$function_name</code>, uma vez que ela remove todas as funções atreladas à ação.</p>
 
-<h3>Creating an Action Hook</h3>
+<h3>Criando um Gancho de Ação</h3>
 
-<p>If you develop WordPress plugins or themes, its good practice to create some hooks in your code so that other developers can <em>extend</em> your plugin or theme. To do so, we have two functions again: <code>do_action()</code> and <code>do_action_ref_array()</code>. Let's see how the first one works:</p>
+<p>Se você desenvolve <em>plugins</em> ou temas, é uma boa prática criar alguns ganchos em seu código, de modo que outros desenvolvedores possam <em>estender</em> seu <em>plugin</em> ou tema. Para tanto, temos outras duas funções: <code>do_action()</code> e <code>do_action_ref_array()</code>. Vejamos como a primeira funciona:</p>
 
 <pre class="brush: php">&lt;?php
 
 do_action( $hook_name, $arg1, $arg2, /* ... */ $argN );
 
 /*
- * Usage:
- * 
+ * Modo de Uso:
+ *
  * add_action( hook_name, my_function )
- * 
+ *
  * function my_function( $arg1, $arg2 ) {
- * // do stuff with $arg1, $arg2 and so on
+ * // faz alguma coisa com $arg1, $arg2 e por aí vai
  * }
- * 
+ *
  */
 
 ?&gt;</pre>
 
-<p>As you can see, the function virtually has an infinite number of parameters since you can define as many arguments as you need. If you need to keep your arguments in an array, though, you need to use the second function:</p>
+<p>Como pode ver, a função pode ter um número infinito de parâmetros, uma vez que você pode definir quantos argumentos quiser ou precisar. Se precisar manter os argumentos em um vetor, pode usar a segunda função mencionada:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -105,58 +105,58 @@ $args = array( $arg1, $arg2, /* ... */ $argN );
 do_action_ref_array( $hook_name, $args );
 
 /*
- * Usage:
- * 
+ * Modo de Uso:
+ *
  * add_action( hook_name, my_function )
- * 
+ *
  * function my_function( $args ) {
- * // do stuff with $args[0], $args[1] and so on
+ * // faz alguma coisa com $args[0], $args[1] e por aí vai
  * }
- * 
+ *
  */
 
 ?&gt;</pre>
 
-<h3>Retrieving the Number of Times an Action Is Fired</h3>
+<h3>Retornando o Número de Vezes que Uma Ação é Disparada</h3>
 
-<p>If you ever need to know how many times an action is called, you can use this handy function to count action calls:</p>
+<p>Se precisar saber quantas vezes uma ação é disparada, você pode usar essa função para contar quantas vezes a ação é chamada:</p>
 
 <pre class="brush: php">&lt;?php
 
 function tuts_foo() {
 	$action_count = did_action( 'some_action_name' );
 	if ( 1 === $action_count ) {
-		// run code if 'some_action_name' has been fired only once
+		// executa código se 'some_action_name' for disparada apenas uma vez
 	}
 }
 
 ?&gt;</pre>
 
-<p>As you can see, the only parameter the function has is the name of the action hook.</p>
+<p>Como pode ver, o único parâmetro que a função leva é o nome do gancho de ação.</p>
 
-<h3>Checking if Anything's Hooked to an Action</h3>
+<h3>Verificando Se Há Algo Atrelado à Ação</h3>
 
-<p>Imagine you're developing an extension for a popular WordPress plugin and you need to check if the user has installed the plugin or not. (After all, your plugin will not work if the other one is not installed and activated.) </p>
+<p>Imagine que está desenvolvendo uma extensão para algum <em>plugin</em> popular do WordPress e precisa verificar se o usuário tem o <em>plugin</em> instalado ou não (Afinal, seu <em>plugin</em> não funcionará se o outro não estiver instalado e ativado). </p>
 
-<p>To check it, you can use the <code>has_action()</code> function to make sure that the popular plugin's action is available:</p>
+<p>Para verificar, você pode usar a função <code>has_action()</code> para garantir que a ação do tal <em>plugin</em> está disponível:</p>
 
 <pre class="brush: php">&lt;?php
 
 if( has_action( 'some_popular_plugin_action' ) {
 	add_action( 'some_popular_plugin_action', 'extension_to_the_some_popular_plugin' );
 } else {
-	wp_die( 'Sorry to kill your website but I need "Some Popular Plugin" to work with.' );
-	// CAUTION: This is a joke. Don't shut down a website because your plugin can't work with it.
+	wp_die( 'Desculpe por quebrar seu site, mas precisamos do plugin "Nome do Plugin bem Popular" para funcionar.' );
+	// CUIDADO: Isso é só uma brincadeira. Você não precisa parar um site porque seu plugin não está apto a funcionar.
 }
 
 ?&gt;</pre>
 
-<p>Just like the <code>did_action()</code> function, the <code>has_action()</code> function has only one parameter: the name of the action hook.</p>
+<p>Assim como a função <code>did_action()</code>, a função <code>has_action()</code> leva apenas um parâmetro: o nome do gancho da ação.</p>
 
-<h2>Conclusion</h2>
+<h2>Conclusão</h2>
 
-<p>Now we've covered pretty much everything about creating and using actions, we can continue to a five-articles-long journey of action examples. We'll be reviewing <em>only</em> fifty of them but if you're curious, you can find hundreds more in the core.</p>
+<p>Neste artigo, cobrimos praticamente tudo sobre a criação e uso de ações. Assim, podemos continuar com a jornada dos outros cinco artigos. Resenharemos <em>apenas</em> 50 delas, mas, caso esteja curioso, você poderá encontrar centenas mais na base do WordPress.</p>
 
-<p>I hope you'll enjoy this series as much as I did while creating the whole thing. If you think you can help me with the tutorials by suggesting more actions and asking for more examples, don't hesitate to tell me and share your thoughts by commenting below. And if you liked what you read in this series, don't forget to share the articles!</p>
+<p>Espero que você curta esta série tanto quanto eu gostei de escrevê-la. Se achar que pode ajudar com os tutoriais, sugerindo outras ações ou pedindo por mais exemplos, não hesite em perguntar e compartilhar suas ideias na área de comentários. E, caso tenha gostado de ler esta série, não esqueça de compartilhar os artigos!</p>
 
-<p>See you in the next tutorial!</p>
+<p>Vejo você no próximo artigo!</p>
