@@ -1,85 +1,85 @@
-<h1>Modern Debugging Experience: Part 2</h1>
+<h1>Contato com Depuração Moderna: Parte 2</h1>
 
-<p>In part 1, we saw how to write and execute JavaScript using the DevTools. In part 2, we'll look at debugging JavaScript and adopting a workflow such that solving JavaScript errors and diagnosing problems becomes more efficient.</p>
+<p>Na parte 1, vimos como escrever e executar código JavaScript usando as Ferramentas para Desenvolvedores. Na parte 2, veremos como depurar código JavaScript e como adotar um fluxo de trabalho de tal modo que o diagnóstico e resolução de erros no JavaScript seja mais eficiente.</p>
 
-<h2> Debugging JavaScript Using the DevTools</h2>
+<h2>Depurando Código JavaScript Usando as Ferramentas para Desenvolvedores</h2>
 
-<h3>Debugger Keyword</h3>
+<h3>Palavra-chave <em>Debugger</em></h3>
 
-<p>You can use the debugger keyword directly in your code to invoke the debugging capabilities (if any) of the JavaScript runtime. The effect of adding the keyword <code>debugger</code> in your code is identical to manually setting a breakpoint via the DevTools UI. In Chrome, the <code>debugger</code> keyword has no effect while DevTools is closed.</p>
+<p>Você pode usar a palavra-chave <code><em>debugger</em></code>, diretamente, em seu código para invocar as capacidades de depuração (se houver) do ambiente de execução do JavaScript. Adicionar a palavra-chave <code>debugger</code> em seu código tem o mesmo efeito que configurar pontos de parada através da interface de usuário das Ferramentas para Desenvolvedores, manualmente. No Chrome, a palavra-chave <code>debugger</code> não terá qualquer efeito enquanto as Ferramentas para Desenvolvedores estiverem fechadas.</p>
 
-<h3>Debugger Controls</h3>
+<h3>Controles de Depuração</h3>
 
-<p>The debugger controls provide fine grained control over the debugging flow. Use these when paused at a breakpoint to effectively navigate your way through JavaScript code. Each debugger control listed in this section corresponds to a button in the DevTools that you can select while paused at a breakpoint.</p>
+<p>Os controles de depuração proveem um controle fino sobre o fluxo de depuração. Use-os enquanto estiver parado em um ponto de parada para navegar efetivamente pelo código JavaScript. Cada controle de depuração listado abaixo, corresponde a um botão nas Ferramentas para Desenvolvedores que você pode selecionar enquanto estiver parado em um ponto de parada.</p>
 
-<h4>Continue</h4>
+<h4><em>Continue</em></h4>
 
-<p>Leaves the current breakpoint and resume code execution as normal. This does not affect other breakpoints which have not been paused yet.</p>
+<p>Sai do ponto de parada atual e dá continuidade à execução do código, normalmente. Isso não afeta outros pontos de parada que não tenham sido parados ainda.</p>
 
-<p>Use <code class="inline">Continue</code> when the current paused breakpoint is not helpful and you want code execution to resume as normal.</p>
+<p>Use o <code class="inline">Continue</code> quando o ponto de parada atual não for útil e você quiser dar continuidade à execução do código.</p>
 
-<h4>Step Over</h4>
+<h4><em>Step Over</em></h4>
 
-<p>Step through code line-by-line (one line per click) until a function call is reached. At this point, the function call is stepped "over" and you do not step into that particular function call.</p>
+<p>Navegue pelo código, linha-por linha (uma linha por clique) até alcançar a chamada de uma função. Nesse ponto, "passamos pela" função, mas não acessamos o código interno daquela função em particular.</p>
 
-<p>Use <code class="inline">Step Over</code> when what you are trying to solve is scoped with the current function, and you have no need to look at external function calls.</p>
+<p>Use o <code class="inline">Step Over</code> quando aquilo que precisar ser resolvido está relacionado à função atual e precisa verificar chamadas a funções externas.</p>
 
-<h4><a name="user-content-step-into" href="https://github.com/valueof/beautifuljavascript/blob/master/modern-debugging-experience.asciidoc#step-into"/><strong>Step Into</strong></h4>
+<h4><a name="user-content-step-into" href="https://github.com/valueof/beautifuljavascript/blob/master/modern-debugging-experience.asciidoc#step-into"/><strong><em>Step Into</em></strong></a></h4>
 
-<p>Similar to <code class="inline">Step Over</code>, except that in this case, you navigate to external function calls by going to their first line.</p>
+<p>Semelhante ao <code class="inline">Step Over</code>, exceto que, neste caso, você acessa a primeira linha do código da função.</p>
 
-<p>Use <code class="inline">Step Into</code> when you are interested in line by line execution as well as any external function calls.</p>
+<p>Use o <code class="inline">Step Into</code> quando estiver interessado em execução linha-a-linha, assim como chamadas a funções externas.</p>
 
-<h4><strong>Step Out</strong></h4>
+<h4><strong><em>Step Out</em></strong></h4>
 
-<p>When you step into a function, <code class="inline">Step Out</code> will continue to execute the rest that functions code however it is not debugged.</p>
+<p>Ao entrar em uma função, o <code class="inline">Step Out</code> continuará a execução do resto daquela função, porém, o código não será depurado.</p>
 
-<p>Use <code class="inline">Step Out</code> when you have no interest in the remainder of the current function and wish to continue debugging outside it.</p>
+<p>Use o <code class="inline">Step Out</code> quando não tiver interesse no resto da função atual e quer continuar a depuração imediatamente fora dela.</p>
 
-<h3>The Call Stack</h3>
+<h3>A Pilha de Execução</h3>
 
-<p>The call stack is active when paused at a breakpoint. The execution path which leads to the currently paused breakpoint is shown in the call stack, the top call being the most recent.</p>
+<p>A pilha de execução fica ativa enquanto estiver parada em um ponto de parada. O caminho da execução que leva até o ponto de parada atual é mostrado na pilha de execução, sendo que a execução do topo é a mais recente.</p>
 
-<p>Each call within the stack contains:</p>
+<p>Cada chamada dentro da pilha contem:</p>
 
 <ul>
-  <li>function name</li>
-  <li>file name containing the function</li>
-  <li>the line of code where the function exists</li>
+  <li>Nome da função</li>
+  <li>Nome do arquivo contendo a função</li>
+  <li>A linha de código onde a função reside</li>
 </ul>
 
-<p>Click on any call within the stack to navigate to its point in the source code with the relevant line highlighted. To copy a stack trace to your clipboard, <strong>right-click</strong> on a call and select <strong>Copy stack trace</strong>. In the call stack context menu, you can also select <strong>Restart Frame</strong>.</p>
+<p>Clique em qualquer chamada dentro da pilha para navegar até o ponto do código fonte onde a função relevante estará destacada. Para copiar o rastreamento da pilha para sua área de transferência, basta <strong>clicar com o botão direito</strong> em uma chamada e selecionar <strong>Copy stack trace</strong>. No menu de contexto da pilha de execução, você também pode selecionar <strong>Restart Frame</strong>.</p>
 
-<h3>Rewriting Functions While Paused at a Breakpoint</h3>
+<h3>Reescrevendo Funções Enquanto Parado em um Ponto de Parada</h3>
 
-<p>Consider the use case that the debugger has paused midway through a callback function triggered by a click event handler, and you are trying to debug why the retrieval of the <code>target</code> does not seem to be working as expected. </p>
+<p>Considere o caso de uso que o depurador esteja parado no meio de uma função <em>callback</em> ativada por um manipulador de evento de clique, e que você está tentando descobrir o porque o reestabelecimento de <code>target</code> não estar funcionando como esperado. </p>
 
-<p>You see an attempt has been made to access the target property as part of the <code>this</code> keyword, but you then recall it’s a property part of the event object passed as an argument to the callback function. </p>
+<p>Veja que foi feita uma tentativa de acessar a propriedade <code>target</code> como parte da palavra-chave <code>this</code>, mas você lembrar que é uma propriedade parte do objeto do evento passado como parte da função <em>calback</em>. </p>
 
-<p>You can rewrite the function using Live Edit to verify that your changes work, and the new JavaScript is injected into the V8 engine.</p>
+<p>Você pode reescrever a função usando a Edição em Tempo Real para verificar que suas mudanças realmente funcionam e que o novo JavaScript foi injetado no motor V8 do navegador.</p>
 
-<h3>monitorEvents</h3>
+<h3><em>monitorEvents</em></h3>
 
-<p>When you are writing an event handler for an event such as scroll, you may start by using <code>console.log</code> to see what the passed argument (the event object) looks like. A quick tip to accomplish this is to use the <code>monitorEvents</code> shortcut. Paste the following code in the <strong>Console Panel </strong>and then scroll the page:</p>
+<p>Ao escrever um manipulador de ventos para um evento como o de rolagem, você talvez comece usando o método <code>console.log</code> para ver como o argumento passado (o objeto do evento) é. Uma dica para conseguir isso é usar o atalho <code>monitorEvents</code>. Cole o código abaixo no <strong>Painel <em>Console</em></strong> e, então, mexa a barra de rolagem da página:</p>
 
 <pre class="brush: javascript">monitorEvents(window, "resize");</pre>
 
-<p>Notice that the event object is logged to the console ready for inspection.</p>
+<p>Perceba que o objeto evento é registrado no <em>console</em>, pronto para inspeção.</p>
 
-<h3>Debug</h3>
+<h3><em>Debug</em></h3>
 
-<p>When you want the debugger to pause on the first line of a function during its execution, you can do either of the following:</p>
+<p>Quando quiser que o depurador pare na primeira linha de uma função, durante sua execução, você pode fazer de uma dessas duas maneiras:</p>
 
 <ul>
-  <li>Add a breakpoint via the DevTools UI.</li>
-  <li>Add a debugger statement to the function.</li>
+  <li>Adicionar um ponto de parada através da interface de usuário das Ferramentas para Desenvolvedores.</li>
+  <li>Adicionar um comando de depuração à função.</li>
 </ul>
 
-<p>Another technique is to execute <code>debug(fn)</code> which is part of the Command Line API. The function takes the function that you wish to debug as its argument, and will break on the first line of that function's execution.</p>
+<p>Outra técnica é executar a função <code>debug(fn)</code> que faz parte da API da Linha de Comando. A função leva como argumento a função que você deseja depurar e parará na primeira linha de execução daquela função.</p>
 
-<h3>Break on Property Access</h3>
+<h3>Parada no Acesso a Propriedades</h3>
 
-<p>This technique enables you to pause the debugger when a property of an object you have interest in is accessed in any way (a read or write). To break when a property of an object is read or written to, execute the following (via the <strong>Console Panel</strong> or <strong>Snippets</strong>):</p>
+<p>Essa técnica permite que pause o depurador quando uma propriedade de um objeto que você estiver interessado for acessada de qualquer forma (leitura ou escrita). Para parar quando uma propriedade de um objeto for lida ou escrita, execute o comando trecho de código abaixo (através do <strong>Panel <em>Console</em></strong> ou <strong>Snippets</strong> - <em>Trechos de Código</em>):</p>
 
 <pre class="brush: javascript">Object.defineProperty(document.body, 'scrollTop', {
 	get: function () {
@@ -90,47 +90,47 @@
 	}
 });</pre>
 
-<p>This applies a getter and setter to the <code class="inline">scrollTop</code> property of the <code>document.body</code> object. In the custom getter and setter, the debugger statement exists. You can also use <code>Object.observe</code> to break on property additions for a specified object:</p>
+<p>O trecho aplica um <code>getter</code> e um <code>setter</code> à propriedade <code class="inline">scrollTop</code> do objeto <code>document.body</code>. Nos <code>getter</code> e <code>setter</code> customizados, o o comando do depurador existe. Você também pode usar <code>Object.observe</code> para parar em adições à propriedade de um objeto especificado:</p>
 
 <pre class="brush: javascript">var watchMe = {};
 Object.observe(watchMe, function() {
   debugger;
 });</pre>
 
-<h3>Conditional Breakpoints Using console.log</h3>
+<h3>Pontos de Parada Condicionais Usando <code>console.log</code></h3>
 
-<p>The debugger keyword aside, to set a breakpoint via DevTools, you can click on the line of code you wish to break at within the line gutter. This method of setting a breakpoint has extra functionality: You set a conditional breakpoint which will instruct the DevTools to pause at a breakpoint only if a certain expression evaluates to true. For example, you can set a conditional breakpoint to pause only if an error argument exists.</p>
+<p>Além da palavra chave <code>debugger</code>, para configurar um ponto de parada através das Ferramentas para Desenvolvedores, você pode clicar na borda da linha de código onde quer que o depurador pare. Esse método de configurar uma parada tem uma funcionalidade extra: Configurar um ponto de parada condicional, onde você instrui as Ferramentas para Desenvolvedores para parar ali, somente se uma certa expressão resultar em verdadeiro. Por exemplo, você pode configurar um ponto de parada condicional para parar somente se existir um argumento de erro.</p>
 
-<p>To set a conditional breakpoint:</p>
+<p>Para configurar uma parada condicional:</p>
 
 <ol>
-  <li><strong>Right-click</strong> within the line gutter.</li>
-  <li>Select <strong>Add conditional breakpoint</strong>.</li>
-  <li>Enter the expression that you want DevTools to evaluate.</li>
-  <li>Press <strong>Enter</strong>.</li>
+  <li><strong>Clique com botão direito</strong> dentro da borda da linha;</li>
+  <li>Selecione <strong>Add conditional breakpoint</strong>;</li>
+  <li>Digite a expressão que você deseja que as Ferramentas para Desenvolvedores avaliem;</li>
+  <li>Aperte <strong>Enter</strong></li>
 </ol>
 
 <figure class="post_image">
   <img alt="Add conditional breakpoint" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-conditional-breakpoint.png"/>
 </figure>
 
-<p>You can also use the conditional breakpoint technique to quickly insert a <code>console.log</code> statement as the expression to evaluate. Since <code>console.log</code> evaluates to <code>undefined</code>, DevTools doesn’t pause, but since the expression is still executed, you can inspect the value of variables this way.</p>
+<p>Você pode usar a técnica de ponto de parada condicional para adicionar, rapidamente, um comando <code>console.log</code> como uma expressão a ser avaliada. Como o comando <code>console.log</code> resulta em <code>undefined</code>, as Ferramentas para Desenvolvedores não para, mas, uma vez que a expressão é executada, você pode inspecionar as variáveis daquele momento, dessa forma.</p>
 
-<h3>Using Watch Expressions</h3>
+<h3>Usando Expressões Observadoras</h3>
 
-<p>When the debugger is paused at a breakpoint, you can bring up the <strong>Console Panel</strong> in Drawer Mode using the <strong>Escape</strong> key. The code you enter is evaluated in the same context as the point at which you are paused, meaning that variables which are scoped will be accessible to you.</p>
+<p>Quando o depurador está parado em um ponto de parada, você pode abrir o <strong>Painel <em>Console</em></strong> no modo "engavetado", pressionando a tecla <strong>Esc</strong>. O código que você digitar será avaliado no mesmo contexto do ponto em que você está parado, significando que todas as variáveis daquele escopo estarão acessíveis.</p>
 
 <figure class="post_image">
   <img alt="Watch expressions" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-watch-expressions.png"/>
 </figure>
 
-<p>A Watch Expression is a tool to simplify the technique of regular inspection (via <code>console.log</code> for example) of scoped variables. Watch Expressions is a pane within the Sources Panel. You can add or remove Watch Expressions using the <strong>Plus</strong> and <strong>Minus</strong> buttons. A typical object to watch for is the <code>this</code> object; notice how it refers to a global window object when you are not paused at a breakpoint.</p>
+<p>Uma expressão observadora é uma ferramenta para simplificar a técnica de inspeção regular (através do <code>console.log</code>, por exemplo) de variáveis de escopo. <em>Watch Expressions</em> é um painel dentro do <em>Painel Sources</em>. Você pode adicionar ou remover Expressões Observadores usando os botões de <strong>+</strong> e <strong>-</strong>. Um objeto típico a se observar é o objeto <code>this</code>; perceba como ele se refere ao objeto objeto global <code>window</code> quando não está em um ponto de parada.</p>
 
-<p>Watch Expressions will usually update while you step through code. If it does not, however, click the <strong>Refresh</strong> button.</p>
+<p>Expressões Observadores geralmente serão atualizadas de acordo com que você navega pelo código. Se não atualizar, clique no botão <strong>Refresh</strong>.</p>
 
-<h4>Exceptions</h4>
+<h4>Exceções</h4>
 
-<p>Consider the following script:</p>
+<p>Considere o código a seguir:</p>
 
 <pre class="brush: javascript">function a() {
 return b();
@@ -141,7 +141,7 @@ function b() {
 }
 
 function c() {
-    console.trace('The Trace');
+    console.trace('O Rastreio');
     return 42;
 }
 
@@ -151,135 +151,135 @@ a();</pre>
   <img alt="Exceptions" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-console-trace.png"/>
 </figure>
 
-<p>There are three declared functions. Function <code>a</code> calls function <code>b</code>, then function <code>b</code> calls function <code>c</code>. The script initiates the chain with a call to function <code>a</code>. The <code>console.trace</code> statement logs to the console a stack trace from the point where the method was called. Using console.trace displays the output of using <code class="inline">console.trace</code>.</p>
+<p>Foram declaradas três funções. A função <code>a</code> invoca a função <code>b</code> que, por sua vez, invoca a função <code>c</code>. O código inicia a cadeia com uma chamada à função <code>a</code>. O comando <code>console.trace</code> registra a pilha de rastreio do <code>console</code> onde o método foi chamado. Usar o <code>console.trace</code> mostrar o retorno de <code class="inline">console.trace</code>.</p>
 
-<p>Note that function names and the lines where they are called are shown in the trace message. You can click on the line number to be taken to its point in the Source Code via the Sources Panel. This technique also works for snippets.</p>
+<p>Note que os nomes das funções e as linhas onde foram invocadas são mostrados na mensagem de rastreio. Você pode clicar no número da linha para ser levado até o ponto relevante do código fonte, através do <em>Painel Sources</em>. Essa técnica também funciona para os trechos de códigos (<em>snippets</em>).</p>
 
-<p>The debugger offers various modes for dealing with Exceptions:</p>
+<p>O depurador oferece vários modos para lidar com Exceções:</p>
 
 <ul>
-  <li>Pause on uncaught exceptions.</li>
-  <li>Pause on caught and uncaught exceptions.</li>
-  <li>Don’t pause on exceptions.</li>
+  <li>Parar em exceções não tratadas;</li>
+  <li>Parar em exceções tratadas e não tratadas;</li>
+  <li>Não parar em exceções</li>
 </ul>
 
-<h2><span class="sectionnum">2.</span> Debugging From the Outside In</h2>
+<h2><span class="sectionnum">2.</span> Depurando de Dentro para Fora</h2>
 
-<p>When you have to debug a site which you have little insight into, you can use a different technique of debugging. In this approach, you hook into events you believe will trigger, and request DevTools breaks on such events if and when they occur. There are two categories of "outside &gt; in" entry points:</p>
+<p>Quando tiver de depurar um site que você souber pouca coisa sobre o mesmo, poderá usar uma técnica diferente de depuração. Nessa abordagem, você se fixa a eventos que acredita que serão ativados e requisita às Ferramentas para Desenvolvedores que pare em tais eventos se e quando eles ocorrerem. Há duas categorias de pontos de entrada de "De Fora &gt; Para Dentro":</p>
 
 <ul>
-  <li>DOM modifications</li>
-  <li>Event Listener breakpoints</li>
+  <li>Modificações da DOM</li>
+  <li>Pontos de Parada para Observadores de Eventos</li>
 </ul>
 
-<h3>Break on DOM Modifications</h3>
+<h3>Parada em Modificações da DOM</h3>
 
-<p>You have the task of debugging a web page, specifically the DOM. Nodes are added and removed during the lifecycle of the page, and you need to inspect the JavaScript which makes this happen. Set a DOM breakpoint with the following steps:</p>
+<p>Você tem a tarefa de depurar uma página web, mais especificamente sua DOM. Os nodos são adicionados e removidos durante o ciclo de vida da página e você precisa inspecionar o código JavaScript que faz isso acontecer. Configure um ponto de parada da DOM com os seguintes passos:</p>
 
 <ul>
-  <li>Right click on a DOM node in the Elements Panel.</li>
-  <li>Select a preferred DOM breakpoint from the <strong>Break on</strong> context menu.</li>
-  <li>While you are paused at a breakpoint, you can see a message which explains the reason the debugger has paused, as shown in Reason for pausing at a breakpoint.</li>
+  <li>Clique com botão direito em um elemento da DOM no <em>Painel Elements</em>;</li>
+  <li>Selecione o ponto de parada preferido da DOM do menu de contexto <strong>Break on</strong>;</li>
+  <li>Enquanto estiver em um ponto de parada, você pode ver uma mensagem que explica o motivo do depurador ter parado, como visto em <em>Reason</em> para parar em um ponto de parada.</li>
 </ul>
 
 <figure class="post_image">
   <img alt="DOM modifications" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-debugger-reason.png"/>
 </figure>
 
-<p>Every time you set a DOM breakpoint, you can easily toggle it on and off at the <strong>DOM breakpoints</strong> pane in the <strong>Elements Panel</strong>. In this pane, each breakpoint you set is listed, and you can interact with this pane in the following ways:</p>
+<p>Toda vez que você configura um ponto de parada da DOM, você pode ativá-lo ou desativá-lo facilmente, na aba <strong>DOM breakpoints</strong> no <strong>Painel Elements</strong>. Nesta aba, cada ponto de parada que você configurou está listado e você pode interagir com essa aba das seguintes formas:</p>
 
 <ul>
-  <li>Toggle the checkbox on and off to enable or disable the breakpoint.</li>
-  <li>Click on the Node name (which is underlined) to navigate to it in the DOM tree view.</li>
-  <li><strong>Right-click</strong> and select <strong>Remove All DOM breakpoints</strong> to disable and remove all DOM breakpoints.</li>
+  <li>Marcar/desmarcar a caixa de seleção para habilitar/desabilitar o ponto de parada;</li>
+  <li>Clicar no nome do Nodo (o qual está sublinhado) para navegar até ele na visualização em árvore da DOM;</li>
+  <li><strong>Clique com o botão direito</strong> e selecione <strong>Remove All DOM breakpoints</strong> para desabilitar e remover todos os pontos de parada da DOM.</li>
 </ul>
 
 <figure class="post_image">
   <img alt="DOM breakpoints" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-dom-breakpoints-pane.png"/>
 </figure>
 
-<h4><strong>Subtree Modifications</strong> </h4>
+<h4><strong>Modificações de Subárvore</strong> </h4>
 
-<p><em>Description:</em> A Subtree modification occurs when the tree of a root node (which has the breakpoint set) is changed. This can include the addition or removal of nodes.</p>
+<p><em>Descrição:</em> Uma modificação de subárvore ocorre quando a árvore de um nodo raiz (o qual possui um ponto de parada configurado) é modificada. Isso abrange a adição ou remoção de nodos.</p>
 
-<p><em>Use case:</em> An empty <code class="inline">div</code> container is present in the DOM, and an Ajax request happens on page load which appends some new nodes the the original container. Add a Subtree modification breakpoint on the container to see the exact point in code which adds new nodes to the DOM.</p>
+<p><em>Caso de Uso:</em> Uma <code class="inline">div</code> recipiente está presente na DOM e uma requisição Ajax acontece durante o carregamento da página, a qual adiciona alguns nodos novos no recipiente original. Adicione um ponto de parada de Modificação de Subárvore na <code>div</code> recipiente para ver o exato momento do código que adiciona novos nodos à DOM.</p>
 
-<p><em>Message examples:</em> Paused on a <code class="inline">Subtree Modified</code> breakpoint set on <code class="inline">body</code>, because its descendant <code class="inline">p</code> was removed. Or: Paused on a <code class="inline">Subtree Modified</code> breakpoint set on <code class="inline">div#parent</code>, because a new child was added to that node.</p>
+<p><em>Exemplos de Mensagens:</em> Parado em um ponto de parada de <code class="inline">Modificação de Subárvore</code> configurada na <em>tag</em> <code class="inline">body</code> porque seu descendente <code class="inline">p</code> foi removido. Ou: Parado em um ponto de parada de <code class="inline">Modificação de Subárvore</code> configurado em <code class="inline">div#parent</code> porque um novo filho foi adicionado àquele nodo.</p>
 
-<h4><strong>Attributes Modifications</strong> </h4>
+<h4><strong>Atributos Modificados</strong> </h4>
 
-<p><em>Description:</em> An Attribute modification triggers when an attribute name or value on a node is added, removed or modified. This includes all attributes, such as <code>class</code>, <code>data-*</code>, or <code>style</code>.</p>
+<p><em>Descrição:</em> Uma parada de modificação de atributo é ativada quando o nome ou valor de um atributo em um nodo é adicionado, removido ou modificado. Isto inclui todos os atributos, como <code>class</code>, <code>data-*</code> ou <code>style</code>.</p>
 
-<p><em>Use case:</em> A visual change happens on the page at a seemingly random point in time, and you narrow this down to a class which is dynamically set on the body element. You wish to investigate the cause of this dynamic class addition.</p>
+<p><em>Caso de Uso:</em> Uma mudança visual acontece na página em um momento aleatório e você consegue descobrir que é devido a uma classe que é adicionada dinamicamente ao elemento <code>body</code>. Você quer investigar quem e o porque da adição dessa classe.</p>
 
-<p><em>Message example:</em> Paused on an <code class="inline">Attribute Modified</code> breakpoint set on <code class="inline">p</code>.</p>
+<p><em>Exemplos de mensagem:</em> Parado em um ponto de parada de <code class="inline">Atributos Modificados</code> configurado em um elemento <code class="inline">p</code>.</p>
 
-<h4><strong>Node Removal</strong> </h4>
+<h4><strong>Remoção de Nodo</strong> </h4>
 
-<p><em>Description:</em> A node removal breakpoint triggers at the point where a node is removed from the parent containing the set breakpoint.</p>
+<p><em>Descrição:</em> Um ponto de parada de remoção de nodo é ativado no ponto em que um nodo é removido do elemento pai que o ponto de parada é configurado.</p>
 
-<p><em>Use case:</em> You are building a to-do list app and wish to verify that when a user deletes a to-do item, it is also removed from the DOM. You can set a node removal breakpoint to ensure this behaviour is occurs.</p>
+<p><em>Caso de Uso:</em> Você está criando um aplicativo de lista de tarefas e quer verificar que, quando o usuário apaga um item da lista, ele também seja removido da lista da DOM. Você pode configurar um ponto de parada de remoção de nodo para garantir que este comportamento ocorra.</p>
 
-<p><em>Message example:</em> Paused on a <code class="inline">Node Removed</code> <code class="inline">div#container</code>.</p>
+<p><em>Exemplos de Mensagem:</em> Parado em um <code class="inline">Nodo Removido</code> <code class="inline">div#container</code>.</p>
 
-<h3>Event Listener Breakpoints</h3>
+<h3>Pontos de Parada de Observadores de Eventos</h3>
 
-<p>In the DevTools, a number of predefined Event Listener Breakpoints are available for you to enable. These offer entry points into the JavaScript that belongs to a page.</p>
+<p>Nas Ferramentas para Desenvolvedores, um número pré-determinado de pontos de parada para Observadores de Eventos que você pode habilitar. Eles oferecem portas de entrada ao JavaScript que pertence à página.</p>
 
-<p>Consider a simple <code class="inline">about:blank</code> page. Set a <code>click</code> event listener breakpoint on this page with the following steps:</p>
+<p>Considere uma simples página <code class="inline">about:blank</code>. Configure um ponto de parada de observador de evento do tipo <code>click</code> nesta página, seguindo os passos abaixo:</p>
 
 <ul>
-  <li>Navigate to the <strong>Event Listener Breakpoints</strong> pane in the <strong>Sources Panel</strong>.</li>
-  <li>Open the <code class="inline">Mouse</code> Event Listener category.</li>
-  <li>Enable the <code class="inline">Click</code> event listener.</li>
+  <li>Navegue até a aba <strong>Event Listener Breakpoints</strong> no <strong>Painel Sources</strong>;</li>
+  <li>Abra a categoria de Observadores de Evento <code class="inline">Mouse</code>;</li>
+  <li>Habilite o observador de evento <code class="inline">Click</code></li>
 </ul>
 
-<p>You have now set a breakpoint. If you click on the page, notice that nothing happens. Now execute the following piece of JavaScript code in the <strong>Console Panel</strong>.</p>
+<p>Agora, você tem um ponto de parada configurado. Se você clicar na página, perceberá que nada acontece. Agora, execute o trecho de código JavaScript a seguir no <strong>Painel Console</strong>.</p>
 
 <pre class="brush: javascript">document.addEventListener('click', console.log.bind(console))</pre>
 
-<p>When you set a breakpoint for the same event you have registered an event listener for, the debugger pauses before the point where your event listener callback is executed.</p>
+<p>Quando você criar um ponto de parada para o mesmo evento que você registrou um observador de evento, o depurador para antes do ponto onde sua função <em>callback</em> do observador de eventos é executada.</p>
 
-<p>You can register breakpoints for many types of events such as timers, touch events and more, which are listed in the table below.</p>
+<p>Você pode registrar pontos de parada para vários tipos de eventos como temporizadores, eventos de toque e outros, que estão listados na tabela abaixo.</p>
 
 <table>
   <thead>
     <tr>
-      <th>Event Category</th>
-      <th>Event examples</th>
+      <th>Categoria de Evento</th>
+      <th>Exemplos de Evento</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><p>Animation</p></td>
+      <td><p>Animação</p></td>
       <td><p>requestAnimationFrame, cancelAnimationFrame, animationFrameFired</p></td>
     </tr>
     <tr>
-      <td><p>Control</p></td>
+      <td><p>Controle</p></td>
       <td><p>resize, scroll, zoom, focus, blur, select, change, submit, reset</p></td>
     </tr>
     <tr>
-      <td><p>Clipboard</p></td>
+      <td><p>Área de Transferência</p></td>
       <td><p>copy, cut, paste, beforecopy, beforecut, beforepaste</p></td>
     </tr>
     <tr>
-      <td><p>DOM Mutation</p></td>
+      <td><p>Mutação da DOM</p></td>
       <td><p>DOMActivate, DOMFocusIn, DOMFocusOut, DOMAttrModified, DOMCharacterDataModified, DOMNodeInserted, DOMNodeInsertedIntoDocument, DOMNodeRemoved, DOMNodeRemovedFromDocument, DOMSubtreeModified, DOMContentLoaded</p></td>
     </tr>
     <tr>
-      <td><p>Device</p></td>
+      <td><p>Aparelho</p></td>
       <td><p>deviceorientation, devicemotion</p></td>
     </tr>
     <tr>
-      <td><p>Drag / drop</p></td>
+      <td><p>Arrastar / Soltar</p></td>
       <td><p>dragenter, dragover, dragleave, drop</p></td>
     </tr>
     <tr>
-      <td><p>Keyboard</p></td>
+      <td><p>Teclado</p></td>
       <td><p>keydown, keyup, keypress, input</p></td>
     </tr>
     <tr>
-      <td><p>Load</p></td>
+      <td><p>Carregamento</p></td>
       <td><p>load, beforeunload, unload, abort, error, hashchange, popstate</p></td>
     </tr>
     <tr>
@@ -287,11 +287,11 @@ a();</pre>
       <td><p>click, dblclick, mousedown, mouseup, mouseover, mousemove, mouseout, mousewheel, wheel</p></td>
     </tr>
     <tr>
-      <td><p>Timer</p></td>
+      <td><p>Temporizador</p></td>
       <td><p>setTimer, clearTimer, timerFired</p></td>
     </tr>
     <tr>
-      <td><p>Touch</p></td>
+      <td><p>Toque</p></td>
       <td><p>touchstart, touchmove, touchend, touchcancel</p></td>
     </tr>
     <tr>
@@ -301,51 +301,51 @@ a();</pre>
   </tbody>
 </table>
 
-<p>The "debugging from the outside in" technique can be useful when you need to debug a third-party website whose functionality has broken, or even when you are curious as to how something on a page you are viewing is working.</p>
+<p>A técnica de "depuração de fora para dentro" pode ser bem útil ao tentar depurar sites de terceiros cuja funcionalidade está comprometida ou mesmo quando você estiver curioso sobre como algo é feito/acontece em uma página que você está visualizando.</p>
 
-<h2><span class="sectionnum">3.</span> Extensions</h2>
+<h2><span class="sectionnum">3.</span> Extensões</h2>
 
-<p>A number of Chrome extensions exist, many of which enhance DevTools functionality. A featured list is found on the <a href="https://developer.chrome.com/devtools/docs/extensions-gallery">DevTools Extensions Gallery</a>.</p>
+<p>Existem várias extensões para o Chrome, muitas das quais aprimoram as funcionalidades das Ferramentas para Desenvolvedores. Uma lista com os destaques pode ser vista na <a href="https://developer.chrome.com/devtools/docs/extensions-gallery">Galeria de Extensões para Ferramentas para Desenvolvedores</a>.</p>
 
-<h3>DevTools JavaScript Preprocessing</h3>
+<h3>Pré-processamento de JavaScript das Ferramentas para Desenvolvedores</h3>
 
-<p>For DevTools Extension authors, the <a href="https://code.google.com/p/chromium/wiki/ScriptPreprocessor">JavaScript preprocessing feature</a> is a worthwhile topic to learn about. The preprocessor can intercept JavaScript source code before it enters the V8 engine, meaning JavaScript source code can be modified via DevTools before it enters the VM, all from an extension. </p>
+<p>Para criadores de extensões para Ferramentas para Desenvolvedores, a <a href="https://code.google.com/p/chromium/wiki/ScriptPreprocessor">funcionalidade de pré-processamento de JavaScript</a> é um tópico válido a ser aprendido. O pré-processador pode interromper o código fonte JavaScript antes dele entrar no motor V8, permitindo a alteração do código fonte JavaScript através das Ferramentas para Desenvolvedores, antes dele entrar na máquina virtual, a partir de uma extensão. </p>
 
-<p>In addition to interception capabilities, the preprocessing API has programmatic access for reloading of script sources. An extension can, at any point during its lifecycle, reload a JavaScript source without reloading the original web page.</p>
+<p>Além dessa capacidade de interceptação, a API de pré-processamento tem acessos programáticos para recarregamento de recursos de <em>scripts</em>. Uma extensão pode, a qualquer momento de seu ciclo de vida, recarregar arquivo JavaScript fonte sem recarregar a página original.</p>
 
 <h2><span class="sectionnum">4.</span> Node</h2>
 
-<p>This section covers a few tools which offer some level of integration between <a href="http://nodejs.org/">Node.js</a> and the Chrome DevTools.</p>
+<p>Essa seção cobre algumas ferramentas que oferecem um certo nível de integração entre o <a href="http://nodejs.org/">Node.js</a> e as Ferramentas para Desenvolvedores do Chrome.</p>
 
 <h3>Node Inspector</h3>
 
-<p>There are two parts to the DevTools:</p>
+<p>Há duas partes das Ferramentas para Desenvolvedores:</p>
 
 <ul>
-  <li><strong>Front-end</strong>: This is what you use and interact with. It is composed of HTML, CSS, and JavaScript.</li>
-  <li><strong>Back-end</strong>: In the case of inspecting a page in Google Chrome, the back-end is within the Chrome internals. Messages are passed back and forth via the <a href="https://developer.chrome.com/devtools/docs/debugger-protocol">Remote Debugging Protocol</a>.</li>
+  <li><strong>Front-end</strong>: É essa parte que você usa e interage. É composta de HTML, CSS e JavaScript.</li>
+  <li><strong>Back-end</strong>: No caso de inspecionar uma página usando o Google Chrome, o <em>back-end</em> fica dentro do próprio Chrome. As mensagens são passadas e devolvidas através do <a href="https://developer.chrome.com/devtools/docs/debugger-protocol">Protocolo de Depuração Remota</a>.</li>
 </ul>
 
-<p>Any application can implement communication over the remote debugging protocol and allow its users to debug via DevTools. <a href="https://github.com/node-inspector/node-inspector">Node Inspector</a> is one such tool. After installing, you can run any node script using Node Inspector. The tool starts a web server which hosts the DevTools front-end. This special version of the DevTools doesn’t use the Chrome back-end, but rather Node Inspector’s own one.</p>
+<p>Qualquer aplicação pode implementar algum tipo de comunicação através do protocolo de depuração remota, permitindo que seus usuários possam depurá-la através das Ferramentas para Desenvolvedores. O <a href="https://github.com/node-inspector/node-inspector">Node Inspector</a> é uma dessas ferramentas. Após instalá-lo, você pode executar qualquer código do Node.js usando o <em>Node Inspector</em>. A ferramenta inicial um servidor web que hospedará o <em>front-end</em> das Ferramentas para Desenvolvedores. Essa versão especial das Ferramentas para Desenvolvedores não usa o <em>back-end</em> do Chrome, mas, sim, o do próprio <em>Node Inspector</em>.</p>
 
 <figure class="post_image">
   <img alt="Node Inspector" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-node-inspector.png"/>
 </figure>
 
-<p>As you can see in Node Inspector, DevTools is paused at a breakpoint. The call stack refers to the calls executed in Node.js. The browser's only involvement here is for the DevTools UI.</p>
+<p>Como pode ver no <em>Node Inspector</em>, as Ferramentas para Desenvolvedores está em um ponto de parada. A pilha de execução se refere às chamadas realizadas no Node.js. O único envolvimento com o navegador aqui é para a interface das Ferramentas para Desenvolvedores.</p>
 
 <h3>Node Heapdump</h3>
 
-<p>Use <a href="https://github.com/bnoordhuis/node-heapdump">Node Heapdump</a> to take a snapshot of the V8 heap at a point in time in your code. The current state of the V8 heap is serialized and output to a file.</p>
+<p>Use o <a href="https://github.com/bnoordhuis/node-heapdump">Node Heapdump</a> para realizar capturas da árvore de execução da máquina V8 em um dado ponto do seu código. O estado atual da árvore do V8 será serializado e retornado em um arquivo.</p>
 
 <figure class="post_image">
   <img alt="Node Heapdump" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/329/posts/22584/image/md-node-heapdump.png"/>
 </figure>
 
-<p>Compare two heap snapshots to discover which objects are not being garbage collected. This is useful for catching memory leaks.</p>
+<p>Compare duas capturas de árvores de execução para descobrir quais objetos não estão sendo colecionados. Isso é útil para verificar vazamentos de memórias.</p>
 
-<h3>Conclusion</h3>
+<h3>Conclusão</h3>
 
-<p>That's it for this two-part series on a modern debugging experience. Hopefully at this point, you're comfortable with authoring and debugging JavaScript within the Chrome DevTools. You're familiar with workflows which can aid debugging and you know some tips and tricks when dealing with a production site you've not worked on before. Be sure to try some of the techniques you learnt here the next time you need to debug.</p>
+<p>E é isso! Chegamos ao fim dessa série de contato com depuração moderna. Espero que você esteja confortável criando e depurando código JavaScript dentro das Ferramentas para Desenvolvedores. Você agora está familiarizado com fluxos de trabalho que podem ajudar na depuração de código e também sabe lidar com sites em produção que você nunca trabalhou antes. Tenha certeza de por em prática algumas das técnicas que você aprendeu aqui, na próxima vez que tiver de depurar algum código.</p>
 
-<p>Thank you for reading!</p>
+<p>Obrigado pela leitura!</p>
