@@ -1,50 +1,50 @@
-<h1>Focusing on a Team Workflow With Git</h1>
+<h1>Focando no Trabalho em Equipe Com Git</h1>
 
-<p>Git provides numerous benefits for the solo developer, but it also really shines when it comes to team collaboration.</p>
+<p>O Git traz inúmeros benefícios para um desenvolvedor, mas também brilha quando se trata de colaboração em equipe.</p>
 
-<p>The key to establishing a great team workflow with Git is communication. Git is versatile, flexible, and can accommodate a variety of usage patterns. Deciding the workflow “rules of the road” ahead of time will help eliminate friction and confusion, and allow a team to take advantage of what Git does best: boost productivity.</p>
+<p>A comunicação é a chave para criar um ótimo fluxo de trabalho em equipe com o Git. O Git é versátil, flexível e acomoda uma variedade de padrões de uso. Decidir de antemão as "regras de uso" para o fluxo de trabalho ajudará a eliminar problemas e confusões, e permitirá que a equipe aproveite o que o Git faz de melhor: aumentar a produtividade.</p>
 
-<p>That being said, this wouldn’t be much of a tutorial if it didn’t provide a tangible Git-based team workflow for you to review. The following example is based on a very popular Git workflow crafted by Vincent Driessen called <a href="http://nvie.com/posts/a-successful-git-branching-model/" rel="external" target="_blank">Git-Flow</a>, though it differs in certain key ways. There are several popular Git workflows floating around the web—I’d suggest reading as many as you can so your team can pick a ruleset that feels best for it.</p>
+<p>Dito isso, não teríamos um tutorial se esse artigo não provesse um fluxo de trabalho para equipes, baseado no Git e tangível, para você conhecer. O exemplo a seguir é baseado no famoso fluxo de trabalho com Git, criado por Vincent Driessen e chamado de <a href="http://nvie.com/posts/a-successful-git-branching-model/" rel="external" target="_blank">Git-Flow</a>, embora ele seja um pouco diferente em alguns aspectos chaves. Há inúmeros fluxos de trabalho disponíveis para o Git pela web&mdash;sugiro que você leia o máximo que puder e escolha o conjunto que melhor se encaixa em seu trabalho.</p>
 
-<p>Let's kick off your research with the following workflow:</p>
+<p>Comecemos sua pesquisa com o fluxo de trabalho a seguir:</p>
 
-<h2>The Rule Above All Else</h2>
+<h2>A Regra Máxima</h2>
 
-<p>The <code class="inline">master</code> branch is always deployable. <em>Always.</em></p>
+<p>O ramo <code class="inline">master</code> sempre será publicável. <em>Sempre.</em></p>
 
-<p>A deployable <code class="inline">master</code> branch is important for many reasons. First, it enables anyone new to a project to pull and build immediately without errors. Nothing is so frustrating as not being able to build an unfamiliar project.</p>
+<p>Um ramo <code class="inline">master</code> publicável é importante por vários motivos. Primeiro, permite que qualquer pessoa nova no projeto possa obtê-lo e executá-lo sem erros, imediatamente. Nada é mais frustrante que não ser capaz de executar um projeto que não somos familiarizados.</p>
 
-<p>Second, <code class="inline">master</code> shows the current state of production and/or the shipped product. If hotfixes need to be made, it is clear where to branch from.</p>
+<p>Segundo, o <code class="inline">master</code> mostra o estado atual do código para produção ou do código lançado. Se ajustes precisarem ser feitos, fica claro de onde devemos criar novas ramificações.</p>
 
-<p>Lastly, a deployable <code class="inline">master</code> is a safety net. If <code class="inline">master</code> is always deployable, then we can deploy without worry. Worry causes stress, and stress causes indigestion. Nobody needs that.</p>
+<p>Por último, um <code class="inline">master</code> publicável é retorno garantido. Se o <code class="inline">master</code> sempre for publicável, sempre poderemos publicar sem medo. Medo causa estresse e estresse causa indigestão. Ninguém precisa disso.</p>
 
-<h2>Branching Strategies</h2>
+<h2>Estratégias de Ramificação</h2>
 
-<p>The <code class="inline">develop</code> branch should be the main branch of ongoing development. Feature branches are created from and merged back into <code class="inline">develop</code>, and <code class="inline">develop</code> represents the bleeding edge of our codebase.</p>
+<p>O ramo <code class="inline">develop</code> deve ser o principal ramo do desenvolvimento corrente. Ramificações de funcionalidades são criadas e fundidas de volta (<em>merged</em>) no ramo <code class="inline">develop</code>, e o ramo <code class="inline">develop</code> representa o estado mais avançado do código.</p>
 
-<p>Since both <code class="inline">master</code> and <code class="inline">develop</code> are permanent and highly-trafficked branches, they should never be worked in directly. Instead, all work should be done in feature branches. When implementing a new feature, branch from <code class="inline">develop</code> and hack out the feature.</p>
+<p>Uma vez que os ramos <code class="inline">master</code> e <code class="inline">develop</code> são permanentes e bastante trafegados, nunca se deve trabalhar diretamente neles. Ao invés disso, todo o trabalho deve ser realizado em ramificações de funcionalidades. Ao implementar uma nova funcionalidade, ramifique a partir do <code class="inline">develop</code> e crie o código que implementa a funcionalidade.</p>
 
-<h2>What’s in a Name?</h2>
+<h2>E O Que Tem o Nome?</h2>
 
-<p>There are no hard-and-fast rules on branch naming, especially for feature branches. If a branch is a fix, it is probably best to prepend "fix-" to it. If a branch is a release, it is generally encouraged for the branch to follow this format: "release-X.X.X".</p>
+<p>Não há regras fixas para a nomeação de ramificações, principalmente para ramos de funcionalidades. Agora, se o ramo é de ajustes, é costume utilizar o prefixo "fix-". Se o ramo é de lançamento, geralmente é encorajado seguir o formato: "release-X.X.X".</p>
 
-<p>In general, branch names should be descriptive. And perhaps funny. The occasional and timely pun wouldn't go amiss.</p>
+<p>No geral, nomes de ramos devem ser descritivos. Até divertidos. Uma piadinha ocasional e na hora certa, jamais será esquecida.</p>
 
-<h2>You Say “Merge”, I Say “Rebase”</h2>
+<h2>Você diz “Merge”, Eu digo “Rebase”</h2>
 
-<p>Once your new awesome feature is coded, it's time to get it back into a shared branch (let's assume we're merging into <code class="inline">develop</code>). But before merging into <code class="inline">develop</code>, make sure that your feature branch has the latest changes from <code class="inline">develop</code> because there may be conflicts.</p>
+<p>Assim que sua nova funcionalidade estiver codificada, é hora de colocá-la de volta ao ramo compartilhado (assumamos que fundiremos ao ramo <code class="inline">develop</code>). Mas, antes de fundir ao ramo <code class="inline">develop</code>, tenha certeza que sua ramificação possui as últimas atualizações do ramo <code class="inline">develop</code>, já que pode haver conflitos.</p>
 
-<p>All conflict resolution should happen in your feature branch. If you branched to make a small change/fix and <em>you have not pushed the branch to the remote</em>, rebase <code class="inline">develop</code> into your feature branch, and then merge your feature branch into <code class="inline">develop</code>. Push and then feel free to delete your local feature branch.</p>
+<p>Todas as soluções de conflito devem ser realizadas na sua ramificação. Se você ramificou para realizar algum ajuste pequeno e <em>não enviou para o ramo remoto</em>, ajuste o ramo <code class="inline">develop</code> como a base da sua ramificação, usando <em>rebase</em> e, só então, funda-a com o ramo <code class="inline">develop</code>. Envie para o ramo remoto e sinta-se livre para apagar sua ramificação local.</p>
 
-<p>If you have pushed your branch to the remote, first merge <code class="inline">develop</code> into your branch (resolving conflicts), and then merge your branch into <code class="inline">develop</code>. Push and feel free to delete both the local and remote feature branch.</p>
+<p>Se tiver enviado sua ramificação para o ramo remoto, primeiro funda o ramo <code class="inline">develop</code> em sua ramificação (resolvendo os conflitos) e, depois, funda sua ramificação no ramo <code class="inline">develop</code> novamente. Envie para o ramo remoto e sinta-se livre para apagar sua ramificação local.</p>
 
-<p>When rebasing, keep in mind that it is a <em>destructive</em> action. Meaning... be careful! Rebasing is really useful for cleaning up commit histories, but you don't want to rewrite history on anything that has been shared with someone else.</p>
+<p>Ao usar o <em>rebase</em>, tenha em mente que é um comando <em>destrutivo</em>. Então, tenha cuidado! O <em>rebase</em> é bastante útil para limpar históricos de <em>envio de códigos</em>, mas não se quer reescrever o histórico de qualquer coisa que tenha sido compartilhado com outra pessoa.</p>
 
-<p>Here are a couple of rules to keep you safe when rebasing:</p>
+<p>Eis algumas regras para se ter em mente ao utilizar o <em>rebase</em>:</p>
 
 <ul>
-  <li>Never rebase anything that has been pushed to the remote. Is the branch you're on <em>only</em> local? Then it is good to rebase. Otherwise, <em>no rebasing</em>.</li>
-  <li>Rebase shared branches in local branches. <code class="inline">develop</code> is a shared branch. <code class="inline">my‑awesome-feature</code> is a local branch. Now I'm ready to merge <code class="inline">my‑awesome‑feature</code> into develop, but I want to make sure any changes that have happened in <code class="inline">develop</code> are merged into my feature branch first:</li>
+  <li>Nunca utilize <em>rebase</em> que tenha sido enviado para o ramo remoto. A ramificação que está trabalhando está <em>somente</em> local? Então é perfeito para usar o <em>rebase</em>. Caso contrário, <em><strong>não</strong> use rebase</em>.</li>
+  <li>Use <em>rebase</em> com ramos compartilhados e ramificações locais. O ramo <code class="inline">develop</code> é um ramo compartilhado. A ramificação <code class="inline">my-awesome-feature</code> é local. Já estou pronto para fundir <code class="inline">my-awesome-feature</code> no ramo <code class="inline"> develop</code>, mas quero ter certeza que todas as mudanças que surgiram no ramo <code class="inline">develop</code> sejam fundidas primeiro à minha ramificação:</li>
 </ul>
 
 <pre class="brush: bash">git checkout my-awesome-feature
@@ -52,56 +52,56 @@ git rebase develop
 git checkout develop
 git merge my-awesome-feature</pre>
 
-<h2>Peer It Up</h2>
+<h2>Una-se A Um Amigo</h2>
 
-<p>Say we’ve branched, we’ve coded, we’ve merged/rebased from <code class="inline">develop</code>, and now we're ready to merge our new code back into <code class="inline">develop</code>. But should we? Perhaps someone should review our changes first...</p>
+<p>Criamos a ramificação, codificamos a funcionalidade, fundimos/fizemos <em>rebase</em> do <code class="inline">develop</code> e estamos prontos para fundir nosso código de volta no <code class="inline">develop</code>. Mas, será que devemos mesmo? Talvez alguém devesse revisar nossas alterações primeiro...</p>
 
-<p>Code reviews are a good thing! They allow you to get valuable feedback on the work you’ve done, and—if nothing else—increase the probability of mistakes being caught and fixed.</p>
+<p>Revisões de código são algo bom! Elas permitem você obter críticas bastante construtivas no trabalho que você fez e&mdash;se nada mais acontecer&mdash;aumentam a probabilidade de erros serem achados e ajustados.</p>
 
-<p>This is where Git’s pull requests (and <a href="https://bitbucket.org" rel="external" target="_blank">Bitbucket’s</a> interface) come in handy. (For a refresher on opening and managing pull requests in Bitbucket, check out part two of this series, <a href="http://code.tutsplus.com/tutorials/using-pull-requests-as-code-reviews--cms-21959" rel="external" target="_blank">Using Pull Requests as Code Reviews</a>.) Pull requests can be much more than just reviewing changed code. Since pull requests are brand-based, they can become threads for discussing and collaborating on individual features. You can embed photos to share designs, comment directly on lines of code, and even use GIFs and emojis to have some fun.</p>
+<p>É aqui onde as <em>pull requests</em>/requisições de envio do Git (e a interface do <a href="https://bitbucket.org" rel="external" target="_blank">Bitbucket</a>) são úteis (Para mais informações sobre abrir e administrar requisições de envio no Bitbucket, veja a segunda parte desta série, <a href="http://code.tutsplus.com/tutorials/using-pull-requests-as-code-reviews--cms-21959" rel="external" target="_blank">Usando Requisições de Envio e Revisões de Código</a>). Requisições de envio servem muito mais que simplesmente para revisão de código. Uma vez que as requisições de envio são próprias para cada serviço, elas podem tornar-se tópicos próprios para discussão e colaboração de funcionalidades. Você pode embutir fotos para compartilhar projetos, comentar diretamente em linhas de código e até usar GIFs e emojis para descontrair um pouco.</p>
 
-<p>When it comes to merging pull requests, it is preferable for the merge to be authored by the same person who opened the pull request, because that is likely the person who wrote the new code. To achieve this, reviewers should leave a comment approving the new code, but not actually hit the merge button. Once a teammate gives the code a “thumbs up” (either figuratively, or literally with a <code class="inline">:thumbsup:</code> emoji), the pull request opener can then go ahead and merge. Peer review plus clean logs—a wonderful thing!</p>
+<p>Quando chega a hora de fundir a requisição de envio, é preferível que ela seja fundida pelo mesmo autor da requisição, que costuma ser a mesma pessoa que escreveu o código. Para que isso aconteça, os revisores devem deixar um comentário aprovando o código, mas sem apertar o botão de fundir. Uma vez que algum colega disser que o código está bom, através de um “sinal de ok” (seja figurativamente ou literalmente, através do emoji <code class="inline">:thumbsup:</code>), o responsável pela requisição pode fundir o código. Revisão de código e registros limpos&mdash;que coisa maravilhosa!</p>
 
-<h2>I Like to Ship It, Ship It</h2>
+<h2>Eu Publico Muito, Muito!</h2>
 
-<p>Once <code class="inline">develop</code> is ready for a release, do a merge into <code class="inline">master</code>:</p>
+<p>Uma vez o ramo <code class="inline">develop</code> pronto para lançamento, funda-o ao ramo <code class="inline">master</code>:</p>
 
 <pre class="brush: bash">git checkout master
 git merge --no-ff develop</pre>
 
-<p>Notice that <code class="inline">--no-ff</code> flag? That makes sure the merge won't be a fast-forward, so it will create a fresh commit. Why do we want that? So we can tag it! Tag that commit as the new version:</p>
+<p>Notou o semáforo <code class="inline">--no-ff</code>? Isso garantirá que a fundição não será do tipo <em>fast-forward</em>, isso é, não combinará os históricos, indicando que será um envio totalmente novo. Por que queremos isso? Para que possamos rotulá-lo (<em>tag</em>). Rotule o envio como uma nova versão:</p>
 
-<pre class="brush: bash">git tag -a vX.X.X -m 'Version X.X.X'</pre>
+<pre class="brush: bash">git tag -a vX.X.X -m 'Versão X.X.X'</pre>
 
-<p>Then merge <code class="inline">master</code> back into <code class="inline">develop</code> so that <code class="inline">develop</code> has the version commit.</p>
+<p>E, então, funda o <code class="inline">master</code> de volta ao <code class="inline">develop</code> de modo que o ramo <code class="inline">develop</code> tenha o versionamento do envio.</p>
 
-<p>Speaking of versions, we should use <a href="http://semver.org/" rel="external" target="_blank">semantic versioning</a>. That breaks down to <code class="inline">MAJOR.MINOR.PATCH</code>. In general, <code class="inline">MAJOR</code> is a whole version number—it is used for massive changes and/or milestones. It is allowed to break backwards compatibility. <code class="inline">MINOR</code> is used for new features. It should not break any backwards compatibility. <code class="inline">PATCH</code> is for small changes and fixes, and should not break any backwards compatibility. We should be in a pre-release (<code class="inline">0.x.x</code>) until we launch.</p>
+<p>Por falar em versões, deveríamos usar o <a href="http://semver.org/" rel="external" target="_blank">versionamento semântico</a>. Que seria algo como <code class="inline">MAIOR.MENOR.ATUALIZAÇÃO</code> (<em>MAJOR.MINOR.PATCH</em>). No geral, <code class="inline">MAIOR</code> é um número de versão totalmente novo&mdash;usado para mudanças muito grandes ou marcos. Aqui, é permitido criar código que não seja retro compatível. <code class="inline">Menor</code> é usado para novas funcionalidades. Não deveria quebrar a retrocompatibilidade. <code class="inline">ATUALIZAÇÃO</code> é para pequenas mudanças ou ajustes e nunca devem quebrar a retrocompatibilidade. Devemos manter nosso código em pré-lançamento (<code class="inline">0.x.x</code>) até que possamos lança-lo sem problemas.</p>
 
-<h2>Fix It Like It’s Hot</h2>
+<h2>Ajuste O Máximo Que Puder</h2>
 
-<p>We should never ship mistakes.</p>
+<p>Nunca deveríamos lançar erros.</p>
 
-<p>...but when we do, it's best to fix them fast. Since <code class="inline">develop</code> may include unfinished features, hotfixes should be branched from the current release—which is <code class="inline">master</code> (because <code class="inline">master</code> is always deployable!).</p>
+<p>...mas, quando fazemos, é melhor ajustá-los rápido. Uma vez que o ramo <code class="inline">develop</code> pode conter funcionalidades não finalizadas, ajustes devem ser feitos a partir do ramo do atual lançamento&mdash;que é o ramo <code class="inline">master</code> (uma vez que o ramo <code class="inline">master</code> sempre é publicável!).</p>
 
-<p>To make a hotfix, branch off <code class="inline">master</code>, make the fix, then do a <em>non-fast-forward</em> merge into <code class="inline">master</code>. Tag it, then merge <code class="inline">master</code> back into <code class="inline">develop</code> (because we'll want <code class="inline">develop</code> to have the fix too). Feel free to delete the hotfix branch.</p>
+<p>Para realizar um ajuste, ramifique o <code class="inline">master</code>, crie o ajuste e funda sua atualização de forma <strong>não</strong> <em>fast-forward</em> no ramo <code class="inline">master</code>. Rotule-o, e funda o ramo <code class="inline">master</code> de volta no <code class="inline">develop</code> (já que queremos que o ramo <code class="inline">develop</code> tenha o ajuste também). Sinta-se livre para apagar o ramo do ajuste da sua máquina.</p>
 
-<h2>It’s Time for a Commitment</h2>
+<h2>É Hora do Comprometimento</h2>
 
-<p>Let's talk about Git commit messages. Adhering to a common format will make it much easier to peruse our logs. Here are some good rules:</p>
+<p>Falemos um pouco sobre o Git e as mensagens de envio de código. Aderir a um formato comum tornará a leitura dos registros muito mais fácil. Eis algumas boas regras:</p>
 
 <ul>
-  <li>Commit messages should be written in the present (imperative) tense: "Fix bug..." instead of "Fixed bug..." or "Fixes bug...".</li>
-  <li>The first line (or subject line) should be a short summary of the commit (preferably 50 characters or less) with the first word capitalized.</li>
-  <li>If the summary line needs elaboration, you can, after a blank line, write a description. The description should be in paragraph form, with proper capitalization and punctuation.</li>
-  <li>Commit messages should wrap at 72 columns so that logs in our terminals look pretty.</li>
+  <li>Mensagens de envio de código devem ser escritas na forma imperativa: "Ajuste erro..." ao invés de "Erro ajustado..." ou "Ajusta erro...";</li>
+  <li>A primeira linha (ou linha do assunto) deve ser um resumo rápido do propósito do envio de código (preferivelmente, 50 caracteres ou menos) com a primeira letra da primeira palavra em maiúsculo;</li>
+  <li>Se o resumo precisar de mais conteúdo, você pode fazê-lo. Deixe uma linha em branco e escreva uma descrição completa. A descrição deve vir em formas de parágrafo, com pontuação, gramática e ortografia corretas;</li>
+  <li>As mensagens sobre os envios de código devem tomar, no máximo, 72 colunas, de modo que elas tenham uma boa aparência em nossas janelas de linha de comando.</li>
 </ul>
 
-<p>If you want to read some more about proper Git commit message writing, take a look at Tim Pope's <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html" rel="external" target="_blank">post</a>.</p>
+<p>Se quiser ler mais sobre uma escrita apropriada de mensagens para envio de código, veja o <a href="http://tbaggery.com/2008/04/19/a-note-about-git-envio de código-messages.html" rel="external" target="_blank">artigo</a> de Tim Pope.</p>
 
-<h2>Make It Your Own</h2>
+<h2>Personalize-o</h2>
 
-<p>Let me once again note that the workflow outlined above is meant to be a guideline, not hard-and-fast rules you should strictly implement for your teams. If you like them all, use ‘em! If something doesn’t work for you, tweak away! </p>
+<p>Veja bem, o fluxo de trabalho mostrado acima serve como um guia, não como um conjunto fixo de regras a ser seguido estritamente por você e sua equipe. Se gostar de todas as regras, ótimo! Use-as. Agora, se algo não parece interessante, faça seus próprios ajustes! </p>
 
-<p>What’s most important is that your team agrees upon a defined Git workflow, and then sticks to it. Once that happens, collaboration will follow, and you'll be taking advantage of the benefits Git has to offer when working as a team.</p>
+<p>O mais importante é que sua equipe concorde com um fluxo de trabalho para o Git e se mantenha fiel a ele. Uma vez alcançado isso, colaboração aparecerá, e você aproveitará dos benefícios que o Git tem a oferecer para uma equipe.</p>
 
-<p>Check out some alternatives to the Git-Flow workflow in <a href="https://www.google.com/url?q=https%3A%2F%2Fwww.atlassian.com%2Fgit%2Ftutorials%2Fcomparing-workflows%2F&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNHfUzu6BVLPT5kHunEPG8oTJrARRw" rel="external" target="_blank">Atlassian's Git workflows guide</a>.</p>
+<p>Veja algumas alternativas ao fluxo de trabalho <em>Git-Flow</em> no <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/centralized-workflow" rel="external" target="_blank">guia de fluxos de trabalho para Git da Atlassian</a>.</p>
