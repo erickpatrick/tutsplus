@@ -8,6 +8,7 @@ Esse repositório serve como versionamento para os arquivos temporários de trad
 Código
 ------
 - [Básico Do Pivotal Tracker Para Desenvolvedores](http://code.tutsplus.com/pt/tutorials/pivotal-tracker-101-for-developers--cms-22588)
+- [Focando no Trabalho em Equipe Com Git](http://code.tutsplus.com/pt/tutorials/focusing-on-a-team-workflow-with-git--cms-22514)
 
 PHP
 ---
