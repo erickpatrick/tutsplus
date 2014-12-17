@@ -82,6 +82,7 @@ JavaScript
 - [Uma Olhada No Foundation for Apps](http://webdesign.tutsplus.com/pt/articles/a-sneak-peek-at-the-next-foundation-for-apps--cms-22540)
 - [Iniciando Com o Intel XDK](http://code.tutsplus.com/pt/articles/getting-started-with-intel-xdk--cms-22205)
 - [Contato com Depuração Moderna: Parte 1](http://code.tutsplus.com/pt/tutorials/modern-debugging-experience-part-1--cms-22571)
+- [Contato com Depuração Moderna: Parte 2](http://code.tutsplus.com/pt/tutorials/modern-debugging-experience-part-2--cms-22584)
 
 Habilidades com Computadores
 ----------------------------
