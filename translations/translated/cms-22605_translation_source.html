@@ -1,0 +1,313 @@
+<h1>Aprenda a Criar um Blog Usando Parse.js: Acesso Dos Usuários</h1>
+
+<p>No artigo anterior, você aprendeu a adicionar dados no <a href="https://parse.com/" rel="external" target="_blank">Parse.com</a> e a apresentar esses dados no seu site. Você se familiarizou ao conceito de objetos, coleções e visões, além de criar sua primeira classe. Deste artigo em diante, você aprenderá a criar o painel administrativo do sistema de blog. </p>
+
+<p>E tudo começa com a criação da classe <code>User</code> e habilitando o <em>login</em>.</p>
+
+<h2><span class="sectionnum">1.</span> Classe <code>User</code></h2>
+
+<h3>Passo 1: Adicione a Classe <code>User</code></h3>
+
+<p>O Parse.com tornou extremamente simples a adição de uma nova classe <code>User</code>. Apenas clique em "<strong>Add Class</strong>" e escolha "<strong>User</strong>" para criá-la.</p>
+
+<figure class="post_image">
+  <img alt="Add a User class" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22605/image/01-add-user-class.png"/>
+</figure>
+
+<p>Adicione um novo registro para você mesmo:</p>
+
+<figure class="post_image">
+  <img alt="Add a new user" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22605/image/02-add-new-user.png"/>
+</figure>
+
+<h3>Passo 2: Adicione Controles de Acesso a Nível de Classe</h3>
+
+<p>Agora que você tem um usuário, podemos tornar a aplicação mais segura, configurando algumas <a href="https://www.parse.com/docs/data#security-classes" rel="external" target="_blank">permissões de acesso a nível de classe</a>. </p>
+
+<p>Vá até a tabela dos artigos do blog e clique em "<strong>Security</strong>":</p>
+
+<figure class="post_image">
+  <img alt="Blog security" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22605/image/03-blog-security.png"/>
+</figure>
+
+<p>Altere "Add Fields" de público para apenas você mesmo:</p>
+
+<figure class="post_image">
+  <img alt="Set permission" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22605/image/04-permission-add-field.png"/>
+</figure>
+
+<p>Isso prevenirá os outros de adicionar novos campos à tabela.</p>
+
+<p>Similarmente, vá até a tabela User e limite o "Add Fields" para somente você também. </p>
+
+<p>Você pode configurar o resto das permissões a nível de classe de acordo com suas necessidades, mas deixaremos assim, por hora.</p>
+
+<h2><span class="sectionnum">2.</span> Prepare uma Página de Administração</h2>
+
+<h3>Passo 1: Limpe a Navegação</h3>
+
+<p>Primeiro, limpemos uma pouco a barra de navegação do modelo HTML, para dar espaço para a nova página administrativa. Altere o elemento <code class="inline">&lt;nav&gt;</code> de forma que tenha somente dois links: <code class="inline">Home</code> e <code class="inline">Admin</code>:</p>
+
+<pre class="brush: html">&lt;nav class="blog-nav"&gt;
+&lt;a class="blog-nav-item active" href="index.html"&gt;Home&lt;/a&gt;
+    &lt;a class="blog-nav-item" href="admin.html"&gt;Admin&lt;/a&gt;
+&lt;/nav&gt;</pre>
+
+<h3>Passo 2: Prepare o Arquivo <code>admin.html</code> e Seu CSS</h3>
+
+<p>Agora, duplique o arquivo <code class="inline">index.html</code> e o renomeie para <code class="inline">admin.html</code>, e também duplique o arquivo <code class="inline">blog.js</code> e o renomeie para <code class="inline">admin.js</code> (Para aqueles familiarizados ao conceito de roteamento e odeiam código duplicado, por favor, continue seguindo o artigo. Prometo que aprenderemos a criar e usar um roteador e limpar um pouco as coisas!).</p>
+
+<p>No arquivo <code class="inline">admin.html</code>, aplique a classe <code class="inline">.active</code> à aba correta:</p>
+
+<pre class="brush: html">&lt;nav class="blog-nav"&gt;
+&lt;a class="blog-nav-item" href="index.html"&gt;Home&lt;/a&gt;
+    &lt;a class="blog-nav-item active" href="admin.html"&gt;Admin&lt;/a&gt;
+&lt;/nav&gt;</pre>
+
+<p>E chame o arquivo <code class="inline">admin.js</code> ao invés do <code class="inline">blog.js</code>:</p>
+
+<pre class="brush: html">&lt;script src="js/admin.js"&gt;&lt;/script&gt;</pre>
+
+<p>Garanta que tudo ainda esteja funcionando normalmente para que possamos continuar e criar a página de <em>Login</em>.</p>
+
+<p>Mesma coisa de antes, vá até <a href="http://getbootstrap.com/examples/signin" rel="external" target="_blank">http://getbootstrap.com/examples/signin</a>, e copie o HTML de <code class="inline">.form-signin</code> para dentro de <code class="inline">.main-container</code>.</p>
+
+<pre class="brush: html">&lt;div class="main-container"&gt;
+	&lt;form class="form-signin" role="form"&gt;
+		&lt;h2 class="form-signin-heading"&gt;Por favor, faça seu <em>login</em>&lt;/h2&gt;
+		&lt;input type="email" class="form-control" placeholder="Email address" required="" autofocus=""&gt;
+		&lt;input type="password" class="form-control" placeholder="Senha" required=""&gt;
+		&lt;div class="checkbox"&gt;
+			&lt;label&gt;
+				&lt;input type="checkbox" value="remember-me"&gt; Manter-me conectado
+			&lt;/label&gt;
+		&lt;/div&gt;
+		&lt;button class="btn btn-lg btn-primary btn-block" type="submit"&gt;Acessar&lt;/button&gt;
+	&lt;/form&gt;
+&lt;/div&gt;</pre>
+
+<p>Pegue os estilos no arquivo <code class="inline">signin.css</code> e copie-o para seu arquivo <code class="inline">blog.css</code>, exceto os estilos relacionados ao elemento <code class="inline">body</code>:</p>
+
+<pre class="brush: css">.form-signin {
+max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+	margin-bottom: 10px;
+}
+.form-signin .checkbox {
+	font-weight: normal;
+}
+.form-signin .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+}
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+.form-signin input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}</pre>
+
+<h3>Passo 4: Limpe o Arquivo <code>admin.js</code></h3>
+
+<p>Finalmente, limpe tudo que estiver abaixo de <code class="inline">Parse.initialize()</code> no arquivo <code class="inline">admin.js</code>:</p>
+
+<pre class="brush: javascript">$(function() {
+
+Parse.$ = jQuery;
+
+    // Substitua essa linha pela que aparece na página Quickstart Guide
+    Parse.initialize("HC87tn6aA7c3sYx9X0vwwLVXeqHDRMYYmrUBK5zv", "3piNGGnRMhvWo8u9pKD9TDc1MJlWhlvK78Vr3fHo");
+
+});</pre>
+
+<p>Agora, atualize a página:</p>
+
+<figure class="post_image">
+  <img alt="Login page" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22605/image/08-login-page.png"/>
+</figure>
+
+<p>Tudo certo!</p>
+
+<h3>Passo 5: Ajustando o Formulário de <em>Login</em></h3>
+
+<p>Alguns ajustes finais à página: usaremos o nome de usuário para acessar a página administrativa, então, altere o campo de e-mail para um campo de texto e adicione o atributo <code class="inline">name</code> em ambos os campos:</p>
+
+<pre class="brush: html">&lt;input type="text" name="username" class="form-control" placeholder="Nome de Usuário" required="" autofocus=""&gt;
+&lt;input type="password" name="password" class="form-control" placeholder="Senha" required=""&gt;</pre>
+
+<p>Também altere o seletor CSS de <code class="inline">email</code> para <code class="inline">text</code>:</p>
+
+<pre class="brush: css">.form-signin input[type="text"] {
+margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}</pre>
+
+<p>E remova o campo de seleção "Manter-me conectado", porque não traremos disso nesse tutorial.</p>
+
+<h2><span class="sectionnum">3.</span> Habilite o <em>Login</em></h2>
+
+<p>Agora, finalmente somos capazes de acessar o painel administrativo. Criemos uma função JavaScript básica para permitir os usuários acessarem ao clicar no botão <strong>Enviar</strong> in <code class="inline">admin.js</code>:</p>
+
+<pre class="brush: javascript">$('.form-signin').on('submit', function(e) {
+
+    // Previne o envio padrão do formulário
+    e.preventDefault();
+
+    // Obtém os dados do formulário e os coloca em variáveis
+    var data = $(this).serializeArray(),
+        username = data[0].value,
+        password = data[1].value;
+
+    // Invoca a função Login do Parse.com com as variáveis acima
+    Parse.User.logIn(username, password, {
+        // Se o nome de usuário e senha existirem
+        success: function(user) {
+            alert('Welcome!');
+        },
+        // Se houver algum erro
+        error: function(user, error) {
+            console.log(error);
+        }
+    });
+
+});</pre>
+
+<p>É hora de tentarmos...</p>
+
+<figure class="post_image">
+  <img alt="Login success" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22605/image/09-login-success.png"/>
+</figure>
+
+<p>Simples assim: você acessou a página administrativa!</p>
+
+<h2><span class="sectionnum">4.</span> Visão de <em>Login</em> e Visão de Boas-Vindas</h2>
+
+<p>Após realizar <em>login</em>, com certeza, você não quer ver apenas uma mensagem de alerta e permanecer na mesma página <em>login</em>. Precisamos criar uma tela de boas-vindas para os usuários logados.</p>
+
+<p>Para fazer do melhor jeito, criaremos tanto a página de <em>login</em> quanto a de boas-vindas, usando <code>Views</code> e servi-las através do Parse.js.</p>
+
+<h3>Passo 1: Crie os Modelos</h3>
+
+<p>Assim como fizemos com os modelos para o blog, removamos tudo de <code class="inline">.main-container</code> e criemos modelos para a página de <em>login</em> e para a página de boas-vindas:</p>
+
+<pre class="brush: html">&lt;script id="login-tpl" type="text/x-handlebars-template"&gt;
+&lt;form class="form-signin" role="form"&gt;
+        &lt;h2 class="form-signin-heading"&gt;Por favor, faça seu <em>login</em>&lt;/h2&gt;
+        &lt;input type="text" name="username" class="form-control" placeholder="Nome de Usuário" required="" autofocus=""&gt;
+        &lt;input type="password" name="password" class="form-control" placeholder="Senha" required=""&gt;
+        &lt;button class="btn btn-lg btn-primary btn-block" type="submit"&gt;Acessar&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/script&gt;
+
+&lt;script id="welcome-tpl" type="text/x-handlebars-template"&gt;
+    &lt;h2&gt;Bem-vindo, {{username}}!&lt;/h2&gt;
+&lt;/script&gt;</pre>
+
+<p>Podemos manter a tela de boas-vindas bem simples, por hora. Ela pegará o objeto que contém o usuário logado e mostrará seu nome, apenas.</p>
+
+<h3>Passo 2: Definindo as Visões</h3>
+
+<p>Definamos as visões no arquivo <code class="inline">admin.js</code>. Uma vez que a <code class="inline">LoginView</code> não precisa mostrar qualquer objeto, a função <code>render</code> apenas joga o modelo HTML direto no DOM.</p>
+
+<pre class="brush: javascript">var LoginView = Parse.View.extend({
+	template: Handlebars.compile($('#login-tpl').html()),
+		render: function(){
+			this.$el.html(this.template());
+		}
+	}),
+	WelcomeView = Parse.View.extend({
+		template: Handlebars.compile($('#welcome-tpl').html()),
+		render: function(){
+			var attributes = this.model.toJSON();
+			this.$el.html(this.template(attributes));
+		}
+	});</pre>
+
+<h3>Passo 3: Adicione o Evento de <em>Login</em> à Visão</h3>
+
+<p>Lembra-se da simples função de <em>Login</em> que temos? Agora, podemos torná-la em um evento dentro da <code class="inline">LoginView</code>:</p>
+
+<pre class="brush: javascript">var LoginView = Parse.View.extend({
+template: Handlebars.compile($('#login-tpl').html()),
+    events: {
+        'submit .form-signin': '<em>login</em>'
+    },
+    <em>login</em>: function(e) {
+
+        // Previne o envio padrão do formulário
+        e.preventDefault();
+
+        // Obtém os dados do formulário e os coloca em variáveis
+        var data = $(e.target).serializeArray(),
+            username = data[0].value,
+            password = data[1].value;
+
+        // Invoca a função Login do Parse.com com as variáveis acima
+        Parse.User.logIn(username, password, {
+            // Se o nome de usuário e senha existirem
+            success: function(user) {
+                alert('Welcome!');
+            },
+            // Se houver algum erro
+            error: function(user, error) {
+                console.log(error);
+            }
+        });
+    },
+        render: function(){
+        this.$el.html(this.template());
+    }
+})</pre>
+
+<p>Perceba que alteramos o <code class="inline">$(this).serializeArray()</code> para <code class="inline">$(e.target).serializeArray()</code>. Isso se dá porque, nesse contexto, o <code class="inline">this</code> apontará para a <code class="inline">LoginView</code>.</p>
+
+<h3>Passo 4: Mostre a <code>LoginView</code> na Página</h3>
+
+<p>Antes de seguirmos para visão de boas-vindas, primeiro mostraremos a <code>LoginView</code> na página atual e ver se ela funciona:</p>
+
+<pre class="brush: javascript">var <em>login</em>View = new LoginView();
+<em>login</em>View.render();
+$('.main-container').html(<em>login</em>View.el);</pre>
+
+<p>Execute novamente e funcionará como antes.</p>
+
+<h3>Passo 5: Mostre a Tela de Boas Vindas Através da <em>Callback</em> de Sucesso</h3>
+
+<p>Agora, alteremos a função <em>callback</em> de sucesso da função <code class="inline">login()</code> para renderizar a tela de boas-vindas usando o objeto <code class="inline">user</code> retornado.</p>
+
+<pre class="brush: javascript">success: function(user) {
+var welcomeView = new WelcomeView({ model: user });
+    welcomeView.render();
+    $('.main-container').html(welcomeView.el);
+}</pre>
+
+<p>Teste outra vez:</p>
+
+<figure class="post_image">
+  <img alt="Welcome screen" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/435/posts/22605/image/10-welcome-screen.png"/>
+</figure>
+
+<p>E sim, funciona de verdade!</p>
+
+<h2>Conclusão</h2>
+
+<p>Neste artigo, você criou sua segunda classe: a classe <code>User</code>. você também criou duas visões importantes as <code>LoginView</code> e <code>WelcomeView</code>. Você também habilitou o <em>login</em> de usuários em seu site, e agora você pode enviar uma mensagem personalizada para seus usuários.</p>
+
+<p>Esse é só o começo da construção do painel administrativo do blog. Fique ligado que, no próximo artigo, criaremos uma nova visão e habilitaremos a função de "Adicionar novo artigo".</p>
