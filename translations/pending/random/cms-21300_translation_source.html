@@ -1,115 +1,115 @@
-<h1>50 Filters of WordPress: Series Finale</h1>
+<h1>50 Filtros Para WordPress: Final da Série</h1>
 
-<p>Welcome to the series finale of "50 Filters of WordPress"! In this last part, we're going to review what we learned and summarize all the 50 filters with 10 words (give or take) each.</p>
+<p>Bem-vindo ao final da série "50 Filtros Para WordPress"! Nesta última parte, revisaremos o que aprendemos e resumiremos todos os 50 filtros em 10 palavras (é tudo ou nada) cada uma.</p>
 
-<p>Let's begin!</p>
+<p>É hora de começar!</p>
 
-<h2>First Part An Introduction to WordPress Filters</h2>
+<h2>Primeira Parte: Uma Introdução aos Filtros para WordPress</h2>
 
-<p>In the first part of the series, we entered the <em>magical</em> world of WordPress filters and got to know what they are, how they work, when we should use them and how we should use them. We learned:</p>
+<p>Na primeira parte da série, entramos no mundo <em>mágico</em> dos filtros e aprendemos o que eles são, como funcionam, quando usá-los e como devemos, usá-los. Então, nós aprendemos:</p>
 
-<p><strong>What a WordPress filter is:</strong> A filter is a function that sits between the database and the browser, <em>doing stuff</em> to your data <em>before</em> WordPress outputs it. WordPress has—literally—hundreds of filters inside its core and you can create your own filters in the things you develop (like plugins). That's what we learned.</p>
+<p><strong>O que é um filtro do WordPress:</strong> Um filtro é um função que é executada entre uma base de dados e o navegador, <em>realizando ações</em> sobre seus dados, antes do WordPress retorná-los. O WordPress tem&mdash;literalmente&mdash;centenas de filtros em seu código base e você pode criar seus próprios filtros para as coisas que desenvolver (como <em>plugins</em>). Foi isso que aprendemos.</p>
 
-<p><strong>How to create a filtering function and hook it to a filter:</strong> It's simple in essence, really: We create a function that plays with the data and we hook it to the corresponding filter hook by using the <code>add_filter()</code> function. (I might have over-simplified it – it's actually a bit more complicated than that.) Be sure to check out the first part of this series, if you haven't already. It's important.</p>
+<p><strong>Como criar um função filtradora e atrelá-la a um filtro:</strong> Na verdade, é bem simples: criamos uma função que trabalha com os dados e atrelamo-a a um filtro correspondente, usando a função <code>add_filter()</code> (Eu talvez tenha simplificado demais - é um pouco mais complicado que isso). Tenha certeza de verifica a primeira parte da série, caso não tenha ainda. É bem importante.</p>
 
-<p><strong>How to remove a function (or functions) from a filter:</strong> We learned two functions in WordPress to remove functions from filters: <code>remove_filter()</code> and <code>remove_all_filters()</code>. (You can probably guess which one removes one function and which one removes all functions hooked to a filter.) We learned how to use these functions.</p>
+<p><strong>Como remover uma função (ou funções) de um filtro:</strong> Aprendemos duas funções do WordPress para desatrelar funções de filtros: <code>remove_filter()</code> e <code>remove_all_filters()</code> (é bem fácil adivinhar qual função remove uma e qual remove todas as funções atreladas a um filtro). Nós aprendemos como usá-las.</p>
 
-<p><strong>How to create our own filters:</strong> WordPress has hundreds of awesome filters in its core, but what if we need our plugin to be as flexible and expandable as the core? Well, we create our own filter hooks by using the <code>apply_filters()</code> function. Be sure to check that out, too, if you're a plugin developer.</p>
+<p><strong>Como criar nossos próprios filtros:</strong> O WordPress tem centenas de filtros em seu código, mas e se quisermos que nosso <em>plugin</em> seja tão flexível e expansível quanto o código do próprio WordPress? Pois bem, podemos criar nosso próprios ganchos de filtro, usando a função <code>apply_filters()</code>. Caso seja um desenvolvedor de <em>plugins</em>, tenha certeza de aprendê-la muito bem.</p>
 
-<h2>Next Five Parts 50 Great Examples for 50 Great Filters</h2>
+<h2>Segunda parte: 5 Partes para 50 Ótimos Filtros e Seus Exemplos</h2>
 
-<p>After entering the world of WordPress filters, the best thing to do would have been getting to know about each and every filter hook in WordPress' core. While that would be the most amazing tutorial series in the history of WordPress tutorials, it would take an incredible amount of time and effort because there are a little over a thousand filters in the core as of WordPress v3.9.1.</p>
+<p>Após adentrar o mundo dos filtros do WordPress, a melhor coisa a se fazer seria aprender sobre todo e cada filtro existente no código do WordPress. Ainda que esse tutorial fosse o melhor de todos os tutoriais sobre o WordPress, levaria muito tempo e esforço porque há mais de mil filtros só no código base da versão 3.9.1 do WordPress.</p>
 
-<p>That doesn't mean we should sit and learn nothing, though. I chose 50 WordPress filters, introduced them with little paragraphs and done examples with each one. Here's what we learned with brief explanations:</p>
+<p>Isso não quer dizer que devemos ficar parados e aprender nada. Escolhi 50 filtros, apresentando-os através pequenos parágrafos e apresentando exemplos de cada um. Eis o que aprendemos, de forma bem rápida:</p>
 
-<h3>50 Examples for WordPress Filters – Part Two</h3>
-
-<ol>
-  <li><code>login_errors</code> allows us to change the error messages while logging in to WordPress.</li>
-  <li><code>comment_post_redirect</code> makes it possible for us to redirect visitors to an internal page (or an allowed external web page) after they post a comment.</li>
-  <li><code>allowed_redirect_hosts</code> lets us define "safe" external hosts for the <code>wp_safe_redirect()</code> function.</li>
-  <li><code>body_class</code> gives us the opportunity to set custom class names for the <code>&lt;body&gt;</code> tag.</li>
-  <li><code>locale</code> makes WordPress change its language.</li>
-  <li><code>sanitize_user</code> cleans up the usernames and lets us change the cleaning up sequence.</li>
-  <li><code>the_content</code> filters the post contents amd allows us to intervene before the contents are displayed.</li>
-  <li><code>the_password_form</code> creates the password forms for password protected posts and lets us change the form.</li>
-  <li><code>the_terms</code> filters the output of the <code>the_terms()</code> function and again, lets us intervene.</li>
-  <li><code>wp_mail_from</code> allows us to change the "From" name of the emails WordPress sends.</li>
-</ol>
-
-<h3>50 Examples for WordPress Filters – Part Three</h3>
+<h3>50 Filtros Para WordPress – Parte Dois</h3>
 
 <ol>
-  <li><code>gettext</code> filters the translatable strings so we can tamper with the behaviour or change the strings.</li>
-  <li><code>sanitize_title</code> cleans up the post titles in order to save them as "slugs" and allows us to alter the process.</li>
-  <li><code>no_texturize_shortcodes</code> gives us the chance to add our shortcodes to the "do not texturize" list.</li>
-  <li><code>pre_comment_approved</code> filters the process before a comment is approved (or not) and lets us step in.</li>
-  <li><code>enable_post_by_email_configuration</code> lets us enable or disable the "post by email" feature of WordPress core.</li>
-  <li><code>wp_title</code> filters the page titles, normally shown in the <code>&lt;title&gt;</code> tags and on our tab handles in our browsers.</li>
-  <li><code>preprocess_comment</code> handles the processes before any comment data is saved to the database.</li>
-  <li><code>login_redirect</code> makes it possible for us to set a "safe" redirect after a user logs in.</li>
-  <li><code>plugin_action_links_$plugin</code> allows us display links under our plugin names in the Plugins page.</li>
-  <li><code>the_editor_content</code> gives us the opportunity to pre-fill the content of the post editor which is empty by default.</li>
+  <li><code>login_errors</code> permite-nos alterar as mensagens de erro de <em>login</em> do WordPress;</li>
+  <li><code>comment_post_redirect</code> permite-nos redirecionar os visitantes para uma página interna do nosso site (ou uma página externa permitida) após eles realizarem um comentário;</li>
+  <li><code>allowed_redirect_hosts</code> permite-nos definir servidores externos "seguros" para a função <code>wp_safe_redirect()</code>;</li>
+  <li><code>body_class</code> permite-nos configurar classes CSS para a <em>tag</em> <code>&lt;body&gt;</code>;</li>
+  <li><code>locale</code> faz com que o WordPress altere seu idioma;</li>
+  <li><code>sanitize_user</code> limpa os nomes de usuários e permite-nos alterar a sequência de limpeza;</li>
+  <li><code>the_content</code> filtra o conteúdo do artigo e permite-nos alterá-lo antes que o conteúdo seja apresentado;</li>
+  <li><code>the_password_form</code> criar formulários de senha para os artigos protegidos, além de permitir alterar os formulários;</li>
+  <li><code>the_terms</code> filtra o retorno da função <code>the_terms()</code> e permite-nos alterá-lo;</li>
+  <li><code>wp_mail_from</code> permite-nos alterar o nome do Remetente do e-mails que o WordPress envia;</li>
 </ol>
 
-<h3>50 Examples for WordPress Filters – Part Four</h3>
+<h3>50 Filtros Para WordPress – Parte Três</h3>
 
 <ol>
-  <li><code>use_default_gallery_style</code> lets us enable or disable the default CSS rules for the <code>[gallery]</code> shortcode.</li>
-  <li><code>wp_get_attachment_url</code> filters the output of attachment URLs and allows us to step in.</li>
-  <li><code>wp_mail_content_type</code> allows us to change the content type of emails that WordPress sends (which is <code>text/plain</code> by default).</li>
-  <li><code>pre_comment_user_ip</code> makes it possible for us to tamper with the IP address of commenters before the addresses are saved to the database.</li>
-  <li><code>wp_revisions_to_keep</code> lets us change the revisions limit for posts – a single post, post types or whatever you can imagine!</li>
-  <li><code>img_caption_shortcode</code> filters the core <code>[caption]</code> shortcode for images and lets us rewrite the output completely, if necessary.</li>
-  <li><code>post_class</code> filters the <code>post_class()</code> function and makes it possible to set custom class names for posts.</li>
-  <li><code>attachment_fields_to_edit</code> allows us to add or remove input fields for attachments.</li>
-  <li><code>excerpt_length</code> lets us change how many words will be displayed for automatic excerpts.</li>
-  <li><code>bulk_actions-$screenid</code> filters the bulk actions for the item lists in admin pages and lets us add or remove actions.</li>
+  <li><code>gettext</code> filtra as cadeias de caracteres traduzíveis, de modo que possamos alterar seu comportamento ou alterar as cadeias completamente;</li>
+  <li><code>sanitize_title</code> limpa os títulos dos artigos de modo que possam ser salvos como "urls amigáveis", além de nos permitir alterar esse processo;</li>
+  <li><code>no_texturize_shortcodes</code> permite-nos adicionar nossos <code class="inline">shortcodes</code> à lista "de não texturização";</li>
+  <li><code>pre_comment_approved</code> filtra o processo antecessor à aprovação (ou não) dos comentários, permitindo-nos alterá-lo;</li>
+  <li><code>enable_post_by_email_configuration</code> permite-nos habilitar ou desabilitar a funcionalidade "publicar por e-mail" do WordPress;</li>
+  <li><code>wp_title</code> filtra os títulos das páginas, geralmente apresentadas nas <em>tags</em> <code>&lt;title&gt;</code> e nas abas de nossos navegadores;</li>
+  <li><code>preprocess_comment</code> lida com o processo anterior ao salvamento de qualquer dado dos comentários na base de dado;</li>
+  <li><code>login_redirect</code> permite-nos configurar um redirecionamento "seguro" após os usuários realizarem <em>login</em>;</li>
+  <li><code>plugin_action_links_$plugin</code> permite-nos mostrar <em>links</em> abaixo dos nomes de nossos <em>plugins</em> na página <em>Plugins</em>;</li>
+  <li><code>the_editor_content</code> dá-nos a oportunidade de preencher o conteúdo de um editor de artigo que, por padrão, vem vazio;</li>
 </ol>
 
-<h3>50 Examples for WordPress Filters – Part Five</h3>
+<h3>50 Filtros Para WordPress – Parte Quatro</h3>
 
 <ol>
-  <li><code>posts_search</code> filters the searching process and allows us to intervene.</li>
-  <li><code>wp_editor_set_quality</code> sets the compression quality for resized attachment images and lets us change that setting.</li>
-  <li><code>widget_text</code> filters the default Text widget and allows us to tamper with the output.</li>
-  <li><code>the_content_feed</code> makes it possible for us to change the feed items' content.</li>
-  <li><code>mce_buttons</code> lets us add or remove buttons for the first line of our Visual Editors.</li>
-  <li><code>list_terms_exclusions</code> gives us the opportunity to define exceptions in terms lists.</li>
-  <li><code>image_size_names_choose</code> allows us to add custom image size names for the "Sizes" dropdown shown when an image is added in the Visual Editor.</li>
-  <li><code>excerpt_more</code> lets us change the default <code>[...]</code> text to something else for automatic excerpts.</li>
-  <li><code>manage_posts_columns</code> makes it easier for us to edit the columns of post lists in admin pages.</li>
-  <li><code>user_contactmethods</code> makes it possible for us to add or remove profile input fields.</li>
+  <li><code>use_default_gallery_style</code> permite-nos habilitar ou desabilitar regras CSS padrão para o <code class="inline">shortcode</code> <code>[gallery]</code>;</li>
+  <li><code>wp_get_attachment_url</code> filtra o retorno das URLs de anexos, permitindo-nos alterá-las;</li>
+  <li><code>wp_mail_content_type</code> permite-nos alterar o tipo de conteúdo dos e-mails que o WordPress envia (por padrão, ele envia como <code>text/plain</code>);</li>
+  <li><code>pre_comment_user_ip</code> permite-nos mexer com os endereços IP dos comentaristas, antes deles serem salvos na base de dados;</li>
+  <li><code>wp_revisions_to_keep</code> permite-nos alterar o limite de revisões para artigos &mdash; um único artigo, tipo de artigo ou qualquer coisa que imaginar!</li>
+  <li><code>img_caption_shortcode</code> filtra o <em>shortcode</em> <code>[caption]</code> das imagens e permite-nos reescrever, completamente, seu retorno, se necessário;</li>
+  <li><code>post_class</code> filtra a função <code>post_class()</code> e permite configurar classes CSS customizadas para os artigos;</li>
+  <li><code>attachment_fields_to_edit</code> permite-nos adicionar ou remover campos de formulários para os anexos;</li>
+  <li><code>excerpt_length</code> permite-nos alterar quantas palavras serão apresentadas em resumos automáticos do WordPress;</li>
+  <li><code>bulk_actions-$screenid</code> filtra as ações em massa das listas de itens nas páginas administrativas, permitindo adicionar ou remover ações;</li>
 </ol>
 
-<h3>50 Examples for WordPress Filters – Part Six</h3>
+<h3>50 Filtros Para WordPress – Parte Cinco</h3>
 
 <ol>
-  <li><code>script_loader_src</code> filters the <code>wp_enqueue_script()</code> function and lets us step in with the function's output.</li>
-  <li><code>admin_post_thumbnail_html</code> allows us to add HTML after the "Set featured image" link on the "New Post" page.</li>
-  <li><code>comment_flood_filter</code> gives us the opportunity to tamper with the flood checking process.</li>
-  <li><code>dashboard_glance_items</code> lets us change the "At a Glance" section in the admin dashboard.</li>
-  <li><code>login_message</code> gives us the possibility to change the default login messages.</li>
-  <li><code>bulk_post_updated_messages</code> filters the output of the informational messages when a post is updated.</li>
-  <li><code>widget_categories_args</code> makes it possible for us to play with the arguments of the default Categories widget.</li>
-  <li><code>registration_redirect</code> allows us to set a "safe" redirect upon a successful registration.</li>
-  <li><code>comment_form_default_fields</code> lets us play with the default comment form fields.</li>
-  <li><code>upload_mimes</code> makes it easier for us to change the allowed list of file types that can be uploaded to the Media Library.</li>
+  <li><code>posts_search</code> filtra o processo de busca, permitindo-nos alterá-lo como quisermos;</li>
+  <li><code>wp_editor_set_quality</code> configura a qualidade de compressão para os anexos redimensionados (imagens);</li>
+  <li><code>widget_text</code> filtra o <em>widget</em> de Texto padrão, permitindo-nos alterar seu retorno;</li>
+  <li><code>the_content_feed</code> permite-nos alterar o conteúdo dos itens do <em>feed</em>;</li>
+  <li><code>mce_buttons</code> permite-nos adicionar ou remover botões da primeira linha do Editor Visual;</li>
+  <li><code>list_terms_exclusions</code> permite-nos definir exceções à lista de termos;</li>
+  <li><code>image_size_names_choose</code> permite-nos adicionar nomes de tamanhos de imagens customizados na lista suspensa de "Tamanhos", quando uma imagem é adiciona através do Editor Visual;</li>
+  <li><code>excerpt_more</code> permite-nos alterar o texto <code>[...]</code> dos resumos para outra coisa;</li>
+  <li><code>manage_posts_columns</code> facilita a edição de colunas das listas de artigos das páginas administrativas;</li>
+  <li><code>user_contactmethods</code> permite-nos adicionar ou remover campos dos perfis de usuários;</li>
 </ol>
 
-<h2>The End</h2>
-
-<p>So that's the end of it. We're done with the series of WordPress filters – but we're not done with WordPress hooks yet: Stay tuned for another seven-part tutorial on WordPress actions!</p>
-
-<p>Despite the fact that it was the most exhausting series of tutorials, I enjoyed writing every word and every bit of code for I knew it would be a small—but extremely useful—resource on this topic. I learned <em>a lot</em> while writing; I just hope you did as well.</p>
-
-<p>All kinds of contribution will be appreciated, by the way. You can:</p>
+<h3>50 Filtros Para WordPress – Parte Seis</h3>
 
 <ol>
-  <li>Share your thoughts on this series by commenting below,</li>
-  <li>Suggest new filters and example ideas for an "addendum" part or two,</li>
-  <li>Offer ways to improve my writing if you caught a mistake, incoherency or ambiguity in my posts,</li>
-  <li>And share these tutorials anywhere for everyone to see and learn about WordPress filters!</li>
+  <li><code>script_loader_src</code> filtra a função <code>wp_enqueue_script()</code> e nos permite alterar o retorno da função;</li>
+  <li><code>admin_post_thumbnail_html</code> permite-nos adicionar HTML após o <em>link</em> "Adicionar imagem destacada" na página de "Novo Post";</li>
+  <li><code>comment_flood_filter</code> permite-nos alterar o processo de verificação de <em>flood</em> de comentários;</li>
+  <li><code>dashboard_glance_items</code> permite-nos alterar a seção "Agora" no painel administrativo;</li>
+  <li><code>login_message</code> permite-nos alterar as mensagens padrão de <em>login</em>;</li>
+  <li><code>bulk_post_updated_messages</code> filtra o retorno de mensagens informativas quando um artigo é atualizado;</li>
+  <li><code>widget_categories_args</code> permite-nos alterar os argumentos padrões do <em>widget</em> Categorias;</li>
+  <li><code>registration_redirect</code> permite-nos configurar um redirecionamento "seguro" após um registro de usuário bem sucedido;</li>
+  <li><code>comment_form_default_fields</code> permite-nos alterar os campos padrões do formulário de comentários;</li>
+  <li><code>upload_mimes</code> facilita a alteração da lista de tipos permitidos de arquivos que podem ser enviados para a Biblioteca de Mídia;</li>
 </ol>
 
-<p>Thanks for bearing with me till the end. Goodbye!</p>
+<h2>O Fim</h2>
+
+<p>Acabou. Terminamos a série de filtros para WordPress &mdash; mas ainda não acabamos com os ganchos do WordPress: fique ligado para outra série de sete partes sobre as <em>ações</em> para WordPress!</p>
+
+<p>Apesar de ter sido bem demorada, gostei bastante de escrever cada palavra e cada trecho de código. Sabia que era um pequeno ponto mas bastante útil dentro dos tutoriais para WordPress. Aprendi <em>bastante</em> enquanto escrevia; Espero que tenha sido o mesmo com você.</p>
+
+<p>Todo o tipo de contribuição é bem-vindo, por falar nisso. Você pode:</p>
+
+<ol>
+  <li>Compartilhar suas ideias sobre essa série nos comentários abaixo,</li>
+  <li>Sugerir novos exemplos de filtros para uma ou duas partes extras,</li>
+  <li>Oferecer maneiras de aprimorar minha escrita, caso tenha visto algum erro, incoerência ou ambiguidade em meus artigos,</li>
+  <li>E compartilhar esses tutoriais em qualquer lugar e com qualquer pessoa que queria aprender sobre os filtros do WordPress!</li>
+</ol>
+
+<p>Obrigado por ter acompanhado toda esta série! Até mais!</p>
