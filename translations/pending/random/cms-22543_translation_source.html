@@ -1,75 +1,75 @@
-<h1>Token-Based Authentication With AngularJS & NodeJS</h1>
+  <h1>Autenticação com Tokens Usando AngularJS &amp; NodeJS</h1>
 
-<p>Authentication is one of the most important parts of any web application. In this tutorial, we'll be discussing token-based authentication systems and how they differ from traditional login systems. At the end of this tutorial, you'll see a fully working demo written in AngularJS and NodeJS</p>
+<p>Uma das partes mais importantes de uma aplicação é sua autenticação. Neste tutorial, discutiremos sobre os sistemas de autenticação com <em>tokens</em> e como eles diferem dos sistemas tradicionais de <em>login</em>. Ao fim deste tutorial, você terá um aplicativo de demonstração totalmente funcional, criado com AngularJS e NodeJS</p>
 
-<h2>Traditional Authentication Systems</h2>
+<h2>Sistemas de Autenticação Tradicionais</h2>
 
-<p>Before proceeding with a token-based authentication system, let's have a look at a traditional authentication system first.</p>
+<p>Antes de seguirmos para o sistema de autenticação com <em>tokens</em>, é bom entendermos melhor os sistemas de autenticação tradicionais primeiro.</p>
 
 <ol>
-  <li>The user provides a <strong>username </strong>and <strong>password</strong> in the login form and clicks <strong>Log In</strong>.</li>
-  <li>After the request is made, validate the user on the backend by querying in the database. If the request is valid, create a session by using the user information fetched from the database, and then return the session information in the response header in order to store the session ID in the browser.</li>
-  <li>Provide the session information for accessing restricted endpoints in the application.</li>
-  <li>If the session information is valid, let the user access specified end points, and respond with the rendered HTML content.</li>
+  <li>O usuário provê um <strong>nome de usuário</strong> e uma <strong>senha</strong> através do formulário de <em>login</em> e clica em um botão de <strong>Login</strong>;</li>
+  <li>Assim que a requisição é feita valida-se o usuário no <em>back-end</em>, consultando sua existência na base de dados. Se a requisição for válida, cria-se uma sessão usando a informação obtida da base de dados para, então, retornar a informação da sessão no cabeçalho da resposta, de modo que o ID da sessão seja salvo no navegador;</li>
+  <li>Provê-se informação da sessão para ter acesso a áreas restritas da aplicação;</li>
+  <li>Se a informação da sessão for válida, permite-se que o usuário acesse a área restrita especificado, retornando o HTML apropriado para a requisição;</li>
 </ol>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/487/posts/22543/image/traditional-authentication-system-png.png" title="Image: https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/487/posts/22543/image/traditional-authentication-system-png.png"/>
 </figure>
 
-<p>Everything is fine until this point. The web application works well, and it is able to authenticate users so that they may access restricted endpoints; however, what happens when you want to develop another client, say for Android, for your application? Will you be able to use the current application to authenticate mobile clients and to serve restricted content? As it currently stands, no. There are two main reasons for this:</p>
+<p>Tudo corre bem até esse ponto. A aplicação web funciona muito bem e é capaz de autenticar os usuários para que tenham acesso às áreas restritas. Contudo, o que acontece quando se cria outro sistema cliente, um aplicativo para Android, por exemplo? Você será capaz de usar a aplicação atual para autenticar os usuários do aplicativo cliente móvel e servir o conteúdo restrito? Da forma atual, não. E existem dois motivos para isso:</p>
 
 <ol>
-  <li>Sessions and cookies do not make sense for mobile applications. You cannot share sessions or cookies created on the server-side with mobile clients.</li>
-  <li>In the current application, the rendered HTML is returned. In a mobile client, you need something like JSON or XML to be included as the response.</li>
+  <li>Sessões e <em>cookies</em> não fazem sentido no contexto de aplicações móveis. Você não pode compartilhar sessões e <em>cookies</em> criados no lado do servidor com clientes móveis;</li>
+  <li>Na aplicação atual, retorna-se o HTML gerado. Em um cliente móvel, você precisa que um JSON ou XML seja incluído na resposta;</li>
 </ol>
 
-<p>In this case, you need a client-independent application.</p>
+<p>Neste caso, você precisa de uma aplicação que seja independente do cliente.</p>
 
-<h2>Token-Based Authentication</h2>
+<h2>Autenticação com <em>Tokens</em></h2>
 
-<p>In token-based authentication, cookies and sessions will not be used. A token will be used for authenticating a user for each request to the server. Let's redesign the first scenario with token-based authentication.</p>
+<p>Na autenticação com <em>tokens</em>, não usaremos <em>cookies</em> nem sessões. Um <em>token</em> será usado para autenticar o usuário em cada requisição ao servidor. Reprojetemos nosso primeiro cenário de modo que use a autenticação com <em>tokens</em>.</p>
 
-<p>It will use the following flow of control:</p>
+<p>Ela terá o seguinte controle de fluxo:</p>
 
 <ol>
-  <li>The user provides a <strong>username</strong> and <strong>password</strong> in the login form and clicks <strong>Log In</strong>.</li>
-  <li>After a request is made, validate the user on the backend by querying in the database. If the request is valid, create a token by using the user information fetched from the database, and then return that information in the response header so that we can store the token browser in local storage.</li>
-  <li>Provide token information in every request header for accessing restricted endpoints in the application.<strong/></li>
-  <li>If the token fetched from the request header information is valid, let the user access the specified end point, and respond with JSON or XML.</li>
+  <li>O usuário provê um <strong>nome de usuário</strong> e uma <strong>senha</strong> no formulário de <em>login</em> e clica no botão <strong>Login</strong>;</li>
+  <li>Assim que a requisição é feita valida-se o usuário no <em>back-end</em>, consultando sua existência na base de dados. Se a requisição for válida, cria-se um <em>token</em>, usando a informação do usuário obtida da base de dados e o retornamos no cabeçalho de resposta, para que possamos guardá-lo no navegador usando armazenamento local;</li>
+  <li>Provê-se o <em>token</em> em cada cabeçalho de requisição para áreas protegidas na aplicação;</li>
+  <li>Se o <em>token</em> obtido no cabeçalho da requisição for válido, permite-se o acesso à área restrita requisitada, com retornando a resposta em formato JSON ou XML;</li>
 </ol>
 
-<p>In this case, we have no returned session or cookie, and we have not returned any HTML content. That means that we can use this architecture for any client for a specific application. You can see the architecture schema below:</p>
+<p>Neste caso, não temos quaisquer <em>cookies</em> ou sessões retornadas bem como quaisquer conteúdo HTML. Isso significa que podemos usar essa arquitetura para qualquer cliente que a aplicação precisar. Você pode ver o esquema da arquitetura logo abaixo:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/487/posts/22543/image/token-based-authentication-system-png.png"/>
 </figure>
 
-<p>So, what is this JWT?</p>
+<p>O que seria esse JWT?</p>
 
 <h2>JWT</h2>
 
-<p>JWT stands for <strong>JSON Web Token</strong> and is a token format used in authorization headers. This token helps you to design communication between two systems in a secure way. Let's rephrase JWT as the "bearer token" for the purposes of this tutorial. A bearer token consists of three parts: header, payload, and signature.</p>
+<p>JWT significa <strong>JSON Web Token</strong> (em português, <em>Token</em> da Web em formato JSON) e é um formato de <em>token</em> usado em cabeçalhos de autorização. Esse <em>token</em> auxilia você no projeto de comunicação segura entre sistemas. Neste tutorial, chamaremos o JWT de "<em>token</em> do portador". Um <em>token</em> do portador consiste de três partes: cabeçalho, carga e assinatura.</p>
 
 <ul>
-  <li>The header is the part of the token that keeps the token type and encryption method, which is also encrypted with base-64.</li>
-  <li>The payload includes the information. You can put any kind of data like user info, product info and so on, all of which is stored with base-64 encryption.</li>
-  <li>The signature consists of combinations of the header, payload, and secret key. The secret key must be kept securely on the server-side.</li>
+  <li>O cabeçalho é a parte do <em>token</em> em que se guarda o tipo e método de criptografia, o qual também é criptografado com o método de base-64;</li>
+  <li>A carga inclui a informação em si. Você pode colocar qualquer tipo de informação, como dados do usuário, informações de produtos e coisas do tipo, tudo guardado e criptografado em base-64;</li>
+  <li>A assinatura consiste na combinação do cabeçalho, da carga e de uma chave secreta. A chave secreta deve ser mantida segura no lado do servidor;</li>
 </ul>
 
-<p>You can see the JWT schema and an example token below;</p>
+<p>Você pode ver o esquema do JWT e um <em>token</em> exemplo logo abaixo:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/487/posts/22543/image/jwt-schema-png.png"/>
 </figure>
 
-<p>You do not need to implement the bearer token generator as you can find versions that already exist in several languages. You can see some of them below:</p>
+<p>Você não precisa implementar um gerador de <em>token do portador</em> uma vez que é possível encontrar versões existentes para várias linguagens de programação. Você pode ver várias delas logo abaixo:</p>
 
 <table>
   <thead>
     <tr>
-      <th>Language</th>
-      <th>Library URL</th>
+      <th>Linguagem</th>
+      <th>URL da Biblioteca</th>
     </tr>
   </thead>
   <tbody>
@@ -100,73 +100,73 @@
   </tbody>
 </table>
 
-<h2>A Practical Example</h2>
+<h2>Exemplo Prático</h2>
 
-<p>After covering some basic information about token-based authentication, we can now proceed with a practical example. Take a look at the following schema, after which we'll analyze it in more detail:</p>
+<p>Agora que já sabemos um pouco sobre autenticação com <em>tokens</em>, podemos continuar com um exemplo prático. Veja o esquema abaixo, o qual analisaremos em instantes:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/487/posts/22543/image/real-life-architecture-png.png"/>
 </figure>
 
 <ol>
-  <li>The requests are made by several clients such as a web application, a mobile client, etc., to the API for a specific purpose.</li>
-  <li>The requests are made to a service like <code><a href="https://api.yourexampleapp.com">https://api.yourexampleapp.com</a></code>. If lots of people use the application, multiple servers may be required to serve the requested operation.</li>
-  <li>Here, the load balancer is used for balancing requests to best suit the application servers at the back-end. When you make a request to <code><a href="https://api.yourexampleapp.com">https://api.yourexampleapp.com</a></code>, first the load balancer will handle a request, and then it will redirect the client to a specific server.</li>
-  <li>There is one application, and this application is deployed to several servers (server-1, server-2, ..., server-n). Whenever a request is made to <code><a href="https://api.yourexampleapp.com">https://api.yourexampleapp.com</a></code>, the back-end application will intercept the request header and extract token information from the authorization header. A database query will be made by using this token. If this token is valid and has the required permission to access the requested endpoint, it will continue. If not, it will return a 403 response code (which indicates a forbidden status).</li>
+  <li>As requisições à API são realizadas por vários clientes, como aplicação web, cliente móveis, etc, para um propósito específico;</li>
+  <li>As requisições são feitas à um serviço como <code><a href="https://api.suaaplicacaoexemplo.com">https://api.suaaplicacaoexemplo.com</a></code>. Se várias pessoas usam a aplicação, vários servidores podem ser necessários para servir a operação requisitada;</li>
+  <li>Aqui, um balanceador de carga é usado para equilibrar as requisições de modo que use da melhor forma os servidores da aplicação no lado do servidor. Ao fazer uma requisição a <code><a href="https://api.suaaplicacaoexemplo.com">https://api.suaaplicacaoexemplo.com</a></code>, o balanceador de carga lidará com a requisição primeiro e então redirecionará o cliente para um servidor específico;</li>
+  <li>Há uma aplicação e essa aplicação é implantada em vários servidores (server-1, server-2, ..., server-n). Toda vez que uma requisição é realizada a  <code><a href="https://api.suaaplicacaoexemplo.com">https://api.suaaplicacaoexemplo.com</a></code>, a aplicação do lado do servidor interceptará o cabeçalho de autorização da requisição e extrairá a informação do <em>token</em>. Uma consulta à base de dados será feita usando este <em>token</em>. Se ele for válido e possuir a permissão necessário para acessar a área requisitada, tudo continuará. Caso contrário, será retornado um código de resposta do tipo 403 (que indica um estado de acesso proibido);</li>
 </ol>
 
-<h2>Advantages</h2>
+<h2>Vantagens</h2>
 
-<p>Token-based authentication comes with several advantages that solve serious problems. Some of them are as follows:</p>
+<p>Autenticação com <em>tokens</em> tem várias vantagens que resolvem vários problemas. Seguem alguns deles:</p>
 
 <ul>
-  <li><strong>Client Independent Services.</strong> In token-based authentication, a token is transferred via request headers, instead of keeping the authentication information in sessions or cookies. This means there is no state. You can send a request to the server from any type of client that can make HTTP requests.</li>
-  <li><strong>CDN.</strong> In most current web applications, views are rendered on the back-end and HTML content is returned to the browser. Front-end logic depends on back-end code. There is no need to make such a dependency. This comes with several problems. For example, if you are working with a design agency that implements your front-end HTML, CSS, and JavaScript, you need to take that front-end code and migrate it into your back-end code in order to do some rendering or populating operations. After some time, your rendered HTML content will differ greatly from what the code agency implemented. In token-based authentication, you can develop a front-end project separately from the back-end code. Your back-end code will return a JSON response instead of rendered HTML, and you can put the minified, gzipped version of the front-end code into the CDN. When you go to your web page, HTML content will be served from the CDN, and page content will be populated by API services using the token in the authorization headers</li>
-  <li><strong>No Cookie-Session (or No CSRF).</strong> CSRF is a major problem in modern web security because it doesn't check whether a request source is trusted or not. To solve this problem, a token pool is used for sending that token on every form post. In token-based authentication, a token is used in authorization headers, and CSRF does not include that information.</li>
-  <li><strong>Persistent Token Store.</strong> When a session read, write, or delete operation is made in the application, it will make a file operation in the operating system's <code class="inline">temp</code> folder, at least for the first time. Let's say that you have multiple servers and a session is created on the first server. When you make another request and your request drops in another server, session information will not exist and will get an "unauthorized" response. I know, you can solve that with a sticky session. However, in token-based authentication, this case is solved naturally. There is no sticky session problem, because the request token is intercepted on every request on any server.</li>
+  <li><strong>Serviços Independentes de Clientes:</strong> Na autenticação com <em>tokens</em>, um <em>token</em> é transferido através dos cabeçalhos de requisição ao invés de manter a informação de requisição em <em>cookies</em> e/ou sessões. Isso significa que não há qualquer estado. Você pode realizar requisições ao servidor a partir de qualquer cliente que seja capaz de realizar requisições HTTP;</li>
+  <li><strong>CDN.</strong> Nas aplicações mais recentes, visões são geradas no <em>back-end</em> e o conteúdo HTML é retornado para o navegador. Lógica do <em>front-end</em> depende de código <em>back-end</em>. Não há necessidade em se fazer isso. Por exemplo, se estiver trabalhando em uma agência de <em>design</em> que codifica seu HTML, CSS e JavaScript, você precisará pegar parte desse código <em>front-end</em> e migrá-lo para o <em>back-end</em> para que possa gerá-lo usando dados do servidor. Após algum tempo, seu HTML gerado diferirá bastante daquilo que a agência codificou. Em autenticação com <em>tokens</em>, você pode desenvolver o <em>front-end</em> de um projeto de forma separada do código <em>back-end</em>. Seu código <em>back-end</em> retornará JSON ao invés de algum HTML gerado no servidor e você colocará a versão comprimida (com gzip) do código <em>front-end</em> em um CDN. Ao acessar sua página, o conteúdo HTML será servido do CDN e o conteúdo da página será populado a partir dos serviços de API usando os cabeçalhos de autenticação com <em>tokens</em>;</li>
+  <li><strong>Sem Cookie e/ou Sessões (ou Nada de CSRF).</strong> CSRF (<em>Cross-site Request Forgery</em>) é um dos grandes problema na segurança de aplicações web, porque não se verifica se uma requisição é confiável ou não. Para resolver esse problema, uma pilha de <em>tokens</em> é usada para ser enviada em cada requisição de formulários. Na autenticação com <em>tokens</em>, um <em>token</em> é usado no cabeçalho de autorização e o CSRF não inclui essa informação;</li>
+  <li><strong>Gravação Pesistente de <em>Token</em>.</strong> Quanto uma operação de leitura, escrita ou remoção de sessão é feita na aplicação, ela realizará uma ação com arquivos no sistema de arquivos do sistema operacional no diretório <code class="inline">temp</code>, pelo menos na primeira vez. Digamos que você possui vários servidores e uma sessão é criada no primeiro servidor. Ao realizar outra requisição, ela é enviada para outro servidor, onde a informação de sessão não existe e você receberá uma resposta de "não autorização". Certo, é possível resolver esse problema com uma sessão persistente. Contudo, na autenticação com <em>tokens</em>, esse caso sequer existe. Não há necessidade de sessões persistentes, porque o <em>token</em> de requisição é interceptado em cada requisição de qualquer servidor;</li>
 </ul>
 
-<p>Those are the most common advantages of token-based authentication and communication. That's the end of the theoretical and architectural talk about token-based authentication. Time for a practical example.</p>
+<p>Essas são as vantagens mais comuns de autenticação e comunicação com <em>tokens</em>. Esse é o fim do papo teórico sobre o assunto. É hora de um exemplo prático.</p>
 
-<h2>An Example Application</h2>
+<h2>Exemplo de Aplicação</h2>
 
-<p>You will see two applications to demonstrate token-based authentication:</p>
+<p>Veremos duas aplicações para demonstrar a autenticação com <em>tokens</em>:</p>
 
 <ol>
-  <li>token-based-auth-backend</li>
-  <li>token-based-auth-frontend</li>
+  <li>token-based-auth-back-end</li>
+  <li>token-based-auth-front-end</li>
 </ol>
 
-<p>In the back-end project, there will be service implementations, and service results will be in JSON format. There is no view returned in services. In the front-end project, there will be an AngularJS project for front-end HTML and then the front-end app will be populated by AngularJS services to make requests to the back-end services.</p>
+<p>No projeto <em>back-end</em>, termos implementações de serviços e os retornos destes serão no formato JSON. Não será retornada qualquer visão pelos serviços. No projeto <em>front-end</em>, teremos códigos em AngularJS e HTML, o qual será populado pelos serviços em AngularJS que farão requisições ao serviços do projeto <em>back-end</em>.</p>
 
-<h3>token-based-auth-backend</h3>
+<h3>token-based-auth-back-end</h3>
 
-<p>In the back-end project, there are three main files:</p>
+<p>No projeto <em>back-end</em> temos três arquivos principais:</p>
 
 <ul>
-  <li><code class="inline">package.json</code> is for dependency management.</li>
-  <li><code class="inline">models\User.js</code> contains a User model that will be used for making database operations about users.</li>
-  <li><code class="inline">server.js</code> is for project bootstrapping and request handling.</li>
+  <li><code class="inline">package.json</code> para a administração de dependências;</li>
+  <li><code class="inline">models\User.js</code> conterá um modelo de usuários, User, que será usado para realizar as operações na base de dados sobre os usuários;</li>
+  <li><code class="inline">server.js</code> é para inicialização e manipulação de requisições;</li>
 </ul>
 
-<p>That's it! This project is very simple, so that you can understand the main concept easily without doing a deep dive.</p>
+<p>E é isso! Esse projeto é bem simples, assim você poderá entender o conceito base facilmente, sempre precisarmos irmos mais a fundo.</p>
 
 <pre class="brush: javascript">{
 "name": "angular-restful-auth",
-	"version": "0.0.1",
-	"dependencies": {
-		"express": "4.x",
-		"body-parser": "~1.0.0",
-		"morgan": "latest",
-		"mongoose": "3.8.8",
-		"jsonwebtoken": "0.4.0"
-	},
-	"engines": {
-		"node": "&gt;=0.10.0"
-	}
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "4.x",
+    "body-parser": "~1.0.0",
+    "morgan": "latest",
+    "mongoose": "3.8.8",
+    "jsonwebtoken": "0.4.0"
+  },
+  "engines": {
+    "node": "&gt;=0.10.0"
+  }
 }</pre>
 
-<p><code class="inline">package.json</code> contains dependencies for the project: <code class="inline">express</code> for MVC, <code class="inline">body-parser</code><strong> </strong>for simulating post request handling in NodeJS, <code class="inline">morgan</code><strong> </strong>for request logging, <code class="inline">mongoose</code><strong> </strong>for our ORM framework to connect to MongoDB, and <code class="inline">jsonwebtoken</code> for creating JWT tokens by using our User model. There is also an attribute called <code class="inline">engines</code> that says that this project is made by using NodeJS version &gt;= 0.10.0. This is useful for PaaS services like Heroku. We will also cover that topic in another section.</p>
+<p>O arquivo <code class="inline">package.json</code> contém as dependências do projeto: <code class="inline">express</code> para a estrutura em MVC, <code class="inline">body-parser</code> para simular simular a manipulação de requisição POST no NodeJS, <code class="inline">morgan</code> para registro de requisições, <code class="inline">mongoose</code> para que nosso <em>framework</em> ORM possa conectar-se ao MongoDB, e o <code class="inline">jsonwebtoken</code> para a criação de <em>tokens</em> JWT a partir de nossos modelos <code class="inline">User</code>. Também há um atributo chamado <code class="inline">engines</code> que especifica que o projeto usa o NodeJS de versão maior ou igual a 0.10.0. Isso é útil para serviços PaaS, como o Heroku. Também falaremos desse tópico em outra seção.</p>
 
 <pre class="brush: javascript">var mongoose = require('mongoose');
 var Schema       = mongoose.Scema;
@@ -179,11 +179,11 @@ var UserSchema   = new Schema({
 
 module.exports = mongoose.model('User', UserSchema);</pre>
 
-<p>We said that we would generate a token by using the user model payload. This model helps us to make user operations on MongoDB. In <code class="inline">User.js</code>, the user-schema is defined and the User model is created by using a mongoose model. This model is ready for database operations.</p>
+<p>Dissemos que geraríamos um <em>token</em> usando o conteúdo do modelo <code class="inline">User</code>. Esse modelo nos ajudará a realizar operações sobre o MongoDB. No arquivo <code class="inline">User.js</code>, definimos o esquema do usuário e o modelo <code class="inline">User</code>, este último utilizando um modelo do <code class="inline">mongoose</code>. Este modelo está pronto para operações com a base de dados.</p>
 
-<p>Our dependencies are defined, and our user model is defined, so now let's combine all those to construct a service for handling specific requests.</p>
+<p>Nossas dependências estão definidas e nosso modelo <code class="inline">User</code> também, então, combinemos eles para construir um serviço para manipular requisições específicas.</p>
 
-<pre class="brush: javascript">// Required Modules
+<pre class="brush: javascript">// Módulos Obrigatórios
 var express= require("express");
 var morgan     = require("morgan");
 var bodyParser = require("body-parser");
@@ -191,15 +191,15 @@ var jwt        = require("jsonwebtoken");
 var mongoose   = require("mongoose");
 var app        = express();</pre>
 
-<p>In NodeJS, you can include a module in your project by using <code class="inline">require</code>. First, we need to import the necessary modules into the project:</p>
+<p>No NodeJS, você pode incluir um módulo em seu projeto usando a função <code class="inline">require</code>. Primeiro, precisamos importar os módulos necessários para dentro do projeto:</p>
 
 <pre class="brush: javascript">var port = process.env.PORT || 3001;
 var User = require('./models/User');
 
-// Connect to DB
+// Conecta-se o Banco de Dados
 mongoose.connect(process.env.MONGO_URL);</pre>
 
-<p>Our service will serve through a specific port. If any port variable is defined in the system environment variables, you can use that, or we have defined port <code class="inline">3001</code>. After that, the User model is included, and the database connection is established in order to do some user operations. Do not forget to define an environment variable—<code class="inline">MONGO_URL</code>—for the database connection URL.</p>
+<p>Nossos serviços serão servidos através de uma porta específica. Se alguma porta nas variáveis do ambiente do sistema for indicada, você pode usá-la. Em nosso caso, preferimos definir a porta <code class="inline">3001</code>. Logo depois, o modelo <code class="inline">User</code> é incluído e a conexão com a base de dados é estabelecida para que possamos realizar algumas operações em relação ao modelo. Não esqueça de definir uma variável de ambiente—<code class="inline">MONGO_URL</code>—para a URL da conexão com a base de dados.</p>
 
 <pre class="brush: javascript">app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -211,12 +211,12 @@ res.setHeader('Access-Control-Allow-Origin', '*');
     next();
 });</pre>
 
-<p>In the above section, we've made some configurations for simulating an HTTP request handling in NodeJS by using Express. We are allowing requests to come from different domains in order to develop a client-independent system. If you do not allow this, you will trigger a CORS (Cross Origin Request Sharing) error in the web browser.</p>
+<p>Na seção acima, criamos algumas configurações para a simulação de manipulação de requisições HTTP no NodeJS usando Express. Nós demos permissão de requisições que venham de domínios diferentes para que possamos criar um sistema independente de cliente. Se não quiser permitir isso, você se deparará com um erro CORS (<em>Cross Origin Request Sharing</em>) no navegador.</p>
 
 <ul>
-  <li><code class="inline">Access-Control-Allow-Origin</code> allowed for all domains.</li>
-  <li>You can send <code class="inline">POST</code> and <code class="inline">GET</code> requests to this service.</li>
-  <li><code class="inline">X-Requested-With</code> and <code class="inline">content-type</code> headers are allowed.</li>
+  <li><code class="inline">Access-Control-Allow-Origin</code> permitido para todos os domínios;</li>
+  <li>Você pode realizar requisições <code class="inline">POST</code> e <code class="inline">GET</code> para este serviço;</li>
+  <li>Cabeçalhos <code class="inline">X-Requested-With</code> e <code class="inline">content-type</code> são permitidos;</li>
 </ul>
 
 <pre class="brush: javascript">app.post('/authenticate', function(req, res) {
@@ -232,18 +232,18 @@ User.findOne({email: req.body.email, password: req.body.password}, function(err,
                     type: true,
                     data: user,
                     token: user.token
-                }); 
+                });
             } else {
                 res.json({
                     type: false,
                     data: "Incorrect email/password"
-                });    
+                });
             }
         }
     });
 });</pre>
 
-<p>We have imported all of the required modules and defined our configuration, so now it's time to define request handlers. In the above code, whenever you make a <code class="inline">POST</code><strong> </strong>request to <code class="inline">/authenticate</code> with username and password, you will get a <code class="inline">JWT</code> token. First, the database query is processed by using a username and password. If a user exists, the user data will be returned with its token. But, what if there is no such user matching the username and/or password?</p>
+<p>Importamos todos os módulos necessários e definimos nossa configuração, assim, é hora de definir os manipuladores de requisição. No código acima, toda vez que você realização uma requisição <code class="inline">POST</code> ao endereço <code class="inline">/authenticate</code> com um nome de usuário e senha, você receberá um <em>token</em> <code class="inline">JWT</code>. Primeiro, a base de dados consultará pelo nome de usuário e senha. Se o usuário existir, os dados do usuário serão retornado com o <em>token</em>. Mas, e se não existir qualquer usuário para o conjunto de nome de usuário e senha informados??</p>
 
 <pre class="brush: javascript">app.post('/signin', function(req, res) {
 User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
@@ -277,7 +277,7 @@ User.findOne({email: req.body.email, password: req.body.password}, function(err,
     });
 });</pre>
 
-<p>When you make a <code class="inline">POST</code> request to <code class="inline">/signin</code> with username and password, a new user will be created by using posted user information. On the <code class="inline">19th</code> line, you can see that a new JSON token is generated by using the <code class="inline">jsonwebtoken</code> module, which has been assigned to the <code class="inline">jwt</code> variable. The authentication part is OK. What if we try to access a restricted endpoint? How can we manage to access that endpoint?</p>
+<p>Ao realizar uma requisição <code class="inline">POST</code> para <code class="inline">/signin</code> com um nome de usuário e senha, um novo usuário será criado usando os dados informados. Na linha <code class="inline">19</code>, você pode ver que um novo <em>token</em> JSON é gerado usando o módulo <code class="inline">jsonwebtoken</code>, o qual foi atribuído à variável <code class="inline">jwt</code>. A parte de autenticação está pronta. E se quisermos acessar alguma área restrita? Como administrar o acesso a essas áreas?</p>
 
 <pre class="brush: javascript">app.get('/me', ensureAuthorized, function(req, res) {
 User.findOne({token: req.token}, function(err, user) {
@@ -295,7 +295,7 @@ User.findOne({token: req.token}, function(err, user) {
     });
 });</pre>
 
-<p>When you make a <code class="inline">GET</code> request to <code class="inline">/me</code>, you will get the current user info, but in order to continue with the requested endpoint, the <code class="inline">ensureAuthorized</code> function will be executed.</p>
+<p>Ao realizar um requisição <code class="inline">GET</code> para <code class="inline">/me</code>, você obterá informação do usuário atual, mas antes de retorná-la, a função <code class="inline">ensureAuthorized</code> será executada.</p>
 
 <pre class="brush: javascript">function ensureAuthorized(req, res, next) {
 var bearerToken;
@@ -310,54 +310,54 @@ var bearerToken;
     }
 }</pre>
 
-<p>In this function, request headers are intercepted and the <code class="inline">authorization</code> header is extracted. If a bearer token exists in this header, that token is assigned to <code class="inline">req.token</code> in order to be used throughout the request, and the request can be continued by using <code class="inline">next()</code>. If a token does not exist, you will get a 403 (Forbidden) response. Let's go back to the handler <code class="inline">/me</code>, and use <code class="inline">req.token</code> to fetch user data with this token. Whenever you create a new user, a token is generated and saved in the user model in DB. Those tokens are unique.</p>
+<p>Nesta função, cabeçalhos de requisição são interceptados e o cabeçalho <code class="inline">authorization</code> é extraído. Se o <em>token</em> do portador existir nesse cabeçalho, ele será atribuído a <code class="inline">req.token</code> para que seja utilizado durante a requisição e a requisição pode continuar, apenas chamando a função <code class="inline">next()</code>. Se um <em>token</em> não existir, você receberá uma resposta 403 (Acesso Proibido). Voltemos ao manipulador <code class="inline">/me</code> e usemos a propriedade <code class="inline">req.token</code> para buscar os dados do usuário deste <em>token</em>. Toda vez que você cria um novo usuário, um <em>token</em> é gerado e salvo no modelo <code class="inline">User</code> correspondente da base de dados. Esses <em>tokens</em> são únicos.</p>
 
-<p>We have only three handlers for this simple project. After that, you will see;</p>
+<p>Só teremos três manipuladores para esse projeto, que é bem simples. Após isso, você verá;</p>
 
 <pre class="brush: javascript">process.on('uncaughtException', function(err) {
 console.log(err);
 });</pre>
 
-<p>The NodeJS app may crash if an error occurs. With the above code, that crash is prevented and an error log is printed in the console. And finally, we can start the server by using the following code snippet. </p>
+<p>O aplicativo NodeJS pode parar se algum erro acontecer. Com o código acima, prevenimos essa parada e registramos esse erro na <em>linha de comando</em>. Finalmente, podemos iniciar o servidor, usando o trecho de código a seguir. </p>
 
 <pre class="brush: javascript">// Start Server
 app.listen(port, function () {
-console.log( "Express server listening on port " + port);
+console.log( "Servidor Express observando a porta " + port);
 });</pre>
 
-<p>To sum up:</p>
+<p>Resumindo:</p>
 
 <ul>
-  <li>Modules are imported.</li>
-  <li>Configurations are made.</li>
-  <li>Request handlers are defined.</li>
-  <li>A middleware is defined in order to intercept restricted endpoints.</li>
-  <li>The server is started.</li>
+  <li>Módulos são importados;</li>
+  <li>Configuração são criadas;</li>
+  <li>Manipuladores de requisição são definidos;</li>
+  <li>Um mediador é definido para interceptar e proibir acesso a áreas restritas;</li>
+  <li>O servidor é inicializado;</li>
 </ul>
 
-<p>We are done with the back-end service. So that it can be used by multiple clients, you can deploy this simple server application to your servers, or maybe you can deploy in Heroku. There is a file called <code class="inline">Procfile</code> in the project's root folder. Let's deploy our service in Heroku.</p>
+<p>E terminamos o serviço <em>back-end</em>. Para que ele seja usado por vários clientes, você pode implantá-lo em seus servidores ou, quem sabe, enviá-lo para o Heroku. Há um arquivo chamado <code class="inline">Procfile</code> no diretório raiz do projeto. Implantemos nosso serviço no Heroku.</p>
 
-<h4>Heroku Deployment</h4>
+<h4>Implantando no Heroku</h4>
 
-<p>You can clone the back-end project from this <a href="http://github.com/cubuzoa/token-based-auth-backend" target="_self">GitHub repository</a>.</p>
+<p>Você pode clonar o projeto <em>back-end</em> deste <a href="http://github.com/cubuzoa/token-based-auth-back-end" target="_self">repositório do GitHub</a>.</p>
 
-<p>I will not be discussing how to create an app in Heroku; you can refer <a href="http://devcenter.heroku.com/articles/creating-apps" rel="external" target="_blank">to this article</a> for creating a Heroku app if you have not done this before. After you create your Heroku app, you can add a destination to your current project by using the following command:</p>
+<p>Não discutirei sobre como criar um aplicativo no Heroku; você pode acessar <a href="http://devcenter.heroku.com/articles/creating-apps" rel="external" target="_blank">esse artigo</a> e verificar como criar um aplicativo no Heroku caso não o tenha feito antes. Após criar seu aplicativo no Heroku, você pode adicionar um destino para seu projeto atual, usando o comando a seguir:</p>
 
 <pre class="brush: bash">git remote add heroku &lt;your_heroku_git_url&gt;</pre>
 
-<p>Now you have cloned a project and added a destination. After <code class="inline">git add</code> and <code class="inline">git commit</code>, you can push your code to Heroku by performing <code class="inline">git push heroku master</code>. When you successfully push a project, Heroku will perform the <code class="inline">npm install</code> command to download dependencies into the <code class="inline">temp</code> folder on Heroku. After that, it will start your application and you can access your service by using the HTTP protocol.</p>
+<p>Você clonou e adicionou um destino ao seu projeto. Após executar <code class="inline">git add</code> e <code class="inline">git commit</code>, você pode enviar seu código para o Heroku executando o comando <code class="inline">git push heroku master</code>. Se o envio for bem sucedido, o Heroku executará o comando <code class="inline">npm install</code> para baixar todas as dependências no diretório <code class="inline">temp</code> do Heroku. Após isso, ele iniciará sua aplicação e poderá usar seu serviço usando o protocolo HTTP.</p>
 
-<h3>token-based-auth-frontend</h3>
+<h3>token-based-auth-front-end</h3>
 
-<p>In the front-end project, you will see an AngularJS project. Here, I'll only mention the main sections in the front-end project, because AngularJS is not something that can be covered within a single tutorial.</p>
+<p>No projeto <em>front-end</em>, você verá um projeto criado com AngularJS. Só mencionarei aqui as principais partes do projeto <em>front-end</em>, porque o AngularJS não é algo que pode ser visto em apenas um tutorial.</p>
 
-<p>You can clone the project from this <a href="https://github.com/cubuzoa/token-based-auth-frontend" target="_self">GitHub repository</a>. In this project, you will see the following folder structure:</p>
+<p>Você pode clonar o projeto a partir <a href="https://github.com/cubuzoa/token-based-auth-front-end" target="_self">deste repositório do GitHub</a>. Nesse projeto, você verá a estrutura de diretório a seguir:</p>
 
 <figure class="post_image">
   <img alt="Folder Structure" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/487/posts/22543/image/folder structure.png"/>
 </figure>
 
-<p><code class="inline">ngStorage.js</code> is a library for AngularJS to manipulate local storage operations. Also, there is a main layout <code class="inline">index.html</code> and partials that extend the main layout under the <code class="inline">partials</code> folder. <code class="inline">controllers.js</code> is for defining our controller actions in the front-end. <code class="inline">services.js</code> is for making service requests to our service that I mentioned in the previous project. We have a bootstrap-like file called <code class="inline">app.js</code> and in this file, configurations and module imports are applied. Finally, <code class="inline">client.js</code> is for serving static HTML files (or just <code class="inline">index.html</code>, in this case); this helps us to serve static HTML files when you deploy to a server without using Apache or any other web servers.</p>
+<p>A <code class="inline">ngStorage.js</code> é uma biblioteca que permite o AngularJS realizar operações de manipulação de armazenamento local. Além disso, temos o <em>layout</em> principal <code class="inline">index.html</code> e os parciais que estendem o <em>layout</em> principal e se encontram dentro do diretório <code class="inline">partials</code>. O arquivo <code class="inline">controllers.js</code> é para definirmos as ações do nosso controlador <em>front-end</em>. O arquivo <code class="inline">services.js</code> é para realizar requisições de serviço ao nosso projeto recém criado. Temos uma espécie de arquivo de inicialização, <code class="inline">app.js</code>, que contém as configurações e importações de módulos. Finalmente, temos o arquivo <code class="inline">client.js</code> para servir os arquivos HTML estáticos (ou só o arquivo <code class="inline">index.html</code>, neste caso); isso ajudará a servir arquivos HTML estáticos ao implantar em um lugar sem o servidor web Apache ou algo do tipo.</p>
 
 <pre class="brush: html">...
 &lt;script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"&gt;&lt;/script&gt;
@@ -371,11 +371,11 @@ console.log( "Express server listening on port " + port);
 &lt;script src="/scripts/services.js"&gt;&lt;/script&gt;
 &lt;/body&gt;</pre>
 
-<p>In the main layout HTML file, all of the required JavaScript files are included for AngularJS-related libraries, as well as our custom controller, service, and app file.</p>
+<p>No arquivo HTML do <em>layout</em> principal, todos os arquivos JavaScript necessários são incluídos, sejam eles biblioteca relacionadas ao AngularJS ou nossos controladores, serviços e arquivo <code class="inline">app</code> customizados.</p>
 
 <pre class="brush: javascript">'use strict';
 
-/* Controllers */
+/* Controladores */
 
 angular.module('angularRestfulAuth')
 .controller('HomeCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', function($rootScope, $scope, $location, $localStorage, Main) {
@@ -388,13 +388,13 @@ angular.module('angularRestfulAuth')
 
             Main.signin(formData, function(res) {
                 if (res.type == false) {
-                    alert(res.data)    
+                    alert(res.data)
                 } else {
                     $localStorage.token = res.data.token;
-                    window.location = "/";    
+                    window.location = "/";
                 }
             }, function() {
-                $rootScope.error = 'Failed to signin';
+                $rootScope.error = 'Falha ao tentar acessar';
             })
         };
 
@@ -409,10 +409,10 @@ angular.module('angularRestfulAuth')
                     alert(res.data)
                 } else {
                     $localStorage.token = res.data.token;
-                    window.location = "/"    
+                    window.location = "/"
                 }
             }, function() {
-                $rootScope.error = 'Failed to signup';
+                $rootScope.error = 'Falha ao registrar-se';
             })
         };
 
@@ -420,7 +420,7 @@ angular.module('angularRestfulAuth')
             Main.me(function(res) {
                 $scope.myDetails = res;
             }, function() {
-                $rootScope.error = 'Failed to fetch details';
+                $rootScope.error = 'Falha ao buscar os dados';
             })
         };
 
@@ -428,31 +428,31 @@ angular.module('angularRestfulAuth')
             Main.logout(function() {
                 window.location = "/"
             }, function() {
-                alert("Failed to logout!");
+                alert("Falha ao sair!");
             });
         };
         $scope.token = $localStorage.token;
     }])</pre>
 
-<p>In the above code, the <code class="inline">HomeCtrl</code> controller is defined and some required modules are injected like <code class="inline">$rootScope</code> and <code class="inline">$scope</code>. Dependency injection is one of the strongest properties of AngularJS. <code class="inline">$scope</code> is the bridge variable between controllers and views in AngularJS that means you can use <code class="inline">test</code> in view if you defined it in a specified controller like <code class="inline">$scope.test=....</code> </p>
+<p>No código acima, o controlador <code class="inline">HomeCtrl</code> é criado e alguns módulos necessários são injetados, como o <code class="inline">$rootScope</code> e <code class="inline">$scope</code>. Injeção de Dependência é uma das funcionalidades mais fortes do AngularJS. A <code class="inline">$scope</code> é a variável que interliga os controladores e visões no AngularJS e isso significa que você pode usar <code class="inline">test</code> em alguma visão se o tiver definido em algum controlador, assim <code class="inline">$scope.test=....</code> </p>
 
-<p>In this controller, some utility functions are defined, such as:</p>
+<p>Neste controlador, algumas funções utilitárias são definidas, como:</p>
 
 <ul>
-  <li><code class="inline">signin</code> to set up a sign-in button on the sign-in form</li>
-  <li><code class="inline">signup</code> for sign-up form handling</li>
-  <li><code class="inline">me</code> for assigning the Me button in the layout</li>
+  <li><code class="inline">signin</code> para configurar o botão de acesso no formulário de acesso</li>
+  <li><code class="inline">signup</code> para a manipulação do formulário de cadastro</li>
+  <li><code class="inline">me</code> para lidar com o botão <code class="inline">Me</code> no <em>layout</em></li>
 </ul>
 
-<p>In the main layout, in the main menu list, you can see the <code class="inline">data-ng-controller</code> attribute with a value <code class="inline">HomeCtrl</code>. That means that this menu <code class="inline">dom</code> element can share scope with <code class="inline">HomeCtrl</code>. When you click the sign-up button in the form, the sign-up function in the controller file will be executed, and in this function, the sign-up service is used from the <code class="inline">Main</code> service that is already injected in this controller. </p>
+<p>No <em>layout</em> principal, na lista do menu principal, você pode ver o atributo <code class="inline">data-ng-controller</code> com o valor <code class="inline">HomeCtrl</code>. Isso significa que o elemento <code class="inline">dom</code> deste menu pode compartilhar seu escopo com o controlador <code class="inline">HomeCtrl</code>. Ao clicar no botão de acesso no formulário, a função de acesso (<code class="inline">signin</code>) no controlador será executada, e nesta função o serviço de cadastro será usado a partir do serviço principal, <code class="inline">Main</code>, que já estará injetado no controlador. </p>
 
-<p>The main structure is <code class="inline">view -&gt; controller -&gt; service</code>. This service makes simple Ajax requests to the back-end in order to get specific data.</p>
+<p>A estrutura principal é <code class="inline">visão -&gt; controlador -&gt; serviço</code>. Este serviço torna bem simples as requisições Ajax ao projeto <em>back-end</em> para obter dados.</p>
 
 <pre class="brush: javascript">'use strict';
 
 angular.module('angularRestfulAuth')
 .factory('Main', ['$http', '$localStorage', function($http, $localStorage){
-        var baseUrl = "your_service_url";
+        var baseUrl = "a_url_do_seu_servico";
         function changeUser(user) {
             angular.extend(currentUser, user);
         }
@@ -469,7 +469,7 @@ angular.module('angularRestfulAuth')
                     output += '=';
                     break;
                 default:
-                    throw 'Illegal base64url string!';
+                    throw 'Cadeia de caracteres base64url inválida!';
             }
             return window.atob(output);
         }
@@ -505,18 +505,18 @@ angular.module('angularRestfulAuth')
     }
 ]);</pre>
 
-<p>In the above code, you can see service functions like making requests for authenticating. In controller.js, you may have already realised that there are functions like <code class="inline">Main.me</code>. This <code class="inline">Main</code> service has been injected in the controller, and in the controller, the services belonging to this service are called directly. </p>
+<p>No trecho de código acima, você pode ver que as funções do serviço gostam de realizar requisições para autenticação. Você deve ter visto no arquivo controller.js que há funções como <code class="inline">Main.me</code>. Esse serviço <code class="inline">Main</code> foi injetado no controlador. Enquanto no controlador, os serviços pertencentes a este serviço podem ser chamados diretamente. </p>
 
-<p>These functions are simply Ajax requests to our service which we deployed together. Do not forget to put the service URL in <code class="inline">baseUrl</code> in the above code. When you deploy your service to Heroku, you will get a service URL like <code class="inline">appname.herokuapp.com</code>. In the above code, you will set <code class="inline">var baseUrl = "appname.herokuapp.com"</code>. </p>
+<p>Essas funções são simples requisições Ajax para nosso serviço, que criamos mais cedo. Não esqueça de alterar a url na variável <code class="inline">baseUrl</code> no código acima. Ao implantar o serviço no Heroku, você receberá um URL no estilo <code class="inline">nome-do-aplicativo.herokuapp.com</code>. No trecho acima, você atribuirá essa URL dessa forma <code class="inline">var baseUrl = "appname.herokuapp.com"</code>. </p>
 
-<p>In the sign-up or sign-in part of the application, the bearer token responds to the request and this token is saved to local storage. Whenever you make a request to a service in the back-end, you need to put this token in the headers. You can do this by using AngularJS interceptors.</p>
+<p>Nas partes de cadastro ou acesso da aplicação, recebemos um <em>token</em> de portador que é salvo no armazenamento local. Toda vez que realizamos uma requisição ao serviço no <em>back-end</em>, precisamos passar esse <em>token</em> nos cabeçalhos. Você pode fazer isso através dos interceptadores do AngularJS.</p>
 
 <pre class="brush: javascript">$httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
         return {
                 'request': function (config) {
                     config.headers = config.headers || {};
                     if ($localStorage.token) {
-                        config.headers.Authorization = 'Bearer ' + $localStorage.token;
+                        config.headers.Authorization = 'Portador ' + $localStorage.token;
                     }
                     return config;
                 },
@@ -529,9 +529,9 @@ angular.module('angularRestfulAuth')
             };
         }]);</pre>
 
-<p>In the above code, every request is intercepted and an authorization header and value are put in the headers.</p>
+<p>No trecho de código acima, cada requisição é interceptada e um cabeçalho de autorização e seu valor são colocados inseridos.</p>
 
-<p>In the front-end project, we have some partial pages like <code class="inline">signin</code>, <code class="inline">signup</code>, <code class="inline">profile details</code>, and <code class="inline">vb</code>. These partial pages are related with specific controllers. You can see that relation in <code class="inline">app.js</code>:</p>
+<p>No projeto <em>front-end</em>, temos algumas páginas parciais como <code class="inline">signin</code>, <code class="inline">signup</code>, <code class="inline">detalhes do perfil</code> e <code class="inline">vb</code>. Essas páginas parciais estão relacionadas a controladores específicos. Você pode ver essa relação no arquivo <code class="inline">app.js</code>:</p>
 
 <pre class="brush: javascript">angular.module('angularRestfulAuth', [
 'ngStorage',
@@ -560,12 +560,12 @@ angular.module('angularRestfulAuth')
             redirectTo: '/'
         });</pre>
 
-<p>As you can easily understand in the above code, when you go to <code class="inline">/</code>, the <code class="inline">home.html</code> page will be rendered. Another example: if you go to <code class="inline">/signup</code>, <code class="inline">signup.html</code> will be rendered. This rendering operation will be done in the browser, not on the server-side.</p>
+<p>É bem fácil entender o código acima. Ao acessar a URL <code class="inline">/</code> do seu serviço, a página <code class="inline">home.html</code> será gerada. Outro exemplo: se você acessar a URL <code class="inline">/signup</code>, a página <code class="inline">signup.html</code>será gerada. Essa operação de geração da página será realizada no navegador, não no lado do servidor.</p>
 
-<h2>Conclusion</h2>
+<h2>Conclusão</h2>
 
-<p>You can see how everything we discussed in this tutorial works into practice by checking out this <a href="http://token-based-auth.herokuapp.com/" target="_self">working demo</a>.</p>
+<p>Você pode ver os projetos que discutimos aqui, em pleno funcionamento, acessando <a href="http://token-based-auth.herokuapp.com/" target="_self">esse projeto de demonstração</a>.</p>
 
-<p>Token-based authentication systems help you to construct an authentication/authorization system while you are developing client-independent services. By using this technology, you will just focus on your services (or APIs). </p>
+<p>Sistemas de autenticação com <em>tokens</em> ajudam a construir sistemas de autenticação/autorização e, ao mesmo tempo, criar serviços independentes de clientes. Usando essa tecnologia, você apenas focará em seus serviços (ou APIs). </p>
 
-<p>The authentication/authorization part will be handled by the token-based authentication system as a layer in front of your services. You can access and use services from any client like web browsers, Android, iOS, or a desktop client.</p>
+<p>A parte de autenticação/autorização será manipulada pelo sistema de autenticação com <em>tokens</em>, na forma de uma camada antes dos seus serviços. Você pode acessar e usar seus serviços a partir de quaisquer clientes, como navegadores, aplicativos Android, aplicativos iOS ou de um cliente <em>desktop</em>.</p>
