@@ -87,6 +87,7 @@ JavaScript
 - [Iniciando Com o Intel XDK](http://code.tutsplus.com/pt/articles/getting-started-with-intel-xdk--cms-22205)
 - [Contato com Depuração Moderna: Parte 1](http://code.tutsplus.com/pt/tutorials/modern-debugging-experience-part-1--cms-22571)
 - [Contato com Depuração Moderna: Parte 2](http://code.tutsplus.com/pt/tutorials/modern-debugging-experience-part-2--cms-22584)
+- [Autenticação com Tokens Usando AngularJS & NodeJS](http://code.tutsplus.com/pt/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543)
 
 Habilidades com Computadores
 ----------------------------
