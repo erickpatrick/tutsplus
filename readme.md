@@ -45,6 +45,7 @@ WordPress
 - [50 Filtros Para WordPress: Filtros 21 a 30](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-21-30--cms-21298)
 - [50 Filtros Para WordPress: Filtros 31 a 40](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-31-40--cms-21297)
 - [50 Filtros Para WordPress: Filtros 41 a 50](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-41-50--cms-21299)
+- [50 Filtros Para WordPress: Final da Série](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-series-finale--cms-21300)
 - [50 Ações Para WordPress – Introdução](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577)
 
 HTML & CSS
