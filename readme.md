@@ -40,6 +40,7 @@ WordPress
 - [Como as Frameworks para Temas Funcionam de Verdade](http://code.tutsplus.com/pt/tutorials/how-theme-frameworks-actually-work--cms-21349)
 - [Decida Como Desenvolver Sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/deciding-how-to-develop-your-wordpress-theme-framework--cms-21562)
 - [Adicionando Ganchos de Ação à Sua Framework para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/adding-action-hooks-to-your-wordpress-theme-framework--cms-21664)
+- [Adicionando Funções à sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/adding-functions-to-your-wordpress-theme-framework--cms-21717)
 - [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
 - [50 Filtros Para WordPress: Filtros 11 a 20](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-11-20--cms-21296)
 - [50 Filtros Para WordPress: Filtros 21 a 30](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-21-30--cms-21298)
