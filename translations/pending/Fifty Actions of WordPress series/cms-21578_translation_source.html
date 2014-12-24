@@ -1,18 +1,18 @@
-<h1>Fifty Actions of WordPress – 50 Examples (1 to 10)</h1>
+<h1>50 Ações Para WordPress – 50 Exemplos (1 a 10)</h1>
 
-<p><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577" rel="external" target="_blank">The previous part</a> of our series was the "introduction" to the world of WordPress actions. In this tutorial, we're going to start reviewing 50 selected actions by explaining what they do and see an example for each action.</p>
+<p><a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577" rel="external" target="_blank">A parte anterior</a> de nossa série foi a "introdução" ao mundo das ações do WordPress. Neste tutorial, começaremos a revisar as 50 ações selecionadas, explicando o que elas fazem e apresentando um exemplo de cada ação.</p>
 
-<p>So, without further ado, here's the first batch of our 50 actions!</p>
+<p>Então, sem mais delongas, eis o primeiro conjunto de nossas 50 ações!</p>
 
-<h2>Handling the WordPress Initialization</h2>
+<h2>Manipulando a Inicialização do WordPress</h2>
 
-<p>This action, in short, is fired off right after everything's ready except the headers. And that's why this action is probably the most popular WordPress action of all time – because you can hook almost anything to it.</p>
+<p>Para resumir, esta ação é ativada logo após tudo estar pronto, com exceção dos cabeçalhos. E é por isso que ela talvez seja a ação mais popular do WordPress, de todos os tempos – uma vez que você pode atrelar praticamente qualquer coisa a ela.</p>
 
-<h3>Changing a Few Default Rewrite Rules</h3>
+<h3>Alterando Algumas Regras de Reescrita</h3>
 
-<p>As a Turkish WordPress user, I find it odd (and kind of frustrating) that WordPress doesn't allow us change the URL bases for author pages, search results, or paginated archive pages in the admin panel.</p>
+<p>Como usuário turco, considero estranho (e um tanto frustrante) que o WordPress não nos permita alterar as URLs base para páginas dos autores, resultados das buscas ou paginações de arquivos de artigos no painel administrativo.</p>
 
-<p> The code snippet below, though, helps me with this issue:</p>
+<p>O trecho de código abaixo, contudo, ajuda com esse problema:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -20,24 +20,24 @@ add_action( 'init', 'init_example' );
 
 function init_example() {
 global $wp_rewrite;
-    $wp_rewrite-&gt;author_base = 'profile';
-    $wp_rewrite-&gt;search_base = 'find';
+    $wp_rewrite-&gt;author_base = 'perfil';
+    $wp_rewrite-&gt;search_base = 'busca';
     $wp_rewrite-&gt;pagination_base = 'p';
 }
 
 ?&gt;</pre>
 
-<p>Cool, huh? (Of course, I replaced the Turkish words with 'profile', 'find' and 'p' to make it clear.)</p>
+<p>Legal, hein? (Claro, substitui as palavras em turco por 'perfil', 'busca' e 'p' para ficar claro.)</p>
 
-<h2>Sending HTTP Headers</h2>
+<h2>Enviando Cabeçalhos HTTP</h2>
 
-<p>This doesn't need an introduction as its name explains itself: This handy little action allows us to set the HTTP headers to send!</p>
+<p>Isso não precisa de uma apresentação, uma vez que o nome é autoexplicativo: Essa pequena e útil ação permite-nos configurar os cabeçalhos HTTP a serem enviados!</p>
 
-<h3>Make Internet Explorer Use the Latest Rendering Engine</h3>
+<h3>Faça o Internet Explorer Usar o Motor de Renderização Mais Atual</h3>
 
-<p>The <code>X-UA-Compatible</code> meta tag makes Internet Explorer use the specified rendering engine for the web page. If you set it to <code>"edge"</code>, Internet Explorer will use the latest rendering engine; however, it breaks HTML validation if used with the Google Chrome Frame.</p>
+<p>A <em>meta tag</em> <code>X-UA-Compatible</code> faz com que o Internet Explorer use o motor de renderização especificado para aquela página. Se você configurar para <code>"edge"</code>, o Internet Explorer usará o motor mais atual; contudo, ele falha a validação do HTML se usado em conjunto do <em>Google Chrome Frame</em>.</p>
 
-<p>Luckily, we're not limited with the <code>&lt;meta&gt;</code> tag usage: We can use HTTP headers, too. And the <code>send_headers</code> action is perfect for the job:</p>
+<p>Por sorte, não estamos limitados ao uso das <em>tag</em> <code>&lt;meta&gt;</code>: Podemos usar cabeçalhos HTTP também. E a ação <code>send_headers</code> é perfeita para essa situação:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -47,19 +47,19 @@ function send_headers_example() {
 	header( 'X-UA-Compatible: IE=edge,chrome=1' );
 }
 
-// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/send_headers
+// Código Fonte de Exemplo: http://codex.wordpress.org/Plugin_API/Action_Reference/send_headers
 
 ?&gt;</pre>
 
-<h2>Switching Themes</h2>
+<h2>Trocando Temas</h2>
 
-<p>If you want to run some errands after you switch themes in WordPress, you can count on the <code>after_switch_theme</code> action.</p>
+<p>Se quiser executar alguma coisa após trocar de temas no WordPress, você pode contar com a ação <code>after_switch_theme</code>.</p>
 
-<h3>Flushing the Rewrite Rules After Switching a Theme</h3>
+<h3>Recarregar as Regras de Reescrita Após a Troca de Temas</h3>
 
-<p>Let's do an easy one: How do you flush rewrite rules after switching to a new theme, because the new theme has new custom post types? </p>
+<p>Faremos uma ação bem fácil: Como recarregar as regras de reescrita após trocar para um novo tema, já que o novo tema tem novos tipos customizados de artigos? </p>
 
-<p>Well, you use the code below:</p>
+<p>Pois bem, use o trecho de código abaixo:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -69,21 +69,21 @@ function after_switch_theme_example() {
 	flush_rewrite_rules();
 }
 
-// Example Source: http://wpdevsnippets.com/flush-rewrite-rules/
+// Código Fonte de Exemplo: http://wpdevsnippets.com/flush-rewrite-rules/
 
 ?&gt;</pre>
 
-<p>Easy, right? </p>
+<p>Bem fácil, hein? </p>
 
-<p>For some reason, I couldn't make it work by hooking the <code>flush_rewrite_rules()</code> function to the <code>after_switch_theme</code> action and I couldn't find out why – if you have the answer, enlighten us in the comments.</p>
+<p>Por algum motivo, não fui capaz de fazê-la funcionar atrelando a função <code>flush_rewrite_rules()</code> à ação <code>after_switch_theme</code> e não consegui descobrir o porque – se souber o motivo, mostre-nos nos comentários.</p>
 
-<h2>Adding Custom Columns to the Posts List</h2>
+<h2>Adicionando Colunas Customizadas à Lista de <em>Posts</em></h2>
 
-<p>This handy little action allows us to create additional columns to the posts list in the "All Posts" admin page.</p>
+<p>Essa pequena ação permite-nos criar colunas adicionais à lista de <em>posts</em> na página administrativa "Todos os Posts".</p>
 
-<h3>Display Each Post's Attachment Count in a Column</h3>
+<h3>Mostrando a Quantidade de Anexos em uma Coluna</h3>
 
-<p>Imagine that you need to see how many files you attached to each of your posts because, say, you want to double-check that you attached 10 gallery images for every post of yours. Instead of counting them one by one in the Media Library, you can add an extra column to the listing in the "All Posts" page like this:</p>
+<p>Imagine que você precisa saber a quantidade de arquivos anexados a cada um dos seus <em>posts</em>, porque, digamos, você quer ter certeza que a galeria de imagens tem, exatamente, 10 fotos em todos e cada um dos artigos. Ao invés de verificar manualmente a quantidade em cada um deles, você pode adicionar essa coluna extra na página de "Todos os Posts", dessa forma:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -91,7 +91,7 @@ add_filter( 'manage_posts_columns', 'manage_posts_columns_example', 5 );
 add_action( 'manage_posts_custom_column', 'manage_posts_custom_column_example', 5, 2 );
 
 function manage_posts_columns_example( $columns ) {
-	$columns['post_attachments'] = __( 'Attached', 'theme-name' );
+	$columns['post_attachments'] = __( 'Anexos', 'theme-name' );
 	return $columns;
 }
 
@@ -105,19 +105,19 @@ function manage_posts_custom_column_example( $column_name, $post_id ) {
 	}
 }
 
-// Example Source: http://wpsnipp.com/index.php/functions-php/display-post-attachment-count-in-admin-column/
+// Código Fonte de Exemplo: http://wpsnipp.com/index.php/functions-php/display-post-attachment-count-in-admin-column/
 
 ?&gt;</pre>
 
-<p>Granted, this is an example for a very spesific scenario. But remember that you saw it on Tuts+ Code – you never know when you'll need it!</p>
+<p>Claramente, esse é um exemplo para um cenário muito específico. Mas, lembre-se que ele existe e viu aqui no Tuts+ Code – você nunca saber quando precisará!</p>
 
-<h2>Working With the <code>&lt;head&gt;</code> of Admin Pages</h2>
+<h2>Trabalhando com a <em>Tag</em> <code>&lt;head&gt;</code> das Páginas Administrativas</h2>
 
-<p>From time to time, we might need to inject things into the <code>&lt;head&gt;</code>s of the pages of our administration panel. And the <code>admin_head</code> action does exactly that!</p>
+<p>De tempos em tempos, talvez precisemos injetar algumas coisas nos cabeçalhos <code>&lt;head&gt;</code> das páginas de nossos painéis administrativos. E a ação <code>admin_head</code> faz exatamente isso!</p>
 
-<h3>Displaying a Different Favicon in the Back End</h3>
+<h3>Apresentando um <em>Favicon</em> Diferente no Painel Administrativo</h3>
 
-<p>This quick and simple example demonstrates how to inject the necessary HTML code for a "favicon" into your admin panel's <code>&lt;head&gt;</code> with ease:</p>
+<p>Esse exemplo simples e rápido demonstra como injetar o código HTML necessário para um "favicon" próprio para o <code>&lt;head&gt;</code> do seu painel administrativo, com facilidade:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -127,26 +127,26 @@ function admin_head_example() {
 	echo '&lt;link rel="shortcut icon" type="image/x-icon" href="' . get_bloginfo('template_directory') . '/images/admin-favicon.ico" /&gt;';
 }
 
-// Example Source: http://wpdevsnippets.com/wp-admin-custom-favicon/
+// Código Fonte de Exemplo: http://wpdevsnippets.com/wp-admin-custom-favicon/
 
 ?&gt;</pre>
 
-<p>Place an <code>admin-favicon.ico</code> file inside the <code>/images/</code> folder in your theme and you're good to go!</p>
+<p>Coloque o arquivo <code>admin-favicon.ico</code> dentro do diretório <code>/images/</code> do seu tema e pronto!</p>
 
-<h2>Injecting Code Into the <code>wp_footer()</code> Function</h2>
+<h2>Injetando Código na Função <code>wp_footer()</code></h2>
 
-<p>This action is called when the function with the same, <code>wp_footer()</code> name is run. You can use it to customize the output of the function.</p>
+<p>Essa ação é chamada quando a função de mesmo nome, <code>wp_footer()</code>, é executada. Você pode usá-la para customizar o retorno dessa função.</p>
 
-<h3>Displaying a Quick Performance Report for Admins</h3>
+<h3>Apresentando um Relatório de Performance para o Administradores</h3>
 
-<p>Want to see a quick report of how many queries your pages run and how much memory they use? These bits of code will help you with that:</p>
+<p>Quer um relatório rápido sobre quantas consultas suas páginas executam e quanto de memória elas usam? Esse pequeno trecho de código ajudará:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'wp_footer', 'wp_footer_example' );
 
 function wp_footer_example() {
-$stat = sprintf( '%d queries in %.3f seconds, using %.2fMB memory',
+$stat = sprintf( '%d consultas em %.3f segundos, usando %.2fMB de memória',
 		get_num_queries(),
 		timer_stop( 0, 3 ),
 		memory_get_peak_usage() / 1024 / 1024
@@ -156,64 +156,64 @@ $stat = sprintf( '%d queries in %.3f seconds, using %.2fMB memory',
     }
 }
 
-// Example Source: http://wordpress.stackexchange.com/a/1866
+// Código Fonte de Exemplo: http://wordpress.stackexchange.com/a/1866
 
 ?&gt;</pre>
 
-<p>Now you will see a commented out piece of information about your queries in the source code of your web pages. Don't worry: Non-administrators won't see this.</p>
+<p>Agora, você verá um trecho de informação comentado sobre suas consultas, no código fonte de suas páginas. Não se preocupe, usuários não administradores não verão isso.</p>
 
-<h2>Handling the Enqueuing of Frontend Scripts</h2>
+<h2>Lidando com o Enfileiramento de <em>Scripts</em> do <em>Frontend</em></h2>
 
-<p>This is one of the fundamental need-to-know actions if you're working with themes: The <code>wp_enqueue_scripts</code> action handles the process of enqueuing scripts and styles in the front-end.</p>
+<p>Essa é uma das ações que o conhecimento é fundamental para quem trabalha com temas: A ação <code>wp_enqueue_scripts</code> lida com o processo de enfileiramento de <em>scripts</em> e estilos do <em>frontend</em>.</p>
 
-<h3>The Correct Usage of the <code>wp_enqueue_script()</code> Function</h3>
+<h3>O Uso Correto da Função <code>wp_enqueue_script()</code></h3>
 
-<p>There are many ways to enqueue scripts and styles in the front-end, but there's only one correct way to do it:</p>
+<p>Há inúmeras formas de enfileirar <em>scripts</em> e estilos do <em>frontend</em>, mas só há uma forma correta de fazê-lo dentro do WordPress:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_scripts_example' );
 
 function wp_enqueue_scripts_example() {
-	// you can enqueue scripts...
-	wp_enqueue_script( 'my-script', get_stylesheet_directory_uri() . '/scripts/my-script.js' );
-	// ...and styles, too!
-	wp_enqueue_style( 'my-style', get_stylesheet_directory_uri() . '/styles/my-style.css' );
+	// você pode enfileirar scripts...
+	wp_enqueue_script( 'meu-script', get_stylesheet_directory_uri() . '/scripts/meu-script.js' );
+	// ...e estilos também!
+	wp_enqueue_style( 'meu-estilo', get_stylesheet_directory_uri() . '/styles/meu-estilo.css' );
 }
 
 ?&gt;</pre>
 
-<h2>Creating Admin Page Notices</h2>
+<h2>Criando Avisos para Páginas Administrativas</h2>
 
-<p>The action <code>admin_notices</code> is responsible for all the warnings, errors or other messages displayed in the header of admin pages. You can use it to display your own messages, too.</p>
+<p>A ação <code>admin_notices</code> é responsável por todos os avisos, erros e mensagens apresentadas no cabeçalho das páginas administrativas. Você pode usá-la para mostrar suas próprias mensagens também.</p>
 
-<h3>Warning Logged-in Users About Website Maintenance</h3>
+<h3>Avisando Usuários Conectados Sobre Manutenção do Site</h3>
 
-<p>Suppose you're moving servers and you need to inform your authors about the situation: They shouldn't post anything! You can lock down the entire admin panel to non-admins, or you can display a simple warning message like this:</p>
+<p>Digamos que você está mudando de servidor e quer avisar aos autores sobre a situação: Eles não devem postar qualquer coisa! Você pode bloquear o painel administrativo para os não administradores, ou pode, simplesmente, deixar uma mensagem de aviso, como essa:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'admin_notices', 'admin_notices_example' );
 
-function admin_notices_example() {  
+function admin_notices_example() {
 	echo '&lt;div class="error"&gt;
-			&lt;p&gt;We are performing website maintenance. Please don\'t make any changes in your posts until further notice!&lt;/p&gt;
+			&lt;p&gt;Estamos em um período de manutenção. Por favor, não realize qualquer alterações ou crie quaisquer posts até confirmação do fim da manutenção!&lt;/p&gt;
 		  &lt;/div&gt;';
 }
 
-// Example Source: http://wpsnippy.com/show-notification-message-wordpress-admin-pages/
+// Código Fonte de Exemplo: http://wpsnippy.com/show-notification-message-wordpress-admin-pages/
 
 ?&gt;</pre>
 
-<p>We used the "error" class here. If you want a green border (which means more like a "success" message), you can use the "updated" class.</p>
+<p>Usamos a classe CSS "error", aqui. Se quiser uma borda verde (que se assemelha mais a uma mensagem de "sucesso"), você pode usar a classe CSS "updated".</p>
 
-<h2>Handling the Initialization of Widgets </h2>
+<h2>Manipulando a Inicialização de <em>Widgets</em></h2>
 
-<p>WordPress widgets are an excellent system that allows us developers to create and edit parts of our websites. And the <code>widgets_init</code> action lets us modify the behavior of widgets if necessary.</p>
+<p>Os <em>widgets</em> do WordPress são um sistema excelente que permite a nós, desenvolvedores, criarmos e editar partes de nossos sites. E a ação <code>widgets_init</code> permite-nos modificar o comportamento de <em>widgets</em> se necessário.</p>
 
-<h3>Prevent Loading Default WordPress Widgets</h3>
+<h3>Prevenindo o Carregamento dos <em>Widgets</em> Padrão do WordPress</h3>
 
-<p>For some reason, you might want to disable the usage of default WordPress widgets altogether. If that's the case, the code snippet below will help you completely remove those widgets from your WordPress installation:</p>
+<p>Por algum motivo, talvez você queira desabilitar os <em>widgets</em> padrão do WordPress de uma só vez. Se for o caso, o trecho de código abaixo ajudará a removê-los completamente da sua instalação WordPress:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -236,15 +236,15 @@ function widgets_init_example() {
 
 ?&gt;</pre>
 
-<p>Of course, you can comment out or remove the lines to allow some widgets to load.</p>
+<p>Claro, você pode comentar ou remover as linhas dos <em>widgets</em> que você ainda quer que sejam carregados.</p>
 
-<h2>Deleting WordPress Users</h2>
+<h2>Removendo Usuários do WordPress</h2>
 
-<p>Need to do stuff each time a user is deleted? The <code>delete_user</code> is your guy: It's triggered after a user gets deleted.</p>
+<p>Precisa que algo seja feito toda vez que um usuário é removido? A ação <code>delete_user</code> é seu amigo: Ela será acionada após um usuário ser removido.</p>
 
-<h3>Emailing the Poor Guy After Deleting His Account</h3>
+<h3>Enviando um E-mail para o Usuário Após a Conta Ser Removida</h3>
 
-<p>If you have a website that occasionally attracts bad people and you need to delete users frequently, you might want to consider letting them know that their user accounts are deleted. The code snippet below will help you:</p>
+<p>Se você tem um site que, ocasionalmente, atrai pessoas ruins e precisa remover alguns usuários frequentemente, talvez queira considerar avisá-los da remoção de suas contas. O trecho de código abaixo fará isso:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -255,19 +255,19 @@ function delete_user_example( $user_id ) {
 	$user_obj = get_userdata( $user_id );
 	$email = $user_obj-&gt;user_email;
 	$headers = 'From: ' . get_bloginfo( 'name' ) . ' &lt;' . get_bloginfo( 'admin_email' ) . '&gt;' . "\r\n";
-	$subject = 'You are being deleted, brah';
-	$message = 'Your account at ' . get_bloginfo( 'name' ) . ' has been deleted because of your totally uncool behaviors.';
+	$subject = 'Você foi removido';
+	$message = 'Sua conta no site ' . get_bloginfo( 'name' ) . ' foi removida por seu comportamento abusivo.';
 	wp_mail( $email, $subject, $message, $headers );
 }
 
-// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/delete_user
+// Código Fonte de Exemplo: http://codex.wordpress.org/Plugin_API/Action_Reference/delete_user
 
 ?&gt;</pre>
 
-<p>If you want, you can replace the <code>$subject</code> and <code>$message</code> variables with more <em>formal</em> messages.</p>
+<p>Se quiser, pode alterar os valores das variáveis <code>$subject</code> e <code>$message</code> com uma mensagem um pouco mais <em>formal</em>.</p>
 
-<h2>Wrapping Up for Today</h2>
+<h2>Resumo de Hoje</h2>
 
-<p>We went through 10 of 50 actions in this article. I hope you liked and learned new things from it. See you in the next one!</p>
+<p>Passamos pelas primeiras 10 ações, do total de 50, neste artigo. Espero que tenha gostado e aprendido novas coisas. Vejo você no próximo!</p>
 
-<p>I want to hear your thoughts, too. What do you think about these actions? Post your comments below; and if you liked the article, don't forget to share it!</p>
+<p>Gostaria de saber o que vocês têm achado desta série. Tem gostado das ações selecionadas? Deixe seus comentários, logo abaixo. E, caso tenha curtido o artigo, não esqueça de compartilhá-lo!</p>
