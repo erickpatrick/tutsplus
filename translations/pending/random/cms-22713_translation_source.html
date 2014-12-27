@@ -1,118 +1,118 @@
-<h1>Advantages and Disadvantages of WordPress Frameworks</h1>
+<h1>Vantagens e Desvantagens dos Frameworks para WordPress</h1>
 
-<p>The concept of a framework is something that's very common both within the modern web and within the software development environments. For the front-end, we have frameworks like <a href="http://getbootstrap.com" rel="external" target="_blank">Bootstrap</a> and <a href="http://foundation.zurb.com" rel="external" target="_blank">Foundation</a>, for web applications we have frameworks like <a href="http://www.yiiframework.com" rel="external" target="_blank">Yii</a> and <a href="http://rubyonrails.org" rel="external" target="_blank">Rails</a>, and for desktop (and even some web applications) we have frameworks like <a href="http://www.microsoft.com/net" rel="external" target="_blank">.NET</a>. And these are just to name a very small and select few.</p>
+<p>O conceito de um <em>framework</em> é ser algo bastante comum tanto na web atual quanto dentro dos ambientes de desenvolvimento de <em>software</em>. Para o <em>frontend</em>, temos <em>frameworks</em> como o <a href="http://getbootstrap.com" rel="external" target="_blank">Bootstrap</a> e o <a href="http://foundation.zurb.com" rel="external" target="_blank">Foundation</a>; para aplicações web temos <em>frameworks</em> como o <a href="http://www.yiiframework.com" rel="external" target="_blank">Yii</a> e o <a href="http://rubyonrails.org" rel="external" target="_blank">Rails</a>; e para o <em>desktop</em> (e té mesmo algumas aplicações web) temos <em>frameworks</em> como o <a href="http://www.microsoft.com/net" rel="external" target="_blank">.NET</a>. E esses são os nomes de alguns poucos.</p>
 
-<p>Generally speaking, frameworks are good: They provide a level of abstraction with which we, as developers, can work with in order to easily create generic functionality - such as user login and authentication - along with more specific code, such as logic that's specific to whatever the problem is that the software is aiming to solve.</p>
+<p>De forma geral, <em>frameworks</em> são bons: Eles proveem um nível de abstração com o qual nós, enquanto desenvolvedores, podemos trabalhar e que facilitam a criação de funcionalidades genéricas &mdash; como <em>login</em> de usuários e autenticação &mdash; assim como códigos mais específicos, como a lógica própria para o problema que o seu <em>software</em> pretende resolver.</p>
 
-<p>In short, Wikipedia defines a framework <a href="http://en.wikipedia.org/wiki/Software_framework" rel="external" target="_blank">as follows</a>:</p>
+<p>Em resumo, a Wikipedia define um <em>framework</em> <a href="http://en.wikipedia.org/wiki/Software_framework" rel="external" target="_blank">da seguinte forma</a>:</p>
 
 <blockquote>
-  A software framework is a universal, reusable software environment that provides particular functionality as part of a larger software platform to facilitate development of software applications, products and solutions. Software frameworks may include support programs, compilers, code libraries, tool sets, and application programming interfaces (APIs) that bring together all the different components to enable development of a project or solution.
-  
+  Um <em>framework</em> de software é um ambiente de <em>software</em> universal e reusável que provê certas funcionalidades como parte de uma plataforma de <em>software</em> maior, para facilitar o desenvolvimento de aplicações computacionais, produtos e soluções. <em>Frameworks</em> de <em>software</em> podem incluir programas de apoio, compiladores, bibliotecas de código, conjuntos de ferramentas e interfaces de programação de aplicações (APIs) que provem todo um conjunto diferente de componentes que permitem o desenvolvimento de um projeto ou solução.
+
 </blockquote>
 
-<p>As with many modern platforms, WordPress is no different. Of course, WordPress itself is not a framework - its an application that can be extended through the use of its many APIs. But there are a number of different frameworks that are available all of which aim to help ease the burden of writing a lot of repetitive code.</p>
+<p>Assim como várias plataformas modernas, não é diferente com o WordPress. Claro, o WordPress em si <strong>não</strong> é uma um <em>framework</em> - é um aplicativo que pode ser estendido através do uso de sua várias APIs. Mas há um número diferente de <em>frameworks</em> que estão disponíveis e todas tem como objetivo facilitar a escrita de código repetitivo.</p>
 
-<p>But is this a good thing? That is, does it make sense to have so many choices of frameworks from which to choose as it relates to building WordPress themes, plugins, or web applications based on the platform?</p>
+<p>Mas isso é uma coisa boa? Isso é, há sentido em ter tantas opções de <em>frameworks</em> a se escolher, uma vez que elas se assemelham à construção de temas, <em>plugins</em> ou aplicações web baseada na plataforma?</p>
 
-<p>Usually, it depends on what you're trying to do. </p>
+<p>Geralmente, depende daquilo que você quer fazer.</p>
 
-<p>Throughout the Tuts+ properties, we try to cover as many frameworks as possible - some for WordPress, some for the various languages and platforms that were mentioned earlier - but in this article, we're not going to be looking at a specific framework.</p>
+<p>No Tuts+, tentamos cobrir o máximo de <em>frameworks</em> possível - algumas para o WordPress, outras para várias linguagens de programação e plataformas que foram mencionada anteriormente - mas, neste artigo, não falaremos de um <em>framework</em> específica.</p>
 
-<p>Instead, we're going to be looking at the advantages and disadvantages of selecting a framework when working with WordPress to help make better decisions as it relates to building sites, applications, and other projects on top of WordPress.</p>
+<p>Ao invés disso, veremos as vantagens e desvantagens em selecionar um <em>framework</em> para se trabalhar com o WordPress, para ajudar na tomada das melhores decisões na hora de construção sites, aplicações e outros projetos usando o WordPress como base.</p>
 
-<p>With WordPress, it's completely possible to mix various frameworks in order to achieve your end result, this article assumes that you're evaluating whether or not to use a single framework in order to help with your work.</p>
+<p>Com o WordPress, é possível misturar vários <em>frameworks</em> para alcançar um resultado, e esse artigo assume que você esteja avaliando o uso de um único <em>framework</em> para ajudar em seu trabalho, ou não.</p>
 
-<h2>Comparing Frameworks</h2>
+<h2>Comparando <em>Frameworks</em></h2>
 
-<p>As far as WordPress is concerned, there are currently (and generally) two types of frameworks:</p>
-
-<ol>
-  <li>Drag and Drop Frameworks</li>
-  <li>Options Frameworks</li>
-</ol>
-
-<p>Drag and Drop frameworks are usually related to building the user interface of a website. Often times, these come in the form of various pages in the WordPress Dashboard that allow you to arrange pre-defined elements on a page and have them render in said arrangement for the user to see.</p>
-
-<p>Options Frameworks, on the other hand, are usually used for code-specific functionality and usually provide some type of abstraction for one or more of the WordPress APIs. This includes, but is not limited to, the Settings API, the Meta Data API (for Posts, Users, Comments, and so on), and even some of the APIs related to templates.</p>
-
-<p>Whatever the case, there are both advantages and disadvantages that come with choosing a framework all of which are important to consider when determining whether or not you're going to work with or without a framework.</p>
-
-<h3>Advantages</h3>
-
-<h4>Rapid Development</h4>
-
-<p>One of the major advantages of using a framework is the speed at which you're able to assemble functionality. </p>
-
-<p>Sometimes, people will refer to this as rapid prototyping, but WordPress frameworks have matured to a point such that you can often get away with creating full on interfaces, sites, and applications - not <em>just</em> prototypes - when working with the API.</p>
-
-<p>Though building content-driven sites with WordPress out-of-the-box is straightforward enough, many frameworks - especially drag and drop frameworks - make it that much faster to create more elaborate page layouts.</p>
-
-<h4>Abstraction</h4>
-
-<p>For frameworks that primarily deal with WordPress' APIs, frameworks can provide a nice level of abstraction such that much of the repetitive code that we're used to writing is tucked away within the framework.</p>
-
-<p>Perhaps one of the best examples comes when looking at frameworks for the <a href="http://codex.wordpress.org/Settings_API" rel="external" target="_blank">Settings API</a>. The Settings API, although powerful, is also verbose and cumbersome when it comes to getting elements to display on the screen. Frameworks seek to solve this problem by providing a way to more easily create settings, options, and settings with fewer function calls and clearer code.</p>
-
-<p>Of course, abstractions comes not just with the Settings API but for other APIs, as well. Opting to use one of these frameworks can save a lot of time and help ease the tedious nature that comes with working with some of the more repetitive aspects of WordPress-based code.</p>
-
-<h4>Visual Representation</h4>
-
-<p>Another advantage of using frameworks is that it helps bridge the gap between what we're expecting to happen and what really happens. </p>
-
-<p>This is most easily seen within drag and drop frameworks: You have a predefined set of regions with which to work such as headers, sidebars, content areas, and footer areas, and then you place the regions where you'd like within a container. Once done, said regions appear exactly on the front-end as you've arranged them on the back-end.</p>
-
-<p>The same can also be said for API-specific frameworks, too. Although the visual nature of writing code isn't as clear as working with a page template editor, good frameworks can often provide clear classes, function names, and other facilities all of which help to more easily understand how all of the moving pieces of the software fit together.</p>
-
-<p>One such example may come in the form of creating a setting in the WordPress Dashboard. Say, for example, you want to introduce a <code class="inline">textarea</code> that is only going to support plain-text (that is, no markup or scripts allowed), and you need to label it, sanitize its data, validate its data, and display its data.</p>
-
-<p>Using a framework, what may take three different function calls and at least two callbacks to do can be done in a single function call with perhaps one or two callbacks. On top of that, the function names are a bit clearer and are more indicative of the work they're doing and the type of elements with which they're doing it.</p>
-
-<h3>Disadvantages</h3>
-
-<h4>Dependency Management</h4>
-
-<p>On the flip-side, if you opt to use a framework then you're automatically creating a dependency between yourself, third-party code, and WordPress.</p>
-
-<p>This means that if your code is based on a framework, and that framework is based on WordPress, then the abilities of the framework are limited only by the most recent version of WordPress that it supports.</p>
-
-<p>If the framework stays up to date with WordPress as it undergoes development, and the framework is released along with the major updates of WordPress, then keeping your code in sync with the most recent developments is easy.</p>
-
-<p>On the other hand, if the framework lags behind the most recent version of WordPress, then your code can only be as updated (and as secure and reliable) as the most recent version of WordPress that your framework supports.</p>
-
-<h4>Deprecation</h4>
-
-<p>Another challenge that comes with using frameworks is that, many times, frameworks are elaborate wrappers for existing functionality that exists within WordPress. To that end, there are going to be times where frameworks provide access to functions that may not always be available as WordPress is updated.</p>
-
-<p>Say, for example, you have a framework that provides access to a certain API that becomes deprecated in the latest version of the core application. Furthermore, the framework does not properly deprecate its code until another release cycle.</p>
-
-<p>This means that the code that you've written based on the framework is using deprecated function calls. For a release or two, this may not be a big deal, but once that functionality is gone from the core application and the framework hasn't addressed this, then you may not be able to use the latest version of WordPress or some of its newer features because the framework hasn't properly deprecated its code with that of core.</p>
-
-<h3>Feature Limitation</h3>
-
-<p>Frameworks can be really powerful, but when it comes to using them, it's often times a good idea to go "all-in." That is to say that when you use a framework, it's usually nice to write all of your code using the framework rather than <em>some</em> of the code using the framework and <em>some</em> of the code using the WordPress APIs. </p>
-
-<p>In other words, you don't want to mix the code that you're writing such that you have a bit of a hodgepodge of code that's sort of based on a framework and sort of, you know, not based on a framework.</p>
-
-<p>After all, the purpose of a framework as defined earlier is to provide an abstraction for generic functionality.</p>
-
-<p>To that end, if a framework is incomplete or lacking functionality specifically for something that's provided with WordPress core, then you're left with one of two options:</p>
+<p>Em relação ao WordPress, atualmente (e geralmente) há dois tipos de <em>frameworks</em>:</p>
 
 <ol>
-  <li>Forgo the feature that you want to use and wait for the framework to make it available,</li>
-  <li>Side-step the framework and use core WordPress code alongside your framework-based code in order to achieve the desired result.</li>
+  <li><em>Frameworks</em> de Arrastar e soltar</li>
+  <li><em>Frameworks</em> de Opções</li>
 </ol>
 
-<p>Initially, it seems clear that if the framework doesn't offer something that you need, then simply use what WordPress provides. But when you do this, you're mixing the type of code that you're writing such that you're introducing a level of complexity when it comes to maintaining the software.</p>
+<p>Geralmente, os <em>frameworks</em> de arrastar e soltar são usados para a construção da interface de usuário do site. Inúmeras vezes, elas vem na forma de diversas páginas administrastivas no Painel do WordPress, permitindo que você ajustes elementos pré-definidos em uma página, com o resultado final gerado na ordem criada para o usuário final ver.</p>
 
-<p>If a framework later introduces a set of features that cover what you once wrote as vanilla WordPress code, you'll be tasked with updating said code to conform to that of the framework. From there, if the framework isn't continually updated to stay current with WordPress, then you're back at the dependency and deprecation problems.</p>
+<p>Por outro lado, os <em>frameworks</em> de opções usão funcionalidade através de códigos e costumam prover vários tipos de abstrações em cima de uma ou mais APIs do WordPress. Isso inclui, mas não se limita a, API de Configurações (<em>Settings API</em>), API de Meta Dado (para os Posts, Usuários, Comentários e por aí vai), e até algumas APIs relacionadas a modelos.</p>
 
-<h2>Conclusion</h2>
+<p>Qualquer que seja o caso, há vantagens e desvantagens para cada tipo de <em>framework</em>, as quais são importantes considerar ao escolher se você trabalhar com uma dada <em>framework</em> ou não.</p>
 
-<p>It's not easy to outline all of the advantages and disadvantages that come with using a framework let alone make a choice on whether or not you should even use one, but the points mentioned above are some of the most common considerations anyone working with WordPress and frameworks should consider before selecting a framework and going all-in with it.</p>
+<h3>Vantagens</h3>
 
-<p>Furthermore and as previously mentioned, this article isn't meant to provide an argument for or against using frameworks with WordPress. Instead, it's meant to provide both advantages and disadvantages for using frameworks in order to help you make a better decision as it relates to your work in WordPress.</p>
+<h4>Desenvolvimento Rápido</h4>
 
-<p>As with anything in development, there are going to be tradeoffs. It often comes down to <em>what</em> you're willing to tradeoff in favor of functionality, dependencies, and stability while balancing the core software that's always under development and has major releases roughly every six months.</p>
+<p>Uma das maiores vantagens em usar um <em>framework</em> é a velocidade que você é capaz de alcançar em gerar funcionalidades. </p>
 
-<p>Depending on the nature of your work, a framework might be the way to go; for others, not so much. Whatever the case, make sure that you do your due diligence when deciding whether or not to use a framework in your current or upcoming projects.</p>
+<p>Algumas vezes, as pessoas referem-se a isso como prototipação rápida, mas os <em>frameworks</em> WordPress amadureceram tanto que, geralmente, você é capaz de criar interfaces, sites e aplicações complets &mdash; não <em>apenas</em> protótipos &mdash; ao trabalhar com a API oferecida.</p>
+
+<p>Embora a construção de sites focados em conteúdo com WordPress é bem simples e direto, mesmo sem quaisquer <em>frameworks</em>, muitos deles &mdash; especialmente as de arrastar e soltar &mdash; tornam essa tarefa muito mais rápida ao criar <em>layouts</em> mais elaborados para as páginas.</p>
+
+<h4>Abstração</h4>
+
+<p>Para os <em>frameworks</em> que lidam com APIs do WordPress, eles podem prover um bom nível de abstração, como o código repetitivo que estamos acostumados a escrever já vem embutido no <em>framework</em>.</p>
+
+<p>Talvez um dos melhores exemplos estejam nos <em>frameworks</em> para a <a href="http://codex.wordpress.org/Settings_API" rel="external" target="_blank">API de Configuração</a>. A API de Configuração, embora poderosa, também é muito verbosa e incômoda quando precisamos buscar os elementos para apresentar na tela. Os <em>frameworks</em> tentar resolver esse problema probendo uma maneira mais fácil de criar configurações e opções com o mínimo de chamadas possível e um código mais limpo.</p>
+
+<p>Claro, abstrações não existem apenas para a API de Configuração. Escolher usar um desses <em>frameworks</em> pode economizar muito do seu tempo e ajudá-lo nas tarefas tediosas que precisam de muito código repetitivo no WordPress.</p>
+
+<h4>Representação Visual</h4>
+
+<p>Outra vantagem em usar <em>frameworks</em> é que eles ajudam a diminuir a lacuna entre o que esperamos que aconteça e o que realmente acontecerá. </p>
+
+<p>Percebemos isso, principalmente, nos <em>frameworks</em> de arrastar e soltar: Você tem conjuntos prédefinidos de regiões com as quais se deve trabalhar, como cabeçalhos, barras laterais, áreas de conteúdos e rodapés. Então, você posiciona as regiões dentro de um recipiente (<em>container</em>). Uma vez feito isso, tais regiões aparecerão no <em>frontend</em>, exatamente, como você as arranjou no <em>backend</em>.</p>
+
+<p>O mesmo pode ser dito para <em>frameworks</em> que trabalham com APIs. Embora a natureza visual da escrita de código não seja tão clara quanto trabalhar com um editor de modelos, um bom <em>frameworks</em> pode prover classes, funções e outras facilidades que ajudam a entender mais fácil como as coisas trabalham em conjunto.</p>
+
+<p>Um exmeplo disso é através da criação de uma configuração no Painel do WordPress. Digamos, por exemplo, que você quer adicionar um campo <code class="inline">textarea</code> que só aceite texto simples (isso é, sem código HTML ou <em>scripts</em>), e você precisa rotulá-lo, verificar seus dados e mostrar o resultado.</p>
+
+<p>Usando um <em>framework</em>, aquilo que poderia levar três chamadas a funções diferentes e duas funções <em>callback</em>, pode ser feito com uma única chamada a uma única função e, talvez, uma ou duas funções <em>callback</em>. Além disso, os nomes das funções são mais simples e claros, indicando o que elas realmente fazem e com que tipo de elementos elas trabalham.</p>
+
+<h3>Desvantagens</h3>
+
+<h4>Administração de Dependência</h4>
+
+<p>Por outro lado, se escolher usar um <em>framework</em>, automaticamente, criará uma dependência entre você, código de terceiros e o WordPress.</p>
+
+<p>Isso significa que seu código é baseado em um <em>framework</em> e o <em>framework</em> é baseado no WordPress, assim, as capacidades do <em>framework</em> são limitadas pela versão mais recente do WordPress que ele dá suporte.</p>
+
+<p>Se o <em>framework</em> mantém-se atualizado com o WordPress enquanto está em desenvolvimento, e o <em>framework</em> tem lançamentos liberados junto com atualizações maiores do WordPress, será fácil manter seu código em sincronia com as versões mais recentes.</p>
+
+<p>Por outro lado, se o <em>framework</em> não se atualiza para a versão mais recente do WordPress, seu código só pode estar tão atualizado (seguro e garantido) quanto a versão mais recente do WordPress suportada pelo <em>framework</em>.</p>
+
+<h4>Deprecação</h4>
+
+<p>Outro desafio que existe ao usar <em>frameworks</em> é que, muita vezes, os <em>frameworks</em> são envóluvros elaborados para funcionalidade já existente dentro do próprio WordPress. Por conta disso, terá vezes que os <em>frameworks</em> proverão acessos a funções que talvez não estejam disponívels no WordPress após alguma atualização.</p>
+
+<p>Digamos, por exemplo, que você usa um <em>framework</em> que provê acesso a certas APIs que se tornam deprecadas na versão mais recente do WordPress. Além do mais, o <em>framework</em> não depreca seu código até que seja lançada uma nova versão.</p>
+
+<p>Isso significa que o código criado com base no código da <em>framework</em> está invocando funções deprecadas. Por um ou dois lançamentos, isso pode nao ser problema, mas, uma vez que a funcionalidade já não existe mais no WordPress e o <em>framework</em> ainda não resolveu isso, talvez você não possa usar a versão mais recente do WordPress ou algumas das novas funcionalidades, uma vez que o <em>framework</em> não deprecou corretamente seu código em relação ao código do WordPress.</p>
+
+<h3>Limitação de Funcionalidades</h3>
+
+<p>Os <em>frameworks</em> pode sem bem poderosos, mas ao usá-los, algumas vezes é uma boa ideia usá-la por completo. Isso é, ao usar um <em>framework</em>, é bom criar todo seu código usando o <em>framework</em> como base, ao invés de apenas uma parte do código usar o <em>framework</em> e outra parte usar as APIs do WordPress diretamente.</p>
+
+<p>Em outras palavras, você não quer misturar códigos, com uma parte usando o <em>framework</em> que você conhece e outra parte que não use o <em>framework</em>.</p>
+
+<p>No fim das contas, o propósito de um <em>framework</em>, como definido anteriormente, é prover uma abstração para funcionalidades genéricas.</p>
+
+<p>Por isso, se um <em>framework</em> está incompleta ou não tem alguma funcionalidades específica que o WordPress oferece, você tem duas opções a tomar:</p>
+
+<ol>
+  <li>Renunciar aquela funcionalidade e esperar o <em>framework</em> disponibilizá-la,</li>
+  <li>Deixar o <em>framework</em> de lado e usar o código base do WordPress junto do seu código baseado no <em>framework</em> para alcançar o resultado desejado.</li>
+</ol>
+
+<p>Inicialmente, parece claro que, se o <em>framework</em> não oferece algo que você precisa, basta usar o que o WordPress oferece. Mas, ao fazer isso, vocês estará misturando tipos de código (do <em>framework</em> e do WordPress), gerando um nível a mais de complexidade para a manutenção do <em>software</em>.</p>
+
+<p>Se depois o <em>framework</em> introduz um conjunto de funcionalidades que cobre o código que você escreveu usando o código base do WordPress, você terá a tarefa de atualizar tal código para adaptar-se ao <em>framework</em>. A partir daí, se o <em>framework</em> não se mantiver atualizado com o WordPress, você voltará a ter os problemas de deprecação e administração de dependências.</p>
+
+<h2>Conclusão</h2>
+
+<p>Não é fácil listar todas as vantagens e desvantagens ao usar um <em>framework</em>, muito menos escolher se é preciso usar um, mas os pontos mencionados acima são algumas das considerações mais comuns que alguém que trabalha com WordPress <em>frameworks</em> deveriam ter em mente, antes de selecionar um <em>framework</em>.</p>
+
+<p>Além do mais, como mencionado anteriormente, este artigo não foi escrito para servir como argumento a favor ou contra o uso de <em>frameworks</em> para WordPress. Ao invés disso, foi escrito para apresentar tanto as vantagens e desvantagens do uso de <em>frameworks</em>, para ajudá-lo a tomar uma melhor decisão.</p>
+
+<p>Como qualquer coisa no mundo do desenvolvimento, sempre haverá alguma troca. Sempre será algo relacionado <strong>ao que você quer trocar</strong> em favor de alguma funcionalidade, dependência ou estabilidade, ao mesmo tempo que pesa o <em>software</em> base que sempre está sob desenvolvimento e possuirá lançamentos de novas versões a cada seis meses.</p>
+
+<p>Dependendo da natureza do seu trabalho, um <em>framework</em> pode ser uma das formas de dar sequência; para outros, nem tanto. Qualquer que seja o caso, tenha certeza de averiguar tudo que for possível na hora de decidir em usar, ou não um <em>framework</em> em seu projeto atual ou em projetos futuros.</p>
