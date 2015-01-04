@@ -1,48 +1,48 @@
-<h1>Fifty Actions of WordPress – 50 Examples (31 to 40)</h1>
+<h1>50 Ações Para WordPress – 50 Exemplos (31 a 40)</h1>
 
-<p>If you're just joining us, we're currently working through 50 (of the many) actions that are available in WordPress. <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-21-to-30--cms-21580" rel="external" target="_blank">In the last post</a>, we covered 21 - 30 so we'll keep the pace going with another set in this post.</p>
+<p>Se estiver começando esta série por esse artigo, estamos falando sobre 50 (das inúmeras) ações disponíveis no WordPress. <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-21-to-30--cms-21580" rel="external" target="_blank">Na última postagem</a>, cobrimos as ações de número 21 até a 30. Assim, manteremos o ritmos com outro conjunto de 10 ações nesse artigo.</p>
 
-<p>If you haven't already, I recommend going back and reading the <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577" rel="external" target="_blank">introduction</a> and then reading through the following post so that you're brought up to speed with everything that we've covered thus far.</p>
+<p>Caso não tenha lido os outros, recomendo que volte, leia a <a href="https://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577" rel="external" target="_blank">introdução</a> e veja todas as ações pela série de artigos, de modo que você veja tudo que já cobrimos até agora.</p>
 
-<p>With that said, let's begin!</p>
+<p>Dito isso, é hora de começar!</p>
 
-<h2>Controlling the Default JavaScript Code</h2>
+<h2>Controlando o Código JavaScript Padrão</h2>
 
-<p>WordPress has many scripts in its core that we can load. The <code>wp_default_scripts</code> action lets us interact with the default JavaScript files.</p>
+<p>O WordPress possui vários <em>scripts</em> em sua base, os quais podemos carregar. A ação <code>wp_default_scripts</code> nos permite interagir com esses arquivos JavaScript.</p>
 
-<h3>Removing "jQuery Migrate" From a WordPress Website</h3>
+<h3>Removendo o "jQuery Migrate" de Sites WordPress</h3>
 
-<p>If you use jQuery code and you're absolutely sure that your code is compatible with jQuery version 1.9 or later, then you don't need the jQuery Migrate plugin which supports deprecated jQuery code. Here's how you can deregister it:</p>
+<p>Se você usa alguma código jQuery e tem absoluta certeza que ele é compatível com a versão 1.9 ou posterior, você não precisa do <em>plugin</em> <em>jQuery Migrate</em> que dá suporte a código obsoleto. Eis como pode removê-lo:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'wp_default_scripts', 'wp_default_scripts_example' );
 function wp_default_scripts_example( &amp;$scripts ) {
-	
+
 if ( ! is_admin() ) {
-    
+
         $scripts-&gt;remove( 'jquery' );
         $scripts-&gt;add( 'jquery', false, array( 'jquery-core' ) );
-        
+
 	}
-    
+
 }
 
-// Example Source: http://aahacreative.com/2013/08/05/remove-jquery-migrate-wordpress-36/
+// Código Fonte de Exemplo: http://aahacreative.com/2013/08/05/remove-jquery-migrate-wordpress-36/
 
 ?&gt;</pre>
 
-<p>Just to be sure, test every jQuery-related output in your frontend and make sure they still work. You don't want to break your website.</p>
+<p>Só por precaução, teste todo retorno de arquivos que usem jQuery no seu <em>frontend</em>. Você não quer seu site todo desconfigurado, quer?</p>
 
-<h2>The <code>&lt;head&gt;</code> of Your Front-End</h2>
+<h2>O <code>&lt;head&gt;</code></h2>
 
-<p>This action is fired off in the <code>wp_head()</code> function so you could insert stuff into the <code>&lt;head&gt;</code> element of the front-end pages of your website.</p>
+<p>Esta ação é ativada na função <code>wp_head()</code> para que você possa inserir alguma coisa no elemento <code>&lt;head&gt;</code> de suas páginas.</p>
 
-<h3>Utilizing Open Graph in Your Website</h3>
+<h3>Utilizando o <em>Open Graph</em> em Seu Site</h3>
 
-<p><a href="http://ogp.me/">Open Graph</a> is a very important protocol to help big guys like Facebook, Google, and Twitter understand your pages. If you provide information with the Open Graph protocol, you can define featured images, titles, summaries and such, and help them build structured and valid data for your pages.</p>
+<p>O <a href="http://ogp.me/">Open Graph</a> é um protocolo bastante importante que ajuda os grandes sites como Facebook, Google e Twitter a entenderem suas páginas. Se você prover informações com o protocolo do <em>Open Graph</em>, você pode definir imagens destacadas, títulos, resumos e muito mais, ajudando-os a construir um conjunto de dados estruturados e válidos para suas páginas.</p>
 
-<p>Let's see how we can utilize this neat protocol and inject Open Graph-related metadata in our pages' <code>&lt;head&gt;</code>s:</p>
+<p>Vejamos como podemos utilizar esse protocolo e injetar metadados do <em>Open Graph</em> no elemento <code>&lt;head&gt;</code> de nossas páginas:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -50,11 +50,11 @@ add_action( 'wp_head', 'wp_head_example' );
 
 function wp_head_example() {
 	global $post;
-	
-	// default image
+
+	// imagem padrão
 	$site_logo = get_stylesheet_directory_uri() . '/images/logo.png';
-	
-	// homepage
+
+	// página inicial
 	if ( is_home() ) {
 		echo '&lt;meta property="og:type" content="website" /&gt;';
 		echo '&lt;meta property="og:url" content="' . get_bloginfo( 'url' ) . '" /&gt;';
@@ -62,8 +62,8 @@ function wp_head_example() {
 		echo '&lt;meta property="og:image" content="' . $site_logo . '" /&gt;';
 		echo '&lt;meta property="og:description" content="' . esc_attr( get_bloginfo( 'description' ) ) . '" /&gt;';
 	}
-	
-	// single post or page
+
+	// página simples ou publicação/artigo
 	elseif ( is_singular() ) {
 		echo '&lt;meta property="og:type" content="article" /&gt;';
 		echo '&lt;meta property="og:url" content="' . get_permalink() . '" /&gt;';
@@ -77,17 +77,17 @@ function wp_head_example() {
 	}
 }
 
-// Example Source: http://wpdevsnippets.com/set-opengraph-meta-tags-fix-facebook-share/
+// Código Fonte de Exemplo: http://wpdevsnippets.com/set-opengraph-meta-tags-fix-facebook-share/
 
 ?&gt;</pre>
 
-<h2>Initializing the Theme</h2>
+<h2>Inicializando o Tema</h2>
 
-<p>Each time a theme's files has been loaded for a WordPress page, the <code>after_setup_theme</code> action is fired off. Since it's called on every page request, you can hook theme-related functions to this action.</p>
+<p>Cada vez que os arquivos de um tema são carregados para uma página do WordPress, a ação <code>after_setup_theme</code> é disparada. Uma vez que ela é invocada em cada requisição de páginas, você pode atrelar funções relacionadas ao tema à essa ação.</p>
 
-<h3>Setting Up Theme-Specific WordPress Features</h3>
+<h3>Configurando Funcionalidades Específicas do WordPress em Temas</h3>
 
-<p>There are ways to enable WordPress features for themes like post formats or featured images, but the correct way would be to create a function for them and hook the function to the <code>after_setup_theme</code> action.</p>
+<p>Há inúmeras formas de habilitar funcionalidades do WordPress para temas, como formatos de publicação ou imagens destacadas, mas a forma correta seria criar uma função para essas funcionalidades e atrelá-la à ação <code>after_setup_theme</code>.</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -103,15 +103,15 @@ function after_setup_theme_example() {
 
 ?&gt;</pre>
 
-<p>See, now our theme can have featured images, we can post videos or galleries, and our "Visual Editor" can have its own style file to make it feel more like the front-end.</p>
+<p>Agora, nosso tema pode ter imagens destacadas; podemos publicar vídeos e galerias de imagens; e nosso "Editor Visual" pode ter seu próprio arquivo de estilo para parecer mais com o <em>frontend</em> do site.</p>
 
-<h2>Adding Custom Columns to the Media List</h2>
+<h2>Adicionando Colunas Customizadas à Listagem de Mídia</h2>
 
-<p>The <code>manage_media_custom_column</code> action helps us add custom columns to the list of uploaded files in the Media Library.</p>
+<p>A ação <code>manage_media_custom_column</code> ajuda-nos a adicionar colunas customizadas à listagem de arquivos enviados na Biblioteca de Mídia.</p>
 
-<h3>Displaying the ID of Each Upload in a Column</h3>
+<h3>Mostrando o ID de Cada Arquivo em uma Coluna</h3>
 
-<p>I <em>hate</em> the process of looking up the ID of a featured image that needs to be excluded from a gallery in the same post. I really do. Luckily, I found this code snippet to show me the IDs of uploaded files in the Media Library:</p>
+<p>Eu <em>odeio</em> ter que buscar o ID de uma imagem destacada que precisa ser excluída de uma galeria. Eu realmente odeio. Encontrei esse trecho de código e ele faz com que os IDs dos arquivos enviados apareçam em uma coluna na listagem da Biblioteca de Mídia:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -130,48 +130,48 @@ function manage_media_custom_column_example( $column_name, $attachment_id ){
 }
 }
 
-// Example Source: http://wpsnipp.com/index.php/functions-php/media-library-admin-columns-with-attachment-id/
+// Código Fonte de Exemplo: http://wpsnipp.com/index.php/functions-php/media-library-admin-columns-with-attachment-id/
 
 ?&gt;</pre>
 
-<p>Hope you like it, too!</p>
+<p>Espero que você também tenha gostado desse código, porque eu gostei!</p>
 
-<h2>Comment Status Transitions</h2>
+<h2>Transições de Situação de Comentários</h2>
 
-<p>Every time a comment status changes ('approved', 'unapproved', 'spam' or 'trash'), an action hook named <code>transition_comment_status</code> will be fired. After that, another action will be called with variables in its name: <code>comment_(old_status)_to_(new_status)</code>. Let's see how the second action works.</p>
+<p>Toda vez que a situação de um comentário muda ('aprovado', 'não aprovado', 'spam' ou 'lixeira'), um gancho de ação chamado <code>transition_comment_status</code> será ativado. Após isso, outra ação será invocada com variáveis em seus nomes: <code>comment_(situacao_antiga)_to_(nova_situacao)</code>. Vejamos como a segunda ação funciona.</p>
 
-<h3>E-Mailing the Commenter After Their Comment Is Approved</h3>
+<h3>Enviando E-mail para o Comentarista Após o Comentário Ser Aprovado</h3>
 
-<p>Suppose you prevent comments to be published without you approving them first; but you also need to inform your visitors about their comments being published when they do. You can email them the good news by using these lines of code as a plugin:</p>
+<p>Suponhamos que você previna que comentários sejam publicados automaticamente sem sua aprovação; suponha também que precisa informar os visitantes sobre a publicação de seus comentários. Você pode enviar um e-mail para eles sobre a publicação do comentário, usando esse pequeno trecho de código, como um <em>plugin</em>:</p>
 
 <pre class="brush: php">&lt;?php
 
-add_action( 'comment_unapproved_to_approved', 'comment_unapproved_to_approved_example' ); 
+add_action( 'comment_unapproved_to_approved', 'comment_unapproved_to_approved_example' );
 
 function comment_unapproved_to_approved_example( $comment ) {
 
 	$commenter_email = $comment-&gt;comment_author_email;
 	$commenter_name  = $comment-&gt;comment_author;
 	$post_url = get_comment_link( $comment );
-	$subject = "Your comment is up!";
-	$message = "Hello $commenter_name,\n\nYour comment has been approved!You can view it below:\n\n$post_url\n\nThank you for sharing your ideas with us!";
+	$subject = "Comentário aprovado!";
+	$message = "Olá $commenter_name,\n\nSeu comentário foi aprovado!Você pode vê-lo no link abaixo:\n\n$post_url\n\nObrigado por compartilhar suas ideias conosco!";
 
 wp_mail( $commenter_email, $subject, $message );
 }
 
 ?&gt;</pre>
 
-<p>Now the commenters will be informed when their comments are up. From there, they may visit your post to see their comments and maybe read others. A fantastic (and easy) way to get returning visitors!</p>
+<p>Agora, os comentaristas serão informados quando seus comentários forem aprovados. A partir daí, eles podem visitar sua publicação para ver seus comentários e, quem sabe, ler os outros comentários e até outras publicações. Uma forma fácil e fantástica de fazer visitantes retornarem!</p>
 
-<h2>Handling the Loading of Page Templates</h2>
+<h2>Lidando Com o Carregamento de Modelos de Páginas</h2>
 
-<p>WordPress uses what we call "page templates" to display different types of pages like a single post, the homepage, a 404 error, search results, archives and such. And the <code>template_redirect</code> action fires off when WordPress decides which template will be used.</p>
+<p>O WordPress usa o que chamamos de "modelos de páginas" para apresentar diferentes tipos de páginas, como uma publicação simples, a página inicial, uma página de erro 404, resultados de buscas, arquivos e coisas do tipo. E a ação <code>template_redirect</code> é executada quando o WordPress decide qual modelo será usado.</p>
 
-<h3>Redirecting to the Post Permalink if There's Only One Result</h3>
+<h3>Redirecionando para a Página de uma Publicação Caso a Busca Tenha Um Único Resultado</h3>
 
-<p>Want to save your visitors a click? The code below helps you in a unique way: If there's only one post in the search results, the user will see the page of the post instead of the search result. </p>
+<p>Quer facilitar a vida dos seus visitantes? O trecho abaixo ajuda você de uma forma única: se houver apenas um resultado na busca, o usuário verá a página da publicação ao invés da página de resultado da busca. </p>
 
-<p>A neat trick, if you ask me:</p>
+<p>Um truque bem interessante, se me permite dizer:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -181,31 +181,31 @@ function template_redirect_example() {
 	if ( is_search() ) {
 
 		global $wp_query;
-        
+
 		if ( 1 == $wp_query-&gt;post_count &amp;&amp; 1 == $wp_query-&gt;max_num_pages ) {
 			wp_redirect( get_permalink( $wp_query-&gt;posts['0']-&gt;ID ) );
 			exit;
 		}
-        
+
 	}
-    
+
 }
 
-// Example Source: http://www.elegantthemes.com/blog/tips-tricks/eight-useful-code-snippets-for-wordpress
+// Código Fonte de Exemplo: http://www.elegantthemes.com/blog/tips-tricks/eight-useful-code-snippets-for-wordpress
 
 ?&gt;</pre>
 
-<p>Now, if someone searches for "guacamole" and there's just one post that mentions guacamole, the visitor will automatically be redirected to that post. </p>
+<p>Agora, se alguém pesquisa por "guacamole" e houver apenas uma publicação mencionando guacamole, o visitante será redirecionado, automaticamente, para aquela publicação. </p>
 
-<p>Cool, huh?</p>
+<p>Legal, hein?</p>
 
-<h2>Handling WordPress Feeds</h2>
+<h2>Lidando com os <em>Feeds</em> do WordPress</h2>
 
-<p>Feeds are one of the oldest features in WordPress and they still work like a clock. With the <code>do_feed</code> action (and other relevant actions), you can control how feeds are handled.</p>
+<p>Os <em>feeds</em> são das funcionalidades mais antigas do WordPress que ainda funcionam como um relógio. Com a ação <code>do_feed</code> (e outras ações relevantes), você pode controlar os <em>feeds</em>.</p>
 
-<h3>Removing WordPress Feeds Altogether</h3>
+<h3>Removendo Todos Os <em>Feeds</em> do WordPress</h3>
 
-<p>Removing feed links make feeds inaccessible for almost everyone, but if a visitor knows that you're using WordPress and they have knowledge how feeds work in WordPress, they might just try to add <code>/feed/</code> after your website URL and reach the feeds. What if you actually need to disable the feeds? This code snippet will help you disable the feeds altogether:</p>
+<p>Remover os <em>links</em> dos <em>feeds</em> torna-os inacessíveis para quase todo mundo, a não ser que o visitante saiba que você usa o WordPress e tenha conhecimento sobre <em>feeds</em> e tentem adicionar <code>/feed/</code> logo após a URL do seu site para ter acesso aos <em>feeds</em>. E se você precisar desabilitar todos de uma só vez? O trecho abaixo desabilitará todos de uma só vez para você:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -216,88 +216,88 @@ add_action( 'do_feed_rss2', 'do_feed_example', 1 );
 add_action( 'do_feed_rss',  'do_feed_example', 1 );
 
 function do_feed_example() {
-    wp_die( __( '&lt;h1&gt;Feed not available, please visit our &lt;a href="' . get_bloginfo( 'url' ) . '"&gt;Home Page&lt;/a&gt;!&lt;/h1&gt;' ) );
+    wp_die( __( '&lt;h1&gt;Feed não disponível, por favor, visite nossa &lt;a href="' . get_bloginfo( 'url' ) . '"&gt;Página Inicial&lt;/a&gt;!&lt;/h1&gt;' ) );
 }
 
-// Example Source: http://wpdevsnippets.com/disable-rss-feed/
+// Código Fonte de Exemplo: http://wpdevsnippets.com/disable-rss-feed/
 
 ?&gt;</pre>
 
-<p>Easy, right?</p>
+<p>Fácil, não é?</p>
 
-<h2>Manipulating the Toolbar</h2>
+<h2>Modificando a Barra de Ferramentas</h2>
 
-<p>The Toolbar (formerly Admin Bar) was introduced in version 3.1 of WordPress and has become the target for both hatred and love – some wants to remove it completely, some can't live without it. Anyway, the <code>admin_bar_menu</code> action is the main hook for the Toolbar which loads necessary items into the bar.</p>
+<p>A Barra de Ferramentas (antes, Barra Administrativa) foi apresentada na versão 3.1 do WordPress e tornou-se alvo de amor e discórdia – alguns querem removê-la completamente, outros não vivem sem. De qualquer forma, a ação <code>admin_bar_menu</code> é o gancho principal para a Barra de Ferramentas e que carrega os itens necessários nela.</p>
 
-<h3>Always Show the Toolbar to Everyone</h3>
+<h3>Sempre Mostrar a Barra de Ferramentas Para Todo Mundo</h3>
 
-<p>The toolbar might come in handy if it doesn't look too bad with your website design – you can use the built-in search box and add new menu items like a link to log in or a link to the contact page.</p>
+<p>A barra de ferramentas pode ser bem útil se ela não destoar muito do <em>design</em> do seu site – você pode usar o campo de busca embutido e adicionar novos itens de menu, como <em>links</em> para acesso ao painel administrativo ou um <em>link</em> para a página de contato.</p>
 
-<p>The code snippet below demonstrates a toolbar which is always shown whether the visitor is logged in or not:</p>
+<p>O trecho abaixo faz com que a barra de ferramentas sempre esteja visível, tenha o visitante feito <em>login</em> ou não:</p>
 
 <pre class="brush: php">&lt;?php
 
-add_action( 'admin_bar_menu', 'admin_bar_menu_example' );
+'add_action( 'admin_bar_menu', 'admin_bar_menu_example' );
 add_filter( 'show_admin_bar', '__return_true' , 1000 );
 
 function admin_bar_menu_example( $wp_admin_bar ) {
 
 	if ( ! is_user_logged_in() ) {
 
-		$wp_admin_bar-&gt;add_menu( array( 'title' =&gt; __( 'Log In' ), 'href' =&gt; wp_login_url() ) );
-		$wp_admin_bar-&gt;add_menu( array( 'title' =&gt; __( 'Contact' ), 'href' =&gt; 'http://www.mywebsite.com/contact/' ) );
-        
+		$wp_admin_bar-&gt;add_menu( array( 'title' =&gt; __( 'Painel Administrativo' ), 'href' =&gt; wp_login_url() ) );
+		$wp_admin_bar-&gt;add_menu( array( 'title' =&gt; __( 'Contato' ), 'href' =&gt; 'http://www.seusite.com/contato/' ) );
+
 	}
-    
+
 }
 
-// Example source: http://blog.ftwr.co.uk/archives/2011/01/05/always-show-admin-bar/
+// Código Fonte de Exemplo: http://blog.ftwr.co.uk/archives/2011/01/05/always-show-admin-bar/
 
 ?&gt;</pre>
 
-<p>See how easy it is? Now your visitors can see "Log In" and "Contact" links along with the default search box.</p>
+<p>Vê como é bem fácil? Agora, seu visitantes podem ver os <em>links</em> para o "Painel Administrativo" e de "Contato" juntos do campo de busca.</p>
 
-<h2>Controlling the Default "Categories" Widget</h2>
+<h2>Controlando o <em>Widget</em> Padrão das "Categorias"</h2>
 
-<p>You can display a list of categories with the <code>wp_list_categories()</code> function. And this action (which has the same name with the function) helps us customize the output.</p>
+<p>Você pode mostrar uma lista de categorias com a função <code>wp_list_categories()</code>. E a ação (homônima à função) ajuda-nos a customizar o retorno dela.</p>
 
-<h3>Removing the <code>title</code> Attributes of Category Links</h3>
+<h3>Removendo o Atributo <code>title</code> dos <em>Links</em> das Categorias</h3>
 
-<p>If you don't think that you need the <code>title</code> attributes of the category links in the widget, you can remove them by using these lines of code in your project:</p>
+<p>Se achar que não precisa dos atributos <code>title</code> dos <em>links</em> das categorias no <em>widget</em> de categorias, você pode removê-los usando essas poucas linhas de código em seu projeto:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'wp_list_categories', 'wp_list_categories_example' );
 
 function wp_list_categories_example() {
-return preg_replace( '` title="(.+)"`', '', $output );    
+return preg_replace( '` title="(.+)"`', '', $output );
 }
 
-// Example Source: http://wpsnipp.com/index.php/cat/remove-title-attribute-from-wp_list_categories/
+// Código Fonte de Exemplo: http://wpsnipp.com/index.php/cat/remove-title-attribute-from-wp_list_categories/
 
 ?&gt;</pre>
 
-<h2>Handling the Search Form Before Processing</h2>
+<h2>Manipulando o Formulário de Busca Antes do Processamento</h2>
 
-<p>In order to use the built-in search feature, you need to use the <code>get_search_form()</code> function. If you want to monkey with the function <em>before</em> the output is displayed, the <code>pre_get_search_form()</code> is your guy.</p>
+<p>Para usar a funcionalidade busca integrada, você precisa usar a função <code>get_search_form()</code>. Se quiser manipular essa função <em>antes</em> do resultado ser apresentado, a ação <code>pre_get_search_form()</code> é a que você precisa usar.</p>
 
-<h3>Prepending Informational Text Before the Search Form</h3>
+<h3>Adicionando Textos Informativo Antes do Formulário de Busca</h3>
 
-<p>Let's say you have a blog where you review hundreds, maybe thousands of commercial products. To inform your visitors about they can enter their barcode numbers to get to the product they need, use the following code to add some informational text before the search box.</p>
+<p>Digamos que você tem um blog onde você resenha centenhas, talvez milhares de produtos comerciais. Para informar a seus visitantes que eles podem digitar o código de barras dos produtos que precisam, use o trecho de código abaixo para adicionar um texto informativo antes do campo de busca.</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'pre_get_search_form', 'pre_get_search_form_example' );
 function pre_get_search_form_example( $form ) {
-	echo '&lt;div class="search-info"&gt;Enter your barcode number below to access the item you want.&lt;/div&gt;';
+	echo '&lt;div class="search-info"&gt;Você pode digitar o código de barras do produto que estiver procurando.&lt;/div&gt;';
 }
 
 ?&gt;</pre>
 
-<p>Note that you can use this example with the example of the <code>template_redirect</code> action so when visitors enters a barcode number, they automatically go to the product review.</p>
+<p>Note que você pode usar esse exemplo com a ação <code>template_redirect</code> para quando os usuários digitarem um código de barras, eles seja direcionados para a página da resenha do produto, automaticamente.</p>
 
-<h2>End of Part Four</h2>
+<h2>Fim da Parte Quatro</h2>
 
-<p>We went through the fourth batch of 50 actions in this article. I hope you liked and learned new things from it. Play around with what you've seen and then I'll see you in the next article.</p>
+<p>Passamos pelo quarto conjunto das 50 ações neste artigo. Espero que tenha gostado e aprendido novas coisas. Brinque um pouco com o que você aprendeu. Vejo você no próximo artigo!</p>
 
-<p>I want to hear your thoughts, too. What do you think about these actions? Post your comments below. If you liked the article, don't forget to share it!</p>
+<p>Gostaria de saber o que vocês têm achado desta série. Tem gostado das ações selecionadas? Deixe seus comentários, logo abaixo. E, caso tenha curtido o artigo, não esqueça de compartilhá-lo!</p>
