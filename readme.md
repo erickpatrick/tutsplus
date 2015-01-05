@@ -42,6 +42,7 @@ WordPress
 - [Adicionando Ganchos de Ação à Sua Framework para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/adding-action-hooks-to-your-wordpress-theme-framework--cms-21664)
 - [Adicionando Ganchos de Filtro à Sua Framework para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/adding-filter-hooks-to-your-wordpress-theme-framework--cms-21779)
 - [Adicionando Funções à sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/adding-functions-to-your-wordpress-theme-framework--cms-21717)
+- [Criando Temas Filhos para Sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/creating-child-themes-for-your-wordpress-theme-framework--cms-21933)
 - [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
 - [50 Filtros Para WordPress: Filtros 11 a 20](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-11-20--cms-21296)
 - [50 Filtros Para WordPress: Filtros 21 a 30](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-21-30--cms-21298)
@@ -49,6 +50,9 @@ WordPress
 - [50 Filtros Para WordPress: Filtros 41 a 50](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-41-50--cms-21299)
 - [50 Filtros Para WordPress: Final da Série](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-series-finale--cms-21300)
 - [50 Ações Para WordPress – Introdução](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-an-introduction--cms-21577)
+- [50 Ações Para WordPress – 50 Exemplos (1 a 10)](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-50-examples-1-to-10--cms-21578)
+- [50 Ações Para WordPress – 50 Exemplos (11 a 20)](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-50-examples-11-to-20--cms-21579)
+- [50 Ações Para WordPress – 50 Exemplos (21 a 30)](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-50-examples-21-to-30--cms-21580)
 
 HTML & CSS
 ----------
