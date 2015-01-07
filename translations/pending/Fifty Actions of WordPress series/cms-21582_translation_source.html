@@ -1,42 +1,42 @@
-<h1>Fifty Actions of WordPress – 50 Examples (41 to 50)</h1>
+<h1>50 Ações Para WordPress – 50 Exemplos (41 a 50)</h1>
 
-<p>If you've been following with us through this series, then you know we're in the homestretch in looking at our 50 actions of WordPress. For those who are just joining us, I urge you to check out <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-31-to-40--cms-21581" rel="external" target="_blank">the previous article</a> (as this picks up right where it left off) as well as the articles linked from each one prior.</p>
+<p>Se você tem nos acompanhado pela série, então você já sabe que esse é o penúltimo artigo, sendo que é o último apresentando as 50 ações para WordPress. Para aqueles que acabaram de descobrir a série, aconselho ler o <a href="https://code.tutsplus.com/tutorials/fifty-actions-of-wordpress-50-examples-31-to-40--cms-21581" rel="external" target="_blank">artigo anterior</a> (já que este continua de onde esse terminou), bem como os artigos anteriores interligados.</p>
 
-<p>That will bring you up to speed with where we're headed now.</p>
+<p>Isso deixará você a par de tudo o que já fizemos e pronto para este.</p>
 
-<p>Let's begin!</p>
+<p>É hora de começar!</p>
 
-<h2>Injecting to the <code>&lt;head&gt;</code> of Plugin Admin Pages</h2>
+<h2>Manipulando o Elemento <code>&lt;head&gt;</code> das Páginas Administrativas de <em>Plugins</em></h2>
 
-<p>Plugins have needs, too: They may need in-page scripts or styles for their own option pages. With the <code>admin_head-(plugin_page)</code> action, it's possible to inject things into the <code>&lt;head&gt;</code> tag for specific plugin pages.</p>
+<p>Os <em>plugins</em> também tem necessidades: Eles precisam de <em>scripts</em> e estilos para suas próprias páginas. Com a ação <code>admin_head-(pagina_do_plugin)</code>, é possível injetar coisas no elemento <code>&lt;head&gt;</code> de páginas de <em>plugins</em> específicos.</p>
 
-<h3>Adding Styling to Your Plugin Admin Page</h3>
+<h3>Adicionando Estilos às Páginas de Administração do Seu <em>Plugin</em></h3>
 
-<p>If you ever need to add some CSS styling to your plugin's options page, the code below will help you with that:</p>
+<p>Se você precisar adicionar algum estilo CSS à página de opções do seu <em>plugin</em>, o trecho de código abaixo ajudará nisso:</p>
 
 <pre class="brush: php">&lt;?php
 
-add_action( 'admin_head-tools_page_myplugin/myplugin', 'admin_head_plugin_page_example' );
+add_action( 'admin_head-ferramentas_de_pagina_meuplugin/meuplugin', 'admin_head_plugin_page_example' );
 
 function admin_head_plugin_page_example() {
 echo '&lt;style type="text/css"&gt;'
-       . '/* your style here */'
+       . '/* seu estilo aqui */'
        . '&lt;/style&gt;';
 }
 
-// Example Source: http://codex.wordpress.org/Plugin_API/Action_Reference/admin_head-(plugin_page)
+// Código Fonte de Exemplo: http://codex.wordpress.org/Plugin_API/Action_Reference/admin_head-(plugin_page)
 
 ?&gt;</pre>
 
-<p>Change the commented-out line with your CSS code, replace the second part of the action name (<code>tools_page_myplugin/myplugin</code>) with your own plugin and you're good to go!</p>
+<p>Altere a linha comentada com o seu código CSS, substitua a segunda parte do nome da ação (<code>ferramentas_de_pagina_meuplugin/meuplugin</code>) com o nome do seu próprio <em>plugin</em> e pronto!</p>
 
-<h2>Handling Pings Before They're Processed</h2>
+<h2>Lidando com <em>Pings</em> Antes De Serem Processados</h2>
 
-<p>"Pings" are one of the oldest features of WordPress and the <code>pre_ping</code> action lets us handle the pings before they're processed.</p>
+<p>"<em>Pings</em>" são uma das funcionalidades mais antigas do WordPress e a ação <code>pre_ping</code> permite-nos manipular os <em>pings</em> antes deles serem processados.</p>
 
-<h3>Disable Self-Pings</h3>
+<h3>Desabilitando Auto-<em>Pings</em></h3>
 
-<p>WordPress doesn't distinguish internal links from external links, when it comes to pings. To disable self-pings, you can utilize this handy little code snippet:</p>
+<p>O WordPress não diferencia <em>links</em> internos de externos, quando se trata de <em>pings</em>. Para desabilitar os auto-<em>pings</em>, utilize o trecho de código abaixo:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -48,24 +48,24 @@ function pre_ping_example( &amp;$links ) {
         if ( 0 === strpos( $link, get_home_url() ) ) {
             unset( $links[ $l ] );
         }
-        
+
 	}
-    
+
 }
 
-// Example Source: http://wpdevsnippets.com/remove-slef-pings/
+// Código Fonte de Exemplo: http://wpdevsnippets.com/remove-slef-pings/
 
 ?&gt;</pre>
 
-<p>From now on, your WordPress installation will not ping its own posts.</p>
+<p>De agora em diante, sua instalação WordPress não fará <em>pings</em> de suas próprias publicações.</p>
 
-<h2>Working With the <code>get_header()</code> Function</h2>
+<h2>Manipulando a Função <code>get_header()</code></h2>
 
-<p>The <code>get_header</code> action is called when the template calls the <code>get_header()</code> function, making it perfect for functions that modify the header of WordPress' front-end.</p>
+<p>A ação <code>get_header</code> é invocada quando o modelo chama a função <code>get_header()</code>, tornando-a perfeita para funções que modificam o <em>frontend</em> dos cabeçalhos de páginas no WordPress.</p>
 
-<h3>Activate a Simple Maintenance Mode</h3>
+<h3>Ativando Um Simples Modo de Manutenção</h3>
 
-<p>If you're in a hurry and don't have time to install a "maintenance mode" plugin and set its options, you can simply use the code below and give a <code>wp_die()</code> error to everyone except administrators:</p>
+<p>Se estiver com pressa e não tem tempo de instalar e configurar um <em>plugin</em> de "modo de manutenção", você pode usar o trecho de código abaixo e lançar um erro com <code>wp_die()</code> para todo mundo, exceto administradores:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -76,22 +76,22 @@ function get_header_example() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_die( 'The website will be back soon.' );
 }
-    
+
 }
 
-// Example Source: http://wp-snippets.com/articles/7-code-snippets-you-should-use-on-every-site/
+// Código Fonte de Exemplo: http://wp-snippets.com/articles/7-code-snippets-you-should-use-on-every-site/
 
 ?&gt;</pre>
 
-<p>Since only administrators (and super admins) have the <code>'activate_plugins'</code> capability, the website will be shut down to everyone except admins.</p>
+<p>Como só administradores (e super administradores) tem a regra <code>'activate_plugins'</code>, o site será desligado para todo mundo, exceto administradores.</p>
 
-<h2>Tampering With the <code>&lt;head&gt;</code> of the Login Page</h2>
+<h2>Alterando o Elemento <code>&lt;head&gt;</code> da Página de <em>Login</em></h2>
 
-<p>The <code>login_head</code> action helps us control the <code>&lt;head&gt;</code> tag on the login page.</p>
+<p>A ação <code>login_head</code> ajuda-nos a controlar o elemento <code>&lt;head&gt;</code> da página de login.</p>
 
-<h3>Removing the Shake Effect for Incorrect Credentials</h3>
+<h3>Removendo o Efeito de "Tremer" para Credenciais Incorretas</h3>
 
-<p>If you don't like that "shake" effect when a user submits incorrect login information, you can use the function below to remove it:</p>
+<p>Se você não gosta que o formulário "trema" toda vez que um usuário submete credenciais incorretas, você pode usar a função abaixo para removê-lo:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -100,21 +100,21 @@ function login_head_example() {
 remove_action( 'login_head', 'wp_shake_js', 12 );
 }
 
-// Example Source: http://wordpress.org/support/topic/plugin-simplemodal-login-remove-shake-effect
+// Código Fonte de Exemplo: http://wordpress.org/support/topic/plugin-simplemodal-login-remove-shake-effect
 
 ?&gt;</pre>
 
-<p>I like the effect, though.</p>
+<p>Bom, eu gosto desse efeito, mas...</p>
 
-<h2>Working With the Footer of the Dashboard</h2>
+<h2>Manipulando o Rodapé do Painel</h2>
 
-<p>On occasion, we might want to control the footer of our admin panels – not the footer section per se, but the part before the  <code>&lt;/body&gt;</code> tag. The <code>admin_footer</code> action does exactly that.</p>
+<p>Em algum momento, podemos querer ter controle sobre o rodapé dos painéis administrativos – não a seção do rodapé em si, mas aquela parte anterior à <em>tag</em> <code>&lt;/body&gt;</code>. A ação <code>admin_footer</code> serve para isso.</p>
 
-<h3>Adding Quick Styles for Post Statuses</h3>
+<h3>Adicionando Estilos para Estados de Publicações</h3>
 
-<p>Having a consistent set of colors is one of the reasons that makes WordPress' admin panel beautiful, but I don't think there's any harm in some color-coding for things that need to be separated visually – like different post statuses. </p>
+<p>Possuir uma paleta de cores consistente é um dos motivos do painel administrativo do WordPress ser tão bonito, mas não vejo problema algum em adicionar alguns padrões de cores para algo que precisa ser visto separadamente – como os estados das publicações. </p>
 
-<p>If you're like me and want to be able to distinguish published posts from drafts or other post statuses, use the code below:</p>
+<p>Se você for como eu e quer distinguir postagens publicadas dos rascunhos e de outros tipos de publicações, uso o trecho abaixo:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -130,17 +130,17 @@ function admin_footer_example() {
 
 }
 
-// Example Source: http://wpsnipp.com/index.php/functions-php/change-admin-postpage-color-by-status-draft-pending-published-future-private/
+// Código Fonte de Exemplo: http://wpsnipp.com/index.php/functions-php/change-admin-postpage-color-by-status-draft-pending-published-future-private/
 
 ?&gt;</pre>
 
-<h2>Enqueuing Scripts and Styles in the Login Page</h2>
+<h2>Registrando <em>Scripts</em> e Estilos na Página de <em>Login</em></h2>
 
-<p>We can enqueue stuff to the frontend with <code>wp_enqueue_scripts</code>, and we can enqueue stuff to the back end with <code>admin_enqueue_scripts</code>. What about the login page? You guessed it: This time the <code>login_enqueue_scripts</code> is our hook!</p>
+<p>Podemos registrar arquivos para o <em>frontend</em> com a função <code>wp_enqueue_scripts</code> e podemos registrar arquivos para o <em>backend</em> com a função <code>admin_enqueue_scripts</code>. E para a página de <em>login</em>? Você acertou: É hora do gancho <code>login_enqueue_scripts</code>!</p>
 
-<h3>Changing the Logo Above the Login Form</h3>
+<h3>Alterando o Logo Acima do Formulário de <em>Login</em></h3>
 
-<p>I like the WordPress logo, but I don't think it should be shown every time my users log in to my websites. If you think the same way, you can replace the WordPress logo with your own by using this useful code snippet below:</p>
+<p>Eu gosto do logo do WordPress, mas não acho que ele deva ser mostrado toda vez que os usuários forem acessar o painel do meu site. Se você concorda comigo, você pode substituir a logo do WordPress pela sua própria, usando esse útil trecho abaixo:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -153,85 +153,85 @@ function login_enqueue_scripts_example() {
 				. 'padding-bottom: 30px;'
 			. '}'
 		. '&lt;/style&gt;';
-    
+
 }
 
-// Example Source: http://wpsnippy.com/add-custom-login-logo-in-your-wordpress-blog/
+// Código Fonte de Exemplo: http://wpsnippy.com/add-custom-login-logo-in-your-wordpress-blog/
 
 ?&gt;</pre>
 
-<p>Put the <code>login-logo.png</code> file into the <code>/images/</code> folder of your theme and you're good to go!</p>
+<p>Coloque um arquivo de imagem <code>login-logo.png</code> dentro do diretório <code>/images/</code> do seu tema e você estará pronto!</p>
 
-<h2>Adding Custom Columns to the Users List</h2>
+<h2>Adicionando Colunas Extras à Listagem de Usuários</h2>
 
-<p>You know the user list in the "All Users" page in the admin panel? The <code>manage_users_custom_column</code> action allows us add new custom columns to that list with the help of an accompanying filter.</p>
+<p>Lembra-se da lista de usuários na página "Todos Usuários" do painel administrativo? A ação <code>manage_users_custom_column</code> permite-nos adicionar colunas extras a essa lista com a ajuda de um filtro.</p>
 
-<h3>Displaying Registration Dates of Users in a Column</h3>
+<h3>Mostrando a Data de Registro em uma Coluna</h3>
 
-<p>Suppose you need to see your members' registration dates in bulk. You can check your database records each time you need that information, or you can use this code snippet to add an extra column to the Users list:</p>
+<p>Suponha que você quer ver em lote as datas de registros dos membros. Você pode verificar os registros da sua base de dados, sempre que precisar dessa informação, ou você pode usar o trecho de código abaixo para adicionar uma coluna extra à listagem de usuários:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'manage_users_custom_column', 'manage_users_custom_column_example', 10, 3 );
 add_filter( 'manage_users_columns', 'manage_users_columns_example' );
 
-// create a new column named "Zip Code"
+// Cria uma nova coluna chamada "Data de Registro"
 function manage_users_columns_example( $columns ) {
 
-	$columns['user_registered'] = __( 'Registration Date', 'theme-name' );
+	$columns['user_registered'] = __( 'Data de Registro', 'theme-name' );
 	return $columns;
 
 }
 
-// fill the column cells with the registration dates
+// preenche as células da coluna com as datas de registros
 function manage_users_custom_column_example( $value, $column_name, $user_id ) {
 
 	if ( 'user_registered' == $column_name ) {
-    
+
 		$userdata = get_userdata( $user_id );
 		return $userdata-&gt;user_registered;
-        
+
 	}
-    
+
 }
 
-// Example Source (Idea): http://tommcfarlin.com/add-custom-user-meta-during-registration/
+// Código Fonte de Exemplo (da ideia): http://tommcfarlin.com/add-custom-user-meta-during-registration/
 
 ?&gt;</pre>
 
-<p>Now you know more about your members.</p>
+<p>Agora, você sabe um pouco mais sobre seus usuários.</p>
 
-<h2>Working With Plugin Activations</h2>
+<h2>Manipulando Ativações de <em>Plugins</em></h2>
 
-<p>What do you do when you need to check when a plugin is activated in WordPress? Well, you use the <code>activated_plugin</code> hook: This handy little action is fired on plugin activation.</p>
+<p>O que você precisa fazer quando quer saber se um <em>plugin</em> está ativo no WordPress? Bem, você usa o gancho <code>activated_plugin</code>: Essa pequena e útil ação é executada na ativação de <em>plugins</em>.</p>
 
-<h3>Sending an Email to the Admin Each Time a Plugin Is Activated</h3>
+<h3>Enviando E-mail para o Administrador Sempre Que um <em>Plugin</em> é Ativado</h3>
 
-<p>Suppose you have lots of client websites (which were installed with your email address) and you need to be informed when clients installs and activates a new plugin on their websites. </p>
+<p>Suponha que você tenha vários sites de clientes (que foram instalados usando seu endereço de e-mail) e você precisa informar quando clientes instalam e ativam novos <em>plugins</em> em seus sites. </p>
 
-<p>Just use this function and hook it to <code>activated_plugins</code> and you're good to go:</p>
+<p>Apenas use essa função e atrele-a à ação <code>activated_plugins</code> e pronto:</p>
 
 <pre class="brush: php">&lt;?php
 
 add_action( 'activated_plugin', 'activated_plugin_example', 10, 2);
 function activated_plugin_example( $plugin, $network_activation ) {
-	
+
 $to			= get_option( 'admin_email' );
-	$subject	= 'A plugin has been activated';
-	$body		= "Hey,\n\nThe following plugin has just been activated:\n\n$plugin\n\nCheers!";
-	
+	$subject	= 'Um plugin foi ativado';
+	$body		= "Ei,\n\nO plugin abaixo foi ativado:\n\n$plugin\n\nAté!";
+
     wp_mail( $to, $subject, $body );
 }
 
 ?&gt;</pre>
 
-<h2>Handling the Color Scheme Options</h2>
+<h2>Manipulando as Opções de Paleta de Cores</h2>
 
-<p>Since WordPress 3.0, we have "color schemes" for the admin panel and we're allowed to edit, add or remove the color schemes. And the <code>admin_color_scheme_picker</code> action makes it possible for users to change the color scheme.</p>
+<p>Desde a versão 3.0 do WordPress, nós temos "paletas de cores" para o painel administrativo e não somos permitidos editar, adicionar ou removê-las. A ação <code>admin_color_scheme_picker</code> resolve esse problema!</p>
 
-<h3>Removing the Option to Change Color Schemes</h3>
+<h3>Removendo a Opção de Alterar as Paletas de Cores</h3>
 
-<p>This example doesn't need much introduction: If you ever need to take away the right to change color schemes from your users (say, because you have a special color scheme and you don't want your users to change it back to the default), use the code snippet below to remove the option:</p>
+<p>Este exemplo não precisa de muita introdução: Se precisar remover a opção de alterar a paleta de cores (talvez você tenha uma paleta de cores especial e não quer que os usuários voltem para a padrão), use o trecho abaixo e remova a opção:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -239,19 +239,19 @@ if( is_admin() ) {
 	remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
 }
 
-// Example Source: http://wpsnipp.com/index.php/functions-php/remove-admin-color-scheme-picker-from-profile/
+// Código Fonte de Exemplo: http://wpsnipp.com/index.php/functions-php/remove-admin-color-scheme-picker-from-profile/
 
 ?&gt;</pre>
 
-<p>Hey, we just removed a function from an action hook with the same name. I know, it's weird.</p>
+<p>Veja só, acabamos de remover uma função de um gancho de ação de mesmo nome! Eu sei, eu sei... é bem estranho.</p>
 
-<h2>Handling the Process of Logging Out</h2>
+<h2>Manipulando o Processo de Saída do Sistema</h2>
 
-<p>Users log in, users log out, and when they log out, the <code>wp_logout</code> action is called.</p>
+<p>Usuário acessam e saem do painel administrativo, e quando eles saem, a ação <code>wp_logout</code> é chamada.</p>
 
-<h3>Redirecting User to the Homepage After Logout</h3>
+<h3>Redirecionando o Usuário para a Página Inicial Após Saída</h3>
 
-<p>Logging out from a WordPress website is kind of weird: You're redirected to the login page, like WordPress needs you to log in again. Here's how you fix the situation and redirect users to homepage when they log out:</p>
+<p>Sair do painel administrativo de um site em WordPress é um pouco estranho: Você é redirecionado para a página de acesso, como se o WordPress quisesse que você acessasse o painel novamente. Eis como ajustar essa situação e redirecionar seus usuários para a página inicial:</p>
 
 <pre class="brush: php">&lt;?php
 
@@ -262,14 +262,14 @@ function wp_logout_example() {
 	exit();
 }
 
-// Example Source: http://wpsnippy.com/auto-redirect-users-after-logout/
+// Código Fonte de Exemplo: http://wpsnippy.com/auto-redirect-users-after-logout/
 
 ?&gt;</pre>
 
-<p>Now each time a user logs out, they will see the the homepage instead of the login form.</p>
+<p>Agora, toda vez que um usuário sair, ele será direcionado para a página inicial.</p>
 
-<h2>End of Part Five</h2>
+<h2>Fim da Parte Cinco</h2>
 
-<p>We've just completed through through the last batch of 50 actions in this article. I hope you liked and learned new things from it. In the next article, we're going to have a quick look at what we've seen and close the series. </p>
+<p>Enfim, terminamos o último conjunto das 50 ações neste artigo. Espero que tenha gostado e aprendido novas coisas. Brinque um pouco com o que você aprendeu. No próximo artigo, daremos uma revisada naquilo que vimos e encerraremos a série. </p>
 
-<p>I want to hear your thoughts, too. What do you think about these actions? Post your comments below. If you liked the article, don't forget to share it!</p>
+<p>Gostaria de saber o que vocês têm achado desta série. Tem gostado das ações selecionadas? Deixe seus comentários, logo abaixo. E, caso tenha curtido o artigo, não esqueça de compartilhá-lo!</p>
