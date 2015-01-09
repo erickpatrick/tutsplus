@@ -55,6 +55,7 @@ WordPress
 - [50 Ações Para WordPress – 50 Exemplos (21 a 30)](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-50-examples-21-to-30--cms-21580)
 - [50 Ações Para WordPress – 50 Exemplos (31 a 40)](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-50-examples-31-to-40--cms-21581)
 - [50 Ações Para WordPress – 50 Exemplos (41 a 50)](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-50-examples-41-to-50--cms-21582)
+- [50 Ações Para WordPress – Final da Série](http://code.tutsplus.com/pt/tutorials/fifty-actions-of-wordpress-series-finale--cms-21583)
 
 HTML & CSS
 ----------
