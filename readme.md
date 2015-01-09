@@ -98,6 +98,7 @@ JavaScript
 - [Contato com Depuração Moderna: Parte 1](http://code.tutsplus.com/pt/tutorials/modern-debugging-experience-part-1--cms-22571)
 - [Contato com Depuração Moderna: Parte 2](http://code.tutsplus.com/pt/tutorials/modern-debugging-experience-part-2--cms-22584)
 - [Autenticação com Tokens Usando AngularJS & NodeJS](http://code.tutsplus.com/pt/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543)
+- [O Básico Sobre as Funções Assíncronas do ES7](http://code.tutsplus.com/pt/tutorials/a-primer-on-es7-async-functions--cms-22367)
 
 Habilidades com Computadores
 ----------------------------
