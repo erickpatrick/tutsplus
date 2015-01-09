@@ -1,0 +1,286 @@
+<h1>O Básico Sobre as Funções Assíncronas do ES7</h1>
+
+<p>Se você tem acompanhado o mundo do JavaScript, provavelmente já ouviu falar das promessas (<em>promises</em>). Existem ótimos tutoriais na internet, caso queira <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_self">aprender sobre elas</a>, mas não as explicarei aqui; este artigo assumirá que você possui este conhecimento. </p>
+
+<p>As <em>promessas</em> são tidas como o futuro da programação assíncrona no JavaScript. Elas são ótimas e ajudam a resolver vários dos problemas que surgem com programação assíncrona, mas só em parte. Na verdade, as promessas são a <em>base</em> do futuro da programação assíncrona no JavaScript. Em um mundo ideal, elas serão colocadas em segundo plano e seremos capazes de criar códigos assíncronos como se eles fossem síncronos.</p>
+
+<p>No ECMAScript 7, isso será muito mais que um sonho fantástico: Isso será realidade e mostrarei a você essa realidade—chamada de funções assíncronas—agora mesmo. Por que estamos falando disso agora? Afinal de contas, o ES6 nem foi completamente finalizado, então, quem é que sabe quanto tempo que levará para vermos o ES7. A verdade é que já podemos usar essa tecnologia agora. No final deste artigo, mostrarei como fazê-lo.</p>
+
+<h2>A Situação Atual</h2>
+
+<p>Antes de começarmos a demonstrar como usar funções assíncronas, gostaria de passar por alguns exemplos que fazem uso de promessas (usando as promessas do ES6). Depois, converterei esses exemplos para que façam uso das funções assíncronas, de modo que você veja o quão diferente fica.</p>
+
+<h3>Exemplos</h3>
+
+<p>Para nosso primeiro exemplo, faremos algo bem simples: invocaremos uma função assíncrona e registraremos o valor retornado por ela.</p>
+
+<pre class="brush: javascript">function getValues() {
+return Promise.resolve([1,2,3,4]);
+}
+
+getValues().then(function(values) {
+    console.log(values);
+});</pre>
+
+<p>Agora que temos o exemplo básico pronto, é hora de tentarmos algo mais complicado. Usarei e modificarei alguns exemplos de uma publicação do meu blog pessoal, onde falo sobre alguns <a href="http://www.joezimjs.com/javascript/patterns-asynchronous-programming-promises/" target="_self">padrões para uso de promessas</a> em vários e diferentes cenários. Cada um dos exemplos retorna, assincronamente, um vetor de valores, realizando operações assíncronas que transformam cada um dos valores do vetor, registra cada um dos valores e, finalmente, retorna o vetor com os novos valores gerados.</p>
+
+<p>Primeiro, veremos um exemplo que executará várias operações assíncronas em paralelo e, assim que forem terminando, responderá imediatamente a cada uma delas, independente da ordem que forem finalizando. A função <code class="inline">getValues</code> é a mesma do exemplo anterior. A função <code class="inline">asyncOperation</code> também será reutilizada nos exemplos posteriores.</p>
+
+<pre class="brush: javascript">function asyncOperation(value) {
+return Promise.resolve(value + 1);
+}
+
+function foo() {
+    return getValues().then(function(values) {
+        var operations = values.map(function(value) {
+            return asyncOperation(value).then(function(newValue) {
+                console.log(newValue);
+                return newValue;
+            });
+        });
+
+        return Promise.all(operations);
+    }).catch(function(err) {
+        console.log('Tivemos um ', err);
+    });
+}</pre>
+
+<p>Podemos ver exatamente a mesma coisa, porém, garantindo  que o registro dos valores aconteça na ordem dos elementos do vetor. Em outras palavras, no próximo exemplo, faremos o trabalho assíncrono em paralelo, mas o trabalho síncrono será sequencial:</p>
+
+<pre class="brush: javascript">function foo() {
+return getValues().then(function(values) {
+        var operations = values.map(asyncOperation);
+
+        return Promise.all(operations).then(function(newValues) {
+            newValues.forEach(function(newValue) {
+                console.log(newValue);
+            });
+
+            return newValues;
+        });
+    }).catch(function(err) {
+        console.log('Tivemos um ', err);
+    });
+}</pre>
+
+<p>Nosso último exemplo demonstrará um padrão onde esperamos por uma operação assíncrona anterior finalizar antes de começarmos a posterior. Não temos nada executando em paralelo neste exemplo; tudo será sequencial.</p>
+
+<pre class="brush: javascript">function foo() {
+var newValues = [];
+    return getValues().then(function(values) {
+        return values.reduce(function(previousOperation, value) {
+            return previousOperation.then(function() {
+                return asyncOperation(value);
+            }).then(function(newValue) {
+                console.log(newValue);
+                newValues.push(newValue);
+            });
+        }, Promise.resolve()).then(function() {
+        return newValues;
+        });
+    }).catch(function(err) {
+        console.log('Tivemos um ', err);
+    });
+}</pre>
+
+<p>Mesmo com a capacidade de redução de aninhamento de <em>callbacks</em> das promessas, isso não ajudará muito. Executar um número desconhecido de chamadas assíncronas sequenciais será uma bagunça, não importa o que faça. É, especialmente, apavorante ver todas essas palavras-chave <code class="inline">return</code> aninhadas. Se passássemos o vetor <code class="inline">newValues</code> pelas promessas da função <em>callback</em> <code class="inline">reduce</code>, ao invés de torná-la global para toda a função <code class="inline">foo</code>, precisaríamos ajustar o código para termos ainda mais <code>return</code>s aninhados, dessa forma:</p>
+
+<pre class="brush: javascript">function foo() {
+return getValues().then(function(values) {
+        return values.reduce(function(previousOperation, value) {
+            return previousOperation.then(function(newValues) {
+                return asyncOperation(value).then(function(newValue) {
+                    console.log(newValue);
+                    newValues.push(newValue);
+                    return newValues;
+                });
+            });
+        }, Promise.resolve([]));
+    }).catch(function(err) {
+        console.log('Tivemos um ', err);
+    });
+}</pre>
+
+<p>Não concorda que precisamos ajustar isso? Vejamos uma solução.</p>
+
+<h2>Funções Assíncronas ao Resgate</h2>
+
+<p>Mesmo com promessas, programação assíncrona não é simples e não necessariamente fluirá bem de A à Z. Programação síncrona é muito mais simples e é criada e lida de forma muito mais natural. A <a href="https://github.com/lukehoban/ecmascript-asyncawait" target="_self">especificação das Funções Assíncronas</a> busca uma forma (usando os <a href="http://davidwalsh.name/async-generators" target="_self">geradores do ES6</a>, por trás dos panos) de criar seu código como se fosse síncrono.</p>
+
+<h3>Como Os Utilizamos?</h3>
+
+<p>A primeira coisa que precisamos fazer é prefixar nossas funções com a palavra-chave <code class="inline">async</code>. Sem essa palavra-chave em seu devido lugar, não poderemos usar a super importante palavra-chave <code class="inline">await</code> dentro da função, a qual explicaremos daqui a pouco. </p>
+
+<p>A palavra-chave <code class="inline">async</code> não apenas nos permite usar a palavra-chave <code class="inline">await</code>, como também garante que a função retornará um objeto do tipo <code class="inline">Promise</code>. Dentro da função assíncrona, toda vez que você retornar algum valor, a função, na verdade, retornará um objeto <code class="inline">Promise</code> que será resolvido com aquele valor. A forma de rejeição é lançar um erro, no qual o valor da rejeição será um objeto de erro. Eis um exemplo simples:</p>
+
+<pre class="brush: javascript">async function foo() {
+if( Math.round(Math.random()) )
+        return 'Sucesso!';
+    else
+        throw 'Falhou!';
+}
+
+// É equivalente a...
+
+function foo() {
+    if( Math.round(Math.random()) )
+        return Promise.resolve('Sucesso!');
+    else
+        return Promise.reject('Falhou!');
+}</pre>
+
+<p>Ainda nem chegamos à melhor parte e nosso código já parece mais síncrono porque pudemos parar de lidar, explicitamente, com o objeto <code class="inline">Promise</code>. Podemos usar qualquer função e fazê-la retornar um objeto <code class="inline">Promise</code>, apenas adicionando a palavra-chave <code class="inline">async</code> antes dela. </p>
+
+<p>Continuemos e convertamos nossas funções <code class="inline">getValues</code> e <code class="inline">asyncOperation</code>:</p>
+
+<pre class="brush: javascript">async function getValues() {
+return [1,2,3,4];
+}
+
+async function asyncOperation(value) {
+    return value + 1;
+}</pre>
+
+<p>Fácil! Agora, vejamos a melhor parte de todas: a palavra-chave <code class="inline">await</code>. Dentro de sua função assíncrona, toda vez que realizar uma operação que retorne uma promessa, você pode colocar a palavra-chave <code class="inline">await</code> na frente dela, e ela parará a execução do resto da função até que a promessa retornada seja resolvida ou retornada. Nesse ponto, <code class="inline">await promisingOperation()</code> avaliará o valor resolvido ou rejeitado. Por exemplo:</p>
+
+<pre class="brush: javascript">function promisingOperation() {
+return new Promise(function(resolve, reject) {
+        setTimeout(function() {
+            if( Math.round(Math.random()) )
+                resolve('Sucesso!');
+            else
+                reject('Falhou!');
+        }, 1000);
+    }
+}
+
+async function foo() {
+    var message = await promisingOperation();
+    console.log(message);
+}</pre>
+
+<p>Ao invocar <code class="inline">foo</code>, ou ele esperará até que <code class="inline">promisingOperation</code> resolva e registrará a mensagem "Sucesso!" ou esperará que <code class="inline">promisingOperation</code> rejeite, nesse caso a rejeição será retornada, e <code class="inline">foo</code> também rejeitará com "Falhou!". Como <code class="inline">foo</code> não retorna algo, ela resolverá <code class="inline">undefined</code>, assumindo que <code class="inline">promisingOperation</code> foi bem sucedida. </p>
+
+<p>Só há mais uma pergunta faltando: como resolvemos falhas? A resposta a essa pergunta é bem simples: Tudo que precisamos fazer é envolvê-la em um bloco <code class="inline">try...catch</code>. Se uma das operações forem rejeitadas, com o <code class="inline">catch</code> poderemos manipulá-la:</p>
+
+<pre class="brush: javascript">async function foo() {
+try {
+        var message = await promisingOperation();
+        console.log(message);
+    } catch (e) {
+        console.log('Nós falhamos:', e);
+    }
+}</pre>
+
+<p>Agora que sabemos do básico, peguemos nossos exemplos de promessas anteriores e os convertamos em funções assíncronas.</p>
+
+<h3>Exemplos</h3>
+
+<p>O primeiro exemplo acima, criou a função <code class="inline">getValues</code> e a usou. Nós já recriamos <code class="inline">getValues</code>, só precisamos recriar o código que faz uso dela. Há um possível problema em relação a funções assíncronas que pode surgir aqui: É <em>requerido</em> que o código esteja em função. O Exemplo anterior estava no escopo global (pelas circunstâncias, era o que se podia dizer), mas precisamos envolver nosso código assíncrono em uma função assíncrona para fazê-lo funcionar:</p>
+
+<pre class="brush: javascript">async function() {
+console.log(await getValues());
+}(); // O parênteses "()" extra executa, imediatamente, a função</pre>
+
+<p>Mesmo envolvendo o código em uma função, ainda é fácil lê-lo e tem menos <em>bytes</em> (se você remover o comentário). Nosso próximo exemplo, se você se lembrar bem, realiza tudo em paralelo. Ele é um pouco complicado, porque temos uma função interna que precisa retornar uma promessa. Se usarmos a palavra-chave <code class="inline">await</code> dentro da função interna, ela também precisará ser prefixada com <code class="inline">async</code>.</p>
+
+<pre class="brush: javascript">async function foo() {
+try {
+    var values = await getValues();
+
+        var newValues = values.map(async function(value) {
+            var newValue = await asyncOperation(value);
+            console.log(newValue);
+            return newValue;
+        });
+
+        return await* newValues;
+    } catch (err) {
+        console.log('Tivemos um ', err);
+    }
+}</pre>
+
+<p>Você talvez tenha percebido o asterisco atrelado à última declaração da palavra-chave <code class="inline">await</code>. Esse ponto ainda está em debate, mas, em essência, parece que <code class="inline">await*</code> irá auto envolver a expressão à sua direita em <code class="inline">Promise.all</code>. Hoje, porém, a ferramenta que veremos mais adiante, não suporta <code class="inline">await*</code>, assim, deveremos convertê-lo em <code class="inline">await Promise.all(newValues);</code> como faremos no próximo exemplo.</p>
+
+<p>O próximo exemplo executará as chamadas a <code class="inline">asyncOperation</code> em paralelo, mas trará todas juntas e as retornará em sequência.</p>
+
+<pre class="brush: javascript">async function foo() {
+try {
+    var values = await getValues();
+        var newValues = await Promise.all(values.map(asyncOperation));
+
+        newValues.forEach(function(value) {
+            console.log(value);
+        });
+
+        return newValues;
+    } catch (err) {
+        console.log('Tivemos um ', err);
+    }
+}</pre>
+
+<p>Amo isso. É extremamente limpo. Se removêssemos a palavra-chave <code class="inline">await</code> e a <code class="inline">async</code>, removeríamos o invólucro <code class="inline">Promise.all</code>, e tornaríamos <code class="inline">getValues</code> e <code class="inline">asyncOperation</code> em síncronas, então, esse código ainda funcionará da mesma forma, exceto que ele seria síncrono. E é exatamente o que estamos buscando fazer.</p>
+
+<p>Nosso exemplo final terá tudo executando sequencialmente, claro. Nenhuma operação assíncrona é realizada até que a anterior tenha finalizado.</p>
+
+<pre class="brush: javascript">async function foo() {
+try {
+    var values = await getValues();
+
+        return await values.reduce(async function(values, value) {
+            values = await values;
+            value = await asyncOperation(value);
+            console.log(value);
+            values.push(value);
+            return values;
+        }, []);
+    } catch (err) {
+        console.log('Tivemos um ', err);
+    }
+}</pre>
+
+<p>Novamente, tornamos a função interna em uma função assíncrona, usando <code class="inline">async</code>. Há uma peculiaridade nesse código. Passei <code class="inline">[]</code> como o valor memorizador de <code class="inline">reduce</code>, mas, então, usei <code class="inline">await</code> na função. O valor à direita de <code class="inline">await</code> não é obrigado ser uma promessa. Ele pode ser qualquer valor e, caso não seja uma promessa, não esperará por ele; ele será executado sincronamente. Claro, após a primeira execução da função <em>callback</em>, na verdade, trabalharemos com uma promessa.</p>
+
+<p>Esse exemplo é bem parecido com o primeiro exemplo, exceto que usamos a função <code class="inline">reduce</code> ao invés de <code class="inline">map</code> para que possamos esperar (<code class="inline">await</code>) a operação anterior. E por usarmos <code class="inline">reduce</code> para construir um vetor (não algo que você normalmente faria, especialmente se estiver construindo um vetor do mesmo tamanho do vetor original), precisamos construir o vetor dentro da função <em>callback</em> de <code class="inline">reduce</code>.</p>
+
+<h2>Usando Funções Assíncronas Hoje</h2>
+
+<p>Agora que você entendeu a simplicidade e grandiosidade das funções assíncronas, você deve estar com lágrimas nos olhos, assim como fiquei da primeira vez que as vi. Não estava chorando de felicidade (embora quase o tenha feito); não... estava chorando porque o ES7 não estará disponível antes deu morrer! Pelo menos foi assim que eu me <em>senti</em>. Até que descobri o <a href="https://github.com/google/traceur-compiler/" target="_self">Traceur</a><a href="https://github.com/google/traceur-compiler/)"/>. </p>
+
+<p>O Traceur é escrito e mantido pelo Google. Ele compilador fonte-a-fonte (<em>transpiler</em>), que converte códigos ES6 em ES5. E isso não ajuda! Quer dizer, não ajudaria, já que eles também implementaram o <a href="https://github.com/google/traceur-compiler/wiki/LanguageFeatures#async-functions-experimental" target="_self">suporte a funções assíncronas</a><a href="https://github.com/google/traceur-compiler/wiki/LanguageFeatures#async-functions-experimental)"/>. Ainda é uma funcionalidade experimental, significando que você precisa avisar ao compilador que você usará essa funcionalidade e que você quer testar seu código minuciosamente, para garantir que não há quaisquer problemas na compilação.</p>
+
+<p>Usar um compilador como o Traceur significa que você terá um código levemente maior e feio, enviado para o cliente. E não é isso que você quer. Mas, se usar <em>mapeamento de fonte</em> (<em>source maps</em>), ele eliminará a maior parte dos problemas relacionados ao desenvolvimento. Você lerá, escreverá e depurará código ES6/7 limpo e claro, ao invés de ler e escrever e depurar uma bagunça de código que precisa contornar as limitações atuais da linguagem. </p>
+
+<p>Claro, o tamanho do código também será maior que o que você teria escrito diretamente com código em ES5 (provavelmente), então você tem de encontrar um equilíbrio entre código manutenível e código performático, mas esse equilíbrio é algo que você precisa encontrar mesmo sem usar um compilador fonte-a-fonte.</p>
+
+<h3>Usando o Traceur</h3>
+
+<p>O Traceur é um utilitário de linha de comando que pode ser instalado através do NPM:</p>
+
+<pre class="brush: bash">npm install -g traceur</pre>
+
+<p>No geral, o Traceur é bem simples de usar, mas algumas de suas opções podem ser um pouco confusa e podem requerer alguma experimentação. Você pode ver uma <a href="https://github.com/google/traceur-compiler/wiki/Options-for-Compiling" target="_self">lista de opções</a> para maiores detalhes. A que estamos interessados é a opção <code class="inline">--experimental</code>.</p>
+
+<p>Você precisar usar essa opção para habilitar funcionalidades experimentais, que é como faremos as funções assíncronas funcionarem. Assim que tiver um arquivo JavaScript (<code class="inline">main.js</code>, nesse caso) com código assíncrono incluso, você pode apenas compilá-lo, dessa forma:</p>
+
+<pre class="brush: bash">traceur main.js --experimental --out compiled.js</pre>
+
+<p>Você também pode apenas executar o código omitindo <code class="inline">--out compiled.js</code>. Você não verá muita coisa a não ser que o código tenha expressões <code class="inline">console.log</code> (ou outros retornos de linha de comando), mas, no mínimo, você pode verificar erros. Você, com certeza, quererá executá-lo em um navegador. Se for o caso, é preciso mais alguns passos a serem tomados.</p>
+
+<ol>
+  <li>Baixe o <em>script</em> <code class="inline">traceur-runtime.js</code>. Há inúmeras maneiras de obtê-lo, mas a mais fácil é através do NPM: <code class="inline">npm install traceur-runtime</code>. O arquivo estará disponível como <code class="inline">index.js</code> dentro do diretório do módulo.</li>
+  <li>Em seu arquivo HTML, adicione uma <em>tag</em> <code class="inline">script</code> para buscar o <em>script</em> do <em>Traceur Runtime</em>.</li>
+  <li>Adicione outra <em>tag</em> <code class="inline">script</code> abaixo do <em>Traceur Runtime</em> para buscar o arquivo <code class="inline">compiled.js</code>.</li>
+</ol>
+
+<p>Após isso, seu código já deve estar pronto e funcionando!</p>
+
+<h3>Automatizando a Compilação do Traceur</h3>
+
+<p>Além de usar a ferramenta de linha de comando do Traceur, você também pode automatizar a compilação para que não precise retornar à linha de comando e reexecutar o compilador. O <a href="http://gruntjs.com/" target="_self">Grunt</a> e o <a href="http://gulpjs.com/" target="_self">Gulp</a>, que são executadores de tarefas automatizadas, possuem <em>plugins</em> que permitem você automatizar a compilação do Traceur: <a href="https://www.npmjs.org/package/grunt-traceur" target="_self">grunt-traceur</a> e <a href="https://www.npmjs.org/package/gulp-traceur/" target="_self">gulp-traceur</a>, respectivamente.</p>
+
+<p>Cada um dos executadores pode ser configurado para vigiar seu sistema de arquivos e recompilar o código no instante que você salvar alterações nos seus arquivos JavaScript. Para aprender como usar o Grunt ou o Gulp, veja as seções "<em>Getting Started</em>" das respectivas documentações.</p>
+
+<h2>Conclusão</h2>
+
+<p>As funções assíncronas do ES7 oferecem aos desenvolvedores uma forma de <em>real</em> de evitar o inferno de funções <em>callbacks</em>, de um jeito que as promessas jamais puderam fazer. Essa nova funcionalidade permite-nos criar códigos assíncronos e, embora o ES6 ainda espere pelo seu lançamento completo, já podemos usar funções assíncronas hoje, através da compilação fonte-a-fonte. O que você está esperando? Vá criar códigos extraordinários!</p>
