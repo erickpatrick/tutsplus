@@ -1,6 +1,6 @@
 <h1>Projeto de APIs RESTful com NodeJS e Restify</h1>
 
-<p>Uma API Rest consiste de dois conceitos principais: <strong>Recurso</strong> e <strong>Representação</strong>. Um <em>Recurso</em> pode ser qualquer objeto associado a um dado ou identificado a uma URI (mais de uma URI pode referir-se a um mesmo recurso), e que pode ser operado usando métodos HTTP. Uma <em>Representação</em> é uma forma de apresentar um recurso. Neste tutorial, passaremos um conteúdo teórico sobre projetos de APIs RESTful e implementaremos uma API de blog, usando o NodeJS.</p>
+<p>Uma API RESTful consiste de dois conceitos principais: <strong>Recurso</strong> e <strong>Representação</strong>. Um <em>Recurso</em> pode ser qualquer objeto associado a um dado ou identificado a uma URI (mais de uma URI pode referir-se a um mesmo recurso), e que pode ser operado usando métodos HTTP. Uma <em>Representação</em> é uma forma de apresentar um recurso. Neste tutorial, passaremos um conteúdo teórico sobre projetos de APIs RESTful e implementaremos uma API de blog, usando o NodeJS.</p>
 
 <h2>Recurso</h2>
 
@@ -117,7 +117,7 @@ Accept-Version: 1.0</pre>
 
 <h3>Projeto</h3>
 
-<p>Para projetarmos uma API RESTful, precisamos analizar o domínio do negócio. Só então podemos definir nossos recursos. Em uma API de blogs, precisamos:</p>
+<p>Para projetarmos uma API RESTful, precisamos analisar o domínio do negócio. Só então podemos definir nossos recursos. Em uma API de blogs, precisamos:</p>
 
 <ul>
   <li>Criar, Atualizar, Apagar e Visualizar um <strong>Artigo</strong></li>
@@ -146,7 +146,7 @@ Accept-Version: 1.0</pre>
     <tr>
       <td>Comentário</td>
       <td>criar Comentário, atualizar Comentário, remover Comentário, visualizar Comentário</td>
-      <td>POST /articles/123/comments com os dados, PUT /comments/123 with Payload, DELETE /comments/123 e GET /comments/123</td>
+      <td>POST /articles/123/comments com os dados, PUT /comments/123 com os dados, DELETE /comments/123 e GET /comments/123</td>
     </tr>
     <tr>
       <td>Usuário</td>
@@ -248,9 +248,9 @@ if (process.env.environment == 'production')
         console.error(JSON.parse(JSON.stringify(err, ['stack', 'message', 'inner'], 2)))
     })</pre>
 
-<p>In this code snippet, first of all the controller files that contain controller methods are iterated and all the controllers are initialized in order to execute a specific request to the URI. After that, URIs for specific operations are defined for basic CRUD operations. There is also versioning for one of the operations on Artigo. </p>
+<p>Neste trecho de código, a primeira coisa feita é iterar sobre todos os arquivos dos controladores e inicializá-los, para que uma requisição específica possa ser realizada. Após isso, URIs para operações específicas são definidas em relação às operações CRUD básicas. Também há versionamento para uma das operações em relação ao recurso <em>Artigo</em>. </p>
 
-<p>For example, if you state version as <code class="inline">2</code> in Accept-Version header, <code class="inline">viewArtigo_v2</code> will be executed. <code class="inline">viewArtigo</code> and <code class="inline">viewArtigo_v2</code> both do the same job, showing the resource, but they show Artigo resource in a different format, as you can see in the <code class="inline">title</code> field below. Finally, the server is started on a specific port, and some error reporting checks are applied. We can proceed with controller methods for HTTP operations on resources.</p>
+<p>Por exemplo, se você configurar a versão como sendo a <code class="inline">2</code> no cabeçalho <em>Accept-Version</em>, o método <code class="inline">viewArtigo_v2</code> será executado. <code class="inline">viewArtigo</code> e <code class="inline">viewArtigo_v2</code> realizam o mesmo trabalho, apresentando o recurso, mas mostram o recurso <em>Artigo</em> em formatos diferentes, como pode ser visto através do campo <code class="inline">title</code>, no exemplo abaixo. Finalmente, o servidor é iniciado numa porta específica, além da aplicação de alguns relatórios de erros. Podemos dar continuidade com os métodos dos controladores mapeados às operações HTTP em relação aos recursos.</p>
 
 <h4><strong>article.js</strong></h4>
 
@@ -265,7 +265,7 @@ exports.createArtigo = function(req, res, next) {
             res.status(500);
             res.json({
                 type: false,
-                data: "Error occured: " + err
+                data: "Erro ocorrido: " + err
             })
         } else {
             res.json({
@@ -282,7 +282,7 @@ exports.viewArtigo = function(req, res, next) {
             res.status(500);
             res.json({
                 type: false,
-                data: "Error occured: " + err
+                data: "Erro ocorrido: " + err
             })
         } else {
             if (article) {
@@ -293,7 +293,7 @@ exports.viewArtigo = function(req, res, next) {
             } else {
                 res.json({
                     type: false,
-                    data: "Artigo: " + req.params.id + " not found"
+                    data: "Artigo: " + req.params.id + " não encontrado"
                 })
             }
         }
@@ -306,7 +306,7 @@ exports.viewArtigo_v2 = function(req, res, next) {
             res.status(500);
             res.json({
                 type: false,
-                data: "Error occured: " + err
+                data: "Erro ocorrido: " + err
             })
         } else {
             if (article) {
@@ -318,7 +318,7 @@ exports.viewArtigo_v2 = function(req, res, next) {
             } else {
                 res.json({
                     type: false,
-                    data: "Artigo: " + req.params.id + " not found"
+                    data: "Artigo: " + req.params.id + " não encontrado"
                 })
             }
         }
@@ -332,7 +332,7 @@ exports.updateArtigo = function(req, res, next) {
             res.status(500);
             res.json({
                 type: false,
-                data: "Error occured: " + err
+                data: "Erro ocorrido: " + err
             })
         } else {
             if (article) {
@@ -343,7 +343,7 @@ exports.updateArtigo = function(req, res, next) {
             } else {
                 res.json({
                     type: false,
-                    data: "Artigo: " + req.params.id + " not found"
+                    data: "Artigo: " + req.params.id + " não encontrado"
                 })
             }
         }
@@ -356,83 +356,83 @@ exports.deleteArtigo = function(req, res, next) {
             res.status(500);
             res.json({
                 type: false,
-                data: "Error occured: " + err
+                data: "Erro ocorrido: " + err
             })
         } else {
             res.json({
                 type: true,
-                data: "Artigo: " + req.params.id + " deleted successfully"
+                data: "Artigo: " + req.params.id + " removido com sucesso"
             })
         }
     })
 }
 </pre>
 
-<p>You can find an explanation of basic CRUD operations on the Mongoose side below:</p>
+<p>Uma explicação básica das operações CRUD em relação ao Mongoose pode ser visto logo abaixo:</p>
 
 <ul>
-  <li><strong>createArtigo: </strong>This is a simple <strong>save </strong>operation on <code class="inline">articleModel</code> sent from the request body. A new model can be created by passing the request body as a constructor to a model like <code class="inline">var articleModel = new Artigo(req.body)</code>. </li>
-  <li><strong>viewArtigo: </strong>In order to view article detail, an article ID is needed in the URL parameter. <code class="inline">findOne</code> with an ID parameter is enough to return article detail.</li>
-  <li><strong>updateArtigo: </strong>Artigo update is a simple find query and some data manipulation on the returned article. Finally, the updated model needs to be saved to the database by issuing a <code class="inline">save</code> command.</li>
-  <li><strong>deleteArtigo: </strong><code class="inline">findByIdAndRemove</code> is the best way to delete an article by providing the article ID.</li>
+  <li><strong>createArtigo: </strong>A operação <strong>save</strong> simplesmente salva os dados recebidos no corpo da requisição, usando o modelo <code class="inline">articleModel</code>. Um novo objeto <em>Artigo</em> pode ser criado, enviando os dados do corpo da requisição para o modelo em questão, dessa forma <code class="inline">var articleModel = new Artigo(req.body)</code>. </li>
+  <li><strong>viewArtigo: </strong>Para vermos os detalhes do artigo, é preciso que tenhamos o ID de um artigo como parâmetro na URL. O método <code class="inline">findOne</code> usando o ID do parâmetro é mais que o suficiente para retornar os detalhes do artigo.</li>
+  <li><strong>updateArtigo: </strong>A atualização de um <em>Artigo</em> é uma simples consulta e manipulação de dados em relação ao artigo retornado. Por fim, o artigo atualizado precisa ser salvo na base de dados, através do comando <code class="inline">save</code>.</li>
+  <li><strong>deleteArtigo: O método </strong><code class="inline">findByIdAndRemove</code> é a melhor forma de removermos um artigo a partir do ID de um artigo.</li>
 </ul>
 
-<p>The Mongoose commands mentioned above are simply static like method through Artigo object that is also a reference of the Mongoose schema.</p>
+<p>Os comandos do Mongoose mencionados acima são quase como métodos estáticos do objeto <em>Artigo</em>, o qual é uma referência a um esquema do Mongoose.</p>
 
 <h4><strong>comment.js</strong></h4>
 
 <pre class="brush: javascript">var mongoose = require('mongoose'),
-Comentários = mongoose.model("Comentários"),
+Comentários = mongoose.model("Comentarios"),
     Artigo = mongoose.model("Artigo"),
     ObjectId = mongoose.Types.ObjectId
 
-exports.viewComentários = function(req, res) {
+exports.viewComentarios = function(req, res) {
     Artigo.findOne({"comments._id": new ObjectId(req.params.id)}, {"comments.$": 1}, function(err, comment) {
         if (err) {
             res.status(500);
             res.json({
                 type: false,
-                data: "Error occured: " + err
+                data: "Erro ocorrido: " + err
             })
         } else {
             if (comment) {
                 res.json({
                     type: true,
-                    data: new Comentários(comment.comments[0])
+                    data: new Comentarios(comment.comments[0])
                 })
             } else {
                 res.json({
                     type: false,
-                    data: "Comentários: " + req.params.id + " not found"
+                    data: "Comentário: " + req.params.id + " não encontrado"
                 })
             }
         }
     })
 }
 
-exports.updateComentários = function(req, res, next) {
-    var updatedComentáriosModel = new Comentários(req.body);
-    console.log(updatedComentáriosModel)
+exports.updateComentarios = function(req, res, next) {
+    var updatedComentariosModel = new Comentarios(req.body);
+    console.log(updatedComentariosModel)
     Artigo.update(
         {"comments._id": new ObjectId(req.params.id)},
-        {"$set": {"comments.$.text": updatedComentáriosModel.text, "comments.$.author": updatedComentáriosModel.author}},
+        {"$set": {"comments.$.text": updatedComentariosModel.text, "comments.$.author": updatedComentariosModel.author}},
         function(err) {
             if (err) {
                 res.status(500);
                 res.json({
                     type: false,
-                    data: "Error occured: " + err
+                    data: "Erro ocorrido: " + err
                 })
             } else {
                 res.json({
                     type: true,
-                    data: "Comentários: " + req.params.id + " updated"
+                    data: "Comentário: " + req.params.id + " atualizado"
                 })
             }
     })
 }
 
-exports.deleteComentários = function(req, res, next) {
+exports.deleteComentarios = function(req, res, next) {
     Artigo.findOneAndUpdate({"comments._id": new ObjectId(req.params.id)},
         {"$pull": {"comments": {"_id": new ObjectId(req.params.id)}}},
         function(err, article) {
@@ -440,7 +440,7 @@ exports.deleteComentários = function(req, res, next) {
             res.status(500);
             res.json({
                 type: false,
-                data: "Error occured: " + err
+                data: "Erro ocorrido: " + err
             })
         } else {
             if (article) {
@@ -451,24 +451,24 @@ exports.deleteComentários = function(req, res, next) {
             } else {
                 res.json({
                     type: false,
-                    data: "Comentários: " + req.params.id + " not found"
+                    data: "Comentários: " + req.params.id + " não encontrado"
                 })
             }
         }
     })
 }</pre>
 
-<p>When you make a request to one of the resource URIs, the related function stated in the controller will be executed. Every function inside the controller files can use the <strong>req</strong> and <strong>res</strong> objects. The <strong>comment</strong> resource here is a sub-resource of <strong>Artigo. </strong>All the query operations are made through the Artigo model in order to find a sub-document and make the necessary update. However, whenever you try to view a Comentários resource, you will see one even if there is no collection in MongoDB.  </p>
+<p>Ao realizar uma requisição a uma das URIs, a função declarada no controlador será executada. Cada função dentro dos arquivos de controladores pode usar os objetos <strong>req</strong> e <strong>res</strong>. O recurso <strong>comentário</strong> logo acima, é um sub-recurso de <strong>Artigo</strong>. Todas as operações de consultas são realizadas através do modelo <em>Artigo</em> para, então, encontrarmos o subdocumento e realizar as atualizações necessárias. Contudo, toda vez que tentamos visualizar um recurso do tipo <em>Comentário</em>, você verá algo, mesmo que não exista uma coleção no MongoDB.  </p>
 
-<h2>Other Design Suggestions</h2>
+<h2>Outras Sugestões de Design</h2>
 
 <ul>
-  <li>Select easy-to-understand resources in order to provide easy usage to consumers.</li>
-  <li>Let business logic be implemented by consumers. For example, the Artigo resource has a field called <strong>slug. </strong>Consumers do not need to send this detail to the RESTful API. This slug strategy should manage on the RESTful API side to reduce coupling between API and consumers. Consumers only need to send title detail, and you can generate the slug according to your business needs on the RESTful API side.</li>
-  <li>Implement an authorization layer for your API endpoints. Unauthorized consumers can access restricted data that belongs to another user. In this tutorial, we did not cover the Usuário resource, but you can refer to <a href="http://code.tutsplus.com/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543" target="_self">Token Based Authentication with AngularJS &amp; NodeJS</a> for more information about API authentications.</li>
-  <li>Usuário URI instead of query string. <code class="inline">/articles/123</code>  (Good), <code class="inline">/articles?id=123</code> (Bad).</li>
-  <li>Do not keep the state; always use instant input/output.</li>
-  <li>Use noun for your resources. You can use HTTP methods in order to operate on resources.</li>
+  <li>Escolha recursos simples de entender para prover uso fácil aos clientes;</li>
+  <li>Não deixe a lógica do negócio ser implementada pelos clientes. Por exemplo, o recurso <em>Artigo</em> tem um campo chamado <strong>slug</strong>. Os clientes não precisam enviar esse detalhe pela API RESTful. A estratégia em relação ao <em>slug</em> deve ser administrada no lado da API RESTful para minimizar o acoplamento entre a API e os clientes. Os clientes só precisam enviar o título e você pode gerar o <em>slug</em> de acordo com as necessidades do negócio, no lado da API RESTful.</li>
+  <li>Implemente uma camada de autorização para suas APIs. Clientes não autorizados não podem acessar dados restritos pertencentes a outros usuários. Neste tutorial, não falamos sobre o recurso <em>Usuário, mas você pode ler o artigo <a href="http://code.tutsplus.com/pt/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543" target="_self">Autenticação com Tokens Usando AngularJS &amp; NodeJS</a> para mais informações em relação a autenticação de APIs.</li>
+  <li>URIs amigáveis ao invés de vetor de consulta. <code class="inline">/articles/123</code> é bom, <code class="inline">/articles?id=123</code> é ruim.</li>
+  <li>Não mantenha estados; sempre use entrada/saída instantâneas.</li>
+  <li>Use substantivos para seus recursos. Você poderá usar os métodos/verbos HTTP para operar sobre os recursos.</li>
 </ul>
 
-<p>Finally, if you design a RESTfulful API by following these fundamental rules, you will always have a flexible, maintainable, easily understandable system.</p>
+<p>Finalmente, se você projetar uma API RESTful seguindo essas regras fundamentais, você sempre terá um sistema flexível, manutenível e compreensível.</p>
