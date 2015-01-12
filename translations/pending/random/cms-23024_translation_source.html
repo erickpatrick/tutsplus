@@ -1,0 +1,207 @@
+<h1>How to Integrate “No CAPTCHA reCAPTCHA” on Your Website</h1>
+
+<p>CAPTCHA inputs are perhaps the commonest of all frustrating experiences on the web. They’re painful enough for the majority of users, let alone the visually impaired or anyone who relies on assistive technologies such as screen-readers to access the web. However, sadly, CAPTCHAs are absolutely vital in the fight against spam.</p>
+
+<figure class="post_image">
+  <img alt="A necessary evil thanks spammers" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/captcha-1.png"/>
+  <figcaption>A necessary evil (thanks spammers)</figcaption>
+</figure>
+
+<p>Ironically, even though traditional “distorted text” CAPTCHAs are awkward for human users to read, modern artificial intelligence technology has less trouble solving them. Google even uses similar technology to read house numbers and roadsigns to confirm Google Street View locations!</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/maps.png"/>
+  <figcaption>
+    Google robots can
+    <a href="http://googleonlinesecurity.blogspot.com.es/2014/04/street-view-and-recaptcha-technology.html" target="_self">accurately read these</a>
+  </figcaption>
+</figure>
+
+<p>It’s only logical therefore that Google’s own developers came up with the best CAPTCHA solution so far, towards the end of 2014. The <a href="https://www.google.com/recaptcha" target="_self">No CAPTCHA reCAPTCHA</a> requires nothing more than a finger tap, a mouse click, or focusing on the input with your keyboard and hitting the <strong>spacebar</strong>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/nocaptcha.gif"/>
+</figure>
+
+<p>In most cases it’s that simple, but if Google’s risk analysis still can’t be sure you’re human, a second prompt will appear. </p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/notsure.png"/>
+</figure>
+
+<p>You can see it in action all over the web already, like on the <a href="http://www.materialup.com/submit" target="_self">submission page of @materialup</a> for example.</p>
+
+<h2>Get No CAPTCHA reCAPTCHA</h2>
+
+<p>Let’s cut to the chase and get ourselves setup with No CAPTCHA.</p>
+
+<h3>Step 1</h3>
+
+<p>First, we need an API key, so head on over to <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a>. To gain access to this page you’ll need to be logged into a Google account. You’ll be asked to register your website, so give it a suitable name, then list domains (for example tutsplus.com) where this particular reCAPTCHA will be used. Subdomains (such as webdesign.tutsplus.com and code.tutsplus.com) are automatically taken into account.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/register.png"/>
+</figure>
+
+<h3>Step 2</h3>
+
+<p>With that done you’ll be given a site key and its partner secret key:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/keys.png"/>
+</figure>
+
+<h3>Step 3</h3>
+
+<p>Underneath the keys you’ll see some snippets for including reCAPTCHA on your website. First up there’s the JavaScript:</p>
+
+<pre class="brush: html">&lt;script src='https://www.google.com/recaptcha/api.js'&gt;&lt;/script&gt;</pre>
+
+<p>You can also define which of the <a href="https://developers.google.com/recaptcha/docs/language" target="_self">40 supported languages</a> you’re using by adding a parameter to the string. Here we’re adding <code class="inline">es</code> which will give us a Spanish language reCAPTCHA:</p>
+
+<pre class="brush: html">&lt;script src='https://www.google.com/recaptcha/api.js?hl=es'&gt;&lt;/script&gt;</pre>
+
+<p>Place this script tag at the foot of your page (or just underneath the form where the reCAPTCHA will appear, depending on how you prioritize your asset loading).</p>
+
+<h3>Step 4</h3>
+
+<p>Next up is the placeholder which you’ll need to add to your form markup wherever you want the reCAPTCHA to appear:</p>
+
+<pre class="brush: html">&lt;div class="g-recaptcha" data-sitekey="6LcePAATAAAAAGPRWgx90814DTjgt5sXnNbV5WaW"&gt;&lt;/div&gt;</pre>
+
+<p><strong>Note</strong>: the <code class="inline">data-sitekey</code> attribute will hold the value of <em>your</em> key, not this dummy example.</p>
+
+<p>There are other attributes which you can add to customize the look and functionality of your reCAPTCHA at this point. For example, adding <code class="inline">data-theme="dark"</code> to this <code class="inline">div</code> will give you a dark version, which might better suit your UI:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/dark.png"/>
+</figure>
+
+<p>For more details on configuring your reCAPTCHA take a look at <a href="https://developers.google.com/recaptcha/docs/display#config" target="_self">developers.google.com</a>.</p>
+
+<h2>Putting it Together</h2>
+
+<p>Now we have the initial ingredients it’s time to put them in a working environment.</p>
+
+<h3>Step 1</h3>
+
+<p>Let’s put our script tag and placeholder into a simple form:</p>
+
+<pre class="brush: php">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+&lt;title&gt;How to Integrate Google “No CAPTCHA reCAPTCHA” on Your Website&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+
+    &lt;form action="" method="post"&gt;
+
+      &lt;label for="name"&gt;Name:&lt;/label&gt;
+      &lt;input name="name" required&gt;&lt;br /&gt;
+
+      &lt;label for="email"&gt;Email:&lt;/label&gt;
+      &lt;input name="email" type="email" required&gt;&lt;br /&gt;
+
+      &lt;div class="g-recaptcha" data-sitekey="6LcePAATAAAAAGPRWgx90814DTjgt5sXnNbV5WaW"&gt;&lt;/div&gt;
+
+      &lt;input type="submit" value="Submit" /&gt;
+
+    &lt;/form&gt;
+
+    &lt;!--js--&gt;
+    &lt;script src='https://www.google.com/recaptcha/api.js'&gt;&lt;/script&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>Here we’ve used a barebones page structure with a form containing a <code class="inline">name</code> input, an <code class="inline">email</code> input and a submit button. There’s no styling whatsoever here because it’s not really necessary for this tutorial.</p>
+
+<figure class="post_image">
+  <img alt="our captcha form" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/form.png"/>
+  <figcaption>You should have something which looks like this</figcaption>
+</figure>
+
+<p>To demonstrate that the reCAPTCHA test has been passed we’ll need to run some server-side checks. In this case we’ll do so with PHP, so save this file in a new project as <code class="inline">index.php</code>.</p>
+
+<h3>Step 2</h3>
+
+<p>You’ll notice the form’s method is <code class="inline">post</code>, so when we submit the form data it will be returned to this page within an array of variables. We can output those variables by looping over them, so add the following to your page somewhere:</p>
+
+<pre class="brush: php">&lt;?php 
+      foreach ($_POST as $key =&gt; $value)
+      echo '&lt;p&gt;&lt;strong&gt;' . $key.':&lt;/strong&gt; '.$value.'&lt;/p&gt;';
+    ?&gt;</pre>
+
+<p>This takes each kay/value pair present in our <code class="inline">$_POST</code> array and outputs them with a bit of formatting. Now when you submit the form you should see something like the following:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/23024/image/form-submitted.png"/>
+</figure>
+
+<p>You’ll see the value returned for <code class="inline">name</code> and <code class="inline">email</code>, but also a value for <code class="inline">g-recaptcha-response</code>. If you failed to complete the CAPTCHA test this value will be blank, but if you did check the “I’m not a robot” box you’ll see a huge string of characters.</p>
+
+<p>It’s this value we need to send to Google so it can be verified, so let’s do that next.</p>
+
+<h3>Step 3</h3>
+
+<p>Happily, the Google developer team have done the hard work for us here, so head on over to the <a href="https://github.com/google/ReCAPTCHA" target="_self">ReCAPTCHA</a> project on Github and grab a copy of the <a href="https://github.com/google/ReCAPTCHA/blob/master/php/recaptchalib.php" target="_self">recaptchalib.php</a> library. Place it in the root of your project and then reference it at the top of your <code class="inline">index.php</code> file:</p>
+
+<pre class="brush: php">&lt;?php
+
+// grab recaptcha library
+require_once "recaptchalib.php";
+
+?&gt;</pre>
+
+<h3>Step 4</h3>
+
+<p>This library contains a collection of functions which send the <code class="inline">g-recaptcha-response</code> (along with our secret key) to Google via an HTTP request. They then collect the response, checking whether or not the CAPTCHA was successful. To use this we need to first set up a couple of variables, before the closing PHP tag:</p>
+
+<pre class="brush: php">// your secret key
+$secret = "6LcePAATAAAAABjXaTsy7gwcbnbaF5XgJKwjSNwT";
+
+// empty response
+$response = null;
+
+// check secret key
+$reCaptcha = new ReCaptcha($secret);</pre>
+
+<p><code class="inline">ReCaptcha()</code> checks to see if our secret key is present. If not it kills the process and advises us to go and get one. We then run our details through the following:</p>
+
+<pre class="brush: php">// if submitted check response
+if ($_POST["g-recaptcha-response"]) {
+$response = $reCaptcha-&gt;verifyResponse(
+        $_SERVER["REMOTE_ADDR"],
+        $_POST["g-recaptcha-response"]
+    );
+}</pre>
+
+<h3>Step 5</h3>
+
+<p>Assuming all is well with our submitted form, the <code class="inline">$response</code> variable will report back with “success” and we can continue to process the form data. Here’s how that might look: remove the bit where we looped over the form data, then add the following check above the form:</p>
+
+<pre class="brush: php">&lt;?php
+      if ($response != null &amp;&amp; $response-&gt;success) {
+        echo "Hi " . $_POST["name"] . " (" . $_POST["email"] . "), thanks for submitting the form!";
+      } else {
+    ?&gt;</pre>
+
+<p>Finally, add a closing PHP tag after the form:</p>
+
+<pre class="brush: php">&lt;?php } ?&gt;</pre>
+
+<p>This displays the form, unless it has been successfully submitted, in which case it displays a small thank you notice.</p>
+
+<h2>Conclusion</h2>
+
+<p>This was a very rough and ready PHP implementation of the No CAPTCHA reCAPTCHA. It‘s wide open for improvements, but will hopefully give you a grasp of the basics. Credit for the library goes to the <a href="https://github.com/google" target="_self">Google developer team</a> and I should also give a quick thanks to <a href="https://twitter.com/mattaussaguel" target="_self">Matt Aussaguel</a> for pointing it out to me.</p>
+
+<h3>Useful Resources</h3>
+
+<ul>
+  <li><a href="https://github.com/google/ReCAPTCHA" target="_self">ReCAPTCHA</a> on Github</li>
+  <li><a href="https://developers.google.com/recaptcha/" target="_self">ReCAPTCHA documentation</a></li>
+  <li><a href="http://googleonlinesecurity.blogspot.com.es/2014/12/are-you-robot-introducing-no-captcha.html" target="_self">Are you a robot? Introducing “No CAPTCHA reCAPTCHA”</a> Google Security Blog</li>
+  <li><a href="https://wordpress.org/plugins/wp-recaptcha-integration/" target="_self">WordPress ReCaptcha Integration</a> reCaptcha plugin for login, signup, comment forms, Ninja Forms and Contact Form 7</li>
+</ul>
