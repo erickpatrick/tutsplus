@@ -1,46 +1,46 @@
-<h1>Refactoring Legacy Code: Part 2 - Magic Strings & Constants</h1>
+<h1>Refatorando Código Legado: Parte 2 - Cadeias de Caracteres Mágicas & Constantes</h1>
 
-<p>Old code. Ugly code. Complicated code. Spaghetti code. Jibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+<p>Código velho. Código feio. Código complicado. Código macarrônico. Código sem sentido. Em outras palavras, <em>Código Legado</em>. Esta é uma série que ajudará você a trabalhar e lidar com esse tipo de código.</p>
 
-<p>We first met our legacy source code in our <a href="http://code.tutsplus.com/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331">previous lesson</a>. Then we ran the code to form an opinion about its basic functionality and created a Golden Master test suite to have a raw safety net for future changes. We will continue to work on this code and you can find it under the <code>trivia/php_start</code> folder. The other folder <code>trivia/php_start</code> is with this lesson's finished code.</p>
+<p>A primeira vez que encontramos nosso código legado foi no <a href="http://code.tutsplus.com/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331">artigo anterior</a>. Executamos o código para descobrimos algumas coisas sobre suas funcionalidades e criamos o <em>Resultado Esperado</em>, para termos uma boa base de avaliação para mudanças futuras. Continuaremos a trabalhar nesse código e você pode encontrá-lo no diretório <code>trivia/php_start</code>. O outro diretório, <code>trivia/php_start</code>, possui o código já finalizado da lição.</p>
 
-<p>The time for the first changes have come and what better way to understand a difficult code base than start to extract magic constants and strings into variables? These seemingly simple tasks will give us greater and sometimes unexpected insights into the inner workings of legacy code. We will need to figure out the intentions of the original code author and find the proper names for the pieces of code that we've never seen before.</p>
+<p>A hora das primeiras mudanças chegou e que melhor maneira de compreender uma base de código complicada que extraindo constantes e cadeias de caracteres mágicos, tornando-os em variáveis? Essa tarefa, aparentemente, simples, dará uma compreensão maior e até inesperada sobre o funcionamento interno do código legado. Precisaremos descobrir a intenção do autor original do código e criar nomes apropriados para os trechos de códigos que nunca vimos antes.</p>
 
-<h2>Magic Strings</h2>
+<h2>Cadeias de Caracteres Mágicas</h2>
 
-<p>Magic strings are strings used directly in various expressions, without being assigned to a variable. This kind of string had a special meaning for the original author of the code, but instead of assigning them to a well named variable, the author thought the meaning of the string was obvious enough.</p>
+<p>As cadeias de caracteres mágicas são cadeias de caracteres usadas diretamente em várias expressões, sem serem atribuídas a uma variável. Esse tipo de cadeia de caracteres tinha um significado especial para o autor do código, mas, ao invés de atribuí-la a uma variável bem nomeada, o autor achou que o significado da cadeia fosse óbvio o bastante.</p>
 
-<h3>Identify the First Strings to Change</h3>
+<h3>Identifique as Primeiras Cadeias de Caracteres a Alterar</h3>
 
-<p>Let's start by looking at our <code>Game.php</code> and try to identify strings. If you are using an IDE (and you should) or a smarter text editor capable of highlighting source code, spotting the strings will be easy. Here is an image of how the code looks like on my display.</p>
+<p>Comecemos dando uma olhada em nosso arquivo <code>Game.php</code> e tentemos identificar essas cadeias de caracteres. Se estiver usando uma IDE (e você deveria usar uma) ou um editor de texto mais inteligente, capaz de destacar códigos fonte, identificar essas cadeias de caracteres será fácil. Eis uma imagem de como o código aparece em meu monitor.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20527/image/sourcecode-with-strings.png"/>
 </figure>
 
-<p>Everything with orange is a string. Finding each string in our source code is very easy this way. So, make sure highlighting is supported and enabled in your editor, whatever your application is.</p>
+<p>Tudo que está em laranja é uma cadeia de caracteres. Dessa forma, é bem fácil encontrar cada uma delas em nosso código. Então, tenha certeza que um destacador de código fonte está ativo em seu editor, qualquer que seja a sua aplicação.</p>
 
-<p>The first orange part in our code is immediately at line three. However the string contains only a newline character. This should be obvious enough in my opinion, so we can move on.</p>
+<p>O primeiro laranja em nosso código está logo na linha número três. Entretanto, essa cadeia de caractere contém um caractere de nova linha, apenas. Isso é óbvio o bastante, na minha opinião. Podemos continuar com o resto do código.</p>
 
-<p>When it comes to deciding what to extract and what to keep unchanged, there are few thumb-ups, but at the end it is your professional opinion that must prevail. Based on it, you will have to decide what to do with each piece of code you analyze.</p>
+<p>Quando se trata em decidir, exatamente, o que extrais e o que manter inalterado, há algumas decisões melhores que outras, contudo, no final das contas, a sua opinião profissional que deverá prevalecer. Baseado nela, terá de decidir o que fazer com cada peça de código que você analisar.</p>
 
 <pre class="brush: php">for ($i = 0; $i &lt; 50; $i++) {
-		array_push($this-&gt;popQuestions, "Pop Question " . $i);
-		array_push($this-&gt;scienceQuestions, ("Science Question " . $i));
-		array_push($this-&gt;sportsQuestions, ("Sports Question " . $i));
+		array_push($this-&gt;popQuestions, "Pergunta sobre Pop " . $i);
+		array_push($this-&gt;scienceQuestions, ("Pergunta sobre Ciências " . $i));
+		array_push($this-&gt;sportsQuestions, ("Pergunta sobre Esportes " . $i));
 		array_push($this-&gt;rockQuestions, $this-&gt;createRockQuestion($i));
 	}
 }
 
 function createRockQuestion($index) {
-	return "Rock Question " . $index;
+	return "Pergunta sobre Rock " . $index;
 }</pre>
 
-<p>So let's analyze lines 32 to 42, the snippet you can see above. For pop, science, and sports questions, there is just a simple concatenation. However, the action to compose the string for a rock question is extracted into a method. In your opinion, are these concatenations and strings clear enough so that we can keep all of them inside our for loop? Or, do you think extracting all strings into their methods would justify the existence of those methods? If so, how would you name those methods?</p>
+<p>Então, analisemos da linha 32 à 42, que é o trecho de código acima. Para as perguntas sobre Pop, Ciências e Esportes, é usada uma simples concatenação. Entretanto, a composição de uma cadeia de caracteres para a pergunta sobre Rock foi extraída em um método. Em sua opinião, essas concatenações e cadeias de caracteres são claras o suficiente para que possamos deixá-las todas dentro do nosso laço <code class="inline">for</code>? Ou você acha que extrair todas essas cadeias de caracteres em seus próprios métodos justificaria a existência deles? Se sim, como você nomearia esses métodos?</p>
 
-<h3>Update Golden Master and the Tests</h3>
+<h3>Atualize o <em>Resultado Esperado</em> e os Testes</h3>
 
-<p>Regardless of the answer, we will need to modify the code. It is time to put our <a href="http://code.tutsplus.com/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331">Golden Master</a> to work and write our test that actually runs and compares our code with the existing content.</p>
+<p>Independente da resposta, precisaremos modificar o código. É hora de colocar nosso <a href="http://code.tutsplus.com/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331">Resultado Esperado</a> para trabalhar e criar testes que executem e verifiquem de verdade nosso código com o conteúdo existente.</p>
 
 <pre class="brush: php">class GoldenMasterTest extends PHPUnit_Framework_TestCase {
 
@@ -69,13 +69,13 @@ function createRockQuestion($index) {
 	private function generateOutput($seed) {...}
 }</pre>
 
-<p>We created another test to compare the outputs, made sure <code>testGenerateOutput()</code> only generates the output once and does nothing else. We also moved the golden master output file <code>"gm.txt"</code> into the current directory because <code>"/tmp"</code> may be cleared when the system reboots. For our actual results, we can still use it. On most UNIX like systems <code>"/tmp"</code> is mounted into the RAM so it is much faster than the file system. If you did well, the tests should pass without a problem.</p>
+<p>Criamos outro teste para comparar os retornos, garantindo que o método <code>testGenerateOutput()</code> gere o retorno apenas uma vez e nada mais. Também movemos o <em>resultado esperado</em> para o arquivo <code>"gm.txt"</code> que ficará dentro do diretório atual, uma vez que o diretório <code>"/tmp"</code> será esvaziado sempre que o sistema reiniciar. Para nossos resultados atuais, ainda podemos utilizá-lo. Na maioria dos sistemas <strong>UNIX</strong>, o diretório <code>"/tmp"</code> é criado direto na memória RAM, o que o torna muito mais rápido que o sistema de arquivos. Se você fez tudo certo, os testes devem passar sem qualquer problema.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20527/image/gm-initial-pass.png"/>
 </figure>
 
-<p>It is very important to remember to mark our generator test as "skipped" for future changes. If you feel more comfortable with commenting or even deleting it altogether, please do so. It is important that our <a href="http://code.tutsplus.com/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331">Golden Master</a> will not change when we change our code. It was generated once and we do not want to modify it, ever, so that we can be sure our newly generated code always compares to the original. If you feel more comfortable doing a backup of it, please proceed to do so.</p>
+<p>É muito importante lembrarmos de pular nosso teste gerador para mudanças futuras. Se você se sentir mais confortável comentando ou até mesmo removendo o código de uma só vez, faça-o. É importante que nosso <a href="http://code.tutsplus.com/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331">Resultado Esperado</a> não altere quando nosso código for mudado. Ele foi gerado uma vez e não queremos que ele seja modificado, nunca. Assim, poderemos ter certeza que nosso código modificado sempre será comparado com o original. Se se sentir mais confortável realizando uma cópia dele, por favor, faça-o.</p>
 
 <pre class="brush: php">function testGenerateOutput() {
 	$this-&gt;markTestSkipped();
@@ -83,35 +83,35 @@ function createRockQuestion($index) {
 	$this-&gt;generateMany($times, $this-&gt;gmPath);
 }</pre>
 
-<p>I will just mark the test as skipped. This will put our test result to <code>"yellow"</code>, meaning all tests are passing but some are skipped or marked as incomplete.</p>
+<p>Apenas marcarei para pular o teste. Isso colocará nosso teste como <code>"amarelo"</code>, significando que todos os testes passaram, porém, alguns foram ditos para pular ou marcados como incompletos.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20527/image/gm-initial-skipped.png"/>
 </figure>
 
-<h3>Making Our First Change</h3>
+<h3>Realizando Nossa Primeira Mudança</h3>
 
-<p>With tests in place, we can start changing code. In my professional opinion, all the strings can be kept inside the <code>for</code> loop. We will take the code from the <code>createRockQuestion()</code> method, move it inside the the <code>for</code> loop, and delete the method altogether. This refactoring is called <em>Inline Method</em>.</p>
+<p>Com os testes prontos, podemos começar a fazer mudanças no código. Na minha opinião profissional, todas as cadeias de caracteres podem ser mantidas dentro do laço <code>for</code>. Pegaremos o código do método <code>createRockQuestion()</code>, moveremos para dentro do laço <code>for</code> e removeremos o método. Esse tipo de refatoração é chamado de <em>Método em Linha</em>.</p>
 
-<p>"Put the method's body into the body of its callers and remove the method." ~ Martin Fowler</p>
+<p>"Coloque o corpo do método no corpo do seu invocador remova o método." ~ Martin Fowler</p>
 
-<p>There are a specific set of steps to do this type of refactoring, as defined by Marting Fowler in <a href="https://www.goodreads.com/book/show/44936.Refactoring">Refactoring: Improving the Design of Existing Code</a>: </p>
+<p>Há passos específicos para realizar esse tipo de refatoração, como foi definido por Marting Fowler no livro <a href="https://www.goodreads.com/book/show/44936.Refactoring">Refactoring: Improving the Design of Existing Code</a>: </p>
 
 <ul>
-  <li>Check that the method is not polymorphic.</li>
-  <li>Find all calls to the method.</li>
-  <li>Replace each call with the method body.</li>
-  <li>Compile and test.</li>
-  <li>Remove the method definition.</li>
+  <li>Verifique que o método não é polimórfico;</li>
+  <li>Entre todas as chamadas ao método;</li>
+  <li>Substitua cada chamada pelo corpo do método;</li>
+  <li>Compile e teste;</li>
+  <li>Remova a definição do método;</li>
 </ul>
 
-<p>We don't have subclasses extending <code>Game</code>, so the first step validates.</p>
+<p>Não temos quaisquer subclasses estendendo a classe <code>Game</code>, então, o primeiro passo já é válido.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20527/image/rock-question-code-usage.png"/>
 </figure>
 
-<p>There is only a single use of our method, inside the <code>for</code> loop.</p>
+<p>Há um único uso do nosso método, dentro do laço <code>for</code>.</p>
 
 <pre class="brush: php">function  __construct() {
 
@@ -126,30 +126,30 @@ function createRockQuestion($index) {
 	$this-&gt;rockQuestions = array();
 
 	for ($i = 0; $i &lt; 50; $i++) {
-		array_push($this-&gt;popQuestions, "Pop Question " . $i);
-		array_push($this-&gt;scienceQuestions, ("Science Question " . $i));
-		array_push($this-&gt;sportsQuestions, ("Sports Question " . $i));
-		array_push($this-&gt;rockQuestions, "Rock Question " . $i);
+		array_push($this-&gt;popQuestions, "Pergunta sobre Pop " . $i);
+		array_push($this-&gt;scienceQuestions, ("Pergunta sobre Ciências " . $i));
+		array_push($this-&gt;sportsQuestions, ("Pergunta sobre Esportes " . $i));
+		array_push($this-&gt;rockQuestions, "Pergunta sobre Rock " . $i);
 	}
 }
 
 function createRockQuestion($index) {
-	return "Rock Question " . $index;
+	return "Pergunta sobre Rock " . $index;
 }</pre>
 
-<p>We put the code from <code>createRockQuestion()</code> into the <code>for</code> loop in the constructor. We still have our old code. It is now time to run our test.</p>
+<p>Colocamos o código do método <code>createRockQuestion()</code> dentro do laço <code>for</code> no método construtor. Ainda temos nosso código antigo. É hora de executar nossos testes.</p>
 
-<p>Our tests are passing. We can delete our <code>createRockQuestion()</code> method.</p>
+<p>Nossos testes passaram. Podemos remover o método <code>createRockQuestion()</code>.</p>
 
 <pre class="brush: php">function  __construct() {
 
 	// ... //
 
 	for ($i = 0; $i &lt; 50; $i++) {
-		array_push($this-&gt;popQuestions, "Pop Question " . $i);
-		array_push($this-&gt;scienceQuestions, ("Science Question " . $i));
-		array_push($this-&gt;sportsQuestions, ("Sports Question " . $i));
-		array_push($this-&gt;rockQuestions, "Rock Question " . $i);
+		array_push($this-&gt;popQuestions, "Pergunta sobre Pop " . $i);
+		array_push($this-&gt;scienceQuestions, ("Pergunta sobre Ciências " . $i));
+		array_push($this-&gt;sportsQuestions, ("Pergunta sobre Esportes " . $i));
+		array_push($this-&gt;rockQuestions, "Pergunta sobre Rock " . $i);
 	}
 }
 
@@ -157,13 +157,13 @@ function isPlayable() {
 	return ($this-&gt;howManyPlayers() &gt;= 2);
 }</pre>
 
-<p>Finally we should run our tests again. If we missed a call to a method, they will fail.</p>
+<p>Por fim, devemos executar nossos testes novamente. Se esquecemos alguma chamada ao método, os testes falharão.</p>
 
-<p>They should pass again. Congrats! We are done with our first refactoring.</p>
+<p>Eles devem passar novamente. Parabéns! Terminamos com nossa primeira refatoração.</p>
 
-<h3>Other Strings to Consider</h3>
+<h3>Outras Cadeias de Caracteres a Considerar</h3>
 
-<p>Strings in the methods <code>add()</code> and roll() are only used to output them using the <code>echoln()</code> method. <code>askQuestions()</code> compares strings to categories. This seems acceptable also. <code>currentCategory()</code> on the other hand returns strings based on a number. In this method, there are a lot of duplicated strings. Changing any category, except Rock would require changing its name in three places, only in this method.</p>
+<p>As cadeias de caracteres nos métodos <code>add()</code> e <code>roll()</code> são usadas apenas para serem retornadas usando o método <code>echoln()</code>. O método <code>askQuestions()</code> compara cadeias de caracteres a categorias, o que também parece aceitável. O método <code>currentCategory()</code>, por outro lado, retorna cadeias de caracteres baseado em um número. Neste método, há várias cadeias de caracteres duplicadas. Alterar qualquer categoria, com a exceção da do Rock, requereria alterar seu nome em três lugares, só nesse método.</p>
 
 <pre class="brush: php">function currentCategory() {
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 0) {
@@ -176,38 +176,38 @@ function isPlayable() {
 		return "Pop";
 	}
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 1) {
-		return "Science";
+		return "Ciências";
 	}
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 5) {
-		return "Science";
+		return "Ciências";
 	}
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 9) {
-		return "Science";
+		return "Ciências";
 	}
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 2) {
-		return "Sports";
+		return "Esportes";
 	}
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 6) {
-		return "Sports";
+		return "Esportes";
 	}
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 10) {
-		return "Sports";
+		return "Esportes";
 	}
 	return "Rock";
 }</pre>
 
-<p>I think we can do better. We can use a refactoring method called <em>Introduce Local Variable</em> and eliminate the duplication. Follow these guidelines:</p>
+<p>Acredito que podemos fazer algo melhor. Podemos usar um método de refatoração chamado de <em>Introdução de Variável Local</em> e eliminar essa duplicação. Siga o guia:</p>
 
 <ul>
-  <li>Add a variable with the desired value.</li>
-  <li>Find all uses of the value.</li>
-  <li>Replace all uses with the variable.</li>
+  <li>Adicione uma variável com o valor desejado;</li>
+  <li>Encontre todos os usos para a variável;</li>
+  <li>Substitua todos os casos pela variável em questão;</li>
 </ul>
 
 <pre class="brush: php">function currentCategory() {
 	$popCategory = "Pop";
-	$scienceCategory = "Science";
-	$sportCategory = "Sports";
+	$scienceCategory = "Ciências";
+	$sportCategory = "Esportes";
 	$rockCategory = "Rock";
 
 	if ($this-&gt;places[$this-&gt;currentPlayer] == 0) {
@@ -240,13 +240,13 @@ function isPlayable() {
 	return $rockCategory;
 }</pre>
 
-<p>This is much better. You probably already observed some future improvements that we could do to our code, but we are only at the beginning of our work. It is tempting to fix everything you find immediately, but please don't. Many times, especially before the code is well understood, tempting changes can lead to dead ends or even more broken code. If you think there is a chance you will forget your idea, just note it on a sticky note or create a task in your project management software. Now we need to continue with our string related problems.</p>
+<p>Isso está muito melhor. Você já deve ter percebido alguns aprimoramentos futuros que poderíamos fazer ano nosso código, porém, estamos apenas começando nosso trabalho. É tentado ajustar tudo que encontrarmos de uma só vez, mas, por favor, não o faça. Muitas vezes, especialmente antes de um código ser bem compreendido, mudanças tentadoras podem levar a becos sem fim ou mesmo a códigos quebrados. Se você acha que há alguma chance que esquecerá sua ideia, basta criar uma nota ou tarefa em seu aplicativo de gerenciamento de projetos. Agora, continuemos com nossos problemas relacionados às cadeias de caracteres.</p>
 
-<p>In the rest of the file, all strings are output related, sent into <code>echoln()</code>. For the time being, we will leave them untouched. Modifying them would effect the printing and delivering logic of our application. They are part of the presentation layer mixed with business logic. We will deal with separating different concerns in a future lesson.</p>
+<p>No resto do arquivo, todas as cadeias de caracteres estão relacionadas aos seus retornos, enviados através do <code>echoln()</code>. Por hora, deixaremos como está. Modificar isso afetaria a impressão e a lógica de entrega de nossa aplicação. Elas fazem parte da camada de apresentação, misturada com a lógica de negócios. Lidaremos com problemas diferentes em uma lição futura.</p>
 
-<h2>Magic Constants</h2>
+<h2>Constantes Mágicas</h2>
 
-<p>Magic constants are very much like magic strings, but with values. These values can be boolean values or numbers. We will concentrate mostly on numbers used in <code>if</code> statements or <code>return</code> statements or other expressions. If these numbers have an unclear meaning, we need to extract them into variables or methods.</p>
+<p>Constantes mágicas são muito parecidas com cadeias de caracteres mágicas, mas com outros valores. Esses valores podem ser booleanos ou números. Concentrar-nos-emos mais em números usados em declarações <code>if</code> ou de <code>return</code> e de outras expressões. Se esses números tiverem algum significado impreciso, precisamos extraí-lo em variáveis e métodos.</p>
 
 <pre class="brush: php">include_once __DIR__ . '/Game.php';
 
@@ -270,24 +270,24 @@ do {
 
 } while ($notAWinner);</pre>
 
-<p>We'll start with <code>GameRunner.php</code> this time and our first focus is the <code>roll()</code> method that gets some random numbers. The previous author did not care to give those numbers a meaning. Can we? If we analyze the code:</p>
+<p>Começaremos pelo arquivo <code>GameRunner.php</code> e nosso foco será o método <code>roll()</code>, que gera números aleatórios. O autor anterior não se preocupou com o significado dos números. Será que precisamos? Se analisarmos o código:</p>
 
 <pre class="brush: php">rand(0, 5) + 1</pre>
 
-<p>It will return a number between one and six. The random part returns a number between zero and five to which we always add one. So it is surely between one and six. Now we need to consider the context of our application. We are developing a trivia game. We know there is some kind of board on which our players must move. And to do so, we need to roll the dice. A die has six faces and it can produce numbers between one and six. That seems like a reasonable deduction.</p>
+<p>Ele retornará um número entre um e seis. A parte aleatória gera um número entre zero e cinco, e sempre adicionaremos um a esse valor. Então, é garantido que será entre um e seis. Agora, precisamos analisar no contexto de nossa aplicação. Estamos desenvolvendo um jogo de perguntas e respostas. Sabemos que que tem um tabuleiro no qual os jogadors se movimentarão. E, para tanto, precisarão rolar um dado. O dado possui seis lados e pode produzir números de um a seis. Acredito que isso seja uma dedução razoável.</p>
 
 <pre class="brush: php">$dice = rand(0, 5) + 1;
 $aGame-&gt;roll($dice);</pre>
 
-<p>Isn't that nice? We used the Introduce Local Variable refactoring concept again. We named our new variable <code>$dice</code> and it represents the random number generated between one and six. This also made our next statement sound really natural: Game, roll dice.</p>
+<p>Isso não é legal? Usamos o método de Introdução de Variável Local, novamente. Chamamos nossa variável de <code>$dice</code> e ela representa o número aleatório gerado entre um e seis. Além disso, conseguimos torna a declaração posterior soar bem natural: Jogo, role um dado.</p>
 
-<p>Did you run your tests? I didn't mention it, but we need to run them as frequently as possible. If you haven't, this would be a good time to run them. And they should pass.</p>
+<p>Você executou seus testes? Não mencionei, mas precisamos executá-los com máximo de frequência possível. Caso não os tenha executado, agora seria uma ótima hora para fazê-lo. E eles deveriam passar sem problemas.</p>
 
-<p>So, this was a case of nothing more than just exchanging a number with a variable. We took a whole expression that represented a number and extracted it into a variable. This can be technically considered a Magic Constant case, but not a pure case. What about our next random expression?</p>
+<p>Então, esse foi um caso da troca de um número por uma variável. Tornamos uma expressão inteira que representava um número e extraímos em uma variável. Isso pode ser considerado um caso de uma Constante Mágica, mas não é um caso puro de verdade. E que tal a próxima expressão?</p>
 
 <pre class="brush: php">if (rand(0, 9) == 7)</pre>
 
-<p>This is more tricky. What are zero, nine and seven in that expression? Maybe we can name them. At first glance, I have no good ideas for zero and nine, so let's try seven. If the number returned by our random function is equal to seven, we will enter the first branch of the <code>if</code> statement which produces a wrong answer. So maybe our seven could be named <code>$wrongAnswerId</code>.</p>
+<p>Essa é um pouco mais complicada. O que significam esse zero, nove e sete, nesta expressão? Talvez possamos nomeá-los. A primeira vista, não tenho a menor ideia do que significam esses zero e nove, mas, tentarei adivinhar o do sete. Se o número gerado aleatoriamente for igual a sete, entraremos na primeira opção do <code>if</code>, que produz uma resposta errada. Então, talvez, nosso número sete deva ser chamado de <code>$wrongAnswerId</code> ("Id da resposta errada").</p>
 
 <pre class="brush: php">$wrongAnswerId = 7;
 if (rand(0, 9) == $wrongAnswerId) {
@@ -296,7 +296,7 @@ if (rand(0, 9) == $wrongAnswerId) {
 	$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
 }</pre>
 
-<p>Our tests are still passing and the code is somewhat more expressive. Now that we managed to name our number seven, it puts the conditional into a different context. We can think of some decent names for zero and nine also. They are just parameters to <code>rand()</code>, so the variables will probably be named min-something and max-something.</p>
+<p>Nossos testes continuam passando e o código está um pouco mais expressivo. Agora que nomeamos o número sete, ele gera um novo contexto para o condicional. Podemos pensar em alguns nomes decentes para o zero e o nome. Eles são apenas parâmetros para o <code>rand()</code>, então essas variáveis poderão ser chamadas de min-algumacoisa e max-algumacoisa.</p>
 
 <pre class="brush: php">$minAnswerId = 0;
 $maxAnswerId = 9;
@@ -307,7 +307,7 @@ if (rand($minAnswerId, $maxAnswerId) == $wrongAnswerId) {
 	$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
 }</pre>
 
-<p>Now that is expressive. We have a minimum answer ID, a maximum one and another for the wrong answer. Mystery solved.</p>
+<p>Agora o código está mais expressivo. Agora, temos IDs mínimo e máximo para respostas e um outro para a resposta errada. Mistério resolvido.</p>
 
 <pre class="brush: php">do {
 
@@ -325,7 +325,7 @@ if (rand($minAnswerId, $maxAnswerId) == $wrongAnswerId) {
 
 } while ($notAWinner);</pre>
 
-<p>But notice that all the code is inside a <code>do-while</code> loop. Do we need to re-assign the answer ID variables each time? I think not. Let's try to move them out of the loop and see if our tests are passing.</p>
+<p>Mas, perceba que o código está dentro do laço <code>do-while</code>. Precisamos reatribuir os IDs das variáveis todas as vezes? Acho que não. Tentemos colocá-las para fora do laço e ver se nossos testes continuam passando.</p>
 
 <pre class="brush: php">$minAnswerId = 0;
 $maxAnswerId = 9;
@@ -342,59 +342,60 @@ do {
 
 } while ($notAWinner);</pre>
 
-<p>Yes. The tests pass like this as well.</p>
+<p>Sim. Os testes passaram para isso também.</p>
 
-<p>It's time to switch to <code>Game.php</code> and look for Magic Constants there also. If you have code highlighting, you surely have constants highlighted in some bright color. Mine are blue and they are pretty easy to spot.</p>
+<p>É hora de seguirmos para o arquivo <code>Game.php</code> e procurar por constantes mágicas lá, também. Se tiver destaque de código ativado, com certeza terá constantes destacadas em alguma cor brilhante. As minhas são azuis e são bem fáceis de encontrar.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20527/image/for-with-magic-constant.png"/>
 </figure>
 
-<p>Finding the magic constant 50 in that <code>for</code> loop was quite easy. And if we look at what the code does, we can discover that inside the <code>for</code> loop, elements are pushed to several arrays. So we have some kind of lists, each with 50 elements. Each list represents a question category and the variables are actually class fields defined above as arrays. </p>
+<p>Encontrar a constante mágica <code class="inline">50</code>, naquele laço <code>for</code> foi muito fácil. E se olharmos para o que o código faz, descobriremos que, dentro do laço <code>for</code>, os elementos são colocados em vários vetores. Então temos algum tipo de lista, cada uma com 50 elementos. Cada lista representa uma categoria de pergunta e as variáveis são, na verdade, campos de classe, definidos mais acima como vetores. </p>
 
 <pre class="brush: php">$this-&gt;popQuestions = array();
 $this-&gt;scienceQuestions = array();
 $this-&gt;sportsQuestions = array();
 $this-&gt;rockQuestions = array();</pre>
 
-<p>So, what can 50 represent? I bet you already have some ideas. Naming is one of the most difficult tasks in programming, if you have more than one idea and you feel uncertain which one to choose, don't be ashamed. I also have various names in my head and I am evaluating possibilities for choosing the best one, even while writing this paragraph. I think we can go with a conservative name for 50. Something along the lines of<code>$questionsInEachCategory</code> or <code>$categorySize</code> or something similar.</p>
+<p>Então, o que o <code class="inline">50</code> representa? Aposto que você já tem algumas ideias. Nomeação é uma das tarefas mais difíceis na programação. Se você tiver mais de uma ideia e não sabe qual escolher, não se sinta envergonhado. Eu também pensei em vários nomes e estou avaliando as possibilidades para escolher o melhor deles, enquanto escrevo este parágrafo. Algo no estilo <code>$questionsInEachCategory</code> (perguntas em cada categoria) ou <code>$categorySize</code> (tamanho da categoria) ou algo parecido.</p>
 
 <pre class="brush: php">$categorySize = 50;
 for ($i = 0; $i &lt; $categorySize; $i++) {
-	array_push($this-&gt;popQuestions, "Pop Question " . $i);
-	array_push($this-&gt;scienceQuestions, ("Science Question " . $i));
-	array_push($this-&gt;sportsQuestions, ("Sports Question " . $i));
-	array_push($this-&gt;rockQuestions, "Rock Question " . $i);
+	array_push($this-&gt;popQuestions, "Pergunta sobre Pop " . $i);
+	array_push($this-&gt;scienceQuestions, ("Pergunta sobre Ciências " . $i));
+	array_push($this-&gt;sportsQuestions, ("Pergunta sobre Esportes " . $i));
+	array_push($this-&gt;rockQuestions, "Pergunta sobre Rock " . $i);
 }</pre>
 
-<p>That looks decent. We can keep it. And the tests are of course are passing.</p>
+<p>Isso parece bom. Podemos deixar assim. E os testes, claro, continuam passando.</p>
 
 <pre class="brush: php">function isPlayable() {
 	return ($this-&gt;howManyPlayers() &gt;= 2);
 }</pre>
 
-<p>What is two? I am sure at this point the answer is clear to you. That is easy:</p>
+<p>O que é esse dois? Tenho certeza que, nesse ponto, a resposta está clara para você. Essa é bem fácil:</p>
 
 <pre class="brush: php">function isPlayable() {
+	// número mínimo de jogadores
 	$minimumNumberOfPlayers = 2;
 	return ($this-&gt;howManyPlayers() &gt;= $minimumNumberOfPlayers);
 }</pre>
 
-<p>Do you agree? If you have a better idea, feel free to comment below. And your tests? Are they still passing?</p>
+<p>Você concorda? Se tiver alguma ideia melhor, sinta-se livre para deixar um comentário. E seus testes? Continuam passando?</p>
 
-<p>Now, in the <code>roll()</code> method we have some numbers also: two, zero, 11 and 12.</p>
+<p>Agora, no método <code>roll()</code>, também temos alguns números: dois, zero, onze e doze.</p>
 
 <pre class="brush: php">if ($roll % 2 != 0)</pre>
 
-<p>That is pretty clear. We will extract that expression into a method, but not in this tutorial. We are still in the phase of understanding and hunting for magic constants and strings. So what about 11 and 12? They are buried inside the third level of <code>if</code> statements. It is quite difficult to understand what they stand for. Maybe if we look at the lines around them.</p>
+<p>Isso está bem claro. Extrairemos essa expressão em um método, mas não neste tutorial. Ainda estamos na fase de compreensão e busca por constantes e cadeias de caracteres mágicos. E os números onze e doze? Eles estão no terceiro nível das expressões <code>if</code>. É um tanto difícil entender suas serventias. Quem sabe se olharmos nas linhas ao redor deles...</p>
 
 <pre class="brush: php">if ($this-&gt;places[$this-&gt;currentPlayer] &gt; 11) {
 	$this-&gt;places[$this-&gt;currentPlayer] = $this-&gt;places[$this-&gt;currentPlayer] - 12;
 }</pre>
 
-<p>If the current player's place or position is greater than 11, then its position will be reduced to the current one minus 12. This sounds like a case of when a player reaches the end of the board or play field and it is repositioned in its initial position. Probably position zero. Or, if our game board is circular, going over the last marked position will put the player into the relative first position. So 11 could be the board size. </p>
+<p>Se a posição de algum jogador for maior ou igual a onze, então a posição desse jogador será reduzida em doze. Isso me parece o caso de quando o jogador atinge o fim do tabuleiro e deve retornar para a posição inicial. Provavelmente, posição número zero. Ou, se o tabuleiro for circular, passar pela última possibilidade o levará para a primeira posição novamente. Logo, onze deve ser o tamanho do tabuleiro. </p>
 
-<pre class="brush: php">$boardSize = 11;
+<pre class="brush: php">$boardSize = 11; // tamanho do tabuleiro
 if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
 	if ($roll % 2 != 0) {
 		// ... //
@@ -413,11 +414,11 @@ if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
 // ... //
 }</pre>
 
-<p>Don't forget to replace 11 in both places inside the method. This will force us to move the variable assignment outside of the <code>if</code> statements, right at the first indentation level.</p>
+<p>Não esqueça de substituir os números 11 em todos os lugares dentro do método. Isso nos forçará a mover a atribuição da variável para fora das expressões <code>if</code>, logo para o primeiro nível da indentação.</p>
 
-<p>But if 11 is the board's size, what is 12? We subtract 12 from the player's current position, not 11. And why don't we just set the position to zero instead of subtracting? Because that would make our tests fail. Our previous guess that the player will end up in position zero after the code inside the <code>if</code> statement is run, was wrong. Let's say a player is in position ten and rolls a four. 14 is greater than 11, so the subtraction will happen. The player will end up in position <code>10+4-12=2</code>.</p>
+<p>Mas, se 11 é o tamanho do tabuleiro, o que será o doze? Subtraímos doze da atual posição, não 11. E por que não configuramos a posição para zero ao invés ed realizar uma subtração? Porque isso faria nossos testes falharem. Nossa suposição anterior, que o jogador acabaria na posição zero após que o código dentro da expressão <code>if</code> ser executado, estava errada. Digamos que o jogador esteja na posição dez e role um quatro. Quatorze é maior que 11, logo, a subtração ocorrerá. O jogador acabará na posição <code>10+4-12=2</code>.</p>
 
-<p>This drives us toward another possible naming for 11 and 12. I think it is more appropriate to call 12 <code>$boardSize</code>. But what does that leave us for 11? Maybe <code>$lastPositionOnTheBoard</code>? A little bit long, but at least it tells us the truth about the magic constant.</p>
+<p>Isso nos leva a outra possível nomeação para o 11 e 12. Acredito que seja muito mais apropriado chamar o 12 de <code>$boardSize</code>. Mas o que significa o 11? Talvez <code>$lastPositionOnTheBoard</code> (última posição do tabuleiro)? Um pouco grande, mas nos diz a verdade sobre a constante mágica.</p>
 
 <pre class="brush: php">$lastPositionOnTheBoard = 11;
 $boardSize = 12;
@@ -439,8 +440,8 @@ if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer]) {
 // ... //
 }</pre>
 
-<p>I know, I know! There is some code duplication there. It is quite obvious, especially with the rest of the code hidden. But please remember that we were after magic constants. There will be a time for duplicate code also, but not right now.</p>
+<p>Eu sei, eu sei! Há duplicação de código aqui, É um pouco óbvio, especialmente com o resto do código escondido. Mas, lembre-se, estávamos atrás das constantes mágicas. Haverá tempo para a parte do código duplicado, mas não agora.</p>
 
-<h2>Final Thoughts</h2>
+<h2>Conclusão</h2>
 
-<p>I left one last magic constant in the code. Can you spot it? If you look at the final code, it will be replaced, but of course that would be cheating. Good luck finding it and thanks for reading.</p>
+<p>Deixei uma constante mágica no código. Você foi capaz de encontrá-la? Se olhar no código finalizado, ela estará alterada, mas, claro, isso seria trapaça. Boa sorte na busca e obrigado pela leitura.</p>
