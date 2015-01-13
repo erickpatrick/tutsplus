@@ -29,6 +29,7 @@ PHP
 - [Construindo Com a API do Twitter: OAuth, Leitura e Publicação](http://code.tutsplus.com/pt/tutorials/building-with-the-twitter-api-oauth-reading-and-posting--cms-22193)
 - [Construindo Com a API do Twitter: Usando Fluxos de Tempo Real](http://code.tutsplus.com/pt/tutorials/building-with-the-twitter-api-using-real-time-streams--cms-22194)
 - [Refatorando Código Legado: Parte 1 - O Resultado Esperado](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331)
+- [Refatorando Código Legado: Parte 2 - Cadeias de Caracteres Mágicas & Constantes](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-2-magic-strings-constants--cms-20527)
 
 WordPress
 ---------
