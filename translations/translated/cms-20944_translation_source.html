@@ -1,0 +1,306 @@
+<h1>Refatorando Código Legado: Parte 3 - Condicionais Complexos</h1>
+
+<p>Código velho. Código feio. Código complicado. Código macarrônico. Código sem sentido. Em outras palavras, <em>Código Legado</em>. Esta é uma série que ajudará você a trabalhar e lidar com esse tipo de código.</p>
+
+<p>Gosto de pensar em códigos da mesma forma que penso em textos em prosa. Sentenças longas, aninhadas e compostas por palavras exóticas, difíceis de entender. De tempos em tempos, você precisa de algo assim, mas, na maioria das vezes, pode usar sentenças com palavras simples, curtas e diretas. Isso também é verdadeiro para programação. Condicionais complexos são difíceis de entender. Métodos longos são como sentenças sem fim.</p>
+
+<h2>Da Prosa ao Código</h2>
+
+<p>Eis um exemplo "prosaico" para animá-lo. Primeiro, tudo em uma só sentença. Uma coisa bem feia.</p>
+
+<p><em>Se a temperatura na sala a qual o servidor está localizado, estiver abaixo de 5 graus e a umidade relativa do ar estiver maior que cinquenta por cento e menor que oitenta por cento, e a pressão atmosférica estiver em um patamar estável, então o técnico sênior, João, que tem, pelo menos, três anos de experiência em administração de redes e servidores, deveria ser notificado, e deverá acordar, no meio da noite, vestir-se, sair em seu carro ou chamar um taxi, caso não tenha carro, vir até o escritório, entrar no edifício, iniciar o condicionamento do ar e esperar até que a temperatura fique maior que dez graus e a umidade caia para menos de vinte por cento.</em></p>
+
+<p>Se conseguir entender, compreender e lembrar desse parágrafo sem precisar relê-lo, darei uma medalha a você (virtual, claro). Parágrafos longos e bagunçados, escritos em uma única sentença, são difíceis de entender. Infelizmente, não conheço mais palavra exóticas para tornar esse texto ainda mais difícil de entender.</p>
+
+<h3>Simplificação</h3>
+
+<p>Encontremos uma forma de simplificar isso um pouco. Toda a primeira parte, até "então", é o que chamamos de condição. Sim, está complicada mas podemos simplificá-la dessa forma: <em>Se as condições do ambiente representarem um risco...</em> ... então alguma coisa deve ser feita. A complicada expressão nos diz que devemos notificar alguém que satisfaça várias condições: <em>então notificar o técnico de suporte nível três</em>. Finalmente, todo um processo é descrito, desde o acordar o técnico até a parte onde tudo está ajustado: <em>e esperar que o ambiente seja restaurado para dentro dos parâmetros normais.</em> Coloquemos tudo junto.</p>
+
+<p><em>Se condições ambientais representam um risco, notifique o técnico de suporte nível três e espere até o ambiente ser restaurado aos parâmetros normais.</em></p>
+
+<p>Agora, está com apenas 20% do tamanho comparado ao texto original. Não sabemos os detalhes e, na maioria das vezes, não precisamos saber. E isso também é verdade para programação. Quantas vezes você se importou sobre os detalhes de implementação de um método tipo <code>logInfo("Some message");</code>? Provavelmente, apenas uma vez, se e quando ele foi implementado. E ele apenas registra a mensagem na categoria "info". Quando um usuário compra um de seus produtos, você se importa de como ele é cobrado? Não. Tudo o que importa é <em>se o produto foi vendido, deve-se removê-lo do inventário e cobrar o comprador</em>. Os exemplos são infinitos. Eles são, basicamente, como criarmos aplicativos corretos.</p>
+
+<h2>Condicionais Complexos</h2>
+
+<p>Nesta seção, tentaremos aplicar a filosofia prosáica em nosso jogo de perguntas e respostas. Começando pelas condicionais complexas. Comecemos por um código simples. Apenas como aquecimento.</p>
+
+<p>Linha vinte do arquivo <code>GameRunner.php</code> tem algo assim:</p>
+
+<pre class="brush: php">if (rand($minAnswerId, $maxAnswerId) == $wrongAnswerId)</pre>
+
+<p>Como isso seria em prosa? <em>Se um número aleatório estiver entre o valor mínimo para o ID e o valor máximo para o ID e for igual o ID da resposta errada, então...</em></p>
+
+<p>Isso não é muito complicado, ainda assim podemos simplificá-lo. E que tal isso? <em>Se a resposta errada sair, então...</em> Melhor, não é?</p>
+
+<h3>A Refatoração de Extração de Métodos</h3>
+
+<p>Precisamos de uma forma, um procedimento, uma técnica para mover aquela declaração condicional para outro lugar. O destino pode ser um método. Ou, em nosso caso, já que não estamos trabalhando com uma classe, pode ser uma função. Essa mudança do comportamento para uma nova função ou método é chamado de refatoração da "Extração de Método". Seguem abaixo os passos, como definido por Martin Fowler em seu excelente livro, <em>Refactoring: Improving the Design of Existing Code</em>. Se ainda não leu este livro, você deveria colocá-lo em sua "lista de leitura", agora. Esse é um dos livros mais essenciais para o programador modernos.</p>
+
+<p>Para nosso tutorial, peguei os passos e simplifiquei um pouco para se ajustar às nossas necessidades neste tutorial.</p>
+
+<ol>
+  <li>Crie um método e nomeio pelo que faz, não pelo modo como o faz;</li>
+  <li>Copie o código do lugar em questão e coloque-o no método. Por favor, note que é uma <em>cópia</em>, não remova o código original ainda.</li>
+  <li>Escaneie o código extraído em busca de quaisquer variáveis locais. Elas devem vir como parâmetros para o método;</li>
+  <li>Veja se quaisquer variáveis temporárias são usadas no método extraído. Se sim, declare-as dentro do método e remova o parâmetro extra;</li>
+  <li>Passe para o método alvo as variáveis de parâmetro;</li>
+  <li>Substitua o código extraído por uma chamada ao método alvo;</li>
+  <li>Execute seus testes;</li>
+</ol>
+
+<p>Isso é um tanto complicado. Contudo, a extração de método é, sem sombra de dúvidas, a forma mais usada de refatoração, exceto, talvez, pelo método de renomeação. Logo, é preciso que entenda a mecânica do mesmo.</p>
+
+<p>Para nossa sorte, IDEs modernas, como o PHPStorm proveem ótimas ferramentas de refatoração, como vimos no tutorial <a href="http://code.tutsplus.com/tutorials/phpstorm-when-the-ide-really-matters--cms-20787">PHPStorm: Quando IDEs Realmente Importam</a>. Então, usaremos as funcionalidades que temos em mãos, ao invés de fazê-lo tudo manualmente. Isso gera menos erros e é muito, muito mais rápido.</p>
+
+<p>Apenas selecione a parte desejada do código e <strong>clique com o botão direito</strong> nele.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/extract-method-phpstorm.png"/>
+</figure>
+
+<p>A IDE entenderá automaticamente que precisamos de três parâmetros para executar nosso código e proporá a seguinte solução:</p>
+
+<pre class="brush: php">// ... //
+$minAnswerId = 0;
+$maxAnswerId = 9;
+$wrongAnswerId = 7;
+function isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId) {
+	return rand($minAnswerId, $maxAnswerId) == $wrongAnswerId;
+}
+
+do {
+	$dice = rand(0, 5) + 1;
+	$aGame-&gt;roll($dice);
+
+	if (isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId)) {
+		$notAWinner = $aGame-&gt;wrongAnswer();
+	} else {
+		$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+	}
+
+} while ($notAWinner);</pre>
+
+<p>Embora esse código esteja correto sintaticamente, ele fará nossos testes falharem. Entre a bagunça de cores vermelhas, azuis e pretas, podemos ver o motivo:</p>
+
+<pre class="brush: bash">Fatal error: Cannot redeclare isCurrentAnswerWrong()
+(previously declared in /home/csaba/Personal/Programming/NetTuts
+/Refactoring Legacy Code - Part 3: Complex Conditionals and Long Methods
+/Source/trivia/php/GameRunner.php:16)
+in /home/csaba/Personal/Programming/NetTuts
+/Refactoring Legacy Code - Part 3: Complex Conditionals and Long Methods
+/Source/trivia/php/GameRunner.php on line 18</pre>
+
+<p>Basicamente, ele nos disse que estamos tentando declarar uma mesma função duas vezes. Mas, como isso aconteceu? Nós só o temos em um lugar em nosso arquivo <code>GameRunner.php</code>!</p>
+
+<p>Dê uma olhada nos testes. Há um método <code>generateOutput()</code> que usa um <code>require()</code> em nosso arquivo <code>GameRunner.php</code>. Ele é chamado duas vezes. Eis a fonte do erro.</p>
+
+<p>Agora, temos um dilema. Por conta do semeio do gerador aleatório, precisamos invocar esse código com valores controlados.</p>
+
+<pre class="brush: php">private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	require __DIR__ . '/../trivia/php/GameRunner.php';
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<p>Mas, não há forma de declarar mesma função duas vezes, no PHP, então, precisamos de outra solução. Começamos a sentir o peso do "resultado esperado". Executar aquilo tudo 20mil vezes, toda vez que mudamos um trecho de código, pode não ser a melhor solução a longo prazo. Além do mais, demora muito para executar, o que força a mudarmos o código de para ajustar ao modo como o testamos. Geralmente, isso é sinal de maus testes. O código deve mudar e, ainda assim, permitir os testes passarem, mas as mudanças devem ter bons motivos para serem realizadas, vindo de um único lugar.</p>
+
+<p>Mas, chega de conversa, precisamos de uma solução, mesmo que temporária. Migrar para testes unitários começará na próxima lição.</p>
+
+<p>Uma forma de resolver nosso problema é pegar o resto do código do arquivo <code>GameRunner.php</code> e colocá-lo em uma função. Digamos, <code>run()</code></p>
+
+<pre class="brush: php">include_once __DIR__ . '/Game.php';
+
+function isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId) {
+	return rand($minAnswerId, $maxAnswerId) == $wrongAnswerId;
+}
+
+function run() {
+	$notAWinner;
+
+	$aGame = new Game();
+
+	$aGame-&gt;add("Chet");
+	$aGame-&gt;add("Pat");
+	$aGame-&gt;add("Sue");
+
+	$minAnswerId = 0;
+	$maxAnswerId = 9;
+	$wrongAnswerId = 7;
+	do {
+		$dice = rand(0, 5) + 1;
+		$aGame-&gt;roll($dice);
+
+		if (isCurrentAnswerWrong($minAnswerId, $maxAnswerId, $wrongAnswerId)) {
+			$notAWinner = $aGame-&gt;wrongAnswer();
+		} else {
+			$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+		}
+
+	} while ($notAWinner);
+}</pre>
+
+<p>Isso nos permitirá testá-la, mas, fique atento que executar o código pela linha de comando não executará nosso jogo. Realizamos uma pequena mudança no comportamento. Ganhamos testabilidade ao custo dessa mudança de comportamento, o que não queríamos fazer em primeiro lugar. Se quiser executar seu código pela linha de comando, precisará de outro arquivo PHP que inclua ou requeira o executador e, explicitamente, execute-o. Não é uma mudança tão grande, mas lembre-se disso, especialmente, se códigos de terceiros utilizarem o código atual.</p>
+
+<p>Por outro lado, podemos incluir o arquivo em nossos testes.</p>
+
+<pre class="brush: php">require __DIR__ . '/../trivia/php/GameRunner.php';</pre>
+
+<p>And then call <code>run()</code> inside the generateOutput() method.</p>
+
+<pre class="brush: php">private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	run();
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<h3>Árvore de Diretórios, Arquivos &amp; Nomeação</h3>
+
+<p>Talvez seja uma ótima oportunidade para pensarmos na árvore de diretórios e arquivos. Não existem mais condicionais complexos em nosso arquivo <code>GameRunner.php</code>, mas, antes de darmos continuidade com o arquivo <code>Game.php</code>, não devemos deixar uma bagunça para trás. Nosso arquivo <code>GameRunner.php</code> não está executando coisa alguma e tivemos de alterar os métodos para torná-lo testável, o que causou a quebra em nossa interface pública. O motivo disso talvez seja porque estamos o alvo errado.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/testing-deps-schema.png"/>
+</figure>
+
+<p>Nosso teste invoca <code>run()</code> no arquivo <code>GameRunner.php</code>, que inclui o arquivo <code>Game.php</code>, executa o jogo e um novo "resultado esperado" é gerado. E se introduzirmos outro arquivo? Nós faremos o arquivo <code>GameRunner.php</code> só invocar a função <code>run()</code> e nada mais. Se não há lógica que possa dar errado por lá e não é preciso testes, podemos mover o código atual para outro arquivo?</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/testing-deps-with-new-runner.png"/>
+</figure>
+
+<p>Agora é uma história totalmente diferente. Nossos testes estão acessando código que não pertence ao executador. Basicamente, nossos testes são apenas executadores. E, claro, em nosso novo arquivo <code>GameRunner.php</code> haverá, apenas, uma chamada para executar o jogo. Esse é um verdadeiro executador, faz nada mais além de invocar o método <code>run()</code>. Sem lógico reflete na não necessidade de testes.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/RunnerFunctions.php';
+run();</pre>
+
+<p>Há quatro perguntas que podemos fazer nesse momento. Realmente precisamos do arquivo <code>RunnerFunctions.php</code>? Não poderíamos apenas pegar as funções de lá e movê-las para o arquivo <code>Game.php</code>? Claro que sim, mas, com nosso entendimento atual, quais funções pertencem a que? Acharemos um lugar para nosso método em uma lição futura.</p>
+
+<p>Também tentamos nomear nossos arquivos pelo que o código faz neles. Um dos arquivos é só um conjunto de funções para o executador, funções que consideramos pertencerem juntas, agora, para satisfazer as necessidades do dele. Isso virará uma classe no futuro? Por hora, está bom o bastante.</p>
+
+<h3>Limpando o Arquivo <code class="inline">RunnerFunctions</code></h3>
+
+<p>Se dermos uma olhada no arquivo <code>RunnerFunctions.php</code> file, criamos uma bela bagunça.</p>
+
+<p>Nós definimos:</p>
+
+<pre class="brush: php">$minAnswerId = 0;
+$maxAnswerId = 9;
+$wrongAnswerId = 7;</pre>
+
+<p>... dentro do método <code>run()</code>. Eles têm uma única razão de existir e um único lugar onde são usados. Por que não declará-los dentro daquele método e acabar com os parâmetros de uma vez?</p>
+
+<pre class="brush: php">function isCurrentAnswerWrong() {
+	$minAnswerId = 0;
+	$maxAnswerId = 9;
+	$wrongAnswerId = 7;
+	return rand($minAnswerId, $maxAnswerId) == $wrongAnswerId;
+}</pre>
+
+<p>Certo, os testes estão passando e o código está muito melhor. Mas ainda não o bastante.</p>
+
+<h3>Condicionais Negativos</h3>
+
+<p>Para mente humana, é muito mais fácil compreender um pensamento positivo. Assim, se puder evitar condicionais negativos, sempre prefira essa escolha. EM nosso exemplo atual, o método verifica por uma resposta errada. Seria muito mais fácil entender um método que verifica por uma validação e, então, negá-la, quando preciso.</p>
+
+<pre class="brush: php">function isCurrentAnswerCorrect() {
+	$minAnswerId = 0;
+	$maxAnswerId = 9;
+	$wrongAnswerId = 7;
+	return rand($minAnswerId, $maxAnswerId) != $wrongAnswerId;
+}</pre>
+
+<p>Usamos a o Método de Renomeação de refatoração. Novamente, isso é bem complicado a se fazer manualmente, mas em uma IDE, isso é tão simples quanto apertar <strong>CTRL+r</strong>, ou selecionar a opção apropriada no menu. Para fazer os testes passarem, precisamos atualizar nossa declaração condicional com uma negação.</p>
+
+<pre class="brush: php">if (!isCurrentAnswerCorrect()) {
+	$notAWinner = $aGame-&gt;wrongAnswer();
+} else {
+	$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+}</pre>
+
+<p>Isso nos deixa um passo mais próximo de compreender o condicional. Usar <code>!</code> em uma declaração <code>if()</code>, ajuda. Ele chama atenção e destaca o fato que algo será negado ali. Mas podemos reverter a ordem para evitar completamente a negação? Sim, podemos.</p>
+
+<pre class="brush: php">if (isCurrentAnswerCorrect()) {
+	$notAWinner = $aGame-&gt;wasCorrectlyAnswered();
+} else {
+	$notAWinner = $aGame-&gt;wrongAnswer();
+}</pre>
+
+<p>Agora não temos negação lógica usando <code>!</code>, nem negação léxica ao nomear e retornar as coisas erradas. Todos esses passos tornam nosso condicional muito, muito mais simples de entender.</p>
+
+<h2>Condicionais no Arquivo <code>Game.php</code></h2>
+
+<p>Simplificamos ao extremo o arquivo <code>RunnerFunctions.php</code>. É hora de ataca o arquivo <code>Game.php</code>. Há diversas formas de buscar por condicionais. Se preferir, pode escanear o código apenas com os olhos. É mais lento, mas tem o adicional de forçar você entendê-lo sequencialmente.</p>
+
+<p>A segunda e óbvia forma de pesquisar por condicionais, é apenas realizar uma busca por <code class="inline">if</code> ou <code class="inline">if (</code>. Se você formatou seu código com as funcionalidades embutidas da sua IDE, pode ter certeza que todos os condicionais terão uma mesma forma específica. No meu caso, há um espaço entre o <code class="inline">if (</code> e os parênteses. Além disso, se usar o mecanismo interno de busca, os resultados encontrados serão destacados em uma cor estridente. No meu caso, em amarelo.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/20944/image/ide-find-highlights.png"/>
+</figure>
+
+<p>Agora que temos todos eles em destaque, deixando nosso código como se fosse uma árvore de Natal, podemos vê-los um por um. Nós conhecemos as ferramentas e sabemos das técnicas. É hora de aplicá-las.</p>
+
+<pre class="brush: php">if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer])</pre>
+
+<p>Parece bom o bastante. Poderíamos extraí-lo em um método, mas haveria um nome para que tornasse o método da condição o mais claro possível?</p>
+
+<pre class="brush: php">if ($roll % 2 != 0) </pre>
+
+<p>Aposto que 90% dos programadores podem entender o problema da declaração <code>if</code> acima. Estamos focando naquilo que o método faz. E nosso cérebro está amarrado ao problema do domínio. Não queremos "bifurcar nosso pensamento" para computar a expressão matemática para, então, entender e verificar se o número é ímpar. Essa é uma das pequenas distrações que podem arruinar uma dedução lógica difícil. Então, extraímos esse trecho.</p>
+
+<pre class="brush: php">if ($this-&gt;isOdd($roll))</pre>
+
+<p>Isso é bem melhor porque é sobre o problema do domínio e não requer qualquer poder cerebral adicional.</p>
+
+<pre class="brush: php">if ($this-&gt;places[$this-&gt;currentPlayer] &gt; $lastPositionOnTheBoard)</pre>
+
+<p>Este parece ser outro bom candidato. Não é tão difícil de entendê-lo enquanto expressão matemática. Contudo, novamente, é uma expressão que requer um processamento à parte. Pergunto-me, o que significa a posição atual do jogador alcançar o final do tabuleiro? Podemos declarar isso de uma forma mais direta? Podemos sim.</p>
+
+<pre class="brush: php">if ($this-&gt;playerReachedEndOfBoard($lastPositionOnTheBoard))</pre>
+
+<p>Isso está melhor. Mas, o que realmente acontece dentro do <code>if</code>? O jogador é reposicionado para o começo do tabuleiro. O jogador começa uma nova "volta" na corrida. E se, no futuro, quisermos um novo motivo para começar uma volta? Devemos alterar o condicional <code>if</code> ao alterar a lógica por trás dos panos em um método privado? Claro que não! Então, precisamos dar outro nome para esse método, de modo que o <code>if</code> represente aqui que acontece, não o que estamos verificando. </p>
+
+<pre class="brush: php">if ($this-&gt;playerShouldStartANewLap($lastPositionOnTheBoard))</pre>
+
+<p>Ao tentar nomear métodos e variáveis, sempre pense sobre aquilo que o código deveria fazer, não a declaração ou condição que ele representa. Uma vez que conseguir fazer isso, renomear ações em seu código diminuirá drasticamente. Ainda assim, mesmo um programador experiente precisar renomear um método de três a cinco vezes, antes de obter o nome correto. Então, não tenha medo de apertar <strong>CTRL+r</strong> e renomear frequentemente. Nunca envie suas mudanças para o sistema versionador do código do seu projeto, caso não tenha escaneado os nomes dos seus novos métodos e eles não soem como se fossem uma prosa bem escrita. Renomeação é barata, hoje em dia, permitindo que você renomeie as coisas várias vezes e volte para o que era com o apertar de um único botão.</p>
+
+<p>O condicional <code>if</code> da linha 90 é o mesmo do anterior. Assim, podemos reusar o método recém extraído. Voila, duplicação eliminada! E não esqueçamos de executar os testes de tempos em tempos, mesmo ao usar a refatoração com auxílio da mágica das IDEs. O que nos leva à nossa próxima observação. Mágica, às vezes, falha. Veja a linha 65.</p>
+
+<pre class="brush: php">$lastPositionOnTheBoard = 11;</pre>
+
+<p>Nós declaramos e usamos uma variável em apenas um lugar, como um parâmetro para nosso método recém extraído. Isso é forte evidência que a variável deveria estar dentro do método em si.</p>
+
+<pre class="brush: php">private function playerShouldStartANewLap() {
+	$lastPositionOnTheBoard = 11;
+	return $this-&gt;places[$this-&gt;currentPlayer] &gt; $lastPositionOnTheBoard;
+}</pre>
+
+<p>E não esqueça de invocar o método sem parâmetro em suas declarações <code>if</code>.</p>
+
+<pre class="brush: php">if ($this-&gt;playerShouldStartANewLap())</pre>
+
+<p>A declaração <code>if</code> no método <code>askQuestion()</code> parece correta, assim como a do método <code>currentCategory()</code>.</p>
+
+<pre class="brush: php">if ($this-&gt;inPenaltyBox[$this-&gt;currentPlayer])</pre>
+
+<p>Isso é um pouco mais complicado, mas está no domínio do problema e é bem expressiva.</p>
+
+<pre class="brush: php">if ($this-&gt;currentPlayer == count($this-&gt;players))</pre>
+
+<p>Podemos trabalhar um pouco mais nessa. É óbvio o que a comparação significa: se o jogador está além dos limites. Mas, como aprendemos acima, queremos intenção, não estado. </p>
+
+<pre class="brush: php">if ($this-&gt;shouldResetCurrentPlayer())</pre>
+
+<p>Agora está muito melhor e o reusaremos nas linhas 172, 189 e 203. Duplicação, quer dizer, triplicação... quadruplicação eliminada!</p>
+
+<p>Todos os testes passaram e todos os condicionais <code>if</code> tiveram suas complexidades avaliadas.</p>
+
+<h2>Conclusão</h2>
+
+<p>Existem várias lições que podemos aprender ao refatorar condicionais. Primeiro de tudo, eles ajudam no melhor entendimento da intenção do código. Se você nomear o método extraído para representar bem a intenção, você evitará mudanças futuras. Encontrar duplicação na lógica é muito mais difícil que encontrar linhas duplicadas em linhas de código simples. Talvez ache que tenhamos de fazer uma duplicação consciente, mas prefiro lidar com duplicação quando tenho testes unitários os quais posso confiar. O "Resultado Esperado" é bom, mas, no máximo, serve para segurança, não como paraquedas.</p>
+
+<p>Obrigado pela leitura e mantenha-se ligado pelo próximo tutorial onde criaremos nossos primeiros testes unitários.</p>
