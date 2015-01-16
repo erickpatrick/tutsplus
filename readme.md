@@ -15,12 +15,9 @@ PHP
 - [Como Integrar o “No CAPTCHA reCAPTCHA” em Seu Site](http://webdesign.tutsplus.com/pt/tutorials/how-to-integrate-no-captcha-recaptcha-in-your-website--cms-23024)
 - [BDD com Behat](https://code.tutsplus.com/pt/tutorials/bdd-with-behat--net-36171)
 - [Primeiros Passos com Phpspec](https://code.tutsplus.com/pt/tutorials/getting-started-with-phpspec--cms-20919)
-- [Laravel 4: Começando com API RESTful](https://code.tutsplus.com/pt/tutorials/laravel-4-a-start-at-a-restful-api-updated--net-29785)
 - [PDO ou MySQLi: Qual Você Deveria Usar?](https://code.tutsplus.com/pt/tutorials/pdo-vs-mysqli-which-should-you-use--net-24059)
 - [Compreendendo as Funções Hash e Mantendo as Senhas Seguras](https://code.tutsplus.com/pt/tutorials/understanding-hash-functions-and-keeping-passwords-safe--net-17577)
 - [Porque Você Deveria Usar a Biblioteca PDO Para Acessar Bases de Dados](https://code.tutsplus.com/pt/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059)
-- [Desconstruindo Laravel: Session, Auth e Cache](https://code.tutsplus.com/pt/tutorials/laravel-unwrapped-session-auth-and-cache--cms-19952)
-- [Testando Controladores no Laravel](https://code.tutsplus.com/pt/tutorials/testing-laravel-controllers--net-31456)
 - [PHP Orientado a Objetos para Iniciantes](https://code.tutsplus.com/pt/tutorials/object-oriented-php-for-beginners--net-12762)
 - [Princípios SOLID Parte 1 - O Princípio da Responsabilidade Única](http://code.tutsplus.com/pt/tutorials/solid-part-1-the-single-responsibility-principle--net-36074)
 - [Princípios SOLID Parte 2 - Princípio do Aberto para Expensão, Fechado para Modificação](http://code.tutsplus.com/pt/tutorials/solid-part-2-the-openclosed-principle--net-36600)
@@ -30,6 +27,14 @@ PHP
 - [Construindo Com a API do Twitter: Usando Fluxos de Tempo Real](http://code.tutsplus.com/pt/tutorials/building-with-the-twitter-api-using-real-time-streams--cms-22194)
 - [Refatorando Código Legado: Parte 1 - O Resultado Esperado](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331)
 - [Refatorando Código Legado: Parte 2 - Cadeias de Caracteres Mágicas & Constantes](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-2-magic-strings-constants--cms-20527)
+- [Refatorando Código Legado: Parte 3 - Condicionais Complexos](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-3-complex-conditionals--cms-20944)
+
+Laravel
+-------
+- [Laravel 4: Começando com API RESTful](https://code.tutsplus.com/pt/tutorials/laravel-4-a-start-at-a-restful-api-updated--net-29785)
+- [Desconstruindo Laravel: Session, Auth e Cache](https://code.tutsplus.com/pt/tutorials/laravel-unwrapped-session-auth-and-cache--cms-19952)
+- [Testando Controladores no Laravel](https://code.tutsplus.com/pt/tutorials/testing-laravel-controllers--net-31456)
+- [Laravel, BDD e Você: A Primeira Funcionalidade](http://code.tutsplus.com/pt/tutorials/laravel-bdd-and-you-the-first-feature--cms-22486)
 
 WordPress
 ---------
