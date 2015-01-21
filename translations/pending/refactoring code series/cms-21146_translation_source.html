@@ -1,32 +1,32 @@
 <h1>Refatorando Código Legado: Parte 4 - Nossos Primeiros Testes Unitários</h1>
 
-<p>Old code. Ugly code. Complicated code. Spaghetti code. Gibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+<p>Código velho. Código feio. Código complicado. Código macarrônico. Código sem sentido. Em outras palavras, <em>Código Legado</em>. Esta é uma série que ajudará você a trabalhar e lidar com esse tipo de código.</p>
 
-<p>One of the key moments of refactoring a totally legacy code is when we start extracting small pieces from it and we start writing targeted unit tests for those small pieces. But this can be quite difficult, especially when you have code that is written so that it would be hard to compile or run if pieces of it are missing. We can't safely do large surgeries on a code we still barely understand and only a golden master test keeps us breaking it totally. Fortunately there are some techniques that can help us.</p>
+<p>Um dos momentos chave da refatoração de um código totalmente legado é quando começamos a extração desses pequenos trechos de código e escrevemos testes unitários para esses trechos. Mas isso pode ser bem difícil, especialmente, quando se tem código que é escrito de tal forma que torna difícil a compilação ou mesmo a execução, caso partes dele estejam faltando. Não podemos realizar <em>cirurgias</em> grandes de forma segura em um código que mal entendemos e só temos o <em>resultado esperado</em> para nos apoiar. Felizmente, existem algumas técnicas que podem nos ajudar nisso.</p>
 
-<h2>What Is a Unit Test?</h2>
+<h2>O Que É um Teste Unitário?</h2>
 
-<p>Throughout the history of automated testing, the past twenty or so years, the term <em>Unit Test</em> was defined in many ways. Initially it was about the scope of the code exercised inside a test. A unit test was a test that tested the smallest possible unit of a particular programming language.</p>
+<p>Através da história dos testes automatizados, nos últimos vinte e poucos anos, o termo <em>Teste Unitário</em> foi definido de várias formas. Inicialmente, relacionava-se ao escopo do código exercitado dentro de um teste. Um teste unitário era um teste que testava a menor unidade possível de uma linguagem de programação em particular.</p>
 
-<p>In this sense, for our PHP code, a unit test is a test that exercises a single function or method. When we are programming in an object oriented style, our functions are organized in classes. All the tests associated with a single class are usually called a <em>Test Case</em>.</p>
+<p>Nesse sentido, para nosso código PHP, um teste unitário é aquele teste que exercita uma única função ou método. Quando programamos com o paradigma orientado a objetos, nossas funções são organizadas em classes. Todos os testes associados a uma única classe, geralmente, são chamados de <em>Caso de Teste</em>.</p>
 
-<p>There are about 25 other definitions for the term of <em>Unit Test</em>, so we will not go into each one. While these definitions are quite different, all of them has two things in common. This leads us to the probably most accepted definition.</p>
+<p>Existe cerca de 25 outras definições para a expressão <em>Teste Unitário</em>, então, não falaremos sobre cada um deles. Embora essas definições possam ser bem diferentes, todas elas possuem duas coisas em comum, o que nos leva a provável definição mais aceita dentre todas.</p>
 
-<blockquote>A Unit Test is a test that runs in milliseconds and tests a piece of code in isolation.</blockquote>
+<blockquote>Um Teste Unitário é um teste que é executado em milissegundos e testa um trecho de código de forma isolada.</blockquote>
 
-<p>We must note two key words in the definition: milliseconds - our tests must run fast, very fast; and isolation - we must test our code as isolated as possible. These two key words go hand-in-hand, because in order to make tests faster we must reduce their scope. Databases, network communications, user interfaces, they are just too slow to be tested this way. We need to find and isolate a small enough chunk of code, so that we can compile (if needed) and run that code in the order of milliseconds, that is, in less than ten milliseconds, because that would be a centisecond. Our test framework will add a slight overhead over the pure run time of the code, but that is negligible. </p>
+<p>Devemos atentar para duas palavras-chaves nessa definição: milissegundos - nossos testes devem ocorrer muito, muito rápido; e isolação - devemos testar nosso código o mais isolado possível. Essas duas palavras-chave andam juntas, porque, para fazer os testes executarem masi rápido, precisamos reduzir seus escopos. Banco de dados, comunicação de rede, interfaces de usuário... Todas elas são muito lentas para serem testadas dessa forma. Precisamos encontrar e isolar um pequeno trecho de código, para que possamos compilar (se necessário) e executar esse código na casa dos milissegundos, isso é, em menos de dez milissegundos, porque, acima disso, já seria na ordem dos centissegundos. Nosso <em>framework</em> de testes adicionará um pouco de sobrecarga sobre a execução do código puro, mas é algo negligível. </p>
 
-<h2>Identifying Code to be Unit Tested</h2>
+<h2>Identificando Código Que Precisam de Testes Unitários</h2>
 
-<h3>Finding Isolated Methods</h3>
+<h3>Encontrando Métodos Isolados</h3>
 
-<p>If the structure of the code permits, it is recommended to start by writing tests for whatever code we actually can test. This will help us start to build up coverage and it will also force us to concentrate and understand small pieces of code. Remember, we are refactoring, we do not want to change behavior. In fact, at this initial step we do not want to change our production code at all if possible.</p>
+<p>Se a estrutura do código permitir, é recomendado começar criando testes para qualquer código que possamos testar de verdade. Isso nos ajudará na cobertura do código e também nos forçará a concentramo-nos em pequenos pedaços de código. Lembre-se, ao refatorar, não queremos alterar comportamento. Na verdade, nesse passo inicial, não queremos alterar nosso código em produção de qualquer maneira, se possível.</p>
 
-<p>We need to analyze our three files, to see what we can test and what not.</p>
+<p>Precisamos analisar nossos três arquivos, para ver o que podemos testar ou não.</p>
 
-<p><code>GameRunner.php</code> has basically no logic. We created it to be just a delegation. Could we test it? Sure we could. Should we test it? No, we shouldn't. Even though some methods can, in a technical sense, be tested, if there is no logic in them we probably don't want to test them.</p>
+<p>Basicamente, o arquivo <code>GameRunner.php</code> não tem lógica. Nós o criamos apenas para delegação. Poderíamos testá-lo? Devemos testá-lo? Não, não devemos. Mesmo que alguns métodos possam ser testados, tecnicamente falando, se não há lógica neles, então, não precisamos testá-los.</p>
 
-<p><code>RunnerFunctions.php</code> is a different story. There are two functions in there. <code>run()</code> is a big function, doing a whole run of the system. This is not something we can easily test. And it has no return value either, it just outputs to the screen, so we would need to capture output and compare strings. This is not very typical for Unit Testing. On the other hand <code>isCurrentAnswerCorrect()</code> returns a simple true or false based on some conditions. Can we test that?</p>
+<p>Já com o arquivo <code>RunnerFunctions.php</code> temos outra história. O método <code>run()</code> é bem grande, executando completamente o sistema. Isso não é algo que possamos testar facilmente. Além disso, não possui qualquer valor de retorno, apenas imprimindo na tela, de modo que precisamos capturá-lo para que possamos comparar. Isso não é típico de Testes Unitários. Por outro lado, o método <code>isCurrentAnswerCorrect()</code> retorna um simples <code>true</code> ou <code>false</code>, baseado em algumas condições. Podemos testá-lo?</p>
 
 <pre class="brush: php">function isCurrentAnswerCorrect() {
 	$minAnswerId = 0;
@@ -35,11 +35,11 @@
 	return rand($minAnswerId, $maxAnswerId) != $wrongAnswerId;
 }</pre>
 
-<p>We already understand that this code generates a random number and compares it to the ID of the wrong number.</p>
+<p>Nós já sabemos que esse código gera um código aleatória e compara seu resultado ao ID do número errado.</p>
 
-<p><i>Step 1</i> - go to the <code>GoldenMasterTest.php</code> and mark all tests as skipped. We do not want to run them for the time being. As we start building unit tests, we will run our golden master more rarely. As we write new tests and we do not modify the production code, fast feedback is more important.</p>
+<p><i>Passo 1</i> - vá até o arquivo <code>GoldenMasterTest.php</code> e marque todos os testes para serem saltados. Não queremos executá-los agora. Assim que começarmos a criar os testes unitários, raramente executaremos nosso <em>resultado esperado</em>. De acordo que criarmos novos testes e não modificarmos o código de produção, respostas rápidas são muito mais importantes.</p>
 
-<p><i>Step 2</i> - create a new test <code>RunnerFunctionsTest.php</code> in our <code>Test</code> directory, alongside <code>GoldenMasterTest.php</code>. Now think about the simplest possible test code that you can write. What is the bare minimum to get it running? Well, it is something like this:</p>
+<p><i>Passo 2</i> - crie um novo arquivo de teste, <code>RunnerFunctionsTest.php</code>, em nosso diretório <code>Test</code>, junto do arquivo <code>GoldenMasterTest.php</code>. Agora, pense no teste mais simples que você pode escrever. Qual o mínimo necessário para fazê-lo executar? Pois bem, é algo mais ou menos assim:</p>
 
 <pre class="brush: php">require_once __DIR__ . '/../trivia/php/RunnerFunctions.php';
 
@@ -51,9 +51,9 @@ class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
 }</pre>
 
-<p>We require the <code>RunnerFunctions.php</code> file, so we test that it can be included and does not produce an error. The rest of the code is pure boilerplate, just a skeleton class and an empty test function. But, now what? What do we do next? Do you know how can we trick <code>rand()</code> to return what we want? I do not know, yet. So let's investigate how it is working right now.</p>
+<p>Requeremos o arquivo <code>RunnerFunctions.php</code>, para testar se podemos incluí-lo sem produzir quaisquer erros. O resto do código é algo básico de qualquer teste, apenas uma classe esqueleto e uma função de teste vazia. Mas, e agora? O que faremos depois? Você sabe como fazer a função <code>rand()</code> retornar o que queremos? Eu não sei, ainda. Então, investiguemos como ela está funcionando.</p>
 
-<p>We know how to seed the random generator, so what if we try to seed it with some numbers, would that work? We can write code in our test to figure out how something works.</p>
+<p>Sabemos como alimentar o gerador aleatório, então, que tal alimentá-lo com alguns números? Será que funcionará? Podemos escrever códigos nos nossos testes para descobrirmos se algo funciona.</p>
 
 <pre class="brush: php">function testItCanFindCorrectAnswer() {
 
@@ -70,7 +70,7 @@ class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
 }</pre>
 
-<p>We also know that our question IDs are between zero and nine. This produces the output below.</p>
+<p>Também sabemos que os IDs das nossas perguntas estão entre zero e novo. O código acima produz o retorno abaixo.</p>
 
 <pre class="brush: bash">int(8)
 int(8)
@@ -78,13 +78,13 @@ int(7)
 int(5)
 int(9)</pre>
 
-<p>Well, that doesn't look very obvious. In fact I can see no logic on how could we determine the values the <code>rand()</code> function will produce. We will need to modify our production code, so that we can inject the values we need.</p>
+<p>Bem, isso não parece muito óbvio. Na verdade, não consigo enxergar qualquer lógica para que possamos determinar os valores que a função <code>rand()</code> produzirá. Precisaremos alterar o nosso código de produção, para que possamos injetar os valores que precisamos.</p>
 
-<h3>Dependencies and Dependency Injection</h3>
+<h3>Dependências e Injeção de Dependência</h3>
 
-<p>When most people are talking about "dependency" they think about connections between classes. This is the most common case, especially in object oriented programming. But what if we generalize the term a little bit. Forget about classes, forget about objects, concentrate only on the meaning of "dependency". What does our <code>rand(min,max)</code> method depend on? It depends on two values. A minimum and a maximum.</p>
+<p>Quando a maioria das pessoas fala sobre "dependência" eles estão pensando na conexão entre as classes. Esse é o caso mais comum, principalmente, na programação orientada a objetos. Mas, que tal generalizarmos um pouco esse termo? Esqueça as classes e objetos. Concentre-se apenas no significado de "dependência". Do que o nosso método <code>rand(min,max)</code> depende? Ele depende de dois valores, um mínimo e um máximo.</p>
 
-<p>Can we control <code>rand()</code> by those two parameters? Doesn't <code>rand()</code> predictably return the same number if min and max are the same? Let's see.</p>
+<p>Podemos controlar o método <code>rand()</code> através desses dois parâmetros? O <code>rand()</code> não retorna o mesmo número se tanto o mínimo e o máximo forem o mesmo número? Vejamos.</p>
 
 <pre class="brush: php">function testItCanFindCorrectAnswer() {
 
@@ -96,7 +96,7 @@ int(9)</pre>
 
 }</pre>
 
-<p>If we are right, each line should dump a number from zero to four in a predictable way.</p>
+<p>Se estivermos certo, cada linha deve retornar um número, de zero a quatro.</p>
 
 <pre class="brush: bash">int(0)
 int(1)
@@ -104,18 +104,18 @@ int(2)
 int(3)
 int(4)</pre>
 
-<p>That looks pretty predictable to me. By sending the same number for min and max to <code>rand()</code> we can be sure we generate the expected number. Now, how do we do this for our function? It has no parameters!</p>
+<p>Isso parece bem previsível para mim. Ao passar o mesmo número para os valores mínimo e máximo da função <code>rand()</code>, podemos ter certeza que geraremos um certo número. Agora, como faremos isso com nossa função? Ela não possui parâmetro!</p>
 
-<p>Probably the most common way to inject dependencies into a method is to use parameters with default values. This will preserve the function's current functionality, but will allow us to control its flow when we test it.</p>
+<p>Provavelmente, a forma mais comum de injetar dependências em um método é usar parâmetros com valores padrão. Isso preservará a funcionalidade atual do método, mas nos permite controlar seu fluxo ao testá-lo.</p>
 
 <pre class="brush: php">function isCurrentAnswerCorrect($minAnswerId = 0, $maxAnswerId = 9) {
 	$wrongAnswerId = 7;
 	return rand($minAnswerId, $maxAnswerId) != $wrongAnswerId;
 }</pre>
 
-<p>Modifying the <code>isCurrentAnswerCorrect()</code> this way will preserve its current behavior and allow us to test it in the same time. You can re-enable your golden master and run it now. The production code was changed, we need to be sure we didn't break it.</p>
+<p>Modificando o método <code>isCurrentAnswerCorrect()</code> dessa forma preservará o comportamento atual e permite-nos testá-lo ao mesmo tempo. Você pode reabilitar seu "retorno esperado" e executá-lo, agora. O código de produção foi alterado, precisamos garantir que não o quebramos.</p>
 
-<p>As our <code>isCurrentAnswerCorrect()</code> looks now, testing it is just a matter of sending in ten values for each possible number returned by <code>rand()</code>.</p>
+<p>A forma como <code>isCurrentAnswerCorrect()</code> está agora, para testá-la, basta enviarmos 10 valores para cada possível número retornável por <code>rand()</code>.</p>
 
 <pre class="brush: php">function testItCanFindCorrectAnswer() {
 
@@ -132,13 +132,13 @@ int(4)</pre>
 
 }</pre>
 
-<p>That test function was built by running our tests after each line. Now that our tests are very fast, we can run them almost continuously. There are actually <a href="https://code.tutsplus.com/tutorials/automatic-testing-for-tdd-with-php--net-26395">tools to run tests as soon as a file changes</a> and I've heard about programmers who are running their tests continuously and they just glimpse at the test status bar at the end of each command. As you program you know what to expect, if the test doesn't turn green when you thought it should, you did something wrong. Their feedback look is so tight, it is almost a certainty that something went wrong in the last line or command they wrote.</p>
+<p>Essa função teste foi construída para executar nossos testes após cada linha. Agora que nossos testes estão muito rápido, podemos executá-los quase continuamente. Na verdade, existe <a href="https://code.tutsplus.com/tutorials/automatic-testing-for-tdd-with-php--net-26395">ferramentas para executar nossos testes tão logo um arquivo seja alterado</a> e ouvi falar sobre programadores que executam seus testes continuamente e apenas prestam atenção no estado da base ao fim de cada comando. De acordo com que você programa, você sabe o que esperar. Quando o teste não retorna verde quando você achava que deveria retornar, você fez algo errado. A aparência do retorno deles é tão firme que é quase certo que algo aconteceu na última linha ou comando escrita.</p>
 
-<p>Even though that may sound extreme test driven development, I imagine it is useful especially when you develop algorithms. I personally prefer to run my tests by pressing a shortcut, a single key shortcut. And as tests are helping me develop my programs, my shortcut for running tests is <strong>F1</strong>.</p>
+<p>Embora isso parece um desenvolvimento voltado a teste extremo, acho que seja especialmente útil ao desenvolver seus algoritmos. Pessoalmente, prefiro executar meus testes ao apertar algum atalho, uma única tecla de atalho. E, como os testes me <em>ajudam</em> a desenvolver meus programas, meu atalho para executar meus testes é o <strong>F1</strong>.</p>
 
-<p>Let's get back to our business. That test, with ten assertions, runs in 66 ms, about 6.6 ms per assertion. Each assertion calls and executes a piece of our code. This seems to be as we defined unit tests at the beginning of this tutorial.</p>
+<p>Voltemos ao trabalho. Aquele teste, com dez assertivas, executa em aproximadamente, 66ms, cerca de 6.6ms por assertiva. Cada assertiva invoca e executa um trecho do seu código. Isso parece estar dentro do que definimos para testes unitários no início do nosso tutorial.</p>
 
-<p>Did you spot the <code>assertFalse()</code> for the number seven? I bet half of you missed it. It is buried deep inside a bunch of other assertions. Hard to spot. I think it deserves its own test, so we make explicit the single wrong answer case.</p>
+<p>Você percebeu o <code>assertFalse()</code> para a do número? Aposto que metade de vocês não percebeu. Está escondido no meio de todas as outras assertivas. Acredito que ela merece seu próprio teste, para que deixemos explícito caso único da resposta errada.</p>
 
 <pre class="brush: php">function testItCanFindCorrectAnswer() {
 	$this-&gt;assertTrue(isCurrentAnswerCorrect(0, 0));
@@ -156,11 +156,11 @@ function testItCanFindWrongAnser() {
 	$this-&gt;assertFalse(isCurrentAnswerCorrect(7, 7));
 }</pre>
 
-<h3>Refactoring Tests</h3>
+<h3>Refatorando Testes</h3>
 
-<p>As we are in a quest of refactoring, making code better, easier to understand, we must not forget about our tests. They are just as important as our production code. We need to keep our tests clean and easy to understand also. We need to refactor our tests and we should do it as soon as we observe something is wrong with them and only when they are passing. In this way, the production code can verify our tests. If we have a green test, we refactor it and it turns red, we broke the test. We can just undo a few steps and try again.</p>
+<p>Como estamos numa peregrinação por refatoração, por tornar o código melhor, mais fácil de entender, não podemos esquecer sobre nossos testes. Eles são tão importantes quanto códigos de produção. Precisamos manter nossos códigos limpos e fáceis de entender também. Precisamos refatorar nossos testes e devemos fazê-lo tão logo observemos algo errado com eles e apenas quando eles estiverem verdes. Se tivermos um teste verde e o refatoramos, e ele acaba vermelho, fizemos algo errado na refatoração. Podemos desfazer alguns passos e tentar novamente.</p>
 
-<p>We could extract the correct answer numbers into an array and use that to generate correct answers.</p>
+<p>Poderíamos extrair os números em um vetor e usá-lo para gerar as respostas corretas.</p>
 
 <pre class="brush: php">function testItCanFindCorrectAnswer() {
 	$correctAnserIDs = [0, 1, 2, 3, 4, 5, 6, 8, 9];
@@ -169,7 +169,7 @@ function testItCanFindWrongAnser() {
 	}
 }</pre>
 
-<p>That passes, but also introduces some logic. Maybe we could extract it in a custom assertion. This may be a little bit extreme for such a simple test, but it is a good opportunity to understand the concept.</p>
+<p>Isso faz o teste passar, mas introduz um pouco de lógica. Talvez possamos extrair uma assertiva customizada. Pode ser que seja um pouco extremo para um teste tão simples, mas é uma boa oportunidade para entendermos o conceito.</p>
 
 <pre class="brush: php">function testItCanFindCorrectAnswer() {
 	$correctAnserIDs = [0, 1, 2, 3, 4, 5, 6, 8, 9];
@@ -186,15 +186,15 @@ private function assertAnswersAreCorrectFor($correctAnserIDs) {
 	}
 }</pre>
 
-<p>Now, this helped us in two ways. First, we moved the logic about going over each element of the array an verifying it into a private method. As we usually keep our private methods at the end of the class, out of sight, out of the way of the higher level logic in the public methods, we managed to rise the abstraction of our test. In the test method we don't care about how the answers are verified for correctness. We care about the IDs that should represent correct answers. The second advantage is the breaking of the implementation from the preparation. Keeping the correct answer IDs in the test helped us separate the details of implementation from the premise we need to test.</p>
+<p>Isso nos ajudou de duas formas: Primeiro, movemos para fora a lógica sobre iterar e verificar cada elemento de um vetor para um método privado. Como, geralmente, mantemos nossos métodos privados ao final de nossas classes, fora de vista, fora do caminho da lógica de alto nível nos métodos públicos, conseguimos aumentar a abstração de nossos testes. No método do teste não nos importamos sobre como as respostas são verificadas. Só nos preocupamos sobre os IDs que devem representar as respostas corretas. A segunda vantagem é dividir a implementação da preparação. Manter os IDs das respostas corretas no teste nos ajudou a separar os detalhes da implementação do pressuposto que precisamos testar.</p>
 
-<h3>Test to Production Code Dependencies</h3>
+<h3>Testando por Dependências de Código da Produção</h3>
 
-<p>One of the most common mistakes any of us commits when writing test is to repeat what it is in the production code. This is a case of both code duplication and a hidden dependency, usually, on some values or constants. In our case the dependency is on the answer ID that represents the wrong answer.</p>
+<p>Um dos erros mais comuns que qualquer um de nós comete ao criar teste é repetir o que existe no código de produção. Isso é um caso tanto de duplicação de código quanto de dependência escondida, geralmente, em relação a valores ou constantes. Em nosso caso, a dependência está no ID da resposta que representa a resposta errada.</p>
 
-<p>But how to prove this dependency? At first sight it seems only a simple duplication of a single value. To answer your dilemma ask yourself this question: <em>"Should my tests fail if I decide to change the wrong answer's ID?"</em>. Of course the answer is no. Changing a simple constant in the production code will not affect behavior, or logic. Thus, the tests should not fail.</p>
+<p>Mas, como provar essa dependência? A primeira vista, parece apenas uma duplicação de código simples de um único valor. Para responder seu dilema, pergunte-se o seguinte: <em>"Os meus testes deveriam falhar se resolver alterar o ID da resposta errada?"</em>. Claro que a resposta é não. Alterar uma simples constante no código da produção não afetará o comportamento ou a lógica e, assim, os testes não devem falhar.</p>
 
-<p>That sounds great! But how to do it? Well, the simplest way is just to expose the desired variable as a public class variable, preferable static or constant. In our case, as we have no class, we can just make it a global variable or constant.</p>
+<p>Isso parece interessante! Mas, como conseguir? Bem, a forma mais simples é expor a variável em questão como uma variável pública de classe, preferivelmente como uma variável estática ou constante. Em nosso caso, como não temos uma classe, podemos apenar torná-la uma variável global ou uma constante.</p>
 
 <pre class="brush: php">include_once __DIR__ . '/Game.php';
 
@@ -208,18 +208,18 @@ function run() {
 	// ... //
 }</pre>
 
-<p>First modify the <code>RunnerFunctions.php</code> file so that <code>isCurrentAnswerCorrect()</code> will use a constant instead of a local variable. Then run your unit tests. This ensures us that the change we made to the production code did not break anything. Now it's time for the test.</p>
+<p>Primeiro, modifique o arquivo <code>RunnerFunctions.php</code> para que a função <code>isCurrentAnswerCorrect()</code> passe a usar a constante ao invés de uma variável local. Então execute seus testes unitários. Isso garante que nossas mudanças no código de produção não atrapalharam. É hora do teste.</p>
 
 <pre class="brush: php">	function testItCanFindWrongAnswer() {
 		$this-&gt;assertFalse(isCurrentAnswerCorrect(WRONG_ANSWER_ID, WRONG_ANSWER_ID));
 	}
 </pre>
 
-<p>Modify <code>testItCanFindWrongAnswer()</code> to use the same constant. As the file <code>RunnerFunctions.php</code> is included at the beginning of the test file, the declared constant will be accessible to the the test.</p>
+<p>Modifique o teste <code>testItCanFindWrongAnswer()</code> para usar a mesma constante. Como o arquivo <code>RunnerFunctions.php</code> foi incluído no começo do arquivo de teste, a constante declarada estará acessível para o teste também.</p>
 
-<h3>Refactoring Tests (Again)</h3>
+<h3>Refatorando Testes (Novamente)</h3>
 
-<p>Now, that we rely on the <code>WRONG_ANSWER_ID</code> for our <code>testItCanFindWrongAnswer()</code>, shouldn't we refactor our test so that <code>testItCanFindCorrectAnswer()</code> also relies on the same constant? Well we should. It will not only make our test easier to understand, it will also make it more robust. Yes, because if we would to select a wrong answer ID that is already in the list of correct answers defined in the test, that particular case would fail the test even though the production code would still be correct.</p>
+<p>Agora que dependemos da constante <code>WRONG_ANSWER_ID</code> para nosso teste <code>testItCanFindWrongAnswer()</code>, não deveríamos refatorar nossos testes, de modo que <code>testItCanFindCorrectAnswer()</code> também dependa da mesma constate? Bem, devemos sim. Não apenas fará nossos testes serem mais fáceis de entender como os tornará mais robustos. Sim, uma vez que, se selecionarmos um ID para a resposta errada que conste na lista de respostas corretas do teste, esse caso em particular falhar o teste, mesmo que o código de produção esteja correto.</p>
 
 <pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
@@ -234,7 +234,7 @@ function run() {
 
 }</pre>
 
-<p>While having the numbers for the correct answers in the test function itself was a good idea at some point, as we change our test to rely more and more on the values provided by the production code, we also want to hide the details about the numbers. The first step is to apply an <em>Extract Method</em> refactoring and get it in its own method.</p>
+<p>Embora ter os IDs das respostas corretas na função teste em si fosse uma boa ideia, ao alteramos nosso teste para depender mais e mais dos valores providos pelo código de produção, também queremos esconder os detalhes sobre os números. O primeiro passo é aplicar uma refatoração de <em>Extração de Método</em> e colocá-los em seu próprio método.</p>
 
 <pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
@@ -249,7 +249,7 @@ function run() {
 
 }</pre>
 
-<p>We changed <code>getGoodAnswerIDs()</code> significantly. First of all we generate the list with <code>range()</code> instead of typing all possible IDs by hand. Then we subtract from the array the element containing <code>WRONG_ANSWER_ID</code>. Now the list of correct answer IDs is also independent from the value set in the wrong answer's ID. But is that enough? What about the minimum and maximum IDs? Can't we extract them also in a similar manner? Well, let's see.</p>
+<p>Alteramos o método <code>getGoodAnswerIDs()</code> de forma significativa. Primeiro de tudo, geramos uma lista usando a função <code>range()</code> ao invés de digitar todos os IDs possíveis, manualmente. Depois disso, subtraímos do vetor, o ID da resposta errada, <code>WRONG_ANSWER_ID</code>. Agora, a lista de IDs das respostas corretas também é independente do valor que configuramos para o ID da resposta errada. Mas, será que isso basta? E os valores mínimos e máximos para os IDs? Não podemos extraí-los também? Bem, vejamos se sim.</p>
 
 <pre class="brush: php">include_once __DIR__ . '/Game.php';
 
@@ -265,11 +265,11 @@ function run() {
 	// ... //
 }</pre>
 
-<p>This looks pretty nice. The constants were only used as default values for parameters of the function <code>isCurrentAnswerCorrect()</code>. This still allows us to inject the required values when testing and it also makes quite clear what those parameters mean. As a nice side effect, a small block of constants at the top of the file started to highlight the key values our <code>RunnerFunctions.php</code> file uses. Nice!</p>
+<p>Parece tudo certo. As constantes foram usadas apenas como valores padrão para os parâmetro da função <code>isCurrentAnswerCorrect()</code>. Isso ainda nos permite injetar os valores requeridos durante os testes, além de tornar mais claro o que cada parâmetro significa. Como um ótimo efeito colateral, um bloco, logo no topo do arquivo, com as constantes passou a chamar atenção para os valores chave que nosso arquivo <code>RunnerFunctions.php</code> usa. Legal!</p>
 
-<p>Just don't forget to re-enable from the golden master test the <code>testOutputMatchesGoldenMaster()</code> test function. The constants we introduced are used only in the golden master test. Our unit tests actually shortcut those values always.</p>
+<p>Apenas não esqueça de reabilitar a função de teste <code>testOutputMatchesGoldenMaster()</code> em nosso <em>resultado esperado</em>. As constantes introduzidas são apenas usadas nos testes do <em>resultado esperado</em>. Nossos testes criam atalhos para esses valores.</p>
 
-<p>Now we need to update our unit test to use the constants.</p>
+<p>Agora, precisamos atualizar nosso teste unitário para usar as constantes.</p>
 
 <pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
@@ -284,16 +284,16 @@ function run() {
 
 }</pre>
 
-<p>It was simple and easy. We just had to change the parameters to the <code>range()</code> method. </p>
+<p>Simples e fácil. Tivemos de mudar, apenas, os parâmetros do método <code>range()</code>. </p>
 
-<p>The last step we can do with our test, is to clean up the mess we left behind in our <code>testItCanFindCorrectAnswer()</code> method.</p>
+<p>O último passo que podemos fazer com nosso teste é limpar a bagunça que deixamos no nosso método <code>testItCanFindCorrectAnswer()</code>.</p>
 
 <pre class="brush: php">function testItCanFindCorrectAnswer() {
 	$correctAnserIDs = $this-&gt;getGoodAnswerIDs();
 	$this-&gt;assertAnswersAreCorrectFor($correctAnserIDs);
 }</pre>
 
-<p>We can observe two major problems with this code. First an inconsistency in naming. Once we called answers <em>correct</em> and then we called them <em>good</em>. We must decide on one of the two. Correct seems to be grammatically more fitting. As correct is the opposite of wrong, while good is the opposite of bad.</p>
+<p>Podemos observar dois grandes problemas com esse código: Primeiro, inconsistência na nomenclatura. Uma vez chamamos as respostas de <em>correct</em> e depois chamamos de <em>good</em>. Devemos escolher uma das duas nomenclaturas, uma vez que correto (<em>correct</em>) é o oposto de errado (<em>wrong</em>) e bom (<em>good</em>) é o oposto de ruim (<em>bad</em>).</p>
 
 <pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
@@ -308,13 +308,13 @@ function run() {
 
 }</pre>
 
-<p>We renamed our private method according to the reasoning above. But that is not enough. We need to solve another problem. We assign the return value of a private method to a variable just to use that same variable on the next line. And this is the only use case for the variable. In our case the variable was there because it provided extra clarification about what an array of number meant. It had its use and scope. But now that we have a method with almost the same name, expressing the same concept, the variable outlived its usefulness. This is an unnecessary assignment.</p>
+<p>Renomeamos nosso método privado de acordo com os motivos acima. Mas isso não é o suficiente. Precisamos resolver o segundo problema. Atribuímos o valore de retorno de um método privado a uma variável, só para usá-la na próxima linha. E esse é o único caso de uso dessa variável. Em nosso caso, a variável estava lá para prover um esclarecimento extra sobre o que o vetor de números significava. Ela teve seu uso e escopo. Mas, agora que temos um método com, praticamente, o mesmo nome, expressando o mesmo conceito, a variável perde sua utilidade. Essa é uma atribuição desnecessária.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21146/image/inline-variable-phpstorm.png"/>
 </figure>
 
-<p>We can use the <em>inline variable</em> refactoring to remove the variable and call the method directly instead of using the variable on the next line.</p>
+<p>Podemos usar a refatoração de <em>variável em linha</em> para remover a variável e invocar o método diretamente ao invés de usar a variável na linha seguinte.</p>
 
 <pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
@@ -328,13 +328,13 @@ function run() {
 
 }</pre>
 
-<p>Now, what is really cool here is that we started with only two lines of code that was not that clear and it was polluted by duplication and a hidden dependency. After a few steps of changes we ended up with two lines of code also, but we broke the dependency on the numerical ID numbers. Is that cool or what?</p>
+<p>O mais legal disso tudo é que começamos com apenas duas linhas de código que não eram tão claras e poluíam com duplicação de código e dependência oculta. Após algumas mudanças, acabamos com as mesmas quantidades de linhas, mas acabamos nossa dependência nos IDs. Isso não é legal?</p>
 
-<h2>Breaking the Run</h2>
+<h2>Dividindo a Execução</h2>
 
-<p>Are we finished with the <code>RunnerFunctions.php</code>? Well if I see an <code>if()</code> that means logic. If I see logic that means a unit test is needed to verify it. And we have an <code>if()</code> in our <code>run()</code> method's <code>do-while()</code> loop. It's time to use our IDE's refactoring tool to extract a method and then test it.</p>
+<p>Já acabamos com o arquivo <code>RunnerFunctions.php</code>? Bem, se pudermos encontrar um <code>if()</code> é porque existe alguma lógica. Se existir alguma lógica é necessário teste unitário para verificá-la. E temos um <code>if()</code> no laço <code>do-while()</code> do nosso método <code>run()</code> loop. É hora de usarmos a ferramenta de extração de método da nossa IDE e realizar alguns testes.</p>
 
-<p>But what piece of code should we extract? At first glance taking just the conditional statement seems a good idea. This leads to the code below.</p>
+<p>Mas, que trecho de código devemos extrair? A primeira vista, extrair apenas o condicional parece uma boa ideia. Isso nos leva ao código abaixo.</p>
 
 <pre class="brush: php">function run() {
 	$notAWinner;
@@ -364,7 +364,7 @@ function getNotWinner($aGame) {
 	}
 }</pre>
 
-<p>While this looks pretty decent and it was generated by just selecting the right menu item from our IDE, there is a problem that bothers me. The <code>aGame</code> object is used both in the <code>do-while</code> loop and both in the extracted method. What about this?</p>
+<p>Embora parece bom o suficiente para algo gerado por uma ferramenta de nossa IDE, tem algo que me incomoda. O objeto <code>aGame</code> é usdo tanto pelo <code>do-while</code> quanto no método extraído. Que tal fazermos isso?</p>
 
 <pre class="brush: php">function run() {
 	$notAWinner;
@@ -395,9 +395,9 @@ function getNotWinner($aGame, $dice) {
 }
 </pre>
 
-<p>This solution removes the <code>aGame</code> object from the loop. However it introduces other type of problems. Our parameter count increases. Now we need to send in <code>$dice</code>. While the sheer number of parameters, two, is low enough to not rise any concerns we must also think about how those parameters are used in the method itself. <code>$dice</code> is only used when the <code>roll()</code> method is called on <code>aGame</code>. While the <code>roll()</code> method has a great significance in the <code>Game</code> class, it is not the one that decides if we have a winner or not. By analyzing the code in <code>Game</code>, we can conclude that a winner state can be true only by calling <code>wasCorrectlyAnswered()</code>. This is strange and it highlights some serious naming issues in the <code>Game</code> class we will address in an upcoming lesson.</p>
+<p>Essa solução remove o objeto <code>aGame</code> do laço. Entretanto, introduz outros tipos de problemas. A contagem de parâmetros aumenta. Agora, precisamos enviar <code>$dice</code>. Embora seja poucos parâmetros, dois apenas, o que não levanta maiores preocupações, precisamos nos preocupar sobre como esses parâmetros são usados no método em si. O parâmetro <code>$dice</code> é usado apenas quando invocamos o método <code>roll()</code> do objeto <code>aGame</code>. Embora o método <code>roll()</code> tenha um grande significado dentro da classe <code>Game</code>, não é aquele que decide se temos um vencedor ou não. Ao analizamos a classe <code>Game</code>, podemos concluir que o estado de vencedor só pode ser alcançado ao invocarmos <code>wasCorrectlyAnswered()</code>. Isso é estranho e destaca alguns problemas sérios de nomeação na classe <code>Game</code>, que precisamos corrigir em classes futuras.</p>
 
-<p>Based on all the above observations, it is most probably better to go with the first version of our extracted method.</p>
+<p>Com base em todas essas observações, o mais correto é seguir com a primeira versão do nosso método extraído.</p>
 
 <pre class="brush: php">function getNotWinner($aGame) {
 	if (isCurrentAnswerCorrect()) {
@@ -409,22 +409,22 @@ function getNotWinner($aGame, $dice) {
 	}
 }</pre>
 
-<p>We can believe in our IDE and by just looking at the code we can be pretty sure nothing has broken. If you feel uncertain, just run your golden master tests. Now let's focus on creating some tests for this nice method.</p>
+<p>Podemos acreditar na nossa IDE e, apenas olhando para o código, podemos ter certeza que nada saiu errado. Se estiver incerto disso, basta executar o <em>resultado esperado</em>. Agora, foquemos na criação de alguns testes para esse lindo método.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {}</pre>
 
-<p>I came up with this name by transforming what I want to test into the test method's name. It is very important to name your tests about what behavior they should test and not about what they will do. This will help others or yourself six months from now, to understand what that small piece of code should actually do.</p>
+<p>Cheguei a esse nome, mostrando no nome do método aquilo que queria testar. É muito importante nomear seus testes em relação aos comportamentos que eles deveriam testar e não em relação aquilo que eles farão. Isso ajuda outras pessoas, ou você mesmo futuramente, entenderem o que aquele pequeno trecho de código deveria fazer.</p>
 
-<p>But we have a problem. Our tested method needs an object. We need to run it like this:</p>
+<p>Mas temos um problema. Nossos métodos precisam de um objeto. Precisamos executá-lo mais ou menos assim:</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$aGame = ???
 	getNotWinner($aGame);
 }</pre>
 
-<p>We need an <code>$aGame</code> object of type <code>Game</code>. But we are doing a unit test, we do not want to use the real, complex and badly understood, <code>Game</code> class. This leads us to a new chapter in testing we will talk about in an another lesson: <em>Mocking, Stubbing and Faking</em>. These are all techniques to create and test object by using other objects that behave in a predefined manner. While using a framework or even PHPUnit's own built-in capabilities can be of help, for our current knowledge for our very simple test we can do a thing many people forget.</p>
+<p>Precisamos de um objeto <code>$aGame</code> do tipo <code>Game</code>. Mas estamos realizando um teste unitário, não queremos criar e usar a classe <code>Game</code> real, complexa e mal entendida. Isso nos leva ao novo capítulo de testes, que falaremos uma outra lição: <em>Simulação, Substituição e Imitação</em>. Elas todas são técnicas para criar e testar objetos, usando outros objetos que se comportam de maneira pré-definida. Embora usar um <em>framework</em> ou mesmo as capacidades embutidas do PHPUnit possa ajudar, com nosso conhecimento atual, para nosso simples teste, podemos realizar algo bem simples que muitas pessoas esquecem.</p>
 
-<p>We can just create a class similar to <code>Game</code> inside our test file and define on it the only two methods we are interested in. It is very simple.</p>
+<p>Bastar criar uma classe parecida com <code>Game</code>, dentro do nosso arquivo de testes e definir nela apenas os dois métodos que estamos interessados. É muito simples.</p>
 
 <pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
@@ -451,18 +451,18 @@ class FakeGame {
 }
 </pre>
 
-<p>This makes our tests pass and we are still in the millisecond zone. Note that the two skipped tests are the ones from the golden master.</p>
+<p>Isso permite nosso teste passar e ainda estamos na zona dos milissegundos. Perceba que os dois testes pulados são os responsáveis pelo <em>resultado esperado</em>.</p>
 
 <pre class="brush: bash">Time: 43 ms, Memory: 3.00Mb
 
 OK, but incomplete or skipped tests!
 Tests: 5, Assertions: 10, Skipped: 2.</pre>
 
-<p>Even though we had to name our class differently from <code>Game</code> because we can't declare the same class twice, the code is pretty simple. We just defined the two methods we are interested in. The next step is to actually return something and test for it. But this may be more difficult than we expected because of this line of code:</p>
+<p>Mesmo que tenhamos nomeado nossa classe com um nome diferente de <code>Game</code>, uma vez que não podemos declarar uma mesma classe duas vezes, o código é bem simples. Apenas definimos os dois métodos que estamos interessados. O próximo passo é retornar algo de verdade e testá-lo. Mas isso pode ser um pouco mais difícil por conta dessa linha de código:</p>
 
 <pre class="brush: php">if (isCurrentAnswerCorrect())</pre>
 
-<p>Our method calls <code>isCurrentAnswerCorrect()</code> without any parameters. This is bad for us. We can't control its output. It will just generate random numbers. We need to refactor our code a little bit before we can continue. We need to move the call to this method into the loop and pass its result as a parameter to <code>getNotWinner()</code>. This will allow us to control the result of the expression in the above if statement, thus controlling the path on which our code will go down. For our first test we need it to enter the if and call <code>wasCorrectlyAnswered()</code>.</p>
+<p>Nosso método invoca <code>isCurrentAnswerCorrect()</code> sem qualquer parâmetro. Isso é ruim para nós. Não podemos controlar seu retorno. Ele, simplesmente, gerará números aleatórios. Precisamos refatorar nosso código um pouco para podermos continuar. Precisamos mover a invocação desse método para dentro do laço e passar seu resultado como parâmetro para <code>getNotWinner()</code>. Isso permitirá controlar o resultado da expressão na declaração <code class="inline">if</code> acima, controlando, assim, o caminho pelo qual nosso código passará. Para nosso primeiro teste, precisamos que ele acesse o <code class="inline">if</code> e invoque o método <code>wasCorrectlyAnswered()</code>.</p>
 
 <pre class="brush: php">function run() {
 
@@ -487,7 +487,7 @@ function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	}
 }</pre>
 
-<p>Now we have control, all dependencies broken. It's time for testing.</p>
+<p>Agora que temos controle, todas as dependências estão separadas. É hora dos testes.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$aGame = new FakeGame();
@@ -495,13 +495,13 @@ function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	$this-&gt;assertTrue(getNotWinner($aGame, $isCurrentAnswerCorrect));
 }</pre>
 
-<p>This is a passing test, pretty nice. We returned <code>true</code> from our overridden method, of course.</p>
+<p>Este teste passou. Isso é ótimo. Retornamos <code>true</code> do método sobrescrito, claro.</p>
 
 <pre class="brush: php">function wasCorrectlyAnswered() {
 	return true;
 }</pre>
 
-<p>We need to test the other path through the <code>if()</code> also.</p>
+<p>Precisamos testar o outro caminho do <code>if()</code> também.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$aGame = new FakeGame();
@@ -509,7 +509,7 @@ function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	$this-&gt;assertFalse(getNotWinner($aGame, $isCurrentAnswerCorrect));
 }</pre>
 
-<p>We just chose to test false this time, so we differentiate between the two cases easier.</p>
+<p>Apenas precisamos testar por um valor <code class="inline">false</code>, para que possamos diferenciar entre os coisos de forma mais fácil.</p>
 
 <pre class="brush: php">class FakeGame {
 
@@ -522,13 +522,13 @@ function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	}
 }</pre>
 
-<p>And our <code>FakeGame</code> was modified accordingly.</p>
+<p>E nossa classe <code>FakeGame</code> foi modificada de acordo.</p>
 
-<h2>Final Cleanup</h2>
+<h2>Limpeza Final</h2>
 
-<h3>Refactoring the Extracted Method</h3>
+<h3>Refatorando o Método Extraído</h3>
 
-<p>We are almost done. Sorry for getting this tutorial so long, I hope you liked it and didn't fall asleep. Final changes before concluding the <code>RunnerFunctions.php</code> file and its tests.</p>
+<p>Estamos quase prontos. Desculpe por tornar esse tutorial tão extenso, espero que esteja curtindo e não tenha dormido. Precisamos de algumas mudanças finais antes de concluirmos o arquivo <code>RunnerFunctions.php</code> e seus testes.</p>
 
 <pre class="brush: php">function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	if ($isCurrentAnswerCorrect) {
@@ -540,7 +540,7 @@ function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	}
 }</pre>
 
-<p>There are some unnecessary assignments in our method, we should clean it up. Our unit tests will make this change very safe.</p>
+<p>Há algumas atribuições em nosso método e deveríamos reduzi-las. Nossos testes unitários devem tornar essas mudanças bem mais fáceis.</p>
 
 <pre class="brush: php">function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	if ($isCurrentAnswerCorrect) {
@@ -550,11 +550,11 @@ function getNotWinner($aGame, $isCurrentAnswerCorrect) {
 	}
 }</pre>
 
-<p>We applied the same inline variable refactoring and it led to its disappearance. Tests still passing and we are still under 100 ms for all the unit tests together. I say this is pretty nice.</p>
+<p>Aplicamos a refatoração de variável em linha e acabamos com as atribuições. Os testes ainda passam e ainda estamos abaixo dos 100ms para todos os testes unitários juntos. Digo que isso é bem legal.</p>
 
-<h3>Refactoring Tests (Again, Again)</h3>
+<h3>Refatorando Testes (De Novo e Outra Vez)</h3>
 
-<p>Yes, yes, we can make our test a little bit better also. Since we only have a few lines of code, our refactorings will be easy. The problem is in the code below.</p>
+<p>Sim, sim, também podemos tornar nossos testes um pouco melhores. Uma vez que temos apenas algumas poucas linhas de código, nossas refatorações serão bem fáceis. O problema está no código abaixo.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$aGame = new FakeGame();
@@ -568,7 +568,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$this-&gt;assertFalse(getNotWinner($aGame, $isCurrentAnswerCorrect));
 }</pre>
 
-<p>We have duplicate code by calling <code>new FakeGame()</code> in each method. Time for an extract method.</p>
+<p>Duplicamos código ao invocar <code>new FakeGame()</code> em cada método. Hora para refatoração de extração de método.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$aGame = $this-&gt;aFakeGame();
@@ -582,7 +582,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$this-&gt;assertFalse(getNotWinner($aGame, $isCurrentAnswerCorrect));
 }</pre>
 
-<p>Now, this makes the <code>$aGame</code> variable pretty useless. Time for inline variable.</p>
+<p>Isso torna a variável <code>$aGame</code> totalmente inútil. Hora da variável em linha.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$isCurrentAnswerCorrect = true;
@@ -594,7 +594,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$this-&gt;assertFalse(getNotWinner($this-&gt;aFakeGame(), $isCurrentAnswerCorrect));
 }</pre>
 
-<p>This made our code shorter and more expressive on the same time. When we read an assertion it reads like a prose. Assert that we receive <code>true</code> whe we call try to get the not winner using our fake class with correct answer provided. What I still don't like is that we use the same variable and assign to it <code>true</code> or <code>false</code> depending on the test. I think there should be a more expressive way to do it. </p>
+<p>Isso tornou nosso código menor e mais expressivo ao mesmo tempo. Ao lermos as assertivas, parece ser uma prosa. Confirme que recebemos <code>true</code> ao tentarmos obter o não vencedor, usando nossa falsa classe com a resposta correta provida. O que eu ainda não gosto é que usamos a mesma variável para atribuir <code>true</code> ou <code>false</code>, dependendo do teste. Acredito que deve haver uma forma mais expressiva de fazê-lo. </p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$this-&gt;assertTrue(getNotWinner($this-&gt;aFakeGame(), $this-&gt;aCorrectAnswer()));
@@ -604,11 +604,11 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$this-&gt;assertFalse(getNotWinner($this-&gt;aFakeGame(), $this-&gt;aWrongAnswer()));
 }</pre>
 
-<p>Wow! Our tests became single liners and they are truly expressing what we are testing. All the details are hidden in private methods, at the end of the test. 99% of the cases you will not care about their implementation and when you do, you can simply <strong>CTRL+click</strong> on the method's name and the IDE will jump to the implementation.</p>
+<p>Uau! Nossos testes estão em apenas uma linha e eles, realmente, expressam o que estamos testando. Todos os detalhes estão escondidos em métodos privados, lá no final do teste. Em 99% dos casos, você não se preocupara sobre a implementação deles e quando eles o fazem, você pode, simplesmente, apertar <strong>CTRL+clique</strong> no nome do método e a IDE irá até a implementação do mesmo.</p>
 
-<h3>Back to the Production Code</h3>
+<h3>De Volta para o Código de Produção</h3>
 
-<p>If we look at our loop, we can see that there is a variable we can get rid of in a blink of an eye.</p>
+<p>Se visualizarmos nosso laço, podemos ver que há uma outra variável que podemos nos livrar, em um piscar de olhos.</p>
 
 <pre class="brush: php">function run() {
 	$notAWinner;
@@ -628,7 +628,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	} while ($notAWinner);
 }</pre>
 
-<p>That will turn into this:</p>
+<p>Que virará isso:</p>
 
 <pre class="brush: php">function run() {
 
@@ -645,7 +645,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	} while (getNotWinner($aGame, isCurrentAnswerCorrect()));
 }</pre>
 
-<p>Bye, bye <code>$notAWinner</code> variable. But our method's name is horrible. We know we should always prefer positive naming and behavior and negate it where needed in conditionals. What about this naming?</p>
+<p>Até nunca mais, variável <code>$notAWinner</code>. Porém, o nome do nosso método é horrível. Sabemos que devemos, sempre, preferis nomenclatura e comportamento positivo para, então negá-lo onde for necessário nos condicionais. E que tal essa nomenclatura?</p>
 
 <pre class="brush: php">do {
 	$dice = rand(0, 5) + 1;
@@ -653,7 +653,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 
 } while (didSomebodyWin($aGame, isCurrentAnswerCorrect()));</pre>
 
-<p>But with that name, we need to negate it in the <code>while()</code> and change its behavior also. We start by changing our tests.</p>
+<p>Mas, com essa nomenclatura, precisamos negá-lo no <code>while()</code> além de alterar seu comportamento. Começaremos alterando nossos testes.</p>
 
 <pre class="brush: php">class FakeGame {
 
@@ -666,7 +666,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	}
 }</pre>
 
-<p>Actually changing only our fake game is better. It keeps the tests really readable, with the new method names.</p>
+<p>Na verdade, alterar apenas nosso objeto <em>fake game</em> é melhor. Ele mantem os testes bem legíveis, com os novos nomes dos métodos.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$this-&gt;assertTrue(didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aCorrectAnswer()));
@@ -676,9 +676,9 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$this-&gt;assertFalse(didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aWrongAnswer()));
 }</pre>
 
-<h4>Getting the Tests to Pass</h4>
+<h4>Fazendo os Testes Passarem</h4>
 
-<p>Of course the tests are failing now. We have to change the method's implementation.</p>
+<p>Claro que os testes estão falhando, agora. Precisamos alterar a implementação do método.</p>
 
 <pre class="brush: php">function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
 	if ($isCurrentAnswerCorrect) {
@@ -688,9 +688,9 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	}
 }</pre>
 
-<h4>Fixing the Golden Master</h4>
+<h4>Corrigindo o <em>Resultado Esperado</em></h4>
 
-<p>Unit tests are passing, but running our golden master will break. We need to negate the login in the <code>while</code> statement.</p>
+<p>Os Testes Unitários estão passando, mas ao executar o <em>resultado esperado</em> teremos uma falha. Precisamos negar o <em>login</em> na declaração do laço <code>while</code>.</p>
 
 <pre class="brush: php">do {
 	$dice = rand(0, 5) + 1;
@@ -698,6 +698,6 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 
 } while (!didSomebodyWin($aGame, isCurrentAnswerCorrect()));</pre>
 
-<h4>Done!</h4>
+<h4>Feito!</h4>
 
-<p>Now that makes the golden master pass again and our <code>do-while</code> reads like well written prose also. Now it is really time to stop. Thank you for reading.</p>
+<p>Agora, o <em>resultado esperado</em> voltou a passar e nosso laço <code>do-while</code> parece uma prosa bem escrita. É hora de parar por aqui. Até a próxima e obrigado pela leitura.</p>
