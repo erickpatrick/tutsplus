@@ -28,6 +28,7 @@ PHP
 - [Refatorando Código Legado: Parte 1 - O Resultado Esperado](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-1-the-golden-master--cms-20331)
 - [Refatorando Código Legado: Parte 2 - Cadeias de Caracteres Mágicas & Constantes](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-2-magic-strings-constants--cms-20527)
 - [Refatorando Código Legado: Parte 3 - Condicionais Complexos](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-3-complex-conditionals--cms-20944)
+- [Refatorando Código Legado: Parte 4 - Nossos Primeiros Testes Unitários](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-4-our-first-unit-tests--cms-21146)
 
 Laravel
 -------
