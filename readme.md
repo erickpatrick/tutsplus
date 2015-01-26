@@ -29,6 +29,7 @@ PHP
 - [Refatorando Código Legado: Parte 2 - Cadeias de Caracteres Mágicas & Constantes](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-2-magic-strings-constants--cms-20527)
 - [Refatorando Código Legado: Parte 3 - Condicionais Complexos](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-3-complex-conditionals--cms-20944)
 - [Refatorando Código Legado: Parte 4 - Nossos Primeiros Testes Unitários](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-4-our-first-unit-tests--cms-21146)
+- [Refatorando Código Legado: Parte 5 - Os Métodos Testáveis do Jogo](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-5-games-testable-methods--cms-21213)
 
 Laravel
 -------
@@ -52,6 +53,7 @@ WordPress
 - [Adicionando Funções à sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/adding-functions-to-your-wordpress-theme-framework--cms-21717)
 - [Criando Temas Filhos para Sua Framework Para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/creating-child-themes-for-your-wordpress-theme-framework--cms-21933)
 - [Documentando Sua Framework para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/writing-documentation-for-your-wordpress-theme-framework--cms-21939)
+- [Lançando Sua Framework Para Temas do WordPress](http://code.tutsplus.com/pt/tutorials/releasing-your-wordpress-theme-framework--cms-21940)
 - [Desenvolvendo Plugins para Sua Framework para Temas de WordPress](http://code.tutsplus.com/pt/tutorials/developing-plugins-for-your-wordpress-theme-framework--cms-21934)
 - [50 Filtros Para WordPress: Os 10 Primeiros Filtros](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-the-first-10-filters--cms-21295)
 - [50 Filtros Para WordPress: Filtros 11 a 20](http://code.tutsplus.com/pt/tutorials/50-filters-of-wordpress-filters-11-20--cms-21296)
