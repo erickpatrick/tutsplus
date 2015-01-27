@@ -10,13 +10,13 @@
 
 <p>Enquanto estou nesse processo de leitura e aprendizado, tento realizar algumas refatorações que tenho certeza que minha IDE é capaz de fazer sem problemas. A maioria delas são renomeações de variáveis e de método que acredito ser capaz de entender e que quero torná-los óbvios para mim e para leitores futuros. E, em um segundo caso, nosso <em>resultado esperado</em> sempre estará lá para algum teste ocasional.</p>
 
-<p>Olha a assinatura do método, <code>roll($roll)</code>, pergunto-me: para que serve o parâmetro <code>$roll</code>? Ele é um objeto? É uma ação? É um número? Minha IDE pode ser bem útil, agora. Apenas posicionando o cursos sobre o parâmetro <code>$roll</code>, todos os seus usos serão destacados, levemente, com uma cor azulada.</p>
+<p>Olha a assinatura do método, <code>roll($roll)</code>, pergunto-me: para que serve o parâmetro <code>$roll</code>? Ele é um objeto? É uma ação? É um número? Minha IDE pode ser bem útil, agora. Apenas posicionando o cursor sobre o parâmetro <code>$roll</code>, todos os seus usos serão destacados, levemente, com uma cor azulada.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-parameter-highlighted.png"/>
 </figure>
 
-<p>Podemos perceber a variável <code>$roll</code> destacada nas linhas 63, 67 e 71. E essas são as únicas aparições que são possíveis de ver na tela. Mesmo que haja inúmeras outras abaixo, essas três aparições são ótimas candidata a nos auxiliar na descoberta do papel da variável <code>$roll</code>.</p>
+<p>Podemos perceber a variável <code>$roll</code> destacada nas linhas 63, 67 e 71. E essas são as únicas aparições que são possíveis de ver na tela. Mesmo que haja inúmeras outras abaixo, essas três aparições são ótimas candidatas a auxiliar-nos na descoberta do papel da variável <code>$roll</code>.</p>
 
 <p>Na linha 63, ela é usada para imprimir texto na tela. <code>echoln("Eles rolaram um " . $roll);</code>. Essa linha é bem simples de entendermos, além de ser bastante útil para nós. Ela nos diz que algum jogador obteve um "$roll". Mas, o que você obtem numa jogada de dados? Um número. Poderíamos renomear <code>$roll</code> para <code>$number</code>. Isso fará com que a assinatura do nosso método pareça bem natural: <code>roll($number)</code>.</p>
 
@@ -30,9 +30,9 @@
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-rename.png"/>
 </figure>
 
-<p>Agora que resolvemos o problema da nomeação de parâmetros, e entendemos que as duas outras linhas estão apenas retornando texto, podemos continuar e analizar nossa primeira declaração if. Também há uma atribuição de variável, logo antes dele, mas não nos preocuparemos com isso, ainda.</p>
+<p>Agora que resolvemos o problema da nomeação de parâmetros, e entendemos que as duas outras linhas estão apenas retornando texto, podemos continuar e analisar nossa primeira declaração if. Também há uma atribuição de variável, logo antes dele, mas não nos preocuparemos com isso, ainda.</p>
 
-<p>A primeira parte da declaração <code>if</code> é bem grande. Mais precisamente, 20 linhas de tamanho, indo da linha 66 até a linha 86. É bastante informação para lidar. Talvez a parte do <code class="inline">else</code> seja menor. Podemos rolar a barra para ver se ele é fácil o bastante para ser entendido. Essa outra parte possui de 10 a 12 linhas, apenas. E, metade delas, são de impressão de coisas, ou vazias, de modo que podemos perceber que não há tanta lógica nele. Talvez seja o melhor a ser analizado, agora. </p>
+<p>A primeira parte da declaração <code>if</code> é bem grande. Mais precisamente, 20 linhas de tamanho, indo da linha 66 até a linha 86. É bastante informação para lidar. Talvez a parte do <code class="inline">else</code> seja menor. Podemos rolar a barra para ver se ele é fácil o bastante para ser entendido. Essa outra parte possui de 10 a 12 linhas, apenas. E, metade delas, são de impressão de coisas, ou vazias, de modo que podemos perceber que não há tanta lógica nele. Talvez seja o melhor a ser analisado, agora. </p>
 
 <pre class="brush: php">} else {
 
@@ -48,7 +48,7 @@
 	$this-&gt;askQuestion();
 }</pre>
 
-<p>A primeira linha da declaração <code>if</code> parece posicionar o jogador atual em um novo lugar do tabuleiro. Ele avança o jogador com base no número obtido. Isso é bem típido de jogos de tabuleiros e parece bem lógico.</p>
+<p>A primeira linha da declaração <code>if</code> parece posicionar o jogador atual em um novo lugar do tabuleiro. Ele avança o jogador com base no número obtido. Isso é bem típico de jogos de tabuleiros e parece bem lógico.</p>
 
 <p>Então, temos outro condicional, apenas um simples <code>if</code>, verificando se algum jogador está iniciando uma nova volta. Caso positivo, posicionamos o jogador atual para a posição em questão. Você se lembra quando simplificamos uma declaração <code>if</code>, extraímos um método e chamamos de <code>playerShouldStartANewLap()</code>? Faz um bom tempo, não é? Pois bem, o quão útil não foi aquele passo para entendermos a lógica do negócio, hein?</p>
 
@@ -60,7 +60,7 @@
 
 <h2>Testando a Segunda Parte de <code>roll()</code></h2>
 
-<p>Uma das maiores dificuldades em testar código legado é conseguir deixar o Sistema Sob Testes no estado apropriado, para que possamos verificar o estado que estamos interessados. Já sabemos que inicializar uma classe <code>Game</code> é bem fácil. Não é preciso de parâmetros para o construtor. Então, se olharmos a lista de variáveis da classe, veremos que elas foram definidas usando a palavra chave class is easy. No constructor parameters are required. Then, if we look at the list of class variables. They are simply defined using <code>var</code>. No PHP, elas são consideradas variáveis públicas. E já usamos a variável <code>currentPlayer</code> em nossos testes anteriores, então, podemos ter certeza que podemos acessar as variáveis de fora do objeto.</p>
+<p>Uma das maiores dificuldades em testar código legado é conseguir deixar o Sistema Sob Testes no estado apropriado, para que possamos verificar o estado que estamos interessados. Já sabemos que inicializar uma classe <code>Game</code> é bem fácil. Não é preciso de parâmetros para o construtor. Então, se olharmos a lista de variáveis da classe, veremos que elas foram definidas usando a palavra-chave <code>var</code>. No PHP, elas são consideradas variáveis públicas. E já usamos a variável <code>currentPlayer</code> em nossos testes anteriores, então, podemos ter certeza que podemos acessar as variáveis de fora do objeto.</p>
 
 <p>A essa altura, gosto de começar a criar testes. Não um teste completo, mas o suficiente para que possa descobrir como exercitar todo o sistema sob testes.</p>
 
@@ -74,7 +74,7 @@
 
 <p>O nome do teste ainda não é bem específico. Descobrimos três coisas estão acontecendo dentro da parte <code>else</code> da declaração <code>if</code>, mas ainda não está muito claro como definimos isso em apenas duas ou três palavras. Então, por hora, podemos usar algo para descrever o trecho de código que queremos exercitar. Teremos tempo para refatorar o nome posteriormente, se necessário.</p>
 
-<p>Então, configuramos as variáveis requeridas pelo código. Basicamente, copiei e colei as variáveis e adicionei <code>game</code> após cada <code>$this-&gt;</code>. Então invoquei <code>roll()</code> com um número. O número é irrelevante a essa altura, escolha uma número arbitrariamente. </p>
+<p>Então, configuramos as variáveis requeridas pelo código. Basicamente, copiei e colei as variáveis e adicionei <code>game</code> após cada <code>$this-&gt;</code>. Então invoquei <code>roll()</code> com um número. O número é irrelevante a essa altura, escolha um número arbitrariamente. </p>
 
 <p>Embora esse código não possua qualquer assertiva, podemos descobrir qual parte do código é executa, apenas olhando para o retorno.</p>
 
@@ -122,9 +122,9 @@ Pergunta sobre Ciências 0</pre>
 
 <p>Nada demais, por hora, apenas alguns métodos extraídos para esconder as horrorosas chamadas de parâmetros que lotavam nossa classe. Agora está mais fácil de entender e, se precisarmos alterar a forma como a informação é configurada ou lida a partir do objeto <code>Game</code>, não precisaremos modificar o método de teste. Modificaremos o método privado, apenas. </p>
 
-<p>Próxima pergunta é: "O que mais podemos testar a partir desse código de produção?" Não queremos entrar na declaração <code>if</code> de quando um jogador precisa começar uma nova volta. Isso será o tópico de outro teste. As duas declarações <code>echoln()</code> enviam dados para o retorno padrão. Há pouquíssima coisa que podemos testar sobre eles. Podemos capturar o retorno e testá-los, mas isso envolviria a parte da apresentação. Podemos sentir o peso da camada de apresentação integrada à lógica de negócios aqui, mas não podemos ver, claramente, como extraí-la. Por hora, apenas a deixemos ali, sem testes. Por fim, a uma invocação ao método <code>askQuestion()</code>. Precisamos verificar <em>o que</em> esse método faz e se podemos testá-lo de alguma forma.</p>
+<p>Próxima pergunta é: "O que mais podemos testar a partir desse código de produção?" Não queremos entrar na declaração <code>if</code> de quando um jogador precisa começar uma nova volta. Isso será o tópico de outro teste. As duas declarações <code>echoln()</code> enviam dados para o retorno padrão. Há pouquíssima coisa que podemos testar sobre eles. Podemos capturar o retorno e testá-los, mas isso envolveria a parte da apresentação. Podemos sentir o peso da camada de apresentação integrada à lógica de negócios aqui, mas não podemos ver, claramente, como extraí-la. Por hora, apenas a deixemos ali, sem testes. Por fim, a uma invocação ao método <code>askQuestion()</code>. Precisamos verificar <em>o que</em> esse método faz e se podemos testá-lo de alguma forma.</p>
 
-<p>O método <code>askQuestion()</code> verifica a categoria atual e retorna uma cadeia de caracteres para o usuário, com pergunta para ele. A categoria atual é determinada pelo método <code>currentCategory()</code>, que apenas verifica a posição atual e se ela corresponder a um determinado número, uma categoria relacionada será selecionada. O número três que usamos em nosso teste, corresponde à categoria "Rock". O método <code>askQuestion()</code> apenas retorna algo para a tela. Outra coisa relacionada à apresentação que não queremos testar ainda. Mas o método <code>currentCategory()</code> retorna uma cadeia de caracteres, uma que é essencial para o método <code>askQuestion()</code>. Talvez possmos invocar <code>currentCategory()</code> e garantir que a categoria correta foi retornada?</p>
+<p>O método <code>askQuestion()</code> verifica a categoria atual e retorna uma cadeia de caracteres para o usuário, com pergunta para ele. A categoria atual é determinada pelo método <code>currentCategory()</code>, que apenas verifica a posição atual e se ela corresponder a um determinado número, uma categoria relacionada será selecionada. O número três que usamos em nosso teste, corresponde à categoria "Rock". O método <code>askQuestion()</code> apenas retorna algo para a tela. Outra coisa relacionada à apresentação que não queremos testar ainda. Mas o método <code>currentCategory()</code> retorna uma cadeia de caracteres, uma que é essencial para o método <code>askQuestion()</code>. Talvez possamos invocar <code>currentCategory()</code> e garantir que a categoria correta foi retornada?</p>
 
 <pre class="brush: php">function testSecondPartOfRollLogic() {
 	$currentPlace = 2;
@@ -141,7 +141,7 @@ Pergunta sobre Ciências 0</pre>
 
 <p>A última linha que adicionamos faz, exatamente, isso. Parece que conseguimos testar toda a funcionalidade do nosso trecho de código alvo. Agora, podemos começar a refatorar nosso código de produção.</p>
 
-<p>Mas, espere! E o caso de quando precisamos iniciar uma nossa volta? Não deveríamos testá-lo também, antes de tocar no código de produção? Acredito que seja uma boa ideia continuar com os testes por hora e deixar para refatorar o código de produção, apenas estivermos mais certos possível, para não precisamos quebrar algo.</p>
+<p>Mas, espere! E o caso de quando precisamos iniciar uma nossa volta? Não deveríamos testá-lo também, antes de tocar no código de produção? Acredito que seja uma boa ideia continuar com os testes por hora e deixar para refatorar o código de produção, apenas estivermos mais certo possível, para não precisamos quebrar algo.</p>
 
 <pre class="brush: php">function testAPlayerWillStartANewLapWhenNeeded() {
 	$currentPlace = 11;
@@ -156,9 +156,9 @@ Pergunta sobre Ciências 0</pre>
 	$this-&gt;assertEquals('Rock', $this-&gt;game-&gt;currentCategory());
 }</pre>
 
-<p>Copiamos e colamos o teste anterior, renomeamo-os de acordo e especificamos lugares diferentes e um número rolado. Sabemos que o tamanho do tabuleiro é de 12 lugares. Obtemos dois com posição 11, de modo que terminamos na posição um. A numeração do tabuleiros começa com a posição zero.</p>
+<p>Copiamos e colamos o teste anterior, renomeamo de acordo e especificamos lugares diferentes e um número rolado. Sabemos que o tamanho do tabuleiro é de 12 lugares. Obtemos dois com posição 11, de modo que terminamos na posição um. A numeração do tabuleiro começa com a posição zero.</p>
 
-<p>Mas nossa segunda assertiva falha. A categoria é "Ciências". Esse teste destacou alguns problemas em nossa abordagem: 1) Precisamos renomar nosso primeiro teste, e 2) Precisamos testar a categoria em um teste diferente. É hora de refatorar novamente.</p>
+<p>Mas nossa segunda assertiva falha. A categoria é "Ciências". Esse teste destacou alguns problemas em nossa abordagem: 1) Precisamos renomear nosso primeiro teste, e 2) Precisamos testar a categoria em um teste diferente. É hora de refatorar novamente.</p>
 
 <pre class="brush: php">function testAPlayersNextPositionIsCorrectlyDeterminedWhenNoNewLapIsInvolved() {
 	// ... //
@@ -196,9 +196,9 @@ function testScienceCategoryCanBeDetermined() {
 	}
 }</pre>
 
-<p>Renomeamos o primeiro teste para refletir exatamente o que estávamos verificando. Em ambos os testes, removemos a verificação de categoria. Sabemos que temos duas categorias diferentes e duas posições. Com base em nosso conhecimento e na estrutura do método <code>currentCategory()</code>, podemos deduzir que há diversos lugares para várias categorias. Primeiro, definimos os lugares em vetores e, então, esperamos os dois valroes diferentes para nossas categorias.</p>
+<p>Renomeamos o primeiro teste para refletir exatamente o que estávamos verificando. Em ambos os testes, removemos a verificação de categoria. Sabemos que temos duas categorias diferentes e duas posições. Com base em nosso conhecimento e na estrutura do método <code>currentCategory()</code>, podemos deduzir que há diversos lugares para várias categorias. Primeiro, definimos os lugares em vetores e, então, esperamos os dois valores diferentes para nossas categorias.</p>
 
-<p>Por hora, nosso alvo não é testar o método <code>currentCategory()</code>. Poderíamos parar nosso processo atual e escrever testes para todas as combinações de lugares e categorias. Contudo, não quero fazer isso ainda. Agora, precisamos matermo-nos focados no método <code class="inline">roll</code> e em nosso pequeno trecho de código. Ainda podemos remover a duplicação entre os dois testes, além de extrair a verificação em um método privado. Isso nos ajudará no futuro, quando escrevermos os testes para <code>currentCategory()</code>.</p>
+<p>Por hora, nosso alvo não é testar o método <code>currentCategory()</code>. Poderíamos parar nosso processo atual e escrever testes para todas as combinações de lugares e categorias. Contudo, não quero fazer isso ainda. Agora, precisamos mantermo-nos focados no método <code class="inline">roll</code> e em nosso pequeno trecho de código. Ainda podemos remover a duplicação entre os dois testes, além de extrair a verificação em um método privado. Isso nos ajudará no futuro, quando escrevermos os testes para <code>currentCategory()</code>.</p>
 
 <pre class="brush: php">function testRockCategoryCanBeDetermined() {
 	$currentPlaces = [3];
@@ -216,7 +216,7 @@ function testScienceCategoryCanBeDetermined() {
 
 <h2>Refatorando a Segunda Parte de <code>roll()</code></h2>
 
-<p>Now that all of our tests are beautifully written and passing, modifying the source code is the next logical step. The <code>if</code> statement with the player-moving logic must go first.</p>
+<p>Agora, que nossos testes estão bem feitos e passando, modificar o código fonte é o próximo passo lógico. A declaração <code>if</code> com a lógica de movimentação do jogador vem primeiro.</p>
 
 <pre class="brush: php">} else {
 
@@ -229,7 +229,7 @@ function testScienceCategoryCanBeDetermined() {
 	$this-&gt;askQuestion();
 }</pre>
 
-<p>It seems like our method will need two parameters at least. The board's size and the rolled number. The rest of the used information is from class variables, so they don't need to be passed along as parameters. However, the board's size also looks like a value that belongs to the method, rather than to the game class. Later, we'll see if we can move it into the method.</p>
+<p>Parece que nosso método precisará dois parâmetros, pelo menos. O tamanho do tabuleiro e o número obtido. O resto das informações usadas vem das variáveis da classe, então, eles não precisam ser passados como parâmetros. Entretanto, o tamanho do tabuleiro também parece ser um valor que pertence ao método ao invés da classe <code class="inline">game</code>. Depois, veremos se podemos movê-la para o método em si.</p>
 
 <pre class="brush: php">} else {
 	$this-&gt;movePlayer($boardSize, $rolledNumber);
@@ -238,7 +238,7 @@ function testScienceCategoryCanBeDetermined() {
 	$this-&gt;askQuestion();
 }</pre>
 
-<p>Next, the lines displaying things for the user must go into their own small specialized methods. We could have put all the display stuff into a single method, but it would have been difficult to name it. It is preferable to have better named and smaller methods.</p>
+<p>O próximo passo é com relação às linhas que mostram as coisas para o usuário, que devem ir em seus próprios métodos especializados. Poderíamos ter colocado tudo relacionado a apresentação em um único método, mas seria bem difícil de nomeá-lo. É preferível termos método menores com nomes mais legíveis.</p>
 
 <pre class="brush: php">private function displayPlayersNewLocation() {
 	echoln($this-&gt;players[$this-&gt;currentPlayer] . " está na nova posição " . $this-&gt;places[$this-&gt;currentPlayer]);
@@ -248,54 +248,54 @@ private function displayCurrentCategory() {
 	echoln("A categoria é " . $this-&gt;currentCategory());
 }</pre>
 
-<p>With that, we are done with this part of the code. But what about the rest of the <code>roll()</code> method?</p>
+<p>Com isso, finalizamos essa parte do código. Mas, e o resto do método <code>roll()</code>?</p>
 
 
 
-<h2>Two Programmers, Two Different Threads</h2>
+<h2>Dois Programadores, Dois Soluções Diferentes</h2>
 
-<p>Up until now, this tutorial has focused on small pieces of code. Our level of zoom was very close to the code. We did a lot of things thinking about eight to ten lines of code or less. We concentrated on small things like variable names or moving one to two lines of code, from one place to another.</p>
+<p>Até agora, este tutorial focou-se em pequenos trechos de código. Nosso nível de magnificação estava bem próximo do código. Fizemos muitas coisas pensando em relação a dez, oito ou menos linhas de código. Concentramo-nos em coisas pequenas, como nomes de variáveis ou movendo uma, duas linhas de código de um lugar para outro.</p>
 
-<p>We at Syneto do a lot of pair programming. Basically every time there is at least a moderately difficult task to be done, we do it as a pair. And refactoring is quite a difficult task, so most of the time there are two pairs of eyes looking at the code. This allows us to understand and think about what we are doing by looking at the code from two different zoom levels. While one programmer does the tiny changes and concentrates on character or line-level details, the other one can see the code from a distance.</p>
+<p>Nós, da Syneto, realizamos muita programação em par. Basicamente, toda vez que há alguma tarefa, no mínimo, de nível moderado, realizamos programação em par. Refatoração é uma tarefa bem complicada, então, na maior parte do tempo, há duas pessoas olhando o mesmo código. Isso nos permite entender e pensar sobre o que estamos fazendo no código em níveis diferentes de magnificação. Enquanto um programador realiza pequenas mudanças e concentra-se nos detalhes a nível de linha e caracteres, o outro pode ver algo mais, à distância.</p>
 
-<p>While the format of these webpages does not allow a lot of horizontal space, in reality, any programmer should have at least a 25" display, with a decent resolution that permits the view of the code from a higher zoom level. Here is how I see the <code>roll()</code> method on my 27" inch display.</p>
+<p>Embora o formato dessas páginas não permita muito espaço horizontal, na vida real, qualquer programador deveria ter, no mínimo, um monitor de 25 polegadas com uma resolução decente que permita a visualização do código em diversos níveis. Eis a forma que sou capaz de ver o método <code>roll()</code> em meu monitor de 27 polegadas.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-full-view.png"/>
 </figure>
 
-<p>At this level, a person can observe form, indentation, and relief.</p>
+<p>Nesse nível, podemos observar a forma e a indentação, e relaxar.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-full-view-relief.png"/>
 </figure>
 
-<p>This person can think about complexity, code design, and possible methods that could be extracted. This person can evaluate the complexity of <em>logic</em>, while the other person doing the small changes can deal with the complexity of <em>code</em>. The higher view can also highlight duplication quite effectively.</p>
+<p>Uma pessoa pode pensar sobre complexidade, projeto do código e possíveis métodos que poderiam ser extraídos. Essa pessoa pode avaliar a complexidade da <em>lógica</em>, enquanto a outra realizando pequenas mudanças pode lidar com a complexidade do <em>código</em> em si. O nível mais alto pode destacar duplicação de forma bem efetiva.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/roll-full-view-duplicate-code.png"/>
 </figure>
 
-<p>Isn't that cool? Did you observe the huge duplication before this image? Were you able to concentrate both on tiny details and on a high level view? Maybe you were. Some people have a natural talent to understand code, but most of us can't concentrate effectively on more than one level.</p>
+<p>Isso não é interessante? Você tinha percebido essa enorme duplicação antes dessa imagem? Você foi capaz de se concentrar tanto nos detalhes pequenos como no nível mais alto? Talvez, sim. Algumas pessoas tem um talento natural para entender código, mas a maioria de nós não consegue concentrar-se efetivamente em mais de um nível.</p>
 
-<p>And the best part of it? <em>You can do it alone also!</em> That is, if you don't have the opportunity to pair with another programmer, you can still zoom in and out. But you have to do it sequentially in order to be effective. Something like this is what we did at the beginning. We looked at the method from a higher level, we identified the small piece of code we could attack, and we zoomed in. The change of focus effectively switched our mindset and our way of thinking. We stayed in this zoomed in state, without thinking about the rest of the code until we finished refactoring it. Now we can zoom out again, change our mindset again and continue.</p>
+<p>E a melhor parte disso? <em>Você também pode fazer isso sozinho!</em> Isso é, se você não tiver a oportunidade de programar em par com outro programador, você ainda pode usar o <em>zoom</em>. Mas você precisa fazer isso de forma sequencial para que seja efetivo. Foi isso o que fizemos bem no começo. Olhamos o método a um nível mais alto, identificamos pequenos trechos de código que poderíamos trabalhar e demos o <em>zoom</em>. A mudança no foco alterou, efetivamente, a nossa forma de pensar. Permanecemos nesse estado magnificado, sem pensar no resto do código até que terminamos de refatorá-lo. Agora, podemos voltar, alterar nossa linha de pensamento e continuar.</p>
 
 
 
-<h2>Refactoring the First Part of <code>roll()</code></h2>
+<h2>Refatorando a Primeira Parte de <code>roll()</code></h2>
 
-<p>Some people change mindsets and views easily, in less than a minute. Others need more time to "forget" the details and zoom out, or vice versa, to give up on thinking about form and start reading the code one character at a time. If you need ten or 15 minutes, it's not as uncommon as you may think. Try to organize your work in a way that will allow you to take your next ten minute break just between zooms.</p>
+<p>Algumas pessoas conseguem mudar o nível de visão de modo de pensar, facilmente, em menos de um minuto. Outras precisam de um certo tempo para "esquecer" os detalhes e poder ir para um nível com menos <em>zoom</em>, e vice-versa, deixando de pensar na forma e começando a visualizar o código caractere a caractere. Se precisar de 15 minutos, não ache que tem algo errado com você, é mais comum do que parece. Tente organizar seu trabalho de forma que permita você descansar entre as magnificações.</p>
 
-<p>And again, change of mindset, we need to zoom in on the first part of the <code>if</code> statement, when the user is in the penalty box.</p>
+<p>E, mais uma vez alternando o modo de pensar, precisamos chegar mais próximo da primeira parte da declaração <code>if</code>, quando o usuário está na caixa de penalidades.</p>
 
-<p>This code starts with another <code>if()</code> statement checking if the rolled number is odd. If it is, it does something complicated. If it is an even number, it does something much simpler. It just keeps the player in the penalty box.</p>
+<p>Esse código começa com outra declaração <code>if()</code> para verificar se o número obtido é ímpar. Se for, ele faz algo complicado. Se for par, ele realiza algo muito mais simples. Apenas deixa o jogador na caixa de penalidades.</p>
 
 <pre class="brush: php">} else {
 	echoln($this-&gt;players[$this-&gt;currentPlayer] . " não está saindo da caixa de penalidades");
 	$this-&gt;isGettingOutOfPenaltyBox = false;
 }</pre>
 
-<p>That should be easy to test and it will also force us to define ways of setting up our SUT.</p>
+<p>Isso deve ser fácil de teste e também nos forçará a definir formas de configurar o sistema sob teste.</p>
 
 <pre class="brush: php">function testAPlayerWhoIsPenalizedAndRollsAnEvenNumberWillStayInThePenaltyBox() {
 	$rolledNumber = 2;
@@ -306,9 +306,9 @@ private function displayCurrentCategory() {
 	$this-&gt;assertFalse($this-&gt;game-&gt;isGettingOutOfPenaltyBox);
 }</pre>
 
-<p>Yes. It was easy. A nice four line long test method. And the <code>setAPlayerThatIsInThePenaltyBox()</code> method is very similar with its counterpart. The only difference being the penalty box state.</p>
+<p>Sim. Foi bem fácil. Um ótimo teste com quatro linhas. E o método <code>setAPlayerThatIsInThePenaltyBox()</code> é muito parecido com sua contraparte. A única diferença sendo a caixa de penalidade.</p>
 
-<p>We can now start building the test, or tests, for the first part of the if, when the rolled number is odd.</p>
+<p>Podemos começar a construir o teste, ou testes, para a primeira parte do <code>if</code>, quando o número obtido for ímpar.</p>
 
 <pre class="brush: php">function testAPlayerWhoIsPenalizedAndRollsAnOddNumberWillGetOutOfThePenaltyBox() {
 	$rolledNumber = 1;
@@ -319,17 +319,17 @@ private function displayCurrentCategory() {
 	$this-&gt;assertTrue($this-&gt;game-&gt;isGettingOutOfPenaltyBox);
 }</pre>
 
-<p>That's a promising start. The first line: tested. The rest will be similar to the tests for the <code>else</code> part of the first level <code>if</code>.</p>
+<p>Isso é um começo promissor. A primeira linha: testada. O resto será bem parecido com os testes para a parte do <code>else</code> do primeiro nível do <code>if</code>.</p>
 
 
 
-<h2>Pairs Should Be Pairs Till the End</h2>
+<h2>Pares Devem Ser Pares Até o Fim</h2>
 
-<p>One dilemma my colleagues and I at Syneto faced when doing paired programming or refactorings like this, was that when the task becomes clear and comes close to being finished, one of the programmers is tempted to leave. </p>
+<p>Um dilema que eu e meus colegas enfrentamos na Syneto ao realizar programação em pares ou refatorações como essa, é que, quando uma tarefa torna-se bastante clara e chega bem próximo do fim, um dos programadores acaba tentado a deixar a dupla. </p>
 
-<p>If you are the one concentrating on writing tests and moving small pieces of code, your pair may be tempted to think that his role is over. He saw the high level problems, communicated them to you, now it's your turn to fix the code. When he tries to leave, stop him. Tell him all tasks started as a pair should be finished as a pair. Tell him to help you think about the tests, names, structures, so you can concentrate on the procedures and steps required by the refactoring techniques that need to be used, the steps we learned in previous lessons.</p>
+<p>Se você está concentrado na escrita dos testes e na movimentação de código de um lado do outro, seu par pode ficar tentado em achar que seu papel já não tem mais serventia. Ele percebeu os problemas de alto nível, avisou você, agora é sua hora de ajeitar o código. Quando ele tenta sair, impeça-o. Diga que ele precisa ajudar você em relação aos testes, às nomeações, às estruturas, de modo que você possa concentrar-se nos procedimentos e passos requeridos pelas técnicas de refatoração que precisam ser usadas, nos passos que aprendemos nas lições anteriores.</p>
 
-<p>For example, he could think of test names, while you are occupied with copy/pasting and modifying the previous tests, to force the entry on this part of the if.</p>
+<p>Por exemplo, ele poderia pensar nos nomes dos testes, enquanto você está ocupado com a cópia, colagem e modificação de testes anteriores, forçando na entrada dessa parte do <code>if</code>.</p>
 
 <pre class="brush: php">function testPlayerGettingOutOfPenaltyNextPositionWithoutNewLap() {
 	$currentPlace = 2;
@@ -355,9 +355,9 @@ function testPlayerGettingOutOfPenaltyNextPositionWithNewLap() {
 	$this-&gt;assertEquals('2', $this-&gt;getCurrentPlayersPosition(), 'Esperava-se que o jogador estivesse na posição 3');
 }</pre>
 
-<p>On the other hand, if your pair decides that after discovering all the duplication and cool high level problems, he should be entitled to write the tests and refactor the code, you may feel that you have nothing else to do. But you are wrong. You can stay and help him with naming, low level duplication, and other small things. You can also help him when he stumbles or misses some small steps or when he remains stuck at failing tests because of a stupid little typo.</p>
+<p>Por outro lado, se seu par decidir que após a descoberta de todas as duplicações e dos problemas de alto nível, ele deve ser o responsável pela criação dos testes e refatoração do código, você pode achar que não tem mais o que fazer. Você pode ficar e ajudá-lo na nomeação, duplicação de baixo nível e outras coisas menores. Você também pode ajudá-lo quando ele deixar passar alguns passos, ou quando ele empacar em um teste falho por conta de um pequeno erro de digitação.</p>
 
-<p>This is how tests will be named well, like <code>testPlayerGettingOutOfPenaltyNextPositionWithNewLap()</code> and variables will express what they represent for the current test and not what they did for the previous test that you copied over: <code>$numberRequiredToGetOutOfPenaltyBox</code>.</p>
+<p>É assim que os testes serão bem nomeados, como <code>testPlayerGettingOutOfPenaltyNextPositionWithNewLap()</code> e as variáveis expressarão o que elas representam para o teste atual e não o que elas fizeram no teste anterior, de onde você copiou: <code>$numberRequiredToGetOutOfPenaltyBox</code>.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	echoln($this-&gt;players[$this-&gt;currentPlayer] . " é o jogador atual");
@@ -385,11 +385,11 @@ function testPlayerGettingOutOfPenaltyNextPositionWithNewLap() {
 
 }</pre>
 
-<p>Isn't that better than before? All unit tests are passing. But I feel we've moved around a lot of code that is responsible for the presentation. Maybe we should run our golden master test?</p>
+<p>Não está bem melhor que antes? Todos os testes unitários passaram. Mas acredito que movimentos muito código que é responsável pela apresentação. Não seria bom executarmos o teste do <em>resultado esperado</em>?</p>
 
 
 
-<h2>Taking a Step Backward</h2>
+<h2>Voltando Um Passo</h2>
 
 <pre class="brush: bash">PHPUnit_Framework_ExpectationFailedException : Failed asserting that false is true.
 Time: 18.93 seconds, Memory: 112.50Mb
@@ -397,9 +397,9 @@ Time: 18.93 seconds, Memory: 112.50Mb
 FAILURES!
 Tests: 20, Assertions: 33, Failures: 1, Skipped: 1.</pre>
 
-<p>And it fails. It has been quite some time since we ran our golden master tests, but all of our modifications were localized in the <code>roll()</code> method. So the worst thing that can happen is that we revert our changes.</p>
+<p>E ele falhou! Faz um bom tempo, desde que executamos nosso resultado esperado, mas todas nossas modificações estão localizadas no método <code>roll()</code>. Então, a pior coisa que pode acontecer é a reversão de nossas mudanças.</p>
 
-<p>Let's start with a small step back. I suspect that where we saw duplication in the output, there was a small difference. Maybe a letter or a space we did not observe. We could revert the outputting in the first part of <code>roll()</code> and see if it works.</p>
+<p>Comecemos com um pequeno passo para trás. Suspeito que, onde vimos duplicação no retorno, na verdade, havia alguma pequena diferença. Talvez uma letra ou um espaço que não percebemos. Poderíamos reverter o retorno da primeira parte do método <code>roll()</code> e ver se funciona.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	echoln($this-&gt;players[$this-&gt;currentPlayer] . " é o jogador atual");
@@ -429,19 +429,19 @@ Tests: 20, Assertions: 33, Failures: 1, Skipped: 1.</pre>
 
 }</pre>
 
-<p>That still fails. As our first suspicion was wrong, we may want to take a bigger step back. Did our golden master pass before we started our work? Maybe next time we should start by running it. Now we need to take our changes, put them in a safe place and revert all the code to verify our hypothesis.</p>
+<p>Ainda falha. Nossa primeira suspeita estava errada e talvez precisemos dar um passo maior. Nosso <em>resultado esperado</em> passava, antes de começarmos nosso trabalho? Talvez, da próxima vez, devamos começar por sua execução. Agora, precisamos pegar nossas mudanças e colocá-las em um lugar seguro e reverter todo o código para verificar nossa hipótese.</p>
 
-<p>The reverting to the original state of <code>roll()</code> makes the golden master pass. Good to know. So we broke it. But when? Where?</p>
+<p>Revertendo para o estado original do método <code>roll()</code> faz o <em>resultado esperado</em> passar. Bom saber. Então, quebramos ele. Mas, quando e onde?</p>
 
-<p>Now that our code is reverted to the original, we could observe the output, put it in a text file and compare it with the refactored one.</p>
+<p>Agora que nosso código foi revertido ao estado original, podemos observar o retorno, colocá-lo em um arquivo texto e compará-lo ao refatorado.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/test-output-orig-vs-refactored-diff-lines.png"/>
 </figure>
 
-<p>As we can immediately observe, we missed some lines in the refactored version. The strings telling us that the player está saindo da caixa de penalidades are missing. Hmm...</p>
+<p>Como podemos observar imediatamente, deixamos algumas linhas de fora da versão refatorada. As cadeias de caracteres nos dizem que a funcionalidade de fazer o jogador sair da caixa de penalidades está faltando. Hmm...</p>
 
-<p>Let's take a look at the code that we started with, again. Aha!!! There it is!</p>
+<p>Vejamos o código que começamos, novamente. Aha!!! Aí está!</p>
 
 <pre class="brush: php">echoln($this-&gt;players[$this-&gt;currentPlayer] . " está saindo da caixa de penalidades");
 $this-&gt;places[$this-&gt;currentPlayer] = $this-&gt;places[$this-&gt;currentPlayer] + $roll;
@@ -449,7 +449,7 @@ if ($this-&gt;playerShouldStartANewLap()) {
 	$this-&gt;places[$this-&gt;currentPlayer] = $this-&gt;places[$this-&gt;currentPlayer] - $boardSize;
 }</pre>
 
-<p>An <code>echoln()</code> stuck at the top of the moving logic. An honest, simple mistake. We didn't observe it and just took all that block of code and replaced it with the method call.</p>
+<p>Uma chamada a <code>echoln()</code> fixa no topo da lógica movimentada. Um simples erro. Não observamos direito e substituímos todo o bloco de código pro uma chamada a um método.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	echoln($this-&gt;players[$this-&gt;currentPlayer] . " é o jogador atual");
@@ -478,13 +478,13 @@ if ($this-&gt;playerShouldStartANewLap()) {
 
 }</pre>
 
-<p>This makes all the tests pass. Thank goodness that I had a pair to help me figure this out. Even though mine was a teddy bear, as I write these articles alone, many times it helps just to tell someone your problem. It will make your mind replay all the thoughts and remake the process. More than not, this makes you realize stupid mistakes and observe things you would otherwise miss.</p>
+<p>Agora, isso faz com que todos os testes passem. Mesmo que você fale com um ursinho de pelúcia, é interessante dizer para alguém e explicar o problema pelo qual está passando, assim, você analisar melhor o que fez, o que está dizendo e se é a melhor solução. Além do mais, isso permite você notar erros que você cometeu e tinha deixado passar.</p>
 
 
 
-<h2>Adding the Final Touch</h2>
+<h2>Adicionando o Toque Final</h2>
 
-<p>Before we conclude this tutorial, we should make sure we leave our <code>roll()</code> method in the best shape that we can. First, all the <code>echoln()</code> calls can go into private methods.</p>
+<p>Antes de finalizarmos esse tutorial, deveríamos deixar o método <code>roll()</code> na melhor forma possível. Primeiro, todas as chamadas a <code>echoln()</code> vão para métodos privados.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	$this-&gt;displayCurrentPlayer();
@@ -513,13 +513,13 @@ if ($this-&gt;playerShouldStartANewLap()) {
 
 }</pre>
 
-<p>The above is a step in the right direction, but my pair says we can do better.</p>
+<p>O passo delineado acima leva na direção certa, mas meu par diz que podemos fazer melhor.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21522/image/20140620_232541_HDR.jpg"/>
 </figure>
 
-<p>We can group the consecutive display functions into other display functions.</p>
+<p>Podemos agrupar as funções de apresentação consecutivas em outras funções de apresentação.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	$this-&gt;displayStatusAfterRoll($rolledNumber);
@@ -542,9 +542,9 @@ if ($this-&gt;playerShouldStartANewLap()) {
 	}
 }</pre>
 
-<p>Isn't that better? Only one display call with each path our method can follow.</p>
+<p>Não está melhor? Apenas uma invocação de apresentação em cada caminho de nosso método.</p>
 
-<p>Do you remember <code>$boardSize</code>? Can we move it inside <code>movePlayer()</code> now? Yes we can. So, let's do it.</p>
+<p>Você lembra da variável <code>$boardSize</code>? Podemos movê-la para dentro do método <code>movePlayer()</code>, agora? Sim, podemos. Então, façamos.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	$this-&gt;displayStatusAfterRoll($rolledNumber);
@@ -566,9 +566,9 @@ if ($this-&gt;playerShouldStartANewLap()) {
 	}
 }</pre>
 
-<p>Our code's getting pretty minimal. But still, this method is 18 lines long. That's a lot. Do you remember Robert C. Martin's teachings or the "Magic number seven plus minus two"? Our methods would be better if they would contain only about four lines of code.</p>
+<p>Nosso código está ficando bem pequeno. Mas, ainda assim, esse método possui 18 linhas. Isso é muito. Você lembra dos ensinamentos do Robert C. Martin em que ele diz que o "Número mágico é sete, mais ou menos dois"? Nossos métodos ficariam melhores se eles estivessem contidos em mais ou menos 4 linhas de código.</p>
 
-<p>The first step in this direction, is to reduce it to a single function call for each possible path.</p>
+<p>O primeiro passo para isso é reduzir a uma única invocação de função para cada caminho possível.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	$this-&gt;displayStatusAfterRoll($rolledNumber);
@@ -584,7 +584,7 @@ if ($this-&gt;playerShouldStartANewLap()) {
 	}
 }</pre>
 
-<p>We are now down to 12 lines of code. But we can do even better. The innermost <code>if</code> can go into its own method.</p>
+<p>Agora, chegamos às 12 linhas de código. Mas podemos melhorar ainda mais. O <code>if</code> mais interno pode ir dentro desse método.</p>
 
 <pre class="brush: php">function  roll($rolledNumber) {
 	$this-&gt;displayStatusAfterRoll($rolledNumber);
@@ -595,8 +595,8 @@ if ($this-&gt;playerShouldStartANewLap()) {
 	}
 }</pre>
 
-<h2>We're Finished!</h2>
+<h2>E, Terminamos!</h2>
 
-<p>With that we're down to seven lines of code in our method. Only five inside the method, with only four actually doing some kind of logic. Now this is a reasonable looking method, and it's at a point at which, I would feel good about stopping at. Also, this is not just an example. This is <em>"Extract till you drop"</em> and is how most of our methods look in our projects at Syneto. This is a real life example and is where you should end up, day by day, in all of your code. This is also where we stop for this lesson.</p>
+<p>Com isso, chegamos a sete linhas de código em nosso método. Apenas cinco linhas dentro do método, com apenas quatro realizando algum tipo de lógica. Agora, esse é um método razoável e chegamos a um ponto que me sinto confortável em parar de mexer nele. Além disso, isto não é apenas um exemplo. Isso é <em>"Extraia até cansar"</em> e é como a maioria dos métodos na Syneto parecem. Esse é um exemplo da vida real de até onde podemos chegar, dia após dia, em todos os seus códigos. É aqui onde paramos nossa lição, por hoje, também.</p>
 
-<p>Stay tuned for the next tutorial, where we will talk about layers and we will start to separate concerns.</p>
+<p>Mantenha-se ligado para o próximo tutorial, onde falaremos sobre as camadas da aplicação e começaremos a separar cada uma delas.</p>
