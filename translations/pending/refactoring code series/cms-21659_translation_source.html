@@ -1,26 +1,26 @@
-<h1>Refactoring Legacy Code: Part 8 - Inverting Dependencies for a Clean Architecture</h1>
+<h1>Refatorando Código Legado: Parte 8 - Invertendo Dependências para uma Arquitetura Limpa</h1>
 
-<p>Old code. Ugly code. Complicated code. Spaghetti code. Gibberish nonsense. In two words, <em>Legacy Code</em>. This is a series that will help you work and deal with it.</p>
+<p>Código velho. Código feio. Código complicado. Código macarrônico. Código sem sentido. Em outras palavras, <em>Código Legado</em>. Esta é uma série que ajudará você a trabalhar e lidar com esse tipo de código.</p>
 
-<p>It's now time to talk about architecture and how we organize our newly found layers of code. It's time to take our application and try to map it to theoretical architectural design.</p>
+<p>É hora de falar sobre arquitetura e como organizaremos nossas camadas de código. É hora de tentarmos mapear nossa aplicação em relação ao projeto arquitetural teórico.</p>
 
-<h2>Clean Architecture</h2>
+<h2>Arquitetura Limpa</h2>
 
-<p>This is something we've seen throughout our articles and tutorials. Clean architecture.</p>
+<p>Isso é algo que temos visto por nossos artigos e tutoriais. Arquitetura limpa.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/High Level Clean Architecture.png"/>
 </figure>
 
-<p>At a high level, it looks like the schema above and I am sure you are already familiar with it. It is, a proposed architectural solution by Robert C. Martin.</p>
+<p>A alto nível, parece-se com o esquema acima e, tenho certeza, ele já deve ser familiar a você. É uma solução arquitetural proposta por Robert C. Martin.</p>
 
-<p>In the center of our architecture is our business logic. These are the classes representing the business processes our application tries to solve. These are the entities and interactions representing the domain of our problem.</p>
+<p>No centro de nossa arquitetura está a lógica de negócios. Essas são as classes que representam os processos de negócios que nossa aplicação tentam resolver. Há entidades e interações representado o domínio de nosso problema.</p>
 
-<p>Then, there are several other types of modules or classes around our business logic. These can be seen as simple helping auxiliary modules. They have various purposes and most of them are indispensable. They provide the connection between the user and our application through a delivery mechanism. In our case, this is a command line interface. There is another set of auxiliary classes which are connecting our business logic to our persistence layer and to all the data in that layer, but we don't have such a layer in our application. Then there are helping classes like factories and builders which are constructing and providing new objects to our business logic. Finally there are the classes representing the entry point to our system. In our case, <code>GameRunner</code> can be considered such a class, or all of our tests are also entry points in their own way.</p>
+<p>Além disso, há vários outros tipos de módulos ou classes ao redor da nossa lógica de negócio. Elas podem ser vistas como módulos auxiliares. Eles servem para várias coisas e a maioria deles é indispensável. Eles proveem conexão entre o usuário e nossa aplicação, através de um mecanismo de entrega. No nosso caso, é a interface de linha de comando. Há outro conjunto de classes auxiliares que conectam nossa lógica de negócios à nossa camada de persistência e à todos os dados daquela camada, mas não temos essa camada em nossa aplicação. Além disso, há classes auxiliares de fábricas e construtores responsáveis pela criação de novos objetos de nossa lógica de negócios. Por fim, tem as classes que representam a porta de entrada do nosso sistema. No nosso caso, a classe <code>GameRunner</code> pode ser considerada desse tipo, ou mesmo todos nossos testes podem ser considerados portas de entrada a sua própria maneira.</p>
 
-<p>What is most important to notice on the diagram, is the dependency direction. All the auxiliary classes depend on the business logic. The business logic does not depend on anything else. If all the objects in our business logic could magically appear, with all the data in them, and we could see whatever happens inside our computer directly, they should be able to function. Our business logic must be able to function without a UI or without a persistence layer. Our business logic must exist isolated, in a bubble of a logical universe.</p>
+<p>O que é mais importante atentar no diagrama é a direção das dependências. Todas as classes auxiliares dependem da lógica de negócios. A lógica de negócios não dependem de qualquer outra coisa. Se todos os objetos da nossa lógica de negócios pudessem ter todos os dados com eles, magicamente, e pudessemos ver o que acontece dentro do computador, veríamos que a lógica de negócio funcionaria sem problemas. Ela deve ser capaz de funcionar sem uma interface de usuário ou sem uma camada de negócios. A lógica de negócios deve existir isolada, em uma bolha em um universo de lógica.</p>
 
-<h2>The Dependency Inversion Principle</h2>
+<h2>O Princípio da Inversão de Dependência</h2>
 
 <blockquote>
   <p>A. High-level modules should not depend on low-level modules. Both should depend on abstractions.
@@ -174,47 +174,47 @@ B. Abstractions should not depend upon details. Details should depend upon abstr
 <pre class="brush: php">class DummyDisplay implements Display {
 
 	function statusAfterRoll($rolledNumber, $currentPlayer) {
-		// TODO: Implement statusAfterRoll() method.
+		// TODO: Implementar o método  statusAfterRoll().
 	}
 
 	function playerSentToPenaltyBox($currentPlayer) {
-		// TODO: Implement playerSentToPenaltyBox() method.
+		// TODO: Implementar o método playerSentToPenaltyBox().
 	}
 
 	function playerStaysInPenaltyBox($currentPlayer) {
-		// TODO: Implement playerStaysInPenaltyBox() method.
+		// TODO: Implementar o método playerStaysInPenaltyBox().
 	}
 
 	function statusAfterNonPenalizedPlayerMove($currentPlayer, $currentPlace, $currentCategory) {
-		// TODO: Implement statusAfterNonPenalizedPlayerMove() method.
+		// TODO: Implementar o método statusAfterNonPenalizedPlayerMove().
 	}
 
 	function statusAfterPlayerGettingOutOfPenaltyBox($currentPlayer, $currentPlace, $currentCategory) {
-		// TODO: Implement statusAfterPlayerGettingOutOfPenaltyBox() method.
+		// TODO: Implementar o método statusAfterPlayerGettingOutOfPenaltyBox().
 	}
 
 	function playerAdded($playerName, $numberOfPlayers) {
-		// TODO: Implement playerAdded() method.
+		// TODO: Implementar o método playerAdded().
 	}
 
 	function  askQuestion($currentCategory) {
-		// TODO: Implement askQuestion() method.
+		// TODO: Implementar o método askQuestion().
 	}
 
 	function correctAnswer() {
-		// TODO: Implement correctAnswer() method.
+		// TODO: Implementar o método correctAnswer().
 	}
 
 	function correctAnswerWithTypo() {
-		// TODO: Implement correctAnswerWithTypo() method.
+		// TODO: Implementar o método correctAnswerWithTypo().
 	}
 
 	function incorrectAnswer() {
-		// TODO: Implement incorrectAnswer() method.
+		// TODO: Implementar o método incorrectAnswer().
 	}
 
 	function playerCoins($currentPlayer, $playerCoins) {
-		// TODO: Implement playerCoins() method.
+		// TODO: Implementar o método playerCoins().
 	}
 }</pre>
 
@@ -279,14 +279,14 @@ B. Abstractions should not depend upon details. Details should depend upon abstr
 
 <p>Uncomment and run your golden master tests. They will pass.</p>
 
-<h2>Final Thoughts</h2>
+<h2>Pontos Finais</h2>
 
-<p>This solution effectively leads to an architecture like in the diagram below.</p>
+<p>Efetivamente, essa solução leva a uma arquitetura tal qual o diagrama abaixo.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21659/image/final-architecture.png"/>
 </figure>
 
-<p>So now our game runner, which is the entry point to our application, creates a concrete <code>CLIDisplay</code> and thus depends on it. <code>CLIDisplay</code> depends only on the interface which sits on the boundary between presentation and business logic. Our runner also directly depends on the business logic. This is how our application looks like when projected on to the clean architecture that we started this article with.</p>
+<p>Agora, o executador do nosso jogo, que é a porta de entrada para o jogo, criar uma classe concreta do tipo <code>CLIDisplay</code>, dependendo, assim, dela. A classe <code>CLIDisplay</code> depende apenas da interface que divide a camada de apresentação da lógica de negócios. Nosso executador também depende diretamente da lógica de negócios. É assim que nossa aplicação se parece quando projetada com uma arquitetura limpa em mente desde o começo.</p>
 
-<p>Thank you for reading, and don't miss the next tutorial when we will talk about mocking and class interaction in more details.</p>
+<p>Obrigado pela leitura e não perca o próximo tutorial, onde falaremos sobre simulação e interação de classes em mais detalhes.</p>
