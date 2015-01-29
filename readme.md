@@ -31,6 +31,7 @@ PHP
 - [Refatorando Código Legado: Parte 4 - Nossos Primeiros Testes Unitários](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-4-our-first-unit-tests--cms-21146)
 - [Refatorando Código Legado: Parte 5 - Os Métodos Testáveis do Jogo](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-5-games-testable-methods--cms-21213)
 - [Refatorando Código Legado: Parte 6 - Atacando Métodos Complexos](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-6-attacking-complex-methods--cms-21522)
+- [Refatorando Código Legado: Parte 7 - Identificando a Camada de Apresentação](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-7-identifying-the-presentation-layer--cms-21593)
 
 Laravel
 -------
