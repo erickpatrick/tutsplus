@@ -1,0 +1,254 @@
+<h1>Refatorando Código Legado: Parte 9 - Analisando Interesses</h1>
+
+<p>Neste tutorial, continuaremos a focar na lógica de negócios. Avaliaremos se o conteúdo do arquivo <code>RunnerFunctions.php</code> pertence a uma classe e, em caso positivo, a qual classe. Pensaremos sobre os interesses e sobre onde os métodos pertencem. Por fim, aprenderemos um pouco mais sobre o conceito de simulação. Então, o que estamos esperando? Vamos lá!</p>
+
+
+
+<h2><code class="inline">RunnerFunctions</code> - Dos Procedimentos à Orientação a Objetos</h2>
+
+<p>Mesmo que tenhamos a maior parte de nosso código orientado a objetos, bem organizado em classes, simplesmente, algumas funções vagam em um arquivo. Precisamos parar um pouco para dar um aspecto mais orientado a objetos às funções do arquivo <code>RunnerFunctions.php</code>.</p>
+
+<pre class="brush: php">const WRONG_ANSWER_ID = 7;
+const MIN_ANSWER_ID = 0;
+const MAX_ANSWER_ID = 9;
+
+function isCurrentAnswerCorrect($minAnswerId = MIN_ANSWER_ID, $maxAnswerId = MAX_ANSWER_ID) {
+	return rand($minAnswerId, $maxAnswerId) != WRONG_ANSWER_ID;
+}
+
+function run() {
+	$display = new CLIDisplay();
+	$aGame = new Game($display);
+	$aGame-&gt;add("Chet");
+	$aGame-&gt;add("Pat");
+	$aGame-&gt;add("Sue");
+
+	do {
+		$dice = rand(0, 5) + 1;
+		$aGame-&gt;roll($dice);
+	} while (!didSomebodyWin($aGame, isCurrentAnswerCorrect()));
+}
+
+function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+	if ($isCurrentAnswerCorrect) {
+		return ! $aGame-&gt;wasCorrectlyAnswered();
+	} else {
+		return ! $aGame-&gt;wrongAnswer();
+	}
+}</pre>
+
+<p>Meu primeiro instinto é de, simplesmente, envolvê-las em uma classe. Isso não é nada genioso, mas é algo que nos faz começar a alterar as coisas. Vejamos se a ideia funciona.</p>
+
+<pre class="brush: php">const WRONG_ANSWER_ID = 7;
+const MIN_ANSWER_ID = 0;
+const MAX_ANSWER_ID = 9;
+
+class RunnerFunctions {
+
+	function isCurrentAnswerCorrect($minAnswerId = MIN_ANSWER_ID, $maxAnswerId = MAX_ANSWER_ID) {
+		return rand($minAnswerId, $maxAnswerId) != WRONG_ANSWER_ID;
+	}
+
+	function run() {
+		// ... //
+	}
+
+	function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+		// ... //
+	}
+}</pre>
+
+<p>Se fizermos isso, precisaremos modificar os testes e o arquivo <code>GameRunner.php</code> para que usem a nova classe. Nomeamos a classe com algo genérico, por hora, já que renomeá-la será fácil quando for preciso. Nem sabemos ainda se essa classe existirá por conta própria ou se será assimilada à classe <code>Game</code>. Então, não se preocupe com o nome dela ainda.</p>
+
+<pre class="brush: php">private function generateOutput($seed) {
+	ob_start();
+	srand($seed);
+	(new RunnerFunctions())-&gt;run();
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}</pre>
+
+<p>Em nosso arquivo <code>GoldenMasterTest.php</code>, precisamos modificar a forma que executamos o código. A terceira linha da função <code>generateOutput()</code> precisa ser alterada para que seja criado um novo objeto e invocada a função <code>run()</code> nele. Mas isso dá em erro.</p>
+
+<pre class="brush: bash">PHP Fatal error:  Call to undefined function didSomebodyWin() in ...</pre>
+
+<p>Precisamos modificar nossa classe, mais ainda.</p>
+
+<pre class="brush: php">do {
+	$dice = rand(0, 5) + 1;
+	$aGame-&gt;roll($dice);
+} while (!$this-&gt;didSomebodyWin($aGame, $this-&gt;isCurrentAnswerCorrect()));</pre>
+
+<p>Só precisamos alterar a condição da declaração <code>while</code> no método <code>run()</code>. O novo código invoca <code>didSomebodyWin()</code> e <code>isCurrentAnswerCorrect()</code> a partir da classe atual, colocando <code>$this-&gt;</code> antes desses métodos.</p>
+
+<p>Isso faz com que o <em>resultado esperado</em> passe, mas faz com que o executador quebre os testes.</p>
+
+<pre class="brush: php">PHP Fatal error:  Call to undefined function isCurrentAnswerCorrect() in /.../RunnerFunctionsTest.php on line 25</pre>
+
+<p>O problema está na função <code>assertAnswersAreCorrectFor()</code>, mas é facilmente ajustável, criando um objeto executador antes.</p>
+
+<pre class="brush: php">private function assertAnswersAreCorrectFor($correctAnserIDs) {
+	$runner = new RunnerFunctions();
+	foreach ($correctAnserIDs as $id) {
+		$this-&gt;assertTrue($runner-&gt;isCurrentAnswerCorrect($id, $id));
+	}
+}</pre>
+
+<p>Esse mesmo problema também precisa ser ajustado em outras três funções:</p>
+
+<pre class="brush: php">function testItCanFindWrongAnswer() {
+	$runner = new RunnerFunctions();
+	$this-&gt;assertFalse($runner-&gt;isCurrentAnswerCorrect(WRONG_ANSWER_ID, WRONG_ANSWER_ID));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
+	$runner = new RunnerFunctions();
+	$this-&gt;assertTrue($runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aCorrectAnswer()));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
+	$runner = new RunnerFunctions();
+	$this-&gt;assertFalse($runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aWrongAnswer()));
+}</pre>
+
+<p>Embora isso faça os testes passarem, traz duplicação de código. Como estamos com todos os testes passando, podemos extrair uma função executador para o método <code>setUp()</code>.</p>
+
+<pre class="brush: php">private $runner;
+
+function setUp() {
+	$this-&gt;runner = new Runner();
+}
+
+function testItCanFindCorrectAnswer() {
+	$this-&gt;assertAnswersAreCorrectFor($this-&gt;getCorrectAnswerIDs());
+}
+
+function testItCanFindWrongAnswer() {
+	$this-&gt;assertFalse($this-&gt;runner-&gt;isCurrentAnswerCorrect(WRONG_ANSWER_ID, WRONG_ANSWER_ID));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
+	$this-&gt;assertTrue($this-&gt;runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aCorrectAnswer()));
+}
+
+function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
+	$this-&gt;assertFalse($this-&gt;runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aWrongAnswer()));
+}
+
+private function assertAnswersAreCorrectFor($correctAnserIDs) {
+	foreach ($correctAnserIDs as $id) {
+		$this-&gt;assertTrue($this-&gt;runner-&gt;isCurrentAnswerCorrect($id, $id));
+	}
+}</pre>
+
+<p>Muito bom. Todas essas novas criações e refatorações me fizeram pensar. Nomeamos nossa variável de <code>runner</code>. Talvez nossa classe devesse ser nomeada da mesma forma. É hora de refatoração. Deve ser muito fácil.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21760/image/runner-rename.png"/>
+</figure>
+
+<p>Se você não marcou "<strong>Search for text occurrences</strong>" na caixa acima, não esqueça de alterar suas inclusões manualmente, uma vez que a refatoração também renomeará o arquivo.</p>
+
+<p>Agora, temos um arquivo chamado <code>GameRunner.php</code>, outro de <code>Runner.php</code> e um terceiro de <code>Game.php</code>. Não sei você, mas isso está bem confuso para mim. Se eu visse esses três arquivos pela primeira vez na minha vida, não saberia o que cada uma faz. Precisamos eliminar um deles, no mínimo.</p>
+
+<p>O motivo de criarmos o arquivo <code>RunnerFunctions.php</code> lá no começo da refatoração, foi para podermos incluir todos os métodos e arquivos para testes. Precisávamos acessar tudo, mas não executar a não ser em um ambiente preparado em nosso <em>resultado</em> esperado. Ainda podemos fazer a mesma coisa, só que sem executar nosso código a partir do <code>GameRunner.php</code>. Precisamos atualizar as inclusões e criar uma classe, antes de continuarmos.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/Display.php';
+require_once __DIR__ . '/Runner.php';
+(new Runner())-&gt;run();</pre>
+
+<p>Isso servirá. Precisamos incluir <code>Display.php</code> explicitamente, para quando <code>Runner</code> tentar criar um novo objeto <code>CLIDisplay</code>, ele saiba o que implementar.</p>
+
+
+
+<h2>Analisando os Interesses</h2>
+
+<p>Acredito que uma das características mais importantes da programação orientada a objetos é definir os interesses. Sempre me pergunta algo como "essa classe realiza o que seu nome diz?", "esse método é de interesse desse objeto?", "meu objeto deve preocupar-se sobre aquele valor em específico?"</p>
+
+<p>Supreendentemente, esses tipos de perguntas tem uma grande capacidade de clarificação sobre o domínio do negócio e sobre a arquitetura do <em>software</em>. Perguntamos e respondemos esses tipos de questões em grupo, lá na Syneto. Muitas vezes, quando um programador encontra-se em um dilema, ele ou ela se levanta, pede por alguns minutos de atenção da equipe para que todos deem suas opiniões sobre o assunto. Aqueles que estão familiarizados com a arquitetura do código, responderão do ponto de vista do <em>software</em>, enquanto os outros, mais familiarizados com o domínio do negócio, podem dar uma luz e comentários sobre os aspectos comerciais.</p>
+
+<p>Pensemos nos interesses do nosso caso. Podemos continuar com foco sobre a classe <code>Runner</code>. É muito mais provável eliminar ou transformar essa classe que a classe <code>Game</code>.</p>
+
+<p>Primeiro, um executador deveria saber se <code>isCurrentAnswerCorrect()</code> funciona? Um executador deve ter qualquer conhecimento sobre perguntas e respostas?</p>
+
+<p>Parece que esse método estaria melhor na classe <code>Game</code>. Acredito, fortemente, que uma classe <code>Game</code> de um jogo sobre perguntas e respostas deva preocupar-se se uma resposta está correta ou não. Também acredito que uma classe <code>Game</code> deve estar preocupada em prover a resposta para a pergunta atual.</p>
+
+<p>É hora de agir. Realizaremos uma refatoração de <em>movimentação de método</em>. Como vimos isso em tutoriais anteriores, apenas mostrarei o resultado final.</p>
+
+<pre class="brush: php">require_once __DIR__ . '/CLIDisplay.php';
+include_once __DIR__ . '/Game.php';
+
+class Runner {
+
+	function run() {
+		//...//
+	}
+
+	function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+		//...//
+	}
+}</pre>
+
+<p>É essencial perceber que não foi apenas o método que foi movido, mas, também, a constante que define os limites das respostas.</p>
+
+<p>Mas e o método <code>didSomebodyWin()</code>? Um executador deve decidir se alguém ganhou o jogo? Se olharmos o corpo do método, poderemos ver um problema bem destacado, como se fosse uma lanterna ligada no escuro.</p>
+
+<pre class="brush: php">function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
+	if ($isCurrentAnswerCorrect) {
+		return !$aGame-&gt;wasCorrectlyAnswered();
+	} else {
+		return !$aGame-&gt;wrongAnswer();
+	}
+}</pre>
+
+<p>O que quer que seja que esse método faz, ele age apenas sobre o objeto <code>Game</code>. Ele verifica a resposta atual retornada pelo jogo. E, então, retornar o que quer que seja que o objeto <code>Game</code> retorna de seus métodos <code>wasCorrectlyAnswered()</code> ou <code>wrongAnswer()</code>. Esse método não faz qualquer coisa por conta própria. Tudo com o que ele se importa é o objeto <code>Game</code>. Esse é um exemplo clássico sintoma de má programação, chamado de <em>Inveja de Funcionalidade</em>. Uma classe faz algo que outra classe deveria fazer. Hora de movê-la.</p>
+
+<pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
+
+	private $runner;
+
+	function setUp() {
+		$this-&gt;runner = new Runner();
+	}
+
+}</pre>
+
+<p>Como de costume, movemos os testes primeiro. TDD? Alguém?</p>
+
+<p>Isso nos deixa sem testes a serem executados, logo, podemos dar fim a esse arquivo. Remoção é a minha parte favorita da programação.</p>
+
+<p>E executamos nossos testes e obtemos um erro.</p>
+
+<pre class="brush: bash">Fatal error: Call to undefined method Game::didSomebodyWin()</pre>
+
+<p>É hora de alterar o código também. Copiar e colar o método na classe <code>Game</code> fará com que todos os testes passem <em>automagicamente</em>. Tanto os antigos quanto os novos movidos para <code>GameTest</code>. Mas, embora isso coloque os métodos no lugar certo, há dois problemas: o executador também precisa ser alterado, e enviamos um objeto <code>Game</code> falso que não precisamos mais, uma vez que tudo faz parte da classe <code>Game</code>, agora.</p>
+
+<pre class="brush: php">do {
+	$dice = rand(0, 5) + 1;
+	$aGame-&gt;roll($dice);
+} while (!$aGame-&gt;didSomebodyWin($aGame, $this-&gt;isCurrentAnswerCorrect()));</pre>
+
+<p>Consertar o executador é bem fácil. Apenas alterarmos <code>$this-&gt;didSomebodyWin(...)</code> para <code>$aGame-&gt;didSomebodyWin(...)</code>. Precisaremos voltar aqui e alterá-la novamente, após nosso próximo passo. A refatoração dos testes.</p>
+
+<pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
+	$aGame = \Mockery::mock('Game[wasCorrectlyAnswered]');
+	$aGame-&gt;shouldReceive('wasCorrectlyAnswered')-&gt;once()-&gt;andReturn(false);
+	$this-&gt;assertTrue($aGame-&gt;didSomebodyWin($this-&gt;aCorrectAnswer()));
+}</pre>
+
+<p>É hora da simulação! Ao invés de usar nossa classe falsa, criada ao final dos nossos testes, usaremos a biblioteca <a href="http://code.tutsplus.com/tutorials/mockery-a-better-way--net-28097">Mockery</a>. Ela nos permite sobrescrever um método de <code>Game</code>, esperar que ele seja invocado e que tenha retornado o valor que queremos. Claro, poderíamos alcançar isso fazendo com que nossa classe falsa estendesse <code>Game</code> e sobrescrevêssemos o método por conta própria. Mas, por que ter esse trabalho todo quando temos uma ferramenta para isso?</p>
+
+<pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
+	$aGame = \Mockery::mock('Game[wrongAnswer]');
+	$aGame-&gt;shouldReceive('wrongAnswer')-&gt;once()-&gt;andReturn(true);
+	$this-&gt;assertFalse($aGame-&gt;didSomebodyWin($this-&gt;aWrongAnswer()));
+}</pre>
+
+<p>Após nosso segundo método ser reescrito, podemos remover a classe <code>game</code> falsa e quaisquer métodos que a inicializava. Problema resolvido!</p>
+
+<h2>Pontos Finais</h2>
+
+<p>Mesmo que, basicamente, tenhamos trabalhado apenas com a classe <code>Runner</code>, obtivemos um ótimo progresso, hoje. Aprendemos sobre responsabilidade, identificamos métodos e variáveis que pertencem a outra classe. Pensamos em um nível mais alto e evoluímos nosso código em direção a uma solução melhor. Na equipe da Syneto, há uma forte crença que sempre há alguma forma boa de programar e que nunca devemos enviar uma mudança a não ser que o código esteja um pouco mais limpo e claro. Essa é uma técnica que, como tempo, pode levar a uma base de código melhor, com menos dependências, mais testes e, eventualmente, menos erros.</p>
+
+<p>Obrigado pelo seu tempo.</p>
