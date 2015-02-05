@@ -6,7 +6,7 @@
 
 <h2><code class="inline">RunnerFunctions</code> - Dos Procedimentos à Orientação a Objetos</h2>
 
-<p>Even though we have most of our code in object oriented form, nicely organized in classes, some functions are just simply sitting in a file. We need to take some in order to give the functions <code>RunnerFunctions.php</code> in a more object oriented aspect.</p>
+<p>Mesmo que tenhamos a maior parte de nosso código orientado a objetos, bem organizado em classes, simplesmente, algumas funções vagam em um arquivo. Precisamos parar um pouco para dar um aspecto mais orientado a objetos às funções do arquivo <code>RunnerFunctions.php</code>.</p>
 
 <pre class="brush: php">const WRONG_ANSWER_ID = 7;
 const MIN_ANSWER_ID = 0;
@@ -37,7 +37,7 @@ function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
 	}
 }</pre>
 
-<p>My first instinct is to just wrap them in a class. This is nothing genius, but it is something that makes us start changing things. Let's see if the idea can actually work.</p>
+<p>Meu primeiro instinto é de, simplesmente, envolvê-las em uma classe. Isso não é nada genioso, mas é algo que nos faz começar a alterar as coisas. Vejamos se a ideia funciona.</p>
 
 <pre class="brush: php">const WRONG_ANSWER_ID = 7;
 const MIN_ANSWER_ID = 0;
@@ -58,7 +58,7 @@ class RunnerFunctions {
 	}
 }</pre>
 
-<p>If we do that, we need to modify our tests and our <code>GameRunner.php</code> to use the new class. We called the class something generic for the time being, renaming it will be easy when needed. We don't even know if this class will exist on its own or will be assimilated into <code>Game</code>. So don't worry about naming just yet.</p>
+<p>Se fizermos isso, precisaremos modificar os testes e o arquivo <code>GameRunner.php</code> para que usem a nova classe. Nomeamos a classe com algo genérico, por hora, já que renomeá-la será fácil quando for preciso. Nem sabemos ainda se essa classe existirá por conta própria ou se será assimilada à classe <code>Game</code>. Então, não se preocupe com o nome dela ainda.</p>
 
 <pre class="brush: php">private function generateOutput($seed) {
 	ob_start();
@@ -69,24 +69,24 @@ class RunnerFunctions {
 	return $output;
 }</pre>
 
-<p>In our <code>GoldenMasterTest.php</code> file, we must modify the way we run our code. The function is <code>generateOutput()</code> and its third line needs to be modified to create a new object and call <code>run()</code> on it. But this fails.</p>
+<p>Em nosso arquivo <code>GoldenMasterTest.php</code>, precisamos modificar a forma que executamos o código. A terceira linha da função <code>generateOutput()</code> precisa ser alterada para que seja criado um novo objeto e invocada a função <code>run()</code> nele. Mas isso dá em erro.</p>
 
 <pre class="brush: bash">PHP Fatal error:  Call to undefined function didSomebodyWin() in ...</pre>
 
-<p>We now need to modify our new class further.</p>
+<p>Precisamos modificar nossa classe, mais ainda.</p>
 
 <pre class="brush: php">do {
 	$dice = rand(0, 5) + 1;
 	$aGame-&gt;roll($dice);
 } while (!$this-&gt;didSomebodyWin($aGame, $this-&gt;isCurrentAnswerCorrect()));</pre>
 
-<p>We only needed to change the condition of the <code>while</code> statement in the <code>run()</code> method. The new code calls <code>didSomebodyWin()</code> and <code>isCurrentAnswerCorrect()</code> from the current class, by prepending <code>$this-&gt;</code> to them.</p>
+<p>Só precisamos alterar a condição da declaração <code>while</code> no método <code>run()</code>. O novo código invoca <code>didSomebodyWin()</code> e <code>isCurrentAnswerCorrect()</code> a partir da classe atual, colocando <code>$this-&gt;</code> antes desses métodos.</p>
 
-<p>This makes the golden master pass, but it brakes the runner tests.</p>
+<p>Isso faz com que o <em>resultado esperado</em> passe, mas faz com que o executador quebre os testes.</p>
 
 <pre class="brush: php">PHP Fatal error:  Call to undefined function isCurrentAnswerCorrect() in /.../RunnerFunctionsTest.php on line 25</pre>
 
-<p>The problem is in <code>assertAnswersAreCorrectFor()</code>, but easily fixable by creating a runner object first.</p>
+<p>O problema está na função <code>assertAnswersAreCorrectFor()</code>, mas é facilmente ajustável, criando um objeto executador antes.</p>
 
 <pre class="brush: php">private function assertAnswersAreCorrectFor($correctAnserIDs) {
 	$runner = new RunnerFunctions();
@@ -95,7 +95,7 @@ class RunnerFunctions {
 	}
 }</pre>
 
-<p>This same issue needs to be addressed in three other functions as well.</p>
+<p>Esse mesmo problema também precisa ser ajustado em outras três funções:</p>
 
 <pre class="brush: php">function testItCanFindWrongAnswer() {
 	$runner = new RunnerFunctions();
@@ -112,7 +112,7 @@ function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$this-&gt;assertFalse($runner-&gt;didSomebodyWin($this-&gt;aFakeGame(), $this-&gt;aWrongAnswer()));
 }</pre>
 
-<p>While this makes the code pass, it introduces a bit of code duplication. As we are now with all tests on green, we can extract the runner creation into a <code>setUp()</code> method.</p>
+<p>Embora isso faça os testes passarem, traz duplicação de código. Como estamos com todos os testes passando, podemos extrair uma função executador para o método <code>setUp()</code>.</p>
 
 <pre class="brush: php">private $runner;
 
@@ -142,39 +142,39 @@ private function assertAnswersAreCorrectFor($correctAnserIDs) {
 	}
 }</pre>
 
-<p>Nice. All these new creations and refactorings got me thinking. We named our variable <code>runner</code>. Maybe our class could be called the same. Let's refactor it. It should be easy.</p>
+<p>Muito bom. Todas essas novas criações e refatorações me fizeram pensar. Nomeamos nossa variável de <code>runner</code>. Talvez nossa classe devesse ser nomeada da mesma forma. É hora de refatoração. Deve ser muito fácil.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/45/posts/21760/image/runner-rename.png"/>
 </figure>
 
-<p>If you didn't check "<strong>Search for text occurrences</strong>" in the box above, don't forget to change your includes manually, because the refactoring will rename the file also.</p>
+<p>Se você não marcou "<strong>Search for text occurrences</strong>" na caixa acima, não esqueça de alterar suas inclusões manualmente, uma vez que a refatoração também renomeará o arquivo.</p>
 
-<p>Now we have a file called <code>GameRunner.php</code>, another one named <code>Runner.php</code> and a third one named <code>Game.php</code>. I don't know about you, but this seems extremely confusing to me. If I was to see these three files for the first time in my life, I would have no idea which one does what. We need to get rid of at least one of them.</p>
+<p>Agora, temos um arquivo chamado <code>GameRunner.php</code>, outro de <code>Runner.php</code> e um terceiro de <code>Game.php</code>. Não sei você, mas isso está bem confuso para mim. Se eu visse esses três arquivos pela primeira vez na minha vida, não saberia o que cada uma faz. Precisamos eliminar um deles, no mínimo.</p>
 
-<p>The reason we created the <code>RunnerFunctions.php</code> file in the early stages of our refactoring, was to build up a way to include all the methods and files for testing. We needed access to everything, but not run everything unless in a prepared environment in our golden master. We can still do the same thing, just not run our code from <code>GameRunner.php</code>. We need to update the includes and create a class inside, before we continue.</p>
+<p>O motivo de criarmos o arquivo <code>RunnerFunctions.php</code> lá no começo da refatoração, foi para podermos incluir todos os métodos e arquivos para testes. Precisávamos acessar tudo, mas não executar a não ser em um ambiente preparado em nosso <em>resultado</em> esperado. Ainda podemos fazer a mesma coisa, só que sem executar nosso código a partir do <code>GameRunner.php</code>. Precisamos atualizar as inclusões e criar uma classe, antes de continuarmos.</p>
 
 <pre class="brush: php">require_once __DIR__ . '/Display.php';
 require_once __DIR__ . '/Runner.php';
 (new Runner())-&gt;run();</pre>
 
-<p>That will do it. We need to include <code>Display.php</code> explicitly, so when <code>Runner</code> tries to create a new <code>CLIDisplay</code>, it will know what to implement.</p>
+<p>Isso servirá. Precisamos incluir <code>Display.php</code> explicitamente, para quando <code>Runner</code> tentar criar um novo objeto <code>CLIDisplay</code>, ele saiba o que implementar.</p>
 
 
 
-<h2>Analyzing Concerns</h2>
+<h2>Analisando os Interesses</h2>
 
-<p>I believe that one of the most important characteristics of object oriented programming is defining concerns. I always ask myself questions like, "is this class doing what its name says?", "Is this method of concern for this object?", "Should my object care about that specific value?"</p>
+<p>Acredito que uma das características mais importantes da programação orientada a objetos é definir os interesses. Sempre me pergunta algo como "essa classe realiza o que seu nome diz?", "esse método é de interesse desse objeto?", "meu objeto deve preocupar-se sobre aquele valor em específico?"</p>
 
-<p>Surprisingly, these types of questions have a great power in clarifying both business domain and software architecture. We are asking and answering these types of questions in a group at Syneto. Many times when a programmer has a dilemma, he or she just stands up, asks for two minutes of attention from the team in order to find our opinion on a subject. Those who are familiar with the code architecture will answer from a software point of view, while others, more familiar with the business domain may shed light on some essential insights about commercial aspects.</p>
+<p>Supreendentemente, esses tipos de perguntas tem uma grande capacidade de clarificação sobre o domínio do negócio e sobre a arquitetura do <em>software</em>. Perguntamos e respondemos esses tipos de questões em grupo, lá na Syneto. Muitas vezes, quando um programador encontra-se em um dilema, ele ou ela se levanta, pede por alguns minutos de atenção da equipe para que todos deem suas opiniões sobre o assunto. Aqueles que estão familiarizados com a arquitetura do código, responderão do ponto de vista do <em>software</em>, enquanto os outros, mais familiarizados com o domínio do negócio, podem dar uma luz e comentários sobre os aspectos comerciais.</p>
 
-<p>Let's try to think about concerns in our case. We can continue to focus on the <code>Runner</code> class. It is hugely more probable to eliminate or transform this class, than <code>Game</code>.</p>
+<p>Pensemos nos interesses do nosso caso. Podemos continuar com foco sobre a classe <code>Runner</code>. É muito mais provável eliminar ou transformar essa classe que a classe <code>Game</code>.</p>
 
-<p>First, should a runner care about how <code>isCurrentAnswerCorrect()</code> working? Should a runner have any knowledge about questions and answers?</p>
+<p>Primeiro, um executador deveria saber se <code>isCurrentAnswerCorrect()</code> funciona? Um executador deve ter qualquer conhecimento sobre perguntas e respostas?</p>
 
-<p>It really seems like this method would be better off in <code>Game</code>. I strongly believe that a <code>Game</code> about trivia should care if an answer is correct or not. I truly believe a <code>Game</code> must be concerned about providing the result of the answer for the current question.</p>
+<p>Parece que esse método estaria melhor na classe <code>Game</code>. Acredito, fortemente, que uma classe <code>Game</code> de um jogo sobre perguntas e respostas deva preocupar-se se uma resposta está correta ou não. Também acredito que uma classe <code>Game</code> deve estar preocupada em prover a resposta para a pergunta atual.</p>
 
-<p>It's time to act. We will do a <em>move method</em> refactoring. As we've seen this all before from my previous tutorials, I will just show you the end result.</p>
+<p>É hora de agir. Realizaremos uma refatoração de <em>movimentação de método</em>. Como vimos isso em tutoriais anteriores, apenas mostrarei o resultado final.</p>
 
 <pre class="brush: php">require_once __DIR__ . '/CLIDisplay.php';
 include_once __DIR__ . '/Game.php';
@@ -190,9 +190,9 @@ class Runner {
 	}
 }</pre>
 
-<p>It is essential to note that not only the method went away, but the constant defining the answer's limits also.</p>
+<p>É essencial perceber que não foi apenas o método que foi movido, mas, também, a constante que define os limites das respostas.</p>
 
-<p>But what about <code>didSomebodyWin()</code>? Should a runner decide when someone has won? If we look at the method's body, we can see a problem highlighting like a flashlight in the dark.</p>
+<p>Mas e o método <code>didSomebodyWin()</code>? Um executador deve decidir se alguém ganhou o jogo? Se olharmos o corpo do método, poderemos ver um problema bem destacado, como se fosse uma lanterna ligada no escuro.</p>
 
 <pre class="brush: php">function didSomebodyWin($aGame, $isCurrentAnswerCorrect) {
 	if ($isCurrentAnswerCorrect) {
@@ -202,7 +202,7 @@ class Runner {
 	}
 }</pre>
 
-<p>Whatever this method does, it does it on a <code>Game</code> object only. It verifies the current answer returned by game. Then it returns whatever a game object returns in its <code>wasCorrectlyAnswered()</code> or <code>wrongAnswer()</code> methods. This method effectively does nothing on its own. All it cares about is <code>Game</code>. This is a classic example of a code smell called <em>Feature Envy</em>. A class does something that another class should do. Time to move it.</p>
+<p>O que quer que seja que esse método faz, ele age apenas sobre o objeto <code>Game</code>. Ele verifica a resposta atual retornada pelo jogo. E, então, retornar o que quer que seja que o objeto <code>Game</code> retorna de seus métodos <code>wasCorrectlyAnswered()</code> ou <code>wrongAnswer()</code>. Esse método não faz qualquer coisa por conta própria. Tudo com o que ele se importa é o objeto <code>Game</code>. Esse é um exemplo clássico sintoma de má programação, chamado de <em>Inveja de Funcionalidade</em>. Uma classe faz algo que outra classe deveria fazer. Hora de movê-la.</p>
 
 <pre class="brush: php">class RunnerFunctionsTest extends PHPUnit_Framework_TestCase {
 
@@ -214,22 +214,22 @@ class Runner {
 
 }</pre>
 
-<p>As usual, we moved the tests first. TDD? Anyone?</p>
+<p>Como de costume, movemos os testes primeiro. TDD? Alguém?</p>
 
-<p>This leaves us with no more tests to run, so this file can go now. Deleting is my favorite part of programming.</p>
+<p>Isso nos deixa sem testes a serem executados, logo, podemos dar fim a esse arquivo. Remoção é a minha parte favorita da programação.</p>
 
-<p>And when we run our tests, we get a nice error.</p>
+<p>E executamos nossos testes e obtemos um erro.</p>
 
 <pre class="brush: bash">Fatal error: Call to undefined method Game::didSomebodyWin()</pre>
 
-<p>It's now time to change the code as well. Copying and pasting the method into <code>Game</code> will magically make all the tests pass. Both the old ones and the ones moved to <code>GameTest</code>. But while this puts the method in the right place, it has two problems: the runner also needs to be changed and we send in a fake <code>Game</code> object which we do not need to do anymore since it is part of <code>Game</code>.</p>
+<p>É hora de alterar o código também. Copiar e colar o método na classe <code>Game</code> fará com que todos os testes passem <em>automagicamente</em>. Tanto os antigos quanto os novos movidos para <code>GameTest</code>. Mas, embora isso coloque os métodos no lugar certo, há dois problemas: o executador também precisa ser alterado, e enviamos um objeto <code>Game</code> falso que não precisamos mais, uma vez que tudo faz parte da classe <code>Game</code>, agora.</p>
 
 <pre class="brush: php">do {
 	$dice = rand(0, 5) + 1;
 	$aGame-&gt;roll($dice);
 } while (!$aGame-&gt;didSomebodyWin($aGame, $this-&gt;isCurrentAnswerCorrect()));</pre>
 
-<p>Fixing the runner is very easy. We just change <code>$this-&gt;didSomebodyWin(...)</code> into <code>$aGame-&gt;didSomebodyWin(...)</code>. We will need to come back here and change it again, after our next step. The test refactoring.</p>
+<p>Consertar o executador é bem fácil. Apenas alterarmos <code>$this-&gt;didSomebodyWin(...)</code> para <code>$aGame-&gt;didSomebodyWin(...)</code>. Precisaremos voltar aqui e alterá-la novamente, após nosso próximo passo. A refatoração dos testes.</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenACorrectAnswerIsProvided() {
 	$aGame = \Mockery::mock('Game[wasCorrectlyAnswered]');
@@ -237,7 +237,7 @@ class Runner {
 	$this-&gt;assertTrue($aGame-&gt;didSomebodyWin($this-&gt;aCorrectAnswer()));
 }</pre>
 
-<p>It's time for some mocking! Instead of using our fake class, defined at the end of our tests, we will use <a href="http://code.tutsplus.com/tutorials/mockery-a-better-way--net-28097">Mockery</a>. It allows us to easily overwrite a method on <code>Game</code>, expect it to be called and return the value we want. Of course, we could to this by making our fake class extend <code>Game</code> and overwrite the method ourselves. But why do a job for which a tool exists?</p>
+<p>É hora da simulação! Ao invés de usar nossa classe falsa, criada ao final dos nossos testes, usaremos a biblioteca <a href="http://code.tutsplus.com/tutorials/mockery-a-better-way--net-28097">Mockery</a>. Ela nos permite sobrescrever um método de <code>Game</code>, esperar que ele seja invocado e que tenha retornado o valor que queremos. Claro, poderíamos alcançar isso fazendo com que nossa classe falsa estendesse <code>Game</code> e sobrescrevêssemos o método por conta própria. Mas, por que ter esse trabalho todo quando temos uma ferramenta para isso?</p>
 
 <pre class="brush: php">function testItCanTellIfThereIsNoWinnerWhenAWrongAnswerIsProvided() {
 	$aGame = \Mockery::mock('Game[wrongAnswer]');
@@ -245,10 +245,10 @@ class Runner {
 	$this-&gt;assertFalse($aGame-&gt;didSomebodyWin($this-&gt;aWrongAnswer()));
 }</pre>
 
-<p>After our second method is rewritten, we can get rid of the fake game class and any methods that initialized it. Problems solved!</p>
+<p>Após nosso segundo método ser reescrito, podemos remover a classe <code>game</code> falsa e quaisquer métodos que a inicializava. Problema resolvido!</p>
 
-<h2>Final Thoughts</h2>
+<h2>Pontos Finais</h2>
 
-<p>Even though we managed to think about only the <code>Runner</code>, we made great progress today. We learned about responsibilities, we identified methods and variables that belong to another class. We thought on a higher level and we evolved toward a better solution. In the Syneto team, there is a strong belief that there are ways to write code well and never commit a change unless it made the code at least a little bit cleaner. This is a technique that in time, can lead to a much nicer codebase, with less dependencies, more tests and eventually less bugs.</p>
+<p>Mesmo que, basicamente, tenhamos trabalhado apenas com a classe <code>Runner</code>, obtivemos um ótimo progresso, hoje. Aprendemos sobre responsabilidade, identificamos métodos e variáveis que pertencem a outra classe. Pensamos em um nível mais alto e evoluímos nosso código em direção a uma solução melhor. Na equipe da Syneto, há uma forte crença que sempre há alguma forma boa de programar e que nunca devemos enviar uma mudança a não ser que o código esteja um pouco mais limpo e claro. Essa é uma técnica que, como tempo, pode levar a uma base de código melhor, com menos dependências, mais testes e, eventualmente, menos erros.</p>
 
-<p>Thank you for your time.</p>
+<p>Obrigado pelo seu tempo.</p>
