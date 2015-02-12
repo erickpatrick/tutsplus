@@ -1,0 +1,333 @@
+<h1>A Web Designer’s Introduction to Shopify</h1>
+
+<p>Over the course of three articles here on Tuts+ we’ll be looking at how to build a theme for the hosted ecommerce platform <a href="http://shopify.com?ref=envato">Shopify</a>. My goal is to equip you with all the skills you’ll need to get started, as well as show you a number of creative ways to make your themes flexible and powerful.</p>
+
+<h2>This Series</h2>
+
+<figure>
+  <a href="http://shopify.com?ref=envato"><img width="600" alt="shopifycom" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/shopify.jpg" height="396"/></a>
+  <p/>
+  <figcaption>Shopify - a designer friendly theme based hosted ecommerce platform</figcaption>
+</figure>
+
+<p>Here’s what we’ll cover in the coming articles:</p>
+
+<ul>
+  <li>The Shopify partner programme</li>
+  <li>Outstanding ecommerce design</li>
+  <li>The key concepts that you’ll need to get started with your first store design</li>
+  <li>How a Shopify theme is constructed</li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics">Liquid</a>: the Shopify template language</li>
+  <li>Advanced techniques to make your themes flexible and powerful</li>
+  <li>Resources to take your theme building further</li>
+</ul>
+
+<h2>The Shopify Partner Programme</h2>
+
+<p>Before we get started I strongly recommend you sign up for a free <a href="http://www.shopify.com/partners">Shopify partner account</a>. Building themes is 100% free for designers (subscriptions only commence when your client makes their store live).</p>
+
+<figure>
+  <a href="http://shopify.com/partners?ref=envato"><img width="600" alt="Partners - A free to join programme enabling designers to start building themes" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/partners1.jpg" height="400"/></a>
+  
+  <figcaption>Partners - A free to join programme enabling designers to start building themes</figcaption>
+</figure>
+
+<p>Having a partner account enables you to create as many fully featured development stores as you need. These have no time limit and are 100% free to use and test with. You can even take dummy payments in order to test the full purchase flow - which comes in very handy when showcasing your work to your clients.</p>
+
+<h2>Outstanding Ecommerce Design</h2>
+
+<p>You may well have used Shopify without actually realising it. If you’ve ever purchased a title from <a href="http://www.abookapart.com/">A Book Apart</a>, a t-shirt from <a href="http://unitedpixelworkers.com">United Pixel Workers</a>, a temporary tattoo from <a href="http://tattly.com/">Tattly</a>, coffee from <a href="http://www.hasbean.co.uk/">Has Bean</a>, or (if I may be so bold) bought a copy of a <a href="http://viewportindustries.com/insites-the-book">book I co-authored</a>, then you have experienced Shopify.</p>
+
+<p>As you will see from these stores they all look very different. There are no restrictions in terms of how your store can appear, it’s 100% entirely up to you and your imagination. In 2013 Shopify decided to highlight great ecommerce design and launched the inaugural <a href="http://www.shopify.com/design-awards">Shopify Design Awards</a>. Over 150 themes were submitted and were judged by three highly respected individuals from the web design world - <a href="http://zeldman.com">Jeffrey Zeldman</a> (Founder of <a href="http://alistapart.com">A List Apart</a>, and <a href="http://happycog.com">Happy Cog</a>), <a href="http://www.swiss-miss.com/about/hi-i-am-tina">Tina Roth-Eisenberg</a> (Founder of <a href="http://swiss-miss.com">swissmiss</a>, and Tattly) and <a href="http://www.danielweinand.com/about-me/">Daniel Weinand</a> (Co-founder and Chief Design Officer of Shopify).</p>
+
+<p>The top three themes were:</p>
+
+<ol>
+  <li><a href="http://www.whippingpost.com/">Whipping Post</a></li>
+  <li><a href="http://www.greatsbrand.com/">Greats Brand</a></li>
+  <li><a href="http://goodwinandgoodwin.com/">Goodwin and Goodwin</a></li>
+</ol>
+
+<figure>
+  <a href="http://greatsbrand.com"><img width="600" alt="Greats Brand - A perfect example of the flexibility of Shopify themes" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/greats.jpg" height="400"/></a>
+  <p/>
+  <figcaption>Greats Brand - A perfect example of the flexibility of Shopify themes</figcaption>
+</figure>
+
+<p>Another personal favourite of mine, and an honourable mention in the awards, is the <a href="http://purefixcycles.com/">Pure Fix Cycles</a> store. As well as showcasing some nice ways to filter products, they also inject fun into their design - a great case in point being their <a href="http://purefixcycles.com/collections/glow-wheelsets">glow wheels product page</a>.</p>
+
+<p>All these themes not only demonstrate great design skill but also highlight the flexibility of Shopify themes. There’s no prescribed HTML, classes or IDs and no restrictions in terms of layout. Whilst many people choose premium themes for their stores, plenty of designers start from scratch. The choice is yours.</p>
+
+<h2>Key Concepts</h2>
+
+<p>As with all systems Shopify has a number of key concepts that are worth understanding before we dive into a text editor. Let’s begin by looking at how we organise our store.</p>
+
+<h3>Products</h3>
+
+<p>Every online store needs products and Shopify is no different. Products are our base unit in Shopify and central to theme building.</p>
+
+<p>Essentially, a product is anything you wish to sell. Every product in a store has a number of attributes - the most common four being title, description, price and an image. Other attributes a product might possess are weight, colour and size. All of these can be accessed, created and updated via the online admin.</p>
+
+<figure>
+  <img width="600" alt="Shopify Admin - Easy access to products collections and settings" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/admin.jpg" height="621"/>
+  
+  <figcaption>The Dashboard - Easy access to products, collections and settings</figcaption>
+</figure>
+
+<p>Within Shopify each <a href="http://docs.shopify.com/themes/liquid-variables/product">product</a> can also have a number of <a href="http://docs.shopify.com/manual/your-store/products/variants">variants</a>. By default every product you create has one variant, you can simply add more as you need. Using our t-shirt example once again we could say that it has three colour variants,(black, white and green) and three size variants (small, medium and large). This in turn will result in you being able to sell:</p>
+
+<ul>
+  <li>Small black t-shirt</li>
+  <li>Medium black t-shirt</li>
+  <li>Large black t-shirt</li>
+  <li>Small white t-shirt</li>
+  <li>Medium white t-shirt</li>
+  <li>Large white t-shirt</li>
+  <li>Small green t-shirt</li>
+  <li>Medium green t-shirt</li>
+  <li>Large green t-shirt</li>
+</ul>
+
+<p>You also have the ability to set specific details for each combination. For example, you could set a different price for the small green t-shirt compared to the large green t-shirt.</p>
+
+<figure>
+  <img width="600" alt="Editing variants is done via the product admin screen" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/variant-edit1.jpg" height="215"/>
+  <p/>
+  <figcaption>Editing variants is done via the product admin screen</figcaption>
+</figure>
+
+<p>Variants are a really powerful feature of Shopify and allow you to display your products in a variety of interesting ways within your templates.</p>
+
+<h3>Collections</h3>
+
+<p>Once you have added products to your store you may wish to categorise them into <a href="http://docs.shopify.com/manual/your-store/collections">collections</a>. I describe a collection as a "logical grouping of products". Other platforms may use the term category.</p>
+
+<p>Collections aren’t required, but are very useful. Any product can sit in one or many collections, enabling you to cross categorise your products effectively. As I say, products don’t have to belong to a collection, it’s purely optional.</p>
+
+<figure>
+  <a href="http://www.bestmadeco.com/collections/bags-cases"><img width="600" alt="Collections - A logical grouping of products" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/best-made-collections.jpg" height="620"/></a>
+  <p/>
+  <figcaption>Collections - A logical grouping of products</figcaption>
+</figure>
+
+<p>If we take <a href="http://www.bestmadeco.com">Best Made Co.</a> as an example, we can see that they use the following collections to categorise their products:</p>
+
+<ul>
+  <li>Clothing</li>
+  <li>Accessories &amp; Badges</li>
+  <li>Bags &amp; Cases</li>
+  <li>Books &amp; Maps</li>
+  <li>Home Goods</li>
+  <li>Camp Supplies</li>
+</ul>
+
+<p>It is entirely possible that a bag might sit in both the "Bags &amp; Cases" and "Camp Supplies" collections.</p>
+
+<p>As well as defining collections manually Shopify offers a number of other ways we can add products automatically. An example of this might be to include all products where the price is less than $10. There are many more attributes we can use:</p>
+
+<ul>
+  <li>Product title</li>
+  <li>Product type</li>
+  <li>Product vendor</li>
+  <li>Product price</li>
+  <li>Product tag</li>
+  <li>Compare at price</li>
+  <li>Weight</li>
+  <li>Inventory stock</li>
+  <li>Variant’s title</li>
+</ul>
+
+<p>For comparisons we can use the following:</p>
+
+<ul>
+  <li>is equal to</li>
+  <li>is greater than</li>
+  <li>is less than</li>
+  <li>starts with</li>
+  <li>ends with</li>
+  <li>contains</li>
+</ul>
+
+<p>These are known as "smart collections" within the admin interface. You can order collections in the following ways:</p>
+
+<ul>
+  <li>Manually</li>
+  <li>By best selling</li>
+  <li>Alphabetically (A-Z)</li>
+  <li>Alphabetically (Z-A)</li>
+  <li>By price (highest to lowest)</li>
+  <li>By price (lowest to highest)</li>
+  <li>By date (newest to oldest)</li>
+  <li>By date (oldest to newest)</li>
+</ul>
+
+<p>Finally, just like products, collections have attributes which we can edit from the Shopify admin including a title, description and image.</p>
+
+<h3>Product tags</h3>
+
+<p>In addition to collections we can also use <a href="http://docs.shopify.com/manual/your-store/products/edit-tags">tags</a> to add further meta data to our products. One common use for tags is to help with <a href="http://docs.shopify.com/manual/configuration/store-customization/filter-a-collection-using-product-tags">filtering a collection</a>. Let’s demonstrate this with an example using the Pure Fix Cycles store:</p>
+
+<figure>
+  <a href="http://purefixcycles.com/collections/26-fgfs-wheelsets/wheels+fgfs-series"><img width="600" alt="Filtering via tags as seen on the Pure Fix Cycles store" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/purefix-filter.jpg" height="480"/></a>
+  
+  <figcaption>Filtering via tags as seen on the Pure Fix Cycles store</figcaption>
+</figure>
+
+<p>As you can see from the above image, we are in the XXX collection and are able to filter it using the drop down list of tags.</p>
+
+<p>Tags are also a really useful way of relating products to each other. We’ll look at how to display "related products" in more depth later on in the series.</p>
+
+<h3>Themes</h3>
+
+<p>With the basics of products, collections and tags understood it’s time to start looking at how we construct themes. The good news is that if you have ever built a web site (and I am assuming most of you reading this have, in some form) then creating a Shopify theme won’t throw any unwelcome surprises.</p>
+
+<p>Every Shopify theme is made up of four key elements:</p>
+
+<ol>
+  <li>HTML files (with a <code>.liquid</code> extension)</li>
+  <li>CSS</li>
+  <li>JavaScript (optional)</li>
+  <li>Images</li>
+</ol>
+
+<p>These files are neatly organised into five folders. As you will see below there’s only a handful of files needed to get started. Here’s the basic folder structure of a Shopify theme:</p>
+
+<p><code>├── assets
+│ ├── screen.css.liquid
+│ ├── site.js.liquid
+├── config
+│ ├── settings.html
+├── layouts
+│ ├── theme.liquid
+├── snippets
+├── templates
+│ ├── 404.liquid
+│ ├── article.liquid
+│ ├── blog.liquid
+│ ├── cart.liquid
+│ ├── collection.liquid
+│ ├── list-collections.liquid
+│ ├── page.liquid
+│ ├── product.liquid
+│ ├── product.liquid
+│ ├── search.liquid</code></p>
+
+<p>I have added my own <a href="https://github.com/tutsplus/shopify-birthday-suit">bare bones starter theme</a> to GitHub - feel free to grab a copy for your own projects.</p>
+
+<p>It’s worth noting that Shopify themes don’t allow nested folder structures. Something else you might notice is that all bar one of the HTML files don’t have the customary <code>.html</code> extension. In Shopify themes pretty much all HTML focused files have a <code>.liquid</code> extension - e.g. <code>product.liquid</code> and <code>index.liquid</code>.</p>
+
+<p>The Liquid in <code>.liquid</code> is the Shopify templating language. It was developed by the original creators of Shopify and is now available as an open source project on <a href="https://github.com/Shopify/liquid">GitHub</a>. You may have come across it already as it can be found in many projects including <a href="http://mixture.io">Mixture</a> and <a href="http://www.siteleaf.com/">SiteLeaf</a>.</p>
+
+<p>Let’s have a more in-depth look at the folders and their role in a theme.</p>
+
+<h3>Assets</h3>
+
+<p>The assets folder is home to all your images, JavaScript, and CSS files.</p>
+
+<p>Many people, myself included, often separate files into subfolders based on type, i.e. one for CSS, one for images and another for JavaScript. Be aware that this isn’t possible in a Shopify theme; all your files must be in the root of the <strong>assets</strong> folder. Also, any files you upload using <strong>theme settings</strong> via the Shopify admin (which we will look at later) are added to this folder.</p>
+
+<h3>Config</h3>
+
+<p>When working on your first theme you may not need to encounter the <strong>config</strong> folder. However as you progress with your theme building you will find it incredibly useful. This folder is home to the <a href="http://docs.shopify.com/themes/liquid-variables/theme-settings"><code>settings.html</code> file</a>. You’ll notice that this is the one file that <em>does</em> end in a <code>.html</code> extension.</p>
+
+<p>If you open it up in a text editor you will see that a typical <code>settings.html</code> file contains form elements such as file upload fields, checkboxes, select lists, and text inputs. This file enables theme designers to create input fields for merchants to edit data related to their theme.</p>
+
+<p>To explain this further let’s say we wanted to make it possible to change the background colour of the store. We could do this by adding in a text input in our <code>settings.html</code> file as follows:</p>
+
+<pre class="brush: html">&lt;input class="color" id="text_color" type="text" name="text_color" value="#000000" /&gt;</pre>
+
+<p>The value entered, or the default as specified in the value attribute, is now accessible in our templates using the global (available in every template) <code>settings</code> variable in the following way:</p>
+
+<pre class="brush: html">{{ settings.text_color }}</pre>
+
+<p>Don’t worry if this feels a little alien now, by the end of the series it will make perfect sense.</p>
+
+<figure>
+  <img width="600" alt="Themes can be edited via the online editor" src="http://cdn.tutsplus.com/webdesign/uploads/2014/01/admin-theme-editor.jpg" height="354"/>
+  <p/>
+  <figcaption>Themes can be edited via the online editor</figcaption>
+</figure>
+
+<h3>Layouts</h3>
+
+<p>The layout folder usually contains one file called <code>theme.liquid</code>, although it can contain more as we’ll discuss later.</p>
+
+<p>Layouts are really powerful as they enable us to define all the common elements of our site in one single file. When a page is requested Shopify wraps this file around the relevant <code>micro</code> template to render a single page.</p>
+
+<p>One of the main benefits of layouts is that they enable us to keep our code nice and DRY (<a href="http://en.wikipedia.org/wiki/Don’t_repeat_yourself">Don’t Repeat Yourself</a>), enables us to make global changes very easily and makes working with our inner micro templates less complicated as we are dealing with smaller sections of code.</p>
+
+<p>There are two important Liquid tags that you must include in a Shopify layout file. The first is <code>{{ content_for_header }}</code>. This variable must be placed in the section of your layout file. This tag allows Shopify to insert any necessary code in the document head, such as a script for statistics tracking and CSS files for the "logged in" admin bar</p>
+
+<p>The second tag is <code>{{ content_for_layout }}</code>. This is usually found in the middle of your template at the point where you wish your micro template to appear.</p>
+
+<h3>Snippets</h3>
+
+<p><a href="http://docs.shopify.com/themes/theme-templates/snippets">Snippets</a> are files containing chunks of reusable code, these also have the <code>.liquid</code> file extension.</p>
+
+<p>I often find theme designers use snippets in a number of different ways. Personally the approach I take is as follows:</p>
+
+<ul>
+  <li>The code appears on every page of the site - place the code in a layout file</li>
+  <li>The code appears only once on a specific page - place the code in the relevant micro template</li>
+  <li>The code appears on more than one page but not every page - place the code in a snippet file</li>
+</ul>
+
+<p>Examples of good use of snippets include social links and pagination blocks. Snippets are easy to include in our templates using the Liquid tag <code>{% include 'snippetname' %}</code>. Note that you don’t have to add the <code>.liquid</code> extension when pointing to the file.</p>
+
+<h3>Templates</h3>
+
+<p>Finally, we come to the folder you will spend most of your time in. I often refer to the files in the <strong>templates</strong> folder as <strong>micro templates</strong> simply because they are small pieces of code that get injected into our layout file.</p>
+
+<p>If the majority of your sites markup is contained in a <code>theme.liquid</code> layout file then these micro templates are often very small.</p>
+
+<p>Here’s a list of the micro templates that make up a theme and their use:</p>
+
+<ul>
+  <li><code>404.liquid</code> — Used when a page is "not found"</li>
+  <li><code>article.liquid</code> — The article page for a blog post</li>
+  <li><code>blog.liquid</code> — The archive listing page for a blog</li>
+  <li><code>cart.liquid</code> — A list page of all the items in your cart</li>
+  <li><code>collection.liquid</code> — A list page of all products in a specified collection</li>
+  <li><code>index.liquid</code> — The "home page" that you can customise to display one or more products, blog items, and collections</li>
+  <li><code>list-collections.liquid</code> - A list page for all of your product collections</li>
+  <li><code>page.liquid</code> — A basic page for content, ideal for terms and conditions, about pages, etc.</li>
+  <li><code>product.liquid</code> — Used to display a specified product</li>
+  <li><code>search.liquid</code> — The template to display search results</li>
+</ul>
+
+<h2>Mapping Templates to URLs in Shopify</h2>
+
+<p>As you will see, there are a total of ten micro templates in the <strong>templates</strong> folder. Thankfully, they are well named so it should hopefully be clear when working with them what they do.</p>
+
+<p>The final piece of the puzzle is knowing when these templates are rendered within a store. It’s actually pretty straight forward.</p>
+
+<p>Shopify determines which template is displayed based on the requested URL. If you have ever used one of the popular development frameworks you might be familiar with the concept of <em>routing</em>. Shopify has its own internal routing system and it’s this which determines which template is sent to the browser.</p>
+
+<p>Here’s an overview of which template is rendered as determined by the URL:</p>
+
+<ul>
+  <li><code>/thisisntarealurl</code> → 404.liquid</li>
+  <li><code>/blogs/{blog-name}/{article-id-handle}</code> → article.liquid</li>
+  <li><code>/blogs/{blog-name}</code> → blog.liquid</li>
+  <li><code>/cart</code> → cart.liquid</li>
+  <li><code>/collections</code> → list-collections.liquid</li>
+  <li><code>/collections/{collection-handle}</code> → collection.liquid</li>
+  <li><code>/collections/{collection-handle}/{tag}</code> → collection.liquid</li>
+  <li><code>/</code> → index.liquid</li>
+  <li><code>/pages/{page-handle}</code> → page.liquid</li>
+  <li><code>/products</code> → list-collections.liquid</li>
+  <li><code>/products/{product-handle}</code> → product.liquid</li>
+  <li><code>/search?q={search-term}</code> → search.liquid</li>
+</ul>
+
+<p>The elements in <code>{ }</code> denote a variable which will have an impact on the data loaded into a template. For example, if we take the <code>/collections/{collection-handle}</code> URL pattern a different set of data would be rendered if we had <code>/collections/bikes</code> compared to <code>/collections/cars</code>.</p>
+
+<p>As you can see, a number of different URL patterns share the same template file, e.g <code>/products</code> and <code>/collections</code> will both render the <code>list-collections.liquid</code> template.</p>
+
+<p>Likewise <code>/collections/</code>, <code>/collections/{collection-handle}/</code> and <code>/collections/{collection-handle}/{tag}</code> all make use of <code>collection.liquid</code>.</p>
+
+<h2>Up Next..</h2>
+
+<p>Now that we have a solid understanding of the key concepts associated with Shopify it’s time to move onto more code related matters.</p>
+
+<p>In the next part of this series I will introduce you to Liquid, the Shopify template language, and show you how you can start to easily populate your micro templates with data from your online store. In the meantime, if you would like to learn more, a good place to start is <a href="http://shopify.com/fordesigners?ref=envato">shopify.com/fordesigners</a>.</p>

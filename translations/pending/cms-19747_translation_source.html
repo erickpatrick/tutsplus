@@ -1,0 +1,268 @@
+<h1>Getting Started With Liquid; Shopify’s Template Language</h1>
+
+<p>In part one of this series (<a href="http://webdesign.tutsplus.com/articles/a-web-designers-introduction-to-shopify--webdesign-18008" target="_self">A Web Designer's Introduction to Shopify</a>) I introduced you to the <a href="http://shopify.com?ref=envato">Shopify</a> commerce platform, explained a number of its key concepts and illustrated how a Shopify theme is structured.</p>
+
+<p>Moving forward, this tutorial will focus on <a href="http://docs.shopify.com/themes/liquid-basics?ref=envato">Liquid</a>, the Shopify template language. We'll look at the benefits of Liquid, discuss how it enables us to pull in and manipulate data from our stores and finally showcase a number of its key features that you will find yourself using daily in your Shopify theme development.</p>
+
+<h2>What Does Liquid Do?</h2>
+
+<p>If you aren't familiar with the concept of a template language, I often describe it as a bridge between the data in your store and the HTML templates sent to the browser.</p>
+
+<p>By using some simple to read (and easy to remember) constructs we are able to access data from our store (e.g. a product title, a collection description, a set of product images or a blog post) and output that data directly into our templates. One of the main benefits is that we don't need to have any knowledge of what that data is - rather we just need to know which variables we have access to in each template.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19747/image/liquid-sublime-text.jpg"/>
+  <figcaption>An example of a typical product.liquid template in SublimeText2 featuring Liquid syntax highlighting</figcaption>
+</figure>
+
+<h2>How Does Liquid Work?</h2>
+
+<p>As discussed in part one of this series, Shopify decides which template to send to the browser based on the currently requested URL. For example if the URL is <a href="http://shopify-for-designers.myshopify.com/collections/cups?ref=envato">http://shopify-for-designers.myshopify.com/collections/cups</a> Shopify will render the <code>collections.liquid</code> template.</p>
+
+<p>Once Shopify has worked out the relevant template to render, it parses the template (and its outer layout file) looking for Liquid placeholders. When these are encountered Shopify replaces the Liquid code with the relevant data from your store. </p>
+
+<p>Another way of thinking about template languages is like "find and replace" in a text editor. The platform, in this case Shopify, searches for all the Liquid placeholders and then replaces them with data from your store. The final constructed document is then sent to the browser as HTML.</p>
+
+<p>It might feel a little alien at first if this is your first foray into templating, but you'll soon get the hang of it.</p>
+
+<h2>Placeholders</h2>
+
+<p>A <i>placeholder</i> is a piece of code that will ultimately be replaced when the <i>template</i> is sent to the browser.</p>
+
+<p>There are two types of placeholders in Liquid. The first is the double parentheses <code>{{ }}</code> to denote <em>output</em> and the second is parentheses percentage <code>{% %}</code> to denote <em>logic</em>. </p>
+
+<p>Here's a quick example of an <em>output</em> placeholder that you will typically find in the <code>product.liquid</code> micro template:</p>
+
+<pre class="brush: html">&lt;h2&gt;{{ product.title }}&lt;/h2&gt;
+</pre>
+
+<p>When rendered this would output the name of the currently viewed product in place of the <code>{{ }}</code>, for example:</p>
+
+<pre class="brush: html">&lt;h2&gt;Keir's Coffee Cup&lt;/h2&gt;
+</pre>
+
+<p>Output, unless manipulated with a filter (which we will look at later) is simply a case of replacing the placeholder with text from your store.</p>
+
+<h2>Logic and Loops</h2>
+
+<p>As well as allowing us to get data from our store and displaying it in our templates, as demonstrated above, Liquid is also able to control exactly <em>what</em> is displayed in our templates using logic constructs and loops.</p>
+
+<p>For example, we can choose to show a different snippet of HTML depending on whether or not the currently viewed product is in stock.</p>
+
+<p>We are also able to use Liquid to output the same piece of code numerous times - for example a series of product images. Using <em>loops</em> allows us to output all the products associated with a product in a few lines of Liquid code.</p>
+
+<p>Liquid is really powerful and whilst you might think we are getting into programming territory, I am confident you'll pick it up pretty quickly.</p>
+
+<h2>Liquid Basics</h2>
+
+<p>Now that you have a basic understanding of how Liquid works let's have a look at four key features and how they work in relation to theme development.</p>
+
+<h3>Output</h3>
+
+<p>As mentioned earlier the double parentheses <code>{{ }}</code> in a <code>.liquid</code> file denote an <em>output</em> placeholder. Here are two examples that you'll frequently come across:</p>
+
+<pre class="brush: html">{{ shop.name }}
+{{ product.description }}
+</pre>
+
+<p>Output allows us to pull a specific piece of data from our store into our template and, as the name suggests, output it in place of the Liquid placeholder.</p>
+
+<p>Let's say my store was called "Keir's Coffee Emporium". If I were to use the <code>{{ shop.name }}</code> liquid tag Shopify would grab the name of my store and replace the liquid placeholder with my stores's name directly into my template as HTML.</p>
+
+<p>Equally, if we were using <code>{{ product.description }}</code> in our <code>product.liquid</code> template any text entered into the WYSIWYG editor for that particular product would be output in the place of the <code>{{ product.description }}</code> placeholder.</p>
+
+<p><strong>Note:</strong> The WYSIWYG editor will output formatted HTML so you don't need to wrap your <code>{{ product.description }}</code> with any HTML elements, e.g. a <code class="inline">&lt;p&gt;</code>.</p>
+
+<p>Any variable, whether it be a global variable (available in every single template in your theme) or a template level variable (available only to a specific template) can be output in this way. Other examples include:</p>
+
+<pre class="brush: html">{{ shop.description }}
+{{ product.title }}
+{{ collection.title }}
+{{ collection.description }}
+</pre>
+
+<p>For a full list of variables that you can output in your themes I highly recommend bookmarking <a href="http://cheat.markdunkley.com">Mark Dunkley's cheat sheet</a>. I find myself using this daily.</p>
+
+<p>To summarise, Liquid output is very much like "find and replace". When rendering the template Shopify will go and find all instances of Liquid output tags and replace them with the relevant data from your store.</p>
+
+<p>You'll also notice from these examples that Liquid uses the <em>dot syntax</em> for accessing data. The item preceding the dot is the variable, whereas the item after it is an attribute of that variable. For example our shop variable above has both a name and description attribute.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19747/image/theme-docs.jpg"/>
+  <figcaption>
+    The
+    <a href="http://docs.shopify.com/themes?ref=envato" target="_self">Shopify documentation</a>
+    site features code examples and screencasts
+  </figcaption>
+</figure>
+
+<h3>Logic</h3>
+
+<p>Let's move onto Liquid logic. Whilst mildly more complicated for first time users logic tags aren't that difficult to understand once you have tried them out for yourself.</p>
+
+<p>Whereas Liquid <em>output</em> placeholders allow us to grab data and display it in our templates <em>Liquid logic</em> tags allow us to control the flow of a template. Unlike output tags the inclusion of logic tags in your templates does not result in anything being directly rendered, rather they allow us to control <em>what</em> is rendered.</p>
+
+<p>A typical example I use to to illustrate how Liquid logic is used is to highlight when a product is sold out. The following example would typically be found in the <code>product.liquid</code> micro template:</p>
+
+<pre class="brush: html">{% if product.available %}
+This product is available
+{% else %}
+Sorry, this product is sold out
+{% endif %}
+</pre>
+
+<p>As you will see the syntax for Liquid logic is slightly different to output. Instead of the <code>{{ }}</code> delimiters we use <code>{% %}</code>.</p>
+
+<p>In the above example we are controlling what is output to our template using a simple <code>if</code>, <code>else</code>, <code>endif</code> statement. In many ways <code>if</code> statements are like questions.</p>
+
+<p>In the above example if the answer to our <code>if</code> statement question is <code>true</code> we render the words "This product is available", if it's <code>false</code> our template carries on and outputs the text following our <code>{% else %}</code> clause - in this case <code>"Sorry, this product it sold out"</code>.</p>
+
+<p>You will find yourself using <code>if</code> statements a lot in Shopify theme development. Here's another example to help your understanding: </p>
+
+<pre class="brush: html">{% if cart.item_count &gt; 0 %}
+&lt;p&gt;You have {{ cart.item_count }} item(s) in your cart&lt;/p&gt;
+{% else %}
+&lt;p&gt;There's nothing in your cart :( Why not have a &lt;a href="/products"&gt;look at our product range&lt;/a&gt;&lt;/p&gt;
+{% endif %}
+</pre>
+
+<p>This example demonstrates one way you can either display the number of items in a visitors cart or output a link to your products.</p>
+
+<h3>A Quick Word on Operators</h3>
+
+<p>You'll notice in this example we are using the greater than <code>&gt;</code> operator. As the <code>cart.item_count</code> variable returns the number of items in the current users cart we can check to see if it is greater than zero, i.e. it has items in it.</p>
+
+<p>If this returns <code>true</code> we can output the message with the current item count, if not we can output <code>&lt;p&gt;There's nothing in your cart :( Why not have a &lt;a href="/products"&gt;look at our product range&lt;/a&gt;&lt;/p&gt;</code> instead.</p>
+
+<p>You have access to a wide range of <a href="http://docs.shopify.com/themes/liquid-basics/operators">operators</a> in Liquid, many of which you will find yourself using regularly:</p>
+
+<ul>
+  <li><code>==</code> equal</li>
+  <li><code>!=</code> not equal</li>
+  <li><code>&gt;</code> greater than</li>
+  <li><code>&lt;</code> less than</li>
+  <li><code>&gt;=</code> bigger or equal</li>
+  <li><code>&lt;=</code> less or equal</li>
+  <li><code>or</code> this or that</li>
+  <li><code>and</code> must be this and that</li>
+  <li><code>contains</code> includes the substring if used on a string, or element if used on an array</li>
+</ul>
+
+<h3>Loops</h3>
+
+<p>Next let's turn our attention to the concept of Liquid loops. </p>
+
+<p>If you have done any form of basic programming the concept of looping over data will be very familiar to you. Using a loop, often known as a <code>for loop</code>, allows us to output the same piece of code a known number of times in our template.</p>
+
+<p>Let's have a look at an example from a Shopify theme to help solidify the concept:</p>
+
+<pre class="brush: html">{% for image in product.images %} 
+&lt;img src="{{ image | product_img_url: 'small' }}"&gt;
+{% endfor %}
+</pre>
+
+<p>In this example, typically found in the <code>product.liquid</code> micro template, we are using a loop to output every image associated with the currently viewed product. Let's break it down into steps to fully understand it.</p>
+
+<h4>Step 1: {% for image in product.images %}</h4>
+
+<p>Our opening line introduces us to the idea of collections in Liquid. Unlike <em>product collections</em> which we looked at in part one <em>collections</em> in Liquid are different. It's an unfortunate naming convention in this respect so I like to refer to collections in Liquid as <em>Liquid collections</em> to avoid confusion.</p>
+
+<p>A Liquid collection in Shopify themes can take many forms but a good example is <code>product.images</code> as used above. A Liquid collection is easy to spot as it normally takes the plural form - as in <code>images</code> above. In our example we are dealing with a Liquid collection of all the images associated with a product. </p>
+
+<p>Another example is <code>product.variants</code>. This would return an object containing details of all the product variants ready to loop over in our template. If you need a primer on product variants we discussed it in part one.</p>
+
+<p>You'll also notice that we are using the word <code>image</code> to denote the current item in the loop. Each time we go round our loop <code>image</code> will give us access to the data associated with each image in turn. Naturally this will be different on each loop.</p>
+
+<p>It's also worth noting that we don't need to know how many loops will occur. After there are no more images to loop over Shopify will carry on and render the next part of the template.</p>
+
+<h4>Step 2: &lt;img src="{{ image | product_img_url: 'medium' }}" /&gt;</h4>
+
+<p>The second line of our code is part HTML and part Liquid. You'll notice that the <code>src</code> attribute is populated with a Liquid output tag. We'll look at filters, denoted by the <code>|</code> character, next but this short construct will populate the src attribute with the fully qualified URL to the "small" version of the current image in our loop. </p>
+
+<h4>Step 3: {% endfor %}</h4>
+
+<p>The final line of our example is our closing <code>endfor</code> statement. This effectively closes off any code that will be rendered within the loop.</p>
+
+<p>If we had three images in our <code>product.images</code> object the final output would look like this:</p>
+
+<pre class="brush: html">&lt;img src="//cdn.shopify.com/s/files/1/0222/9076/products/il_fullxfull.296506684_small.jpg?v=1368007899" alt="" /&gt;
+&lt;img src="//cdn.shopify.com/s/files/1/0222/9076/products/moustache-mugs_by_peter-bruegger_1_small.jpg?v=1370429684" alt="" /&gt;
+&lt;img src="//cdn.shopify.com/s/files/1/0222/9076/products/tumblr_lhr5huUxXL1qfhlb1o1_500_small.jpg?v=1370429684" alt="" /&gt;</pre>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19747/image/product-images.jpg"/>
+  <figcaption>Pure Fix Cycles use loops to output the numerous product variants for their Aerospoke wheel</figcaption>
+</figure>
+
+
+
+<p>Loops are really useful and something you will encounter daily in your theme development. Outputting images and product variants are two commonly found examples. </p>
+
+<h3>Filters</h3>
+
+<p>I mentioned filters in relation to our loop example earlier so let's go into a little more detail and look at how they work.</p>
+
+<p>Filters are used in conjunction with an output tag. Their purpose it to manipulate the data in some way so that it's format changes. A great example is the date filter:</p>
+
+<pre class="brush: html">{{ article.published_at | date: '%d %B %Y' }}
+</pre>
+
+<p>Without the filter Shopify would simply output the date the blog article was published at in the format it is stored in the database - which may not be humanly readable. However by adding in the <code>|</code> and including the date filter we can manipulate the format ourselves.</p>
+
+<p>We start on the left with a piece of data, in this case a date, and by using the filter it comes out the other side changed. This, in essence, is the sole purpose of a filter. It takes a piece of data and somehow manipulates it so that its form changes.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19747/image/liquid-filters.jpg"/>
+  <figcaption>
+    <a href="http://cheat.markdunkley.com/" target="_self">Mark Dunkley’s cheat sheet </a>
+    outlines all available Liquid filters
+  </figcaption>
+</figure>
+
+<p>Here's another example:</p>
+
+<pre class="brush: html">{{ 'style.css' | asset_url | stylesheet_tag }}
+</pre>
+
+<p>Here we are using two filters with the ultimate aim of creating a fully formed style element in our layout file.</p>
+
+<p>We start on the left with the name of the our CSS file and first apply the <code class="inline">asset_url</code> filter. This is an incredibly useful filter. As we have no idea where our style.css file is located on the Shopify network (other than in our assets folder within our theme) we need a way for Shopify to fill in the path to the file.</p>
+
+<p>This is the purpose of the <code>asset_url</code> filter. It will take the name of our file, <code>style.css</code> in this example, and prepend the full path to your store's assets folder. It's worth noting that it doesn't check to see that the file exists.</p>
+
+<p>Here's how that might look when output:</p>
+
+<pre class="brush: html">//cdn.shopify.com/s/files/1/0222/9076/assets/style.css
+</pre>
+
+<p>The final filter in the chain, <code>stylesheet_tag</code>, takes this URL and wraps it in a style element which is then output in our layout file. Here's the final result:</p>
+
+<pre class="brush: html">&lt;link href="//cdn.shopify.com/s/files/1/0222/9076/t/10/assets/style.css?756" rel="stylesheet" type="text/css"  media="all"  /&gt;
+</pre>
+
+<p>Each filter takes the output from its preceding filter and in turn modifies it. When there are no further filters to pass data into, the result is output as HTML into the template.</p>
+
+<p>There are many really useful filters, here are just a few you'll find yourself using:</p>
+
+<ul>
+  <li><a href="http://docs.shopify.com/themes/filters/asset-url?ref=envato">asset_url</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#stylesheet-tag?ref=envato">stylesheet_tag</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#script-tag?ref=envato">script_tag</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#date?ref=envato">date</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#pluralize?ref=envato">pluralize</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#replace?ref=envato">replace</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#handle?ref=envato">handle</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#money?ref=envato">money</a> &amp; <a href="http://docs.shopify.com/themes/liquid-basics/output#money-with-currency?ref=envato">money_with_currency</a></li>
+  <li><a href="http://docs.shopify.com/themes/filters/product-img-url?ref=envato">product_img_url</a></li>
+  <li><a href="http://docs.shopify.com/themes/liquid-basics/output#link-to?ref=envato">link_to</a></li>
+</ul>
+
+<h2>Next Steps</h2>
+
+<p>In this tutorial we've gone over quite a bit of ground. We've looked at Liquid and its relationship to our HTML micro templates and layout files, and looked at four key concepts - output, logic, loops and filters.</p>
+
+<p>A great next step would be to open up a free <a href="http://shopify.com/partners?ref=envato">Shopify Partner account</a> and start dissecting a theme for yourself. Many of the examples used in this tutorial are taken from my <a href="https://github.com/tutsplus/shopify-birthday-suit">exceedingly bare bones starter theme</a> which is available on GitHub.</p>
+
+<p>In preparation for part three I recommend you download a copy and apply it to a development store. Full details on <a href="http://docs.shopify.com/themes/the-basics/build-your-theme/upload-theme?ref=envato">uploading a theme</a> are available in the Shopify docs. It's literally as simple as uploading a ZIP file. Have a play with the template editor in your development shops admin, change a few tags, apply a filter or two and add elements into the layout file to see how things change.</p>
+
+<p>In the final part of this short series I'll introduce you to some more advanced ideas that will demonstrate how flexible Liquid and Shopify can be. We'll look into how they enable you to make your themes really sing using examples from my own projects and other well known Shopify stores.</p>

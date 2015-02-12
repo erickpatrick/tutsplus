@@ -34,6 +34,8 @@ PHP
 - [Refatorando Código Legado: Parte 7 - Identificando a Camada de Apresentação](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-7-identifying-the-presentation-layer--cms-21593)
 - [Refatorando Código Legado: Parte 8 - Invertendo Dependências para uma Arquitetura Limpa](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-8-inverting-dependencies-for-a-clean-architecture--cms-21659)
 - [Refatorando Código Legado: Parte 9 - Analisando Interesse](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-9-analyzing-concerns--cms-21760) 
+- [Refatorando Código Legado: Parte 10 - Dissecando Métodos Longos Através de Extrações](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-10-dissecting-long-methods-with-extractions--cms-22182)
+- [Refatorando Código Legado: Parte 11 - O Fim?](http://code.tutsplus.com/pt/tutorials/refactoring-legacy-code-part-11-the-end--cms-22476)
 
 Laravel
 -------

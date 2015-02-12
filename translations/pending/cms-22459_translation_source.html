@@ -1,0 +1,682 @@
+<h1>Building With the Twitter API: Tweet Storms</h1>
+
+<p>In April, investor and Netscape founder Marc Andreessen began expanding on the natural 140 character limits of Twitter by publishing his thoughts in sequences of tweets, which some have dubbed tweet storms (entrepreneur Yvo Schaap <a href="http://www.yvoschaap.com/" target="_self">compiled these on his website</a>). </p>
+
+<p>It didn't take long before BuzzFeed (the listicle upstart that must be stopped) rose up against this practice: <a href="http://www.buzzfeed.com/charliewarzel/why-twitters-newest-tweetstormtm-trend-must-be-stopped" target="_self">Why Twitter’s Newest Tweetstorm™ Trend Must Be Stopped</a>. Personally, I'm probably for anything BuzzFeed is against.</p>
+
+<p>A few services arose to make it easier for mere mortals like ourselves to publish tweet storms but they seemed a bit unreliable and inconsistent. I decided to build the feature myself and I think there's value in doing this with your own app.</p>
+
+<p>In this tutorial, I'll walk you through building a tweet storm feature of your own using the Twitter API. This is a continuation of <a href="https://code.tutsplus.com/series/building-with-the-twitter-api--cms-693" target="_self">my series of Twitter API tutorials</a> on Tuts+; you can find a link to all of them on <a href="http://tutsplus.com/authors/jeff-reifman" target="_self">my author page</a>.</p>
+
+<h2>Tweet Storm Feature Requirements</h2>
+
+<p>First, let's decide what we need our TweetStorm feature to accomplish. </p>
+
+<ul>
+  <li>Create a group of tweets.</li>
+  <li>Number them in sequence.</li>
+  <li>Publish them in sequential order to Twitter.</li>
+  <li>Provide a public web page allowing people to read them together.</li>
+  <li>Publish the link to this page in a final tweet.</li>
+</ul>
+
+<p>The results should look something like this:</p>
+
+<figure class="post_image">
+  <img alt="A five step tweet storm with a final public link" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/tweet-storm-view.jpg"/>
+</figure>
+
+<p>I'll assume that you're familiar with <a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-getting-started--cms-22192" target="_self">my earlier Birdcage tutorial</a> and already have code that authenticates your account via OAuth with the Twitter API.</p>
+
+<h2>The Database Model</h2>
+
+<p>Birdcage uses a Status table for tweets. First, we'll extend this table with a Yii ActiveRecord migration to include fields for the published tweet_id and the tweet storm numerical sequence. </p>
+
+<p>Extending our existing database model is quite easy with Yii's ActiveRecord migrations:</p>
+
+<pre class="brush: php">./app/protected/yiic migrate create extend_status_table</pre>
+
+<p>Here's the migration code:</p>
+
+<pre class="brush: php">&lt;?php
+
+class m141020_182509_extend_status_table_for_groups extends CDbMigration
+{
+  protected $MySqlOptions = 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci';
+  public $tablePrefix;
+  public $tableName;
+
+  public function before() {
+$this-&gt;tablePrefix = Yii::app()-&gt;getDb()-&gt;tablePrefix;
+    if ($this-&gt;tablePrefix &lt;&gt; '')
+      $this-&gt;tableName = $this-&gt;tablePrefix.'status';
+  }
+
+    public function safeUp()
+	{
+	  $this-&gt;before();   	  
+    $this-&gt;addColumn($this-&gt;tableName,'tweet_id','BIGINT(20) DEFAULT 0');
+    $this-&gt;addColumn($this-&gt;tableName,'sequence','TINYINT DEFAULT 0');
+   $this-&gt;addColumn($this-&gt;tableName,'error_code','INTEGER DEFAULT 0');
+	}
+
+	public function safeDown()
+	{
+	  	$this-&gt;before();
+     $this-&gt;dropColumn($this-&gt;tableName,'tweet_id');        
+     $this-&gt;dropColumn($this-&gt;tableName,'sequence');        
+     $this-&gt;dropColumn($this-&gt;tableName,'error_code');        
+	}
+
+}</pre>
+
+<p>We'll use the tweet_ids to publicly display the entire tweet storm on a web page after publication. The numerical sequence will determine the order of status tweets in our storm.</p>
+
+<p>Next, we need to create a table for a container of status tweets, in essence a container for the tweet storm. I'm going to use the term Group, because we will reuse it for another grouping feature in a follow up tutorial, recurring tweets from within a group. Visit <a href="http://tutsplus.com/authors/jeff-reifman" target="_self">my author page</a> to see when it's out or follow me on Twitter <a href="https://twitter.com/intent/user?screen_name=reifman" target="_self">@reifman</a>.</p>
+
+<p> Let's create a new migration to create the Group table:</p>
+
+<pre class="brush: bash">./app/protected/yiic migrate create create_group_table</pre>
+
+<p>The code below builds the schema. Note the foreign key relation to link the tweet storm to a specific Twitter account:</p>
+
+<pre class="brush: php">&lt;?php
+
+class m141018_004954_create_group_table extends CDbMigration
+{
+   protected $MySqlOptions = 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci';
+   public $tablePrefix;
+   public $tableName;
+
+   public function before() {
+ $this-&gt;tablePrefix = Yii::app()-&gt;getDb()-&gt;tablePrefix;
+     if ($this-&gt;tablePrefix &lt;&gt; '')
+       $this-&gt;tableName = $this-&gt;tablePrefix.'group';
+   }
+
+     public function safeUp()
+ 	{
+ 	  $this-&gt;before();
+    $this-&gt;createTable($this-&gt;tableName, array(
+             'id' =&gt; 'pk',
+             'account_id'=&gt;'integer default 0',
+             'name'=&gt;'string default NULL',
+             'slug'=&gt;'string default NULL',
+             'group_type'=&gt;'tinyint default 0',
+             'stage'=&gt;'integer default 0',
+             'created_at' =&gt; 'DATETIME NOT NULL DEFAULT 0',
+             'modified_at' =&gt; 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+               ), $this-&gt;MySqlOptions);
+               $this-&gt;addForeignKey('fk_group_account', $this-&gt;tableName, 'account_id', $this-&gt;tablePrefix.'account', 'id', 'CASCADE', 'CASCADE');               
+ 	}
+
+ 	public function safeDown()
+ 	{
+ 	  	$this-&gt;before();
+ 	  	$this-&gt;dropForeignKey('fk_group_account', $this-&gt;tableName); 	  	
+ 	    $this-&gt;dropTable($this-&gt;tableName);
+ 	}
+}</pre>
+
+<p>We'll also build a relational table called <code class="inline">GroupStatus</code> which tracks the Status tweets within each Group:</p>
+
+<pre class="brush: php">&lt;?php
+
+class m141018_020428_create_group_status_table extends CDbMigration
+{
+   protected $MySqlOptions = 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci';
+   public $tablePrefix;
+   public $tableName;
+
+   public function before() {
+ $this-&gt;tablePrefix = Yii::app()-&gt;getDb()-&gt;tablePrefix;
+     if ($this-&gt;tablePrefix &lt;&gt; '')
+       $this-&gt;tableName = $this-&gt;tablePrefix.'group_status';
+   }
+
+     public function safeUp()
+ 	{
+ 	  $this-&gt;before();
+    $this-&gt;createTable($this-&gt;tableName, array(
+             'id' =&gt; 'pk',
+             'group_id' =&gt; 'INTEGER NOT NULL',
+             'status_id' =&gt; 'INTEGER default 0',
+               ), $this-&gt;MySqlOptions);
+               $this-&gt;addForeignKey('fk_group_status_group', $this-&gt;tableName, 'group_id', $this-&gt;tablePrefix.'group', 'id', 'CASCADE', 'CASCADE');               
+               $this-&gt;addForeignKey('fk_group_status_status', $this-&gt;tableName, 'status_id', $this-&gt;tablePrefix.'status', 'id', 'CASCADE', 'CASCADE');               
+ 	}
+
+ 	public function safeDown()
+ 	{
+ 	  	$this-&gt;before();
+ 	  	$this-&gt;dropForeignKey('fk_group_status_group', $this-&gt;tableName);
+ 	  	$this-&gt;dropForeignKey('fk_group_status_status', $this-&gt;tableName);
+ 	    $this-&gt;dropTable($this-&gt;tableName);
+ 	}
+}</pre>
+
+<p>To publicly display the tweet storm on a web page, we actually need another table to cache the HTML code by twitter_id from <a href="https://dev.twitter.com/rest/reference/get/statuses/oembed" target="_self">Twitter's Oembed API method</a>:</p>
+
+<pre class="brush: php">&lt;?php
+
+class m141021_203519_create_embed_table extends CDbMigration
+{
+   protected $MySqlOptions = 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci';
+   public $tablePrefix;
+   public $tableName;
+
+   public function before() {
+ $this-&gt;tablePrefix = Yii::app()-&gt;getDb()-&gt;tablePrefix;
+     if ($this-&gt;tablePrefix &lt;&gt; '')
+       $this-&gt;tableName = $this-&gt;tablePrefix.'embed';
+   }
+
+     public function safeUp()
+ 	{
+ 	  $this-&gt;before();
+    $this-&gt;createTable($this-&gt;tableName, array(
+             'id' =&gt; 'pk',
+             'tweet_id' =&gt; 'bigint(20) unsigned NOT NULL',
+             'html' =&gt; 'text default null',
+             'created_at' =&gt; 'DATETIME NOT NULL DEFAULT 0',
+             'modified_at' =&gt; 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+               ), $this-&gt;MySqlOptions);
+               $this-&gt;createIndex('tweet_id', $this-&gt;tableName , 'tweet_id', false);     
+ 	}
+
+ 	public function safeDown()
+ 	{
+ 	  	$this-&gt;before();
+ 	  	$this-&gt;dropIndex('tweet_id', $this-&gt;tableName);        
+ 	    $this-&gt;dropTable($this-&gt;tableName);
+ 	}
+}</pre>
+
+<h2>Building the Code</h2>
+
+<h3>The Group Controller and Models</h3>
+
+<p>Next, we'll use Yii's scaffolding code generator, Gii, to build the model, controllers and CRUD. On my local environment, I visit <a href="http://localhost:8888/twitter/app/gii">http://localhost:8888/twitter/app/gii</a> to access Gii. First, I create the model:</p>
+
+<figure class="post_image">
+  <img alt="Yii Model Generator" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/create_group.jpg"/>
+</figure>
+
+<p>Then, I user the Bootstrap CRUD generator:</p>
+
+<figure class="post_image">
+  <img alt="Bootstrap Generator" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/create_group_crud.jpg"/>
+</figure>
+
+<p>We'll also use Gii to create default models for the GroupStatus and Embed tables. They don't need controllers and views.</p>
+
+<p>In the navigation bar view (<code class="inline">/app/protected/views/layouts/main.php</code>), I'll add an option in my Compose menu to Group Tweets:</p>
+
+<pre class="brush: php">	array('label'=&gt;'Compose', 'items'=&gt; array(
+          array('url'=&gt;array('/status/compose'), 'label'=&gt;'Schedule a tweet'),
+          array('url'=&gt;array('/group'), 'label'=&gt;'Group tweets'),
+          array('url'=&gt;array('/status/admin'), 'label'=&gt;'Manage schedule'),
+          array('url'=&gt;array('/statuslog/admin'), 'label'=&gt;'Review log'),
+        )),</pre>
+
+<p>The Group Tweets Management page looks like this:</p>
+
+<figure class="post_image">
+  <img alt="Manage Groups of Tweet Storms" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/manage-groups.jpg"/>
+</figure>
+
+<p>Clicking the leftmost icon within each row opens up a group for adding tweets to and sequencing them.</p>
+
+<p>Clicking the add a group menu link will bring up a form that lets you name the tweet storm and choose a Twitter account for it:</p>
+
+<figure class="post_image">
+  <img alt="Create a Group for a Tweet Storm" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/create_form-b.jpg"/>
+</figure>
+
+<p>We need to extend the default create behavior to complete the model. I'm reusing my Slugify method from <a href="http://geogram.com" target="_self">Geogram</a> to create a URL-like slug from the name. Add this to <code class="inline">Group.php</code>:</p>
+
+<pre class="brush: php">/**
+ * Modifies a string to remove all non ASCII characters and spaces.
+     */
+  public function slugify($text)
+  {
+    //sourcecookbook.com/en/recipes/8/function-to-slugify-strings-in-php
+      // replace non letter or digits by -
+      $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+      // trim
+      $text = trim($text, '-');
+      // transliterate
+      if (function_exists('iconv'))
+      {
+          $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+      }
+      // lowercase
+      $text = strtolower($text);
+      // remove unwanted characters
+      $text = preg_replace('~[^-\w]+~', '', $text);
+      if (empty($text))
+      {
+          return 'error-generating-slug';
+      }
+      return $text;
+  }</pre>
+
+<p>Here's the modified <code class="inline">actionCreate</code> in <code class="inline">GroupController.php</code>:</p>
+
+<pre class="brush: php">public function actionCreate()
+	{
+		$model=new Group;
+		// Uncomment the following line if AJAX validation is needed
+		// $this-&gt;performAjaxValidation($model);
+		if(isset($_POST['Group']))
+		{
+			$model-&gt;attributes=$_POST['Group'];
+			$model-&gt;slug=Group::model()-&gt;slugify($model-&gt;name);
+      $model-&gt;created_at = new CDbExpression('NOW()');          			
+      $model-&gt;modified_at =new CDbExpression('NOW()');          			
+			if($model-&gt;save())
+				$this-&gt;redirect(array('view','id'=&gt;$model-&gt;id));
+		}
+		$this-&gt;render('create',array(
+			'model'=&gt;$model,
+		));
+	}
+</pre>
+
+<h3>Adding Tweets to the Storm</h3>
+
+<p>You then add status tweets for your storm and select the numerical sequence with which they should appear:</p>
+
+<figure class="post_image">
+  <img alt="Compose a status tweet for a tweet storm" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/compose-tweet.jpg"/>
+</figure>
+
+<p>We use a derivative form of the status compose form from Birdcage:</p>
+
+<pre class="brush: php">&lt;?php
+$this-&gt;breadcrumbs=array(
+'Statuses'=&gt;array('index'),
+	'Create',
+);
+
+/*
+$this-&gt;menu=array(
+	array('label'=&gt;'Manage schedule','url'=&gt;array('admin')),
+	array('label'=&gt;'Review log','url'=&gt;array('statuslog/admin')),
+);
+*/
+?&gt;
+
+&lt;h1&gt;Compose a Tweet for your Group&lt;/h1&gt;
+&lt;?php
+ echo $this-&gt;renderPartial('_groupform', array('model'=&gt;$model,'maxCount'=&gt;$maxCount)); ?&gt;</pre>
+
+<p>Here is the <code class="inline">_groupform.php</code> view file:</p>
+
+<pre class="brush: php">&lt;?php
+
+$baseUrl = Yii::app()-&gt;baseUrl; 
+$cs = Yii::app()-&gt;getClientScript();
+$cs-&gt;registerScriptFile($baseUrl.'/js/jquery.simplyCountable.js');
+$cs-&gt;registerScriptFile($baseUrl.'/js/twitter-text.js');
+$cs-&gt;registerScriptFile($baseUrl.'/js/twitter_count.js');
+
+?&gt;
+&lt;?php $form=$this-&gt;beginWidget('bootstrap.widgets.TbActiveForm',array(
+'id'=&gt;'status-form',
+	'enableAjaxValidation'=&gt;false,
+)); ?&gt;
+
+&lt;?php 
+  if(Yii::app()-&gt;user-&gt;hasFlash('no_account')
+    ) {
+  $this-&gt;widget('bootstrap.widgets.TbAlert', array(
+      'alerts'=&gt;array( // configurations per alert type
+  	    'no_account'=&gt;array('block'=&gt;true, 'fade'=&gt;true, 'closeText'=&gt;'×'), 
+      ),
+  ));
+}
+?&gt;
+
+	&lt;p class="help-block"&gt;Fields with &lt;span class="required"&gt;*&lt;/span&gt; are required.&lt;/p&gt;
+
+	&lt;?php echo $form-&gt;errorSummary($model); ?&gt;
+
+&lt;?php echo $form-&gt;hiddenField($model,'account_id',array('value'=&gt;$model-&gt;account_id)); ?&gt;
+  &lt;br /&gt;
+	&lt;?php 
+	echo $form-&gt;textAreaRow($model,'tweet_text',array('id'=&gt;'tweet_text','rows'=&gt;6, 'cols'=&gt;50, 'class'=&gt;'span8'));
+   ?&gt;
+   &lt;p class="right"&gt;Remaining: &lt;span id="counter2"&gt;0&lt;/span&gt;&lt;/p&gt;
+
+ 	&lt;?php
+     echo CHtml::activeLabel($model,'sequence',array('label'=&gt;'Sequence:')); 
+   ?&gt;
+
+   &lt;?php echo $form-&gt;dropDownList($model,'sequence', $model-&gt;getSequence()); ?&gt;
+
+
+&lt;/div&gt; &lt;!-- end section method --&gt;
+	&lt;div class="form-actions"&gt;
+		&lt;?php $this-&gt;widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=&gt;'submit',
+			'type'=&gt;'primary',
+			'label'=&gt;$model-&gt;isNewRecord ? 'Create' : 'Save',
+		)); ?&gt;
+	&lt;/div&gt;
+
+&lt;?php $this-&gt;endWidget(); ?&gt;
+&lt;script type="text/javascript" charset="utf-8"&gt;
+	$(document).ready(function()
+	{
+	  $('#section_schedule').hide();
+	  $('#section_method').hide();
+	  $('#tweet_text').simplyCountable({
+	    counter: '#counter2',
+      maxCount: &lt;?php echo $maxCount ?&gt;,
+      countDirection: 'down'
+	  });
+	});
+  
+&lt;/script&gt;
+</pre>
+
+<p>Here's the <code class="inline">getSequence</code> method the form uses, from <code class="inline">Status.php</code>:</p>
+
+<pre class="brush: php">  public function getSequence() {
+	    $i=1;
+	    $seq = array('default'=&gt;'select sequence below');
+	    while ($i&lt;=99) {
+	      $seq[$i]=$i;
+	      $i++;
+	    }
+	    return $seq;
+	  }
+</pre>
+
+<p>Status tweets within groups are four characters shorter than 140 to allow for the insertion of sequence numbering.</p>
+
+<p>As you add status tweets to your group, the Manage Group page will look something like this:</p>
+
+<figure class="post_image">
+  <img alt="Group view for the tweet storm statuses" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/tweet-storm.jpg"/>
+</figure>
+
+<p>Future enhancements might include move up/down sequence controls for the status items as well as some auto-numbering when you add new tweets.</p>
+
+<h3>Publishing the Storm</h3>
+
+<p>While you can just publish the tweets in sequence, it's helpful to manage this in a background process for robustness, in case there are failures midway through.</p>
+
+<p>Since many Twitter API functions require cursoring or paging, I've already built a background process model into my <a href="http://jeffreifman.com/birdhouse/" target="_self">advanced framework, Birdhouse</a>. I'll show you the basics of adding tweet storm publishing to your application.</p>
+
+<p>When you click Publish storm, we create an action to manage this process in the background:</p>
+
+<pre class="brush: php">public function publish($group_id) {
+	  // create an action to publish the storm in the background
+	  $gp = Group::model()-&gt;findByPK($group_id);
+    $check_dup = Action::model()-&gt;findByAttributes(array('action'=&gt;Action::ACTION_STORM,'item_id'=&gt;$group_id,'status'=&gt;Action::STATUS_ACTIVE));
+     if (empty($check_dup)) {
+   	  $a = new Action;
+   	  $a-&gt;account_id = $gp-&gt;account_id;
+   	  $a-&gt;action = Action::ACTION_STORM;
+   	  $a-&gt;status = Action::STATUS_ACTIVE;
+   	  $a-&gt;item_id = $group_id;
+       $a-&gt;created_at = new CDbExpression('NOW()');          
+       $a-&gt;modified_at =new CDbExpression('NOW()');          
+   	  $a-&gt;save();   	  
+   	}	  
+	}
+</pre>
+
+<p>Then, the normal cron background tasks manage the Action table and will call <code class="inline">Action::model()-&gt;publishStorm</code>:</p>
+
+<pre class="brush: php">public function publishStorm($action) {  
+	  // publish group twitter storm
+	  $results = Group::model()-&gt;publishStormItems($action-&gt;account_id,$action-&gt;item_id);
+	  if ($results) {
+	    // if true, action is complete
+      $a = Action::model()-&gt;findByPk($action-&gt;id);
+      $a-&gt;status=self::STATUS_COMPLETE;
+      $a-&gt;save();	    
+	  }
+	}</pre>
+
+<p>This in turn calls the Group model's <code class="inline">publishStormItems</code>:</p>
+
+<pre class="brush: php">// publish the group as a twitter storm
+public function publishStormItems($account_id,$group_id) {
+	  $error = false;
+	  $account = Account::model()-&gt;findByPK($account_id);
+    // make the connection to Twitter 
+ 	  $twitter = Yii::app()-&gt;twitter-&gt;getTwitterTokened($account['oauth_token'], $account['oauth_token_secret']);	  
+	  // get unpublished statuses in specific group 
+	   $statuses = Status::model()-&gt;in_account($account_id)-&gt;stage_zero()-&gt;in_specific_group($group_id)-&gt;findAll(array('order'=&gt;'sequence ASC'));
+	   $tweet_id = 0; 
+     foreach ($statuses as $status) {
+       $prefix = $status-&gt;sequence.'. ';
+       // add sequence count as prefix
+       echo $prefix.$status-&gt;tweet_text;lb();
+       $tweet_id = Status::model()-&gt;postTweet($twitter,$status,$prefix);
+       if ($tweet_id!=0) {
+          // update stage to published = 1
+          $ns = Yii::app()-&gt;db-&gt;createCommand()-&gt;update(Yii::app()-&gt;getDb()-&gt;tablePrefix.'status',array('stage'=&gt;1,'tweet_id'=&gt;$tweet_id),'id=:id', array(':id'=&gt;$status-&gt;id));         
+       } else {
+         $error = true;
+       }
+     }
+     // if finishing up
+     if (count($statuses)&gt;0 and !$error) {
+       // publish final tweet with link to the storm
+       $group = Group::model()-&gt;findByPk($group_id);
+       $status = 'Read or share my tweet storm on '.$group-&gt;name.' in its entirety here: '.$_SERVER["SERVER_NAME"].'/storm/'.$group-&gt;slug;
+       if (strlen($status)&gt;120) {
+         $status = 'Read or share all of my tweet storm: '.$_SERVER["SERVER_NAME"].'/storm/'.$group-&gt;slug;         
+       }
+       $tweet= $twitter-&gt;post("statuses/update",array('status'=&gt;$status));       
+     }
+	  // if done, return true
+	  return !$error;	  
+	}</pre>
+
+<p>The ActiveRecord query we use to find the status tweets in a group that are unpublished is as follows:</p>
+
+<pre class="brush: php">$statuses = Status::model()-&gt;in_account($account_id)-&gt;stage_zero()-&gt;in_specific_group($group_id)-&gt;findAll(array('order'=&gt;'sequence ASC'));
+</pre>
+
+<p>This query uses scopes which are defined as follows in the Status model:</p>
+
+<pre class="brush: php">public function scopes()
+  {
+          return array(   
+              // part of a group of tweets
+              'in_group'=&gt;array(
+                'condition'=&gt;'status_type='.self::STATUS_TYPE_IN_GROUP,               
+              ),
+              'stage_zero'=&gt;array(
+                'condition'=&gt;'stage=0',               
+              ),
+              'has_tweet_id'=&gt;array(
+                'condition'=&gt;'tweet_id&lt;&gt;0',               
+              ),
+          );
+      }    	
+
+      public function in_specific_group($group_id)
+      {
+              $crit = $this-&gt;getDbCriteria();
+              $crit-&gt;addCondition("
+                        id IN (
+                          SELECT status_id FROM tw_group_status 
+                          WHERE 
+                              group_id = :group_id 
+                      )
+              ");
+              $crit-&gt;params[':group_id'] = $group_id;
+              return $this;
+      }
+      
+      // custom scopes
+      public function in_account($account_id=0)
+      {
+        $this-&gt;getDbCriteria()-&gt;mergeWith( array(
+          'condition'=&gt;'account_id='.$account_id,
+        ));
+          return $this;
+      }  </pre>
+
+<p>As we loop through each status that needs to be tweeted, we add a prefix for the sequence number e.g. "1. My first tweet is ...":</p>
+
+<pre class="brush: php">foreach ($statuses as $status) {
+   $prefix = $status-&gt;sequence.'. ';
+       // add sequence count as prefix
+       echo $prefix.$status-&gt;tweet_text;lb();
+       $tweet_id = Status::model()-&gt;postTweet($twitter,$status,$prefix);
+       if ($tweet_id!=0) {
+          // update stage to published = 1
+          $ns = Yii::app()-&gt;db-&gt;createCommand()-&gt;update(Yii::app()-&gt;getDb()-&gt;tablePrefix.'status',array('stage'=&gt;1,'tweet_id'=&gt;$tweet_id),'id=:id', array(':id'=&gt;$status-&gt;id));         
+       } else {
+         $error = true;
+       }
+     }</pre>
+
+<p>When a status is posted, the stage is incremented. Future enhancements could include allowing tweet storms to be reposted multiple times. Currently, we just allow one posting (you're welcome, Buzzfeed).</p>
+
+<p>If all of the tweets have been successfully posted, we post a final tweet with a link to the tweet storm:</p>
+
+<pre class="brush: php"> // if finishing up
+     if (count($statuses)&gt;0 and !$error) {
+       // publish final tweet with link to the storm
+       $group = Group::model()-&gt;findByPk($group_id);
+       $status = 'Read or share my tweet storm on '.$group-&gt;name.' in its entirety here: '.$_SERVER["SERVER_NAME"].'/storm/'.$group-&gt;slug;
+       if (strlen($status)&gt;130) {
+         $status = 'Read or share all of my tweet storm: '.$_SERVER["SERVER_NAME"].'/storm/'.$group-&gt;slug;         
+       }
+       $tweet= $twitter-&gt;post("statuses/update",array('status'=&gt;$status));       
+     }
+</pre>
+
+<p>Here's what a <a href="http://tw.lookahead.io/storm/my-october-tutorials-at-tuts" target="_self">Tweet Storm looks like when published</a>:</p>
+
+<figure class="post_image">
+  <img alt="Another example of tweet storm in my stream" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/another-example2.jpg"/>
+</figure>
+
+<h3>Viewing the Storm on the Web</h3>
+
+<p>So, while we could display tweet storms publicly on the web in text form like <a href="http://www.yvoschaap.com/pmarca/" target="_self">Yvo Schaap</a>, I thought it would be better to use Twitter embeddings that the user can interact with e.g. follow, reply, retweet et al.</p>
+
+<figure class="post_image">
+  <img alt="Tweet storm shown publicly on the web with OEmbed HTML" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22459/image/tweet-storm-web.jpg"/>
+</figure>
+
+<p>Initially, I thought I might be able to use static HTML code and just replace the twitter_id in the view, but Twitter prefers you make an OEmbed call and cache the HTML for each tweet. I created the Embed table above to do this.</p>
+
+<p>So, first, let's create a route in Yii's UrlManager so our app's path can redirect to view tweetstorms by the URL-friendly slug. In <code class="inline">/app/protected/config/main.php</code>, add the storm slug redirect below. That will redirect queries to <a href="http://yourdomain/storm/my-thoughts-on-twitters-api">http://yourdomain/storm/my-thoughts-on-twitters-api</a> to the Group controller's lookup action with <a href="http://yourdomain/storm/my-thoughts-on-twitters-api">my-thoughts-on-twitters-api</a> as the parameter:</p>
+
+<pre class="brush: plain">	'urlManager'=&gt;array(
+    			'urlFormat'=&gt;'path',
+    			'showScriptName'=&gt;false,
+    			'caseSensitive'=&gt;false,
+    			'rules'=&gt;array(
+    				'&lt;controller:\w+&gt;/&lt;id:\d+&gt;'=&gt;'&lt;controller&gt;/view',
+    				'&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;'=&gt;'&lt;controller&gt;/&lt;action&gt;',
+    				'&lt;controller:\w+&gt;/&lt;action:\w+&gt;'=&gt;'&lt;controller&gt;/&lt;action&gt;',
+    				'/hybridauth' =&gt; '/hybridauth',
+    				'/storm/&lt;slug&gt;' =&gt; '/group/lookup/',    				
+    				'' =&gt; 'site/index'
+    			),
+    		),
+</pre>
+
+<p>Using Yii's controller access filters, let's make it so any public visitor can view storms but CRUD actions are only visible to authenticated users. Modify the <code class="inline">accessRules</code> in <code class="inline">GroupController.php</code> as follows:</p>
+
+<pre class="brush: plain">public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'storm' 
+				'actions'=&gt;array('lookup'),
+				'users'=&gt;array('*'),
+			),
+			array('allow', // allow authenticated user to perform these actions
+				'actions'=&gt;array('index','view','create','update','delete'),
+				'users'=&gt;array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' actions
+				'actions'=&gt;array(''),
+				'users'=&gt;array('admin'),
+			),
+			array('deny',  // deny all users
+				'users'=&gt;array('*'),
+			),
+		);
+	}</pre>
+
+<p>When a request arrives for <a href="http://yourdomain.com/storm/your-storm-name">http://yourdomain.com/storm/your-storm-name</a>, it routes to the Group controller lookup action:</p>
+
+<pre class="brush: php">public function actionLookup($slug) {
+  $success = false;
+	  $this-&gt;layout = 'storm';
+    // try look up by slug
+    $group = Group::model()-&gt;findByAttributes(array('slug'=&gt;$slug));
+    $embeds = Group::model()-&gt;fetchEmbeds($group-&gt;id);    
+    if ($group !== null) {
+      $success = true;
+			$this-&gt;render('lookup',array(
+			 'embeds'=&gt;$embeds,
+			 'name'=&gt;$group-&gt;name,
+			));
+	  }
+	}</pre>
+
+<p>The <code class="inline">fetchEmbeds</code> method looks first in our database for a cached copy and then outwardly to the Twitter API to fetch the HTML. The <code class="inline">fetchEmbeds</code> method builds an array of HTML tweets:</p>
+
+<pre class="brush: php">public function fetchEmbeds($group_id) {
+	  $e = new Embed();
+	  $group = Group::model()-&gt;findByPk($group_id);
+	  $embed =array();
+	   $statuses = Status::model()-&gt;in_account($group-&gt;account_id)-&gt;has_tweet_id()-&gt;in_specific_group($group_id)-&gt;findAll(array('order'=&gt;'sequence ASC'));
+	  foreach ($statuses as $status) {
+	    $embed[]=$e-&gt;fetch($group-&gt;account_id, $status-&gt;tweet_id);
+	  }
+	  return $embed;
+	}
+</pre>
+
+<p>It uses the Embed model's fetch method:</p>
+
+<pre class="brush: php">public function fetch($account_id,$tweet_id) {
+// is it in embed table
+    $data = Embed::model()-&gt;findByAttributes(array('tweet_id'=&gt;$tweet_id));
+    if (empty($data)) {
+      // is there a connection
+      if (is_null($this-&gt;twitter)) {
+        $account = Account::model()-&gt;findByPK($account_id);
+        // make the connection to Twitter 
+        $this-&gt;twitter = Yii::app()-&gt;twitter-&gt;getTwitterTokened($account['oauth_token'], $account['oauth_token_secret']);      	  
+      }    
+      $result= $this-&gt;twitter-&gt;get("statuses/oembed",array('id'=&gt;$tweet_id));
+      $html = $result-&gt;html;
+      $this-&gt;add($tweet_id,$html);
+    } else {
+      $html = $data-&gt;html;
+    }
+ 	  return $html;
+  }
+ 
+ public function add($tweet_id,$html) {
+   $e = new Embed();
+   $e-&gt;html = $html;
+   $e-&gt;tweet_id=$tweet_id;
+   $e-&gt;modified_at =  new CDbExpression('NOW()');          
+   $e-&gt;created_at =  new CDbExpression('NOW()');          
+   $e-&gt;save();
+ } </pre>
+
+<p>It only initiates the OAuth connection to Twitter if there is at least one tweet_id that needs to be fetched, and it does so only one time for performance reasons.</p>
+
+<h3>In Closing</h3>
+
+<p>I hope you found this tweet storm tutorial useful. It was definitely a fun feature to build. Please feel free to post corrections, questions or comments below. I do try to keep up with the Tuts+ comment threads. You can also reach me on Twitter <a href="https://twitter.com/intent/user?screen_name=reifman" target="_self">@reifman</a> or <a href="http://lookahead.io/contact" target="_self">email me</a> directly.</p>
+
+<p>You can find the <a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-getting-started--cms-22192" target="_self">initial Twitter API tutorial for Birdcage here</a>, and a link to all of my Twitter API tutorials on <a href="http://tutsplus.com/authors/jeff-reifman" target="_self">my Tuts+ author page</a> as they are published. Birdcage offers a free and open source Github repository for getting started with the basic Twitter API features.</p>

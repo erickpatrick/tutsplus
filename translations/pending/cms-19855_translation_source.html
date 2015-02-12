@@ -1,0 +1,371 @@
+<h1>Taking Shopify Theme Development Further</h1>
+
+<p>In the first two parts of this series I introduced you to the <a href="http://shopify.com?ref=envato" target="_self">Shopify</a> ecommerce platform, explained its key concepts, discussed how themes are constructed and then moved onto an in-depth look at Liquid - the Shopify templating language.</p>
+
+<p>In this final part we will look at how a little deeper knowledge of Liquid will enable you to make your themes even more flexible enabling you to deliver rich and imaginative store designs.</p>
+
+<p>Let's begin by looking at how we can use "alternate layouts" to great effect.</p>
+
+<h2>Alternate Layouts</h2>
+
+<p>One of the most powerful features of Liquid is the layout file which we looked at in part one. I often describe a layout file as a "master template". Typically this file will include our HTML declarations, branding, navigation and footer - essentially all the common elements of our site that we want to appear on every page.</p>
+
+<p>All rendered pages in a Shopify theme, unless stated, will be based on this master template. By default this is the <code>theme.liquid</code> file which resides in the <code>layouts</code> folder. Our micro templates, located in the <code>templates</code> folder, will be rendered at the point Shopify encounters the <code>{{ content_for_layout }}</code> Liquid placeholder in our layout file.</p>
+
+<p>To jog your memory here's a very basic layout file example:</p>
+
+<pre class="brush: html">&lt;html&gt;
+&lt;head&gt;
+{{ content_for_header }}
+&lt;title&gt;{{ shop.name }} - {{ page_title }}&lt;/title&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
+{{ "screen.css" | asset_url | stylesheet_tag }}
+&lt;/head&gt;
+&lt;body&gt;
+{{ content_for_layout }}
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>As mentioned in part one, a layout file in a Shopify theme must include two Liquid output tags, <code>{{ content_for_header }}</code> and <code>{{ content_for_layout }}</code>. The first one is used by Shopify to add in code for analytics and to provide quick access to your shop's admin area. The second, <code>{{ content_for_layout }}</code>, will be replaced by the relevant template from our templates folder, e.g. the <code>product.liquid</code> template will be injected when we are viewing a product detail page.</p>
+
+<p>Layouts are a great feature and help us keep themes nice and <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>. However, there will be times that the elements of your default layout file need to change. Perhaps you want to produce a splash page that doesn't require the "normal" branding and navigation. It's possible you may be able to achieve the desired results with CSS, but more likely you will want to produce different markup. Here's where alternative layouts come into play.</p>
+
+<p>Creating an alternative layout is very straightforward. The first thing to do is create a new file and give it a relevant name and the <code>.liquid</code> extension. The file name is up to you. What's important is that you save it in the <code>layouts</code> folder in your theme directory. In this file you can place any HTML you need (i.e. HTML declarations, CSS, JS links etc) along with the two placeholders discussed above.</p>
+
+<p>In order to use this layout file, and effectively override the default <code>theme.liquid</code> layout file, we use the following Liquid syntax in any of the micro templates:</p>
+
+<pre class="brush: html">{% layout "alternative" %}
+</pre>
+
+<p><b>Note:</b> you don't need to include the <code>.liquid</code> extension. Now when the relevant micro template is processed by Shopify it will be rendered with <code>alternative.liquid</code> as its layout file.</p>
+
+<h2>Product-Specific Templates</h2>
+
+<p>In the same way that we can dictate specific layouts to be applied to our micro templates we can use Liquid logic to render different product templates. There are a number of ways to achieve this in Liquid - my preferred method is to make use of <a href="http://docs.shopify.com/themes/liquid-variables/handle?ref=envato" target="_self">product handles</a>. If you have ever used WordPress you can think of a <i>product handle</i> in the same way as a <i>slug</i>. Here's a typical product URL from the <a href="http://www.abookapart.com/products/responsive-web-design" target="_self">A Book Apart</a> web site to demonstrate:</p>
+
+<pre class="brush: html">http://www.abookapart.com/products/responsive-web-design
+</pre>
+
+<p>In this example the product handle is <code>responsive-web-design</code> – the last element of the URL. Product handles are created automatically for you when you add a product in the Shopify admin and are based on the name you enter; uppercase characters are replaced with lowercase and spaces with dashes. You can of course override them if you need to.</p>
+
+<p>By default, every time Shopify renders a product detail page it will use the <code>product.liquid</code> micro template. Let's say we want to serve a different product page just for Ethan's book to really highlight it. In order to do this we need to make a couple of changes to the <code>product.liquid</code> template.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19855/image/abookapart-rwd.jpg"/>
+  <figcaption>
+    Ethan Marcotte's book 
+    <a href="http://www.abookapart.com/products/responsive-web-design">Responsive Web Design</a>
+     on the Shopify powered 
+    <a href="http://www.abookapart.comn">A Book Apart</a>
+     site
+  </figcaption>
+  
+</figure>
+
+<p>As the <code>product.liquid</code> template has access to all the data relating to the currently viewed product we can ask the following question using a Liquid <code>if</code> statement:</p>
+
+<pre class="brush: html">{% if product.handle == "responsive-web-design" %}
+{% include "responsive-web-design" %}
+{% else %}
+[Normal HTML code for product.liquid]
+{% endif %}
+</pre>
+
+<p>By adding in the <code>if</code> statement, which we looked at in <a href="http://webdesign.tutsplus.com/tutorials/getting-started-with-liquid-shopifys-template-language--cms-19747" target="_self">part two</a> of this series, we are able to control which markup is rendered. Simply put, if the <code>product.handle</code> is equal to "responsive-web-design" we include the file called <code>responsive-web-design.liquid.</code>  However, if it isn't, we simply render the code that we already have in our <code>product.liquid</code> template.</p>
+
+<h2>The Power of Snippets</h2>
+
+<p>This example introduces us to Liquid <a href="http://docs.shopify.com/themes/theme-templates/snippets">snippets</a>. Snippets live in the aptly named <code>snippets</code> folder and are referenced without the <code>.liquid</code> extension when using the Liquid tag <code>{% include %}</code>.</p>
+
+<p>As the name suggests, using <code>{% include %}</code> will literally include a piece of code in your micro template or layout file. In the example above the file would contain the alternative markup required to showcase Ethan's book including all necessary Liquid code to pull the data about the product into the template.</p>
+
+<p>Of course you could specify that this particular template be used for another book in addition to Ethan's. Here's one way of achieving that:</p>
+
+<pre class="brush: html">{% if product.handle == "responsive-web-design" OR product.handle == "design-is-a-job" %}
+{% include "responsive-web-design" %}
+{% else %}
+[Normal HTML code for product.liquid]
+{% endif %}
+</pre>
+
+<p>In this case you may want to rename your snippet to something more appropriate, i.e. <code>product-showcase.liquid</code>.</p>
+
+<p>It's worth noting that you are unable to nest folders within your snippets directory. Consequently I tend to prefix my files with their function:</p>
+
+<ul>
+  <li><code>product-responsive-web-design.liquid</code></li>
+  <li><code>product-showcase.liquid</code></li>
+  <li><code>collections-books.liquid</code></li>
+</ul>
+
+<p>Using this naming convention makes finding snippets much easier, especially as your use of them increases.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19855/image/8faces-snippets.jpg"/>
+  <figcaption>
+    An example of how I used snippets on the 
+    <a href="http://8faces.com">8 Faces</a>
+     site to separate logical concerns
+  </figcaption>
+</figure>
+
+<h2>When to Use Snippets</h2>
+
+<p>I tend use snippets in two different ways. Firstly to separate code into manageable chunks, and secondly for elements of a page that I need to reuse, such as a pagination block.</p>
+
+<p>As a general rule of thumb here's how I decide on where to add code:</p>
+
+<ul>
+  <li>Appears on every page - layout file</li>
+  <li>Appears on more than one page - snippet file</li>
+  <li>Appears on one page - micro template</li>
+</ul>
+
+<h2>Micro Templates as Controllers</h2>
+
+<p>Another trick I have employed to great effect is to treat a micro template as a view controller - an idea I have taken from many of the <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> frameworks I have used. This might be a new concept for you so let's have a look at it in more detail.</p>
+
+<p>In the above examples we are using Liquid logic to check for a particular product handle in the <code>product.liquid</code> micro template. If the answer to our <code class="inline">if</code> statement is true we include a snippet, otherwise Shopify renders the HTML block contained between the <code>{% else %}</code> and <code>{% endif %}</code> tags.</p>
+
+<p>To some this might seem a bit messy and can, over time, get hard to read, especially if your default <code>product.liquid</code> markup grows. To make it easier to manage we can simply take our default markup out of the product.liquid template and create a snippet for it - I tend to call this <code>product-default.liquid</code>.</p>
+
+<p>Following this approach our product.liquid file could be refactored to the following:</p>
+
+<pre class="brush: html">{% if product.handle == "responsive-web-design" %}
+{% include "product-responsive-web-design" %}
+{% else %}
+{% include "product-default" %}
+{% endif %}
+</pre>
+
+<p>Of course, as your needs grow this file could grow to incorporate other checks and relevant files included depending on the results. The options are limitless.</p>
+
+<p>It's worth remembering that it's not just products that have handles in Shopify, collections and pages also do. Using the same approach for collections we could do the following in our <code>collections.liquid</code> template:</p>
+
+<pre class="brush: html">{% if collection.handle == "css" %}
+{% include "collection-css" %}
+{% else %}
+{% include "collection-default" %}
+{% endif %}
+</pre>
+
+<h2>Using <code class="inline">case</code> Instead of <code class="inline">if elsif else</code></h2>
+
+<p>This method works very well if we just want to check for one particular handle, be it a product or collection, but what if we want to extend that to multiple products or collections?</p>
+
+<p>We have two possible approaches, the first is by extending our <code>if</code> statement by using <code>elsif</code>. Here's an example:</p>
+
+<pre class="brush: html">{% if product.handle == "responsive-web-design" %}
+{% include "product-responsive-web-design" %}
+{% elsif product.handle == "design-is-a-job" %}
+{% include "product-design-is-a-job" %}
+{% else %}
+{% include "product-default" %}
+{% endif %}
+</pre>
+
+<p>This example checks for two product handles in turn and only if neither are true will it render the <code>product-default.liquid</code> snippet.</p>
+
+<p>It is possible to use multiple <code>elsif</code> statements in Liquid but it can get a bit verbose. An alternative, and I think neater approach is to use <code class="inline">case</code>. Here's the above example refactored:</p>
+
+<pre class="brush: html">{% case product.handle %}
+{% when "responsive-web-design" %}
+{% include "product-responsive-web-design" %}
+{% when "design-is-a-job" %}
+{% include "product-design-is-a-job" %}
+{% else %}
+{% include "product-default" %}
+{% endcase %}
+</pre>
+
+<p>We can also do a more fuzzy comparison by using the Liquid operator <code>contains</code>. Let's say we want any product that has the word responsive in its handle to use a different snippet. Here's how we could approach it using a simple Liquid <code>if</code> statement:</p>
+
+<pre class="brush: html">{% if product.handle contains "responsive" %}
+{% include "product-responsive" %}
+{% else %}
+{% include "product-default" %}
+{% endif %}
+</pre>
+
+<p>Using this method would mean we wouldn't have to edit our template to add in a new <code>elsif</code> or <code class="inline">case</code> for further books that contain "responsive" in their title.</p>
+
+<p>These approaches can also be used within the micro templates in your theme. For example you could use it to show and hide elements programatically. Examples of this might be sale badges, special offers and related products.</p>
+
+<h2>Creating Useful CSS Hooks</h2>
+
+<p>Handles can also come in very handy when working with CSS and JavaScript. Many of us use the body class for CSS and JavaScript hooks and just like in WordPress it's pretty easy to add a number of useful classes to our body element in Shopify.</p>
+
+<p>Here are a few ideas:</p>
+
+<p>Add the currently rendered template name to the body class:</p>
+
+<pre class="brush: html">&lt;body class="{{ template | handleize }}"&gt;
+</pre>
+
+<p>Note we are using the handleize filter to sanitise our output. Some examples of this in action are:</p>
+
+<pre class="brush: html">&lt;body class="index"&gt;
+&lt;body class="product"&gt;
+&lt;body class="collection"&gt;
+</pre>
+
+<p>Building on this we may wish to add the current product handle to our body class as well. To keep things neat and tidy we can use an <code>if</code> statement to conditionally add the product handle only when we are viewing a product:</p>
+
+<pre class="brush: html">&lt;body class="{{ template | handleize }}{% if template == "product" %} {{ product.handle }}{% endif %}"&gt;
+</pre>
+
+<p>Note how I include the space before the <code>{{ product.handle }}</code> output tag.</p>
+
+<p>Some themes also add the current page title to the body element in the form of an <code>id</code>, building on the above our code would now look as follows:</p>
+
+<pre class="brush: html">&lt;body id="{{ page_title | handleize }}" class={{ template | handleize }}{% if template == "product" %} {{ product.handle }}{% endif %}"&gt;
+</pre>
+
+<p>For good measure we could even add in a check for collections and add that too:</p>
+
+<pre class="brush: html">&lt;body id="{{ page_title | handleize }}" class={{ template | handleize }}{% if template == "product" %} {{ product.handle }}{% endif %}{% if template == "collection" %} {{ collection.handle }}{% endif %}"&gt;
+</pre>
+
+<p>It's pretty easy to adjust this logic for your own purposes.</p>
+
+<p>So far we have looked at how we can use Liquid to go beyond outputting data and controlling the flow of our templates. Now let's turn to have a look at another great feature of Shopify - theme settings.</p>
+
+<h2>Theme Settings</h2>
+
+<p>Theme settings allow theme developers to provide an easy way for any user to customise the look and feel of their store without having to alter any HTML or CSS. This makes themes very flexible - a plus if you ever consider selling a theme via the Shopify <a href="http://themes.shopify.com?ref=envato" target="_self">theme store</a> or <a href="http://themeforest.net/category/ecommerce/shopify" target="_self">Themeforest</a>.</p>
+
+<p>In order to expose theme settings in our store admin we must create a file called <code>settings.html</code> and save it in the config folder. Please note the extension, this is the only file with a <code>.html</code> extension in your Shopify theme.</p>
+
+<p>There are infinite uses for theme settings, but a common one is to change the background colour of the whole site. Here's a code example which we can discuss:</p>
+
+<pre class="brush: html">&lt;fieldset&gt;
+&lt;p&gt;&lt;legend&gt;Colors Settings&lt;/legend&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;label for="bg_color"&gt;Background (example)&lt;/label&gt;&lt;/th&gt;
+&lt;td&gt;&lt;input id="bg_color" name="bg_color" class="color" value=""#FFF"" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/fieldset&gt;
+</pre>
+
+<p>The most important element here is the <code>input</code>. Note that we have given it an id and name attribute of <code>bg_color</code> and a class of <code>color</code>. This class is important; when we view our theme settings in the admin Shopify will render a handy colour picker in place of our input.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19855/image/8faces-theme-settings.jpg"/>
+  <figcaption>Theme settings, once mastered, are an amazingly powerful feature of Shopify themes</figcaption>
+</figure>
+
+<p>You will also notice that I have set a value on our input of <code>#FFF</code>. If we choose to use our theme settings in our CSS file this is the value that will become the default. Without this default an empty value will be used. This is one gotcha I see a lot!</p>
+
+<p>Theme settings are globally available to us, meaning we can output their value in all of our templates and layout files. This includes our CSS and JavaScript files. To reference a setting, in this case our background colour we use the following syntax:</p>
+
+<pre class="brush: html">{{ settings.bg_color }}
+</pre>
+
+<p>Note that we are using the <code>id</code> of the input to pull out its value. For this reason the id of each input must be unique.</p>
+
+<h2>Using Theme Settings</h2>
+
+<p>In order to use theme settings in our CSS file we need to append <code>.liquid</code> to our CSS file. If our file is called <code>screen.css</code> we simply change it to <code>screen.css.liquid</code>.</p>
+
+<p>Once we have done that we can do the following in our CSS file:</p>
+
+<pre class="brush: html">body {
+	background: {{ settings.bg_color }};
+}
+</pre>
+
+<p>When Shopify serves our CSS file it will replace our Liquid output tags with the value specified in the theme settings in the Shopify admin. Hopefully this example highlights the need for defaulting the value!</p>
+
+<p>As well as entering text and numerical values in theme settings you can upload files, record boolean values with checkboxes and offer select drop downs to pick a value from a list.</p>
+
+<pre class="brush: html">&lt;fieldset&gt;
+&lt;p&gt;&lt;legend&gt;Home Page&lt;/legend&gt;&lt;/p&gt;
+&lt;h3&gt;Hero&lt;/h3&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;label for="show_hero"&gt;Show hero?&lt;/label&gt;&lt;/td&gt;
+&lt;td&gt;&lt;input type="checkbox" id="show_hero" name="show_hero" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/fieldset&gt;
+</pre>
+
+<p>The above example is taken from the <a href="http://8faces.com">8 Faces</a> web site I worked on in 2013. We use this setting to control logic on the home page, here's how:</p>
+
+<pre class="brush: html">{% if settings.show_hero == true %}
+[Relevant hero banner code snippet]
+{% endif %}
+</pre>
+
+<p>Adding files is slightly more complicated so let's have a quick look at it. The markup is however pretty straightforward:</p>
+
+<pre class="brush: html">&lt;fieldset&gt;
+&lt;legend&gt;Home Page&lt;/legend&gt;
+&lt;h3&gt;Hero&lt;/h3&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;label for="home_hero_image"&gt;Image (full size)&lt;/label&gt;&lt;/td&gt;
+&lt;td&gt;&lt;input type="file" name="home-page-hero.jpg" id="home_hero_image" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/fieldset&gt;
+</pre>
+
+<p>There are a couple of things to note here, firstly the name attribute which in our example is <code>home-page-hero.jpg</code>. Regardless of the name of the file you upload, it will be renamed to <code>home-page-hero.jpg</code>.</p>
+
+<p>The second thing worth knowing is the extension, in our case <code>.jpg</code>. Regardless of the file type you upload Shopify will attempt to convert it to the specified type. If it can't, it will report an error. Finally, unlike product images, file uploads will always be saved to the theme's asset folder.</p>
+
+<p>Here's how we can render our home page hero image in our template:</p>
+
+<pre class="brush: html">&lt;img src="{{ 'home-page-hero.jpg' | asset_url }}"&gt;
+</pre>
+
+<p>Here we use the <code>asset_url</code> filter to add in the full path to the image on the Shopify CDN. If you are unfamiliar with this filter you can read more about it in <a href="http://webdesign.tutsplus.com/tutorials/getting-started-with-liquid-shopifys-template-language--cms-19747" target="_self">part two</a> of this series.</p>
+
+<p>I strongly recommend you download a free theme or two from the <a href="http://themes.shopify.com">Shopify theme store</a> and dissect the theme settings template, as they are a great building block for your own theme development.</p>
+
+<h2>Shopify Toolkit</h2>
+
+<p>Whilst it's fair to say that all you really need to start developing themes is a text editor and a Shopify partner account there are a few goodies out there that are well worth considering.</p>
+
+<p>If you have been following <a href="http://webdesign.tutsplus.com/series/learn-how-to-build-themes-for-shopify--cms-534" target="_self">the series</a> you will perhaps have signed up for a free Shopify <a href="http://www.shopify.com/partners?ref=envato" target="_self">partner account</a>. One thing I always recommend to do is to set up the "bogus gateway" in your development stores. You will find this in the settings tab under checkout in the Shopify admin. Enabling this will allow you to showcase a full transaction and will generate all the associated email notifications that are generated. It's worth remembering that you can also use all of these Liquid techniques in your notification emails to great effect.</p>
+
+<p>Another very useful utility is the Shopify <a href="http://apps.shopify.com/desktop-theme-editor?ref=envato" target="_self">Desktop Theme Editor</a> for Mac. Once installed it will seamlessly sync your file changes to your development, or live, shop. Also, if you are using Mac, Windows or Linux you can also install the <a href="https://github.com/Shopify/shopify_theme">Shopify theme Gem</a> command line tool to sync your local files to your development store.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/30/posts/19855/image/desktop-theme-editor.jpg"/>
+  <figcaption>
+    The Shopify 
+    <a href="http://apps.shopify.com/desktop-theme-editor">Desktop Theme Editor for Mac</a>
+     allows seemless file synchronization between your local file system and your store
+  </figcaption>
+</figure>
+
+<p>Finally, if you are a TextMate user or a fan of SublimeText you may wish to install a copy of the <a href="https://github.com/stephendavis89/sublime-liquid">Liquid extension</a> which handles syntax highlighting for Liquid.</p>
+
+<h2>Theme Inspiration</h2>
+
+<p>The Shopify theme store is full of free themes that you can download and learn from. However when it comes to starting your own theme you might prefer something more stripped back like my own <a href="https://github.com/tutsplus/shopify-birthday-suit" target="_self">boilerplate</a> available on GitHub.
+
+</p>
+
+<h2>Resources</h2>
+
+<p>Finally, here are a few choice resources to help you with your Shopify theme development:</p>
+
+<ul>
+  <li><a href="http://cheat.markdunkley.com/">Mark Dunkley's cheat sheet</a> - Every template variable and liquid logic, filter and output tag you'll ever need.</li>
+  <li><a href="http://docs.shopify.com/themes?ref=envato" target="_self">Shopify theme documentation</a> - Recently redesigned and a great reference point for theme building</li>
+  <li><a href="http://ecommerce.shopify.com/forums?ref=envato" target="_self">Shopify ecommerce forums</a> - Lots of topics covered ranging from setting up a store to theme building and hints and tips on running a successful online business</li>
+</ul>
+
+<h2>Next Steps</h2>
+
+<p>Shopify is a great and rewarding platform to design for with the added bonus that Liquid is becoming widely adopted in other tools like <a href="http://mixture.io">Mixture</a> and <a href="http://www.siteleaf.com/">SiteLeaf</a>. We have covered a lot over these three tutorials. Above all I hope you have found it interesting and useful and that the ideas presented here enable you to build great ecommerce experiences for you and your clients.</p>

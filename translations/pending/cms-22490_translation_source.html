@@ -1,0 +1,540 @@
+<h1>Building With the Twitter API: Repeating Tweets From a Group</h1>
+
+<p><em>This tutorial is part of a series related to the Twitter API. You can find the </em><a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-getting-started--cms-22192" target="_self"><em>original Birdcage Twitter tutorial here</em></a><em> or </em><a href="http://tutsplus.com/authors/jeff-reifman" target="_self"><em>follow my author page</em></a><em> to keep up with the latest additions to the series. This particular tutorial builds on Birdcage and the data models and code from the </em><a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-tweet-storms--cms-22459" target="_self"><em>preceding tweet storm tutorial</em></a><em>.</em></p>
+
+<p>If you're a <a href="http://en.wikipedia.org/wiki/Maker_culture" target="_self">maker</a> like me, you often use Twitter to share details about your creations. There's often more to say than you can fit in 140 characters, and most of your followers don't even see every individual tweet. Even if they see something you've posted about, they might favorite it and forget it. It's helpful to have a service that regularly shares different aspects of your announcement. The nature of the Twitter stream makes repetition useful, within reason; overdoing it is spammy and annoying.</p>
+
+<p>This tutorial builds on my earlier tweet storm article to show you how to build a service that posts a randomly selected status update about your work on a recurring basis. This automates the task of repeating and creating variation over time to increase the likelihood that your Twitter followers will engage with your content.</p>
+
+<p>Keep in mind that the Twitter API has limits on repetitive content. You'll be more successful if you offer a wide variety of variations and run the service on an account that you also use manually to share other content. Twitter will likely reject the repetitive tweets of pure marketing bots—and you'll likely run into this while testing.</p>
+
+<h2>Feature Requirements</h2>
+
+<p>The basic requirements for our feature are as follows:</p>
+
+<ul>
+  <li>Let the user write and store a "bunch" of tweets within a group.</li>
+  <li>On a recurring basis, randomly select one tweet from the group to post to our account.</li>
+  <li>Repeatedly post these items at user-configurable intervals with a random time shift.</li>
+  <li>Allow the user to set a maximum number of recurrences, e.g. 100.</li>
+  <li>Allow the user to reset groups to restart the repeating.</li>
+</ul>
+
+<p>Building on the infrastructure for Groups that we built in the tweet storm tutorial requires only a modest amount of additional new code for recurring tweets.</p>
+
+<h2>The Database Model</h2>
+
+<p>We'll use migration to create the Group table, which is just slightly different from the one used in the tweet storm tutorial:</p>
+
+<pre class="brush: bash">./app/protected/yiic migrate create create_group_table</pre>
+
+<p>The code below builds the schema. Note the foreign key relation to link the group to a specific Twitter account:</p>
+
+<pre class="brush: php">&lt;?php
+
+class m141018_004954_create_group_table extends CDbMigration
+{
+   protected $MySqlOptions = 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci';
+   public $tablePrefix;
+   public $tableName;
+
+   public function before() {
+ $this-&gt;tablePrefix = Yii::app()-&gt;getDb()-&gt;tablePrefix;
+     if ($this-&gt;tablePrefix &lt;&gt; '')
+       $this-&gt;tableName = $this-&gt;tablePrefix.'group';
+   }
+
+     public function safeUp()
+ 	{
+ 	  $this-&gt;before();
+    $this-&gt;createTable($this-&gt;tableName, array(
+             'id' =&gt; 'pk',
+             'account_id'=&gt;'integer default 0',
+             'name'=&gt;'string default NULL',
+             'slug'=&gt;'string default NULL',
+             'group_type'=&gt;'tinyint default 0',
+             'stage'=&gt;'integer default 0',
+             'created_at' =&gt; 'DATETIME NOT NULL DEFAULT 0',
+             'modified_at' =&gt; 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+             'next_publish_time'=&gt;'INTEGER DEFAULT 0',
+             'interval'=&gt;'TINYINT DEFAULT 0',
+             'interval_random'=&gt;'TINYINT DEFAULT 0',
+             'max_repeats'=&gt;'INTEGER DEFAULT 0',             
+             'status'=&gt;'tinyint default 0',
+               ), $this-&gt;MySqlOptions);
+               $this-&gt;addForeignKey('fk_group_account', $this-&gt;tableName, 'account_id', $this-&gt;tablePrefix.'account', 'id', 'CASCADE', 'CASCADE');               
+ 	}
+
+ 	public function safeDown()
+ 	{
+ 	  	$this-&gt;before();
+ 	  	$this-&gt;dropForeignKey('fk_group_account', $this-&gt;tableName); 	  	
+ 	    $this-&gt;dropTable($this-&gt;tableName);
+ 	}
+}</pre>
+
+<p>The new fields include <code class="inline">next_publish_time</code>, <code class="inline">interval</code>, <code class="inline">interval_random</code>, <code class="inline">max_repeats</code>, and <code class="inline">status</code>.</p>
+
+<p>We'll also use the same relational table called <code class="inline">GroupStatus</code> which tracks the Status tweets within each Group:</p>
+
+<pre class="brush: php">&lt;?php
+
+class m141018_020428_create_group_status_table extends CDbMigration
+{
+   protected $MySqlOptions = 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci';
+   public $tablePrefix;
+   public $tableName;
+
+   public function before() {
+ $this-&gt;tablePrefix = Yii::app()-&gt;getDb()-&gt;tablePrefix;
+     if ($this-&gt;tablePrefix &lt;&gt; '')
+       $this-&gt;tableName = $this-&gt;tablePrefix.'group_status';
+   }
+
+     public function safeUp()
+ 	{
+ 	  $this-&gt;before();
+    $this-&gt;createTable($this-&gt;tableName, array(
+             'id' =&gt; 'pk',
+             'group_id' =&gt; 'INTEGER NOT NULL',
+             'status_id' =&gt; 'INTEGER default 0',
+               ), $this-&gt;MySqlOptions);
+               $this-&gt;addForeignKey('fk_group_status_group', $this-&gt;tableName, 'group_id', $this-&gt;tablePrefix.'group', 'id', 'CASCADE', 'CASCADE');               
+               $this-&gt;addForeignKey('fk_group_status_status', $this-&gt;tableName, 'status_id', $this-&gt;tablePrefix.'status', 'id', 'CASCADE', 'CASCADE');               
+ 	}
+
+ 	public function safeDown()
+ 	{
+ 	  	$this-&gt;before();
+ 	  	$this-&gt;dropForeignKey('fk_group_status_group', $this-&gt;tableName);
+ 	  	$this-&gt;dropForeignKey('fk_group_status_status', $this-&gt;tableName);
+ 	    $this-&gt;dropTable($this-&gt;tableName);
+ 	}
+}</pre>
+
+<h2>Building the Code</h2>
+
+<p>Use the <a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-tweet-storms--cms-22459" target="_self">tweet storm tutorial</a> to see how to use Yii's Gii to create the scaffolding code for the Group Controller as well as the models for <code class="inline">GroupStatus</code>.</p>
+
+<p>Here's what the "Create a Group" form looks like:</p>
+
+<figure class="post_image">
+  <img alt="Create a new group for recurring tweets" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22490/image/update-group.jpg"/>
+</figure>
+
+<p>Here's the view code for the form. Notice there is JQuery that shows and hides the additional settings when the user selects a recurring type of group (as opposed to a tweet storm group):</p>
+
+<pre class="brush: php">&lt;?php $form=$this-&gt;beginWidget('bootstrap.widgets.TbActiveForm',array(
+'id'=&gt;'group-form',
+	'enableAjaxValidation'=&gt;false,
+)); ?&gt;
+
+&lt;?php 
+  if(Yii::app()-&gt;user-&gt;hasFlash('no_account')
+    ) {
+  $this-&gt;widget('bootstrap.widgets.TbAlert', array(
+      'alerts'=&gt;array( // configurations per alert type
+  	    'no_account'=&gt;array('block'=&gt;true, 'fade'=&gt;true, 'closeText'=&gt;'×'), 
+      ),
+  ));
+}
+?&gt;
+
+	&lt;p class="help-block"&gt;Fields with &lt;span class="required"&gt;*&lt;/span&gt; are required.&lt;/p&gt;
+
+	&lt;?php echo $form-&gt;errorSummary($model); ?&gt;
+	
+	&lt;?php 
+    echo CHtml::activeLabel($model,'account_id',array('label'=&gt;'Create group with which account:')); 
+    echo CHtml::activeDropDownList($model,'account_id',Account::model()-&gt;getList(),array('empty'=&gt;'Select an Account'));
+  ?&gt;
+  
+	&lt;?php echo $form-&gt;textFieldRow($model,'name',array('class'=&gt;'span5','maxlength'=&gt;255)); ?&gt;
+
+	&lt;?php
+    echo CHtml::activeLabel($model,'group_type',array('label'=&gt;'Group Type:')); 
+  ?&gt;
+  
+  &lt;?php echo $form-&gt;dropDownList($model,'group_type', $model-&gt;getTypeOptions()); ?&gt;
+
+
+     &lt;div id ="section_schedule"&gt;
+     &lt;p&gt;&lt;strong&gt;Schedule Post or Start Time:&lt;/strong&gt;&lt;br /&gt;
+     &lt;em&gt;Click the field below to set date and time&lt;/em&gt;&lt;/p&gt;
+     &lt;?php
+     $this-&gt;widget(
+         'ext.jui.EJuiDateTimePicker',
+         array(
+             'model'     =&gt; $model,
+             'attribute' =&gt; 'next_publish_time',
+             'language'=&gt; 'en',
+             'mode'    =&gt; 'datetime', //'datetime' or 'time' ('datetime' default)
+             'options'   =&gt; array(
+                 'dateFormat' =&gt; 'M d, yy',
+                 'timeFormat' =&gt; 'hh:mm tt',//'hh:mm tt' default
+                 'alwaysSetTime'=&gt; true,
+             ),
+         )
+     );
+     ?&gt;
+     &lt;/div&gt; &lt;!-- end section schedule --&gt;
+
+     &lt;div id ="section_recur"&gt;
+
+     &lt;p&gt;&lt;strong&gt;Choose Options for Your Recurring Method (optional):&lt;/strong&gt;&lt;br /&gt;
+
+
+     &lt;?php 
+         echo CHtml::activeLabel($model,'interval',array('label'=&gt;'Recurring: choose an interval:')); 
+         echo CHtml::activeDropDownList($model,'interval',Status::model()-&gt;getIntervalList(false),array('empty'=&gt;'Select an interval'));      
+     ?&gt;
+
+     &lt;?php 
+         echo CHtml::activeLabel($model,'max_repeats',array('label'=&gt;'Maximum number of repeated posts:')); 
+         echo CHtml::activeDropDownList($model,'max_repeats',Status::model()-&gt;getMaxRepeatList(),array('empty'=&gt;'Select a maximum number'));      
+     ?&gt;
+
+     &lt;?php 
+         echo CHtml::activeLabel($model,'interval_random',array('label'=&gt;'Choose a randomization period for your intervals:')); 
+         echo CHtml::activeDropDownList($model,'interval_random',Status::model()-&gt;getRandomList(),array('empty'=&gt;'Select an interval'));      
+     ?&gt;
+
+   &lt;/div&gt; &lt;!-- end recur --&gt;
+
+	&lt;div class="form-actions"&gt;
+		&lt;?php $this-&gt;widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=&gt;'submit',
+			'type'=&gt;'primary',
+			'label'=&gt;$model-&gt;isNewRecord ? 'Create' : 'Save',
+		)); ?&gt;
+	&lt;/div&gt;
+
+&lt;?php $this-&gt;endWidget(); ?&gt;
+&lt;script type="text/javascript" charset="utf-8"&gt;
+	$(document).ready(function()
+	{
+	  $('#section_schedule').hide();
+	  $('#section_method').hide();
+  	  $("#Group_group_type").change();
+  	});
+  	$("#Group_group_type").change(function () {
+            var option = this.value;
+            if (option ==0) {
+              // tweet storm
+              $('#section_schedule').hide();
+          	  $('#section_recur').hide();    
+            } else if (option==10) {
+              // recurring
+              $('#section_schedule').show();
+          	  $('#section_recur').show();
+            }
+        });  
+&lt;/script&gt;
+</pre>
+
+<p>Here's what the Group controller index page looks like once you've added some groups:</p>
+
+<figure class="post_image">
+  <img alt="Manage groups page" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22490/image/groups-index.jpg"/>
+</figure>
+
+<p>Here's the code that runs the index view. First, the Group controller index action:</p>
+
+<pre class="brush: php">/**
+	 * Manages all models.
+	 */
+	public function actionIndex()
+	{
+    
+		$model=new Group('search');
+		$model-&gt;unsetAttributes();  // clear any default values
+		if(isset($_GET['Group']))
+			$model-&gt;attributes=$_GET['Group'];
+
+		$this-&gt;render('admin',array(
+			'model'=&gt;$model,
+		));
+	}
+</pre>
+
+<p>Then the admin view code, which uses the Yii Gridview controller:</p>
+
+<pre class="brush: php">&lt;?php
+$this-&gt;breadcrumbs=array(
+'Groups'=&gt;array('index'),
+	'Manage',
+);
+
+$this-&gt;menu=array(
+	array('label'=&gt;'Add a Group','url'=&gt;array('create')),
+);
+
+Yii::app()-&gt;clientScript-&gt;registerScript('search', "
+$('.search-button').click(function(){
+	$('.search-form').toggle();
+	return false;
+});
+$('.search-form form').submit(function(){
+	$.fn.yiiGridView.update('group-grid', {
+		data: $(this).serialize()
+	});
+	return false;
+});
+");
+?&gt;
+
+&lt;h1&gt;Manage Groups of Tweets&lt;/h1&gt;
+
+&lt;?php $this-&gt;widget('bootstrap.widgets.TbGridView',array(
+	'id'=&gt;'group-grid',
+	'dataProvider'=&gt;$model-&gt;search(),
+	'filter'=&gt;$model,
+	'columns'=&gt;array(
+		array(            
+		          'header'=&gt;'Account',
+                'name'=&gt;'account_id',
+                'value'=&gt;array(Account::model(),'renderAccount'), 
+            ),
+		'name',
+		'slug',
+		array(            
+		          'header'=&gt;'Type',
+                'name'=&gt;'group_type',
+                'value'=&gt;array(Group::model(),'renderGroupType'), 
+            ),
+            array(
+              'name'=&gt;'status',
+                  'header' =&gt; 'Status',
+                   'value' =&gt; array($model,'renderStatus'), 
+              ),
+		'stage',
+    array(
+		  'htmlOptions'=&gt;array('width'=&gt;'150px'),  		
+			'class'=&gt;'bootstrap.widgets.TbButtonColumn',
+			'header'=&gt;'Options',
+      'template'=&gt;'{manage}  {update}  {delete}',
+          'buttons'=&gt;array
+          (
+              'manage' =&gt; array
+              (
+              'options'=&gt;array('title'=&gt;'Manage'),
+                'label'=&gt;'&lt;i class="icon-list icon-large" style="margin:5px;"&gt;&lt;/i&gt;',
+                'url'=&gt;'Yii::app()-&gt;createUrl("group/view", array("id"=&gt;$data-&gt;id))',
+              ),
+          ),			
+		), // end button array
+	),
+)); ?&gt;
+</pre>
+
+<p>You can reach the Group view page by clicking on the leftmost "list" icon for any individual group. From there, you can add individual tweets:</p>
+
+<figure class="post_image">
+  <img alt="Composing a future tweet for group recurring" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22490/image/compose-tweets.jpg"/>
+</figure>
+
+<p>The compose code is nearly identical to that in the Birdcage repository. Once you've added a handful of status tweets to your group, it will look something like this:</p>
+
+<figure class="post_image">
+  <img alt="A Group of tweets for recurring" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22490/image/wp-group.jpg"/>
+</figure>
+
+<p>The more volume and variety of tweets you can provide, the more likely you'll be able to successfully repost automated tweets without running into Twitter's built-in limitations on bots.</p>
+
+<p>Recurring groups don't actually begin tweeting until you activate them—notice the right-side menu options in the above image. Recurring groups run until the number of stages reaches the maximum number of posted tweets. The user can also reset a group to start the process over.</p>
+
+<p>Here's the code for the activation and reset operations:</p>
+
+<pre class="brush: php">public function activate($group_id) {
+	  // create an action to publish the storm in the background
+	  $gp = Group::model()-&gt;findByPK($group_id);
+	  if ($gp-&gt;status == self::STATUS_PENDING or $gp-&gt;status == self::STATUS_TERMINATED)
+	    $gp-&gt;status=self::STATUS_ACTIVE;
+	  else 
+	    $gp-&gt;status=self::STATUS_TERMINATED;
+	  $gp-&gt;save();
+	}
+
+	public function reset($group_id) {
+	  // create an action to publish the storm in the background
+	  $gp = Group::model()-&gt;findByPK($group_id);
+	  if ($gp-&gt;status == self::STATUS_TERMINATED or $gp-&gt;status == self::STATUS_COMPLETE) {
+	    $gp-&gt;status=self::STATUS_ACTIVE;
+	    $gp-&gt;stage=0; // reset stage to zero
+	    $gp-&gt;next_publish_time=time()-60; // reset to a minute ago
+	    $gp-&gt;save();
+	  }
+	}</pre>
+
+<h3>Publishing the Recurring Tweets</h3>
+
+<p>The <code class="inline">DaemonController</code> index method is called by cron in the background. This calls the Group model's <code class="inline">processRecurring</code> method. This runs through each account looking for groups that are overdue.</p>
+
+<pre class="brush: php">public function processRecurring() {
+ // loop through Birdhouse app users (usually 1)
+     $users = User::model()-&gt;findAll();
+     foreach ($users as $user) {
+       $user_id = $user['id'];
+       echo 'User: '.$user['username'];lb();
+       // loop through Twitter accounts (may be multiple)
+       $accounts = Account::model()-&gt;findAllByAttributes(array('user_id'=&gt;$user_id));
+       foreach ($accounts as $account) {
+         $account_id = $account['id'];  
+         echo 'Account: '.$account['screen_name'];lb();
+         $this-&gt;publishRecurring($account);        
+       } // end account loop
+     } // end user loop
+   }</pre>
+
+<p>Then, we call <code class="inline">publishRecurring</code>. We use named scopes to look for recurring groups whose <code class="inline">next_publish_time</code> is overdue. We process by account to minimize the number of OAuth Twitter connections needed. The scopes are shown further below.</p>
+
+<pre class="brush: php">   public function publishRecurring($account) { 
+     // process any active, overdue groups
+        $groups = Group::model()-&gt;in_account($account['id'])-&gt;recur()-&gt;active()-&gt;overdue()-&gt;findAll();
+ 	   if (count($groups)&gt;0) {
+ 	     // make the connection to Twitter once for each account
+    	  $twitter = Yii::app()-&gt;twitter-&gt;getTwitterTokened($account['oauth_token'], $account['oauth_token_secret']);
+    	  // process each overdue status
+        foreach ($groups as $group) {
+          // look at type
+            // select a random status 
+            $status = Status::model()-&gt;in_specific_group($group-&gt;id)-&gt;find(array('order'=&gt;'rand('.rand(1,255).')'));
+            echo $status-&gt;tweet_text;lb();
+            // tweet it
+            $tweet_id = Status::model()-&gt;postTweet($twitter,$status);
+            // check maximum stage
+            if ($group['stage']&gt;=$group['max_repeats']) {
+              $group['status']=self::STATUS_COMPLETE;
+              $group['next_publish_time']=0;
+            } else {
+              // set next_publish time - it's okay to use status model method
+                $group['next_publish_time']=Status::model()-&gt;getNextRecurrence($group);                
+              }
+            $group['stage']+=1;
+            // save updated group data in db
+            $updated_group = Group::model()-&gt;findByPk($group['id']);
+            $updated_group-&gt;stage = $group['stage'];
+            $updated_group-&gt;next_publish_time = $group['next_publish_time'];
+            $updated_group-&gt;status = $group['status'];
+            $updated_group-&gt;save();    
+        }  // end for loop of groups
+ 	   } 	 // end if groups &gt; 0
+ 	}  </pre>
+
+<p>Here are the ActiveRecord scopes we use to find the overdue groups:</p>
+
+<pre class="brush: php">public function scopes()
+{
+        return array(   
+          'active'=&gt;array(
+              'condition'=&gt;'status='.self::STATUS_ACTIVE, 
+          ),
+          'recur'=&gt;array(
+              'condition'=&gt;'group_type='.self::GROUP_TYPE_RECUR, 
+          ),
+            'overdue'=&gt;array(
+              'condition'=&gt;'next_publish_time &lt; UNIX_TIMESTAMP(NOW())',               
+            ),
+        );
+    }    	
+    
+    // custom scopes
+    public function in_account($account_id=0)
+    {
+      $this-&gt;getDbCriteria()-&gt;mergeWith( array(
+        'condition'=&gt;'account_id='.$account_id,
+      ));
+        return $this;
+    }</pre>
+
+<p>When we find a Group that needs to be updated, we use this code to randomly select a status tweet and update the <code class="inline">next_publish_time</code>:</p>
+
+<pre class="brush: php">// select a random status 
+        $status = Status::model()-&gt;in_specific_group($group-&gt;id)-&gt;find(array('order'=&gt;'rand('.rand(1,255).')'));
+            echo $status-&gt;tweet_text;lb();
+            // tweet it
+            $tweet_id = Status::model()-&gt;postTweet($twitter,$status);
+            // check maximum stage
+            if ($group['stage']&gt;=$group['max_repeats']) {
+              $group['status']=self::STATUS_COMPLETE;
+              $group['next_publish_time']=0;
+            } else {
+              // set next_publish time - it's okay to use status model method
+                $group['next_publish_time']=Status::model()-&gt;getNextRecurrence($group);                
+              }
+            $group['stage']+=1;</pre>
+
+<p>We calculate recurrence by combining the delay interval and a random time shift which helps tweets appear in different time zones and slightly different periods for reaching different users:</p>
+
+<pre class="brush: php">public function getNextRecurrence($status) {
+      // calculates the next recurring time to post
+      $start_time=time();
+      if ($status['interval'] == self::STATUS_INTERVAL_HOUR) {
+        $hours = 1;
+      } else if ($status['interval'] == self::STATUS_INTERVAL_THREEHOUR) {
+        $hours = 3;
+      }  else if ($status['interval'] == self::STATUS_INTERVAL_SIXHOUR) {
+          $hours=6;
+      }   else if ($status['interval'] == self::STATUS_INTERVAL_HALFDAY) {
+            $hours = 12;
+        }  else if ($status['interval'] == self::STATUS_INTERVAL_DAY) {
+              $hours=24;
+      }  else if ($status['interval'] == self::STATUS_INTERVAL_TWODAY) {
+            $hours = 48;
+      }  else if ($status['interval'] == self::STATUS_INTERVAL_THREEDAY) {
+            $hours = 72;
+      }  else if ($status['interval'] == self::STATUS_INTERVAL_WEEK) {
+              $hours = 168;
+      }
+      $start_time+=($hours*3600);
+      $ri = $this-&gt;getRandomInterval($status['interval_random']);
+      if (($start_time+$ri)&lt;time()) 
+        $start_time-=$ri; // if time before now, reverse it
+      else
+        $start_time+=$ri;
+      return $start_time;
+    }
+    
+    public function getRandomInterval($setting) {
+      // gets a random interval to differently space the recurring or repeating tweets
+      $ri = 0;
+      if ($setting == self::STATUS_RANDOM_HALFHOUR)
+        $ri = 30;
+      else if ($setting == self::STATUS_RANDOM_HOUR)
+        $ri = 60;
+      else if ($setting == self::STATUS_RANDOM_TWOHOUR)
+        $ri = 120;
+      else if ($setting == self::STATUS_RANDOM_THREEHOUR)
+        $ri = 180;
+      else if ($setting == self::STATUS_RANDOM_SIXHOUR)
+        $ri = 360;
+      else if ($setting == self::STATUS_RANDOM_HALFDAY)
+        $ri = 720;
+      else if ($setting == self::STATUS_RANDOM_DAY)
+        $ri = 1440;
+      // randomize the interval
+      if ($ri&gt;0) $ri = rand(1,$ri);        
+      $ri = $ri*60; // times # of seconds
+      if (rand(1,100)&gt;50)
+        $ri = 0 - $ri;
+      return $ri;
+    }
+ </pre>
+
+<p>The posted results over time will look something like this:</p>
+
+<figure class="post_image">
+  <img alt="The results of recurring group tweets" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/317/posts/22490/image/feature.jpg"/>
+</figure>
+
+<h3>Future Enhancements</h3>
+
+<p>You may wish to even out the distribution of tweets by logging the frequency each is used and choosing from the least-repeated items with each iteration.</p>
+
+<p>You might also wish to allow groups to have a suffix of hashtags that can be randomly selected to vary content when you tweet.</p>
+
+<h2>In Closing</h2>
+
+<p>I hope you've found this interesting and useful. Again, you can find the <a href="http://code.tutsplus.com/tutorials/building-with-the-twitter-api-getting-started--cms-22192" target="_self">original Birdcage Twitter tutorial here</a> or <a href="http://tutsplus.com/authors/jeff-reifman" target="_self">follow my author page</a> to keep up with the latest additions to the Twitter API series. </p>
+
+<p>Please feel free to post your own corrections, questions and comments below. I'm especially interested in your enhancements. I do try to stay engaged with the discussion thread. You can also reach me on Twitter <a href="https://twitter.com/intent/user?screen_name=reifman" target="_self">@reifman</a> or <a href="http://lookahead.io/contact" target="_self">email me</a> directly.</p>
