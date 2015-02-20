@@ -147,6 +147,8 @@ Web  Design
 - [Realizando Uma Pesquisa Bem Sucedida Para Um Projeto Web](http://webdesign.tutsplus.com/pt/articles/carrying-out-successful-research-for-a-web-project--cms-20828)
 - [Pare de Colocar Personas de Usuários Na Gaveta](http://webdesign.tutsplus.com/pt/articles/stop-putting-user-personas-in-your-desk-drawer--cms-22625)
 - [Prototipando um Tour Interativo de um Produto para iOS com Framer.js](http://webdesign.tutsplus.com/pt/tutorials/prototyping-an-interactive-ios-product-tour-with-framerjs--cms-22268)
+- [Os Primeiros Passos em Seu Fluxo de Trabalho de Experiência do Usuário: Fonte de UX](http://webdesign.tutsplus.com/pt/articles/first-steps-in-your-user-experience-workflow-nascent-ux--webdesign-9805)
+- [Definindo e Aplicando Personas em Projetos UX](http://webdesign.tutsplus.com/pt/articles/defining-and-applying-personas-to-ux-design--webdesign-7561)
 
 Games
 -----
