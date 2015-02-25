@@ -149,6 +149,7 @@ Web  Design
 - [Prototipando um Tour Interativo de um Produto para iOS com Framer.js](http://webdesign.tutsplus.com/pt/tutorials/prototyping-an-interactive-ios-product-tour-with-framerjs--cms-22268)
 - [Os Primeiros Passos em Seu Fluxo de Trabalho de Experiência do Usuário: Fonte de UX](http://webdesign.tutsplus.com/pt/articles/first-steps-in-your-user-experience-workflow-nascent-ux--webdesign-9805)
 - [Definindo e Aplicando Personas em Projetos UX](http://webdesign.tutsplus.com/pt/articles/defining-and-applying-personas-to-ux-design--webdesign-7561)
+- [Cultivando Confiança Através do Design para Web](http://webdesign.tutsplus.com/pt/articles/cultivating-trust-through-web-design--webdesign-9727)
 
 Games
 -----
