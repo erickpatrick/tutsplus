@@ -1,0 +1,240 @@
+<h1>The Command Line for Web Design: Live Reload & BrowserSync</h1>
+
+<p>In the last lesson you learned how to get your whole project compiled or built with short commands like <code class="inline">grunt</code>, <code class="inline">grunt watch</code>, <code class="inline">gulp</code> and <code class="inline">gulp watch</code>.</p>
+
+<p>In this lesson you'll learn how to create commands that add an extra layer of awesome to your projects, enabling live reload and browser synchronization.</p>
+
+<p>If you haven't yet completed the <a href="https://webdesign.tutsplus.com/series/the-command-line-for-web-design--cms-777" target="_self">other tutorials in this series</a>, please go back and complete those before you start here.</p>
+
+<h2>Live Reload</h2>
+
+<p><strong>Note</strong>: To prevent confusion, there is a desktop app and Chrome plugin combination named <a href="http://livereload.com/" rel="external" target="_blank">LiveReload</a> which is often used in conjunction with many npm packages to handle automated reloading. With the way we’ll be setting up however, the desktop apps and browser plugin won’t be required.</p>
+
+<h3>Live Reload via Grunt</h3>
+
+<p>In order to allow live reloading to work there needs to be a localhost which can be refreshed, i.e. a way to view your site locally simulating a web host with an <code class="inline">http://</code> protocol instead of <code class="inline">file://</code>. </p>
+
+<p>With your Grunt project we’ll take care of enabling a localhost to serve up your project's static files, and live reloading that localhost, using the <a href="https://www.npmjs.com/package/grunt-express" rel="external" target="_blank">grunt-express</a> plugin.</p>
+
+<p>Install grunt-express into your project with:</p>
+
+<pre class="brush: bash">npm install grunt-express --save-dev</pre>
+
+<p>Then enable the plugin in your Gruntfile by adding this below your existing <code class="inline">grunt.loadNpmTasks</code> lines:</p>
+
+<pre class="brush: javascript">grunt.loadNpmTasks('grunt-express');</pre>
+
+<p>Configure the express task by adding this code:</p>
+
+<pre class="brush: javascript">express: {
+      all: {
+        options: {
+          bases: 'build',
+          livereload: true,
+          open: 'http://localhost:3000'
+        }
+      }
+    },</pre>
+
+<p>You’ll notice that in our <code class="inline">express</code> task configuration we have the <code class="inline">livereload</code> option set to <code class="inline">true</code>, so after our local preview is launched it will automatically reload whenever changes are detected.</p>
+
+<p>Now we’ll add a new task named <code class="inline">start</code>. We'll use this task to trigger both the <code class="inline">express</code> task and the <code class="inline">watch</code> task at once.</p>
+
+<p>Add this below your existing <code class="inline">grunt.registerTask</code> line:</p>
+
+<pre class="brush: javascript">grunt.registerTask('start', ['express', 'watch']);</pre>
+
+<p>Now run the command: </p>
+
+<pre class="brush: bash">grunt start</pre>
+
+<p>...and you should see your default browser open up with your project preview displayed inside.</p>
+
+<p>The <code class="inline">watch</code> task is now running and will compile your Stylus and Jade changes into the “build” folder.</p>
+
+<p>Express is in turn monitoring the “build” folder for any changes, so if your HTML, CSS or JS files are recompiled it will automatically reload your preview.</p>
+
+<h3>LiveReload via Gulp</h3>
+
+<p>Next up we’ll go ahead and achieve the same type of localhost preview in your Gulp project. This time we’re going to use the <a href="https://www.npmjs.com/package/gulp-connect" rel="external" target="_blank">gulp-connect</a> plugin instead.</p>
+
+<p>Install gulp-connect into your project with this command:</p>
+
+<pre class="brush: bash">npm install --save-dev gulp-connect</pre>
+
+<p>Make it accessible in your Gulpfile by adding this line below the other lines where you’ve used the <code class="inline">require()</code> function:</p>
+
+<pre class="brush: javascript">var connect = require('gulp-connect');</pre>
+
+<p>Setup a new task named <code class="inline">connect</code> by adding this code under your other task code:</p>
+
+<pre class="brush: javascript">gulp.task('connect', function() {
+  connect.server({
+root: 'build',
+    livereload: true,
+    open: true
+  });
+});</pre>
+
+<p>As we did with Grunt, we’re now going to create a custom task named <code class="inline">start</code> which will both launch our localhost preview and initiate our watch task.</p>
+
+<p>Add this line to the bottom of your Gulpfile:</p>
+
+<pre class="brush: javascript">gulp.task('start', ['connect', 'watch']);</pre>
+
+<p>To enable reloading of our localhost preview, we’re going to connect another “pipe” to the end of both the <code class="inline">css</code> and <code class="inline">html</code> tasks.</p>
+
+<p>Add this reload trigger to the end of each:</p>
+
+<pre class="brush: javascript">.pipe(connect.reload())</pre>
+
+<p>Making the tasks become:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+		.pipe(stylus({compress: false, paths: ['source/stylus']}))
+		.pipe(autoprefixer())
+		.pipe(minifyCSS())
+		.pipe(rename('style.css'))
+		.pipe(gulp.dest('build'))
+		.pipe(connect.reload())
+});</pre>
+
+<p>....and:</p>
+
+<pre class="brush: javascript">gulp.task('html', function() {
+  gulp.src('source/jade/*.jade')
+.pipe(jade())
+    .pipe(gulp.dest('build'))
+    .pipe(connect.reload())
+});</pre>
+
+<p>Now run the command: </p>
+
+<pre class="brush: bash">gulp start</pre>
+
+<p>...then go to <a href="http://localhost:8080">http://localhost:8080</a> and you’ll see your local site preview. </p>
+
+<p>Save a change to any of your Jade or Stylus files and watch the lightning quick recompile and reload!</p>
+
+<h2>BrowserSync</h2>
+
+<p>Now that you have your localhost preview automatically reloading, you could leave it at that and still have a top-notch development process setup for your project. However, when it comes to being able to do cross browser and cross device testing, also having <a href="http://www.browsersync.io" rel="external" target="_blank">BrowserSync</a> in the picture is really worth your while.</p>
+
+<p>With BrowserSync you’re provided with a preview URL you can plug into any browser on your machine, as well as browsers on any other device on the same internet connection.</p>
+
+<p>All of the previews you have running will then be reloaded as you make changes so you can see the results across the board, and all your interactions will be mirrored on every instance. If you scroll or open a menu on one browser you’ll see how every other browser and device responds at the same time.</p>
+
+<h3>BrowserSync via Grunt</h3>
+
+<p>To install the grunt-browser-sync plugin into your Grunt project run the following command:</p>
+
+<pre class="brush: bash">npm install grunt-browser-sync --save-dev</pre>
+
+<p>Comment out or delete the line you used to enable grunt-express:</p>
+
+<pre class="brush: javascript">// grunt.loadNpmTasks('grunt-express');</pre>
+
+<p>Then add this line to enable grunt-browser-sync instead:</p>
+
+<pre class="brush: javascript">grunt.loadNpmTasks('grunt-browser-sync');</pre>
+
+<p>Comment out or delete the <code class="inline">express</code> task you created earlier, and add this config code for the task <code class="inline">browserSync</code> instead:</p>
+
+<pre class="brush: javascript">browserSync: {
+      bsFiles: {
+        src : ['build/*.css', 'build/*.html']
+      },
+      options: {
+        watchTask: true,
+        server: {
+          baseDir: "build"
+        }
+      }
+    },</pre>
+
+<p>Locate your <code class="inline">start</code> task and change it so it runs the <code class="inline">browserSync</code> task instead of the <code class="inline">express</code> task, from:</p>
+
+<pre class="brush: javascript">grunt.registerTask('start', ['express', 'watch']);</pre>
+
+<p>...to:</p>
+
+<pre class="brush: javascript">grunt.registerTask('start', ['browserSync', 'watch']);</pre>
+
+<p>Now when you run the command:</p>
+
+<pre class="brush: bash">grunt start</pre>
+
+<p>...you’ll still see a localhost preview open, and it will still reload when you save changes, but the difference now is that browser synchronization is active as is the ability to view your preview on other devices. </p>
+
+<p>In the terminal after starting your BrowserSync server you’ll see this:</p>
+
+<pre class="brush: plain">———————————— 
+ Local: http://localhost:3000
+ External: http://192.168.1.3:3000
+ ————————————
+ UI: http://localhost:3001
+ UI External: http://192.168.1.3:3001
+ ————————————</pre>
+
+<p>Grab the address labeled <strong>Local,</strong> punch it into some of the other browsers on your machine, and enter the address labeled <strong>External</strong> into any other devices you have sharing the same connection. Then watch the synchronized responses you get across all instances as you interact with any one of them.</p>
+
+<p>For more info on BrowserSync via Grunt go to: <a href="http://www.browsersync.io/docs/grunt/">http://www.browsersync.io/docs/grunt/</a></p>
+
+<h3>BrowserSync via Gulp</h3>
+
+<p>Now we’ll setup the same process, this time using the browser-sync plugin for Gulp.</p>
+
+<p>Install the plugin into your Gulp project with:</p>
+
+<pre class="brush: bash">npm install browser-sync gulp --save-dev</pre>
+
+<p>Comment out or delete the this line:</p>
+
+<pre class="brush: javascript">// var connect = require('gulp-connect');</pre>
+
+<p>...and replace it with:</p>
+
+<pre class="brush: javascript">var browserSync = require('browser-sync');</pre>
+
+<p>Comment out or delete the existing <code class="inline">connect</code> task and add in this new <code class="inline">browser-sync</code> task instead:</p>
+
+<pre class="brush: javascript">gulp.task('browser-sync', function() {
+  browserSync({
+server: {
+      baseDir: "build"
+    }
+  });
+});</pre>
+
+<p>At the end of the css and html tasks locate the two places you added the line:</p>
+
+<pre class="brush: javascript">.pipe(connect.reload())</pre>
+
+<p>...and replace each of those two lines with:</p>
+
+<pre class="brush: javascript">.pipe(browserSync.reload({stream:true}))</pre>
+
+<p>And finally locate your existing <code class="inline">start</code> task and edit it to run the <code class="inline">browser-sync</code> task instead of the <code class="inline">connect</code> task, replacing this:</p>
+
+<pre class="brush: javascript">gulp.task('start', ['connect', 'watch']);</pre>
+
+<p>...with this:</p>
+
+<pre class="brush: javascript">gulp.task('start', ['browser-sync', 'watch']);</pre>
+
+<p>Now when you run the command:</p>
+
+<pre class="brush: bash">gulp start</pre>
+
+<p>...a browser window will pop open with your preview in it. Just like when you used BrowserSync via Grunt, the preview's URLs will now synchronize across any browser on any device running off your internet connection.</p>
+
+<p>For more info on BrowserSync via Gulp visit: <a href="http://www.browsersync.io/docs/gulp/">http://www.browsersync.io/docs/gulp/</a></p>
+
+<h3>In the Next Tutorial</h3>
+
+<p>You’ve now gone through all the essentials of setting up your own projects from scratch to leverage command line during development. But what about when you don't want to start from scratch. What about when you want to use existing third party frameworks, or you just want to get off to a head start?</p>
+
+<p>In the next tutorial you’ll learn how to use command line to scaffold out completely new projects in just a matter of moments, complete with all the third party code they need, as well as Grunt or Gulp task management all setup and ready to go.</p>
+
+<p>I'll see you in the next tutorial!</p>

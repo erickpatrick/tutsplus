@@ -1,0 +1,107 @@
+<h1>The Command Line for Web Design: Introduction</h1>
+
+<p>For a long while working with the command line was considered to be outside the realm of web designers. It was used pretty much exclusively for things like server admin and file management and all kinds of things that have nothing to do with the average web designer’s day to day processes.</p>
+
+<p>That may have been the case in the past, but today it couldn’t be further from the truth.</p>
+
+<p>Nowadays, there are thousands of incredible command line powered tools available specifically for front end languages and workflows. The huge benefits they offer mean leveraging the command line is becoming an ever more essential skill for web designers.</p>
+
+<figure class="post_image">
+  <img alt="some familiar command line tools" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/cliwebtools.png"/>
+  <figcaption>Some oft-used command line tools</figcaption>
+</figure>
+
+<p>I’ll admit, for some time after I first encountered these kinds of web design tools I was a bit “command line phobic.” I was influenced by the “for programmers not designers” idea, and I’d always looked for other options instead of giving the command line a try.</p>
+
+<p>Then, finally, I made the plunge when a project I really wanted to use unavoidably required interaction via the command line. I was a little intimidated initially, but to my very pleasant surprise I quickly found myself exclaiming: </p>
+
+<blockquote>“This is awesome, I don’t know why I didn’t start learning this ages ago!”</blockquote>
+
+<p>Today, I use the command line in almost every web design project and I wouldn’t be without it. It’s incredibly useful in almost every stage of a typical web design process.</p>
+
+<h2>About This Series</h2>
+
+<p>But here’s the thing, even now I wouldn’t be able to do most of the things you’ll find in a typical “getting started with command line” tutorial if my life depended on it. If you never learn how to <code class="inline">mkdir</code> or <code class="inline">cd</code> or <code class="inline">ls</code> it doesn’t matter. The truth is, as a web designer you really don’t need any of that stuff. The only command line skills you need are those which directly facilitate making your web design projects more efficient.</p>
+
+<p>That’s why this series isn’t about “how to run obscure commands for tasks you never do.” Nor is it a “complicated dev process made easy for designers” type of a deal. This is a series <em>specifically for web designers</em>, showing you how to utilize tools that are incredibly useful specifically for web design projects.</p>
+
+<p>Once you start bringing the command line into your design processes it’ll open up a whole new world of options, save huge swathes of your precious time, and, I promise, you’ll never look back.</p>
+
+<h2>Why Command Line is Great for Web Design</h2>
+
+<p>Across <a href="https://webdesign.tutsplus.com/series/the-command-line-for-web-design--cms-777" target="_self">this series of tutorials</a> you’ll learn command line driven processes that might just change the way you approach web design permanently.</p>
+
+<p>After getting you started with the basics we’ll jump straight into practical skills you can use right away. When you take a look at each of the topics we’ll be covering, you’ll begin to see a picture forming of why command line is such a must-have tool for web design.</p>
+
+<h2>The Main Topics Covered</h2>
+
+<p>Let’s quickly run through the topics we’ll cover during this series. There are five main subject areas:</p>
+
+<h3><span class="sectionnum">1.</span> Taming 3rd Party Packages</h3>
+
+<p>Web designers often use third party packages like jQuery, Bootstrap, Modernizr, Font Awesome, Normalize.css and a long list of others. Before the command line, utilizing these external packages normally meant:</p>
+
+<ol>
+  <li>Maintaining a list of site bookmarks where you could download the latest version of each package.</li>
+  <li>Manually visiting said websites to download packages every time you needed them.</li>
+  <li>Repeating the process all over again whenever a package was updated.</li>
+  <li>Manually transferring the updated version into every project it was used in.</li>
+</ol>
+
+<p>Dealing with package management manually is slow and unwieldy, but with the command line that’s a thing of the past.</p>
+
+<p>You can pull packages directly into your projects just by typing a few words, like:</p>
+
+<p> <code class="inline">bower install jquery</code></p>
+
+<p>You can keep packages up to date by typing a simple set of words like:</p>
+
+<p> <code class="inline">bower update jquery</code></p>
+
+<p>No more manually downloading packages from the web or manually upgrading them when they’re changed, and that’s just a small taste of the things you can do through command line package management.</p>
+
+<h3><span class="sectionnum">2.</span> Powering Up Front End Code</h3>
+
+<p>The three languages you’re most likely to see used in any web design project are CSS, HTML and JavaScript. Command line tools open up new ways to make our production and delivery of code in these languages more efficient and powerful.</p>
+
+<p>One of the most powerful things we can utilize command line for with CSS is to compile preprocessors, like <a href="https://tutsplus.com/tutorials/search?utf8=%E2%9C%93&amp;search%5Btopic%5D=Web+Design&amp;search%5Bterms%5D=stylus&amp;button=" rel="external" target="_blank">Stylus</a>, <a href="https://tutsplus.com/tutorials/search?utf8=%E2%9C%93&amp;search%5Btopic%5D=Web+Design&amp;search%5Bterms%5D=sass&amp;button=" rel="external" target="_blank">Sass / SCSS</a> and <a href="https://tutsplus.com/tutorials/search?utf8=%E2%9C%93&amp;search%5Btopic%5D=Web+Design&amp;search%5Bterms%5D=LESS&amp;button=" rel="external" target="_blank">LESS</a>. With the command line you can quickly compile any preprocessor file by typing a few words. You can also set up automatic compilation so your CSS files are recompiled whenever you change your preprocessor files.</p>
+
+<p>Through the command line we can also further enhance our CSS workflows with things like autoprefixing, file cleaning and compressing. In a similar fashion we can also optimize our JavaScript with file concatenation and minification.</p>
+
+<p>And for HTML, we get access to languages like <a href="https://webdesign.tutsplus.com/categories/jade" rel="external" target="_blank">Jade</a> which gives us both the ability to write HTML in shorthand, and the ability to develop simple yet sophisticated templating systems to prevent us having to rewrite chunks of code that repeat throughout projects.</p>
+
+<h3><span class="sectionnum">3.</span> Automation with Task Runners</h3>
+
+<p>Being able to compile to CSS with a few words, then minify JavaScript with another few words is great. But when things really start to get super-powered is when you can do <em>everything</em> your project needs all at once with a single command.</p>
+
+<p>By using something called a “task runner”, a single word command like <code class="inline">gulp</code> or <code class="inline">grunt</code> can be set to compile your preprocessor files then combine, autoprefix, clean and compress the resulting CSS, after which your Jade files are compiled into HTML, and your JS files concatenated and minified–all in the space of a few seconds.</p>
+
+<p>You can also setup task runners to handle these things hands-free for you. After running a command like <code class="inline">gulp watch</code> or <code class="inline">grunt watch</code> you can just go ahead and work on your project’s raw files while, in the background, all the compilation and optimization is handled for you automatically.</p>
+
+<p>Task runners are completely flexible and can be configured however you want, so there is no end to the ways in which you can set your projects up. Simply fine tune things to suit each set of circumstances as needed.</p>
+
+<h3><span class="sectionnum">4.</span> Live Reloading, Browser Syncing &amp; Multi Device Testing</h3>
+
+<p>Live reloading lets you take your finger off that refresh button and concentrate on getting smooth, real time feedback on your design changes as you make them.</p>
+
+<p>After you have automation with task runners in place, you can add live reload straight into the mix, meshing it in whatever configuration you’ve created for your projects. You can decide exactly what triggers live reload, be it preprocessor compilation, html changes or anything you please.</p>
+
+<p>As part of enabling live reloading you’ll also get a site preview spun up on a localhost, i.e. a simulation of a web host running on your local machine. This is great for making sure everything works as expected over <code class="inline">http://</code> protocols, as opposed to <code class="inline">file://</code> protocols.</p>
+
+<p>On top of this you’ll also learn to get browser synchronization going, whereby you get one URL you can punch into multiple browsers and have them all synchronize together. For example, click a nav button on Chrome then see how Firefox, Opera and Safari respond to that same action simultaneously.</p>
+
+<p>This browser synchronization isn’t limited to one device either. You can also go to the same URL on your tablet, phone and any other device on the same connection and have every one display a synchronized preview. This all comes together to give you the perfect setup for both cross browser and cross device testing.</p>
+
+<p>And because you’re building this on top of your task runner setup, it all goes live with a two word command like <code class="inline">grunt start</code> or <code class="inline">gulp start</code>.</p>
+
+<h3><span class="sectionnum">5.</span> Scaffolding New Projects</h3>
+
+<p>Scaffolding out new projects manually can be kind of a pain. Getting your entire folder and file structure setup and all the files connected and configured to work together can be very time consuming.</p>
+
+<p>By using the command line, however, you can scaffold out all kinds of projects in seconds, perfect for when you want to employ popular third party frameworks and starter code like Foundation, Bootstrap, HTML5 Boilerplate and Google Web Starter Kit.</p>
+
+<p>With the methods we’ll be covering, your newly scaffolded projects will have not only all the code they need, but their task runners preconfigured so things like automatic compilation and localhost previews are ready to go out of the box.</p>
+
+<h3>Moving on</h3>
+
+<p>Right then, if you’re ready I’ll see you in <a href="http://webdesign.tutsplus.com/tutorials/the-command-line-for-web-design-grasping-the-basics--cms-23318" target="_self">the first tutorial!</a></p>

@@ -1,0 +1,704 @@
+<h1>The Command Line for Web Design: Automation with Task Runners</h1>
+
+<p>So far you’ve learned how to do things like compiling code, autoprefixing, cleaning, compressing and minifying all just by typing a few words. This is great, but what if you have a project that would need you to run several of these commands, one after the other, over and over again until you complete your work? For example:</p>
+
+<ol>
+  <li>Compile preprocessor to CSS</li>
+  <li>Autoprefix CSS</li>
+  <li>Clean CSS</li>
+  <li>Compile Jade to HTML</li>
+  <li>Concatenate and Minify JavaScript</li>
+</ol>
+
+<p>Even with just a few words per command it would quickly become tiresome throughout the course of a typical site creation process.</p>
+
+<p>This is where “Task Runners” step in to save the day. With task runners you can setup a single file inside your project that defines all the tasks you need to run on your project, and the order they need to run in. In this file you can then define custom commands you can use to execute all those tasks once.</p>
+
+<p>You’ll be learning how to setup task runners in this way through this tutorial, and in the process you’ll also see an example of bringing in scripts from Bower packages for efficient deployment in your projects.</p>
+
+<p><strong>Note</strong>: This tutorial assumes you’ve completed all the previous <a href="https://webdesign.tutsplus.com/series/the-command-line-for-web-design--cms-777" target="_self">tutorials in this series</a>. If you haven’t yet done that, you’ll find it helpful to go through them before you start here.</p>
+
+<h2>The “Big Two” Task Runners</h2>
+
+<p>There are actually several task runners available right now, however for the purposes of this tutorial we’ll be focusing on the two which are currently most popular: <a href="http://gruntjs.com/" rel="external" target="_blank">Grunt</a> and <a href="http://gulpjs.com/" rel="external" target="_blank">Gulp</a>.</p>
+
+<p>There are several technical differences between the two projects, which I won’t go into now. Nor will I tell you which of the two you ought to use. Instead, I recommend following the steps for using both below then deciding for yourself which one you prefer.</p>
+
+<h2>Create an Example Project</h2>
+
+<p>We’re going to be creating a project that watches and automatically compiles Stylus and Jade, and optimizes CSS and JavaScript. We’ll achieve this first using Grunt, and then using Gulp. </p>
+
+<p>To begin with, we’ll need to setup an example project with some files inside it that our task runner can operate on. Create a folder named “Grunt Project”, then add a subfolder named “build” and a subfolder named “source”.</p>
+
+<p>In the “source” folder add two new subfolders named “stylus”, “jade”. Add a few example files of the appropriate type to each folder. </p>
+
+<p>The files can contain any code you want, just so you have something you can see the compilation process working on. </p>
+
+<p><strong>Tip</strong>: if you’re not sure what code to add, try grabbing some sample code from Codepen: <a href="http://codepen.io/tag/stylus/" rel="external" target="_blank">pens tagged stylus</a>, <a href="http://codepen.io/tag/jade/" rel="external" target="_blank">pens tagged jade</a>.</p>
+
+<p>For example:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23454/image/egproject.png"/>
+</figure>
+
+<p>We’re then also going to take advantage of what we learned about Bower in a previous lesson and grab downloads of jQuery and Modernizr, which we’ll combine and minify later.</p>
+
+<p>Run the commands:</p>
+
+<pre class="brush: bash">bower install jquery --save</pre>
+
+<pre class="brush: bash">bower install modernizr --save</pre>
+
+<p>Now, make a duplicate of your entire project folder and rename it “Gulp Project”. </p>
+
+<p>This way you can follow the steps on using Grunt inside your “Grunt Project” folder, and the steps for using Gulp inside your “Gulp Project” folder. </p>
+
+<h2>Getting Started with Grunt</h2>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23454/image/grunt.png"/>
+</figure>
+
+<h3>Install the Grunt CLI</h3>
+
+<p>In order for Grunt commands to work you’ll need to install its CLI (command line interface). Install it globally with:</p>
+
+<pre class="brush: bash">[sudo] npm install -g grunt-cli</pre>
+
+<h3>Setup Project for Grunt</h3>
+
+<h4>Add package.json file</h4>
+
+<p>Every project that uses Grunt will need a “package.json” file in the root folder.</p>
+
+<p>We covered setting up a “package.json” file by using the command <code class="inline">npm init</code> in the previous <a href="http://webdesign.tutsplus.com/tutorials/the-command-line-for-web-design-taming-3rd-party-packages--cms-23451" target="_self">Taming 3rd Party Packages</a> tutorial. If you haven’t completed that section yet please go back and follow it now.</p>
+
+<h4>Install Grunt package</h4>
+
+<p>Install Grunt into your project and save it as a development dependency with:</p>
+
+<pre class="brush: bash">npm install grunt --save-dev</pre>
+
+<h4>Add Gruntfile</h4>
+
+<p>Every Grunt project also needs to have what’s called a <em>Gruntfile</em> in the root folder. </p>
+
+<p>A Gruntfile is a file named “Gruntfile.js”, or “Gruntfile.coffee” if you prefer writing in CoffeeScript. In our case we’ll be working with JavaScript, so add a file named “Gruntfile.js” to your root folder.</p>
+
+<p>Filling in your Gruntfile will allow you to determine which commands will trigger what tasks to be run. You can start by just adding a basic shell into your Gruntfile. We’ll setup your actual configuration code later.</p>
+
+<p>Add the following code to your Gruntfile.js:</p>
+
+<pre class="brush: javascript">module.exports = function(grunt) {
+
+};</pre>
+
+<h3>Install Grunt Plugins</h3>
+
+<p>You’ll remember that when you wanted to use packages with npm or Bower, you had to search in the right place to get the versions designed to work with each system.</p>
+
+<p>The same thing goes when using packages with Grunt. Through Grunt you can access an ecosystem of plugins, which are essentially wrappers around vanilla npm packages. These plugins are still delivered via npm, but they’re specially equipped to work with Grunt</p>
+
+<p>For example, instead of the npm package UglifyJS, with Grunt you might use the plugin “grunt-contrib-uglify”.</p>
+
+<p>You can search for Grunt plugins at <a href="http://gruntjs.com/plugins">http://gruntjs.com/plugins</a></p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23454/image/searchgrunt.png"/>
+</figure>
+
+<p>For our project we’ll be installing these six Grunt plugins:</p>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/grunt-contrib-stylus">https://www.npmjs.com/package/grunt-contrib-stylus</a></li>
+  <li><a href="https://www.npmjs.com/package/grunt-autoprefixer">https://www.npmjs.com/package/grunt-autoprefixer</a></li>
+  <li><a href="https://www.npmjs.com/package/grunt-contrib-cssmin">https://www.npmjs.com/package/grunt-contrib-cssmin</a></li>
+  <li><a href="https://www.npmjs.com/package/grunt-contrib-jade">https://www.npmjs.com/package/grunt-contrib-jade</a></li>
+  <li><a href="https://www.npmjs.com/package/grunt-contrib-uglify">https://www.npmjs.com/package/grunt-contrib-uglify</a></li>
+  <li><a href="https://www.npmjs.com/package/grunt-contrib-watch">https://www.npmjs.com/package/grunt-contrib-watch</a></li>
+</ul>
+
+<p>Each one will be installed into your project folder’s “node_modules” subfolder, and saved as a development dependency.</p>
+
+<p>Run each of these commands, one at a time, with your terminal pointed at your “Grunt Project” folder:</p>
+
+<pre class="brush: bash">npm install grunt-contrib-stylus --save-dev</pre>
+
+<pre class="brush: bash">npm install grunt-autoprefixer --save-dev</pre>
+
+<pre class="brush: bash">npm install grunt-contrib-cssmin --save-dev</pre>
+
+<pre class="brush: bash">npm install grunt-contrib-jade --save-dev</pre>
+
+<pre class="brush: bash">npm install grunt-contrib-uglify --save-dev</pre>
+
+<pre class="brush: bash">npm install grunt-contrib-watch --save-dev</pre>
+
+<p>When you’re done, you should see these folders inside your project’s “node_modules” folder:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23454/image/gruntplugins.png"/>
+</figure>
+
+<h3>Enable Plugins via Gruntfile</h3>
+
+<p>Now we’re going to use the <code class="inline">grunt.loadNpmTasks</code> method to enable our plugins. </p>
+
+<p>Inside the curly brackets of your existing Gruntfile, we’ll add six lines, one to enable each grunt plugin, like so:</p>
+
+<pre class="brush: javascript">module.exports = function(grunt) {
+
+// Load grunt plugins.
+ grunt.loadNpmTasks('grunt-contrib-stylus');
+ grunt.loadNpmTasks('grunt-autoprefixer');
+ grunt.loadNpmTasks('grunt-contrib-cssmin');
+ grunt.loadNpmTasks('grunt-contrib-jade');
+ grunt.loadNpmTasks('grunt-contrib-uglify');
+ grunt.loadNpmTasks('grunt-contrib-watch');
+
+};</pre>
+
+<p>This code registers the name of each plugin as a grunt command, allowing us to use that command to make the plugin run a task. For example, we would use the command <code class="inline">grunt stylus</code> to run a stylus task,<code class="inline">grunt autoprefixer</code> to run an autoprefixer task and so on.</p>
+
+<h3>Configure Tasks in Gruntfile</h3>
+
+<p>Our grunt plugins are installed and the commands to use each are operational, however if you were use them right now you wouldn’t see anything happen. The reason is we have to setup some configuration to determine what each task should actually do.</p>
+
+<p>This is done by adding the <code class="inline">grunt.initConfig</code> method to your Gruntfile, and then passing information through it that dictates how you want each task to be run.</p>
+
+<p>First, we’ll add the <code class="inline">grunt.initConfig</code> method above the lines you just added to load grunt plugins:</p>
+
+<pre class="brush: javascript">grunt.initConfig();</pre>
+
+<p>Now we’ll make some space for us to pass our configuration information through. Add opening and closing curly brackets inside the regular brackets, then add an empty line between them:</p>
+
+<pre class="brush: javascript">grunt.initConfig({
+
+});</pre>
+
+<p>Now we can go ahead and add the configuration for each of the plugins we installed.</p>
+
+<p>Every plugin has its own range of settings you can use, and these options are detailed on the pages linked to in the “Install Grunt Plugins” section above.</p>
+
+<p>You can also read full detail on configuring Grunt tasks here: <a href="http://gruntjs.com/configuring-tasks">http://gruntjs.com/configuring-tasks</a></p>
+
+<h3>Grunt Task Configuration Example: Stylus</h3>
+
+<p>We’re going to start by adding configuration for our <code class="inline">stylus</code> task.</p>
+
+<p>In between the curly brackets you just added, on the empty line, add the following code:</p>
+
+<pre class="brush: javascript">stylus: {
+      compile: {
+        options: {
+          compress: false,
+          paths: ['source/stylus']
+        },
+        files: {
+          'build/style.css': 'source/stylus/main.styl'
+        }
+      }
+    },</pre>
+
+<p>Your Gruntfile should now look like this:</p>
+
+<pre class="brush: javascript">module.exports = function(grunt) {
+
+  grunt.initConfig({
+
+stylus: {
+      compile: {
+        options: {
+          compress: false,
+          paths: ['source/stylus']
+        },
+        files: {
+          'build/style.css': 'source/stylus/main.styl'
+        }
+      }
+    },
+
+  });
+
+  // Load grunt plugins.
+  grunt.loadNpmTasks('grunt-contrib-stylus');
+  grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  
+};</pre>
+
+<p>Let’s go through a breakdown of the code we’ve added here. We won’t break down every task, but looking at this one should give you an idea of the type of syntax used when putting together Grunt task configuration.</p>
+
+<p>As mentioned above, every plugin has different configuration options so when you’re employing a new plugin take a good look at the usage instructions it offers.</p>
+
+<p>The first thing we’ve done is add an entry into our config for our <code class="inline">stylus</code> task with the code:</p>
+
+<pre class="brush: plain">stylus: {
+
+    },</pre>
+
+<p>Inside that we’ve added a <code class="inline">compile</code> entry to control what happens during compilation:</p>
+
+<pre class="brush: plain">stylus: {
+      compile: {
+
+      }
+    },</pre>
+
+<p>Inside the <code class="inline">compile</code> task we’ve created an <code class="inline">options</code> area.</p>
+
+<p>We’ve used that area to set the <code class="inline">compress</code> option to <code class="inline">false</code>, because we’ll be doing our code optimization later. </p>
+
+<p>We’ve also set the <code class="inline">paths</code> option to <code class="inline">[’source/stylus’]</code> so if Stylus sees the <code class="inline">@import</code> directive while compiling it will look for files to import in the project’s “source/stylus” folder:</p>
+
+<pre class="brush: plain">stylus: {
+      compile: {
+        options: {
+          compress: false,
+          paths: ['source/stylus']
+        }
+      }
+    },</pre>
+
+<p>Then after the <code class="inline">options</code> area we’ve added a <code class="inline">files</code> area to control the output directory and file name, as well as the input directory and file name.</p>
+
+<p>We’ve set the output location of our compiled CSS file to be <code class="inline">’build/style.css’</code>, while the Stylus file to process is <code class="inline">’source/stylus/main.styl’</code>.</p>
+
+<pre class="brush: plain">stylus: {
+      compile: {
+        options: {
+          compress: false,
+          paths: ['source/stylus']
+        },
+        files: {
+          'build/style.css': 'source/stylus/main.styl'
+        }
+      }
+    },</pre>
+
+<p>Now, with your terminal pointed at your main root folder run the command:</p>
+
+<pre class="brush: bash">grunt stylus</pre>
+
+<p>Look inside your “build” folder and you should see a newly compiled “style.css” file.</p>
+
+<h3>Configure the Remaining Tasks</h3>
+
+<p>We’ll now move fairly quickly through the configuration of each remaining task. Insert each block of config code immediately after the one you previously added.</p>
+
+<h4>Autoprefixer</h4>
+
+<p>Add this code:</p>
+
+<pre class="brush: javascript">autoprefixer: {
+      compile: {
+        files: {
+          'build/style.css': 'build/style.css'
+        },
+      },
+    },</pre>
+
+<p>Run the autoprefixer task with:</p>
+
+<pre class="brush: bash">grunt autoprefixer</pre>
+
+<p>If you inspect your “build/style.css” file you should now see prefixes added where required.</p>
+
+<h4>cssmin</h4>
+
+<p>Add this code:</p>
+
+<pre class="brush: javascript">cssmin: {
+      clean: {
+        files: {
+          'build/style.css': 'build/style.css'
+        }
+      }
+    },</pre>
+
+<p>Run the cssmin task with:</p>
+
+<pre class="brush: bash">grunt cssmin</pre>
+
+<p>If you look at your “build/style.css” again now, you’ll see it has been nicely cleaned and compressed for you.</p>
+
+<h4>Jade</h4>
+
+<p>Add this code:</p>
+
+<pre class="brush: javascript">jade: {
+      compile: {
+        files: [{
+          expand: true,
+          cwd: "source/jade",
+          src: "*.jade",
+          dest: "build",
+          ext: ".html"
+        }]
+      }
+    },</pre>
+
+<p>Run the jade task with:</p>
+
+<pre class="brush: bash">grunt jade</pre>
+
+<p>If you look inside your “build” folder, you should now see an HTML file to correspond with every Jade file you had in your “source/jade” folder.</p>
+
+<h4>Uglify</h4>
+
+<p>Add this code:</p>
+
+<pre class="brush: javascript">uglify: {
+      bower_js_files: {
+        files: {
+          'build/output.min.js': [
+            'bower_components/jquery/dist/jquery.js',
+            'bower_components/modernizr/modernizr.js'
+          ]
+        }
+      }
+    },</pre>
+
+<p>In this example you’ll see we’re referencing the locations of the Bower components we installed earlier. </p>
+
+<p>We’re grabbing the full expanded versions of both jQuery and Modernizr out of our “bower_components” folder, then concatenating and minifying them into a new file named “output.min.js”. This is a great way to deploy scripts you’re managing with Bower.</p>
+
+<p>Run the uglify task with:</p>
+
+<pre class="brush: bash">grunt uglify</pre>
+
+<p>You should now see a new “output.min.js” file in your “build” folder.</p>
+
+<h3>Add a “watch” Task</h3>
+
+<p>So far it might seem like we just replaced one command to do a certain task with another command, but what we’ve actually been doing is laying down the groundwork for where Grunt really starts to shine.</p>
+
+<p>The key is Grunt’s ability to have one task run another task. So now we’re going to setup a <code class="inline">watch</code> task that will monitor certain files for changes, then run our <code class="inline">stylus</code> and <code class="inline">jade</code> tasks automatically for us.</p>
+
+<p>Add this code:</p>
+
+<pre class="brush: javascript">watch: {
+      stylus: {
+        files: [ 'source/stylus/*.styl' ],
+        tasks: ['stylus', 'autoprefixer', 'cssmin']
+      },
+      jade: {
+        files: [ 'source/jade/*.jade' ],
+        tasks: ['jade']
+      }
+    },</pre>
+
+<p>We’ve first added our <code class="inline">watch</code> task, and then inside that we’ve setup an area for <code class="inline">stylus</code> and for <code class="inline">jade</code>.</p>
+
+<p>The <code class="inline">files</code> option in each sets which files should be watched for changes. The <code class="inline">tasks</code> option sets which tasks should then be executed when changes happen, and in what order.</p>
+
+<p>For <code class="inline">stylus</code>, we’ve set the watch task to monitor all “.styl” files in the “source/stylus” folder, and when it sees changes it will run the <code class="inline">stylus</code>, <code class="inline">autoprefixer</code> and <code class="inline">cssmin</code> tasks in that order. </p>
+
+<p>So now when the watch task is running, all you have to do is save any of your Stylus files and you’ll automatically get a compiled, autoprefixed and optimized CSS file written into the “build” folder for you.</p>
+
+<p>Likewise for <code class="inline">jade</code>, we’ve set all “.jade” files in the “source/jade” folder to be monitored, and whenever one is saved the <code class="inline">jade</code> task will automatically run and compile the corresponding HTML file in the “build” .</p>
+
+<p>Run the watch task with:</p>
+
+<pre class="brush: bash">grunt watch</pre>
+
+<p>Stop it again by either:</p>
+
+<ul>
+  <li>Closing the terminal</li>
+  <li>Pressing <strong>CTRL + C</strong></li>
+</ul>
+
+<h3>Add “default” Task</h3>
+
+<p>At this point you might be wondering, what about the JavaScript uglify task?</p>
+
+<p>The reason we didn’t include it with the <code class="inline">watch</code> task is you’re not going to be making changes to the jQuery and Modernizr files the uglify task is processing. So because the <code class="inline">watch</code> task only responds to changes it would never be triggered to process your JavaScript.</p>
+
+<p>Instead, we’re going to make use of the <code class="inline">default</code> task that can be set in your Gruntfile. This is the task that will be run if you use the command <code class="inline">grunt</code> by itself with nothing appended.</p>
+
+<p>After your last <code class="inline">grunt.loadNpmTasks</code> line, but before the closing <code class="inline">};</code> of the file, add this line:</p>
+
+<pre class="brush: javascript">  grunt.registerTask('default', ['stylus', 'autoprefixer', 'cssmin', 'jade', 'uglify']);</pre>
+
+<p>This sets the <code class="inline">default</code> task to run <code class="inline">stylus</code>, <code class="inline">autoprefixer</code>, <code class="inline">cssmin</code>, <code class="inline">jade</code> and then <code class="inline">uglify</code>.</p>
+
+<p>So now if you run the command <code class="inline">grunt</code> without anything after it, it will build your entire project, including your JavaScript.</p>
+
+<h2>Getting Started with Gulp</h2>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23454/image/gulp.png"/>
+</figure>
+
+<h3>Install Gulp</h3>
+
+<p>Install Gulp globally with:</p>
+
+<pre class="brush: bash">[sudo] npm install gulp -g</pre>
+
+<h3>Setup Project for Gulp</h3>
+
+<h4>Add package.json file</h4>
+
+<p>As with the Grunt process, add a “package.json” file to your project using the <code class="inline">npm init</code> command.</p>
+
+<h4>Install Gulp Package</h4>
+
+<p>Install Gulp into your project and save it as a development dependency with:</p>
+
+<pre class="brush: bash">npm install gulp --save-dev</pre>
+
+<h4>Add gulpfile.js</h4>
+
+<p>In a parallel to Grunt’s “Gruntfile”, Gulp uses a “Gulpfile”. To the root folder of your “Gulp Project” add a file named “gulpfile.js”.</p>
+
+<p>To get started, we’ll give the file access to the “gulp” package you just installed into your “node_modules” folder, by adding this line to the top of your Gulpfile:</p>
+
+<pre class="brush: javascript">var gulp = require('gulp');</pre>
+
+<h3>Install Gulp Plugins</h3>
+
+<p>Strictly speaking, Gulp doesn’t actually <em>need</em> to use Gulp plugins because it can actually make use of vanilla npm packages. However, there are several plugins available that are specifically optimized for use with Gulp, and when you’re starting out you’ll find these easier to use.</p>
+
+<p>Search for Gulp plugins at: <a href="http://gulpjs.com/plugins/">http://gulpjs.com/plugins/</a></p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23454/image/searchgulp.png"/>
+</figure>
+
+<p>We’ll be installing these plugins:</p>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/gulp-stylus">https://www.npmjs.com/package/gulp-stylus</a></li>
+  <li><a href="https://www.npmjs.com/package/gulp-autoprefixer/">https://www.npmjs.com/package/gulp-autoprefixer/</a></li>
+  <li><a href="https://www.npmjs.com/package/gulp-minify-css/">https://www.npmjs.com/package/gulp-minify-css/</a></li>
+  <li><a href="https://www.npmjs.com/package/gulp-jade/">https://www.npmjs.com/package/gulp-jade/</a></li>
+  <li><a href="https://www.npmjs.com/package/gulp-jade/">https://www.npmjs.com/package/gulp-jade/</a></li>
+  <li><a href="https://www.npmjs.com/package/gulp-rename">https://www.npmjs.com/package/gulp-rename</a></li>
+</ul>
+
+<p>These plugins perform essentially the same roles as those we used with Grunt, with two differences. </p>
+
+<p>One, we don’t need to install a “watch” plugin as Gulp has one built in. </p>
+
+<p>Two, we’re installing the “gulp-rename” plugin because Gulp only allows you to specify a folder to compile new files into, without being able to specify the names the files should have. We’ll use this plugin to solve that problem by renaming the files we generate on the fly.</p>
+
+<p><strong>Note</strong>: we’re using a plugin named “gulp-minify-css” but it employs the same “clean-css” package you’ve used so far.</p>
+
+<p>With your terminal pointed at your “Gulp Project” folder run each of these commands:</p>
+
+<pre class="brush: bash">npm install gulp-stylus --save-dev</pre>
+
+<pre class="brush: bash">npm install gulp-autoprefixer --save-dev</pre>
+
+<pre class="brush: bash">npm install gulp-minify-css --save-dev</pre>
+
+<pre class="brush: bash">npm install gulp-jade --save-dev</pre>
+
+<pre class="brush: bash">npm install gulp-uglify --save-dev</pre>
+
+<pre class="brush: bash">npm install gulp-rename --save-dev</pre>
+
+<p>When you’re done, you should see these folders inside your project’s “node_modules” folder:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23454/image/gulppkgs.png"/>
+</figure>
+
+<h3>Enable Plugins via Gulpfile</h3>
+
+<p>Just as we did with Grunt, we need to enable each of the plugins, this time in our Gulpfile. Instead of Grunt’s method <code class="inline">grunt.loadNpmTasks</code>, we’ll be using the <code class="inline">require</code> function native to NodeJS.</p>
+
+<p>Add these lines to your Gulpfile, below the line you already added.</p>
+
+<pre class="brush: javascript">var stylus = require('gulp-stylus');
+var autoprefixer = require('gulp-autoprefixer');
+var minifyCSS = require('gulp-minify-css');
+var jade = require('gulp-jade');
+var uglify = require('gulp-uglify');
+var rename = require("gulp-rename");</pre>
+
+<p>This approach is different to Grunt in that we don’t yet have any commands registered that can be run at this stage. Rather, we’ve just created JavaScript variables, each representing our plugins, that we can employ later in our Gulpfile.</p>
+
+<h3>Configure &amp; Run Tasks in Gulpfile</h3>
+
+<p>One of the main differences between Grunt and Gulp is that with Gulp you don’t need to individually configure a task for every plugin you’re using in your project. Instead, you only configure tasks for the actual <em>commands</em> you want to run.</p>
+
+<h4>Stylus, Autoprefixer &amp; minifyCSS</h4>
+
+<p>In our Gruntfile earlier we setup a separate task each for Stylus, Autoprefixer and clean-css. In our Gulpfile we don’t need to do this. We know that every time we compile our Stylus code we want the resulting CSS to be autoprefixed and minified, so instead we’ll create one single task to do all these things at once.</p>
+
+<p>Add this code to the bottom of your Gulpfile:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+    	.pipe(stylus({compress: false, paths: ['source/stylus']}))
+		.pipe(autoprefixer())
+		.pipe(minifyCSS())
+		.pipe(rename('style.css'))
+		.pipe(gulp.dest('build'))
+});</pre>
+
+<p>Let’s break down what we’ve done. </p>
+
+<p>First, we’re using <code class="inline">gulp.task()</code> to define a new task named <code class="inline">css</code>, and making some space for a JavaScript function that will be run whenever we run the command <code class="inline">gulp css</code>:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+
+});</pre>
+
+<p>Next, we’re using <code class="inline">gulp.src()</code> to set the source file we want to process to “source/stylus/main.styl” file:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+
+});</pre>
+
+<p>Then, we start using Gulp’s <code class="inline">pipe()</code> function to call on each of our plugins. The way <code class="inline">pipe()</code> works is like physical pipes, where you feed something into the first pipe and it then passes through every connected pipe.</p>
+
+<p>Our first "pipe" adds Stylus compilation, using the same <code class="inline">compress</code> and <code class="inline">paths</code> options as we did when working with Grunt earlier:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+        .pipe(stylus({compress: false, paths: ['source/stylus']}))
+
+});</pre>
+
+<p>We then connect a second pipe, which takes the compiled code and adds autoprefixing:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+        .pipe(stylus({compress: false, paths: ['source/stylus']}))
+		.pipe(autoprefixer())
+
+});</pre>
+
+<p>We connect a third pipe, taking our prefixed CSS and cleaning it:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+        .pipe(stylus({compress: false, paths: ['source/stylus']}))
+		.pipe(autoprefixer())
+		.pipe(minifyCSS())
+
+});</pre>
+
+<p>At this point if we were to output a CSS file it would be named “main.css” to correspond with the source “main.styl” file we began with. So we’ll connect a fourth pipe to rename the file we’re going to end up with to “style.css”:</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+        .pipe(stylus({compress: false, paths: ['source/stylus']}))
+		.pipe(autoprefixer())
+		.pipe(minifyCSS())
+		.pipe(rename('style.css'))
+
+});</pre>
+
+<p>Finally, we connect our fifth and last pipe to send our finished CSS file to its destination, using <code class="inline">gulp.dest()</code> to set our output folder to be “build”.</p>
+
+<pre class="brush: javascript">gulp.task('css', function () {
+gulp.src('source/stylus/main.styl')
+        .pipe(stylus({compress: false, paths: ['source/stylus']}))
+		.pipe(autoprefixer())
+		.pipe(minifyCSS())
+		.pipe(rename('style.css'))
+		.pipe(gulp.dest('build'))
+});</pre>
+
+<p>Now the <code class="inline">css</code> task you just created is ready to go. In your project root folder run:</p>
+
+<pre class="brush: bash">gulp css</pre>
+
+<p>...and your Stylus file will be compiled, autoprefixed and cleaned then output to your “build” folder as “style.css”.</p>
+
+<h4>Jade</h4>
+
+<p>We’ll use the same process again to setup our task for Jade compilation. We’ll create a task named <code class="inline">html</code>, set it to use all the “.jade” files in the “source/jade” folder as its source, pipe through Jade compilation, then send the resulting HTML file(s) to our “build” folder.</p>
+
+<p>Add this code below the <code class="inline">css</code> task you just created:</p>
+
+<pre class="brush: plain">gulp.task('html', function() {
+  gulp.src('source/jade/*.jade')
+.pipe(jade())
+    .pipe(gulp.dest('build'))
+});</pre>
+
+<p>Run your new task with the command:</p>
+
+<pre class="brush: bash">gulp html</pre>
+
+<p>...and you’ll see each of your Jade files compiled into corresponding HTML files in your “build” folder.</p>
+
+<h4>Uglify</h4>
+
+<p>Now we’re going to use the same approach one more time, setting up a task named <code class="inline">js</code> to take the jQuery and Modernizr files from our “bower_components” folder, uglify (concatenate and minify) them, then output the code as a file named “output.min.js” to our “build” folder.</p>
+
+<pre class="brush: javascript">gulp.task('js', function() {
+  gulp.src([
+'bower_components/jquery/dist/jquery.js',
+    'bower_components/modernizr/modernizr.js'
+  ])
+    .pipe(uglify())
+        .pipe(rename('output.min.js'))
+    .pipe(gulp.dest('build'))
+});</pre>
+
+<p><strong>Note</strong>: in this case we want to specify two source files, so we are passing the two file names as an array, i.e. comma separated values between square brackets.</p>
+
+<p>Run your <code class="inline">js</code> task with the command</p>
+
+<pre class="brush: bash">gulp js</pre>
+
+<p>...and you’ll see a new file named “output.min.js” appear in your “build” folder, containing jQuery and Modernizr in minified form.</p>
+
+<h3>Add a “watch” Task</h3>
+
+<p>Now that we have our custom <code class="inline">css</code> and <code class="inline">html</code> tasks setup, we can use Gulp’s in built <code class="inline">gulp.watch()</code> function so they’ll automatically run for us.</p>
+
+<p>Add this code to the bottom of your Gulpfile to create a <code class="inline">watch</code> task:</p>
+
+<pre class="brush: javascript">gulp.task('watch', function () {
+   gulp.watch('source/stylus/*.styl', ['css']);
+   gulp.watch('source/jade/*.jade', ['html']);
+});</pre>
+
+<p>The first use of <code class="inline">gulp.watch()</code> sets the <code class="inline">css</code> task to be run whenever a “.styl” file inside the “source/stylus” folder is changed.</p>
+
+<p>The second use of <code class="inline">gulp.watch()</code> sets the <code class="inline">html</code> task to be run whenever a “.jade” file inside the “source/jade” folder is changed.</p>
+
+<p>Run your <code class="inline">watch</code> task with the command</p>
+
+<pre class="brush: bash">gulp watch</pre>
+
+<p>...and whenever you save changes to one of your Stylus or Jade files your compilation will be handled automatically.</p>
+
+<h3>Add “default” Task</h3>
+
+<p>Just as we did with our Grunt project, we’ll wrap up by creating a default task that will run whenever we use the command <code class="inline">gulp</code> by itself.</p>
+
+<p>Add this line to the bottom of your Gulpfile:</p>
+
+<pre class="brush: javascript">gulp.task('default', ['css', 'html', 'js']);</pre>
+
+<p>We’re using this task to build our whole project, including the JavaScript, by having it run the <code class="inline">css</code>, <code class="inline">html</code> and <code class="inline">js</code> tasks.</p>
+
+<p>To build your entire project with the default task use the command:</p>
+
+<pre class="brush: bash">gulp</pre>
+
+<h2>In the Next Tutorial</h2>
+
+<p>Coming up next we’ll add the finishing touch to your Grunt and Gulp projects that really will make them ultimate efficiency machines, and that is live reloading and browser synchronization.</p>
+
+<p>You’ll learn how to create a command that launches your project on a localhost preview, i.e. simulating a web host on your local machine using an <code class="inline">http://</code> protocol instead of a <code class="inline">file://</code> protocol to preview your site.</p>
+
+<p>And as your project source files are watched for changes and automatically compiled, your localhost preview will automatically be reloaded so that right after you save your changes you’ll see them reflected in the browser.</p>
+
+<p>We’ll then also setup your localhost preview so that every browser you view it in will be synchronized, including browsers on different devices on the same internet connection such as tablets and phones. Open a menu in one browser, see how it responds in every other browser and device at the same time.</p>
+
+<p>I’ll see you in the next tutorial!</p>

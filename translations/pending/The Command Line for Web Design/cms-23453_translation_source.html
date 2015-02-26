@@ -1,0 +1,401 @@
+<h1>The Command Line for Web Design: Powering Up Front End Code</h1>
+
+<p>As a web designer there are three languages you’re pretty much guaranteed to work with one way or another: CSS, HTML and JavaScript. In this tutorial you’re going to leverage the command line to make your development with these three languages more powerful and more efficient.</p>
+
+<p>You’ll learn how to use command line to: </p>
+
+<ul>
+  <li>Compile preprocessor (Stylus, Sass and LESS) code for CSS</li>
+  <li>Autoprefix CSS</li>
+  <li>Compress, combine and clean CSS</li>
+  <li>Compile Jade for HTML</li>
+  <li>Concatenate and minify JavaScript</li>
+</ul>
+
+<p><strong>Note</strong>: this tutorial assumes you’ve already completed the previous tutorials in this series. If you haven’t, you’ll find it helpful to go back and follow those before proceeding.</p>
+
+<h2>CSS Preprocessors</h2>
+
+<p>If you’ve never worked with CSS preprocessors before drop everything immediately and try one out. Once you find a preprocessor you like that fits your coding style, it’s likely you’ll never code in raw CSS again.</p>
+
+<p>The three preprocessors that are generally considered to be the ones to choose from are Stylus, Sass / SCSS and LESS. Tuts+ has an awesome range of <a href="http://tutsplus.com/tutorials/search?utf8=%E2%9C%93&amp;search%5Btopic%5D=Web+Design&amp;search%5Bterms%5D=preprocessor" rel="external" target="_blank">tutorials and courses</a> to help you learn how to write in the syntax of all three preprocessors.</p>
+
+<p>In this tutorial we’re going to cover how you can use the command line to compile code for each of the three.</p>
+
+<h3>Stylus</h3>
+
+<p>Every preprocessor user has a favorite, and mine is <a href="https://webdesign.tutsplus.com/courses/become-a-css-superhero-with-stylus" rel="external" target="_blank">Stylus</a>. It uses a minimal syntax that can be written very quickly, has very powerful functionality, and is supported by great third party libraries like <a href="https://webdesign.tutsplus.com/courses/building-easy-responsive-layouts-with-jeet" rel="external" target="_blank">Jeet</a> and <a href="https://webdesign.tutsplus.com/articles/six-awesome-things-you-can-do-with-kouto-swiss-for-stylus--cms-22251" rel="external" target="_blank">Kouto-Swiss</a>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23453/image/stylus.png"/>
+</figure>
+
+<p>You can read all about Stylus at: <a href="http://stylus-lang.com/">http://stylus-lang.com/</a></p>
+
+<h4>Install Stylus</h4>
+
+<p>To install Stylus globally, enabling you to use it to compile “.styl” files anywhere, run this command:</p>
+
+<pre class="brush: bash">[sudo] npm install stylus -g</pre>
+
+<h4>Compile Stylus</h4>
+
+<p>The easiest way to compile with Stylus is to use this one line command:</p>
+
+<pre class="brush: bash">stylus &lt; example.styl &gt; example.css</pre>
+
+<p>This command will compile “example.styl” into “example.css” in the same directory.</p>
+
+<p>To break it down we have <code class="inline">stylus</code> to start the command. Then we use a <code class="inline">&lt; example.styl</code> to indicate the Stylus input file, followed by <code class="inline">&gt; example.css</code> to denote the name of the CSS file we want to have created.</p>
+
+<p>You also have the option to add additional flags to this command, such as using the <code class="inline">--compress</code> flag to remove whitespace from the resulting CSS file:</p>
+
+<pre class="brush: bash">stylus --compress &lt; example.styl &gt; example.css</pre>
+
+<p>As an alternative to compiling one file at a time, you can compile all the Stylus files in one directory into CSS files in another directory. To do this, after the <code class="inline">stylus</code> command, specify the source folder, then use the <code class="inline">--out</code> flag followed by the destination folder.</p>
+
+<p>For example, to compile all the Stylus files from a folder named “source_files” into “assets/css” use:</p>
+
+<pre class="brush: bash">stylus source_files --out assets/css</pre>
+
+<p><strong>Note</strong>: the folder you’re compiling into must already exist before you run the command as it will fail if it can’t find the specified folder to output CSS files to.</p>
+
+<p>There are several other options you can leverage when using Stylus via the command line. To read all about them visit: <a href="http://stylus-lang.com/docs/executable.html">http://stylus-lang.com/docs/executable.html</a></p>
+
+<h3>Sass / SCSS</h3>
+
+<p>Sass is very likely the most popular preprocessor at this point in time. It is incredibly powerful in what you can achieve with it and has a very large and active community. It’s supported by well known third party libraries like <a href="http://compass-style.org/" rel="external" target="_blank">Compass</a>, <a href="http://bourbon.io/" rel="external" target="_blank">Bourbon</a> and <a href="http://susy.oddbird.net/" rel="external" target="_blank">Susy</a>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23453/image/sass.png"/>
+</figure>
+
+<p>Read more about Sass at: <a href="http://sass-lang.com/">http://sass-lang.com/</a></p>
+
+<p>You have two options when it comes to compiling Sass on your machine: you can either use <a href="https://www.ruby-lang.org/en/" rel="external" target="_blank">Ruby</a> to handle it, or you can use <a href="http://libsass.org/" rel="external" target="_blank">LibSass</a>.</p>
+
+<p>Sass was first created to run on Ruby, and as such if you’re looking for 100% full feature completeness and support, it’s the option you may wish to choose. For example, if you want to use <a href="http://compass-style.org/">Compass</a> the easiest way is to stick with Ruby compilation.</p>
+
+<p>LibSass was created as an alternative, and one of the options it makes available is compiling sass via an npm package instead. This approach compiles sass much faster, bringing a compile time of around 5 seconds through Ruby down to under half a second through LibSass. However, you may find certain features and third party code are unsupported.</p>
+
+<p>Which you choose is completely down to personal preference, but as a rule of thumb I would suggest going with LibSass for speed unless there’s something specific (like Compass) for which you need Ruby compilation.</p>
+
+<p>Regardless of your choice, we’ll cover using both so you’re all set in either event.</p>
+
+<h4>Install Ruby Sass</h4>
+
+<p>To compile Sass via Ruby, you’ll first need to have Ruby installed on your machine.</p>
+
+<p>If you’re on Mac you’re in luck as Ruby already comes preinstalled so you don’t have to do a thing.</p>
+
+<p>If you’re on Windows, head to <a href="http://rubyinstaller.org/">http://rubyinstaller.org/</a> then download and run the installer you find there. Next, install Sass by running this command:</p>
+
+<pre class="brush: bash">[sudo] gem install sass</pre>
+
+<p>Sass should be automatically downloaded and installed for you. To double check the installation has been successful run the command:</p>
+
+<pre class="brush: bash">sass -v</pre>
+
+<p>You should see the version number and name of your Sass installation displayed in your terminal:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23453/image/sassversion.png"/>
+</figure>
+
+<h4>Compile with Ruby Sass</h4>
+
+<p>To compile a file using Ruby sass just type <code class="inline">sass</code>, followed by the name of the input file, a space, then the name you’d like your compiled CSS file to have:</p>
+
+<pre class="brush: bash">sass source_file.scss compiled_file.css</pre>
+
+<h4>Watch with Ruby Sass</h4>
+
+<p>Ruby Sass also has an inbuilt “watch” function (we’ll cover more on watching later) that will watch your files for changes and automatically recompile them every time they’re saved.</p>
+
+<p>To use it, add the <code class="inline">--watch</code> flag to your command, then separate the names of your source and compiled file with a colon instead of a space:</p>
+
+<pre class="brush: bash">sass --watch source_file.scss:compiled_file.css</pre>
+
+<p>You can also specify whole directories to watch and to output to, instead of single files, like so:</p>
+
+<pre class="brush: bash">sass --watch source/sass:assets/css</pre>
+
+<p>Once watching is initiated you should see something like this in your terminal:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23453/image/watchrubysass.png"/>
+</figure>
+
+<h4>Getting More Info on Commands</h4>
+
+<p>To read about all the options available via command line with Ruby Sass run:</p>
+
+<pre class="brush: bash">sass --help</pre>
+
+<p>A read out of the command line docs will be displayed in your terminal:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23453/image/sasshelp.png"/>
+</figure>
+
+<p>You can use this <code class="inline">--help</code> flag to get more information on any command you use. Just type the name of the command followed by <code class="inline">--help</code> and you’ll get information similar to the above in each case.</p>
+
+<h4>Install LibSass / node-sass</h4>
+
+<p>If you go with LibSass, you can get started with the same method you’ve used to install npm packages earlier in this tutorial series.</p>
+
+<p><a href="http://libsass.org/">LibSass</a> itself is written in C/C++ but there are various implementations of it, including some done to work with Node.js. In our case we’ll be using the package <a href="https://www.npmjs.com/package/node-sass">node-sass</a>.</p>
+
+<p>To install node-sass globally, run this command:</p>
+
+<pre class="brush: bash">[sudo] npm install node-sass -g</pre>
+
+<h4>Compile with node-sass</h4>
+
+<p>To compile a file type <code class="inline">node-sass</code> followed by the name of the input file and the name you’d like your compiled CSS file to have:</p>
+
+<pre class="brush: bash">node-sass source_file.scss compiled_file.css</pre>
+
+<p>To control the directory your CSS file is compiled into add the <code class="inline">--output</code> flag and destination directory in between the names of your input and output files:</p>
+
+<pre class="brush: bash">node-sass source_file.scss --output assets/css compiled_file.css</pre>
+
+<h4>Watch with node-sass</h4>
+
+<p>Like Ruby Sass, node-sass also uses the <code class="inline">--watch</code> flag to enable automatic compilation of your files on change:</p>
+
+<pre class="brush: bash">node-sass --watch source_file.scss compiled_file.scss</pre>
+
+<p>You can also specify whole directories to watch, and to output to, instead of single files:</p>
+
+<pre class="brush: bash">node-sass --watch source/sass/* --output assets/css</pre>
+
+<p>When using node-sass to watch a whole directory, be sure to include <code class="inline">/*</code> at the end to specify you want to all the files within.</p>
+
+<h4>Stopping a "watch" Process</h4>
+
+<p>When you have a “watch” process running you can stop it by either:</p>
+
+<ul>
+  <li>Closing down the terminal</li>
+  <li>Pressing <strong>CTRL + C</strong></li>
+</ul>
+
+<h3>LESS</h3>
+
+<p>The LESS preprocessor is also very popular, and is probably most well known for its employment in the Twitter Bootstrap framework. LESS is a great first preprocessor to start working with as it’s very similar to writing in straight CSS.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23453/image/less.png"/>
+</figure>
+
+<p>Read more about LESS at: <a href="http://lesscss.org/">http://lesscss.org/</a></p>
+
+<h4>Install LESS</h4>
+
+<p>To install LESS globally, enabling you to use it to compile “.less” files anywhere, run this command:</p>
+
+<pre class="brush: bash">[sudo] npm install less -g</pre>
+
+<h4>Compile LESS</h4>
+
+<p>Open a terminal in the folder housing the LESS file you want to compile and use the command <code class="inline">lessc</code> followed by the name of the file, a <code class="inline">&gt;</code> symbol, then the name you want your compiled CSS file to have:</p>
+
+<pre class="brush: bash">lessc source_file.less &gt; compiled_file.css</pre>
+
+<h2>Autoprefixing CSS</h2>
+
+<p>Autoprefixer is an npm package that checks with <a href="http://caniuse.com/" target="_self">CanIUse.com</a> to get up to date information on which CSS properties need vendor prefixes and which don’t. It then automatically handles adding required vendor prefixes into your code. </p>
+
+<p>This can be <em>incredibly</em> helpful as, unless you’re monitoring browser updates constantly, you can easily find yourself including browser prefixes you don’t really need anymore. It also means you can write all your CSS without having to think about prefixes, and let Autoprefixer take care of them for you.</p>
+
+<p>For example, autoprefixer will turn this code:</p>
+
+<pre class="brush: css">a { 
+display: flex;
+}</pre>
+
+<p>…into this:</p>
+
+<pre class="brush: css">a {
+display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}</pre>
+
+<p>Read more about Autoprefixer at: <a href="https://www.npmjs.com/package/autoprefixer">https://www.npmjs.com/package/autoprefixer</a></p>
+
+<h4>Install Autoprefixer</h4>
+
+<p>Install Autoprefixer globally with:</p>
+
+<pre class="brush: bash">[sudo] npm install autoprefixer -g</pre>
+
+<h4>Autoprefix a CSS File</h4>
+
+<p>To autoprefix a CSS file use the following command:</p>
+
+<pre class="brush: bash">autoprefixer style.css</pre>
+
+<p>Unlike compiling a preprocessor file, this will not create a second file by default. The file you target will be updated, with the correct prefixes added in directly.</p>
+
+<p>If you <em>do</em> want Autoprefixer to generate a second, separate file add the <code class="inline">--output</code> flag followed by a name for your prefixed css file:</p>
+
+<pre class="brush: bash">autoprefixer unprefixed.css --output prefixed.css</pre>
+
+<h2>Optimizing CSS</h2>
+
+<p>You always want the CSS you deploy on your sites to be crunched down to the smallest size possible. To achieve this you can use optimization techniques of:</p>
+
+<ul>
+  <li>Compression - removing white space and comments</li>
+  <li>Cleaning - modifying the code itself to take up less space</li>
+</ul>
+
+<h3>Compressing with Preprocessors</h3>
+
+<p>Stylus, Ruby Sass and node-sass all have the ability to compress your CSS during compilation.</p>
+
+<p>In Stylus, include the <code class="inline">--compress</code> flag:</p>
+
+<pre class="brush: bash">stylus --compress &lt; source_file.scss &gt; compiled_file.css</pre>
+
+<p>In Ruby Sass include the <code class="inline">--style</code> flag, followed by <code class="inline">compressed</code>:</p>
+
+<pre class="brush: bash">sass source_file.scss compiled_file.css --style compressed</pre>
+
+<p>In node-sass add the <code class="inline">--output-style</code> flag followed by <code class="inline">compressed</code>:</p>
+
+<pre class="brush: bash">node-sass --output-style compressed source_file.scss compiled_file.css</pre>
+
+<h3>Cleaning and Compressing with clean-css</h3>
+
+<p>If you’re not using CSS preprocessors, or you just want maximum code optimization, you can use the <a href="https://github.com/jakubpawlowicz/clean-css" rel="external" target="_blank">clean-css</a> package which will put your CSS files through more in depth compression processes.</p>
+
+<p>Regular compression processes typically just remove white space and comments from your CSS. The clean-css package on the other hand can also do things like:</p>
+
+<ul>
+  <li>Merging duplicated selector names</li>
+  <li>Merging duplicated properties within the same style</li>
+  <li>Rounding off numbers with many decimal places</li>
+  <li>Removing trailing semicolons and spaces at the end of selector styles</li>
+</ul>
+
+<p>Merging duplicated selectors can be handy, for example, should you like to have all the layout for a certain class initially in a “layout.css” file, while the coloring for the same class is initially in a “colors.css”. </p>
+
+<p>Rounding off numbers is great for when you’ve used a preprocessor function to convert a value into rem units and you end up with something like 2.3649858573rem. With clean-css that number would be rounded off to two decimal places, bringing it to a much tidier 2.36rem value.</p>
+
+<p>You can read more about clean-css at: <a href="https://github.com/jakubpawlowicz/clean-css">https://github.com/jakubpawlowicz/clean-css</a></p>
+
+<h4>Install clean-css</h4>
+
+<p>Install clean-css globally with the command:</p>
+
+<pre class="brush: bash">[sudo] npm install clean-css -g</pre>
+
+<h4>Use clean-css</h4>
+
+<p>To clean a CSS file use:</p>
+
+<pre class="brush: bash">cleancss style.css</pre>
+
+<p><strong>Note</strong>: Even though the package name “clean-css” has a hyphen in it, be sure to use <code class="inline">cleancss</code> <em>without</em> a hyphen to start your commands.</p>
+
+<p>To specify a new file name for clean-css to generate use the <code class="inline">-o</code> flag followed by the new file name, before the name of the file you’re targeting:</p>
+
+<pre class="brush: bash">cleancss -o cleaned.css style.css</pre>
+
+<p>There are several other command options available for clean-css, which you can read all about at: <a href="https://github.com/jakubpawlowicz/clean-css#how-to-use-clean-css-cli" target="_self">How to use Clean CSS CLI</a>.</p>
+
+<h2>HTML &amp; JavaScript</h2>
+
+<h3>Jade</h3>
+
+<p><a href="https://webdesign.tutsplus.com/courses/top-speed-html-development-with-jade" rel="external" target="_blank">Jade</a> is an amazing language that compiles into HTML, and makes it possible for you to both write your code in shorthand so development is much faster, and create your own templating systems so you can save yourself on rewriting code.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23453/image/jade.png"/>
+</figure>
+
+<p>Read more about Jade at: <a href="https://www.npmjs.com/package/jade">https://www.npmjs.com/package/jade</a></p>
+
+<h4>Install Jade</h4>
+
+<p>To install Jade globally run the command:</p>
+
+<pre class="brush: bash">[sudo] npm install jade -g</pre>
+
+<h4>Compile Jade</h4>
+
+<p>Jade, created by the same person as Stylus, uses the same basic command syntax of <code class="inline">&lt;</code> and <code class="inline">&gt;</code> signs to compile a file:</p>
+
+<pre class="brush: bash">jade &lt; index.jade &gt; index.html</pre>
+
+<p>This command will compile “index.jade” into “index.html” in the same directory.</p>
+
+<p>To compile all the Jade files in a certain directory use:</p>
+
+<pre class="brush: bash">jade dir_name</pre>
+
+<p>To set the directory you want your HTML files to be written to place the <code class="inline">--out</code> flag between the name of the input and output directories:</p>
+
+<pre class="brush: bash">jade src_dir --out html_dir</pre>
+
+<p>To use Jade’s <em>watch</em> function for automatic compilation on saving, pass the <code class="inline">--watch</code> flag right after the jade command.</p>
+
+<p>For single files:</p>
+
+<pre class="brush: bash">jade --watch &lt; index.jade &gt; index.html</pre>
+
+<p>Or for full directories:</p>
+
+<pre class="brush: bash">jade --watch dir_name</pre>
+
+<pre class="brush: bash">jade --watch dir_name --out html_dir</pre>
+
+<h3>Concatenating &amp; Minifying JavaScript Files</h3>
+
+<p>Just as we want the CSS files we deploy to be optimized, so too do we want to deliver our JavaScript files in the most efficient way possible. </p>
+
+<p>It’s common for us to have multiple JS files going into our projects, such as needing Modernizr, jQuery and our own custom code for example, but we also want to minimize the number of http requests our sites make. Additionally we want to ensure the load time for our JavaScript is super fast.</p>
+
+<p>The best way to handle both issues is to simultaneously concatenate our JavaScript files into a single file, meaning we’ll only need one http request to load it, and minify the resulting file so it’s at the smallest possible size.</p>
+
+<p>We’ll be using the <a href="https://www.npmjs.com/package/uglify-js" rel="external" target="_blank">UglifyJS</a> package to take care of this process.</p>
+
+<p>To install uglify-js globally run:</p>
+
+<pre class="brush: bash">[sudo] npm install uglify-js -g</pre>
+
+<p>To combine two JavaScript files then strip whitespace and comments from the resulting file, use the <code class="inline">uglifyjs</code> command followed by the names of each of your source files with spaces in between. After that include the <code class="inline">--output</code> flag and the name you want your new combined &amp; minified file to have:</p>
+
+<pre class="brush: bash">uglifyjs input1.js input2.js --output input.min.js</pre>
+
+<p>As well as the default stripping of whitespace and comments, you can also add compression which will actually modify the code to reduce its size. To do this add the <code class="inline">--compress</code> flag at the end of the command:</p>
+
+<pre class="brush: bash">uglifyjs input1.js input2.js --output input.min.js --compress</pre>
+
+<p>Another optimization option available is to “mangle” the code, which will do things like crunching variable, function and argument names down to single characters. To use this option add the <code class="inline">--mangle</code> flag at the end of the command:</p>
+
+<pre class="brush: bash">uglifyjs input1.js input2.js --output input.min.js --mangle</pre>
+
+<p>You can also use both compression and mangling by passing both flags:</p>
+
+<pre class="brush: bash">uglifyjs input1.js input2.js --output input.min.js --mangle --compress</pre>
+
+<p>Read more about the commands you can run with UglifyJS at: <a href="https://www.npmjs.com/package/uglify-js">https://www.npmjs.com/package/uglify-js</a></p>
+
+<h4>A Note on Minifying Third Party JavaScript</h4>
+
+<p>If you’re combining and/or minifying third party scripts like jQuery, Modernizr and so on, make sure you use the full expanded versions of those files. It’s generally a bad idea to re-minify files that have already been minified as you can break their functionality.</p>
+
+<p>You can identify files that have already been minified as they will typically follow the naming convention of “name.min.js”, while the expanded version of the file will be “name.js”.</p>
+
+<h2>In the Next Tutorial</h2>
+
+<p>Now you know how to complete some incredibly useful tasks with various commands, but what if you could complete all the tasks your project needs all at the same time with one single command?</p>
+
+<p>In the next tutorial you’ll learn how to do exactly that, using task runners to configure all the tasks your project needs so that all your compilation, autoprefixing, combining, and optimization can be done at once and in just a few seconds.</p>
+
+<p>I’ll see you in the next tutorial!</p>

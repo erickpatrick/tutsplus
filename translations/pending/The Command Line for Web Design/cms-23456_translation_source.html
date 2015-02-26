@@ -1,0 +1,242 @@
+<h1>The Command Line for Web Design: Scaffolding New Projects</h1>
+
+<p>So far you’ve learned how to use command line for third party package management, powering up your front end code, automation with task runners, live reloading and browser synchronizing.</p>
+
+<p>In this final tutorial of the series you’ll learn how to use command line to get your projects off to a running start by scaffolding out new projects that have all the third party code they require, as well as Grunt or Gulp task management already setup, in just a matter moments.</p>
+
+<p>There are over a thousand different types of projects you can currently scaffold out using the command line, but in this tutorial we’ll go through four of them for projects based on:</p>
+
+<ul>
+  <li>Foundation</li>
+  <li>Bootstrap</li>
+  <li>HTML5 Boilerplate</li>
+  <li>Google Web Starter Kit</li>
+</ul>
+
+<h2>Foundation</h2>
+
+<p><a href="http://foundation.zurb.com/" rel="external" target="_blank">Foundation</a> has its own CLI (command line interface) that is great for scaffolding out Foundation framework projects. Let’s go through how to use the <a href="http://foundation.zurb.com/docs/sass.html" rel="external" target="_blank">Foundation CLI</a> to create a project utilizing <a href="http://compass-style.org/" rel="external" target="_blank">Compass</a>.</p>
+
+<h3>Install Foundation CLI &amp; Prerequisites</h3>
+
+<p>The first part of scaffolding out a new Foundation project is to install the required CLI. Before you do, you’ll need to ensure you have five prerequisites installed on your system:</p>
+
+<ul>
+  <li>Git</li>
+  <li>NodeJS</li>
+  <li>Bower</li>
+  <li>Ruby</li>
+  <li><a href="https://github.com/gruntjs/grunt-cli">grunt-cli</a> package</li>
+</ul>
+
+<p>We covered installation of NodeJS, Git and Bower in <a href="http://webdesign.tutsplus.com/tutorials/the-command-line-for-web-design-taming-3rd-party-packages--cms-23451" target="_self">Taming 3rd Party Packages</a>, installation of Ruby was covered in <a href="http://webdesign.tutsplus.com/tutorials/the-command-line-for-web-design-powering-up-front-end-code--cms-23453" target="_self">Powering Up Front End Code</a>, and installation of grunt-cli was covered in <a href="http://webdesign.tutsplus.com/tutorials/the-command-line-for-web-design-automation-with-task-runners--cms-23454" target="_self">Automation with Task Runners</a>.</p>
+
+<p>After ensuring you have Ruby installed you’ll need to install the <a href="http://compass-style.org/" rel="external" target="_blank">Compass</a> and <a href="http://bundler.io/" rel="external" target="_blank">Bundler</a> gems with these commands:</p>
+
+<pre class="brush: bash">gem install compass</pre>
+
+<pre class="brush: bash">gem install bundle</pre>
+
+<p>Now you can go ahead and install the Foundation CLI with this command:</p>
+
+<pre class="brush: bash">gem install foundation</pre>
+
+<h3>Create a Foundation Project</h3>
+
+<p>Now any time you want to start a new Foundation project, open a terminal where you want to create it and run the command</p>
+
+<pre class="brush: bash">foundation new project_name</pre>
+
+<p>You’ll then see your newly create project folder structure generated, like so:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/foundationcompass.png"/>
+</figure>
+
+<p>From here, you’ll need to have a terminal pointed inside your actual project folder, e.g. inside “project_name”.</p>
+
+<p>The “bundler” gem you installed earlier will be used here to make sure all the required libraries have been installed. Get everything squared away by running the command:</p>
+
+<pre class="brush: bash">bundle</pre>
+
+<p>You only have to do this once when you first create your Foundation Compass projects.</p>
+
+<p>In the browser, your new project will look like this:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/foundationcompassbrowser.png"/>
+</figure>
+
+<p>You’re now ready to start development on your project. There is an inbuilt Sass compiler that will watch the “.scss” files in the library for changes, then recompile them to css for you. Activate it with the command:</p>
+
+<pre class="brush: bash">bundle exec compass watch</pre>
+
+<h2>Yeoman</h2>
+
+<p>Yeoman is a tool designed expressly for scaffolding out new projects. It works on top of NodeJS, integrates Bower for package management, and uses Grunt or Gulp for task running.</p>
+
+<p>After installing Yeoman the basic process for scaffolding any new project becomes:</p>
+
+<ol>
+  <li>Find and install a Yeoman generator for the type of project you want to create, e.g. generator-h5bp for an HTML5 Boilerplate project.</li>
+  <li>Type <code class="inline">yo &lt;generator_handle&gt;</code> to generate a new project, e.g. <code class="inline">yo h5bp</code></li>
+</ol>
+
+<p>Read more about Yeoman at: <a href="http://yeoman.io/">http://yeoman.io/</a></p>
+
+<h3>Install Yeoman</h3>
+
+<p>To use Yeoman, you’ll need to have bower, grunt-cli and gulp installed globally, which you should have at this point as long as you’ve followed all the tutorials in the series so far.</p>
+
+<p>Install Yeoman globally with the command:</p>
+
+<pre class="brush: bash">npm install -g yo</pre>
+
+<p>Now you’re ready to go and find generators and scaffold new projects.</p>
+
+<h2>Create a Bootstrap Project</h2>
+
+<p>To scaffold out a Bootstrap project we’ll be using <a href="https://github.com/niallobrien/generator-gulp-bootstrap" rel="external" target="_blank">generator-gulp-bootstrap</a>. Among other things, this generator sets you up with the Bootstrap framework, jQuery &amp; Modernizr, BrowserSync,
+automatic Sass compilation via LibSass, automatic JS linting and image optimization.</p>
+
+<h3>Install the Generator</h3>
+
+<p>Install the generator globally with:</p>
+
+<pre class="brush: bash">[sudo] npm install -g generator-gulp-bootstrap</pre>
+
+<h3>Scaffold the Project</h3>
+
+<p>Point your terminal wherever you’d like to scaffold your new project and run:</p>
+
+<pre class="brush: bash">yo gulp-bootstrap</pre>
+
+<p>You’ll get a little display like this in your terminal, and you’ll be able to verify that you want to use Bootstrap and Modernizr:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/yobootstrap.png"/>
+</figure>
+
+<p>After the generator finishes running you’ll have a folder structure like this:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/bootstrapproject.png"/>
+</figure>
+
+<h3>Commands</h3>
+
+<p>To build your project use the command:</p>
+
+<pre class="brush: bash">gulp</pre>
+
+<p>To spin up a local preview with auto compilation and reload run:</p>
+
+<pre class="brush: bash">gulp watch</pre>
+
+<p>In a browser, your new Bootstrap project will look like this:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/bootstrapbrowser.png"/>
+</figure>
+
+<h2>Create a HTML5 Boilerplate Project</h2>
+
+<p>To scaffold a new HTML5 Boilerplate project we’ll be using <a href="https://github.com/h5bp/generator-h5bp" rel="external" target="_blank">generator-h5bp</a>.</p>
+
+<h3>Install the Generator</h3>
+
+<p>Install the generator globally with:</p>
+
+<pre class="brush: bash">[sudo] npm install generator-h5bp -g</pre>
+
+<h3>Scaffold the Project</h3>
+
+<p>Scaffold out your new project with this command:</p>
+
+<pre class="brush: bash">yo h5bp</pre>
+
+<p>You’ll get the option to choose whether or not you want docs included in your project, then the generator will run.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/yoh5bp.png"/>
+</figure>
+
+<p>You’ll then have a new HTML5 Boilerplate project structured like so:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/h5bpproject.png"/>
+</figure>
+
+<p>In a browser all you’ll see is a simple “Hello world!” message, but if you view the code you’ll see you have everything you need to get your HTML5 site underway:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/h5bpbrowser.jpg"/>
+</figure>
+
+<h2>Create a Google Web Starter Kit Project</h2>
+
+<p><a href="https://webdesign.tutsplus.com/tutorials/get-up-and-running-with-google-web-starter-kit--cms-21495" target="_self">Web Starter Kit</a> is a project by Google, designed as “boilerplate &amp; tooling for multi-device development”. You can read all about its features at: <a href="https://developers.google.com/web/starter-kit/">https://developers.google.com/web/starter-kit/</a></p>
+
+<p>To scaffold it out we'll be using <a href="https://github.com/yeoman/generator-mobile" rel="external" target="_blank">generator-mobile</a>.</p>
+
+<h3>Install the Generator</h3>
+
+<p>Install the generator globally with:</p>
+
+<pre class="brush: bash">[sudo] npm install yeoman/generator-mobile -g</pre>
+
+<h3>Scaffold the Project</h3>
+
+<p>Scaffold out your GWSK project with the command:</p>
+
+<pre class="brush: bash">yo mobile</pre>
+
+<p>In your terminal you’ll answer a series of questions based on which your project will be generated:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/yomobile.png"/>
+</figure>
+
+<p>When the generator has finished running your new project will have this structure:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/gwskproject.png"/>
+</figure>
+
+<h3>Commands</h3>
+
+<p>To open a BrowserSync powered localhost preview run this command:</p>
+
+<pre class="brush: bash">gulp serve</pre>
+
+<p>The preview of your site will look like this:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/gwskbrowser.png"/>
+</figure>
+
+<p><strong>Note</strong>: After running the gulp serve command you may see an error message saying browser-sync couldn’t be found. If so, manually install it into your folder with this command:</p>
+
+<pre class="brush: bash">[sudo] npm install browser-sync</pre>
+
+<p>To build the whole project run this command:</p>
+
+<pre class="brush: bash">gulp</pre>
+
+<p>To get feedback on the speed of your project run:</p>
+
+<pre class="brush: bash">gulp pagespeed</pre>
+
+<p>This command will give you a readout of “pagespeed” data in your terminal like so:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23456/image/pagespeed.png"/>
+</figure>
+
+<p>And if you chose one of the hosting options while scaffolding your project, publish your site with:</p>
+
+<pre class="brush: bash">gulp deploy</pre>
+
+<h2>In Conclusion</h2>
+
+<p>That’s just about it for this tutorial–you now have a number of tools at your finger tips for getting up and running with a few common front-end frameworks, all through the power of the command line!</p>
