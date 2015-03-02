@@ -1,0 +1,185 @@
+<h1>Linha de Comando para o Web Design: Entendendo o Básico</h1>
+
+<p>Só é preciso algumas poucas coisas para que você esteja preparado para a parte legal do <em>web design</em> que você pode fazer através da linha de comando. Muitas introduções genéricas à linha de comando focarão em coisas como criação de diretórios, movimentação de arquivos, navegação do sistema e coisas do tipo. Acredito que, no <em>web design</em>, raramente uso esses tipos de comandos.</p>
+
+<p>Quando comecei a aprender a linha de comando, também encontrei vários tutoriais que, geralmente, pulavam a parte introdutória e já mandavam você digitar algumas instruções direto no terminal, como "Digite X Y Z no seu terminal" ou "Execute o comando A B C". Tipicamente, isso deixa alguns novatos pensando "Espera aí, o que é linha de comando? Onde a encontro? Como a abro? Como a uso?"</p>
+
+<p>Neste tutorial, garantiremos que você não passará pelos mesmos problemas. Começaremos do mais básico. Você aprenderá o essencial de como trabalhar com a linha de comando, incluindo abrir; executar comando; repetir comando; usar seu diretório atual para executar comandos; e como lidar com as mensagens de erros mais comuns que encontrará.</p>
+
+<p>Esta série proverá os passos específicos necessários para usuários de Windows e Mac (desculpe, pessoal do Linux). Porém, acredito que, por ser um usuário de Linux, você já possui um certo conhecimento e familiaridade com a linha de comando. Além disso, por ser um "sistema da família *NIX", a maioria dos comandos para Mac são idênticos aos do Linux, assim, você pode acompanhar bem, sem problemas.</p>
+
+<h3>Nota Sobre Aplicativos com Interfaces Gráficas (GUI)</h3>
+
+<p>Sei o que você deve estar pensando e, sim, é possível usar aplicativos com interfaces gráficas (GUI) para lidar com alguns desses tipos de processos; Eu mesmo uso. Contudo, interfaces gráficas projetadas para todo mundo, por necessidades, são uma solução que generalista. Assim, se você achar que precisa de algo que o aplicativo não é capaz de prover, você estará emperrado.</p>
+
+<p>Ao acompanhar os tutoriais desta série, você terá o conhecimento necessário para criar seus próprios projetos de linha de comando, a qualquer hora, da forma que quiser que eles sejam.</p>
+
+<h2>O Que É a Linha de Comando?</h2>
+
+<p>Em resumo, a linha de comando fornece-lhe uma forma de evitar o uso de interfaces gráficas, de modo que você consegue ir mais a fundo na forma que as coisas são processadas, além de ter mais controle.</p>
+
+<p>Para deixar a par, quando os computadores chegaram ao grande público, a única forma que você tinha de interagir com eles era através de comandos digitados através das interfaces de linha de comando (CLIs). Eventualmente, as interfaces gráficas de usuário (GUIs) surgiram, dando vida à interação "apontar &amp; clicar" que estamos acostumados nos sistemas operacionais e aplicativos de hoje em dia.</p>
+
+<p>No mundo do <em>web design</em> as coisas evoluíra na direção contrária. Para começar, praticamente todas as ferramentas eram aplicativos baseados em interfaces gráficas. Faz, relativamente, pouco tempo que surgiram soluções para problemas de <em>web design</em>,baseadas em linhas de comando, acessíveis o bastante que o retorno valha o investimento do aprendizado para utilizá-las.</p>
+
+<p>A primeira coisa a entender sobre a linha de comando é que, para usá-la, você precisa de um programa especializado para digitar os comandos. </p>
+
+<p>Há inúmeras opções disponíveis, contudo, nesta série, usaremos os aplicativos padrões que vem com o Mac e com o Windows. No Mac, o programa usado para trabalhar com a linha de comando é chamado de "Terminal" e, no Windows, é chamado de "Prompt de Comando".</p>
+
+<h3>Como Abrir o Terminal / Prompt de Comando</h3>
+
+<p>Para falar a verdade, encontrar e executar o terminal/linha de comando, não é algo tão óbvio se não os tiver usado anteriormente. Eis como fazê-lo, tanto no Mac quanto no Windows.</p>
+
+<h4>No Mac</h4>
+
+<p>No Mac, a forma mais fácil de abrir o <em>Terminal</em> é abrir o <em>Launchpad</em> e pesquisar por <strong>Terminal</strong>, lá.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/searchforterminal.png"/>
+</figure>
+
+<p>O Terminal no Mac parece com isso:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/macterminal.png"/>
+</figure>
+
+<p>Uma vez executando, fixe-o no seu <em>dock</em>. Confie em mim, você vai querê-lo ali.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/pinterminaltodock.png"/>
+</figure>
+
+<h4>No Windows</h4>
+
+<p>Para executar a linha de comando no Windows, usamos o <strong>Prompt de Comando</strong>. </p>
+
+<p>No Windows 8: da tela inicial, vá até <strong>Apps</strong>, e dentro de <strong>Windows System</strong> escolha <strong>Linha de Comando</strong>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/apps_cp.png"/>
+</figure>
+
+<p>Alternativamente, aperta a tecla <strong>Windows</strong> junto da tecla <strong>R</strong> para abrir uma janela de execução. No campo chamado <strong>Abrir</strong>, digite <code class="inline">cmd</code> e clique no botão <strong>OK</strong> para iniciar o prompt de comando.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/opencmd.png"/>
+</figure>
+
+<p>A janela do Prompt de Comando no Windows parece com isso:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/wincmdp.png"/>
+</figure>
+
+<p><strong>Nota Rápida:</strong> Por brevidade, ao invés de dizer “terminal / linha de comando” por toda a série, apenas usarei a palavra “terminal”, de agora em diante, a não ser que eu me refira a instruções específicas do Windows.</p>
+
+<h3>Executando e Repetindo Comandos</h3>
+
+<p>Para executar um comando, espere até o Terminal estar pronto. No Mac, você saberá disso quando vir o sinal <code class="inline">$</code> que termina a linha e, no Windows, você verá o sinal <code class="inline">&gt;</code>:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/macprompt.png"/>
+  <figcaption>Terminal do Mac pronto</figcaption>
+</figure>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/winprompt.png"/>
+  <figcaption>Prompt de Comando do Windows pronto</figcaption>
+</figure>
+
+<p>Quando vir que está tudo pronto, você pode começar a digitar seus comandos e apertar <code>enter</code> para executá-lo:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/typecommand.png"/>
+</figure>
+
+<p>Uma coisa super útil a se saber é que, caso queira repetir um comando já utilizado, você pode apertar as setas para cima/baixo do seu teclado, para navegar por esses comandos já usados.</p>
+
+<p>Você perceberá que há comandos que precisarão ser executados mais de uma vez e, poder usar as setas para cima/baixo e apenas apertar <code>enter</code>, é muito mais rápido que redigitar os comandos todos.</p>
+
+<h3>Abrir um Terminal em um Diretório Específico</h3>
+
+<p>Para a maioria das tarefas de <em>web design</em> que você usará, será preciso apontar seu Terminal para o diretório base do seu projeto. </p>
+
+<p>Seu Terminal mostrará o nome do diretório que você está trabalhando atualmente:</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/foldername.png"/>
+</figure>
+
+<p>É possível navegar pelos diretórios do seu computador usando o comando <a href="http://en.wikipedia.org/wiki/Cd_(command)" rel="external" target="_blank"><code class="inline">cd</code></a>, abreviação para “change directory” (alterar diretório). Contudo, você achará muito mais fácil clicar com o botão direito do seu mouse dentro do diretório do projeto e abrir uma janela do Terminal já apontada para lá.</p>
+
+<p>Pessoalmente, sempre faço isso, mesmo que o comando <code>cd</code> seja mais rápido, meu cérebro de <em>designer</em> prefere as coisas dessa forma. Eis como pode fazer em cada um dos sistemas operacionais.</p>
+
+<h4>No Mac</h4>
+
+<p>Uso um aplicativo chamado <a href="https://www.trankynam.com/xtrafinder/" target="_self">XtraFinder</a> (gratuito e possui diversas funcionalidades bem úteis) que permite você a adicionar a opção <strong>Novo Terminal Aqui</strong> ao menu contextual do Finder.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/openterminalinfolder.png"/>
+</figure>
+
+<h4>No Windows</h4>
+
+<p>Segure a tecla <strong>Shift</strong> e pressione o botão direito do mouse dentro do diretório do projeto. No menu contextual, você deverá ver uma opção com os dizeres <strong>Abrir nova janela de comando aqui</strong>.</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/opencmdhere.png"/>
+</figure>
+
+<p>No Windows, é assim que sempre abro um novo prompt de comando, uma vez que acho a forma mais fácil de fazê-lo.</p>
+
+<h3>EACCES - Você Não Tem Permissão? <code>Sudo</code>.</h3>
+
+<p>Uma das coisas que você se deparará bastante enquanto no Mac é uma ou outra versão de mensagem de erro contendo as letras <strong>EACCES</strong>.</p>
+
+<p>Geralmente, será acompanhado por algo mais ou menos assim “Por favor, tente executar esse comando, novamente, como root/Administrador.”</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/EACCES.png"/>
+</figure>
+
+<p>Se, ou quando você vir isso, apenas significa que você está tentando completar uma tarefa que requer um nível superior de privilégios. Esse sistema existe para garantir que ninguém faça alterações significativas em sua máquina, sem autorização.</p>
+
+<p>A forma mais fácil de verificar que você está autorizado é adicionando a palavra <code class="inline">sudo</code> ao início do seu comando, que é uma abreviação para “super user do” (super usuário, faça).</p>
+
+<figure class="post_image">
+  <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23318/image/sudopwd.png"/>
+</figure>
+
+<p>Então, você terá de digitar sua senha antes de continuar.</p>
+
+<p>Ao adicionar <code class="inline">sudo</code> antes do seu comando, você trabalhará como “super usuário” do sistema, ao invés de um usuário padrão. Com esses privilégios elevados, você perceberá que o comando funcionará normalmente.</p>
+
+<h4>Alternativas ao <code>sudo</code></h4>
+
+<p>Você deve estar a par da existência de outras formas, além do <code class="inline">sudo</code>, para passar pelos erros de nível de acesso, como a alteração da forma que as permissões são configuradas na máquina. No entanto, os passos tipicamente requeridos para esses processos estão um pouco além do nível básico que estamos tratando aqui. </p>
+
+<p>Você ficará bem ao usar <code class="inline">sudo</code> no contexto que cobrimos nesta série. Isso dito, quando estiver mais confortável com a linha de comando, você pode pesquisar essas outras opções.</p>
+
+<p><a href="https://docs.npmjs.com/getting-started/fixing-npm-permissions" target="_self">Eis um processo a se favoritar</a> para ajustar problemas de permissão posteriores com o npm, o qual você saberá mais em um próximo tutorial.</p>
+
+<h4>Como Indicaremos o Uso do <code>sudo</code> Nesta série</h4>
+
+<p>Nas vezes que você talvez precise usar o comando <code class="inline">sudo</code>, rescreverei o comando dessa forma:</p>
+
+<pre class="brush: bash">[sudo] comando-aqui</pre>
+
+<p>Isso não quer dizer que você tem de digitar, literalmente, <code class="inline">[sudo]</code>, com os colchetes. Ao invés disso, você pode precisar usar <code class="inline">sudo</code>, por exemplo:</p>
+
+<pre class="brush: bash">sudo comando-aqui</pre>
+
+<p>ou</p>
+
+<pre class="brush: bash">comando-aqui</pre>
+
+<p>Em dúvida, você sempre pode tentar o comando seu <code class="inline">sudo</code> e, depois, tentar com ele, para ver se aparece alguma mensagem com o erro <strong>EACCES</strong>.</p>
+
+<h2>No Próximo Tutorial</h2>
+
+<p>No próximo tutorial, começaremos a ver as técnicas que podemos usar em fluxos de trabalhos existentes para <em>web design</em>, ao aprender, passo-a-passo, a usar a linha de comando para gerenciar pacotes de terceiros.</p>
+
+<p>Você aprenderá a usar um pouco de dois dos mais populares sistemas gerenciadores de pacotes. Você aprenderá a encontrar, instalar e atualizar pacotes em seus projetos.</p>
+
+<p>Vejo você lá!</p>
