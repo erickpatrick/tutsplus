@@ -1,36 +1,36 @@
-<h1>The Command Line for Web Design: Taming 3rd Party Packages</h1>
+<h1>Linha de Comando para o Web Design: Lidando com Pacotes de Terceiros</h1>
 
-<p>We commonly use third party packages in web design projects. </p>
+<p>Geralmente, usamos pacotes de terceiros em nossos projetos de <em>web design</em>. </p>
 
-<p>We load in third party CSS from projects like <a href="http://getbootstrap.com/" target="_self">Bootstrap</a> and <a href="http://foundation.zurb.com/" target="_self">Foundation</a>, and scripts like <a href="http://jquery.com/" target="_self">jQuery</a> and <a href="http://modernizr.com/" target="_self">Modernizr</a>. Increasingly, we also use third party packages as part of development processes, like compilers for CSS preprocessors or code cleaning and compression tools to maximize the speed our sites load and run at.</p>
+<p>Carregamos CSS de projetos como o <a href="http://getbootstrap.com/" target="_self">Bootstrap</a> e <a href="http://foundation.zurb.com/" target="_self">Foundation</a>, e <em>scripts</em> como <a href="http://jquery.com/" target="_self">jQuery</a> e <a href="http://modernizr.com/" target="_self">Modernizr</a>. Além disso, cada vez mais, usamos pacotes de terceiros durante o processo de desenvolvimento, como compiladores para préprocessadores CSS ou limpadores de código e ferramentas de compressão para acelerar a velocidade que nossos sites carregam e são executados.</p>
 
-<p>Dealing with all these packages can quickly become a mess of manual downloading, file transferring, and updating. Sure, we’ve been making it work, but it’s time consuming and its unwieldiness often leaves projects using out of date code. Now there’s a better way, using command line powered package managers.</p>
+<p>Rapidamente, isso pode tornar-se uma bagunça com downloads manuais, transferências de arquivos e atualizações. Claro, conseguimos fazer isso funcionar, mas é bastante demorado e suas complicações, geralmente, deixam projetos com códigos desatualizados. Há, porém uma forma melhor e mais rápida, usando a gerenciadores de pacotes via linhas de comando.</p>
 
-<p>In this tutorial you’ll learn how to make handling third party packages a matter of just typing a handful of two to five word commands.</p>
+<p>Neste tutorial, você aprenderá como lidar com pacotes de terceiros em simples comandos.</p>
 
-<p><strong>Note</strong>: If you haven’t followed the first tutorial in this series, <a href="http://webdesign.tutsplus.com/tutorials/the-command-line-for-web-design-grasping-the-basics--cms-23318" target="_self">Grasping the Basics</a>, you’ll find it helpful to go through that before commencing here.</p>
+<p><strong>Nota</strong>: Se não acompanhou o primeiro tutorial desta série, <a href="http://webdesign.tutsplus.com/pt/tutorials/the-command-line-for-web-design-grasping-the-basics--cms-23318" target="_self">Entendendo o Básico</a>, é interessante que você o leia primeiro antes de continuar por aqui.</p>
 
-<h2>The “Big Two” Package Managers</h2>
+<h2>Os “Dois Maiores” Gerenciadores de Pacote</h2>
 
-<p>In order to get started using the command line to handle third party packages, the first thing you’re going to need is a “package management system”, or “package manager”. The two choices that are far and away the most popular among web designers right now are <a href="https://www.npmjs.com/" rel="external" target="_blank">npm</a> and <a href="http://bower.io/" rel="external" target="_blank">Bower</a>, and those are the systems you’ll be learning to use today.</p>
+<p>Para começarmos a usar a linha de comando para lidar com pacotes de terceiros, a primeira coisa que você precisará é de um “sistema de gerenciamento de pacotes, ou “gerenciador de pacotes”. As duas escolhas mais óbvias e populares entre os <em>web designers</em>, nesse momento, são o <a href="https://www.npmjs.com/" rel="external" target="_blank">npm</a> e o <a href="http://bower.io/" rel="external" target="_blank">Bower</a>, e serão esses os sistemas que aprenderemos a usar hoje.</p>
 
-<h3>npm (via Node.js)</h3>
+<h3>npm (através do Node.js)</h3>
 
-<p>You might have heard of <a href="http://nodejs.org/" rel="external" target="_blank">Node.js</a>, a JavaScript based bag of goodies that can power everything from <a href="https://ghost.org">blog platforms</a>, to <a href="https://atom.io">coding IDEs</a>, to <a href="http://mediacenterjs.com">media centres</a> to entire <a href="http://node-os.com">operating systems</a>.</p>
+<p>Talvez já tenha ouvido falar do <a href="http://nodejs.org/" rel="external" target="_blank">Node.js</a>, um conjunto de ferramentas em JavaScript que podem servir para criar <a href="https://ghost.org">plataformas de blog</a>, a <a href="https://atom.io">IDEs de programação</a>, passando por <a href="http://mediacenterjs.com">centrais de mídia</a> a <a href="http://node-os.com">sistemas operacionais inteiros</a>.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/nodejs.png"/>
 </figure>
 
-<p>Along with an installation of Node.js comes the package manager <a href="https://www.npmjs.com/" rel="external" target="_blank">npm</a>, a tremendously useful system you’ll see utilized often throughout this series.</p>
+<p>Junto da instalação do Node.js, temos a instalação do gerenciador de pacotes <a href="https://www.npmjs.com/" rel="external" target="_blank">npm</a>, um sistema tremendamente útil que você verá bastante por esta série.</p>
 
-<p>Contrary to what you might first think, npm does <em>not</em> stand for “Node Package Manager.” Officially it stands for <em>“npm is not an acronym”</em> and at the top of the site you’ll see little jokes come up every refresh like “never poke monkeys” and “newts parading majestically.”</p>
+<p>Contrário ao que possa parecer, npm <em>não</em> significa “Node Package Manager”. Oficialmente, significa <em>“npm não é um acrônimo”</em> e no topo do site você verá várias piadinhas a cada atualização da página, como “nunca puxe macacos” e “novos paradigmas majestosos”.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/npm.png"/>
 </figure>
 
-<p>As of this moment npm provides access to and management for 127,664 packages which are designed for all different types of purposes. Among the items useful for web design you’ll find packages such as: </p>
+<p>Neste momento, o npm provê acesso e administração de 127,664 pacotes projetados para os mais variados propósitos; Entre os itens úteis para <em>web design</em>, você encontrará pacotes como: </p>
 
 <ul>
   <li>Stylus</li>
@@ -51,23 +51,23 @@
   <li>Kouto Swiss</li>
 </ul>
 
-<p>For the purposes of this tutorial we’ll be using npm in conjunction with Node.js, however it is an independent entity that can be used with other systems such as the newly arrived <a href="https://iojs.org/en/index.html" rel="external" target="_blank">IO.js</a>.</p>
+<p>Para os propósitos desse tutorial, usaremos o npm junto do Node.js, porém, ele é uma entidade independente que pode ser usada com outros sistemas como o recém-chegado, <a href="https://iojs.org/en/index.html" rel="external" target="_blank">IO.js</a>.</p>
 
-<p>As a beginner I recommend following along with the tutorials using Node.js, but you may like to explore other options later.</p>
+<p>Como iniciantes, recomendo seguir o tutorial usando o Node.js, posteriormente, porém, talvez queira explorar outras opções.</p>
 
 <h3>Bower</h3>
 
-<p>My introduction to using command line for third party package management actually came via Bower. Someone tipped me off to it by just saying</p>
+<p>Para falar a verdade, fui iniciado nos gerenciadores de pacotes de terceiros via linha de comando através do Bower. Alguém aguçou minha curiosidade ao perguntar</p>
 
-<blockquote>“Have you tried Bower? It’s awesome!”</blockquote>
+<blockquote>“Você já tentou o Bower? É fantástico!”</blockquote>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/bowerio.png"/>
 </figure>
 
-<p>I had no idea what it was going to be used for, so I went to <a href="http://www.bower.io/">www.bower.io</a> and one look at the list of packages available was all it took for the lightbulb to start going off.</p>
+<p>Eu não tinha ideia do que ele era e para que servia, então fui até o site <a href="http://www.bower.io/">www.bower.io</a> e uma olhada na lista dos pacotes disponíveis fez eu perceber.</p>
 
-<p>The bower package library includes things like:</p>
+<p>A biblioteca inclui os itens abaixo:</p>
 
 <ul>
   <li>Bootstrap</li>
@@ -85,206 +85,206 @@
   <li>Masonry</li>
 </ul>
 
-<p>Chances are very high you’re using at least one or two of those packages in your projects on a regular basis. Bower makes it faster and easier for you to keep on doing so.</p>
+<p>São grandes as chances de você ter usado pelo menos um desses pacotes em seus projetos, regularmente. O Bower acelera e facilita esse processo para você.</p>
 
-<h3>When to Use Bower vs. npm</h3>
+<h3>Quando Usar o Bower e/ou npm</h3>
 
-<p>In some cases you might find a package is available on both npm and Bower. If so, which version should you use?</p>
+<p>Em alguns casos, você encontrará pacotes em ambos os gerenciadores. Nesses casos, qual dos gerenciadores usar?</p>
 
-<p>Both of these options will install and update packages just as quickly as each other. There are no hard and fast rules on which to use, and ultimately you’ll develop your own way of doing things, so I’ll just give you a general rule of thumb you can base your decisions on for now.</p>
+<p>Ambas as opções instalarão e atualizarão os pacotes tão rápido quanto o outro. Não há regras definidas para qual usa e, no fim das contas, você terá sua própria forma de fazer as coisas, então, darei apenas uma dica, a qual poderá usar como base para suas decisões.</p>
 
-<p>From a web design perspective, the difference really comes down to how you will make use of the packages, and the two typical use cases you’ll have are for front end deployment vs. development use.</p>
+<p>A partir da perspectiva do <em>web design</em>, a diferença se dá pela forma como usará os pacotes, e os dois casos mais comuns são para publicação <em>front end</em> contra o uso em desenvolvimento.</p>
 
-<p>Bower is designed for front end package management, so choose it if you’re looking for something that’s going to be consumed by site visitors through a browser.</p>
+<p>O Bower é projetado para administração de pacotes <em>front end</em>, então dê preferência por ele se buscar por algo que será consumido pelos usuários através do navegador.</p>
 
-<p>On the other hand npm packages will be the choice to go with if you’re only going to be using a package as part of your development process and it won’t be included in the finished product.</p>
+<p>Por outro lado, os pacotes do npm serão a escolha certa se quiser usá-los como parte do processo de desenvolvimento e não serão inclusos no produto finalizado.</p>
 
-<h2>Installing npm and Bower</h2>
+<h2>Instalando o npm e o Bower</h2>
 
-<h3>Install Node.js and npm</h3>
+<h3>Instale o Node.js e o npm</h3>
 
-<p>Thankfully, installing npm is quite straight forward as it’s bundled up with the installer for Node.js. Head over to <a href="http://www.nodejs.org">http://www.nodejs.org</a> and download the installer for your platform. Install it on your machine and npm will be installed along with it, then you’ll be good to proceed.</p>
+<p>Felizmente, instalar o npm é bem simples e direto, uma vez que já vem junto do instalador do Node.js. Vá até o site <a href="http://www.nodejs.org">http://www.nodejs.org</a> e baixe o instalador da sua plataforma. Instale em sua máquina e o npm será instalado junto e estará pronto para prosseguir.</p>
 
-<p><strong>Important!</strong> Even if you already have Node.js installed on your system, follow the step above to make sure you have the latest version. If you’re running an outdated version some of the steps you have to follow as you go through this series may not work.</p>
+<p><strong>Importante!</strong> Mesmo que já tenha o Node.js instalado em seu sistema, siga os paços abaixo para garantir que você tenha a versão mais atual instalada. Se estiver usando uma versão desatualizada, alguns dos passos que deverá passar durante a série, podem não funcionar.</p>
 
-<h4>Update npm</h4>
+<h4>Atualize o npm</h4>
 
-<p>According to the npm site, the likelihood is there may be a later version of npm available than the one you get bundled with your Node.js installation.</p>
+<p>De acordo com o site do npm, a probabilidade de ter uma versão mais nova do npm que a versão instalada com o Node.js, é bem grande.</p>
 
-<p>To make sure you’re on the latest version run:</p>
+<p>Para ter certeza que está na versão mais atual, execute o comando a seguir:</p>
 
 <pre class="brush: bash">[sudo] npm install npm -g</pre>
 
-<h3>Install Git / MsysGit</h3>
+<h3>Instale o Git ou MsysGit</h3>
 
-<p>Git, along with Node.js and npm, is a prerequisite for using Bower. Git is also a prerequisite for some of the other web design oriented packages you’ll find yourself wanting to use, so let’s get it all squared away on your system before moving on.</p>
+<p>O Git, junto do Node.js e do npm, é um pré-requisito para usar o Bower. O Git também é um pré-requisito para alguns outros pacotes que talvez queira usar em seu processo de <em>web design</em>, então, é bom telo instalado no sistema também.</p>
 
-<h4>For OSX Users</h4>
+<h4>Para Usuários do Mac OSX</h4>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/installgit.png"/>
 </figure>
 
-<p>For OSX users you’ll want to go to the main Git website, grab the binary installer and run it as you would any other app installer: <a href="http://git-scm.com/download/mac">http://git-scm.com/download/mac</a></p>
+<p>Para usuários do Mac OSX, você deverá ir ao site do Git, escolha o instalador do binário e execute-o como faria com qualquer outro instalador de aplicações: <a href="http://git-scm.com/download/mac">http://git-scm.com/download/mac</a></p>
 
-<h4>For Windows Users</h4>
+<h4>Para Usuários Windows</h4>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/installmsysgit.png"/>
 </figure>
 
-<p>In order to use Bower on Windows you’ll instead need a specific version of Git for windows named msysGit. Hit the <strong>Download</strong> button and grab the executable installer, but don’t run it yet: <a href="http://msysgit.github.io">http://msysgit.github.io</a></p>
+<p>Para usar o Bower no Windows, você precisará de uma versão específica do  Git para o Windows, chamada de msysGit. Pressione o botão <strong>Download</strong> e baixe o executável, mas não o execute ainda: <a href="http://msysgit.github.io">http://msysgit.github.io</a></p>
 
-<p>The reason I said not to install it yet is you’ll have to be careful to choose the right setting when running the installer. When you see the screen below, be sure to check <strong>Run Git from the Windows Command Prompt</strong>.</p>
+<p>O motivo de não o instalar ainda é que você precisará ser bastante cuidadosa ao escolher as configurações durante a instalação. Ao vir a tela abaixo, tenha certeza de marcar a opção <strong>Run Git from the Windows Command Prompt</strong> (Executar Git do Prompt de Comando do Windows).</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/msysgit-settings.png"/>
 </figure>
 
-<p>For more information on installing msysGit as a prerequisite for Bower see: <a href="https://github.com/bower/bower#a-note-for-windows-users" target="_self">A Note for Windows Users</a>.</p>
+<p>Para mais informações sobre instalação do msysGit como pré-requesito do Bower, veja: <a href="https://github.com/bower/bower#a-note-for-windows-users" target="_self">Uma nota para usuários Windows</a>.</p>
 
-<h3>Install Bower</h3>
+<h3>Instale o Bower</h3>
 
-<p>Bower can be installed via npm by running this command:</p>
+<p>O Bower pode ser instalado através do npm, usando o comando a seguir:</p>
 
 <pre class="brush: bash">[sudo] npm install -g bower</pre>
 
-<p>Mac users, because we’re using the <code class="inline">-g</code> flag to install Bower globally remember you’ll likely need to include <code class="inline">sudo</code> at the start of the command, then enter your password when prompted.</p>
+<p>Usuários do Mac, como estamos usando o semáforo de instalação global, <code class="inline">-g</code>, é possível que seja preciso usar o comando <code class="inline">sudo</code> no início do comando anterior e digitar sua senha, quando pedido.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/installbower.png"/>
 </figure>
 
-<h2>Basics of npm and Bower</h2>
+<h2>Básico do npm e do Bower</h2>
 
-<h3>Initialize a Project</h3>
+<h3>Iniciar um Projeto</h3>
 
-<p>Both npm and Bower work with specialized manifest files that contain information about a project and a list of packages it uses. With npm projects that file is named “package.json” and in Bower projects it’s named “bower.json”. The easiest way to create these files is to use the <code class="inline">init</code> command associated with each. Let’s do that now.</p>
+<p>Tanto o npm quanto o Bower usam arquivos de manifestos próprios, contendo informações sobre o projeto e uma lista dos pacotes utilizados. Com projetos do npm, o arquivo usado é chamado de “package.json” e nos projetos do Bower, é chamado de “bower.json”. A forma mais fácil de criar esses arquivos é usar o comando <code class="inline">init</code> respectivo de cada gerenciado. Façamos isso, agora.</p>
 
-<h4>Via npm</h4>
+<h4>Através do npm</h4>
 
-<p>With your terminal pointed at your project’s root folder, run this command:</p>
+<p>Com a sua linha de comando no diretório raiz do seu projeto, execute esse comando:</p>
 
 <pre class="brush: bash">npm init</pre>
 
-<p>This will ask you a series of questions you can answer within the terminal, providing the information your “package.json” file will be created from.</p>
+<p>Isso fará uma série de perguntas que você poderá responder através da linha de comando, provendo informações que estarão em seu arquivo “package.json” criado.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/npminit.png"/>
 </figure>
 
-<p>Read more about the <code class="inline">npm init</code> command at: <a href="https://docs.npmjs.com/cli/init">https://docs.npmjs.com/cli/init</a></p>
+<p>Leia mais sobre o comando <code class="inline">npm init</code> em: <a href="https://docs.npmjs.com/cli/init">https://docs.npmjs.com/cli/init</a></p>
 
-<h4>Via Bower</h4>
+<h4>Através do Bower</h4>
 
-<p>Again, with your terminal pointed at your project’s root folder, run this command:</p>
+<p>Novamente, com a sua linha de comando apontando para o diretório raiz do seu projeto, execute o comando abaixo:</p>
 
 <pre class="brush: bash">bower init</pre>
 
-<p>Just as with the npm initialization process you’ll answer a series of questions, and your answers will form your “bower.json” file.</p>
+<p>Assim como o processo de inicialização do nom, você responderá algumas perguntas e suas respostas comporão o arquivo “bower.json”.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/bowerinit.png"/>
 </figure>
 
-<p>Read more about the <code class="inline">bower init</code> command at: <a href="http://bower.io/docs/creating-packages/#bowerjson">http://bower.io/docs/creating-packages/#bowerjson</a></p>
+<p>Leia mais sobre o comando <code class="inline">bower init</code> em: <a href="http://bower.io/docs/creating-packages/#bowerjson">http://bower.io/docs/creating-packages/#bowerjson</a></p>
 
-<h3>Searching for Packages</h3>
+<h3>Pesquisando Pacotes</h3>
 
-<p>With the project initialized you’re ready to start bringing in packages. To do this you’ll need to find the packages you want to use through either npm or Bower. </p>
+<p>Com o projeto iniciado, você está no ponto para trazer os pacotes. Para tanto, você precisará encontrar os pacotes que deseja usar, seja através do npm ou do Bower. </p>
 
-<p>You must search in the right location as you need to know the package’s correct name within the npm or Bower ecosystems in order to be able to install and update it.</p>
+<p>Você deve pesquisa no lugar certo, uma vez que precisa saber o nome correto do pacote dentro dos ecossistemas do npm ou do Bower, para poder instalá-los e atualizá-los.</p>
 
-<h4>Via npm</h4>
+<h4>Através do npm</h4>
 
-<p>You can search for packages you want to use with npm via the search bar at the top of <a href="https://www.npmjs.com/" target="_self">their homepage</a>.</p>
+<p>Você pode pesquisa pacotes no npm através da barra de busca no topo da <a href="https://www.npmjs.com/" target="_self">página deles</a>.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/searchnpm.png"/>
 </figure>
 
-<p>It’s also possible to search directly via the command line with <code class="inline">npm search &lt;package&gt;</code>, however I personally find it easier to find what I’m looking for directly at the npm site.</p>
+<p>Também é possível pesquisar direto da linha de comando com o comando <code class="inline">npm search &lt;pacote&gt;</code>, contudo, pessoalmente, acho mais fácil buscar direto no site.</p>
 
-<p>When you find the package you want to use, make note of the package name.</p>
+<p>Ao encontrar o pacote que deseja usar, anote o nome do pacote.</p>
 
-<h4>Via Bower</h4>
+<h4>Através do Bower</h4>
 
-<p>Searching for Bower packages can be done via <a href="http://bower.io/search/">http://bower.io/search/</a>.</p>
+<p>Pesquisa por pacotes do Bower pode ser feito pelo site <a href="http://bower.io/search/">http://bower.io/search/</a>.</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/searchbower.png"/>
 </figure>
 
-<p>As with npm, make a note of the package name you want to use once you find it.</p>
+<p>Assim como no npm, anote o nome do pacote que deseja usar, assim que encontrá-lo.</p>
 
-<h3>Installing New Packages</h3>
+<h3>Instalando Pacotes Novos</h3>
 
-<p>Once you’ve found a package you want to use you’re ready to install it. This is where you’ll use the package name you made note of. In the below instructions, use that name wherever you see <code class="inline">&lt;package&gt;</code> in a command.</p>
+<p>Uma vez encontrados os pacotes, é hora de instalá-los. É aqui que você usará os nomes dos pacotes que você anotou. Nas instruções abaixo, use o nome anotado, toda vez que encontrar <code class="inline">&lt;package&gt;</code> no comando.</p>
 
-<h4>Via npm</h4>
+<h4>Através npm</h4>
 
-<p>To locally install a package, i.e. just within your project folder, run:</p>
+<p>Para instalar um pacote, localmente, ou seja, apenas dentro do diretório do projeto, execute:</p>
 
 <pre class="brush: bash">npm install &lt;package&gt;</pre>
 
-<p>The package will be downloaded into a subfolder named “node_modules”, making it available for use within your project. For example:</p>
+<p>O pacote será baixado e colocado dentro de um diretório chamado “node_modules”, estando disponível para uso em seu projeto, por exemplo:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/npminstallloc.png"/>
 </figure>
 
-<p>As well as installing packages locally there is also the option to install npm packages globally. </p>
+<p>Assim como instalar pacotes localmente, há a opção de instalar os pacotes globalmente. </p>
 
-<p>Locally installed packages are only available for use within the context of your project, but globally installed packages can be used from anywhere on your machine. For example, once the “less” package is installed globally you can use it to compile any “.less” document, anywhere in your system.</p>
+<p>Pacotes instalados localmente estão disponíveis, apenas, para uso dentro do contexto do seu projeto, mas, pacotes instalados globalmente podem seu usado em qualquer lugar da sua máquina. Por exemplo, assim que o pacote “less” for instalado globalmente, você pode usá-lo para compilar qualquer documento “.less”, em qualquer lugar do seu sistema.</p>
 
-<p>To globally install a package attach the <code class="inline">-g</code> flag to your command:</p>
+<p>Para instalar um pacote de forma global, use o semáforo <code class="inline">-g</code> em seu comando:</p>
 
 <pre class="brush: bash">[sudo] npm install &lt;package&gt; -g</pre>
 
-<h4>Via Bower</h4>
+<h4>Através do Bower</h4>
 
-<p>The installation process for Bower packages is almost exactly the same as with npm, using the command:</p>
+<p>O processo de instalação para pacotes do Bower é quase exatamente o mesmo que do npm, bastando usar o comando:</p>
 
 <pre class="brush: bash">bower install &lt;package&gt;</pre>
 
-<p>The difference is that Bower packages are placed into a subfolder named “bower_components”, for example:</p>
+<p>A diferença é que os pacotes do Bower ficarão no diretório “bower_components”. Por exemplo:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/bowerinstall.png"/>
 </figure>
 
-<p>Because you’ll be using Bower for deploying front end packages within specific projects all your installations can be done locally, so you won’t need to use the <code class="inline">-g</code> flag.</p>
+<p>Como você usará o Bower para publicar pacotes <em>front end</em> dentro de projetos específicos, todas suas instalações podem ser feitas localmente, sem a necessidade do uso do semáforo <code class="inline">-g</code>.</p>
 
-<h3>Working with Dependencies</h3>
+<h3>Trabalhando com Dependências</h3>
 
-<p>If you’re interested in sharing or even just duplicating and moving around a project you’ve used npm or Bower in, dependency management is a great thing to know about. Let me explain why.</p>
+<p>Se estiver interessado em compartilhar ou mesmo duplicar e mover as coisas entre os projetos que você tem usado npm ou Bower, gerenciamento de dependências é uma coisa muito boa a se saber. Deixe-me explicar o porque.</p>
 
-<p>You’ll recall the manifest files you created earlier; “package.json” and “bower.json”. Into each of these files you can add a list of packages your project depends on.</p>
+<p>Lembre-se do arquivo manifesto que criamos mais cedo: “package.json” e “bower.json”. Em cada um desses arquivos, você encontrará uma lista dos pacotes que seu projeto depende.</p>
 
-<p>You’ve already seen how npm packages go into a folder named “npm_modules” and Bower’s into “bower_components”. Well the cool thing is if you want to share your project you can completely omit both of those folders, as long as you have your dependencies listed in your manifest files. </p>
+<p>Você já sabe que os pacotes do npm vão para um diretório chamado “npm_modules” e os do Bower vão para um outro, chamado “bower_components”. Bem, o legal disso é que se quiser compartilhar seu projeto, você pode omitir, completamente esses diretórios, desde que você tenha as dependências listadas nos arquivos manifestos. </p>
 
-<p>This can easily save you a couple of hundred megabytes or so, making it much easier to move your project around.</p>
+<p>Isso salvará centenas de <em>megabytes</em>, tornando seu projeto muito mais fácil de mover, copiar e tudo mais.</p>
 
-<p>When someone else gets hold of your project they can run <code class="inline">npm install</code> and all the packages listed in the “package.json” file will be automatically downloaded into a new “npm_modules” folder. </p>
+<p>Quando alguém pega seu projeto, eles podem executar <code class="inline">npm install</code> e instalar todos os pacotes listados no arquivo “package.json”, automaticamente, no diretório “npm_modules”. </p>
 
-<p>Likewise, the command <code class="inline">bower install</code> will automatically download any dependencies listed in the “bower.json” file and place them in a new “bower_components” folder.</p>
+<p>Equivalentemente, o comando <code class="inline">bower install</code> baixará, automaticamente, quaisquer dependências listadas no arquivo “bower.json” e os colocará no diretório “bower_components”.</p>
 
-<h4>Production &amp; Development Dependencies</h4>
+<h4>Dependências de Produção &amp; Desenvolvimento</h4>
 
-<p>There are two types of dependencies:</p>
+<p>Há dois tipos de dependências:</p>
 
 <ol>
-  <li><p><em>Production dependencies</em> - in the context of web design this refers to packages that will be deployed on the front end, e.g. Modernizr for cross browser compatibility.</p></li>
-  <li><p><em>Development dependencies</em> - in the context of web design this refers to packages used during development, e.g. LESS for .less file compilation.</p></li>
+  <li><p><em>Dependências de produção</em> - no contexto do <em>web design</em>, estamos nos referindo aos pacotes que serão publicados no <em>front end</em> do site, por exemplo, o Modernizr, para compatibilidade entre navegadores.</p></li>
+  <li><p><em>Dependências de desenvolvimento</em> - no contexto do <em>web design</em>, estamos nos referindo aos pacotes usados durante o desenvolvimento, por exemplo, o LESS, para compilação de arquivos .less.</p></li>
 </ol>
 
-<p>Bower and npm both let you specify production and development dependencies. However as we discussed earlier you’ll be using Bower for front end packages and npm for development packages. As such, we’ll set your Bower packages to be production dependencies, and your npm modules to be development dependencies.</p>
+<p>O Bower e o npm permitem você especificar quais dependências são de quais tipos. Contudo, como discutimos mais cedo, é provável que usar o Bower para pacotes <em>front end</em> e o npm para pacotes de desenvolvimento. Assim, configuraremos os pacotes do Bower como dependências de produção e os módulos do npm como dependências do desenvolvimento.</p>
 
-<p>The method for setting dependencies is the same in both npm and Bower, and that is to add a flag to the command you use to install a package.</p>
+<p>O método para configurar dependências é o mesmo para o npm e para o Bower, e é através da adição de um semáforo ao comando usado para instalar o pacote.</p>
 
-<h4>Install as Development Dependency</h4>
+<h4>Instalar como Dependência de Desenvolvimento</h4>
 
-<p>To set a package as a development dependency add the <code class="inline">--save-dev</code> flag, e.g.</p>
+<p>Para configurar um pacote como dependência do desenvolvimento, adicione o semáforo <code class="inline">--save-dev</code>:</p>
 
 <pre class="brush: bash">npm install &lt;package&gt; --save-dev</pre>
 
@@ -292,15 +292,15 @@
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/npminstallsavedev.png"/>
 </figure>
 
-<p>The package will be installed in the same way as you’ve already seen, but it will be added to the list of <strong>devDependencies</strong> in your “package.json” file like so:</p>
+<p>O pacote será isntalado da mesma forma de antes, porém, ele será adicionado à lista <strong>devDependencies</strong> em seu arquivo “package.json”, dessa forma:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/npminstalldevdependencies.png"/>
 </figure>
 
-<h4>Install as Production Dependency</h4>
+<h4>Instalar como Dependência da Produção</h4>
 
-<p>To set a package as a production dependency add the <code class="inline">--save</code> flag, e.g.</p>
+<p>Para configurar um pacote como dependência da produção, adicione o semáforo <code class="inline">--save</code>:</p>
 
 <pre class="brush: bash">bower install &lt;package&gt; --save</pre>
 
@@ -308,66 +308,66 @@
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/bowerinstallsave.png"/>
 </figure>
 
-<p>In this case the package will be added to the list of <strong>dependencies</strong> in the “bower.” file like so:</p>
+<p>Neste caso, o pacote será adicionado à lista <strong>dependencies</strong> do arquivo “bower.json”, dessa forma:</p>
 
 <figure class="post_image">
   <img alt="" src="https://s3.amazonaws.com/cms-assets.tutsplus.com/uploads/users/53/posts/23451/image/bowerdependencies.png"/>
 </figure>
 
-<p><strong>Note</strong>: when installing npm packages globally with the <code class="inline">-g</code> flag, you don’t need to worry about using either <code class="inline">--save</code> nor <code class="inline">--save-dev</code> flags.</p>
+<p><strong>Nota</strong>: ao instalar pacotes npm de forma global, com o semáforo <code class="inline">-g</code>, você não precisará em usar os semáforos <code class="inline">--save</code> ou <code class="inline">--save-dev</code>.</p>
 
-<h3>Updating Packages</h3>
+<h3>Atualizando Pacotes</h3>
 
-<p>Updating packages is also a one line command for both Bower and npm.</p>
+<p>Atualizar pacotes também é um comando de uma única linha para o Bower e para o npm.</p>
 
-<h4>Via npm</h4>
+<h4>Através do npm</h4>
 
-<p>For locally installed packages, run the following command in the root folder of your project where your “node_modules” folder is:</p>
+<p>Para pacotes instalados localmente, execute o comando a seguir no diretório raiz do seu projeto, onde o diretório “node_modules” está:</p>
 
 <pre class="brush: bash">npm update &lt;package&gt;</pre>
 
-<p>To instead update globally installed packages add the <code class="inline">-g</code> flag:</p>
+<p>Para atualizar pacotes instalados globalmente, use o semáforo <code class="inline">-g</code>:</p>
 
 <pre class="brush: bash">[sudo] npm update &lt;package&gt; -g</pre>
 
-<p>You can also leave the package name out so you can batch update all your packages at once.</p>
+<p>Você também pode deixar o nome do pacote de fora, atualizando, assim, todos os pacotes de uma só vez.</p>
 
-<p>To update all the packages in a specific project, point your terminal at its root folder and run:</p>
+<p>Para atualizar todos os pacotes em um projeto específico, aponte sua linha de comando para o diretório raiz do seu projeto e execute:</p>
 
 <pre class="brush: bash">npm update</pre>
 
-<p>And to update all your globally installed packages run:</p>
+<p>E, para atualizar todos os pacotes instalados globalmente, execute:</p>
 
 <pre class="brush: bash">[sudo] npm update -g</pre>
 
-<h4>Via Bower</h4>
+<h4>Através do Bower</h4>
 
-<p>Updating Bower packages is essentially the same as with npm. From the root folder of your project, the one that houses your “bower_components” folder, run this command:</p>
+<p>Atualizar pacotes do Bower é, essencialmente, o mesmo que no npm. No diretório raiz do projeto, aquele onde está o diretório “bower_components”, execute este comando:</p>
 
 <pre class="brush: bash">bower update &lt;package&gt;</pre>
 
-<p>The latest version will automatically be downloaded and added into your “bower_components” folder.</p>
+<p>A versão mais atual será baixada automaticamente e adicionado ao seu diretório “bower_components”.</p>
 
-<h2>Using npm and Bower Packages</h2>
+<h2>Usando Pacotes do npm e do Bower</h2>
 
-<p>Once you have your packages installed, you probably want to know how you can actually use them, right?</p>
+<p>Uma vez instalados, agora, você quer saber como usar os pacotes, certo??</p>
 
-<p>With Bower packages the process can be the same as you would use to pull in assets normally, i.e. via <code class="inline">script</code> or <code class="inline">link</code> elements in your HTML, loading files straight out of your “bower_components” folder.</p>
+<p>Com os pacotes do Bower, será o mesmo que você faria para carregar arquivos normalmente, através das <em>tags</em> <code class="inline">script</code> ou <code class="inline">link</code> em seu HTML, carregando os arquivos direto do seu diretório “bower_components”.</p>
 
-<p>However this is not optimal and there are better ways to go about it. For example, you might merge all the JS files you’re using from your Bower packages into one compressed file and load that instead.</p>
+<p>Contudo, essa não é a forma mais ótima e há maneiras melhores de se fazer. Por exemplo, você pode unir todos os arquivos JavaScript dos pacotes do Bower e comprimi-los em um único arquivo.</p>
 
-<p>You’ll see a demonstration of how to go about this in the upcoming tutorial <a href="http://webdesign.tutsplus.com/tutorials/the-command-line-for-web-design-automation-with-task-runners--cms-23454" target="_self">Automation with Task Runners</a>.</p>
+<p>Você verá uma demonstração desse processo em um próximo tutorial, o <a href="http://webdesign.tutsplus.com/pt/tutorials/the-command-line-for-web-design-automation-with-task-runners--cms-23454" target="_self">Automação com Executadores de Tarefa</a>.</p>
 
-<p>Packages installed via npm will typically be used via command line or task runner scripts. </p>
+<p>Pacotes instalados pelo npm, tipicamente, são usados através da linha de comando ou por <em>scripts</em> executadores de tarefas. </p>
 
-<p>Different packages come with their own set of built in commands you can use for all sorts of different tasks like compiling, compressing, combining and more. These package specific tasks can in turn be automated by setting up task runners to execute multiple tasks at once.</p>
+<p>Pacotes diferentes vem com seus próprios conjuntos de comandos que você pode usar para todos os tipos diferentes de tarefas, como a compilação, compressão, união e outros. Essas tarefas específicas para pacotes pode ser automatizadas ao configurar executadores de tarefas para executar múltiplas tarefas de uma só vez.</p>
 
-<p>You’ll learn how to use npm packages in both these ways over the subsequent tutorials of this series.</p>
+<p>Você aprenderá a usar pacotes do npm de ambas as formas em tutoriais futuros desta série.</p>
 
-<h2>In the Next Tutorial</h2>
+<h2>No Próximo Tutorial</h2>
 
-<p>Coming up next we step through how you can leverage command line to add an all new layer of efficiency to your front end code, both in how you develop it and how it runs once complete.</p>
+<p>No próximo passo, aprenderemos a usar a linha de comando para adicionar uma nova camada de eficiência em nosso código <em>front end</em>, tanto na forma que desenvolvemos quanto na forma que ele é executado quando finalizado.</p>
 
-<p>You’ll learn how to use command line for preprocessor compilation, CSS autoprefixing, JS and CSS file optimization, and compilation for HTML shorthand and templating.</p>
+<p>Você aprenderá como usar a linha de comando para compilação com préprocessadores, autoprefixamento com CSS, otimização de arquivos CSS e Javascript, e compilação de modelos HTML.</p>
 
-<p>I’ll see you in the next tutorial, <em>Powering Up Front End Code</em>.</p>
+<p>Vejo você o próximo tutorial, <em>Aprimorando o Código Front End</em>.</p>
